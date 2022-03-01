@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko" xmls:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GalleryList</title>
+</head>
+<body>
+    <h1>전시회입니다요</h1>
+    <ul>
+        <li th:each="dto : ${result.dtoList}">
+            [[${dto}]]
+        </li>
+    </ul>
+
+    <form th:action="@{/gallery/list}" method="POST">
+        <input type="text" th:value="${result.dtoList[0].content}" name="galleryCt">
+        <!-- <input type="hidden" th:value="${result.dtoList}" name="GDTO"> -->
+        <input type="submit" value="modify">
+    </form>
+
+
+</html>
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ko" xmls:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAFE</title>
+</head>
+
+<body>
+    <h1>cafe</h1>
+    <ul>
+        <li th:each="dto : ${result.dtoList}" th:if="${dto.foodtype = 1} ">
+            [[${dto}]]
+        </li>
+    </ul>
+</body>
+
+</html>
