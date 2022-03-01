@@ -1,12 +1,10 @@
 package ds.com.phoncnic.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 import lombok.AllArgsConstructor;
@@ -22,18 +20,19 @@ import lombok.ToString;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString(exclude = "artistid")
-public class Gallery extends BaseEntity {
+@ToString(exclude = "dyning")
+public class RoofDesign {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long gno;
+    private long oono;
 
-    private String title;
-    private String content;
-    private String imagenmae;
-    private String imagepath;
+    private long roofdesigntype;
+
+    @OneToOne(mappedBy = "roofdesign", cascade = CascadeType.ALL )
+    private Dyning dyning;
+
     
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Member artistid;
+    
+
 }
