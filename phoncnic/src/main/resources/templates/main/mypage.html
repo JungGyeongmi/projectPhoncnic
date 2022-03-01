@@ -1,30 +1,33 @@
 
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
-
     <h1>mypage</h1>
-    <ul>
-        <li th:each="dto : ${myPageDTO}">
-            [[${dto}]]
-        </li>
-    </ul>
-<table border="1">
+    
+<table>
     <tr>
         <th scope="col">아이디</th>
         <th scope="col">닉네임</th>
         <th scope="col">캐릭터 헤어</th>
+        <th scope="col">캐릭터 img</th>
         <th scope="col">캐릭터 옷</th>
+        <th scope="col">캐릭터 img</th>
 
 
     </tr>
-    <tr th:each="dto : ${memberDTO}">
+    <tr th:each="dto : ${mypageDTO}">
         <td >[[${dto.id}]]</td>
         <td><input type="text" th:value=${dto.nickname} name=nickname></td>
-        <td>[[${dto.hair}]]</td>
-        <td>[[${dto.clothes}]]</td>
+        <td>[[${dto.hairname}]]</td>
+        <td><img th:src="${dto.hairpath}" alt=""></td>
+        <td>[[${dto.clothesname}]]</td>
+        <td><img th:src="${dto.clothespath}" alt=""></td>
+
 
     </tr>
 </table>
-
-  
+<ul>
+    <li th:each="dto : ${mypageDTO}">
+        [[${dto}]]
+    </li>
+</ul>
     
 </html>
