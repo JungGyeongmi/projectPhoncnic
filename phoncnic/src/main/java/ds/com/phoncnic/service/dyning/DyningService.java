@@ -16,6 +16,7 @@ import ds.com.phoncnic.entity.Member;
 import ds.com.phoncnic.entity.RoofDesign;
 
 public interface DyningService {
+    PageResultDTO<DyningDTO, Object[]> getList(PageRequestDTO pageRequestDTO);
 
     Long register(DyningDTO dyningDTO);
 
@@ -56,7 +57,7 @@ public interface DyningService {
             entityMap.put("dyningImageList", dyningImageList);
         }
         
-        return entityMap;
+        
 
                 List<RoofDesignDTO> roofDesignDTOList = dto.getRoofDesignDTOList();
 
@@ -76,9 +77,8 @@ public interface DyningService {
             
     }
 
-    PageResultDTO<DyningDTO, Object[]> getList(PageRequestDTO pageRequestDTO);
     
-    default DyningDTO entityToDTO(Dyning dyning, List<DyningImage> dyningImages) {
+    default DyningDTO entityToDTO(Dyning dyning, List<DyningImage> dyningImages, List<RoofDesign> roofDesign) {
         DyningDTO dyningDTO = DyningDTO.builder()
                 .dno(dyning.getDno())
                 .dyningname(dyning.getDyningname())
@@ -106,7 +106,17 @@ public interface DyningService {
 
         dyningDTO.setDyningImageDTOList(dyningImageDTOList);
 
+        
+        List<RoofDesignDTO> roofDesignDTOList = roofDesign.stream().map(roofdesign -> {
+            return RoofDesignDTO.builder()
+                    .roofdesigntype(roofdesign.getRoofdesigntype())
+                    .build();  
+        }).collect(Collectors.toList());
+        
+        dyningDTO.setRoofDesignDTOList(roofDesignDTOList);
+
         return dyningDTO;
+
     }
 
 }
