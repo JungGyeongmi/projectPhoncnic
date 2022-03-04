@@ -18,7 +18,7 @@ import lombok.ToString;
 public class LoofDesignInfo {
     
     @Id
-    private Long rooftpye;
+    private Long rooftype;
 
     private String roofpath;
     private Long kindofroop;
