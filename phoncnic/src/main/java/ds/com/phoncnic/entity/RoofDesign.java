@@ -27,7 +27,7 @@ public class RoofDesign {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long oono;
 
-    private long roofdesigntype;
+    private String roofdesigntype;
 
     @OneToOne(mappedBy = "roofdesign", cascade = CascadeType.ALL )
     private Dyning dyning;

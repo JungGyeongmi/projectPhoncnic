@@ -9,9 +9,11 @@ import ds.com.phoncnic.dto.DyningDTO;
 import ds.com.phoncnic.dto.DyningImageDTO;
 import ds.com.phoncnic.dto.PageRequestDTO;
 import ds.com.phoncnic.dto.PageResultDTO;
+import ds.com.phoncnic.dto.RoofDesignDTO;
 import ds.com.phoncnic.entity.Dyning;
 import ds.com.phoncnic.entity.DyningImage;
 import ds.com.phoncnic.entity.Member;
+import ds.com.phoncnic.entity.RoofDesign;
 
 public interface DyningService {
 
@@ -26,9 +28,9 @@ public interface DyningService {
         Dyning dyning = Dyning.builder()
                 .dno(dto.getDno())
                 .dyningname(dto.getDyningname())
-                // .roofdesign(dto.getRoofdesign())
+                // .roofdesign(dto.getRoofdesign()) 
                 .location(dto.getLocation())
-                // .foodtype(dto.getFoodtype())
+                .foodtype(dto.getFoodtype())
                 .businesshours(dto.getBusinesshours())
                 .comment(dto.getComment())
                 .hashtag(dto.getHashtag())
@@ -53,7 +55,25 @@ public interface DyningService {
 
             entityMap.put("dyningImageList", dyningImageList);
         }
+        
         return entityMap;
+
+                List<RoofDesignDTO> roofDesignDTOList = dto.getRoofDesignDTOList();
+
+                if(roofDesignDTOList != null && roofDesignDTOList.size() > 0) {
+            List<RoofDesign> roofDesignList = roofDesignDTOList.stream().map(RoofDesignDTO -> {
+                 RoofDesign  roofDesign = RoofDesign.builder()
+                        .roofdesigntype(RoofDesignDTO.getRoofdesigntype())
+                        .dyning(dyning)
+                        .build();
+
+                return  roofDesign;              
+                }).collect(Collectors.toList());
+
+                entityMap.put("roofDesign", roofDesignList);
+            }
+        return entityMap;
+            
     }
 
     PageResultDTO<DyningDTO, Object[]> getList(PageRequestDTO pageRequestDTO);
@@ -64,7 +84,7 @@ public interface DyningService {
                 .dyningname(dyning.getDyningname())
                 // .roofdesign(dyning.getRoofdesign())
                 .location(dyning.getLocation())
-                // .foodtype(dyning.getFoodtype())
+                .foodtype(dyning.getFoodtype())
                 .businesshours(dyning.getBusinesshours())
                 .comment(dyning.getComment())
                 .hashtag(dyning.getHashtag())

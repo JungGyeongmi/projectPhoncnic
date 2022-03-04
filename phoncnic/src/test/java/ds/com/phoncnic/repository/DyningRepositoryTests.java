@@ -36,7 +36,7 @@ public class DyningRepositoryTests {
             Member member = Member.builder().id("user" + i + "@icloud.com").build();
             
             RoofDesign roofDesign = RoofDesign.builder()
-                    .roofdesigntype((int) (Math.random() * 5) +1) // 지붕디자인 1~5
+                    .roofdesigntype("i") // 지붕디자인 1~5
                     .build();
                     
                     
@@ -45,7 +45,7 @@ public class DyningRepositoryTests {
                     .comment("사장님 한 마디" + i)
                     // .roofdesign((int) (Math.random() * 5)) 
                     .location("실제가게위치" + i)
-                    .foodtype((int) (Math.random() * 5)) // 음식점 종류 1~5
+                    .foodtype("i")
                     .businesshours("영업시간" + i)
                     .hashtag("해쉬태그" + i)
                     .ceoid(member)
