@@ -13,7 +13,6 @@ import org.springframework.test.annotation.Commit;
 
 import ds.com.phoncnic.entity.Emoji;
 import ds.com.phoncnic.entity.Gallery;
-import ds.com.phoncnic.entity.GalleryImage;
 import ds.com.phoncnic.entity.Member;
 
 @SpringBootTest
@@ -28,17 +27,12 @@ public class GalleryRepositoryTests {
     @Autowired
     EmojiRepository emojiRepository;
 
-    @Autowired
-    GalleryImageRepository galleryImageRepository;
 
     @Transactional
     @Test
     @Commit
     public void insertDummise(){        
-        IntStream.rangeClosed(1, 10).forEach(i->{
-
-            boolean rand = ((int)(Math.random()*2))!=0;
-            
+        IntStream.rangeClosed(1, 10).forEach(i->{            
             List<Integer> randmember = new ArrayList<>();
 
             while (randmember.size()!=10) {
@@ -57,18 +51,13 @@ public class GalleryRepositoryTests {
                     memberRepository.findById("user"+i+"@icloud.com").get().getId()
                 )
             .build();
-
-            GalleryImage galleryImage = GalleryImage.builder()
-                .imagename("imagename"+i)
-                .imagepath(i+"imagepath.jpg")
-                .imagetype(rand)
-                .artistid(member)
-            .build(); 
             
             Gallery gallery = Gallery.builder()
                 .title(i+"title")
                 .content(i+"content")
                 .artistid(member)
+                .imagenmae(i+"imagenmae")
+                .imagepath("/image"+i+"/path")
             .build();
 
             int ra = (int)(Math.random()*5)+1;
@@ -85,11 +74,7 @@ public class GalleryRepositoryTests {
                 .build();
                 emojiRepository.save(emoji);
             }
-            
-            gallery.setImage(galleryImage);
-            galleryImage.setGallery(gallery);
 
-            galleryImageRepository.save(galleryImage);
             galleryRepository.save(gallery);
         }
         );

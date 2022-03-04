@@ -1,11 +1,14 @@
 package ds.com.phoncnic.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,7 +23,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString(exclude = {"member", "dyning", "gallery"})
+@ToString(exclude = {"member", "dyning", "gallery", "emojiInfo"})
 public class Emoji extends BaseEntity{
     
     @Id
@@ -37,4 +40,10 @@ public class Emoji extends BaseEntity{
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Gallery gallery;
+
+    
+    @OneToOne(mappedBy = "emoji", fetch = FetchType.LAZY)
+    @JoinColumn(name = "emojitype")
+    private EmojiInfo emojiInfo;
+
 }

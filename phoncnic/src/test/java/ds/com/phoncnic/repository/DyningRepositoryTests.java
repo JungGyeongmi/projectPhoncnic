@@ -33,9 +33,7 @@ public class DyningRepositoryTests {
 
             Dyning dyning = Dyning.builder()
                     .dyningname("가게이름" + i)
-                    .roofdesign((int) (Math.random() * 5)) 
                     .location("실제가게위치" + i)
-                    .foodtype((int) (Math.random() * 5))
                     .businesshours("영업시간" + i)
                     .comment("사장님 한 마디" + i)
                     .hashtag("해쉬태그" + i)

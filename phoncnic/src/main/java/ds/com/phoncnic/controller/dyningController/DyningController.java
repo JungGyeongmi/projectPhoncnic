@@ -20,7 +20,7 @@ public class DyningController {
     private final DyningService dyningService;
     
     // 제안
-    @GetMapping({"/{choice}", "/{choice}/list/","/{choice}/list"})
+    @GetMapping({"/{choice}", "/{choice}/list"})
     public String getList(@PathVariable("choice") String choice, Model model, PageRequestDTO pageRequestDTO) {
         log.info(choice+"list.................");
         model.addAttribute("result", dyningService.getList(pageRequestDTO));
