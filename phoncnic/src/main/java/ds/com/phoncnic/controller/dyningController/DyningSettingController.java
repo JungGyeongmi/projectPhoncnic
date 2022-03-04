@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import ds.com.phoncnic.service.dyning.DyningService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -15,8 +14,6 @@ import lombok.extern.log4j.Log4j2;
 @RequestMapping("/dyning/setting")
 @RequiredArgsConstructor
 public class DyningSettingController {
-
-    private final DyningService dyningService;
 
     @GetMapping("/register")
     public void register() {

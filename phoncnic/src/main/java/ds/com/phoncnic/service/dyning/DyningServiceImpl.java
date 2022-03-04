@@ -17,7 +17,6 @@ import ds.com.phoncnic.dto.PageRequestDTO;
 import ds.com.phoncnic.dto.PageResultDTO;
 import ds.com.phoncnic.entity.Dyning;
 import ds.com.phoncnic.entity.DyningImage;
-import ds.com.phoncnic.repository.DyningImageRepository;
 import ds.com.phoncnic.repository.DyningRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -28,7 +27,6 @@ import lombok.extern.log4j.Log4j2;
 public class DyningServiceImpl implements DyningService {
     
     private final DyningRepository dyningRepository;
-    private final DyningImageRepository dyningImageRepository;
 
     @Transactional
     @Override
@@ -36,11 +34,7 @@ public class DyningServiceImpl implements DyningService {
         log.info("dyning/setting/register....");
         Map<String, Object> entityMap = dtoToEntity(dyningdDTO);
         Dyning dyning = (Dyning) entityMap.get("dyning");
-        List<DyningImage> dyningImageList = (List<DyningImage>) entityMap.get("dyningImageList");
         dyningRepository.save(dyning);
-        dyningImageList.forEach(dyningImage -> {
-            dyningImageRepository.save(dyningImage);
-        });
         return dyning.getDno();
     }
 

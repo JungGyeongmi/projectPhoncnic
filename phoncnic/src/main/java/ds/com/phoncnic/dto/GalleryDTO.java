@@ -1,8 +1,6 @@
 package ds.com.phoncnic.dto;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,9 +21,6 @@ public class GalleryDTO {
 
     //Member id
     private String id;
-
-    @Builder.Default
-    private List<GalleryImageDTO> galleryimageDTOList = new ArrayList<>();
     
     private LocalDateTime regDate;
     private LocalDateTime modDate;
