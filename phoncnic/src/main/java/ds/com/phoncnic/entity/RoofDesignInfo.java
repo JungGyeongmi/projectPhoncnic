@@ -15,7 +15,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class LoofDesignInfo {
+public class RoofDesignInfo {
     
     @Id
     private Long rooftype;
