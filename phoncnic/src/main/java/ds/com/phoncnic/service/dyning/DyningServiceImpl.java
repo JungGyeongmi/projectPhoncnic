@@ -17,6 +17,7 @@ import ds.com.phoncnic.dto.PageRequestDTO;
 import ds.com.phoncnic.dto.PageResultDTO;
 import ds.com.phoncnic.entity.Dyning;
 import ds.com.phoncnic.entity.DyningImage;
+import ds.com.phoncnic.entity.RoofDesign;
 import ds.com.phoncnic.repository.DyningImageRepository;
 import ds.com.phoncnic.repository.DyningRepository;
 import lombok.RequiredArgsConstructor;
@@ -54,7 +55,9 @@ public class DyningServiceImpl implements DyningService {
 
         Function<Object[], DyningDTO> fn = (arr -> entityToDTO(
             (Dyning) arr[0], 
-            (List<DyningImage>) (Arrays.asList((DyningImage) arr[1]))
+            (List<DyningImage>) (Arrays.asList((DyningImage) arr[1])),
+            (List<RoofDesign>) (Arrays.asList((RoofDesign) arr[2]))
+
             ));
 
         return new PageResultDTO<>(result, fn);
