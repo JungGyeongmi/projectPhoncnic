@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,14 +21,12 @@ import lombok.ToString;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString(exclude = {"member", "dyning", "gallery"})
+@ToString(exclude = {"member", "dyning", "gallery", "emojiInfo"})
 public class Emoji extends BaseEntity{
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long eno;
-
-    private String emojitype;
     
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
@@ -37,4 +36,7 @@ public class Emoji extends BaseEntity{
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Gallery gallery;
+
+    @OneToOne
+    private EmojiInfo emojiinfo;
 }

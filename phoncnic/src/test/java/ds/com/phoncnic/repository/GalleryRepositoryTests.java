@@ -67,7 +67,6 @@ public class GalleryRepositoryTests {
 
                 Emoji emoji = Emoji.builder()
                     .gallery(gallery)
-                    .emojitype((int)(Math.random()*4)+"")
                     .member(member)
                 .build();
                 emojiRepository.save(emoji);

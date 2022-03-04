@@ -23,7 +23,7 @@ public class MemberRepositoryTests {
 
     @Autowired
     MemberService memberService;
-
+    
     @Test
     public void insertDummies() {
 
