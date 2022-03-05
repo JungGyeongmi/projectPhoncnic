@@ -23,17 +23,16 @@ public class DyningDTO {
     private String businesshours;
     private String comment;
     private String hashtag;
-
     private LocalDateTime regdate, moddate;
-
+    
     private String id;
-
+    
     private long oono;
+    private String roofpath;
+    
     
 
     @Builder.Default 
     private List<DyningImageDTO> dyningImageDTOList = new ArrayList<>();
 
-    @Builder.Default
-    private List<RoofDesignDTO> roofDesignDTOList  = new ArrayList<>();
 }

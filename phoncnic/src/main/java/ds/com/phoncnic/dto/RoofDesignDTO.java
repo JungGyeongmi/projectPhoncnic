@@ -12,6 +12,11 @@ import lombok.NoArgsConstructor;
 public class RoofDesignDTO {
     
     private Long oono;
+
+    private Long rooftype; 
+    private String roofname; 
+    private String roofpath;
+
     
 
 

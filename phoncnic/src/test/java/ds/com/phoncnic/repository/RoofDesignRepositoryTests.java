@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import ds.com.phoncnic.entity.RoofDesign;
-import ds.com.phoncnic.entity.RoofDesignInfo;
 
 @SpringBootTest
 public class RoofDesignRepositoryTests {
@@ -17,15 +16,32 @@ public class RoofDesignRepositoryTests {
 
     @Test
     public void insertRoof() {
-        IntStream.rangeClosed(1, 10).forEach(i -> {
+        IntStream.rangeClosed(1, 5).forEach(i -> {
 
-             RoofDesignInfo roofDesignInfo = RoofDesignInfo.builder().rooftype((long) (Math.random()*5 +1)).build();
             RoofDesign roofDesign = RoofDesign.builder()
-                    .roofdesigninfo(roofDesignInfo)
+                    .roofname("루프" + i)
+                    .rooftype((long) i)
+                    .roofpath("roofpath" + i + ".jpg")
                     .build();
 
             repository.save(roofDesign);
         });
 
     }
+
+//     @Test
+//     public void insertRoofInfo() {
+
+//         IntStream.rangeClosed(1, 5).forEach(i -> {
+//             RoofDesignInfo roofDesignInfo = RoofDesignInfo.builder()
+//             .roofpath(i+"roofpath.jpg")
+//             .kindofroof("kindofroop" + i)
+//             .build();
+    
+//         repository.save(roofDesignInfo); 
+//         });
+//     }
+// }
+
+    
 }

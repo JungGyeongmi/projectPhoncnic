@@ -16,18 +16,17 @@ import ds.com.phoncnic.entity.Member;
 import ds.com.phoncnic.entity.RoofDesign;
 
 public interface DyningService {
-    PageResultDTO<DyningDTO, Object[]> getList(PageRequestDTO pageRequestDTO);
+    // PageResultDTO<DyningDTO, Object[]> getList(PageRequestDTO pageRequestDTO);
 
     Long register(DyningDTO dyningDTO);
 
-    
     default Map<String, Object> dtoToEntity(DyningDTO dto) {
         Map<String, Object> entityMap = new HashMap<>();
-        
+
         Member member = Member.builder().id(dto.getId()).build();
 
-        RoofDesign roofDesign = RoofDesign.builder().oono(dto.getOono()).build(); 
-        
+        RoofDesign roofDesign = RoofDesign.builder().oono(dto.getOono()).build();
+
         Dyning dyning = Dyning.builder()
                 .dno(dto.getDno())
                 .dyningname(dto.getDyningname())
@@ -36,14 +35,15 @@ public interface DyningService {
                 .businesshours(dto.getBusinesshours())
                 .comment(dto.getComment())
                 .hashtag(dto.getHashtag())
-                .ceoid(member)
                 .roofdesign(roofDesign)
+                .ceoid(member)
                 .build();
-                entityMap.put("dyning", dyning);
-               
-                List<DyningImageDTO> dyningImageDTOList = dto.getDyningImageDTOList();
-                
-                if (dyningImageDTOList != null && dyningImageDTOList.size() > 0) {
+
+        entityMap.put("dyning", dyning);
+
+        List<DyningImageDTO> dyningImageDTOList = dto.getDyningImageDTOList();
+
+        if (dyningImageDTOList != null && dyningImageDTOList.size() > 0) {
             List<DyningImage> dyningImageList = dyningImageDTOList.stream().map(DyningImageDTO -> {
                 DyningImage dyningImage = DyningImage.builder()
                         .menuimagename(DyningImageDTO.getMenuimagename())
@@ -56,26 +56,13 @@ public interface DyningService {
                 return dyningImage;
             }).collect(Collectors.toList());
 
-            List<RoofDesignDTO> roofDesignDTOList = dto.getRoofDesignDTOList();
-
-            if (roofDesignDTOList != null && roofDesignDTOList.size() > 0 ) {
-                List<RoofDesign> roofDesignList = roofDesignDTOList.stream().map(RoofDesginDTO -> {
-                    RoofDesign roofDesign = RoofDesign.builder()
-                    
-                    .build();
-                }).collect(Co)
-            }
-
-
             entityMap.put("dyningImageList", dyningImageList);
-
-            
         }
+
         return entityMap;
-            
+
     }
 
-    
     default DyningDTO entityToDTO(Dyning dyning, List<DyningImage> dyningImages) {
         DyningDTO dyningDTO = DyningDTO.builder()
                 .dno(dyning.getDno())
@@ -104,9 +91,28 @@ public interface DyningService {
 
         dyningDTO.setDyningImageDTOList(dyningImageDTOList);
 
-    
         return dyningDTO;
 
     }
+    DyningDTO getStreet();
+    // DyningDTO getRoof();
+    default DyningDTO roofEntityToDTO(Dyning dyning, RoofDesign roofDesign) {
+        DyningDTO dyningDTO = DyningDTO.builder()
+                .dyningname(dyning.getDyningname())
+                .roofpath(roofDesign.getRoofpath())
+                .build();
+
+                return dyningDTO;
+    }
+
+    //  default DyningDTO JustRoofEntityToDTO(RoofDesign roofDesign) {
+    //     DyningDTO dyningDTO = DyningDTO.builder()
+    //             .roofpath(dyning.getRoofdesign().getRoofpath())
+    //             .build();
+
+    //             return dyningDTO;
+    // }
+
+
 
 }
