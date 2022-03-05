@@ -15,6 +15,7 @@ import ds.com.phoncnic.entity.Dyning;
 import ds.com.phoncnic.entity.DyningImage;
 import ds.com.phoncnic.entity.Member;
 import ds.com.phoncnic.entity.RoofDesign;
+import ds.com.phoncnic.entity.RoofDesignInfo;
 
 @SpringBootTest
 public class DyningRepositoryTests {
@@ -28,6 +29,9 @@ public class DyningRepositoryTests {
     @Autowired
     RoofDesignRepository roofDesignRepository;
 
+    @Autowired
+    RoofDesignInfoRepository roofDesignInfoRepository;
+
     @Test
     public void insertDyning() {
 
@@ -35,52 +39,59 @@ public class DyningRepositoryTests {
 
             Member member = Member.builder().id("user" + i + "@icloud.com").build();
             
-            RoofDesign roofDesign = RoofDesign.builder()
-                    .roofdesigntype("i") // 지붕디자인 1~5
+            // RoofDesignInfo roofDesignInfo = RoofDesignInfo.builder().build();
+            // RoofDesignInfo roofDesignInfo = RoofDesignInfo.
+
+            RoofDesignInfo roofDesignInfo = RoofDesignInfo.builder()
+                    .rooftype((long) (Math.random()*5 +1))
                     .build();
                     
-                    
-                    Dyning dyning = Dyning.builder()
+            RoofDesign roofDesign = RoofDesign.builder()
+                    .roofdesigninfo(roofDesignInfo)
+                    .build();
+
+            roofDesignRepository.save(roofDesign);
+
+
+            // RoofDesign roofDesign = RoofDesign.builder().roofdesigninfo(roofDesignInfo).build(); 
+            
+            Dyning dyning = Dyning.builder()
                     .dyningname("가게이름" + i)
                     .comment("사장님 한 마디" + i)
-                    // .roofdesign((int) (Math.random() * 5)) 
                     .location("실제가게위치" + i)
-                    .foodtype("i")
+                    .foodtype( (long) (Math.random()*5 +1))
                     .businesshours("영업시간" + i)
                     .hashtag("해쉬태그" + i)
                     .ceoid(member)
-                    // .roofdesign(roofDesign)
+                    .roofdesign(roofDesign)
                     .build();
-                    
-                    dyning.setRoofdesign(roofDesign);
-                    roofDesign.setDyning(dyning);
-                    
-                    roofDesignRepository.save(roofDesign);
-                    dyningRepository.save(dyning);
-                    
-                    for (int j = 0; j < Math.random() * 3; j++) {
+
+
+            // roofDesignInfoRepository.save(roofDesignInfo);
+            // roofDesignRepository.save(roofDesign);
+            dyningRepository.save(dyning);
+
+            for (int j = 0; j < Math.random() * 3; j++) {
                 DyningImage dyningImage = DyningImage.builder()
-                .menuimagename(j + "menuimagename.jpg")
-                .menuimagepath("menuimagepath" + j)
-                .backgroundname(j + "backgroundname.jpg")
-                .backgroundpath("backgroundpath" + j)
-                .dyning(dyning)
+                        .menuimagename(j + "menuimagename.jpg")
+                        .menuimagepath("menuimagepath" + j)
+                        .backgroundname(j + "backgroundname.jpg")
+                        .backgroundpath("backgroundpath" + j)
+                        .dyning(dyning)
                         .build();
 
-
-
-                        dyningImageRepository.save(dyningImage);
+                dyningImageRepository.save(dyningImage);
             }
+
         });
     }
-
 
     @Test
     public void testGetListDyning() {
         Pageable pageable = PageRequest.of(0, 10, Sort.by("dno").descending());
-        
+
         Page<Object[]> result = dyningRepository.getListPage(pageable);
-        
+
         System.out.println(result);
 
         result.get().forEach(row -> {

@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RoofDesignDTO {
+public class RoofDesignInfoDTO {
     
-    private Long oono;
-    
-
+    private Long rooftype;
+    private String roofpath;
+    private String kindofroof; 
 
 }

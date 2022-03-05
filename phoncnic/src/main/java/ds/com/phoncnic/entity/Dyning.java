@@ -37,7 +37,7 @@ public class Dyning extends BaseEntity {
     private String comment;
     
     private String location;
-    private String foodtype;
+    private Long foodtype;
     private String businesshours;
 
     private String hashtag;
@@ -51,5 +51,8 @@ public class Dyning extends BaseEntity {
     @OneToOne
     @JoinColumn(name="roofdesign_oono", referencedColumnName = "oono")
     private RoofDesign roofdesign;
+
+
+
 
 }

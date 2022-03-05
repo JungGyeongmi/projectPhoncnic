@@ -55,10 +55,9 @@ public class DyningServiceImpl implements DyningService {
 
         Function<Object[], DyningDTO> fn = (arr -> entityToDTO(
             (Dyning) arr[0], 
-            (List<DyningImage>) (Arrays.asList((DyningImage) arr[1])),
-            (List<RoofDesign>) (Arrays.asList((RoofDesign) arr[2]))
+            (List<DyningImage>) (Arrays.asList((DyningImage) arr[1])
 
-            ));
+        )));
 
         return new PageResultDTO<>(result, fn);
     }
