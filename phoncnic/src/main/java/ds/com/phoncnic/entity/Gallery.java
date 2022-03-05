@@ -22,7 +22,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString(exclude = {"artistid", "image"})
+@ToString(exclude = "artistid")
 public class Gallery extends BaseEntity {
 
     @Id

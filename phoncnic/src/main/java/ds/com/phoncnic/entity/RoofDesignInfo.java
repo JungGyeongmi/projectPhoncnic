@@ -1,7 +1,9 @@
 package ds.com.phoncnic.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,12 +16,15 @@ import lombok.ToString;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
+@ToString(exclude = "roofdesign")
 public class RoofDesignInfo {
-    
+
     @Id
     private Long rooftype;
 
     private String roofpath;
-    private Long kindofroop;
+    private String kindofroop;
+
+    @OneToOne(mappedBy = "roofdesigninfo", cascade = CascadeType.ALL)
+    private RoofDesign roofdesign;
 }

@@ -8,13 +8,16 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 @Entity
@@ -22,7 +25,8 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@ToString(exclude = { "ceoid", "image" })
+@Setter
+@ToString(exclude = { "ceoid", "image", "roofdesign" })
 public class Dyning extends BaseEntity {
 
     @Id
@@ -43,4 +47,9 @@ public class Dyning extends BaseEntity {
 
     @OneToMany(mappedBy = "dyning", fetch = FetchType.LAZY)
     List<DyningImage> image = new ArrayList<DyningImage>();
+
+    @OneToOne
+    @JoinColumn(name="roofdesign_oono", referencedColumnName = "oono")
+    private RoofDesign roofdesign;
+
 }

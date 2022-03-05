@@ -24,8 +24,8 @@ public class GalleryDTO {
     //Member id
     private String id;
 
-    @Builder.Default
-    private List<GalleryImageDTO> galleryimageDTOList = new ArrayList<>();
+    // @Builder.Default
+    // private List<GalleryImageDTO> galleryimageDTOList = new ArrayList<>();
     
     private LocalDateTime regDate;
     private LocalDateTime modDate;
