@@ -26,6 +26,9 @@ public class GalleryRepositoryTests {
     
     @Autowired
     EmojiRepository emojiRepository;
+    
+    @Autowired
+    EmojiInfoRepository emojiInfoRepository;
 
     @Transactional
     @Test
@@ -65,9 +68,12 @@ public class GalleryRepositoryTests {
                     Member.builder().id("user"+randmember.get(j)+"@icloud.com")
                 .build();
 
+
+                String emojiType = (int)(Math.random()*4)+1+"";
                 Emoji emoji = Emoji.builder()
                     .gallery(gallery)
                     .member(member)
+                    .emojiInfo(emojiInfoRepository.findById(emojiType).get())
                 .build();
                 emojiRepository.save(emoji);
             }

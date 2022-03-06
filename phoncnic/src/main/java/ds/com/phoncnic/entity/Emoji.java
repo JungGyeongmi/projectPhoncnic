@@ -22,7 +22,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString(exclude = {"member", "dyning", "gallery", "emojiInfo"})
-public class Emoji extends BaseEntity{
+public class Emoji extends BaseEntity {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,6 +37,6 @@ public class Emoji extends BaseEntity{
     @ManyToOne(fetch = FetchType.LAZY)
     private Gallery gallery;
 
-    @OneToOne
-    private EmojiInfo emojiinfo;
+    @OneToOne(fetch = FetchType.LAZY)
+    private EmojiInfo emojiInfo;
 }
