@@ -1,11 +1,9 @@
 package ds.com.phoncnic.entity;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,18 +18,17 @@ import lombok.ToString;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString(exclude = "artistid")
-public class Gallery extends BaseEntity {
+@ToString
+public class RoofDesign extends BaseEntity {
+//     다이닝- dno pk, 멤버 fk, 푸드타입 =1, 루프 이미지 패스
+// 루프디자인 - oono pk, 루프네임, 루프타입 (=푸드타입) =1, 한식루프 이미지 패스
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long gno;
+    private Long oono;
 
-    private String title;
-    private String content;
-    private String imagenmae;
-    private String imagepath;
+    private Long rooftype; //foodtype
+    private String roofname; 
+    private String roofpath;
     
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Member artistid;
 }

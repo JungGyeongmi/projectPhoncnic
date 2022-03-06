@@ -18,17 +18,21 @@ public class DyningDTO {
     private long dno;
 
     private String dyningname;
-    private long roofdesign;
     private String location;
-    private long foodtype;
+    private Long foodtype;
     private String businesshours;
     private String comment;
     private String hashtag;
-
     private LocalDateTime regdate, moddate;
-
+    
     private String id;
+    
+    private long oono;
+    private String roofpath;
+    
+    
 
     @Builder.Default 
     private List<DyningImageDTO> dyningImageDTOList = new ArrayList<>();
+
 }
