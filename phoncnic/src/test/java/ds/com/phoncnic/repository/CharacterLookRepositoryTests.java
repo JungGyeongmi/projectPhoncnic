@@ -23,6 +23,7 @@ public class CharacterLookRepositoryTests {
     @Autowired
     private CharacterLookInfoRepository characterLookInforepository;
     //ChracterLook 더미
+    //멈춰!!!! 밑에 ChracterLookinfo 먼저 인서트 하고 오시오!!!!!!!!!!!!!!
     @Test
     public void insertDummies(){
 
