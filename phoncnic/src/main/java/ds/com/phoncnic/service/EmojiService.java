@@ -1,8 +1,5 @@
 package ds.com.phoncnic.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import ds.com.phoncnic.dto.EmojiDTO;
 import ds.com.phoncnic.entity.Dyning;
 import ds.com.phoncnic.entity.Emoji;
@@ -12,7 +9,7 @@ import ds.com.phoncnic.entity.Member;
 
 
 public interface EmojiService {
-    List<EmojiDTO> getEmojiList(String id);
+    // EmojiDTO getEmojiList(String id);
 
     /* DTO -> Entity */
     default Emoji dtoToEntity(EmojiDTO emojiDTO) {
@@ -29,21 +26,35 @@ public interface EmojiService {
     /* Entity -> DTO */
     default EmojiDTO entityToEmojiDTO(Emoji emoji){
         // List<EmojiDTO> emojiDTOList = new ArrayList<>();
+        if(emoji.getDyning()==null) {
+            EmojiDTO emojiDTO = EmojiDTO.builder()
+                .eno(emoji.getEno())
+                .id(emoji.getMember().getId())
+                .gno(emoji.getGallery().getGno())
+                .dno(0L)
+                .emojipath(emoji.getEmojiInfo().getEmojipath())
+                .emojitype(emoji.getEmojiInfo().getEmojitype())
+                .kindofemoji(emoji.getEmojiInfo().getKindofemoji())
+                .regdate(emoji.getRegDate())
+                .moddate(emoji.getModDate())
+            .build();
+            return emojiDTO;
+        } else {
+            EmojiDTO emojiDTO = EmojiDTO.builder()
+                .eno(emoji.getEno())
+                .id(emoji.getMember().getId())
+                .dno(emoji.getDyning().getDno())
+                .gno(0L)
+                .emojipath(emoji.getEmojiInfo().getEmojipath())
+                .emojitype(emoji.getEmojiInfo().getEmojitype())
+                .kindofemoji(emoji.getEmojiInfo().getKindofemoji())
+                .regdate(emoji.getRegDate())
+                .moddate(emoji.getModDate())
+            .build();
+            return emojiDTO;
+        }
 
-        EmojiDTO emojiDTO = EmojiDTO.builder()
-            .eno(emoji.getEno())
-            .id(emoji.getMember().getId())
-            .gno(emoji.getGallery().getGno())
-            .dno(emoji.getDyning().getDno())
-            .emojipath(emoji.getEmojiInfo().getEmojipath())
-            .emojitype(emoji.getEmojiInfo().getEmojitype())
-            .kindofemoji(emoji.getEmojiInfo().getKindofemoji())
-            .regdate(emoji.getRegDate())
-            .moddate(emoji.getModDate())
-        .build();
 
-
-        return emojiDTO;
     }
 
 

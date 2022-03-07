@@ -1,5 +1,9 @@
 package ds.com.phoncnic.repository;
 
+import java.util.List;
+
+import javax.transaction.Transactional;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,14 +21,15 @@ public class EmojiRepositoryTests {
     @Autowired
     EmojiService emojiService;
 
-    @Test
-    public void testGetEmojiListByMember() {
     
-        Emoji emoji =  emojiRepository.getEmojiByMember("user3@icloud.com");
-        
-        EmojiDTO emojiDTO = emojiService.entityToEmojiDTO(emoji);
-        
-        System.out.println(emojiDTO);
+    @Test
+    @Transactional
+    public void testGetEmojiListByMember() {
+        List<Emoji> emojiList =  emojiRepository.getEmojiByMember("user3@icloud.com");
+        // System.out.println(emojiList.size());
+        emojiList.stream().forEach(emoji -> {
+            System.out.println(emojiService.entityToEmojiDTO(emoji));
+        });
 
     }
 }
