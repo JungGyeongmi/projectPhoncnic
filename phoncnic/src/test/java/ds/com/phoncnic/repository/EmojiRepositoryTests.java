@@ -31,5 +31,5 @@ public class EmojiRepositoryTests {
             System.out.println(emojiService.entityToEmojiDTO(emoji));
         });
 
-    }
+    } 
 }

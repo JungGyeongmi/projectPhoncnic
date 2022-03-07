@@ -1,5 +1,7 @@
 package ds.com.phoncnic.service;
 
+import java.util.List;
+
 import ds.com.phoncnic.dto.EmojiDTO;
 import ds.com.phoncnic.entity.Dyning;
 import ds.com.phoncnic.entity.Emoji;
@@ -9,7 +11,7 @@ import ds.com.phoncnic.entity.Member;
 
 
 public interface EmojiService {
-    // EmojiDTO getEmojiList(String id);
+    List<EmojiDTO> getEmojiList(String id);
 
     /* DTO -> Entity */
     default Emoji dtoToEntity(EmojiDTO emojiDTO) {
