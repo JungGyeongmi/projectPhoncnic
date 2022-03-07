@@ -19,6 +19,13 @@
         <input type="text" value="" name="id" placeholder="유저명입력 : user10@icloud.com">
         <input type="button" value="전송" submit>
     </form>
-
+    <br>
+    <hr>
+    <h1>QNA PAGING TEST</h1>
+    <ul>
+        <li th:each="page : ${result}">
+            [[${page.dtoList}]]
+        </li>
+    </ul>
 </body>
 </html>

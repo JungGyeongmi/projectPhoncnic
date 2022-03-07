@@ -6,9 +6,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
+import ds.com.phoncnic.dto.PageRequestDTO;
 import ds.com.phoncnic.service.EmojiService;
+import ds.com.phoncnic.service.QnaService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -19,8 +20,12 @@ public class TestController {
     
     private final EmojiService emojiService;
 
+    private final QnaService qnaService;
+
     @GetMapping("/test")
-    public String test () {
+    public String test (PageRequestDTO pageRequestDTO, Model model) {
+
+        model.addAttribute("result", qnaService.getQnaList(pageRequestDTO));
         return "test";
     }
     
