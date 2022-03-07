@@ -61,13 +61,13 @@ public class CharacterLookRepositoryTests {
         });
     }
 
-    @Test
-    public void TestGetCharacterLook() {
+    // @Test
+    // public void TestGetCharacterLook() {
     
-    CharacterLookInfo result = characterLookInforepository.getCharacterImgs("user1@icloud.com");
-    System.out.println(result.getHairpath());
-    System.out.println(result.getClothespath());
+    // CharacterLookInfo result = characterLookInforepository.getCharacterImgs("user1@icloud.com");
+    // System.out.println(result.getHairpath());
+    // System.out.println(result.getClothespath());
 
     
-    }
+    // }
 }
