@@ -1,6 +1,5 @@
 package ds.com.phoncnic.service.dyning;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import ds.com.phoncnic.dto.DyningDTO;
 import ds.com.phoncnic.entity.Dyning;
-import ds.com.phoncnic.entity.DyningImage;
 import ds.com.phoncnic.entity.RoofDesign;
 import ds.com.phoncnic.repository.DyningImageRepository;
 import ds.com.phoncnic.repository.DyningRepository;
@@ -39,11 +37,10 @@ public class DyningServiceImpl implements DyningService {
         log.info("dyning/setting/register....");
         Map<String, Object> entityMap = dtoToEntity(dyningdDTO);
         Dyning dyning = (Dyning) entityMap.get("dyning");
-        List<DyningImage> dyningImageList = (List<DyningImage>) entityMap.get("dyningImageList");
         dyningRepository.save(dyning);
-        dyningImageList.forEach(dyningImage -> {
-            dyningImageRepository.save(dyningImage);
-        });
+        // dyningImageList.forEach(dyningImage -> {
+        //     dyningImageRepository.save(dyningImage);
+        // });
 
         return dyning.getDno();
     }

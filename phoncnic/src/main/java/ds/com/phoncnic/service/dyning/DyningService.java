@@ -7,9 +7,6 @@ import java.util.stream.Collectors;
 
 import ds.com.phoncnic.dto.DyningDTO;
 import ds.com.phoncnic.dto.DyningImageDTO;
-import ds.com.phoncnic.dto.PageRequestDTO;
-import ds.com.phoncnic.dto.PageResultDTO;
-import ds.com.phoncnic.dto.RoofDesignDTO;
 import ds.com.phoncnic.entity.Dyning;
 import ds.com.phoncnic.entity.DyningImage;
 import ds.com.phoncnic.entity.Member;
@@ -31,7 +28,6 @@ public interface DyningService {
                 .dno(dto.getDno())
                 .dyningname(dto.getDyningname())
                 .location(dto.getLocation())
-                .foodtype(dto.getFoodtype())
                 .businesshours(dto.getBusinesshours())
                 .comment(dto.getComment())
                 .hashtag(dto.getHashtag())
@@ -68,7 +64,6 @@ public interface DyningService {
                 .dno(dyning.getDno())
                 .dyningname(dyning.getDyningname())
                 .location(dyning.getLocation())
-                .foodtype(dyning.getFoodtype())
                 .businesshours(dyning.getBusinesshours())
                 .comment(dyning.getComment())
                 .hashtag(dyning.getHashtag())
