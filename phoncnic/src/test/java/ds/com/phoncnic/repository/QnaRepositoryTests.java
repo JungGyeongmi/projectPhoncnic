@@ -54,7 +54,7 @@ public class QnaRepositoryTests {
     @Test
     void testGetListPage() {
 
-        Pageable pageable = PageRequest.of(0, 2);
+        Pageable pageable = PageRequest.of(1, 10);
         
         Page<Qna> result = qnaRepository.getListPage(pageable);
 

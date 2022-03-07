@@ -37,25 +37,31 @@
             <th scope="col">Content</th>
             <th scope="col">NickName</th>
             <th scope="col">Regdate</th>
+            <th scope="col">CURRENT : 현재 객체 정보</th>
           </tr>
         </thead>
         <tbody>
-          <tr th:each="dto : ${result.dtoList}" th:if="${dto.qno}%2!=0 or ${dto.answerstatus}">
-            <th scope="row">[[${dto.qno}]]</th>
+          <tr th:each="dto, state : ${result.dtoList}" th:if="${state.even} or ${dto.answerstatus}">
+                <th>[[${ num }]]</th>
+            
             <th scope="row" th:switch="${dto.answerstatus}">
                 <b th:case="true">
-                    <b th:if="${dto.qno}%2!=0 ">NEW</b>
-                    <b th:if="${dto.qno}%2==0">답변완료</b>
+                    <b th:if="${ state.odd } ">NEW</b>
+                    <b th:if="${ state.even }">답변완</b>
                 </b>
-                <b th:case="false">답변준비</b>
+                <b th:case="false">준비중</b>
             </th>
             <td>[[${ dto.title }]]</td>
             <td><b th:text="${dto.content}"></b></td>
             <td><b th:text="${dto.writer}"></b></td>
             <td>[[${#temporals.format(dto.regdate,'yyyy/MM/dd')}]]</td>
-          </tr>
+            <td>[[${state.current}]]</td>
+        </tr>
         </tbody>
     </table>
+    <th:block th:each="num : ${#numbers.sequence(1, result.end*result.size)}">
+        <b scope="row">[[${ num }]]</b>
+    </th:block>
     <ul>
     <li th:if="${result.prev}">
         <a th:href="@{/test( page=${result.start-1} )}" tabindex="-1">Previous</a>
