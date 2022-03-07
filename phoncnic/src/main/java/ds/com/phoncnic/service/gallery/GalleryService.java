@@ -34,6 +34,8 @@ public interface GalleryService {
             .imagetype(gallery.isImagetype())
             .imagepath(gallery.getImagepath())
             .id(gallery.getArtistid().getId())
+            .moddate(gallery.getModDate())
+            .regdate(gallery.getRegDate())
             .build();
 
         return galleryDTO;
