@@ -50,24 +50,21 @@ public class GalleryRepositoryTests {
                 }
             }
 
-            Member member = 
-                Member.builder().id(
-                    memberRepository.findById("user"+i+"@icloud.com").get().getId()
-                )
-            .build();
+            Member member = Member.builder().id(
 
-            // GalleryImage galleryImage = GalleryImage.builder()
-            //     .imagename("imagename"+i)
-            //     .imagepath(i+"imagepath.jpg")
-            //     .imagetype(rand)
-            //     .artistid(member)
-            // .build(); 
-            
+                    memberRepository.findById("user" + i + "@icloud.com").get().getId())
+                    .build();
+
+
             Gallery gallery = Gallery.builder()
-                .title(i+"title")
-                .content(i+"content")
-                .artistid(member)
-            .build();
+                    .title(i + "title")
+                    .content(i + "content")
+                    .artistid(member)
+                    .imagepath("D:/image/imagepath/image" + i + ".jpg")
+                    .imagetype(rand)
+                    .imagename("imagename" + i)
+                    .build();
+            galleryRepository.save(gallery);
 
             int ra = (int)(Math.random()*5)+1;
 

@@ -8,34 +8,34 @@ import ds.com.phoncnic.entity.Member;
 
 public interface GalleryService {
     
-    // PageResultDTO<GalleryDTO, Gallery> getList(PageRequestDTO PageRequestDTO);
+    PageResultDTO<GalleryDTO, Gallery> getList(PageRequestDTO PageRequestDTO);
 
-    default Gallery dtoToEntity(GalleryDTO galleryDTO) {
-
+    default Gallery dtoToEnttity (GalleryDTO galleryDto){
         Gallery gallery = Gallery.builder()
-        .gno(galleryDTO.getGno())
-        .title(galleryDTO.getTitle())
-        .content(galleryDTO.getContent())
-        .artistid(
-            Member.builder()
-            .id(galleryDTO.getId())
-            .build()
-        )
-        .build();
+                .gno(galleryDto.getGno())
+                .title(galleryDto.getTitle())
+                .imagename(galleryDto.getImagename())
+                .imagetype(galleryDto.isImagetype())
+                .imagepath(galleryDto.getImagepath())
+                .artistid(Member.builder().id(galleryDto.getId()).build())
+                .build();
 
-        return gallery;
+            return gallery;
     }
 
-    default GalleryDTO entityToDTO(Gallery gallery) {
 
+    default  GalleryDTO entityToDTO(Gallery gallery){
+        
         GalleryDTO galleryDTO = GalleryDTO.builder()
-            .gno(gallery.getGno())
-            .title(gallery.getTitle())
-            .content(gallery.getContent())
-            .id(gallery.getArtistid().getId())
-            .regDate(gallery.getRegDate())
-            .modDate(gallery.getModDate())
-            .build();
-            return galleryDTO;
-        }
+                .gno(gallery.getGno())
+                .title(gallery.getTitle())
+                .content(gallery.getContent())
+                .imagename(gallery.getImagename())
+                .imagetype(gallery.isImagetype())
+                .imagepath(gallery.getImagepath())
+                .id(gallery.getArtistid().getId())
+                .build();
+
+        return galleryDTO;
+    }
 }
