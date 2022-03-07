@@ -18,11 +18,13 @@ public interface QnaService {
         
         QnaDTO qnaDTO = QnaDTO.builder()
             .qno(qna.getQno())
-            .tilte(qna.getTitle())
+            .title(qna.getTitle())
             .content(qna.getContent())
             .password(qna.getPassword())
             .qtype(qna.getQtype())
             .answerstatus(qna.isAnswerstatus())
+            .moddate(qna.getModDate())
+            .regdate(qna.getRegDate())
             .writer(qna.getWriter().getNickname())
         .build();
         
@@ -35,7 +37,7 @@ public interface QnaService {
 
         Qna qna = Qna.builder()
             .qno(qnaDTO.getQno())
-            .title(qnaDTO.getTilte())
+            .title(qnaDTO.getTitle())
             .content(qnaDTO.getContent())
             .password(qnaDTO.getPassword())
             .qtype(qnaDTO.getQtype())

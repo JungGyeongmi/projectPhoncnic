@@ -27,5 +27,45 @@
             [[${page.dtoList}]]
         </li>
     </ul>
+
+    <table>
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">답변</th>
+            <th scope="col">Title</th>
+            <th scope="col">Content</th>
+            <th scope="col">NickName</th>
+            <th scope="col">Regdate</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="dto : ${result.dtoList}" th:if="${dto.qno}%2!=0 or ${dto.answerstatus}">
+            <th scope="row">[[${dto.qno}]]</th>
+            <th scope="row" th:switch="${dto.answerstatus}">
+                <b th:case="true">
+                    <b th:if="${dto.qno}%2!=0 ">NEW</b>
+                    <b th:if="${dto.qno}%2==0">답변완료</b>
+                </b>
+                <b th:case="false">답변준비</b>
+            </th>
+            <td>[[${ dto.title }]]</td>
+            <td><b th:text="${dto.content}"></b></td>
+            <td><b th:text="${dto.writer}"></b></td>
+            <td>[[${#temporals.format(dto.regdate,'yyyy/MM/dd')}]]</td>
+          </tr>
+        </tbody>
+    </table>
+    <ul>
+    <li th:if="${result.prev}">
+        <a th:href="@{/test( page=${result.start-1} )}" tabindex="-1">Previous</a>
+    </li>
+    <li th:each="page : ${result.pageList}">
+        <a class="page-link" th:href="@{/test( page=${page} )}">[[${page}]]</a>
+    </li>
+    <li  th:if="${result.next}">
+        <a th:href="@{/test( page=${result.end+1} )}">Next</a>
+    </li>
+    </ul>
 </body>
 </html>

@@ -24,7 +24,7 @@ public class QnaRepositoryTests {
 
     @Test
     public void insertDummies() {
-        IntStream.rangeClosed(1, 10).forEach(i->{
+        IntStream.rangeClosed(1, 15).forEach(i->{
             int randomMember = (int)(Math.random()*10)+1;  
             int type = (int)(Math.random()*4)+1;
             boolean rand =((int)(Math.random()*2)) !=0;
@@ -37,6 +37,17 @@ public class QnaRepositoryTests {
                 .writer(memberRepository.findById("user"+randomMember+"@icloud.com").get())
             .build();
             qnaRepository.save(qna);
+            // 답변용 빈깡통
+            Qna reqna = Qna.builder()
+                .title("호갱님"+i)
+                .content("블라블라"+i)
+                .password("1234")
+                .qtype("답변용"+type)
+                .answerstatus(rand)
+                // 임의로 10 잡았는데 master user가 필요한건가?
+                .writer(memberRepository.findById("user10@icloud.com").get())
+            .build();
+            qnaRepository.save(reqna);
         });
     }
 
