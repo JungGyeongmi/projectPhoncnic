@@ -29,8 +29,5 @@ public class EmojiInfoRepositoryTests {
             emojiInfoRepository.save(emojiInfo);
         
         });
-
-
-
     }
 }

@@ -1,34 +1,30 @@
 package ds.com.phoncnic.repository;
 
-import java.util.List;
-
-import javax.transaction.Transactional;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import ds.com.phoncnic.dto.EmojiDTO;
 import ds.com.phoncnic.entity.Emoji;
+import ds.com.phoncnic.service.EmojiService;
 
 @SpringBootTest
 public class EmojiRepositoryTests {
     
     @Autowired
-    private EmojiRepository emojiRepository;
+    EmojiRepository emojiRepository;
 
-    @Transactional
+    @Autowired
+    EmojiService emojiService;
+
     @Test
     public void testGetEmojiListByMember() {
+    
+        Emoji emoji =  emojiRepository.getEmojiByMember("user3@icloud.com");
         
-        List<Emoji> emojiList =  emojiRepository.getEmojiListByMember("user10@icloud.com");
+        EmojiDTO emojiDTO = emojiService.entityToEmojiDTO(emoji);
+        
+        System.out.println(emojiDTO);
 
-        // emojiList.forEach(System.out::println);
-        emojiList.forEach(emoji->{
-            System.out.println(emoji.getEno());
-            System.out.println(emoji.getMember());
-            System.out.println(emoji.getEmojiInfo());
-
-            // Optional<Emoji> testEmoji = emojiRepository.findById(emoji.getEno());
-        });
     }
 }

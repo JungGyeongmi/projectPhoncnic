@@ -31,7 +31,6 @@ public class FollowRepositoryTests {
             Gallery gallery = Gallery.builder().gno((long)rand).build();
             Member member = Member.builder().id("user"+rand+"iclooud.com").build();
             
-            
             rand = (int)(Math.random()*10)+1;
 
             Follow follow = Follow.builder()

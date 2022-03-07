@@ -3,10 +3,8 @@ package ds.com.phoncnic.controller.dyningController;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import ds.com.phoncnic.dto.PageRequestDTO;
 import ds.com.phoncnic.service.dyning.DyningService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;

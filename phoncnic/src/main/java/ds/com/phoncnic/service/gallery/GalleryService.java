@@ -33,8 +33,8 @@ public interface GalleryService {
             .title(gallery.getTitle())
             .content(gallery.getContent())
             .id(gallery.getArtistid().getId())
-            .regDate(gallery.getRegDate())
-            .modDate(gallery.getModDate())
+            .regdate(gallery.getRegDate())
+            .moddate(gallery.getModDate())
             .build();
             return galleryDTO;
         }
