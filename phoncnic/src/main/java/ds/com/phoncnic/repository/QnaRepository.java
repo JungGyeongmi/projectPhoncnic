@@ -9,7 +9,7 @@ import ds.com.phoncnic.entity.Qna;
 
 public interface QnaRepository extends JpaRepository<Qna, Long> {
 
-    @Query("select q from Qna q")
+    @Query("select q from Qna q where answerstatus = true or mod(qno, 2) = 1 ")
     Page<Qna> getListPage(Pageable pageable);
     
 }
