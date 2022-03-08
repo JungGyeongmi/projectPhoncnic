@@ -8,4 +8,10 @@
 </head>
 <body>
    <h1>사진전</h1>
+<table>
+    <tr th:each="dto : ${list.dtoList}">
+        <td th:text="${dto}"></td>
+    </tr>
+
+</table>
 </body>

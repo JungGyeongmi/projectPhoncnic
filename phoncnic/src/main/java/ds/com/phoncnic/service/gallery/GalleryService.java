@@ -8,7 +8,8 @@ import ds.com.phoncnic.entity.Member;
 
 public interface GalleryService {
     
-    PageResultDTO<GalleryDTO, Gallery> getList(PageRequestDTO PageRequestDTO);
+    PageResultDTO<GalleryDTO, Gallery> getPhotoList(PageRequestDTO PageRequestDTO);
+    PageResultDTO<GalleryDTO, Gallery> getPaintingList(PageRequestDTO PageRequestDTO);
 
     default Gallery dtoToEnttity (GalleryDTO galleryDto){
         Gallery gallery = Gallery.builder()
@@ -34,6 +35,8 @@ public interface GalleryService {
             .imagetype(gallery.isImagetype())
             .imagepath(gallery.getImagepath())
             .id(gallery.getArtistid().getId())
+            .moddate(gallery.getModDate())
+            .regdate(gallery.getRegDate())
             .build();
 
         return galleryDTO;
