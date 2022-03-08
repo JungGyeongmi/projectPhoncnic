@@ -21,13 +21,25 @@ public class GalleryServiceImpl implements GalleryService {
     private final GalleryRepository galleryRepository;
    
     @Override
-    public PageResultDTO<GalleryDTO, Gallery> getList(PageRequestDTO PageRequestDTO) {
+    public PageResultDTO<GalleryDTO, Gallery> getPhotoList(PageRequestDTO PageRequestDTO) {
         Pageable pageable = PageRequestDTO.getPageable(Sort.by("gno").descending());
 
-        Page<Gallery> result = galleryRepository.getListPage(pageable);
+        Page<Gallery> result = galleryRepository.getPhotoPage(pageable);
         
         Function<Gallery, GalleryDTO> fn = (entity -> entityToDTO(entity));
         
         return new PageResultDTO<>(result, fn);
     }
+
+    @Override
+    public PageResultDTO<GalleryDTO, Gallery> getPaintingList(PageRequestDTO PageRequestDTO) {
+        Pageable pageable = PageRequestDTO.getPageable(Sort.by("gno").descending());
+
+        Page<Gallery> result = galleryRepository.getPaintingPage(pageable);
+        
+        Function<Gallery, GalleryDTO> fn = (entity -> entityToDTO(entity));
+        
+        return new PageResultDTO<>(result, fn);
+    }
+
 }

@@ -1,10 +1,13 @@
 package ds.com.phoncnic.controller.galleryController;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import ds.com.phoncnic.dto.PageRequestDTO;
+import ds.com.phoncnic.service.gallery.GalleryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -13,6 +16,8 @@ import lombok.extern.log4j.Log4j2;
 @RequiredArgsConstructor
 @Log4j2
 public class GalleryController {
+
+    private final GalleryService galleryService;
 
     @GetMapping({"/", ""})
     public String galleryCrossroad() {
@@ -29,13 +34,15 @@ public class GalleryController {
     
     //사진전 상세페이지
     @GetMapping("/photo")
-    public String photo(){
+    public String photo(PageRequestDTO pageRequestDTO, Model model){
+        model.addAttribute("list", galleryService.getPhotoList(pageRequestDTO));
         return "gallery/photo";
     }
 
     //그림전 상세페이지
     @GetMapping("/painting")
-    public String painting(){
+    public String painting(PageRequestDTO pageRequestDTO, Model model){
+        model.addAttribute("list", galleryService.getPaintingList(pageRequestDTO));
         return "gallery/painting";
     }
 }

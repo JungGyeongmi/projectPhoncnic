@@ -10,6 +10,13 @@ import ds.com.phoncnic.entity.Gallery;
 public interface GalleryRepository extends JpaRepository<Gallery, Long> {
     // @Query("select g, gi from Gallery g inner join GalleryImage gi on gi.gno = g.gno group by g")
     // Page<Gallery> getListPage(Pageable pageable);
-    @Query("select g from Gallery g")
-    Page<Gallery> getListPage(Pageable pageable);
+
+    // photoList
+    @Query("select g from Gallery g where imagetype = false")
+    Page<Gallery> getPhotoPage(Pageable pageable);
+
+    //paintingList
+    @Query("select g from Gallery g where imagetype = true")
+    Page<Gallery> getPaintingPage(Pageable pageable);
+
 }
