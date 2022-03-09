@@ -35,8 +35,14 @@
             [[${#temporals.format(galleryDTO.moddate,'yyyy/MM/dd')}]]
         </li>
     </ul>
-    
- 
+    <ul>
+        <li th:each="emoji : ${emojiInfoList}">
+            [[${ emoji.emojitype }]]
+        <br>
+            [[${ emoji.emojipath }]]
+        <br>
+        </li>
+    </ul>
 
 </html>
 </body>
