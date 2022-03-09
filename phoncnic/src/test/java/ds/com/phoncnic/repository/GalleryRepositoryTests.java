@@ -94,4 +94,10 @@ public class GalleryRepositoryTests {
         System.out.println(galleryDTO);
     }
 
+    @Test
+    public void getGalleryList(){
+        List<GalleryDTO> galleryDTOList = galleryService.getGalleryList(false);
+        galleryDTOList.forEach(System.out::println);
+    }
+
 }

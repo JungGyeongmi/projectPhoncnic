@@ -38,14 +38,16 @@ public class GalleryController {
     //사진전 상세페이지
     @GetMapping("/photo")
     public String photo(PageRequestDTO pageRequestDTO, Model model){
-        model.addAttribute("list", galleryService.getPhotoList(pageRequestDTO));
+        // model.addAttribute("list", galleryService.getPhotoList(pageRequestDTO));
+        model.addAttribute("galleryDTOList", galleryService.getGalleryList(false));
         return "gallery/photo";
     }
 
     //그림전 상세페이지
     @GetMapping("/painting")
     public String painting(PageRequestDTO pageRequestDTO, Model model){
-        model.addAttribute("list", galleryService.getPaintingList(pageRequestDTO));
+        // model.addAttribute("list", galleryService.getPaintingList(pageRequestDTO));
+        model.addAttribute("galleryDTOList", galleryService.getGalleryList(true));
         return "gallery/painting";
     }
 
