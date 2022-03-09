@@ -10,6 +10,12 @@ import org.springframework.data.jpa.repository.Query;
 import ds.com.phoncnic.entity.Gallery;
 
 public interface GalleryRepository extends JpaRepository<Gallery, Long> {
+<<<<<<< HEAD
+=======
+
+    @Query("select g from Gallery g where gno = :gno")
+    Gallery getGalleryByGno(Long gno);
+>>>>>>> gallery_ng
 
     @Query("select g from Gallery g where gno = :gno")
     Gallery getGalleryByGno(Long gno);
