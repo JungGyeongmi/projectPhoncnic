@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko" xmls:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GalleryList</title>
+</head>
+<body>
+    <h1>전시회 상세페이지 예제</h1>
+    <ul>
+        <li>
+            [[${galleryDTO.gno}]]
+        </li>
+        <li>
+            [[${galleryDTO.id}]]
+        </li>
+        <li>
+            [[${galleryDTO.title}]]
+        </li>
+        <li>
+            [[${galleryDTO.content}]]
+        </li>
+        <li>
+            [[${galleryDTO.imagepath}]]
+        </li>
+        <li>
+            [[${galleryDTO.imagename}]]
+        </li>
+        <li>
+            <b>작성일</b>
+            [[${#temporals.format(galleryDTO.regdate,'yyyy/MM/dd')}]]
+            <br>
+            <b>수정일</b>
+            [[${#temporals.format(galleryDTO.moddate,'yyyy/MM/dd')}]]
+        </li>
+    </ul>
+    <ul>
+        <li th:if="${emojiList}!=null" th:each="emoji : ${emojiList}">
+            [[${ emoji.eno }]]
+        <br>
+            [[${ emoji.emojipath }]]
+        <br>
+        </li>
+    </ul>
+
+</html>
+</body>
+</html>

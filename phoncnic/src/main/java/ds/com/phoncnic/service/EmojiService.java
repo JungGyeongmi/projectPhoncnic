@@ -12,7 +12,9 @@ import ds.com.phoncnic.entity.Member;
 
 public interface EmojiService {
     List<EmojiDTO> getEmojiList(String id);
-
+    
+    List<EmojiDTO> getEmojiList(String type, Long no);
+    
     /* DTO -> Entity */
     default Emoji dtoToEntity(EmojiDTO emojiDTO) {
         Emoji emoji = Emoji.builder()

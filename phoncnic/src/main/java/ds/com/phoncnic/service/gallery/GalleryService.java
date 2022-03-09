@@ -8,6 +8,7 @@ import ds.com.phoncnic.entity.Member;
 
 public interface GalleryService {
     
+    GalleryDTO getGallery(long gno);
     PageResultDTO<GalleryDTO, Gallery> getPhotoList(PageRequestDTO PageRequestDTO);
     PageResultDTO<GalleryDTO, Gallery> getPaintingList(PageRequestDTO PageRequestDTO);
 

@@ -11,15 +11,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Commit;
 
+import ds.com.phoncnic.dto.GalleryDTO;
 import ds.com.phoncnic.entity.Emoji;
 import ds.com.phoncnic.entity.Gallery;
 import ds.com.phoncnic.entity.Member;
+import ds.com.phoncnic.service.gallery.GalleryService;
 
 @SpringBootTest
 public class GalleryRepositoryTests {
 
     @Autowired
     GalleryRepository galleryRepository;
+
+    @Autowired
+    GalleryService galleryService;
 
     @Autowired
     MemberRepository memberRepository;
@@ -80,6 +85,13 @@ public class GalleryRepositoryTests {
             }
         });
 
+    }
+
+    @Test
+    public void getGalleryTest(){
+
+        GalleryDTO galleryDTO = galleryService.getGallery(3L);
+        System.out.println(galleryDTO);
     }
 
 }

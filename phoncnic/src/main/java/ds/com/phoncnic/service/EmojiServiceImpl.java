@@ -33,6 +33,19 @@ public class EmojiServiceImpl implements EmojiService {
 
         return emojiDTOList;
     }
+
+    @Override
+    public List<EmojiDTO> getEmojiList(String type, Long no) {
+        List<Emoji> emojiList = type.equals("g")?emojiRepository.getEmojiByGno(no):emojiRepository.getEmojiByDno(no);
+
+        List<EmojiDTO> emojiDTOList = new ArrayList<>();
+        emojiList.stream().forEach(emoji->{
+            EmojiDTO emojiDTO = entityToEmojiDTO(emoji);
+            emojiDTOList.add(emojiDTO);
+        });
+
+        return emojiDTOList;
+    }
     
 }
 
