@@ -2,6 +2,7 @@ package ds.com.phoncnic.repository;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -41,6 +42,7 @@ public class EmojiRepositoryTests {
         for (Object[] arr : result ) {
             System.out.println(Arrays.toString(arr));
             System.out.println("============");
+            //  System.out.println(arr[0]); //emojitype
         }
     }
 }
