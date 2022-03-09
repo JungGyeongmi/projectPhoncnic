@@ -19,4 +19,19 @@ public interface EmojiRepository extends JpaRepository<Emoji,Long>{
     @Query("select e from Emoji e where e.dyning.dno=:dno")
     List<Emoji> getEmojiByDno(Long dno);
     
+    // @Query("select e, count(e) from Emoji e where e.gallery.gno=:gno group by e.gallery.gno ")
+    // List<Emoji> getCountEmoji(Long gno);
+
+    // @Query("select e, count(e) from Emoji e where e.emojiinfo.emojitype=:emojitype group by e.gallery.gno ")
+    // List<Emoji> getCountEmoji(String emojitype);
+
+
+    @Query("select e, count(e) from Emoji e group by e.eno ")
+    List<Emoji> getCountEmoji();
+
+
+
+    // @Query("select e, count(e.emojitype) from Emoji e group by gno ")
+    // List<Emoji> getCountEmoji(Long gno);
+
 }

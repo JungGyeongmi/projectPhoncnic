@@ -31,4 +31,10 @@ public class EmojiRepositoryTests {
         });
 
     } 
+    @Test
+    public void getCountEmoji(){
+        List<Emoji> emojiResult = emojiRepository.getCountEmoji();
+        // List<Emoji> result = emojiResult.get().;
+        System.out.println(emojiResult);
+    }
 }

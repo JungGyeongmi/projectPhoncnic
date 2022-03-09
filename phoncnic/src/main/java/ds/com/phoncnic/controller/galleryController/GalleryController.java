@@ -40,7 +40,7 @@ public class GalleryController {
     @GetMapping("/photo")
     public String photo(PageRequestDTO pageRequestDTO, Model model){
         model.addAttribute("emoji", emojiService.getEmojiList("g"));
-d        model.addAttribute("list", galleryService.getPhotoList(pageRequestDTO));
+        model.addAttribute("list", galleryService.getPhotoList(pageRequestDTO));
         return "gallery/photo";
     }
 
