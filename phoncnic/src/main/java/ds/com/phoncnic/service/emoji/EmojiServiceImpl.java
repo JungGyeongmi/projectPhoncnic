@@ -1,4 +1,4 @@
-package ds.com.phoncnic.service;
+package ds.com.phoncnic.service.emoji;
 
 import java.util.ArrayList;
 import java.util.List;

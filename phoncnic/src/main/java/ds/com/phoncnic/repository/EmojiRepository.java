@@ -2,10 +2,8 @@ package ds.com.phoncnic.repository;
 
 import java.util.List;
 
-import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.jpa.repository.EntityGraph.EntityGraphType;
 
 import ds.com.phoncnic.entity.Emoji;
 
