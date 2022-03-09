@@ -1,4 +1,4 @@
-package ds.com.phoncnic.service;
+package ds.com.phoncnic.service.qna;
 
 import java.util.function.Function;
 

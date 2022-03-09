@@ -1,4 +1,4 @@
-package ds.com.phoncnic.service;
+package ds.com.phoncnic.service.qna;
 
 import ds.com.phoncnic.dto.PageRequestDTO;
 import ds.com.phoncnic.dto.PageResultDTO;

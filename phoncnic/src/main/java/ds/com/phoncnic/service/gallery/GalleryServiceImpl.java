@@ -42,4 +42,11 @@ public class GalleryServiceImpl implements GalleryService {
         return new PageResultDTO<>(result, fn);
     }
 
+    @Override
+    public GalleryDTO getGallery(long gno) {
+        
+        Gallery gallery = galleryRepository.getGalleryByGno(gno);
+        
+        return entityToDTO(gallery);
+    }
 }

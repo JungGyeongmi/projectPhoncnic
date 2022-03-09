@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import ds.com.phoncnic.dto.PageRequestDTO;
-import ds.com.phoncnic.service.EmojiService;
-import ds.com.phoncnic.service.QnaService;
+import ds.com.phoncnic.service.emoji.EmojiService;
+import ds.com.phoncnic.service.qna.QnaService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 

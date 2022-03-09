@@ -1,4 +1,4 @@
-package ds.com.phoncnic.service;
+package ds.com.phoncnic.service.emoji;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +25,19 @@ public class EmojiServiceImpl implements EmojiService {
         //  emojiList.stream().map(emoji::entityToDTO)
         // .collect(Collectors.toList());
         
+        List<EmojiDTO> emojiDTOList = new ArrayList<>();
+        emojiList.stream().forEach(emoji->{
+            EmojiDTO emojiDTO = entityToEmojiDTO(emoji);
+            emojiDTOList.add(emojiDTO);
+        });
+
+        return emojiDTOList;
+    }
+
+    @Override
+    public List<EmojiDTO> getEmojiList(String type, Long no) {
+        List<Emoji> emojiList = type.equals("g")?emojiRepository.getEmojiByGno(no):emojiRepository.getEmojiByDno(no);
+
         List<EmojiDTO> emojiDTOList = new ArrayList<>();
         emojiList.stream().forEach(emoji->{
             EmojiDTO emojiDTO = entityToEmojiDTO(emoji);

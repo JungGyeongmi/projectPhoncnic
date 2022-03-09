@@ -8,9 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import ds.com.phoncnic.dto.EmojiDTO;
 import ds.com.phoncnic.entity.Emoji;
-import ds.com.phoncnic.service.EmojiService;
+import ds.com.phoncnic.service.emoji.EmojiService;
 
 @SpringBootTest
 public class EmojiRepositoryTests {

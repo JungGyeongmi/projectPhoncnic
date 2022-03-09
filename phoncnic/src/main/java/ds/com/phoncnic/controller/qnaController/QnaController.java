@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import ds.com.phoncnic.dto.PageRequestDTO;
-import ds.com.phoncnic.service.QnaService;
+import ds.com.phoncnic.service.qna.QnaService;
 import lombok.RequiredArgsConstructor;
 
 @Controller
