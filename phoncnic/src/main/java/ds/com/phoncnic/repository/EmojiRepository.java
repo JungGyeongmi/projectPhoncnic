@@ -26,12 +26,20 @@ public interface EmojiRepository extends JpaRepository<Emoji,Long>{
     // List<Emoji> getCountEmoji(String emojitype);
 
 
-    @Query("select e, count(e) from Emoji e group by e.eno ")
-    List<Emoji> getCountEmoji();
+//     @Query("select e, count(e) from Emoji e group by e.eno ")
+//     List<Emoji> getCountEmoji();
+
+//     SELECT gallery_gno, emoji_info_emojitype, 
+// COUNT( emoji_info_emojitype) FROM emoji where gallery_gno =11 GROUP BY emoji_info_emojitype ;
 
 
+// @Query("select e, count(e.emojitype) from Emoji e where e.gno =:gno group by e.emojitype ")
+// List<Emoji> getCountEmoji(Long gno);
 
-    // @Query("select e, count(e.emojitype) from Emoji e group by gno ")
+@Query("select e.emojiInfo.emojitype, count(e.emojiInfo.emojitype) from Emoji e where e.gallery.gno = :gno group by e.emojiInfo.emojitype")
+    List<Object[]> getEmojiCountByGno(Long gno);
+
+// @Query("select e, count(e.emojitype) from Emoji e group by gno ")
     // List<Emoji> getCountEmoji(Long gno);
 
 }
