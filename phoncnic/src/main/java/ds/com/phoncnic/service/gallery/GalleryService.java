@@ -10,7 +10,6 @@ import ds.com.phoncnic.entity.Member;
 
 public interface GalleryService {
     
-<<<<<<< HEAD
     // 상세페이지
     GalleryDTO getGallery(long gno);
 
@@ -18,9 +17,6 @@ public interface GalleryService {
     List<GalleryDTO> getGalleryList(Boolean type);
     
     // Paging처리
-=======
-    GalleryDTO getGallery(long gno);
->>>>>>> gallery_ng
     PageResultDTO<GalleryDTO, Gallery> getPhotoList(PageRequestDTO PageRequestDTO);
     PageResultDTO<GalleryDTO, Gallery> getPaintingList(PageRequestDTO PageRequestDTO);
 

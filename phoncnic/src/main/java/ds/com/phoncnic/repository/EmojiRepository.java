@@ -20,8 +20,6 @@ public interface EmojiRepository extends JpaRepository<Emoji,Long>{
     @Query("select e from Emoji e where e.dyning.dno=:dno")
     List<Emoji> getEmojiByDno(Long dno);
     
-<<<<<<< HEAD
-=======
     // @Query("select e, count(e) from Emoji e where e.gallery.gno=:gno group by e.gallery.gno ")
     // List<Emoji> getCountEmoji(Long gno);
 
@@ -34,5 +32,4 @@ public interface EmojiRepository extends JpaRepository<Emoji,Long>{
 
     @Query("select e.emojiInfo.emojitype, count(e.emojiInfo.emojitype) from Emoji e where e.gallery.gno = :gno group by e.emojiInfo.emojitype")
     List<Object[]> getEmojiCountByGno(Long gno);
->>>>>>> gallery_ng
 }
