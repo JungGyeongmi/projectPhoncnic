@@ -19,30 +19,31 @@ public class DyningController {
     
     private final DyningService dyningService;
     
-    // 제안
-    @GetMapping({"/{choice}", "/{choice}/list/","/{choice}/list"})
-    public String getList(@PathVariable("choice") String choice, Model model, PageRequestDTO pageRequestDTO) {
-        log.info(choice+"list.................");
-        model.addAttribute("result", dyningService.getList(pageRequestDTO));
+    // // 제안
+    // @GetMapping({"/{choice}", "/{choice}/list/","/{choice}/list"})
+    // public String getList(@PathVariable("choice") String choice, Model model, PageRequestDTO pageRequestDTO) {
+    //     log.info(choice+"list.................");
+    //     model.addAttribute("result", dyningService.getList(pageRequestDTO));
 
-        return "dyning/"+choice+"/list";
-    }
+    //     return "dyning/"+choice+"/list";
+    // }
 
 
-    // 음식점 거리 페이지
-    /*@GetMapping("/restaurant/list")
-    public void restaurantList(Model model, PageRequestDTO pageRequestDTO) {
-        log.info("restaurant list...........");
-        model.addAttribute("result", dyningService.getList(pageRequestDTO));
+    // // 음식점 거리 페이지
+    // @GetMapping("/restaurant/list")
+    // public void restaurantList(Model model, PageRequestDTO pageRequestDTO) {
+    //     log.info("restaurant list...........");
+    //     model.addAttribute("result", dyningService.getList(pageRequestDTO));
 
-    }
+    // }
 
     // 카페 거리 페이지
     @GetMapping("/cafe/list")
-    public void cafeList(Model model, PageRequestDTO pageRequestDTO) {
+    public void cafeList(Model model) {
         log.info("cafe list.................");
-        model.addAttribute("result", dyningService.getList(pageRequestDTO));
+        model.addAttribute("result", dyningService.getStreet());
     }
-    */
+
+    
 
 }

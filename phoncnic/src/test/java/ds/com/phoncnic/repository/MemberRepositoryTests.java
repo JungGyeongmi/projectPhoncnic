@@ -6,9 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import ds.com.phoncnic.dto.MemberDTO;
 import ds.com.phoncnic.entity.Member;
-import ds.com.phoncnic.service.MemberService;
 import lombok.extern.log4j.Log4j2;
 
 @SpringBootTest
@@ -21,9 +19,9 @@ public class MemberRepositoryTests {
     @Autowired
     MemberRepository memberRepository;
 
-    @Autowired
-    MemberService memberService;
-
+    // @Autowired
+    // MemberService memberService;
+    
     @Test
     public void insertDummies() {
 
@@ -42,21 +40,21 @@ public class MemberRepositoryTests {
 
     }
 
-    @Test
-    public void getMypageData() {
+    // @Test
+    // public void getMypageData() {
 
-        Object result = repository.getMypageData("user1@icloud.com");
-        Object[] arr = (Object[]) result;
-        System.out.println(arr[0]);
-        System.out.println(arr[1]);
-    }
+    //     Object result = repository.getMypageData("user1@icloud.com");
+    //     Object[] arr = (Object[]) result;
+    //     System.out.println(arr[0]);
+    //     System.out.println(arr[1]);
+    // }
 
-    @Test
-    public void getMypageDTO() {
+    // @Test
+    // public void getMypageDTO() {
 
-        MemberDTO memberDTO = memberService.getMyPage("user1@icloud.com");
+    //     MemberDTO memberDTO = memberService.getMyPage("user1@icloud.com");
 
-        log.info(memberDTO);
+    //     log.info(memberDTO);
 
-    }
+    // }
 }

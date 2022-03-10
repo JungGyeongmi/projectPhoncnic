@@ -5,9 +5,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,7 +29,7 @@ public class Gallery extends BaseEntity {
 
     private String title;
     private String content;
-    private String imagenmae;
+    private String imagename;
     private String imagepath;
     
     @ManyToOne(fetch = FetchType.LAZY)
