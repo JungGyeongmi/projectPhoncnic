@@ -8,7 +8,7 @@ import ds.com.phoncnic.entity.Member;
 
 public interface GalleryService {
     
-    PageResultDTO<GalleryDTO, Gallery> getList(PageRequestDTO PageRequestDTO);
+    // PageResultDTO<GalleryDTO, Gallery> getList(PageRequestDTO PageRequestDTO);
 
     default Gallery dtoToEntity(GalleryDTO galleryDTO) {
 

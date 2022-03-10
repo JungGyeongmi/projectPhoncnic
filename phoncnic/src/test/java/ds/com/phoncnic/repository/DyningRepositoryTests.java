@@ -1,19 +1,20 @@
 package ds.com.phoncnic.repository;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.IntStream;
+
+import javax.transaction.Transactional;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 
 import ds.com.phoncnic.entity.Dyning;
 import ds.com.phoncnic.entity.DyningImage;
 import ds.com.phoncnic.entity.Member;
+import ds.com.phoncnic.entity.RoofDesign;
 
 @SpringBootTest
 public class DyningRepositoryTests {
@@ -24,6 +25,9 @@ public class DyningRepositoryTests {
     @Autowired
     DyningImageRepository dyningImageRepository;
 
+    @Autowired
+    RoofDesignRepository roofDesignRepository;
+
     @Test
     public void insertDyning() {
 
@@ -31,15 +35,20 @@ public class DyningRepositoryTests {
 
             Member member = Member.builder().id("user" + i + "@icloud.com").build();
 
+            long roof = (long) (Math.random() * 5 + 1);
+
+            RoofDesign roofDesign = RoofDesign.builder()
+                    .oono(roof).build();
+
             Dyning dyning = Dyning.builder()
                     .dyningname("가게이름" + i)
-                    .roofdesign((int) (Math.random() * 5)) 
-                    .location("실제가게위치" + i)
-                    .foodtype((int) (Math.random() * 5))
-                    .businesshours("영업시간" + i)
                     .comment("사장님 한 마디" + i)
+                    .location("실제가게위치" + i)
+                    .foodtype(roof)
+                    .businesshours("영업시간" + i)
                     .hashtag("해쉬태그" + i)
                     .ceoid(member)
+                    .roofdesign(roofDesign)
                     .build();
 
             dyningRepository.save(dyning);
@@ -52,25 +61,22 @@ public class DyningRepositoryTests {
                         .backgroundpath("backgroundpath" + j)
                         .dyning(dyning)
                         .build();
+
                 dyningImageRepository.save(dyningImage);
             }
+
         });
     }
 
-
+    @Transactional
     @Test
-    public void testGetListDyning() {
-        Pageable pageable = PageRequest.of(0, 10, Sort.by("dno").descending());
-        
-        Page<Object[]> result = dyningRepository.getListPage(pageable);
-        
-        System.out.println(result);
+    public void Test() {
+        Optional<Dyning> result = dyningRepository.findById(1L);
+        Object roof = result.get().getRoofdesign();
+        System.out.println(roof);
 
-        result.get().forEach(row -> {
-            Object[] arr = (Object[]) row;
-            System.out.println(Arrays.toString(arr));
-            System.out.println(arr[0]);
-            System.out.println(arr[1]);
-        });
     }
+
+    
+
 }

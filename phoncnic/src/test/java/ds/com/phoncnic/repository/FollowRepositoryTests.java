@@ -35,7 +35,7 @@ public class FollowRepositoryTests {
             rand = (int)(Math.random()*10)+1;
 
             Follow follow = Follow.builder()
-                .followid("user"+rand+"@iclouc.com")
+                // .followid("user"+rand+"@iclouc.com")
                 .dyning(dyning)
                 .gallery(gallery)
                 .follower(member)
