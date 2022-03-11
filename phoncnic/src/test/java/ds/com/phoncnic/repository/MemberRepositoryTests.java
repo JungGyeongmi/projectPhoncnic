@@ -19,6 +19,9 @@ public class MemberRepositoryTests {
     @Autowired
     MemberRepository memberRepository;
 
+    // @Autowired
+    // MemberService memberService;
+    
     @Test
     public void insertDummies() {
 

@@ -22,6 +22,22 @@ public class CharacterLookRepositoryTests {
 
     @Autowired
     private CharacterLookInfoRepository characterLookInforepository;
+
+    //ChracterLookInfo 더미
+    @Test
+    public void insertChracterimg(){
+
+        IntStream.rangeClosed(1, 3).forEach(i->{
+            CharacterLookInfo characterLookinfo = CharacterLookInfo.builder()
+            .hairname("hair"+i)
+            .hairpath(UUID.randomUUID().toString())
+            .clothesname("clothes"+i)
+            .clothespath(UUID.randomUUID().toString())
+            .build();
+            characterLookInforepository.save(characterLookinfo);
+        });
+    }
+
     //ChracterLook 더미
     //멈춰!!!! 밑에 ChracterLookinfo 먼저 인서트 하고 오시오!!!!!!!!!!!!!!
     @Test
@@ -45,28 +61,13 @@ public class CharacterLookRepositoryTests {
         });
     }
 
-    //ChracterLookInfo 더미
-    @Test
-    public void insertChracterimg(){
-
-        IntStream.rangeClosed(1, 3).forEach(i->{
-            CharacterLookInfo characterLookinfo = CharacterLookInfo.builder()
-            .hairname("hair"+i)
-            .hairpath(UUID.randomUUID().toString())
-            .clothesname("clothes"+i)
-            .clothespath(UUID.randomUUID().toString())
-            .build();
-            characterLookInforepository.save(characterLookinfo);
-        });
-    }
-
-    @Test
-    public void TestGetCharacterLook() {
+    // @Test
+    // public void TestGetCharacterLook() {
     
-    CharacterLookInfo result = characterLookInforepository.getCharacterImgs("user1@icloud.com");
-    System.out.println(result.getHairpath());
-    System.out.println(result.getClothespath());
+    // CharacterLookInfo result = characterLookInforepository.getCharacterImgs("user1@icloud.com");
+    // System.out.println(result.getHairpath());
+    // System.out.println(result.getClothespath());
 
     
-    }
+    // }
 }
