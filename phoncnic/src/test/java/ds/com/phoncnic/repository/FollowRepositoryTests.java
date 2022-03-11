@@ -23,26 +23,27 @@ public class FollowRepositoryTests {
     @Test
     public void insertDummies() {
 
-        IntStream.rangeClosed(1, 30).forEach(i->{
+        IntStream.rangeClosed(1, 20).forEach(i -> {
 
-            int rand = (int)(Math.random()*10)+1;
-            
-            Dyning dyning = Dyning.builder().dno(rand).build();
-            Gallery gallery = Gallery.builder().gno((long)rand).build();
-            Member member = Member.builder().id("user"+rand+"iclooud.com").build();
-            
-            
-            rand = (int)(Math.random()*10)+1;
+            Dyning dyning = Dyning.builder()
+                    .ceoid(Member.builder().id("user" + (Math.random() * 10) + 1 + "icloud.com").build())
+                    .build();
+
+            Gallery gallery = Gallery.builder()
+                    .artistid(Member.builder().id("user" + (Math.random() * 10) + 1 + "icloud.com").build())
+                    .build();
+
+            Member member = Member.builder().id("user" + (Math.random() * 10) + 1 + "icloud.com").build();
 
             Follow follow = Follow.builder()
-                // .followid("user"+rand+"@iclouc.com")
-                .dyning(dyning)
-                .gallery(gallery)
-                .follower(member)
-            .build();
+                    .myid(member)
+                    .ceoid(dyning)
+                    .artistid(gallery)
+                    .build();
 
             followRepository.save(follow);
-        }); 
+        });
+
     }
 
 }
