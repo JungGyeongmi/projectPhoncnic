@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import ds.com.phoncnic.dto.DyningDTO;
 import ds.com.phoncnic.dto.PageRequestDTO;
@@ -43,6 +44,7 @@ public class DyningController {
         log.info("cafe list.................");
         model.addAttribute("result", dyningService.getStreet());
     }
+
     @GetMapping("/restaurant/list")
     public void restaurant(Model model) {
         log.info("restaurant list.................");
@@ -50,10 +52,10 @@ public class DyningController {
     }
 
     @GetMapping("/restaurant/details")
-    public void details(Long dno, PageRequestDTO pageRequestDTO, Model model) {
-        log.info("dno: " + dno);
-        DyningDTO dyningDTO = dyningService.getDyningDetails(dno);
-        model.addAttribute("dto", dyningDTO);
+    public void restaurantDetails(@RequestParam("dno") Long dno, Model model) {
+        log.info("restaurantDetails.................");
+        model.addAttribute("result", dyningService.getDyningDetails(dno));
+        model.addAttribute("imageresult", dyningService.getDyningDetails(dno).getDyningImageDTOList());
     }
 
 }

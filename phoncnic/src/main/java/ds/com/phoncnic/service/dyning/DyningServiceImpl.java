@@ -1,8 +1,8 @@
 package ds.com.phoncnic.service.dyning;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
@@ -78,21 +78,12 @@ public class DyningServiceImpl implements DyningService {
     List<DyningDTO> DyningList = result.stream().map(entity -> roofEntityToDTO(entity)).collect(Collectors.toList());
     return DyningList;
   }
-
   @Override
   public DyningDTO getDyningDetails(Long dno) {
-    List<Object[]> result = dyningRepository.getDetailsPage(dno);
-
-    Dyning dyning = (Dyning) result.get(1)[0];
-
-    List<DyningImage> dyningImageList = new ArrayList<>();
-
-    result.forEach(arr -> {
-      DyningImage dyningImage = (DyningImage) arr[1];
-      dyningImageList.add(dyningImage);
-    });
-
-    return entityToDTO(dyning, dyningImageList);
+    Optional<Dyning> dyningList= dyningRepository.findById(dno);
+    Dyning dyning = dyningList.get();
+    List<DyningImage> dyningImageList = dyningRepository.getImageDetailsPage(dno);
+    return entityToDTO(dyning,dyningImageList);
   }
 }
 

@@ -11,19 +11,21 @@
 <body>
     <h1>restaurant</h1>
     <table border="1" >
-        <tr>
+        <tr >
             <th scope="col">dyningname</th>
             <th scope="col">Roof Path</th>
         </tr>
-        <tr  th:each="dto : ${result}" th:if="${dto.foodtype}!=1">
+        <tr  th:each="dto : ${result}" 
+        th:onclick="'location.href=
+        \''+ @{/dyning/restaurant/details(dno=${dto.dno})}
+             + '\''"
+              th:if="${dto.foodtype}!=1">
             <!-- <td >[[${dto.dno}]]</td> -->
-            <td>[[${dto.dyningname}]]</td>
+            <td >[[${dto.dyningname}]]</td>
             <!-- <td>[[${dto.foodtype}]]</td> -->
             <td>[[${dto.roofpath}]]</td>
-
         </tr>
     </table>
-
 </body>
 
 </html>
