@@ -18,16 +18,19 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@ToString (exclude = "member")
+@ToString (exclude = {"member", "characterLookinfo"})
 public class CharacterLook extends BaseEntity{
  
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long lno;
 
-    private long hair;
-    private long clothes;
+    private String hairname;
+    private String clothesname;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    Member member;
+    private Member member;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private CharacterLookInfo characterLookinfo;
 }

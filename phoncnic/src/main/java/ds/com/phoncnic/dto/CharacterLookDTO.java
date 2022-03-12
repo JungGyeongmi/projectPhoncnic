@@ -10,6 +10,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class CharacterLookDTO {
-    private String hair;
-    private String clothes;
+    private String hairname;
+    private String hairpath;
+    private String clothesname;
+    private String clothespath;
+
 }

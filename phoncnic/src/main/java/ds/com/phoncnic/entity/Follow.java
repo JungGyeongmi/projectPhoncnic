@@ -1,10 +1,10 @@
 package ds.com.phoncnic.entity;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import lombok.AllArgsConstructor;
@@ -18,18 +18,18 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@ToString(exclude = {"follower", "dyning", "gallery"})
+@ToString
 public class Follow {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long fno;
+    private int fno;
 
     @ManyToOne
     private Member follower;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Dyning dyning;
+    private String dyningname;
+    private String artistname;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Gallery gallery;
+
 }
