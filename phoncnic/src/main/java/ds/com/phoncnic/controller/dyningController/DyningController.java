@@ -51,11 +51,12 @@ public class DyningController {
         model.addAttribute("result", dyningService.getStreet());
     }
 
-    @GetMapping("/restaurant/details")
+    @GetMapping("/details")
     public void restaurantDetails(@RequestParam("dno") Long dno, Model model) {
-        log.info("restaurantDetails.................");
+        log.info("dyningDetails.................");
         model.addAttribute("result", dyningService.getDyningDetails(dno));
         model.addAttribute("imageresult", dyningService.getDyningDetails(dno).getDyningImageDTOList());
     }
+
 
 }
