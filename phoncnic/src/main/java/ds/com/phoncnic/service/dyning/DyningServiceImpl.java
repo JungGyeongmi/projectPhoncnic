@@ -2,6 +2,7 @@ package ds.com.phoncnic.service.dyning;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -10,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import ds.com.phoncnic.dto.DyningDTO;
 import ds.com.phoncnic.entity.Dyning;
-import ds.com.phoncnic.entity.RoofDesign;
 import ds.com.phoncnic.repository.DyningImageRepository;
 import ds.com.phoncnic.repository.DyningRepository;
 import ds.com.phoncnic.repository.RoofDesignRepository;
@@ -73,16 +73,13 @@ public class DyningServiceImpl implements DyningService {
 
 
   @Override
-  public DyningDTO getStreet() {
-    List<Object[]> result = dyningRepository.getStreetList();
-    Dyning dyning = (Dyning) result.get(0)[0];
-    RoofDesign roof = (RoofDesign)result.get(0)[1];
-
-
-    return roofEntityToDTO(dyning, roof);
-
+  public List<DyningDTO> getStreet() {
+    List<Dyning> result = dyningRepository.getStreetList();
+    List<DyningDTO> DyningList =result.stream().map(entity -> roofEntityToDTO(entity)).collect(Collectors.toList());
+    return DyningList;
   }
 }
+
 
 //   @Override
 //   public BoardDTO get(Long bno) {

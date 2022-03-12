@@ -1,5 +1,6 @@
 package ds.com.phoncnic.repository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
@@ -74,6 +75,15 @@ public class DyningRepositoryTests {
         Object roof = result.get().getRoofdesign();
         System.out.println(roof);
 
+    }
+
+    
+    @Test
+    public void Test2() {
+        List<Dyning> result = dyningRepository.getStreetList();
+        result.forEach(i->{
+            System.out.println(i);
+        });
     }
 
     

@@ -18,7 +18,7 @@ public interface DyningRepository extends JpaRepository <Dyning, Long> {
     
     //거리에서 루프디자인/가게명/루프패스
     @Query ("SELECT d, r FROM Dyning d LEFT JOIN RoofDesign r ON d.roofdesign = r.oono")
-    List<Object[]> getStreetList(); 
+    List<Dyning> getStreetList(); 
     
     // @Query("SELECT d, r FROM Dyning d LEFT JOIN RoofDesign r ON d.roofdesign = r.oono where d.foodtype != 1L")
     // List<Object[]> getRestaurantList();
