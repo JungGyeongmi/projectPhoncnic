@@ -10,13 +10,13 @@ import ds.com.phoncnic.service.qna.QnaService;
 import lombok.RequiredArgsConstructor;
 
 @Controller
-@RequestMapping("/qna")
+@RequestMapping("/help")
 @RequiredArgsConstructor
 public class QnaController {
     
     private final QnaService qnaService;
 
-    @GetMapping({"/", "/list"})
+    @GetMapping({"", "/", "/list"})
     public String getQnaHome(PageRequestDTO pageRequestDTO, Model model) {
 
         model.addAttribute("result", qnaService.getQnaList(pageRequestDTO));
