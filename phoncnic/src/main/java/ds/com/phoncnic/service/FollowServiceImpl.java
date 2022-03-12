@@ -1,6 +1,6 @@
 package ds.com.phoncnic.service;
 
-import java.util.Optional;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,8 +21,8 @@ public class FollowServiceImpl implements FollowService{
 
     @Override
     public FollowDTO getFollow(String id){
-        // Optional<Member> memberOptional = memberRepository.findById(id);
-        Follow follow=followRepository.getFollowList(id);
-        return entityToDTO(follow);
+        List artistList = followRepository.getartistnameList(id);
+        List dyningList = followRepository.getdyningnameList(id);
+        return entityToDTO(artistList,dyningList);
     }
 }

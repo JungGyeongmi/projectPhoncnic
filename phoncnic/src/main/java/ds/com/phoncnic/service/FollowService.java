@@ -1,18 +1,19 @@
 package ds.com.phoncnic.service;
 
+import java.util.Arrays;
+import java.util.List;
+
 import ds.com.phoncnic.dto.FollowDTO;
 import ds.com.phoncnic.entity.Follow;
-import ds.com.phoncnic.entity.Member;
 
 public interface FollowService {
 
     FollowDTO getFollow(String id);    
     
-    default FollowDTO entityToDTO(Follow follow){
+    default FollowDTO entityToDTO(List artistList,List dyningList){
         FollowDTO followDTO = FollowDTO.builder()
-        .followerid(follow.getFollower().getId())
-        .artistname(follow.getArtistname())
-        .dyningname(follow.getDyningname())
+        .artistname(artistList)
+        .dyningname(dyningList)
         .build();
         return followDTO;
     }

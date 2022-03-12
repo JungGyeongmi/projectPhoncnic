@@ -19,7 +19,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@ToString(exclude = {"dyningname", "artistname"})
+@ToString
 public class Follow {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
