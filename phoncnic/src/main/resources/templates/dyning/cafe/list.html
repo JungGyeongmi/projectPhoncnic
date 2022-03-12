@@ -14,8 +14,9 @@
 
     <table>
         <tr th:each="dto : ${result}">
-            <td th:text = "${dto.dyningname}"></td>
-            <td th:text = "${dto.roofpath}"></td>
+            <td>[[${dto}]]</td>
+            <!-- <td th:text = "${dto.dyningname}"></td>
+            <td th:text = "${dto.roofpath}"></td> -->
 
         </tr>
     </table>

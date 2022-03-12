@@ -69,6 +69,7 @@ public interface DyningService {
                 .comment(dyning.getComment())
                 .tel(dyning.getTel())
                 .hashtag(dyning.getHashtag())
+                .tel(dyning.getTel())
                 .id(dyning.getCeoid().getId())
                 .oono(dyning.getRoofdesign().getOono())
                 .regdate(dyning.getRegDate())
@@ -91,14 +92,13 @@ public interface DyningService {
         return dyningDTO;
 
     }
-
-    DyningDTO getStreet();
-
+    List<DyningDTO> getStreet();
     // DyningDTO getRoof();
-    default DyningDTO roofEntityToDTO(Dyning dyning, RoofDesign roofDesign) {
+    default DyningDTO roofEntityToDTO(Dyning dyning) {
         DyningDTO dyningDTO = DyningDTO.builder()
                 .dyningname(dyning.getDyningname())
-                .roofpath(roofDesign.getRoofpath())
+                .roofpath(dyning.getRoofdesign().getRoofpath())
+                .foodtype(dyning.getFoodtype())
                 .build();
 
         return dyningDTO;

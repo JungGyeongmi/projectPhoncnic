@@ -16,12 +16,11 @@ public interface DyningRepository extends JpaRepository<Dyning, Long> {
     // "group by d")
     // Page<Object[]> getListPage(Pageable pageable);
 
-    // 거리에서 루프디자인/가게명/루프패스
-    @Query("SELECT d, r FROM Dyning d LEFT JOIN RoofDesign r ON d.roofdesign = r.oono")
-    List<Object[]> getStreetList();
+    //거리에서 루프디자인/가게명/루프패스
+    @Query ("SELECT d, r FROM Dyning d LEFT JOIN RoofDesign r ON d.roofdesign = r.oono")
+    List<Dyning> getStreetList();
 
-    // @Query("SELECT d, r FROM Dyning d LEFT JOIN RoofDesign r ON d.roofdesign =
-    // r.oono where d.foodtype != 1L")
+    // @Query("SELECT d, r FROM Dyning d LEFT JOIN RoofDesign r ON d.roofdesign = r.oono where d.foodtype != 1L")
     // List<Object[]> getRestaurantList();
 
     // 특정 가게 상세페이지
