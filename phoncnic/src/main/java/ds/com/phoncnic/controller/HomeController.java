@@ -42,7 +42,7 @@ public class HomeController {
     @GetMapping("/crossroad/dyning/{choice}")
     public String crossRoadToDyning(@PathVariable("choice") String choice) {
         log.info("get"+choice+".......");
-        return "redirect:/dyning/"+choice;
+        return "redirect:/dyning/"+choice+"/list";
     }
 
     @GetMapping("/main/companyinfo")
