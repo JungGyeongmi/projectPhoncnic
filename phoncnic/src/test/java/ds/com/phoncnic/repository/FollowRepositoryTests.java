@@ -17,10 +17,9 @@ public class FollowRepositoryTests {
     FollowRepository followRepository;
 
     @Test
-
-    public void insertFollowDummies() {
-        IntStream.rangeClosed(1, 10).forEach(i -> {
-            int num = (int) (Math.random() * 10 + 1);
+    public void insertFollowDummies(){
+        IntStream.rangeClosed(1, 10).forEach(i->{
+            int num = (int)(Math.random()*10+1);
             Follow follow = Follow.builder()
                     .follower(Member.builder().id("user" + i + "@icloud.com").build())
                     .artistname("user" + num)
@@ -28,7 +27,6 @@ public class FollowRepositoryTests {
                     .build();
 
             followRepository.save(follow);
-
         });
     }
 
@@ -45,15 +43,31 @@ public class FollowRepositoryTests {
                     .build();
 
             followRepository.save(follow);
+        });
+    }
+
+    @Test
+    public void insertFollowDummies3(){
+        IntStream.rangeClosed(1, 1).forEach(i->{
+
+            int num = (int)(Math.random()*10+1);
+
+            Follow follow = Follow.builder()
+            .follower(Member.builder().id("user"+1+"@icloud.com").build())
+            .artistname("user"+num)
+            .build();
+
+            followRepository.save(follow);
+
 
         });
     }
 
     @Test
-    public void TestGetFollowList() {
-        String id = "user1@icloud.com";
-        List result1 = followRepository.getartistnameList(id);
-        List result2 = followRepository.getdyningnameList(id);
+    public void TestGetFollowList(){
+        String id="user1@icloud.com";
+       List<Object> result1 =followRepository.getartistnameList(id);
+       List<Object> result2 =followRepository.getdyningnameList(id);
         System.out.println(result1);
         System.out.println(result2);
 

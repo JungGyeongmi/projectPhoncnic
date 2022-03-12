@@ -9,16 +9,18 @@
 <body>
     <h1>전시회입니다요</h1>
     <ul>
-        <li th:each="dto : ${result.dtoList}">
-            [[${dto}]]
+        <li th:each="item : ${galleryDTOList}">
+            [[${item}]]
         </li>
     </ul>
 
-    <form th:action="@{/gallery/list}" method="POST">
+    <!--/*[
+     <form th:action="@{/gallery/list}" method="POST">
         <input type="text" th:value="${result.dtoList[0].content}" name="galleryCt">
-        <!-- <input type="hidden" th:value="${result.dtoList}" name="GDTO"> -->
+        <input type="hidden" th:value="${result.dtoList}" name="GDTO">
         <input type="submit" value="modify">
-    </form>
+    </form> 
+    ]*/-->
 
 
 </html>
