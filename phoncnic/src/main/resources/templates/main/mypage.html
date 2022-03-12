@@ -2,7 +2,8 @@
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
     <h1>mypage</h1>
     
-<table>
+    
+<table border="1">
     <tr>
         <th scope="col">아이디</th>
         <th scope="col">닉네임</th>
@@ -20,17 +21,36 @@
         <td><img th:src="${dto.hairpath}" alt=""></td>
         <td>[[${dto.clothesname}]]</td>
         <td><img th:src="${dto.clothespath}" alt=""></td>
-
+    </tr>
+    <tr>
+        <th scope="col">내 아이디</th>
+        <th scope="col">팔로우한 가게</th>
+        <th scope="col">팔로우한 작가</th>
 
     </tr>
+    <tr th:each="fdto : ${followDTO}">
+        <td >[[${fdto.followerid}]]</td>
+        <td >[[${fdto.dyningname}]]</td>
+        <td >[[${fdto.artistname}]]</td>
+      
+    </tr>
+ 
 </table>
+
 <ul>
     <li th:each="dto : ${mypageDTO}">
         [[${dto}]]
     </li>
 </ul>
-<p>1</p>
-<img src="/Users/heo/ProjectJAVA/Phoncnic/phoncnic/src/main/resources/static/look/safariclothes.jpeg" alt="">
+<ul >
+    <li th:each="fdto : ${followDTO}">
+        [[${fdto}]]
+    </li>
+</ul>
+
+
+
+
 
     
 </html>

@@ -8,6 +8,7 @@ public interface MyPageService {
     
     MyPageDTO getMyPage(String id);
     // void modify(MemberDTO dto);
+    // void modify(MyPageDTO myPageDTO);
 
 
     default Member dtoToEntity(MyPageDTO mypageDTO) {

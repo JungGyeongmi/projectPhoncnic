@@ -1,5 +1,6 @@
 package ds.com.phoncnic.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -18,7 +19,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@ToString(exclude = {"follower", "dyning", "gallery"})
+@ToString
 public class Follow {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,10 +27,9 @@ public class Follow {
 
     @ManyToOne
     private Member follower;
+    
+    private String dyningname;
+    private String artistname;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Dyning dyning;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Gallery gallery;
+    
 }
