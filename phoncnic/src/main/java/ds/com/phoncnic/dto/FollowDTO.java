@@ -18,9 +18,9 @@ public class FollowDTO {
     // private String dyningname;
     // private String artistname;
 
-    private List<String> dyningname;
+    private List<Object> dyningname;
     
-    private List<String> artistname;
+    private List<Object> artistname;
 
     
 }
