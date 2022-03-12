@@ -24,6 +24,7 @@ public class DyningDTO {
     private String comment;
     private String hashtag;
     private LocalDateTime regdate, moddate;
+    private String tel;
     
     private String id;
     

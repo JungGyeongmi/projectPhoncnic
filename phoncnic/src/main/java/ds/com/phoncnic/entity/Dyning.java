@@ -37,6 +37,7 @@ public class Dyning extends BaseEntity {
     private String location;
     private Long foodtype;
     private String businesshours;
+    private String tel;
 
     private String hashtag;
     

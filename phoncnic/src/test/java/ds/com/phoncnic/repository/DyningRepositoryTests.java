@@ -43,6 +43,7 @@ public class DyningRepositoryTests {
                     .comment("사장님 한 마디" + i)
                     .location("실제가게위치" + i)
                     .foodtype(roof)
+                    .tel("051-1234-1234")
                     .businesshours("영업시간" + i)
                     .hashtag("해쉬태그" + i)
                     .ceoid(member)
