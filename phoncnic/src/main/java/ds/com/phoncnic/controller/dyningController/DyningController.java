@@ -5,6 +5,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import ds.com.phoncnic.dto.DyningDTO;
+import ds.com.phoncnic.dto.PageRequestDTO;
 import ds.com.phoncnic.service.dyning.DyningService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -40,6 +42,13 @@ public class DyningController {
     public void cafeList(Model model) {
         log.info("cafe list.................");
         model.addAttribute("result", dyningService.getStreet());
+    }
+
+    @GetMapping("/restaurant/details")
+    public void details(Long dno, PageRequestDTO pageRequestDTO, Model model) {
+        log.info("dno: " + dno);
+        DyningDTO dyningDTO = dyningService.getDyningDetails(dno);
+        model.addAttribute("dto", dyningDTO);
     }
 
 }

@@ -30,6 +30,7 @@ public interface DyningService {
                 .location(dto.getLocation())
                 .businesshours(dto.getBusinesshours())
                 .comment(dto.getComment())
+                .tel(dto.getTel())
                 .hashtag(dto.getHashtag())
                 .roofdesign(roofDesign)
                 .ceoid(member)
@@ -66,6 +67,7 @@ public interface DyningService {
                 .location(dyning.getLocation())
                 .businesshours(dyning.getBusinesshours())
                 .comment(dyning.getComment())
+                .tel(dyning.getTel())
                 .hashtag(dyning.getHashtag())
                 .id(dyning.getCeoid().getId())
                 .oono(dyning.getRoofdesign().getOono())
@@ -89,7 +91,9 @@ public interface DyningService {
         return dyningDTO;
 
     }
+
     DyningDTO getStreet();
+
     // DyningDTO getRoof();
     default DyningDTO roofEntityToDTO(Dyning dyning, RoofDesign roofDesign) {
         DyningDTO dyningDTO = DyningDTO.builder()
@@ -97,17 +101,18 @@ public interface DyningService {
                 .roofpath(roofDesign.getRoofpath())
                 .build();
 
-                return dyningDTO;
+        return dyningDTO;
     }
 
-    //  default DyningDTO JustRoofEntityToDTO(RoofDesign roofDesign) {
-    //     DyningDTO dyningDTO = DyningDTO.builder()
-    //             .roofpath(dyning.getRoofdesign().getRoofpath())
-    //             .build();
+    // default DyningDTO JustRoofEntityToDTO(RoofDesign roofDesign) {
+    // DyningDTO dyningDTO = DyningDTO.builder()
+    // .roofpath(dyning.getRoofdesign().getRoofpath())
+    // .build();
 
-    //             return dyningDTO;
+    // return dyningDTO;
     // }
 
-
+    // 가게 상세페이지
+    DyningDTO getDyningDetails(Long dno);
 
 }
