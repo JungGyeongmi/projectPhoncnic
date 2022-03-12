@@ -23,17 +23,29 @@
         <td><img th:src="${dto.clothespath}" alt=""></td>
     </tr>
     <tr>
-        <th scope="col">내 아이디</th>
         <th scope="col">팔로우한 가게</th>
         <th scope="col">팔로우한 작가</th>
 
     </tr>
     <tr th:each="fdto : ${followDTO}">
-        <td >[[${fdto.followerid}]]</td>
         <td >[[${fdto.dyningname}]]</td>
         <td >[[${fdto.artistname}]]</td>
-      
     </tr>
+    <tr>
+        <th scope="col">DNO</th>
+        <th scope="col">GNO</th>
+        <th scope="col">이모지타입</th>
+        <th scope="col">이모지path</th>
+        <th scope="col">등록날짜</th>
+    </tr>
+    <tr th:each="edto : ${emojiDTOList}">
+        <td >[[${edto.dno}]]</td>
+        <td >[[${edto.gno}]]</td>
+        <td >[[${edto.emojitype}]]</td>
+        <td >[[${edto.emojipath}]]</td>
+        <td >[[${edto.regdate}]]</td>
+    </tr>
+
  
 </table>
 
@@ -47,6 +59,12 @@
         [[${fdto}]]
     </li>
 </ul>
+<ul >
+    <li th:each="edto : ${emojiDTOList}">
+        [[${edto}]]
+    </li>
+</ul>
+
 
 
 

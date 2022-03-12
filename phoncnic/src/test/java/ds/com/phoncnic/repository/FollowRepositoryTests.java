@@ -1,7 +1,5 @@
 package ds.com.phoncnic.repository;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -18,8 +16,7 @@ public class FollowRepositoryTests {
     @Autowired
     FollowRepository followRepository;
 
-    @Test 
-    
+    @Test
     public void insertFollowDummies(){
         IntStream.rangeClosed(1, 10).forEach(i->{
             int num = (int)(Math.random()*10+1);
@@ -30,11 +27,9 @@ public class FollowRepositoryTests {
             .build();
 
             followRepository.save(follow);
-            
-
-            
         });
     }
+
     @Test
     public void insertFollowDummies2(){
         IntStream.rangeClosed(1, 1).forEach(i->{
@@ -48,9 +43,6 @@ public class FollowRepositoryTests {
             .build();
 
             followRepository.save(follow);
-            
-
-            
         });
     }
 

@@ -11,15 +11,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Commit;
 
+import ds.com.phoncnic.dto.GalleryDTO;
 import ds.com.phoncnic.entity.Emoji;
 import ds.com.phoncnic.entity.Gallery;
 import ds.com.phoncnic.entity.Member;
+import ds.com.phoncnic.service.gallery.GalleryService;
 
 @SpringBootTest
 public class GalleryRepositoryTests {
 
     @Autowired
     GalleryRepository galleryRepository;
+
+    @Autowired
+    GalleryService galleryService;
 
     @Autowired
     MemberRepository memberRepository;
@@ -36,6 +41,8 @@ public class GalleryRepositoryTests {
     public void insertDummise() {
         IntStream.rangeClosed(1, 10).forEach(i -> {
 
+           
+
             List<Integer> randmember = new ArrayList<>();
 
             while (randmember.size() != 10) {
@@ -48,36 +55,49 @@ public class GalleryRepositoryTests {
 
                 }
             }
-
-            Member member = Member.builder().id(
-                    memberRepository.findById("user" + i + "@icloud.com").get().getId())
-                    .build();
-
+            
+            Member member = Member.builder().id(memberRepository.findById("user" + i + "@icloud.com").get().getId()).build();
+            
+            boolean rand = (int)(Math.random()*2)!=0;
             Gallery gallery = Gallery.builder()
-                    .title(i + "title")
-                    .content(i + "content")
-                    .artistid(member)
-                    .imagepath("D:/image/imagepath/image" + i + ".jpg")
-                    .imagename("imagename" + i)
-                    .build();
+                .title(i + "title")
+                .content(i + "content")
+                .artistid(member)
+                .imagepath("D:/image/imagepath/image" + i + ".jpg")
+                .imagetype(rand)
+                .imagename("imagename" + i)
+                .build();
             galleryRepository.save(gallery);
 
             int ra = (int) (Math.random() * 5) + 1;
 
             for (int j = 0; j < ra; j++) {
                 member = Member.builder().id("user" + randmember.get(j) + "@icloud.com")
-                        .build();
+                    .build();
 
                 String emojiType = (int) (Math.random() * 4) + 1 + "";
                 Emoji emoji = Emoji.builder()
-                        .gallery(gallery)
-                        .member(member)
-                        .emojiInfo(emojiInfoRepository.findById(emojiType).get())
-                        .build();
+                    .gallery(gallery)
+                    .member(member)
+                    .emojiInfo(emojiInfoRepository.findById(emojiType).get())
+                    .build();
                 emojiRepository.save(emoji);
             }
         });
 
+    }
+
+    @Test
+    public void getGalleryTest(){
+
+        GalleryDTO galleryDTO = galleryService.getGallery(3L);
+        System.out.println(galleryDTO);
+    }
+
+    @Test
+    public void getGalleryList(){
+        List<GalleryDTO> galleryDTOList = galleryService.getGalleryList(false);
+        galleryDTOList.forEach(System.out::println);
     }
 
 }
