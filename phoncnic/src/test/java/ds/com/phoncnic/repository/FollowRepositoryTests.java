@@ -1,7 +1,5 @@
 package ds.com.phoncnic.repository;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -33,7 +31,6 @@ public class FollowRepositoryTests {
             
 
             
-<<<<<<< HEAD
         });
     }
     @Test
@@ -41,9 +38,6 @@ public class FollowRepositoryTests {
         IntStream.rangeClosed(1, 1).forEach(i->{
             
             int num = (int)(Math.random()*10+1);
-=======
-            rand = (int)(Math.random()*10)+1;
->>>>>>> gallery_gm
 
             Follow follow = Follow.builder()
             .follower(Member.builder().id("user"+1+"@icloud.com").build())
@@ -52,9 +46,6 @@ public class FollowRepositoryTests {
             .build();
 
             followRepository.save(follow);
-            
-
-            
         });
     }
 
