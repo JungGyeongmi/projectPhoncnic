@@ -42,6 +42,4 @@ public class DyningController {
         model.addAttribute("result", dyningService.getStreet());
     }
 
-    
-
 }
