@@ -13,9 +13,9 @@ public interface FollowRepository  extends JpaRepository<Follow,Long> {
     //  List<Object[]> getFollowList(String id);
      
      @Query("select artistname from Follow f where f.follower.id =:id")
-     List getartistnameList(String id);
+     List<Object> getartistnameList(String id);
      @Query("select dyningname from Follow f where f.follower.id =:id")
-     List getdyningnameList(String id);
+     List<Object> getdyningnameList(String id);
 
     
 }

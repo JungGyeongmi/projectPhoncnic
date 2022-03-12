@@ -10,7 +10,7 @@ public interface FollowService {
 
     FollowDTO getFollow(String id);    
     
-    default FollowDTO entityToDTO(List artistList,List dyningList){
+    default FollowDTO entityToDTO(List<Object> artistList,List<Object> dyningList){
         FollowDTO followDTO = FollowDTO.builder()
         .artistname(artistList)
         .dyningname(dyningList)
