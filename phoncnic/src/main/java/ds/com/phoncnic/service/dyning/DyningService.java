@@ -96,6 +96,7 @@ public interface DyningService {
     // DyningDTO getRoof();
     default DyningDTO roofEntityToDTO(Dyning dyning) {
         DyningDTO dyningDTO = DyningDTO.builder()
+                .dno(dyning.getDno())
                 .dyningname(dyning.getDyningname())
                 .roofpath(dyning.getRoofdesign().getRoofpath())
                 .foodtype(dyning.getFoodtype())
