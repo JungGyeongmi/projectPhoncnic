@@ -67,6 +67,7 @@ public interface DyningService {
                 .location(dyning.getLocation())
                 .businesshours(dyning.getBusinesshours())
                 .comment(dyning.getComment())
+                .tel(dyning.getTel())
                 .hashtag(dyning.getHashtag())
                 .tel(dyning.getTel())
                 .id(dyning.getCeoid().getId())
@@ -101,17 +102,18 @@ public interface DyningService {
                 .foodtype(dyning.getFoodtype())
                 .build();
 
-                return dyningDTO;
+        return dyningDTO;
     }
 
-    //  default DyningDTO JustRoofEntityToDTO(RoofDesign roofDesign) {
-    //     DyningDTO dyningDTO = DyningDTO.builder()
-    //             .roofpath(dyning.getRoofdesign().getRoofpath())
-    //             .build();
+    // default DyningDTO JustRoofEntityToDTO(RoofDesign roofDesign) {
+    // DyningDTO dyningDTO = DyningDTO.builder()
+    // .roofpath(dyning.getRoofdesign().getRoofpath())
+    // .build();
 
-    //             return dyningDTO;
+    // return dyningDTO;
     // }
 
-
+    // 가게 상세페이지
+    DyningDTO getDyningDetails(Long dno);
 
 }

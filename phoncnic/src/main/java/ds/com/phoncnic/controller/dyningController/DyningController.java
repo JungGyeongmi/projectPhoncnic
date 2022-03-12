@@ -5,6 +5,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import ds.com.phoncnic.dto.DyningDTO;
+import ds.com.phoncnic.dto.PageRequestDTO;
 import ds.com.phoncnic.service.dyning.DyningService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -13,25 +15,25 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 @RequiredArgsConstructor
 @RequestMapping("/dyning")
-public class DyningController {  
-    
+public class DyningController {
+
     private final DyningService dyningService;
-    
+
     // // 제안
     // @GetMapping({"/{choice}", "/{choice}/list/","/{choice}/list"})
-    // public String getList(@PathVariable("choice") String choice, Model model, PageRequestDTO pageRequestDTO) {
-    //     log.info(choice+"list.................");
-    //     model.addAttribute("result", dyningService.getList(pageRequestDTO));
+    // public String getList(@PathVariable("choice") String choice, Model model,
+    // PageRequestDTO pageRequestDTO) {
+    // log.info(choice+"list.................");
+    // model.addAttribute("result", dyningService.getList(pageRequestDTO));
 
-    //     return "dyning/"+choice+"/list";
+    // return "dyning/"+choice+"/list";
     // }
-
 
     // // 음식점 거리 페이지
     // @GetMapping("/restaurant/list")
     // public void restaurantList(Model model, PageRequestDTO pageRequestDTO) {
-    //     log.info("restaurant list...........");
-    //     model.addAttribute("result", dyningService.getList(pageRequestDTO));
+    // log.info("restaurant list...........");
+    // model.addAttribute("result", dyningService.getList(pageRequestDTO));
 
     // }
 
@@ -45,6 +47,13 @@ public class DyningController {
     public void restaurant(Model model) {
         log.info("restaurant list.................");
         model.addAttribute("result", dyningService.getStreet());
+    }
+
+    @GetMapping("/restaurant/details")
+    public void details(Long dno, PageRequestDTO pageRequestDTO, Model model) {
+        log.info("dno: " + dno);
+        DyningDTO dyningDTO = dyningService.getDyningDetails(dno);
+        model.addAttribute("dto", dyningDTO);
     }
 
 }

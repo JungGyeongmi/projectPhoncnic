@@ -12,10 +12,10 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class FollowServiceImpl implements FollowService{
+public class FollowServiceImpl implements FollowService {
     @Autowired
     private FollowRepository followRepository;
-    @Autowired 
+    @Autowired
     private MemberRepository memberRepository;
 
     @Override

@@ -21,26 +21,26 @@ public class FollowRepositoryTests {
         IntStream.rangeClosed(1, 10).forEach(i->{
             int num = (int)(Math.random()*10+1);
             Follow follow = Follow.builder()
-            .follower(Member.builder().id("user"+i+"@icloud.com").build())
-            .artistname("user"+num)
-            .dyningname("가게이름"+num)
-            .build();
+                    .follower(Member.builder().id("user" + i + "@icloud.com").build())
+                    .artistname("user" + num)
+                    .dyningname("가게이름" + num)
+                    .build();
 
             followRepository.save(follow);
         });
     }
 
     @Test
-    public void insertFollowDummies2(){
-        IntStream.rangeClosed(1, 1).forEach(i->{
-            
-            int num = (int)(Math.random()*10+1);
+    public void insertFollowDummies2() {
+        IntStream.rangeClosed(1, 1).forEach(i -> {
+
+            int num = (int) (Math.random() * 10 + 1);
 
             Follow follow = Follow.builder()
-            .follower(Member.builder().id("user"+1+"@icloud.com").build())
-            .artistname("user"+num)
-            .dyningname("가게이름"+num)
-            .build();
+                    .follower(Member.builder().id("user" + 1 + "@icloud.com").build())
+                    .artistname("user" + num)
+                    .dyningname("가게이름" + num)
+                    .build();
 
             followRepository.save(follow);
         });
@@ -49,7 +49,7 @@ public class FollowRepositoryTests {
     @Test
     public void insertFollowDummies3(){
         IntStream.rangeClosed(1, 1).forEach(i->{
-            
+
             int num = (int)(Math.random()*10+1);
 
             Follow follow = Follow.builder()
@@ -58,12 +58,10 @@ public class FollowRepositoryTests {
             .build();
 
             followRepository.save(follow);
-            
 
-            
+
         });
     }
-
 
     @Test
     public void TestGetFollowList(){
@@ -74,8 +72,8 @@ public class FollowRepositoryTests {
         System.out.println(result2);
 
         // for(Object a: result)System.out.println(a);
-        
-    //    System.out.println(Arrays.toString(arr));
+
+        // System.out.println(Arrays.toString(arr));
     }
 
 }

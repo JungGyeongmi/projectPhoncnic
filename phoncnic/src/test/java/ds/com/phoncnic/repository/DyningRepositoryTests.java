@@ -77,7 +77,7 @@ public class DyningRepositoryTests {
 
     }
 
-    
+
     @Test
     public void Test2() {
         List<Dyning> result = dyningRepository.getStreetList();
@@ -86,6 +86,6 @@ public class DyningRepositoryTests {
         });
     }
 
-    
+
 
 }
