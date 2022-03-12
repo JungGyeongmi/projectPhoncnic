@@ -41,5 +41,10 @@ public class DyningController {
         log.info("cafe list.................");
         model.addAttribute("result", dyningService.getStreet());
     }
+    @GetMapping("/restaurant/list")
+    public void restaurant(Model model) {
+        log.info("restaurant list.................");
+        model.addAttribute("result", dyningService.getStreet());
+    }
 
 }
