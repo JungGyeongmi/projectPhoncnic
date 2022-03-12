@@ -1,5 +1,6 @@
 package ds.com.phoncnic.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -19,24 +20,18 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@ToString(exclude = { "myid", "ceoid", "artistid" })
+@ToString
 public class Follow {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int fno;
 
-    // 내 ID
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Member myid;
+    @ManyToOne
+    private Member follower;
 
-    // 내가 팔로우한 가게 (list 형식)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "dyning_ceoid")
-    private Dyning ceoid;
+    private String dyningname;
+    private String artistname;
 
-    // 내가 팔로우한 아티스트들(list 형식)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "gallery_artistid")
-    private Gallery artistid;
+
 }
