@@ -1,6 +1,8 @@
 package ds.com.phoncnic.repository;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -9,26 +11,38 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import ds.com.phoncnic.entity.Emoji;
+import ds.com.phoncnic.service.emoji.EmojiService;
 
 @SpringBootTest
 public class EmojiRepositoryTests {
     
     @Autowired
-    private EmojiRepository emojiRepository;
+    EmojiRepository emojiRepository;
 
-    @Transactional
+    @Autowired
+    EmojiService emojiService;
+
+    
     @Test
+    @Transactional
     public void testGetEmojiListByMember() {
-        
-        List<Emoji> emojiList =  emojiRepository.getEmojiListByMember("user10@icloud.com");
-
-        // emojiList.forEach(System.out::println);
-        emojiList.forEach(emoji->{
-            System.out.println(emoji.getEno());
-            System.out.println(emoji.getMember());
-            System.out.println(emoji.getEmojiInfo());
-
-            // Optional<Emoji> testEmoji = emojiRepository.findById(emoji.getEno());
+        List<Emoji> emojiList =  emojiRepository.getEmojiByMember("user3@icloud.com");
+        // System.out.println(emojiList.size());
+        emojiList.stream().forEach(emoji -> {
+            System.out.println(emojiService.entityToEmojiDTO(emoji));
         });
+
+    } 
+
+    @Test
+    public void getCountEmoji(){
+        List<Object[]> result = emojiRepository.getEmojiCountByGno(1L);
+        // testResult.forEach(System.out::println);    
+        // System.out.println(result);
+        for (Object[] arr : result ) {
+            System.out.println(Arrays.toString(arr));
+            System.out.println("============");
+            //  System.out.println(arr[0]); //emojitype
+        }
     }
 }

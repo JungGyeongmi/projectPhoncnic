@@ -7,12 +7,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import ds.com.phoncnic.entity.EmojiInfo;
+import ds.com.phoncnic.service.emoji.EmojiInfoService;
 
 @SpringBootTest
 public class EmojiInfoRepositoryTests {
 
     @Autowired
     EmojiInfoRepository emojiInfoRepository;
+
+    @Autowired
+    EmojiInfoService emojiInfoService;
 
 
     @Test
@@ -29,8 +33,12 @@ public class EmojiInfoRepositoryTests {
             emojiInfoRepository.save(emojiInfo);
         
         });
+    }
 
-
+    @Test
+    public void getEmojiInfoListTest() {
+        
+        emojiInfoService.getEmojiInfoList();
 
     }
 }

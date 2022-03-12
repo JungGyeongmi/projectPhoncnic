@@ -33,6 +33,7 @@ public class FollowRepositoryTests {
             
 
             
+<<<<<<< HEAD
         });
     }
     @Test
@@ -40,6 +41,9 @@ public class FollowRepositoryTests {
         IntStream.rangeClosed(1, 1).forEach(i->{
             
             int num = (int)(Math.random()*10+1);
+=======
+            rand = (int)(Math.random()*10)+1;
+>>>>>>> gallery_gm
 
             Follow follow = Follow.builder()
             .follower(Member.builder().id("user"+1+"@icloud.com").build())
