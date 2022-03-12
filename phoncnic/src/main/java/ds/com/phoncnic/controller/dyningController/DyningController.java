@@ -6,8 +6,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import ds.com.phoncnic.dto.DyningDTO;
-import ds.com.phoncnic.dto.PageRequestDTO;
 import ds.com.phoncnic.service.dyning.DyningService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -51,7 +49,7 @@ public class DyningController {
         model.addAttribute("result", dyningService.getStreet());
     }
 
-    @GetMapping("/restaurant/details")
+    @GetMapping("/details")
     public void restaurantDetails(@RequestParam("dno") Long dno, Model model) {
         log.info("restaurantDetails.................");
         model.addAttribute("result", dyningService.getDyningDetails(dno));

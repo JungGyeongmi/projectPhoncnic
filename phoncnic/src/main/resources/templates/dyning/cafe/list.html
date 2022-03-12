@@ -10,17 +10,16 @@
 
 <body>
     <h1>cafe</h1>
-    <table border="1" >
+    <table border="1">
         <tr>
             <th scope="col">dyningname</th>
             <th scope="col">Roof Path</th>
         </tr>
-        <tr  th:each="dto : ${result}" th:if="${dto.foodtype}==1">
-            <!-- <td >[[${dto.dno}]]</td> -->
+        <tr th:each="dto : ${result}" th:if="${dto.foodtype}==1" th:onclick="'location.href=
+        \''+ @{/dyning/details(dno=${dto.dno})}
+             + '\''">
             <td>[[${dto.dyningname}]]</td>
-            <!-- <td>[[${dto.foodtype}]]</td> -->
             <td>[[${dto.roofpath}]]</td>
-
         </tr>
     </table>
 

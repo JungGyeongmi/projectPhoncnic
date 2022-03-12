@@ -17,12 +17,10 @@
         </tr>
         <tr  th:each="dto : ${result}" 
         th:onclick="'location.href=
-        \''+ @{/dyning/restaurant/details(dno=${dto.dno})}
+        \''+ @{/dyning/details(dno=${dto.dno})}
              + '\''"
               th:if="${dto.foodtype}!=1">
-            <!-- <td >[[${dto.dno}]]</td> -->
             <td >[[${dto.dyningname}]]</td>
-            <!-- <td>[[${dto.foodtype}]]</td> -->
             <td>[[${dto.roofpath}]]</td>
         </tr>
     </table>
