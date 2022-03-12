@@ -2,7 +2,6 @@ package ds.com.phoncnic.repository;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -33,16 +32,16 @@ public class EmojiRepositoryTests {
         });
 
     } 
+
     @Test
     public void getCountEmoji(){
-        List<Object[]> result = emojiRepository.getEmojiCountByGno(11L);
+        List<Object[]> result = emojiRepository.getEmojiCountByGno(1L);
         // testResult.forEach(System.out::println);    
         // System.out.println(result);
         for (Object[] arr : result ) {
             System.out.println(Arrays.toString(arr));
+            System.out.println("============");
             //  System.out.println(arr[0]); //emojitype
-            //  System.out.println(arr[1]); //count(emojitype)
-            
         }
     }
 }

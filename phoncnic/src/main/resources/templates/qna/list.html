@@ -38,13 +38,13 @@
     </th:block> -->
     <ul>
     <li th:if="${result.prev}">
-        <a th:href="@{/qna/list( page=${result.start-1} )}" tabindex="-1">Previous</a>
+        <a th:href="@{/help/list( page=${result.start-1} )}" tabindex="-1">Previous</a>
     </li>
     <li th:each="page : ${result.pageList}">
-        <a class="page-link" th:href="@{/qna/list( page=${page} )}">[[${page}]]</a>
+        <a class="page-link" th:href="@{/help/list( page=${page} )}">[[${page}]]</a>
     </li>
     <li  th:if="${result.next}">
-        <a th:href="@{/qna/list( page=${result.end+1} )}">Next</a>
+        <a th:href="@{/help/list( page=${result.end+1} )}">Next</a>
     </li>
     </ul>
 </body>

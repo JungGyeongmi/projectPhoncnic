@@ -1,12 +1,17 @@
 package ds.com.phoncnic.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import ds.com.phoncnic.dto.PageRequestDTO;
+import ds.com.phoncnic.service.qna.QnaService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
 @Controller
+@RequiredArgsConstructor
 @Log4j2
 public class HomeController {
     
@@ -37,7 +42,7 @@ public class HomeController {
     @GetMapping("/crossroad/dyning/{choice}")
     public String crossRoadToDyning(@PathVariable("choice") String choice) {
         log.info("get"+choice+".......");
-        return "redirect:/dyning/"+choice;
+        return "redirect:/dyning/"+choice+"/list";
     }
 
     @GetMapping("/main/companyinfo")
@@ -45,8 +50,4 @@ public class HomeController {
         return "/main/companyinfo";
     }
 
-    @GetMapping("/main/help")
-    public String help() {
-        return "/main/help";
-    }     
 }
