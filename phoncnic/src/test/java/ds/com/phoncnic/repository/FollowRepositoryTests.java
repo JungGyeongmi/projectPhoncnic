@@ -54,6 +54,24 @@ public class FollowRepositoryTests {
         });
     }
 
+    @Test
+    public void insertFollowDummies3(){
+        IntStream.rangeClosed(1, 1).forEach(i->{
+            
+            int num = (int)(Math.random()*10+1);
+
+            Follow follow = Follow.builder()
+            .follower(Member.builder().id("user"+1+"@icloud.com").build())
+            .artistname("user"+num)
+            .build();
+
+            followRepository.save(follow);
+            
+
+            
+        });
+    }
+
 
     @Test
     public void TestGetFollowList(){
