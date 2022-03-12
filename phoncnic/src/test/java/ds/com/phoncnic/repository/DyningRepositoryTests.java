@@ -86,6 +86,15 @@ public class DyningRepositoryTests {
         });
     }
 
+    @Test
+    public void Test4() {
+        List<DyningImage> result = dyningRepository.getImageDetailsPage(1L);
+        result.forEach(i->{
+            System.out.println(i);
+        });
+        
+    }
+
 
 
 }

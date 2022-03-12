@@ -92,6 +92,8 @@ public interface DyningService {
         return dyningDTO;
 
     }
+
+    
     List<DyningDTO> getStreet();
     // DyningDTO getRoof();
     default DyningDTO roofEntityToDTO(Dyning dyning) {
