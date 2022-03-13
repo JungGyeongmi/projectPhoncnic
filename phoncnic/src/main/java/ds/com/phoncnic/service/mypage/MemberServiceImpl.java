@@ -1,33 +1,27 @@
-package ds.com.phoncnic.service;
+package ds.com.phoncnic.service.mypage;
 
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import ds.com.phoncnic.dto.MyPageDTO;
-import ds.com.phoncnic.entity.CharacterLookInfo;
+import ds.com.phoncnic.dto.MemberDTO;
 import ds.com.phoncnic.entity.Member;
-import ds.com.phoncnic.repository.CharacterLookInfoRepository;
 import ds.com.phoncnic.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class MyPageServiceImpl implements MyPageService {
-    @Autowired
-    private CharacterLookInfoRepository CharacterLookInfoRepository;
+public class MemberServiceImpl implements MemberService {
 
     @Autowired
     private MemberRepository memberRepository;
     
     @Override
-    public MyPageDTO getMyPage(String id) {
-    CharacterLookInfo chin = CharacterLookInfoRepository.getCharacterImgs(id);    
+    public MemberDTO getMember(String id) {
     Optional<Member> memberOptional = memberRepository.findById(id);
     Member member = memberOptional.get();
-    // return entitiesToDTO((String)arr[1], (String)arr[2], (Long)arr[3],(Long)arr[4]);
-      return entitiesToMyPageDTO(member ,chin);
+      return entityToDTO(member);
     
   }
 

@@ -1,17 +1,17 @@
-package ds.com.phoncnic.service;
+package ds.com.phoncnic.service.mypage;
 
-import ds.com.phoncnic.dto.MyPageDTO;
+import ds.com.phoncnic.dto.MemberDTO;
 import ds.com.phoncnic.entity.CharacterLookInfo;
 import ds.com.phoncnic.entity.Member;
 
-public interface MyPageService {
+public interface MemberService {
     
-    MyPageDTO getMyPage(String id);
+    MemberDTO getMember(String id);
     // void modify(MemberDTO dto);
     // void modify(MyPageDTO myPageDTO);
 
 
-    default Member dtoToEntity(MyPageDTO mypageDTO) {
+    default Member dtoToEntity(MemberDTO mypageDTO) {
         Member member = Member.builder()
                 .id(mypageDTO.getId())
                 .nickname(mypageDTO.getNickname())
@@ -22,17 +22,17 @@ public interface MyPageService {
     }
 
     //엔티티들을 취합해서 MyPageDTO로 변환
-    default MyPageDTO entitiesToMyPageDTO(Member member, CharacterLookInfo characterLookInfo){
-        MyPageDTO memberDTO = MyPageDTO.builder()
+    default MemberDTO entityToDTO(Member member){
+        MemberDTO memberDTO = MemberDTO.builder()
         .id(member.getId())
         .nickname(member.getNickname())
         .password(member.getPassword())
         .regdate(member.getRegDate())
         .moddate(member.getModDate())
-        .hairname(characterLookInfo.getHairname())
-        .hairpath(characterLookInfo.getHairpath())
-        .clothesname(characterLookInfo.getClothesname())
-        .clothespath(characterLookInfo.getClothespath())
+        // .hairname(characterLookInfo.getHairname())
+        // .hairpath(characterLookInfo.getHairpath())
+        // .clothesname(characterLookInfo.getClothesname())
+        // .clothespath(characterLookInfo.getClothespath())
         .build();
         return memberDTO;
     }

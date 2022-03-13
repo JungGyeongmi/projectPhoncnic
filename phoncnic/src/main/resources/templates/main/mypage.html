@@ -6,69 +6,100 @@
 <table border="1">
     <tr>
         <th scope="col">아이디</th>
+        <th scope="col">비밀번호</th>
         <th scope="col">닉네임</th>
-        <th scope="col">캐릭터 헤어</th>
-        <th scope="col">캐릭터 img</th>
-        <th scope="col">캐릭터 옷</th>
-        <th scope="col">캐릭터 img</th>
-
+        <th scope="col">가입일</th>
+        <th scope="col">탈퇴</th>
 
     </tr>
-    <tr th:each="dto : ${mypageDTO}">
+    <tr th:each="dto : ${memberDTO}">
         <td >[[${dto.id}]]</td>
+        <td><input type="text" th:value=${dto.password} name=nickname></td>
         <td><input type="text" th:value=${dto.nickname} name=nickname></td>
-        <td>[[${dto.hairname}]]</td>
-        <td><img th:src="${dto.hairpath}" alt=""></td>
-        <td>[[${dto.clothesname}]]</td>
-        <td><img th:src="${dto.clothespath}" alt=""></td>
+        <td >[[${dto.regdate}]]</td>
+        <td ><button>회원탈퇴</button></td>
+
+    </tr>
+
+   
+</table> <br>
+    <table border="1">
+    <tr>
+        <th scope="col">hairname</th>
+        <th scope="col">hairpath</th>
+        <th scope="col">clothesname</th>
+        <th scope="col">clothespath</th>
+        <th scope="col">look 수정</th>
+
+    </tr>
+    <tr >
+        <td >
+            <select name="hair" id="">
+                <option value="">hair</option>
+                <option value="hair1">hair1</option>
+                <option value="hair2">hair2</option>
+                <option value="hair3">hair3</option>
+            </select>
+            [[${hairDTO.hairname}]]</td>
+        <td >[[${hairDTO.hairpath}]]</td>
+        <td >
+            <select name="clothes" id="">
+                <option value="">clothes</option>
+                <option value="clothes1">clothes1</option>
+                <option value="clothes2">clothes2</option>
+                <option value="clothes3">clothes3</option>
+            </select>
+            [[${clothesDTO.clothesname}]]</td>
+        <td >[[${clothesDTO.clothespath}]]</td>
+        <td >look수정</td>
+
+    </tr>
+</table> <br>
+    <table border="1">
+    <tr>
+        <th scope="col">팔로우한 artist</th>
+    </tr>
+    <tr th:each="adto : ${afollowDTO}">
+        <td>[[${adto}]]<button>팔로우취소</button></td>
     </tr>
     <tr>
-        <th scope="col">팔로우한 가게</th>
-        <th scope="col">팔로우한 작가</th>
+        <th scope="col">팔로우한 dyning</th>
+    </tr>
+    <tr th:each="ddto : ${dfollowDTO}">
+        <td>[[${ddto}]]<button>팔로우취소</button></td>
+    </tr>
+</table> <br>
 
-    </tr>
-    <tr th:each="fdto : ${followDTO}">
-        <td >[[${fdto.dyningname}]]</td>
-        <td >[[${fdto.artistname}]]</td>
-    </tr>
+    <table border="1">
     <tr>
         <th scope="col">DNO</th>
-        <th scope="col">GNO</th>
         <th scope="col">이모지타입</th>
         <th scope="col">이모지path</th>
         <th scope="col">등록날짜</th>
     </tr>
-    <tr th:each="edto : ${emojiDTOList}">
+    <tr th:each="edto : ${emojiDTO}" th:if="${edto.dno}!=0">
         <td >[[${edto.dno}]]</td>
-        <td >[[${edto.gno}]]</td>
         <td >[[${edto.emojitype}]]</td>
         <td >[[${edto.emojipath}]]</td>
         <td >[[${edto.regdate}]]</td>
     </tr>
 
- 
-</table>
+    <table border="1">
+        <tr>
+            <th scope="col">GNO</th>
+            <th scope="col">이모지타입</th>
+            <th scope="col">이모지path</th>
+            <th scope="col">등록날짜</th>
+        </tr>
+        <tr th:each="edto : ${emojiDTO}" th:if="${edto.gno}!=0">
+            <td >[[${edto.gno}]]</td>
+            <td >[[${edto.emojitype}]]</td>
+            <td >[[${edto.emojipath}]]</td>
+            <td >[[${edto.regdate}]]</td>
+        </tr>
 
-<ul>
-    <li th:each="dto : ${mypageDTO}">
-        [[${dto}]]
-    </li>
-</ul>
-<ul >
-    <li th:each="fdto : ${followDTO}">
-        [[${fdto}]]
-    </li>
-</ul>
-<ul >
-    <li th:each="edto : ${emojiDTOList}">
-        [[${edto}]]
-    </li>
-</ul>
-
-
-
-
-
-
+   
     
+ 
+</table> <br>
 </html>
