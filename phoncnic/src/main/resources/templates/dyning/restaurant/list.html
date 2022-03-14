@@ -17,7 +17,7 @@
         </tr>
         <tr  th:each="dto : ${result}" 
         th:onclick="'location.href=
-        \''+ @{/dyning/restaurant/details(dno=${dto.dno})}
+        \''+ @{/dyning/details(dno=${dto.dno})}
              + '\''"
               th:if="${dto.foodtype}!=1">
             <!-- <td >[[${dto.dno}]]</td> -->
