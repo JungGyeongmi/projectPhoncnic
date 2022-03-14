@@ -7,7 +7,7 @@ import ds.com.phoncnic.entity.Member;
 public interface MemberService {
     
     MemberDTO getMember(String id);
-    // void modify(MemberDTO dto);
+    void modify(MemberDTO memberDTO);
     // void modify(MyPageDTO myPageDTO);
 
 

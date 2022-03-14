@@ -27,6 +27,8 @@ public class CharacterLookInfo {
     private String clothesname;
     private String clothespath;
 
+    
+
 
 
     

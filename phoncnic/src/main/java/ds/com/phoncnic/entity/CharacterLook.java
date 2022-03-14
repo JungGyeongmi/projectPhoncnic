@@ -33,4 +33,13 @@ public class CharacterLook extends BaseEntity{
 
     @ManyToOne(fetch = FetchType.LAZY)
     private CharacterLookInfo characterLookinfo;
+
+    
+    public void changeHairname(String hairname) {
+        this.hairname = hairname;
+    }
+
+    public void changeClothesname(String clothesname) {
+        this.clothesname = clothesname;
+    }
 }

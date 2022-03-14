@@ -8,7 +8,7 @@ public interface CharacterLookService {
       
     CharacterLookDTO getCharacterHair(String id);
     CharacterLookDTO getCharacterClothes(String id);
-    // void modify(MemberDTO dto);
+    void modify(CharacterLookDTO characterLookDTO,String id);
     // void modify(MyPageDTO myPageDTO);
 
 

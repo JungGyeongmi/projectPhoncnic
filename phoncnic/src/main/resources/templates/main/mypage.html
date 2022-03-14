@@ -2,26 +2,29 @@
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
     <h1>mypage</h1>
     
-    
+<form id="memberfrm" action="">
 <table border="1">
     <tr>
         <th scope="col">아이디</th>
         <th scope="col">비밀번호</th>
         <th scope="col">닉네임</th>
         <th scope="col">가입일</th>
+        <th scope="col">수정</th>
         <th scope="col">탈퇴</th>
 
     </tr>
     <tr th:each="dto : ${memberDTO}">
-        <td >[[${dto.id}]]</td>
-        <td><input type="text" th:value=${dto.password} name=nickname></td>
+        <td><input type="text" th:value=${dto.id} name=id readonly></td>
+        <td><input type="text" th:value=${dto.password} name=password></td>
         <td><input type="text" th:value=${dto.nickname} name=nickname></td>
-        <td >[[${dto.regdate}]]</td>
-        <td ><button>회원탈퇴</button></td>
-
+        <td><input type="text" th:value=${dto.regdate}  readonly></td>
+        <td ><button id="memberModifyBtn">수정</button></td>
+        <td ><button >회원탈퇴</button></td>
+        
     </tr>
-
-   
+</form> 
+<form id="lookfrm" action="">
+    <input type="hidden" th:value="${memberDTO.id}" name="id" id="">
 </table> <br>
     <table border="1">
     <tr>
@@ -32,28 +35,36 @@
         <th scope="col">look 수정</th>
 
     </tr>
-    <tr >
-        <td >
-            <select name="hair" id="">
-                <option value="">hair</option>
-                <option value="hair1">hair1</option>
-                <option value="hair2">hair2</option>
-                <option value="hair3">hair3</option>
-            </select>
-            [[${hairDTO.hairname}]]</td>
-        <td >[[${hairDTO.hairpath}]]</td>
-        <td >
-            <select name="clothes" id="">
-                <option value="">clothes</option>
-                <option value="clothes1">clothes1</option>
-                <option value="clothes2">clothes2</option>
-                <option value="clothes3">clothes3</option>
-            </select>
-            [[${clothesDTO.clothesname}]]</td>
-        <td >[[${clothesDTO.clothespath}]]</td>
-        <td >look수정</td>
+    <tr th:each="hdto : ${hairDTO}">
+        <td>
+            <select name="hairname" id="">
+                <option th:value="hair1">헤어 선택</option>
+            <option th:value="hair1">hair1</option>
+            <option th:value="hair2">hair2</option>
+            <option th:value="hair3">hair3</option>
+        </select>
+        <input type="text" th:value=${hdto.hairname} readonly>
+    </td>
+        <td><input type="text" th:value=${hdto.hairpath} name=hairpath></td>
+
+        <th:block th:each="cdto : ${clothesDTO}">
+        <td>
+            <select name="clothesname" id="">
+                <option th:value="clothes1">옷 선택</option>
+                <option th:value="clothes1">clothes1</option>
+                <option th:value="clothes2">clothes2</option>
+                <option th:value="clothes3">clothes3</option>
+            </select><input type="text" th:value=${cdto.clothesname} readonly></td>
+        <td><input type="text" th:value=${cdto.clothespath} name=clothespath></td>
+        <th:block/>
+        <td ><button id="lookModifyBtn">수정</button></td>
+    </tr>
+ 
 
     </tr>
+
+</form>
+
 </table> <br>
     <table border="1">
     <tr>
@@ -102,4 +113,43 @@
     
  
 </table> <br>
+
+<script th:inline="javascript">
+                
+    var memberform  = document.querySelector("#memberfrm");
+    var lookform  = document.querySelector("#lookfrm");
+    var removeBtn = document.querySelector(".removeBtn");
+    var memberModifyBtn = document.querySelector("#memberModifyBtn");
+    var lookModifyBtn = document.querySelector("#lookModifyBtn");
+
+    /*[+var urlmembermodify = [[@{/main/mypage/membermodify}]];+]*/
+    /*[+var urllookmodify = [[@{/main/mypage/lookmodify}]];+]*/
+    /*[+var urlmain = [[@{/main}]];+]*/
+    /*[+var urlremove = [[@{/main/mypage/remove}]];+]*/
+
+
+    document.querySelector("#memberModifyBtn").onclick = function(){
+        
+        if(!confirm("계정 정보를 수정하시겠습니까?")){
+        return;
+        }else{
+            memberform.setAttribute("action",urlmembermodify);
+            memberform.setAttribute("method","post");
+            memberform.submit();
+        alert("수정되었습니다")
+        }
+    }
+    document.querySelector("#lookModifyBtn").onclick = function(){
+        
+        if(!confirm("캐릭터의 옷을 변경하시겠습니까?")){
+        return;
+        }else{
+            lookform.setAttribute("action",urllookmodify);
+            lookform.setAttribute("method","post");
+            lookform.submit();
+        alert("수정되었습니다")
+
+        }
+    }
+    </script>
 </html>
