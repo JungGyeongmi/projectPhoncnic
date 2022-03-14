@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,8 +8,13 @@
 </head>
 <body>
     <h1>무엇이든 물어보살</h1>
-
-    <table>
+    <a th:href="@{/help/register}">
+        <button type="button">
+            문의글 작성하기
+        </button>
+    </a>
+    
+    <table border="1">
         <thead>
           <tr>
             <th scope="col">#</th>
@@ -23,9 +28,8 @@
         <tbody>
           <tr th:each="dto, state : ${result.dtoList}">
                 <th>[[${ num }]]</th>
-            
-            
-            <td>[[${ dto.title }]]</td>
+
+                <td>[[${ dto.title }]]</td>
             <td><b th:text="${dto.content}"></b></td>
             <td><b th:text="${dto.writer}"></b></td>
             <td>[[${#temporals.format(dto.regdate,'yyyy/MM/dd')}]]</td>
@@ -48,4 +52,13 @@
     </li>
     </ul>
 </body>
+<script th:inline="javascript">
+    /*[+ var msg=[[${msg}]]; +]*/
+    
+    console.log(msg);
+
+    if(msg != null){
+        alert("글이 등록되었습니다");
+    }
+</script>
 </html>

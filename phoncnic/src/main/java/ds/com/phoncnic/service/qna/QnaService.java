@@ -8,6 +8,7 @@ import ds.com.phoncnic.entity.Qna;
 
 public interface QnaService {
     PageResultDTO getQnaList(PageRequestDTO pageRequestDTO);
+    Long register(QnaDTO qnaDTO);
 
 
     /* Entity -> DTO */

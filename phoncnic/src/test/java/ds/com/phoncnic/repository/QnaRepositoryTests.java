@@ -9,7 +9,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
+import ds.com.phoncnic.dto.QnaDTO;
 import ds.com.phoncnic.entity.Qna;
+import ds.com.phoncnic.service.qna.QnaService;
 
 @SpringBootTest
 public class QnaRepositoryTests {
@@ -20,6 +22,9 @@ public class QnaRepositoryTests {
 
     @Autowired
     MemberRepository memberRepository;
+
+    @Autowired
+    QnaService qnaService;
 
 
     @Test
@@ -63,5 +68,19 @@ public class QnaRepositoryTests {
         System.out.println(result.getTotalPages());
         System.out.println(result.hasNext());
         System.out.println(result.getContent());
+    }
+
+    @Test
+    void registerTest(){
+        QnaDTO qnaDTO = QnaDTO.builder()
+        .title("title")
+        .content("content")
+        .password("1234")
+        .qtype("type1")
+        .answerstatus(false)
+        .writer("user3@icloud.com")
+        .build();
+
+        System.out.println(qnaService.register(qnaDTO));
     }
 }

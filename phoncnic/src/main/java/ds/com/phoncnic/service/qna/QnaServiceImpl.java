@@ -30,4 +30,12 @@ public class QnaServiceImpl implements QnaService {
         
         return new PageResultDTO<>(result, fn);
     }
+
+    @Override
+    public Long register(QnaDTO qnaDTO) {
+        Qna entity = dtoToEntity(qnaDTO);
+        qnaRepository.save(entity);
+        return entity.getQno();
+
+    }
 }
