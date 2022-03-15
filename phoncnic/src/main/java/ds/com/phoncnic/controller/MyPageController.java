@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ds.com.phoncnic.dto.CharacterLookDTO;
@@ -19,6 +20,7 @@ import lombok.extern.log4j.Log4j2;
 
 @Controller
 @Log4j2
+@RequestMapping("/main/mypage")
 @RequiredArgsConstructor
 public class MyPageController {
     private final MemberService  memberService;
@@ -26,7 +28,7 @@ public class MyPageController {
     private final FollowService followService;
     private final EmojiService emojiService;
 
-    @GetMapping("/main/mypage")
+    @GetMapping({"/",""})
     public void mypage(String id, Model model){
         log.info("id:"+id);
         MemberDTO memberDTO = memberService.getMember(id);
@@ -38,7 +40,7 @@ public class MyPageController {
         model.addAttribute("dfollowDTO",followService.getFollow(id).getFollowdyninglist());
     }   
 
-    @PostMapping("/main/mypage/membermodify")
+    @PostMapping("/membermodify")
         public String membermodify(MemberDTO memberDTO, RedirectAttributes ra) {
             log.info("modify post.........id:"+memberDTO.getId());
             
@@ -47,7 +49,7 @@ public class MyPageController {
             return "redirect:/main/mypage";
 
     }
-    @PostMapping("/main/mypage/lookmodify")
+    @PostMapping("/lookmodify")
         public String lookmodify(CharacterLookDTO characterLookDTO,String id, RedirectAttributes ra) {
             log.info("modify post.........:"+characterLookDTO.getHairname());
             log.info("modify post.........:"+characterLookDTO.getClothesname());
@@ -57,5 +59,6 @@ public class MyPageController {
             return "redirect:/main/mypage";
 
     }
+
     
 }
