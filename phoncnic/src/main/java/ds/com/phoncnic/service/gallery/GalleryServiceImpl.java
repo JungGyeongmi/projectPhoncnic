@@ -1,6 +1,7 @@
 package ds.com.phoncnic.service.gallery;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -8,19 +9,24 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import ds.com.phoncnic.dto.GalleryDTO;
 import ds.com.phoncnic.dto.PageRequestDTO;
 import ds.com.phoncnic.dto.PageResultDTO;
 import ds.com.phoncnic.entity.Gallery;
+import ds.com.phoncnic.repository.EmojiRepository;
 import ds.com.phoncnic.repository.GalleryRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 
 @Service
 @RequiredArgsConstructor
+@Log4j2
 public class GalleryServiceImpl implements GalleryService {
    
     private final GalleryRepository galleryRepository;
+    private final EmojiRepository emojiRepository;
    
     @Override
     public PageResultDTO<GalleryDTO, Gallery> getPhotoList(PageRequestDTO PageRequestDTO) {
@@ -54,10 +60,28 @@ public class GalleryServiceImpl implements GalleryService {
     // gallery List
     @Override
     public List<GalleryDTO> getGalleryList(Boolean type) {
+
         List<Gallery> galleryList = galleryRepository.getGalleryList(type);
         
         List<GalleryDTO> galleryDTOList = galleryList.stream().map(entity -> entityToDTO(entity)).collect(Collectors.toList());
         
         return galleryDTOList;
+    }
+
+    // remove with emoji 
+    @Transactional
+    @Override
+    public void removeWithEmojis(long gno) {
+       emojiRepository.deleteByGno(gno); 
+       galleryRepository.deleteById(gno);
+    }
+
+    @Override
+    public void modify(GalleryDTO dto) {
+        log.info(dto.toString());
+        Gallery gallery = galleryRepository.findById(dto.getGno()).get();
+        gallery.changeTitleAndContent(dto.getTitle(), dto.getContent());
+        galleryRepository.save(gallery);
+     
     }
 }

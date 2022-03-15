@@ -100,4 +100,16 @@ public class GalleryRepositoryTests {
         galleryDTOList.forEach(System.out::println);
     }
 
+    @Test
+    public void modifyTest() {
+
+        Gallery gallery = galleryRepository.findById(2L).get();
+        GalleryDTO dto = galleryService.entityToDTO(gallery);
+        dto.setContent("content1004");
+        dto.setTitle("title1004");
+        System.out.println(dto.toString());
+        galleryService.modify(dto);
+        System.out.println(gallery.toString());
+    }
+
 }
