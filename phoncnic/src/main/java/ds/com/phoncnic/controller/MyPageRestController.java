@@ -6,9 +6,11 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ds.com.phoncnic.service.FollowService;
 import ds.com.phoncnic.service.emoji.EmojiService;
+import ds.com.phoncnic.service.mypage.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -46,6 +48,8 @@ public class MyPageRestController {
         return new ResponseEntity<>(eno , HttpStatus.OK);
         
     }
+
+    
 //     @PostMapping("/main/mypage/artistremove")
 //     public String artistremove(String id,String name, RedirectAttributes ra) {
 //         // log.info("remove name.........:"+name);

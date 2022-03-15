@@ -20,7 +20,7 @@
         <td><input type="text" th:value=${dto.nickname} name=nickname></td>
         <td><input type="text" th:value=${dto.regdate}  readonly></td>
         <td ><button id="memberModifyBtn" type ="button">수정</button></td>
-        <td ><button type ="button">회원탈퇴</button></td>
+        <td ><button id="memberOutBtn" type ="button">회원탈퇴</button></td>
         
     </tr>
 </form> 
@@ -138,10 +138,10 @@
 
     /*[+var urlmembermodify = [[@{/main/mypage/membermodify}]];+]*/
     /*[+var urllookmodify = [[@{/main/mypage/lookmodify}]];+]*/
-    /*[+var urlmain = [[@{/main/mypage}]];+]*/
     /*[+var urlartistremove = [[@{/main/mypage/artistremove}]];+]*/
     /*[+var urldyningremove = [[@{/main/mypage/dyningremove}]];+]*/
     /*[+var urlemojiremove = [[@{/main/mypage/emojiremove}]];+]*/
+    /*[+var urlmemberout = [[@{/main/mypage/memberremove}]];+]*/
 
 
 
@@ -168,6 +168,18 @@
             lookform.setAttribute("method","post");
             lookform.submit();
         alert("수정되었습니다")
+
+        }
+    }
+    document.querySelector("#memberOutBtn").onclick = function(){
+        
+        if(!confirm("정말 탈퇴하시겠습니까?(이 동작은 되돌릴 수 없습니다)")){
+        return;
+        }else{
+            memberform.setAttribute("action",urlmemberout);
+            memberform.setAttribute("method","post");
+            memberform.submit();
+        alert("다음에 또 만나요!")
 
         }
     }

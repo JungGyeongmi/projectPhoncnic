@@ -8,7 +8,7 @@ public interface MemberService {
     
     MemberDTO getMember(String id);
     void modify(MemberDTO memberDTO);
-    // void modify(MyPageDTO myPageDTO);
+    void remove(String id);
 
 
     default Member dtoToEntity(MemberDTO mypageDTO) {

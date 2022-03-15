@@ -1,13 +1,25 @@
 package ds.com.phoncnic.service.mypage;
 
+import java.util.List;
 import java.util.Optional;
+
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ds.com.phoncnic.dto.MemberDTO;
+import ds.com.phoncnic.entity.Dyning;
+import ds.com.phoncnic.entity.Gallery;
 import ds.com.phoncnic.entity.Member;
+import ds.com.phoncnic.repository.CharacterLookRepository;
+import ds.com.phoncnic.repository.DyningImageRepository;
+import ds.com.phoncnic.repository.DyningRepository;
+import ds.com.phoncnic.repository.EmojiRepository;
+import ds.com.phoncnic.repository.FollowRepository;
+import ds.com.phoncnic.repository.GalleryRepository;
 import ds.com.phoncnic.repository.MemberRepository;
+import ds.com.phoncnic.repository.QnaRepository;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -16,6 +28,22 @@ public class MemberServiceImpl implements MemberService {
 
     @Autowired
     private MemberRepository memberRepository;
+    @Autowired
+    private CharacterLookRepository characterLookRepository;
+    @Autowired
+    private EmojiRepository emojiRepository;
+    @Autowired
+    private FollowRepository followRepository;
+    @Autowired
+    private QnaRepository qnaRepository;
+    @Autowired
+    private GalleryRepository galleryRepository;
+    @Autowired
+    private DyningRepository dyningRepository;
+    @Autowired
+    private DyningImageRepository dyningImageRepository;
+    
+
     
     @Override
     public MemberDTO getMember(String id) {
@@ -37,6 +65,32 @@ public class MemberServiceImpl implements MemberService {
         member.changePassword(memberDTO.getPassword());
         memberRepository.save(member);
       }
+
+  }
+
+  @Transactional
+  @Override
+  public void remove(String id) {
+    Optional<Member> result = memberRepository.findById(id);
+    if(result.isPresent()){
+      characterLookRepository.deleteByMemberId(id);
+      followRepository.deleteByMemberId(id);
+      
+      List<Dyning> dyninglist= dyningRepository.findByMemberId(id);
+      for (Dyning dno: dyninglist)emojiRepository.deleteByDno(dno.getDno());
+
+      List<Gallery> gallerylist= galleryRepository.findByMemberId(id);
+      for (Gallery gno: gallerylist)emojiRepository.deleteByGno(gno.getGno());
+
+      Long dno =dyningRepository.findDyningByMemberId(id).get().getDno();
+      dyningImageRepository.deleteByDno(dno);
+      dyningRepository.deleteByMemberId(id);
+      galleryRepository.deleteByMemberId(id);
+      qnaRepository.deleteByMemberId(id);
+      
+      Member member = result.get();
+      memberRepository.delete(member);
+    }
 
   }
 

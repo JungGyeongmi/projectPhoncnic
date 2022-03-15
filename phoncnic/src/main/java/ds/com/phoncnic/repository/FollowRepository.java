@@ -3,6 +3,7 @@ package ds.com.phoncnic.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import ds.com.phoncnic.entity.Follow;
@@ -21,6 +22,10 @@ public interface FollowRepository extends JpaRepository<Follow, Long> {
 
      @Query("select f from Follow f where f.follower.id=:id and dyningname = :name")
      Follow getFollownameDyning(String id, String name);
-
+     
+     @Modifying
+     @Query("delete from Follow f where f.follower.id=:id")
+     void deleteByMemberId(String id);
+ 
 
 }
