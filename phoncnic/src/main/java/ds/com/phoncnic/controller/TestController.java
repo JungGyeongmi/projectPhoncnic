@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import ds.com.phoncnic.dto.PageRequestDTO;
 import ds.com.phoncnic.service.emoji.EmojiService;
-import ds.com.phoncnic.service.qna.QnaService;
+import ds.com.phoncnic.service.help.HelpService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -20,7 +20,7 @@ public class TestController {
     
     private final EmojiService emojiService;
 
-    private final QnaService qnaService;
+    private final HelpService qnaService;
 
     @GetMapping("/test")
     public String test (PageRequestDTO pageRequestDTO, Model model) {
