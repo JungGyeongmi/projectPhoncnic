@@ -20,7 +20,7 @@
         <td><input type="text" th:value=${dto.nickname} name=nickname></td>
         <td><input type="text" th:value=${dto.regdate}  readonly></td>
         <td ><button id="memberModifyBtn" type ="button">수정</button></td>
-        <td ><button >회원탈퇴</button></td>
+        <td ><button type ="button">회원탈퇴</button></td>
         
     </tr>
 </form> 
@@ -94,12 +94,14 @@
         <th scope="col">이모지타입</th>
         <th scope="col">이모지path</th>
         <th scope="col">등록날짜</th>
+        <th scope="col">삭제</th>
     </tr>
     <tr th:each="edto : ${emojiDTO}" th:if="${edto.dno}!=0">
         <td >[[${edto.dno}]]</td>
         <td >[[${edto.emojitype}]]</td>
         <td >[[${edto.emojipath}]]</td>
         <td >[[${edto.regdate}]]</td>
+        <td ><button class="emojiRemoveBtn" th:value="${edto.eno}" type="button">삭제</button></td>
     </tr>
 
     <table border="1">
@@ -108,12 +110,15 @@
             <th scope="col">이모지타입</th>
             <th scope="col">이모지path</th>
             <th scope="col">등록날짜</th>
+            <th scope="col">삭제</th>
         </tr>
         <tr th:each="edto : ${emojiDTO}" th:if="${edto.gno}!=0">
             <td >[[${edto.gno}]]</td>
             <td >[[${edto.emojitype}]]</td>
             <td >[[${edto.emojipath}]]</td>
             <td >[[${edto.regdate}]]</td>
+            <td ><button class="emojiRemoveBtn" th:value="${edto.eno}" type="button">삭제</button></td>
+
         </tr>
 
    
@@ -136,6 +141,7 @@
     /*[+var urlmain = [[@{/main/mypage}]];+]*/
     /*[+var urlartistremove = [[@{/main/mypage/artistremove}]];+]*/
     /*[+var urldyningremove = [[@{/main/mypage/dyningremove}]];+]*/
+    /*[+var urlemojiremove = [[@{/main/mypage/emojiremove}]];+]*/
 
 
 
@@ -197,6 +203,25 @@
 
         $.ajax({
             url: urldyningremove +"/"+ id + "/" + dyningname,
+            type: "DELETE",
+            data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8",
+            dataType: "text",
+            success: function (result) {
+                console.log("result: " + result);
+                self.location.reload();
+        }
+        })
+    });
+
+    $(".emojiRemoveBtn").click( function(){
+        var eno =$(this).val();
+        var data = {eno:eno};
+
+        console.log(data);
+
+        $.ajax({
+            url: urlemojiremove +"/"+ eno,
             type: "DELETE",
             data: JSON.stringify(data),
             contentType: "application/json; charset=utf-8",

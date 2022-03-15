@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ds.com.phoncnic.service.FollowService;
+import ds.com.phoncnic.service.emoji.EmojiService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -17,6 +18,7 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 public class MyPageRestController {
     private final FollowService followService;
+    private final EmojiService emojiService;
 
     @DeleteMapping("/artistremove/{id}/{artistname}")
     public ResponseEntity<String> removeFollowArtist(@PathVariable String id,@PathVariable String artistname) {
@@ -33,6 +35,15 @@ public class MyPageRestController {
 
         followService.removeDyningFollow(id,dyningname);
         return new ResponseEntity<>(id , HttpStatus.OK);
+        
+    }
+
+    @DeleteMapping("/emojiremove/{eno}")
+    public ResponseEntity<Long> removeEmoji(@PathVariable Long eno) {
+        log.info("eno:" +eno);
+
+        emojiService.emojiRemove(eno);
+        return new ResponseEntity<>(eno , HttpStatus.OK);
         
     }
 //     @PostMapping("/main/mypage/artistremove")
