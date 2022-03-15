@@ -25,4 +25,15 @@ public class FollowServiceImpl implements FollowService {
         List<Object> dyningList = followRepository.getfollowDyningList(id);
         return entityToDTO(artistList,dyningList);
     }
+
+    @Override
+    public void removeArtistFollow(String id, String name){
+        Follow follow = followRepository.getFollownameArtist(id, name);
+        followRepository.delete(follow);
+    }
+    @Override
+    public void removeDyningFollow(String id, String name){
+        Follow follow = followRepository.getFollownameDyning(id, name);
+        followRepository.delete(follow);
+    }
 }

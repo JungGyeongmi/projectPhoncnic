@@ -16,50 +16,36 @@ public class FollowRepositoryTests {
 
     @Autowired
     FollowRepository followRepository;
-
+    //follow 테이블 삭제 -> Artist&Dyning 더미 돌리기
+    //!!!!!!!!
+    //!!!!!!!!
+    //artist    팔로우 더미
     @Test
-    public void insertFollowDummies(){
+    public void insertArtistFollowDummies(){
         IntStream.rangeClosed(1, 10).forEach(i->{
             Follow follow = Follow.builder()
-                    .follower(Member.builder().id("user" + i + "@icloud.com").build())
-                    .artistname("user" + i)
-                    .dyningname("가게이름" + i)
-                    .build();
-
-            followRepository.save(follow);
-        });
-    }
-
-    @Test
-    public void insertFollowDummies2() {
-        IntStream.rangeClosed(1, 1).forEach(i -> {
-
-
-            Follow follow = Follow.builder()
                     .follower(Member.builder().id("user" + 1 + "@icloud.com").build())
-                    .artistname("user" + 2)
-                    .dyningname("가게이름" + 2)
+                    .artistname("user" + i)
                     .build();
 
             followRepository.save(follow);
         });
     }
 
-    @Test
-    public void insertFollowDummies3(){
-        IntStream.rangeClosed(1, 1).forEach(i->{
+     //dyning 팔로우 더미
+     @Test
+     public void insertDyningFollowDummies(){
+         IntStream.rangeClosed(1, 10).forEach(i->{
+             Follow follow = Follow.builder()
+                     .follower(Member.builder().id("user" + 1 + "@icloud.com").build())
+                     .dyningname("가게이름" + i)
+                     .build();
+ 
+             followRepository.save(follow);
+         });
+     }
 
 
-            Follow follow = Follow.builder()
-            .follower(Member.builder().id("user"+1+"@icloud.com").build())
-            .artistname("user"+3)
-            .build();
-
-            followRepository.save(follow);
-
-
-        });
-    }
 
     // @Test
     // public void TestGetFollowList(){
