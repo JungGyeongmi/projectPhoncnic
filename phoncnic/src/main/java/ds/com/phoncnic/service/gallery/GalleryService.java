@@ -10,8 +10,13 @@ import ds.com.phoncnic.entity.Member;
 
 public interface GalleryService {
 
+    // 등록
+    void register(GalleryDTO dto);
+
+    // 삭제
     void removeWithEmojis(long gno);
 
+    // 수정
     void modify(GalleryDTO dto);
 
 
@@ -25,14 +30,15 @@ public interface GalleryService {
     PageResultDTO<GalleryDTO, Gallery> getPhotoList(PageRequestDTO PageRequestDTO);
     PageResultDTO<GalleryDTO, Gallery> getPaintingList(PageRequestDTO PageRequestDTO);
 
-    default Gallery dtoToEntity (GalleryDTO galleryDto){
+    default Gallery dtoToEntity (GalleryDTO galleryDTO){
         Gallery gallery = Gallery.builder()
-            .gno(galleryDto.getGno())
-            .title(galleryDto.getTitle())
-            .imagename(galleryDto.getImagename())
-            .imagetype(galleryDto.isImagetype())
-            .imagepath(galleryDto.getImagepath())
-            .artistid(Member.builder().id(galleryDto.getId()).build())
+            .gno(galleryDTO.getGno())
+            .title(galleryDTO.getTitle())
+            .content(galleryDTO.getContent())
+            .imagename(galleryDTO.getImagename())
+            .imagetype(galleryDTO.isImagetype())
+            .imagepath(galleryDTO.getImagepath())
+            .artistid( Member.builder().id(galleryDTO.getId()).build() )
             .build();
 
             return gallery;

@@ -21,6 +21,8 @@ public class EmojiDTO {
     private String emojitype;
     private String emojipath;
     private String kindofemoji;
+
+    private Long emojicount;
     
     private LocalDateTime regdate, moddate;
 }

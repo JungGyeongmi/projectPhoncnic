@@ -76,6 +76,7 @@ public class GalleryServiceImpl implements GalleryService {
        galleryRepository.deleteById(gno);
     }
 
+    // 수정
     @Override
     public void modify(GalleryDTO dto) {
         log.info(dto.toString());
@@ -84,4 +85,16 @@ public class GalleryServiceImpl implements GalleryService {
         galleryRepository.save(gallery);
      
     }
+
+    // 등록
+    @Override
+    public void register(GalleryDTO dto) {
+       
+        log.info(dto.toString());
+        Gallery gallery = dtoToEntity(dto);
+        galleryRepository.save(gallery);
+    
+    }
+
+    
 }
