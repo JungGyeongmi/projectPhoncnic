@@ -9,14 +9,12 @@ import ds.com.phoncnic.entity.Gallery;
 import ds.com.phoncnic.entity.Member;
 
 public interface GalleryService {
-<<<<<<< HEAD
+
     void removeWithEmojis(long gno);
 
     void modify(GalleryDTO dto);
 
-=======
-    
->>>>>>> gallery_ng
+
     // 상세페이지
     GalleryDTO getGallery(long gno);
 
