@@ -57,12 +57,15 @@ public class DyningController {
     }
 
     @GetMapping("/details")
-    public void restaurantDetails(@RequestParam("dno") Long dno, Model model) {
+    public void restaurantDetails(@RequestParam("dno") Long dno, String id, Model model) {
         log.info("restaurantDetails.................");
         model.addAttribute("result", dyningService.getDyningDetails(dno));
         model.addAttribute("imageresult", dyningService.getDyningDetails(dno).getDyningImageDTOList());
         model.addAttribute("emojiList", emojiService.getEmojiList("g", dno));
         model.addAttribute("emojiInfoList", emojiInfoService.getEmojiInfoList());
+        model.addAttribute("emojiDTO", emojiService.getEmojiList(id));
+        // model.addAttribute("dfollowDTO",
+        // followService.getFollow(id).getFollowdyninglist());
         // model.addAttribute("followresult",
         // followService.getFollow().getdyningnameList());
     }
