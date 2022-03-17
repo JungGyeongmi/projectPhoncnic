@@ -2,6 +2,7 @@ package ds.com.phoncnic.service.emoji;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,5 +48,17 @@ public class EmojiServiceImpl implements EmojiService {
 
         return emojiDTOList;
     }
+
+
+    @Override
+    public void emojiRemove(Long eno){
+        Optional<Emoji> emoji = emojiRepository.findById(eno);
+        if(emoji.isPresent()){
+            Emoji result = emoji.get();
+            emojiRepository.delete(result);
+        }
+    }
+
+}
 
 }

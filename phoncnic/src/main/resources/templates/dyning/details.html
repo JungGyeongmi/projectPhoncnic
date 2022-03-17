@@ -1,66 +1,64 @@
 <!DOCTYPE html>
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>restaurnat details</title>
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>dyning details</title>
+</head>
 
-    <body>
-        <h1>restaurnat details</h1>
-        <br>
-        <!-- <ul> <li th:each="dto : ${result}"> [[${ dto }]] </li> </ul> -->
+<body>
+    <h1>dyning details</h1>
+    <ul>
+        <li th:each="dto : ${result}">
+            [[${ dto }]]
+        </li>
+    </ul>
 
-        <h3>[가게 정보]</h3>
-        <table border="1">
-            <tr>
-                <th scope="col">dyningname</th>
-                <th scope="col">businesshours</th>
-                <th scope="col">location</th>
-                <th scope="col">comment</th>
-                <th scope="col">hashtag</th>
-                <th scope="col">tel</th>
-                <th scope="col">menu</th>
-                <th scope="col">background</th>
-            </tr>
+    <table border="1">
+        <tr>
+            <th scope="col">dyningname</th>
+            <th scope="col">businesshours</th>
+            <th scope="col">location</th>
+            <th scope="col">comment</th>
+            <th scope="col">hashtag</th>
+            <th scope="col">tel</th>
+            <th scope="col">menu</th>
+            <th scope="col">background</th>
+    
+    
+        </tr>
+        <tr th:each="dto : ${result}" >
+            <td >[[${dto.dyningname}]]</td>
+            <td >[[${dto.businesshours}]]</td>
+            <td >[[${dto.location}]]</td>
+            <td >[[${dto.comment}]]</td>
+            <td >[[${dto.hashtag}]]</td>
+            <td >[[${dto.tel}]]</td>
+            <td>
+                   <th:block th:each="idto : ${imageresult}">[[${idto.menuimagepath}]],</th:block> 
+            </td>
+            <td>
+                <th:block th:each="idto : ${imageresult}">[[${idto.backgroundpath}]],</th:block> 
+             </td>
+        </tr>
 
-            <tr th:each="dto : ${result}">
-                <td >[[${dto.dyningname}]]</td>
-                <td >[[${dto.businesshours}]]</td>
-                <td >[[${dto.location}]]</td>
-                <td >[[${dto.comment}]]</td>
-                <td >[[${dto.hashtag}]]</td>
-                <td >[[${dto.tel}]]</td>
-                <td>
-                    <th:block th:each="idto : ${imageresult}">[[${idto.menuimagepath}]],</th:block>
-                </td>
-                <td>
-                    <th:block th:each="idto : ${imageresult}">[[${idto.backgroundpath}]],</th:block>
-                </td>
-            </tr>
-        </table>
-        <br>
 
-        <h3>[이모지 info]</h3>
-        <table border="1">
-            <tr>
-                <th scope="col">이모지 타입</th>
-                <th scope="col">이모지path</th>
-            </tr>
+        <!-- private long dno;
 
-            <tr th:each="emojiinfo : ${emojiInfoList}">
-                <td>[[${ emojiinfo.emojitype }]]</td>
-                <td>[[${ emojiinfo.emojipath }]]</td>
-            </tr>
-        </table><br>
-
-        <h3>[내가 쓴 이모지 종류]</h3>
-
-        <h3>[가게의 전체 이모지]</h3>
-
-        <h3>[해당 유저의 팔로우 유무]</h3>
-
-    </body>
+        private String dyningname;
+        private String location;
+        private Long foodtype;
+        private String businesshours;
+        private String comment;
+        private String hashtag;
+        private LocalDateTime regdate, moddate;
+        private String tel;
+    
+        private String id;
+    
+        private long oono;
+        private String roofpath; -->
+</body>
 
 </html>

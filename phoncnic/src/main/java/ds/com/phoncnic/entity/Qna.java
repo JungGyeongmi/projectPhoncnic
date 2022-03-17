@@ -1,5 +1,6 @@
 package ds.com.phoncnic.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -30,6 +31,6 @@ public class Qna extends BaseEntity {
     private String qtype;
     private boolean answerstatus;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     private Member writer;
 }
