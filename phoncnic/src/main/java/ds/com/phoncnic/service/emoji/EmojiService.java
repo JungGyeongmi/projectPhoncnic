@@ -11,9 +11,13 @@ import ds.com.phoncnic.entity.Member;
 
 
 public interface EmojiService {
+
+    List<EmojiDTO> dyningEmojiList(Long dno);
     List<EmojiDTO> getEmojiList(String id);
     void emojiRemove(Long eno);
+    Long register(EmojiDTO emojiDTO);
     List<EmojiDTO> getEmojiList(String type, Long no);
+    
     
     /* DTO -> Entity */
     default Emoji dtoToEntity(EmojiDTO emojiDTO) {

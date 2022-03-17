@@ -44,16 +44,15 @@ public class CharacterLookRepositoryTests {
     public void insertDummies(){
 
         IntStream.rangeClosed(1, 10).forEach(i->{
-            Long ch = ((long)(Math.random()*3+1));
 
             Member member = Member.builder().id("user"+i+"@icloud.com").build();
-            CharacterLookInfo characterLookinfo = CharacterLookInfo.builder().chno(ch).build();
+            CharacterLookInfo characterLookinfo = CharacterLookInfo.builder().chno(1L).build();
 
             CharacterLook characterLook = CharacterLook.builder()
             .member(member)
             .characterLookinfo(characterLookinfo)
-            .hairname("hair"+ch)
-            .clothesname("clothes"+ch)
+            .hairname("hair"+1)
+            .clothesname("clothes"+1)
             .build();
             repository.save(characterLook);
 
