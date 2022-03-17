@@ -18,8 +18,8 @@ import ds.com.phoncnic.repository.DyningRepository;
 import ds.com.phoncnic.repository.EmojiRepository;
 import ds.com.phoncnic.repository.FollowRepository;
 import ds.com.phoncnic.repository.GalleryRepository;
+import ds.com.phoncnic.repository.HelpRepository;
 import ds.com.phoncnic.repository.MemberRepository;
-import ds.com.phoncnic.repository.QnaRepository;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -35,7 +35,7 @@ public class MemberServiceImpl implements MemberService {
     @Autowired
     private FollowRepository followRepository;
     @Autowired
-    private QnaRepository qnaRepository;
+    private HelpRepository helpRepository;
     @Autowired
     private GalleryRepository galleryRepository;
     @Autowired
@@ -86,7 +86,7 @@ public class MemberServiceImpl implements MemberService {
       dyningImageRepository.deleteByDno(dno);
       dyningRepository.deleteByMemberId(id);
       galleryRepository.deleteByMemberId(id);
-      qnaRepository.deleteByMemberId(id);
+      helpRepository.deleteByMemberId(id);
       
       Member member = result.get();
       memberRepository.delete(member);

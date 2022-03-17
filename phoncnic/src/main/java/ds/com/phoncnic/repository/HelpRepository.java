@@ -14,7 +14,7 @@ public interface HelpRepository extends JpaRepository<Help, Long> {
     Page<Help> getListPage(Pageable pageable);
     
     @Modifying
-    @Query("delete from Qna q where q.writer.id=:id")
+    @Query("delete from Help h where h.writer.id=:id")
     void deleteByMemberId(String id);
     
 }
