@@ -25,7 +25,7 @@ public class Follow {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int fno;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     private Member follower;
 
     private String dyningname;
