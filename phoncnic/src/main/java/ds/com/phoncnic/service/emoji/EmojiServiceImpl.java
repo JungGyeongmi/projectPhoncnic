@@ -49,16 +49,13 @@ public class EmojiServiceImpl implements EmojiService {
         return emojiDTOList;
     }
 
-
     @Override
-    public void emojiRemove(Long eno){
+    public void emojiRemove(Long eno) {
         Optional<Emoji> emoji = emojiRepository.findById(eno);
-        if(emoji.isPresent()){
+        if (emoji.isPresent()) {
             Emoji result = emoji.get();
             emojiRepository.delete(result);
         }
     }
-
-}
 
 }

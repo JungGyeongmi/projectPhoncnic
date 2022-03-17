@@ -1,7 +1,5 @@
 package ds.com.phoncnic.repository;
 
-
-import java.util.Arrays;
 import java.util.UUID;
 import java.util.stream.IntStream;
 
@@ -66,7 +64,6 @@ public class CharacterLookRepositoryTests {
         CharacterLookInfo result2 = characterLookInforepository.getClothes("user1@icloud.com");
         System.out.println(result2.getClothesname());
         System.out.println(result2.getClothespath());
-
 
     }
 }

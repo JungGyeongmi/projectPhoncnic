@@ -1,7 +1,6 @@
 package ds.com.phoncnic.repository;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,11 +18,11 @@ public interface GalleryRepository extends JpaRepository<Gallery, Long> {
     /* photoList (Paging처리) */
     @Query("select g from Gallery g where imagetype = false")
     Page<Gallery> getPhotoPage(Pageable pageable);
-    
-    //paintingList
+
+    // paintingList
     @Query("select g from Gallery g where imagetype = true")
     Page<Gallery> getPaintingPage(Pageable pageable);
-    
+
     // galleryList
     @Query("select g from Gallery g where imagetype = :type")
     List<Gallery> getGalleryList(Boolean type);
@@ -34,6 +33,5 @@ public interface GalleryRepository extends JpaRepository<Gallery, Long> {
 
     @Query("select g from Gallery g where g.artistid.id=:id")
     List<Gallery> findByMemberId(String id);
-
 
 }
