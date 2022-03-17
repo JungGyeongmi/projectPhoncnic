@@ -1,7 +1,5 @@
 package ds.com.phoncnic.repository;
 
-
-import java.util.Arrays;
 import java.util.UUID;
 import java.util.stream.IntStream;
 
@@ -12,11 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import ds.com.phoncnic.entity.CharacterLook;
 import ds.com.phoncnic.entity.CharacterLookInfo;
 import ds.com.phoncnic.entity.Member;
-import lombok.extern.log4j.Log4j2;
-
 
 @SpringBootTest
-@Log4j2
 public class CharacterLookRepositoryTests {
     @Autowired
     CharacterLookRepository repository;
@@ -24,24 +19,24 @@ public class CharacterLookRepositoryTests {
     @Autowired
     private CharacterLookInfoRepository characterLookInforepository;
 
-    //ChracterLookInfo 더미
+    // ChracterLookInfo 더미
     @Test
-    public void insertChracterimg(){
+    public void insertChracterimg() {
 
-        IntStream.rangeClosed(1, 3).forEach(i->{
+        IntStream.rangeClosed(1, 3).forEach(i -> {
             CharacterLookInfo characterLookinfo = CharacterLookInfo.builder()
-            .hairname("hair"+i)
-            .hairpath(UUID.randomUUID().toString())
-            .clothesname("clothes"+i)
-            .clothespath(UUID.randomUUID().toString())
-            .build();
+                    .hairname("hair" + i)
+                    .hairpath(UUID.randomUUID().toString())
+                    .clothesname("clothes" + i)
+                    .clothespath(UUID.randomUUID().toString())
+                    .build();
             characterLookInforepository.save(characterLookinfo);
         });
     }
 
-    //ChracterLook 더미
+    // ChracterLook 더미
     @Test
-    public void insertDummies(){
+    public void insertDummies() {
 
         IntStream.rangeClosed(1, 10).forEach(i->{
 
@@ -56,20 +51,18 @@ public class CharacterLookRepositoryTests {
             .build();
             repository.save(characterLook);
 
-
         });
     }
 
     @Test
     public void TestGetCharacterLook() {
-    
+
         CharacterLookInfo result = characterLookInforepository.getHair("user1@icloud.com");
         System.out.println(result.getHairname());
         System.out.println(result.getHairpath());
         CharacterLookInfo result2 = characterLookInforepository.getClothes("user1@icloud.com");
         System.out.println(result2.getClothesname());
         System.out.println(result2.getClothespath());
-
 
     }
 }

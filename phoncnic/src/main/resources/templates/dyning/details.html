@@ -50,7 +50,9 @@
                 <th scope="col">닉네임</th>
             </tr>
             <tr th:each="dto : ${emojilist}" >
-                <td >[[${dto}]]</td>
+                <td >[[${dto.emojipath}]]</td>
+                <td >[[${dto.id}]]</td>
+
                 
             </tr>
         </table>

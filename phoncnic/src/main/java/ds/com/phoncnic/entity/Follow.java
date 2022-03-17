@@ -31,5 +31,4 @@ public class Follow {
     private String dyningname;
     private String artistname;
 
-
 }

@@ -6,6 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CAFE LIST</title>
+    <style>
+        #dyningname {
+            cursor: pointer;
+        }
+
+        #roofdesign {
+            cursor: pointer;
+        }
+    </style>
 </head>
 
 <body>
@@ -15,7 +24,7 @@
             <th scope="col">dyningname</th>
             <th scope="col">Roof Path</th>
         </tr>
-        <tr  th:each="dto : ${result}" 
+        <tr  th:each="dto : ${result}"
         th:onclick="'location.href=
         \''+ @{/dyning/details(dno=${dto.dno})}
              + '\''"
