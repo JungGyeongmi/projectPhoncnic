@@ -10,7 +10,12 @@
    <h1>그림전</h1>
    <ul>
        <li th:each="dto : ${galleryDTOList} ">
+<<<<<<< HEAD:phoncnic/src/main/resources/templates/gallery/painting/list.html
+        <a th:href="@{/gallery/painting/read(gno=${dto.gno}) }">
+=======
+>>>>>>> gallery_ng:phoncnic/src/main/resources/templates/gallery/painting.html
             [[${ dto }]]
-       </li>
+        </a>    
+       </li>d
    </ul>
 </body>

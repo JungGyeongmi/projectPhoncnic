@@ -18,70 +18,73 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 @RequiredArgsConstructor
 public class HelpController {
-    
+
     private final HelpService helpService;
 
-    @GetMapping({"", "/", "/list"})
+    @GetMapping({ "", "/", "/list" })
+
     public String getHelpHome(PageRequestDTO pageRequestDTO, Model model) {
+
         model.addAttribute("result", helpService.getQnaList(pageRequestDTO));
         return "/help/list";
     }
 
     @GetMapping("register")
-    public String Register(){
+
+    public String Register() {
+
         return "/help/register";
     }
 
-
     @PostMapping("/register")
-    public String RegisterPost(HelpDTO helpDTO, RedirectAttributes ra){
-        log.info("help resister.................:"+helpDTO);
+    public String RegisterPost(HelpDTO helpDTO, RedirectAttributes ra) {
+        log.info("help resister.................:" + helpDTO);
 
-        //새로 추가된 Qna 번호
+        // 새로 추가된 Qna 번호
         Long qno = helpService.register(helpDTO);
-      
+
         ra.addFlashAttribute("msg", qno);
         return "redirect:/help/list";
     }
 
-    @GetMapping({"/read","/modify"})
-    public void read(long qno, Model model, PageRequestDTO pageRequestDTO){
-        log.info("read qno............:"+qno);
+    @GetMapping({ "/read", "/modify" })
+    public void read(long qno, Model model, PageRequestDTO pageRequestDTO) {
+        log.info("read qno............:" + qno);
 
         HelpDTO helpDTO = helpService.get(qno);
         model.addAttribute("dto", helpDTO);
     }
 
     @PostMapping("/modify")
-    public String modify(HelpDTO helpDTO, RedirectAttributes ra,Long qno, PageRequestDTO pageRequestDTO) {
-        log.info("modify..........qno:"+helpDTO);
+    public String modify(HelpDTO helpDTO, RedirectAttributes ra, Long qno, PageRequestDTO pageRequestDTO) {
+        log.info("modify..........qno:" + helpDTO);
 
         helpService.modify(helpDTO);
 
         ra.addAttribute("page", pageRequestDTO.getPage());
-        ra.addAttribute("type",pageRequestDTO.getType());
-        ra.addAttribute("keyword",pageRequestDTO.getKeyword());
+        ra.addAttribute("type", pageRequestDTO.getType());
+        ra.addAttribute("keyword", pageRequestDTO.getKeyword());
         ra.addAttribute("qno", helpDTO.getQno());
 
         return "redirect:/help/read";
     }
 
     @PostMapping("/remove")
-    public String remove(Long qno, RedirectAttributes ra, PageRequestDTO pageRequestDTO ) {
-        log.info("remove...........qno:"+qno);
+    public String remove(Long qno, RedirectAttributes ra, PageRequestDTO pageRequestDTO) {
+        log.info("remove...........qno:" + qno);
 
         helpService.remove(qno);
 
-        if(helpService.getQnaList(pageRequestDTO).getDtoList().size()==0 && pageRequestDTO.getPage() !=1) {
-            pageRequestDTO.setPage(pageRequestDTO.getPage()-1);
-          };
+        if (helpService.getQnaList(pageRequestDTO).getDtoList().size() == 0 && pageRequestDTO.getPage() != 1) {
+            pageRequestDTO.setPage(pageRequestDTO.getPage() - 1);
+        }
+        ;
         ra.addFlashAttribute("msg2", qno);
-        ra.addFlashAttribute("page",pageRequestDTO.getPage());
+        ra.addFlashAttribute("page", pageRequestDTO.getPage());
         ra.addFlashAttribute("type", pageRequestDTO.getType());
         ra.addFlashAttribute("keyword", pageRequestDTO.getKeyword());
 
         return "redirect:/help/list";
-
 
     }
 }
