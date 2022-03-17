@@ -33,13 +33,14 @@ public class Dyning extends BaseEntity {
 
     private String dyningname;
     private String comment;
-    
+
     private String location;
     private Long foodtype;
     private String businesshours;
+    private String tel;
 
     private String hashtag;
-    
+
     @ManyToOne(fetch = FetchType.LAZY)
     private Member ceoid;
 

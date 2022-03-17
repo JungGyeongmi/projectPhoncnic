@@ -28,7 +28,7 @@ public class RoofDesign extends BaseEntity {
     private Long oono;
 
     private Long rooftype; //foodtype
-    private String roofname; 
+    private String roofname;
     private String roofpath;
-    
+
 }

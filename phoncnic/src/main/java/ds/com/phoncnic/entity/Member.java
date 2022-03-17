@@ -1,5 +1,6 @@
 package ds.com.phoncnic.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -26,4 +27,10 @@ public class Member extends BaseEntity {
     public void changeNickname(String nickname) {
         this.nickname = nickname;
     }
+
+    public void changePassword(String password) {
+        this.password = password;
+    }
+
+
 }

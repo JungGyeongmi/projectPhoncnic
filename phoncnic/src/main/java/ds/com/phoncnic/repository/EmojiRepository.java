@@ -3,6 +3,7 @@ package ds.com.phoncnic.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import ds.com.phoncnic.entity.Emoji;
@@ -18,6 +19,14 @@ public interface EmojiRepository extends JpaRepository<Emoji,Long>{
     
     @Query("select e from Emoji e where e.dyning.dno=:dno")
     List<Emoji> getEmojiByDno(Long dno);
+
+    @Modifying
+    @Query("delete from Emoji e where e.gallery.gno=:gno")
+    void deleteByGno(Long gno);
+
+    @Modifying
+    @Query("delete from Emoji e where e.dyning.dno=:dno")
+    void deleteByDno(Long dno);
     
     // @Query("select e, count(e) from Emoji e where e.gallery.gno=:gno group by e.gallery.gno ")
     // List<Emoji> getCountEmoji(Long gno);
