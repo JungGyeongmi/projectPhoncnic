@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import ds.com.phoncnic.dto.FollowDTO;
-import ds.com.phoncnic.service.FollowService;
+import ds.com.phoncnic.dto.DyningDTO;
+import ds.com.phoncnic.dto.PageRequestDTO;
+import ds.com.phoncnic.entity.Emoji;
 import ds.com.phoncnic.service.dyning.DyningService;
-import ds.com.phoncnic.service.emoji.EmojiInfoService;
 import ds.com.phoncnic.service.emoji.EmojiService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -22,8 +22,6 @@ public class DyningController {
 
     private final DyningService dyningService;
     private final EmojiService emojiService;
-    private final EmojiInfoService emojiInfoService;
-    private final FollowService followService;
 
     // // 제안
     // @GetMapping({"/{choice}", "/{choice}/list/","/{choice}/list"})
@@ -57,16 +55,15 @@ public class DyningController {
     }
 
     @GetMapping("/details")
-    public void restaurantDetails(@RequestParam("dno") Long dno, String id, Model model) {
-        log.info("dyningDetails.................");
+    public void details(@RequestParam("dno") Long dno, Model model) {
+        log.info("Details.................");
+        if(dno!=0){
         model.addAttribute("result", dyningService.getDyningDetails(dno));
         model.addAttribute("imageresult", dyningService.getDyningDetails(dno).getDyningImageDTOList());
-        model.addAttribute("emojiList", emojiService.getEmojiList("g", dno));
-        model.addAttribute("emojiInfoList", emojiInfoService.getEmojiInfoList());
-        model.addAttribute("emojiDTO", emojiService.getEmojiList(id));
-        model.addAttribute("dfollowDTO", followService.getFollow(id).getFollowdyninglist());
-        // model.addAttribute("followresult",
-        // followService.getFollow().getdyningnameList());
+        model.addAttribute("emojilist", emojiService.dyningEmojiList(dno));
+        }else return;
+        
+
     }
 
 }

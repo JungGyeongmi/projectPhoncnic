@@ -44,21 +44,21 @@
         </tr>
 
 
-        <!-- private long dno;
+        <table border="1">
+            <tr >
+                <th scope="col">이모지</th>
+                <th scope="col">닉네임</th>
+            </tr>
+            <tr th:each="dto : ${emojilist}" >
+                <td >[[${dto.emojipath}]]</td>
+                <td >[[${dto.id}]]</td>
 
-        private String dyningname;
-        private String location;
-        private Long foodtype;
-        private String businesshours;
-        private String comment;
-        private String hashtag;
-        private LocalDateTime regdate, moddate;
-        private String tel;
-    
-        private String id;
-    
-        private long oono;
-        private String roofpath; -->
+                
+            </tr>
+        </table>
+
+        <button type="button" class="btn btn-warning addReviewBtn">이모지 추가하기</button>
+
 </body>
 
 </html>
