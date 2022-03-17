@@ -5,11 +5,14 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import org.hibernate.annotations.Comment;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
 import ds.com.phoncnic.dto.MemberDTO;
 import ds.com.phoncnic.entity.Dyning;
+import ds.com.phoncnic.entity.Emoji;
 import ds.com.phoncnic.entity.Gallery;
 import ds.com.phoncnic.entity.Member;
 import ds.com.phoncnic.repository.CharacterLookRepository;
@@ -21,27 +24,29 @@ import ds.com.phoncnic.repository.GalleryRepository;
 import ds.com.phoncnic.repository.HelpRepository;
 import ds.com.phoncnic.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 
 @Service
 @RequiredArgsConstructor
+@Log4j2
 public class MemberServiceImpl implements MemberService {
 
     @Autowired
-    private MemberRepository memberRepository;
+    private final MemberRepository memberRepository;
     @Autowired
-    private CharacterLookRepository characterLookRepository;
+    private final CharacterLookRepository characterLookRepository;
     @Autowired
-    private EmojiRepository emojiRepository;
+    private final EmojiRepository emojiRepository;
     @Autowired
-    private FollowRepository followRepository;
+    private final FollowRepository followRepository;
     @Autowired
-    private HelpRepository helpRepository;
+    private final HelpRepository helpRepository;
     @Autowired
-    private GalleryRepository galleryRepository;
+    private final GalleryRepository galleryRepository;
     @Autowired
-    private DyningRepository dyningRepository;
+    private final DyningRepository dyningRepository;
     @Autowired
-    private DyningImageRepository dyningImageRepository;
+    private final DyningImageRepository dyningImageRepository;
     
 
     
@@ -68,8 +73,9 @@ public class MemberServiceImpl implements MemberService {
 
   }
 
-  @Transactional
   @Override
+  @Transactional
+  @Modifying
   public void remove(String id) {
     Optional<Member> result = memberRepository.findById(id);
     if(result.isPresent()){
@@ -82,16 +88,18 @@ public class MemberServiceImpl implements MemberService {
       List<Gallery> gallerylist= galleryRepository.findByMemberId(id);
       for (Gallery gno: gallerylist)emojiRepository.deleteByGno(gno.getGno());
 
+      List<Emoji> emojilist = emojiRepository.findByMemberId(id);
+      for(Emoji eno: emojilist)emojiRepository.deleteByEno(eno.getEno());
+
       Long dno =dyningRepository.findDyningByMemberId(id).get().getDno();
       dyningImageRepository.deleteByDno(dno);
       dyningRepository.deleteByMemberId(id);
       galleryRepository.deleteByMemberId(id);
       helpRepository.deleteByMemberId(id);
       
-      Member member = result.get();
-      memberRepository.delete(member);
-    }
-
+      memberRepository.deleteById(id);
+      log.info(memberRepository.findById(id));
+      
   }
 
     // @Override
@@ -110,4 +118,5 @@ public class MemberServiceImpl implements MemberService {
 
 
      
+}
 }

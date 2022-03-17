@@ -34,6 +34,6 @@ public class Gallery extends BaseEntity {
     private boolean imagetype;
     private String imagepath;
     
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Member artistid;
 }
