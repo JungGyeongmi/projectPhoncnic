@@ -17,6 +17,15 @@ public interface DyningService {
 
     Long register(DyningDTO dyningDTO);
 
+    // void modify(DyningDTO dyningDTO);
+
+    // void removeWithAll(long dno);
+
+    // void addemoji(long dno);
+
+    // 가게 상세페이지
+    DyningDTO getDyningDetails(Long dno);
+
     default Map<String, Object> dtoToEntity(DyningDTO dto) {
         Map<String, Object> entityMap = new HashMap<>();
 
@@ -93,9 +102,9 @@ public interface DyningService {
 
     }
 
-    
+    // 가게 리스트
     List<DyningDTO> getStreet();
-    // DyningDTO getRoof();
+
     default DyningDTO roofEntityToDTO(Dyning dyning) {
         DyningDTO dyningDTO = DyningDTO.builder()
                 .dno(dyning.getDno())
@@ -114,8 +123,5 @@ public interface DyningService {
 
     // return dyningDTO;
     // }
-
-    // 가게 상세페이지
-    DyningDTO getDyningDetails(Long dno);
 
 }

@@ -6,13 +6,14 @@ import ds.com.phoncnic.dto.FollowDTO;
 
 public interface FollowService {
 
-    FollowDTO getFollow(String id);    
-    
-    default FollowDTO entityToDTO(List<Object> artistList,List<Object> dyningList){
+    FollowDTO getFollow(String id);
+    // Boolean getFollowDyning(String )
+
+    default FollowDTO entityToDTO(List<Object> artistList, List<Object> dyningList) {
         FollowDTO followDTO = FollowDTO.builder()
-        .artistname(artistList)
-        .dyningname(dyningList)
-        .build();
+                .artistname(artistList)
+                .dyningname(dyningList)
+                .build();
         return followDTO;
     }
 }

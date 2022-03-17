@@ -9,12 +9,11 @@ import ds.com.phoncnic.entity.EmojiInfo;
 import ds.com.phoncnic.entity.Gallery;
 import ds.com.phoncnic.entity.Member;
 
-
 public interface EmojiService {
     List<EmojiDTO> getEmojiList(String id);
-    
+
     List<EmojiDTO> getEmojiList(String type, Long no);
-    
+
     /* DTO -> Entity */
     default Emoji dtoToEntity(EmojiDTO emojiDTO) {
         Emoji emoji = Emoji.builder()
@@ -28,39 +27,36 @@ public interface EmojiService {
     }
 
     /* Entity -> DTO */
-    default EmojiDTO entityToEmojiDTO(Emoji emoji){
+    default EmojiDTO entityToEmojiDTO(Emoji emoji) {
         // List<EmojiDTO> emojiDTOList = new ArrayList<>();
-        if(emoji.getDyning()==null) {
+        if (emoji.getDyning() == null) {
             EmojiDTO emojiDTO = EmojiDTO.builder()
-                .eno(emoji.getEno())
-                .id(emoji.getMember().getId())
-                .gno(emoji.getGallery().getGno())
-                .dno(0L)
-                .emojipath(emoji.getEmojiInfo().getEmojipath())
-                .emojitype(emoji.getEmojiInfo().getEmojitype())
-                .kindofemoji(emoji.getEmojiInfo().getKindofemoji())
-                .regdate(emoji.getRegDate())
-                .moddate(emoji.getModDate())
-            .build();
+                    .eno(emoji.getEno())
+                    .id(emoji.getMember().getId())
+                    .gno(emoji.getGallery().getGno())
+                    .dno(0L)
+                    .emojipath(emoji.getEmojiInfo().getEmojipath())
+                    .emojitype(emoji.getEmojiInfo().getEmojitype())
+                    .kindofemoji(emoji.getEmojiInfo().getKindofemoji())
+                    .regdate(emoji.getRegDate())
+                    .moddate(emoji.getModDate())
+                    .build();
             return emojiDTO;
         } else {
             EmojiDTO emojiDTO = EmojiDTO.builder()
-                .eno(emoji.getEno())
-                .id(emoji.getMember().getId())
-                .dno(emoji.getDyning().getDno())
-                .gno(0L)
-                .emojipath(emoji.getEmojiInfo().getEmojipath())
-                .emojitype(emoji.getEmojiInfo().getEmojitype())
-                .kindofemoji(emoji.getEmojiInfo().getKindofemoji())
-                .regdate(emoji.getRegDate())
-                .moddate(emoji.getModDate())
-            .build();
+                    .eno(emoji.getEno())
+                    .id(emoji.getMember().getId())
+                    .dno(emoji.getDyning().getDno())
+                    .gno(0L)
+                    .emojipath(emoji.getEmojiInfo().getEmojipath())
+                    .emojitype(emoji.getEmojiInfo().getEmojitype())
+                    .kindofemoji(emoji.getEmojiInfo().getKindofemoji())
+                    .regdate(emoji.getRegDate())
+                    .moddate(emoji.getModDate())
+                    .build();
             return emojiDTO;
         }
 
-
     }
 
-
-    
 }
