@@ -39,7 +39,6 @@ public class CharacterLookRepositoryTests {
     }
 
     //ChracterLook 더미
-    //멈춰!!!! 밑에 ChracterLookinfo 먼저 인서트 하고 오시오!!!!!!!!!!!!!!
     @Test
     public void insertDummies(){
 
@@ -61,13 +60,13 @@ public class CharacterLookRepositoryTests {
         });
     }
 
-    @Test
-    public void TestGetCharacterLook() {
+    // @Test
+    // public void TestGetCharacterLook() {
     
-    CharacterLookInfo result = characterLookInforepository.getCharacterImgs("user1@icloud.com");
-    System.out.println(result.getHairpath());
-    System.out.println(result.getClothespath());
+    // CharacterLookInfo result = characterLookInforepository.getCharacterImgs("user1@icloud.com");
+    // System.out.println(result.getHairpath());
+    // System.out.println(result.getClothespath());
 
     
-    }
+    // }
 }

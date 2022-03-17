@@ -1,5 +1,7 @@
 package ds.com.phoncnic.service.gallery;
 
+import java.util.List;
+
 import ds.com.phoncnic.dto.GalleryDTO;
 import ds.com.phoncnic.dto.PageRequestDTO;
 import ds.com.phoncnic.dto.PageResultDTO;
@@ -8,11 +10,17 @@ import ds.com.phoncnic.entity.Member;
 
 public interface GalleryService {
     
+    // 상세페이지
     GalleryDTO getGallery(long gno);
+
+    // List
+    List<GalleryDTO> getGalleryList(Boolean type);
+    
+    // Paging처리
     PageResultDTO<GalleryDTO, Gallery> getPhotoList(PageRequestDTO PageRequestDTO);
     PageResultDTO<GalleryDTO, Gallery> getPaintingList(PageRequestDTO PageRequestDTO);
 
-    default Gallery dtoToEnttity (GalleryDTO galleryDto){
+    default Gallery dtoToEntity (GalleryDTO galleryDto){
         Gallery gallery = Gallery.builder()
             .gno(galleryDto.getGno())
             .title(galleryDto.getTitle())

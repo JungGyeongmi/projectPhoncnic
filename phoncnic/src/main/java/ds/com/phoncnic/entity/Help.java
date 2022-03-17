@@ -18,7 +18,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @Getter
 @ToString(exclude = "writer")
-public class Qna extends BaseEntity {
+public class Help extends BaseEntity {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,4 +32,17 @@ public class Qna extends BaseEntity {
 
     @ManyToOne
     private Member writer;
+
+
+    public void changeQtype(String qtype) {
+        this.qtype = qtype;
+    }
+
+    public void changeTitle(String title) {
+        this.title = title;
+    }
+
+    public void changeContent(String content) {
+        this.content = content;
+    }
 }

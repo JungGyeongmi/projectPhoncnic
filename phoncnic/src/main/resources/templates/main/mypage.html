@@ -2,7 +2,8 @@
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
     <h1>mypage</h1>
     
-<table>
+    
+<table border="1">
     <tr>
         <th scope="col">아이디</th>
         <th scope="col">닉네임</th>
@@ -20,17 +21,54 @@
         <td><img th:src="${dto.hairpath}" alt=""></td>
         <td>[[${dto.clothesname}]]</td>
         <td><img th:src="${dto.clothespath}" alt=""></td>
-
+    </tr>
+    <tr>
+        <th scope="col">팔로우한 가게</th>
+        <th scope="col">팔로우한 작가</th>
 
     </tr>
+    <tr th:each="fdto : ${followDTO}">
+        <td >[[${fdto.dyningname}]]</td>
+        <td >[[${fdto.artistname}]]</td>
+    </tr>
+    <tr>
+        <th scope="col">DNO</th>
+        <th scope="col">GNO</th>
+        <th scope="col">이모지타입</th>
+        <th scope="col">이모지path</th>
+        <th scope="col">등록날짜</th>
+    </tr>
+    <tr th:each="edto : ${emojiDTOList}">
+        <td >[[${edto.dno}]]</td>
+        <td >[[${edto.gno}]]</td>
+        <td >[[${edto.emojitype}]]</td>
+        <td >[[${edto.emojipath}]]</td>
+        <td >[[${edto.regdate}]]</td>
+    </tr>
+
+ 
 </table>
+
 <ul>
     <li th:each="dto : ${mypageDTO}">
         [[${dto}]]
     </li>
 </ul>
-<p>1</p>
-<img src="/Users/heo/ProjectJAVA/Phoncnic/phoncnic/src/main/resources/static/look/safariclothes.jpeg" alt="">
+<ul >
+    <li th:each="fdto : ${followDTO}">
+        [[${fdto}]]
+    </li>
+</ul>
+<ul >
+    <li th:each="edto : ${emojiDTOList}">
+        [[${edto}]]
+    </li>
+</ul>
+
+
+
+
+
 
     
 </html>
