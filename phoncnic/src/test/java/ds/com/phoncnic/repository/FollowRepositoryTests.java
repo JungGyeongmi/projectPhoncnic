@@ -1,5 +1,7 @@
 package ds.com.phoncnic.repository;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.IntStream;
 
 import org.junit.jupiter.api.Test;
@@ -22,25 +24,58 @@ public class FollowRepositoryTests {
     @Test
     public void insertArtistFollowDummies() {
         IntStream.rangeClosed(1, 10).forEach(i -> {
-            Follow follow = Follow.builder()
-                    .follower(Member.builder().id("user" + 1 + "@icloud.com").build())
-                    .artistname("user" + i)
-                    .build();
 
-            followRepository.save(follow);
+            List<Integer> randmember = new ArrayList<>();
+
+            while (randmember.size() != 10) {
+                int inputrandomNumber = (int) (Math.random() * 10) + 1;
+                for (int k = 0; k < 10; k++) {
+                    if (!randmember.contains(inputrandomNumber)) {
+                        randmember.add(inputrandomNumber);
+                        break;
+                    }
+                }
+            }
+
+            int ran = (int) (Math.random() * 10) + 1;
+            for (int j = 0; j < (int) (Math.random() * 5) + 1; j++) {
+                Follow follow = Follow.builder()
+                        .follower(Member.builder().id("user" + randmember.get(j) + "@icloud.com").build())
+                        .artistname("user" + ran)
+                        .build();
+
+                followRepository.save(follow);
+            }
         });
+
     }
 
     // dyning 팔로우 더미
     @Test
     public void insertDyningFollowDummies() {
         IntStream.rangeClosed(1, 10).forEach(i -> {
-            Follow follow = Follow.builder()
-                    .follower(Member.builder().id("user" + 1 + "@icloud.com").build())
-                    .dyningname("가게이름" + i)
-                    .build();
 
-            followRepository.save(follow);
+            List<Integer> randmember = new ArrayList<>();
+
+            while (randmember.size() != 10) {
+                int inputrandomNumber = (int) (Math.random() * 10) + 1;
+                for (int k = 0; k < 10; k++) {
+                    if (!randmember.contains(inputrandomNumber)) {
+                        randmember.add(inputrandomNumber);
+                        break;
+                    }
+                }
+            }
+
+            int ran = (int) (Math.random() * 10) + 1;
+            for (int j = 0; j < (int) (Math.random() * 5) + 1; j++) {
+                Follow follow = Follow.builder()
+                        .follower(Member.builder().id("user" + randmember.get(j) + "@icloud.com").build())
+                        .dyningname("가게이름" + ran)
+                        .build();
+
+                followRepository.save(follow);
+            }
         });
     }
 
