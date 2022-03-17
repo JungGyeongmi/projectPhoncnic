@@ -100,6 +100,7 @@ public class GalleryRepositoryTests {
         galleryDTOList.forEach(System.out::println);
     }
 
+<<<<<<< HEAD
     @Test
     public void modifyTest() {
 
@@ -112,4 +113,6 @@ public class GalleryRepositoryTests {
         System.out.println(gallery.toString());
     }
 
+=======
+>>>>>>> gallery_ng
 }

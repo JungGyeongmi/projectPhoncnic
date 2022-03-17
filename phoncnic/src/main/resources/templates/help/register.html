@@ -12,6 +12,7 @@
     <form th:action="@{/help/register}" th:method="post">
         <div>
             <div>
+<<<<<<< HEAD
                 <label>문의유형</label> <br>
                 <select name="qtype" id="">
                     <option value="qtype1">qtype1</option>
@@ -22,6 +23,18 @@
             </div>
             <div>
                 <label>작성자</label>
+=======
+                <label>문의 종류</label> <br>
+                <select name="qtype" id="">
+                    <option value="type1">type1</option>
+                    <option value="type2">type2</option>
+                    <option value="type3">type3</option>
+                    <option value="type4">type4</option>
+                </select>
+            </div>
+            <div>
+                <label>작성자</label> <br>
+>>>>>>> gallery_ng
                 <input type="text" name="writer">
             </div>
             <div>
@@ -37,9 +50,15 @@
                 <input type="text" name="password">
             </div> <br>
             <button type="submit">등록</button>
+<<<<<<< HEAD
         </div>
     </form>
             <a th:href="@{/help/list}"><button type="button">목록</button></a>
+=======
+            <a th:href="@{/help/list}"><button type="button">목록</button></a>
+        </div>
+    </form>
+>>>>>>> gallery_ng
 
 </body>
 </html>

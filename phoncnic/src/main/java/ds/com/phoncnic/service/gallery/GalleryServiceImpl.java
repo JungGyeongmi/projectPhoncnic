@@ -1,7 +1,10 @@
 package ds.com.phoncnic.service.gallery;
 
 import java.util.List;
+<<<<<<< HEAD
 import java.util.Optional;
+=======
+>>>>>>> gallery_ng
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -60,13 +63,17 @@ public class GalleryServiceImpl implements GalleryService {
     // gallery List
     @Override
     public List<GalleryDTO> getGalleryList(Boolean type) {
+<<<<<<< HEAD
 
+=======
+>>>>>>> gallery_ng
         List<Gallery> galleryList = galleryRepository.getGalleryList(type);
         
         List<GalleryDTO> galleryDTOList = galleryList.stream().map(entity -> entityToDTO(entity)).collect(Collectors.toList());
         
         return galleryDTOList;
     }
+<<<<<<< HEAD
 
     // remove with emoji 
     @Transactional
@@ -84,4 +91,6 @@ public class GalleryServiceImpl implements GalleryService {
         galleryRepository.save(gallery);
      
     }
+=======
+>>>>>>> gallery_ng
 }

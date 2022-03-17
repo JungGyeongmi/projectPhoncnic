@@ -9,6 +9,13 @@ import ds.com.phoncnic.entity.Help;
 public interface HelpService {
     PageResultDTO getQnaList(PageRequestDTO pageRequestDTO);
     Long register(HelpDTO helpDTO);
+<<<<<<< HEAD
+=======
+    HelpDTO get(Long qno);
+    void modify(HelpDTO helpDTO);
+    void remove(Long qno);
+
+>>>>>>> gallery_ng
 
 
     /* Entity -> DTO */
