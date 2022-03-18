@@ -17,6 +17,7 @@ public class EmojiServiceImpl implements EmojiService {
     @Autowired
     private EmojiRepository emojiRepository;
 
+
     @Override
     public Long dyningEmojiRegister(EmojiDTO emojiDTO) {
         Emoji dyningemoji = dtoToEntity(emojiDTO);

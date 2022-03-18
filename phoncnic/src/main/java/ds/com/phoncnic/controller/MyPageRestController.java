@@ -47,24 +47,5 @@ public class MyPageRestController {
 
     }
 
-    // @PostMapping("/main/mypage/artistremove")
-    // public String artistremove(String id,String name, RedirectAttributes ra) {
-    // // log.info("remove name.........:"+name);
-    // // log.info("id.........:"+id);
 
-    // followService.removeArtistFollow(id,name);
-    // ra.addAttribute("id", id);
-    // return "redirect:/main/mypage";
-
-    // }
-    // @PostMapping("/main/mypage/dyningremove")
-    // public String dyningremove(String id,String name, RedirectAttributes ra) {
-    // log.info("id.........:"+id);
-    // log.info("remove name.........:"+name);
-
-    // followService.removeDyningFollow(id,name);
-    // ra.addAttribute("id", id);
-    // return "redirect:/main/mypage";
-
-    // }
 }

@@ -42,12 +42,33 @@
                 <th:block th:each="idto : ${imageresult}">[[${idto.backgroundpath}]],</th:block> 
              </td>
         </tr>
+    </table>
+   
+    <form action="">
+    <label for="">id
+        <input type="text" name="id" value="user1@icloud.com"y>
+    </label>
+    <label for="">dno
+        <input type="text" name="dno" th:value="${result.dno}">
+    </label>
+    
+    <label for="">emojitype
+        <select name="emojitype" id="">
+            <option value="1">😋</option>
+            <option value="2">🥰</option>
+            <option value="3">😭</option>
+            <option value="4">😅</option>
 
+        </select>
+    </label>
 
+</form>
+<button type="button" id="emojisave">이모지 추가하기</button>
         <table border="1">
             <tr >
                 <th scope="col">이모지</th>
                 <th scope="col">닉네임</th>
+                <th scope="col">삭제</th>
             </tr>
             <tr th:each="dto : ${emojilist}" >
                 <td >[[${dto.emojipath}]]</td>
@@ -57,8 +78,31 @@
             </tr>
         </table>
 
-        <button type="button" class="btn btn-warning addReviewBtn">이모지 추가하기</button>
 
 </body>
+<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script>
 
+$("#emojisave").click(function () {
+    var id = $("input[name='id']").val();
+    var dno = $("input[name='dno']").val();
+    var emojitype = $("select[name='emojitype']").val();
+
+
+var data = { id: id, dno: dno, emojitype:emojitype};
+       var urlemojiregister = `[[@{/dyning/emojiregister}]]`;
+        console.log(data);
+$.ajax({
+    url: urlemojiregister + "/" + dno,
+    type: "POST",
+    data: JSON.stringify(data),
+    contentType: "application/json; charset=utf-8",
+    dataType: "text",
+    success: function (result) {
+        console.log("result: " + result);
+        self.location.reload();
+    }
+})
+});
+</script>
 </html>
