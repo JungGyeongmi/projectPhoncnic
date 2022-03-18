@@ -37,7 +37,7 @@ public class DyningDetailsRestController {
     }
 
      //이모지 추가
-     @PostMapping("/dyning/emojiregister/{dno}")
+     @PostMapping("/emojiregister/{dno}")
      public ResponseEntity<Long> addEmoji(@RequestBody EmojiDTO EmojiDTO) {
          log.info("-----------------add Emoji-----------------");
          log.info("EmojiDTO:" + EmojiDTO);
@@ -47,7 +47,7 @@ public class DyningDetailsRestController {
          
      }
      //이모지 삭제
-     @DeleteMapping("/dyning/emojiremove/{eno}")
+     @DeleteMapping("/emojiremove/{eno}")
      public ResponseEntity<Long> removeEmoji(@PathVariable Long eno) {
          log.info("eno:" + eno);
  
