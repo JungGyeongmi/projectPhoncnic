@@ -73,6 +73,7 @@
             <tr th:each="dto : ${emojilist}" >
                 <td >[[${dto.emojipath}]]</td>
                 <td >[[${dto.id}]]</td>
+                <td><button type="button" th:value="${dto.eno}" class="emojiRemoveBtn">삭제</button></td>
 
                 
             </tr>
@@ -104,5 +105,25 @@ $.ajax({
     }
 })
 });
+
+
+$(".emojiRemoveBtn").click( function(){
+        var eno =$(this).val();
+        var data = {eno:eno};
+
+        console.log(data);
+        var urlemojiremove = `[[@{/dyning/emojiremove}]]`;
+        $.ajax({
+            url: urlemojiremove +"/"+ eno,
+            type: "DELETE",
+            data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8",
+            dataType: "text",
+            success: function (result) {
+                console.log("result: " + result);
+                self.location.reload();
+        }
+        })
+    });
 </script>
 </html>
