@@ -46,14 +46,14 @@ public interface GalleryService {
 
 
     default  GalleryDTO entityToDTO(Gallery gallery){
-        
+        String path = gallery.getImagepath()==null?"D:/":gallery.getImagepath();
         GalleryDTO galleryDTO = GalleryDTO.builder()
             .gno(gallery.getGno())
             .title(gallery.getTitle())
             .content(gallery.getContent())
             .imagename(gallery.getImagename())
             .imagetype(gallery.isImagetype())
-            .imagepath(gallery.getImagepath())
+            .imagepath(path)
             .id(gallery.getArtistid().getId())
             .moddate(gallery.getModDate())
             .regdate(gallery.getRegDate())

@@ -1,9 +1,6 @@
 package ds.com.phoncnic.service.emoji;
 
-import java.util.Arrays;
 import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
 
 import ds.com.phoncnic.dto.EmojiDTO;
 import ds.com.phoncnic.entity.Dyning;

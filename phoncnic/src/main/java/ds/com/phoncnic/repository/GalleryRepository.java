@@ -25,5 +25,4 @@ public interface GalleryRepository extends JpaRepository<Gallery, Long> {
     // galleryList
     @Query("select g from Gallery g where imagetype = :type")
     List<Gallery> getGalleryList(Boolean type);
-
 }
