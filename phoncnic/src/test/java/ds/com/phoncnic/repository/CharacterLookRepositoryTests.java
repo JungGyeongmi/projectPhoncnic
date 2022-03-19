@@ -1,7 +1,6 @@
 package ds.com.phoncnic.repository;
 
 
-import java.util.Arrays;
 import java.util.UUID;
 import java.util.stream.IntStream;
 
@@ -11,18 +10,18 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import ds.com.phoncnic.entity.CharacterLook;
 import ds.com.phoncnic.entity.CharacterLookInfo;
-import ds.com.phoncnic.entity.Member;
-import lombok.extern.log4j.Log4j2;
 
 
 @SpringBootTest
-@Log4j2
 public class CharacterLookRepositoryTests {
     @Autowired
     CharacterLookRepository repository;
 
     @Autowired
     private CharacterLookInfoRepository characterLookInforepository;
+
+    @Autowired
+    private MemberRepository memberRepository;
 
     //ChracterLookInfo 더미
     @Test
@@ -46,14 +45,14 @@ public class CharacterLookRepositoryTests {
         IntStream.rangeClosed(1, 10).forEach(i->{
             Long ch = ((long)(Math.random()*3+1));
 
-            Member member = Member.builder().id("user"+i+"@icloud.com").build();
-            CharacterLookInfo characterLookinfo = CharacterLookInfo.builder().chno(ch).build();
+            // Member member = Member.builder().id("user"+i+"@icloud.com").build();
+            // CharacterLookInfo characterLookinfo = CharacterLookInfo.builder().chno(ch).build();
 
             CharacterLook characterLook = CharacterLook.builder()
-            .member(member)
-            .characterLookinfo(characterLookinfo)
-            .hairname("hair"+ch)
-            .clothesname("clothes"+ch)
+                .member(memberRepository.findById("user"+i+"@icloud.com").get())
+                .characterLookinfo(characterLookInforepository.findById(ch).get())
+                .hairname("hair"+ch)
+                .clothesname("clothes"+ch)
             .build();
             repository.save(characterLook);
 

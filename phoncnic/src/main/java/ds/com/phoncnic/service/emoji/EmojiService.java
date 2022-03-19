@@ -8,7 +8,6 @@ import ds.com.phoncnic.entity.Emoji;
 import ds.com.phoncnic.entity.EmojiInfo;
 import ds.com.phoncnic.entity.Gallery;
 import ds.com.phoncnic.entity.Member;
-import ds.com.phoncnic.repository.EmojiRepository;
 
 public interface EmojiService {
 
@@ -34,11 +33,11 @@ public interface EmojiService {
     default EmojiDTO entityToEmojiDTO(Emoji emoji){
 
         if(emoji.getDyning()==null) {
-            List<Object[]> emojiCntList = EmojiRepository.getEmojiCountByGno(emoji.getGallery().getGno());
+            /*List<Object[]> emojiCntList = EmojiRepository.getEmojiCountByGno(emoji.getGallery().getGno());
             for (Object[] emojiCnt : emojiCntList ) {
                 Long type = (Long) emojiCnt[0];
                 Long cnt = (Long) emojiCnt[1];
-            }
+            }*/
 
             EmojiDTO emojiDTO = EmojiDTO.builder()
                 .eno(emoji.getEno())
@@ -50,7 +49,6 @@ public interface EmojiService {
                 .kindofemoji(emoji.getEmojiInfo().getKindofemoji())
                 .regdate(emoji.getRegDate())
                 .moddate(emoji.getModDate())
-                .emojicount(0L)
             .build();
             return emojiDTO;
         } else {
@@ -71,6 +69,4 @@ public interface EmojiService {
 
     }
 
-
-    
 }

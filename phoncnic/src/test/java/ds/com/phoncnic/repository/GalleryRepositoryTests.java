@@ -35,14 +35,12 @@ public class GalleryRepositoryTests {
     @Autowired
     EmojiInfoRepository emojiInfoRepository;
 
+
     @Transactional
-    @Test
     @Commit
+    @Test
     public void insertDummise() {
         IntStream.rangeClosed(1, 10).forEach(i -> {
-
-           
-
             List<Integer> randmember = new ArrayList<>();
 
             while (randmember.size() != 10) {
@@ -52,17 +50,14 @@ public class GalleryRepositoryTests {
                         randmember.add(inputrandomNumber);
                         break;
                     }
-
                 }
             }
-            
-            Member member = Member.builder().id(memberRepository.findById("user" + i + "@icloud.com").get().getId()).build();
-            
+
             boolean rand = (int)(Math.random()*2)!=0;
             Gallery gallery = Gallery.builder()
                 .title(i + "title")
                 .content(i + "content")
-                .artistid(member)
+                .artistid(memberRepository.findById("user"+i+"@icloud.com").get())
                 .imagepath("D:/image/imagepath/image" + i + ".jpg")
                 .imagetype(rand)
                 .imagename("imagename" + i)
@@ -72,8 +67,7 @@ public class GalleryRepositoryTests {
             int ra = (int) (Math.random() * 5) + 1;
 
             for (int j = 0; j < ra; j++) {
-                member = Member.builder().id("user" + randmember.get(j) + "@icloud.com")
-                    .build();
+                Member member = memberRepository.findById("user"+randmember.get(j)+"@icloud.com").get();
 
                 String emojiType = (int) (Math.random() * 4) + 1 + "";
                 Emoji emoji = Emoji.builder()

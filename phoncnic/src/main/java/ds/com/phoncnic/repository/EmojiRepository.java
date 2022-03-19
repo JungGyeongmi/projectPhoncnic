@@ -27,11 +27,6 @@ public interface EmojiRepository extends JpaRepository<Emoji,Long>{
     @Modifying
     @Query("delete from Emoji e where e.dyning.dno=:dno")
     void deleteByDno(Long dno);
-    
-    // delete
-    @Modifying
-    @Query("delete from Emoji e where e.gallery.gno = :gno")
-    void deleteByGno(Long gno);
 
 
     @Query("select e, count(e) from Emoji e where e.emojiInfo.emojitype= :type group by e.eno ")
@@ -40,7 +35,6 @@ public interface EmojiRepository extends JpaRepository<Emoji,Long>{
     @Query("select e.emojiInfo.emojitype, count(e.emojiInfo.emojitype) from Emoji e where e.gallery.gno = :gno group by e.emojiInfo.emojitype")
     static
     List<Object[]> getEmojiCountByGno(Long gno) {
-        // TODO Auto-generated method stub
         return null;
     }
 }
