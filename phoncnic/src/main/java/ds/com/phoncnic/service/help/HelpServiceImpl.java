@@ -12,6 +12,7 @@ import ds.com.phoncnic.dto.HelpDTO;
 import ds.com.phoncnic.dto.PageRequestDTO;
 import ds.com.phoncnic.dto.PageResultDTO;
 import ds.com.phoncnic.entity.Help;
+import ds.com.phoncnic.entity.Member;
 import ds.com.phoncnic.repository.HelpRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -35,10 +36,20 @@ public class HelpServiceImpl implements HelpService {
     @Override
     public Long register(HelpDTO helpDTO) {
         Help entity = dtoToEntity(helpDTO);
+        Help helpEntity = Help.builder()
+            .title("답변")
+            .content("답변내용")
+            .password(helpDTO.getPassword())
+            .qtype(helpDTO.getQtype()+"answer")
+            .answerstatus(false)
+            .writer(Member.builder().id("user10@icloud.com").build())
+            .build();
         helpRepository.save(entity);
+        helpRepository.save(helpEntity);
         return entity.getQno();
 
     }
+
 
     @Override
     public HelpDTO get(Long qno) {
@@ -67,6 +78,7 @@ public class HelpServiceImpl implements HelpService {
     @Override
     public void remove(Long qno) {
         helpRepository.deleteById(qno);
+        helpRepository.deleteById(qno-1);
     }
 
 }

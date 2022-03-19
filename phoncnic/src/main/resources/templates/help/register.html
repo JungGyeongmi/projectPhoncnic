@@ -12,18 +12,6 @@
     <form th:action="@{/help/register}" th:method="post">
         <div>
             <div>
-<<<<<<< HEAD
-                <label>문의유형</label> <br>
-                <select name="qtype" id="">
-                    <option value="qtype1">qtype1</option>
-                    <option value="qtype2">qtype2</option>
-                    <option value="qtype3">qtype3</option>
-                    <option value="qtype4">qtype4</option>
-                </select>
-            </div>
-            <div>
-                <label>작성자</label>
-=======
                 <label>문의 종류</label> <br>
                 <select name="qtype" id="">
                     <option value="type1">type1</option>
@@ -34,7 +22,6 @@
             </div>
             <div>
                 <label>작성자</label> <br>
->>>>>>> gallery_ng
                 <input type="text" name="writer">
             </div>
             <div>
@@ -47,18 +34,21 @@
             </div>
             <div>
                 <label>비밀번호</label> <br>
-                <input type="text" name="password">
+                <input type="number" name="password" id="pwInput" oninput="pwLength(this,4)">
+                <span>숫자 4자리를 입력해주세요</span>
             </div> <br>
             <button type="submit">등록</button>
-<<<<<<< HEAD
-        </div>
-    </form>
-            <a th:href="@{/help/list}"><button type="button">목록</button></a>
-=======
             <a th:href="@{/help/list}"><button type="button">목록</button></a>
         </div>
     </form>
->>>>>>> gallery_ng
-
 </body>
+<script th:inline="javascript">
+    //글자수 제한
+    pwInput = document.getElementById("pwInput");
+    function pwLength(input, maxlength) {
+        if (pwInput.value > maxlength) {
+            input.value = input.value.substr(0,maxlength);
+        }
+    }
+</script>
 </html>
