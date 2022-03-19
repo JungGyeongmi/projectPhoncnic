@@ -1,5 +1,6 @@
 package ds.com.phoncnic.repository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
@@ -43,6 +44,7 @@ public class DyningRepositoryTests {
                     .comment("사장님 한 마디" + i)
                     .location("실제가게위치" + i)
                     .foodtype(roof)
+                    .tel("051-1234-1234")
                     .businesshours("영업시간" + i)
                     .hashtag("해쉬태그" + i)
                     .ceoid(member)
@@ -75,6 +77,24 @@ public class DyningRepositoryTests {
 
     }
 
-    
+
+    @Test
+    public void Test2() {
+        List<Dyning> result = dyningRepository.getStreetList();
+        result.forEach(i->{
+            System.out.println(i);
+        });
+    }
+
+    @Test
+    public void Test4() {
+        List<DyningImage> result = dyningRepository.getImageDetailsPage(1L);
+        result.forEach(i->{
+            System.out.println(i);
+        });
+        
+    }
+
+
 
 }

@@ -11,15 +11,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MyPageDTO {
+public class MemberDTO {
     private String id;
     private String nickname;
     private String password;
     
-    private String hairname;
-    private String hairpath;
-    private String clothesname;
-    private String clothespath;
     
     private LocalDateTime regdate, moddate;
     

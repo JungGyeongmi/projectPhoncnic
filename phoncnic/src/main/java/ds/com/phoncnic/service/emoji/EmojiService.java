@@ -15,7 +15,7 @@ public interface EmojiService {
  
     
     List<EmojiDTO> getEmojiList(String id);
-    
+    void emojiRemove(Long eno);
     List<EmojiDTO> getEmojiList(String type, Long no);
     
     /* DTO -> Entity */
