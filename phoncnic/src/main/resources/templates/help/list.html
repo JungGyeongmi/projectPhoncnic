@@ -7,39 +7,40 @@
     <title>Help</title>
 </head>
 <body>
-    <h1>무엇이든 물어보살</h1>
+    <h1>고객센터</h1>
     <a th:href="@{/help/register}">
         <button type="button">
-            문의글 작성하기
+            문의하기
         </button>
     </a>
-    
     <table border="1">
         <thead>
           <tr>
-            <th scope="col">#</th>
-            <th scope="col">Title</th>
-            <th scope="col">Content</th>
-            <th scope="col">NickName</th>
-            <th scope="col">Regdate</th>
-            <!-- <th scope="col">CURRENT : 현재 객체 정보</th> -->
+            <!--/* <th scope="col">No.</th> */-->
+            <th scope="col">문의 종류</th>
+            <th scope="col">제목</th>
+            <th scope="col">내용</th>
+            <th scope="col">작성자</th>
+            <th scope="col">등록일</th>
           </tr>
         </thead>
         <tbody>
-          <tr th:each="dto, state : ${result.dtoList}">
-                <th>[[${ num }]]</th>
-
+          <tr th:each="dto, state : ${result.dtoList}" class="dto" 
+          th:onclick="|javascript:pwcheck([[${dto.qno}]],[[${result.page}]])|"
+          th:style="${dto.qtype.contains('답변') ? 'background-color:lightgray':''}" > 
+                <!--/* <td>[[${ state.count }]]</td> */-->
+                <td>[[${dto.qtype}]]</td>
                 <td>[[${ dto.title }]]</td>
             <td><b th:text="${dto.content}"></b></td>
             <td><b th:text="${dto.writer}"></b></td>
             <td>[[${#temporals.format(dto.regdate,'yyyy/MM/dd')}]]</td>
-            <!-- <td>[[${state.current}]]</td> -->
+            <td style="border: none;"><input type="hidden" th:value="${dto.password}" id="inputPw"></td>
         </tr>
         </tbody>
     </table>
-    <!-- <th:block th:each="num : ${#numbers.sequence(1, result.end*result.size)}">
+    <!--/* <th:block th:each="num : ${#numbers.sequence(1, result.end*result.size)}">
         <b scope="row">[[${ num }]]</b>
-    </th:block> -->
+    </th:block> */-->
     <ul>
     <li th:if="${result.prev}">
         <a th:href="@{/help/list( page=${result.start-1} )}" tabindex="-1">Previous</a>
@@ -60,5 +61,37 @@
     if(msg != null){
         alert("글이 등록되었습니다");
     }
+
+    /*[+ var msg2=[[${msg2}]]; +]*/
+
+    if(msg2 != null) {
+        alert("글이 삭제되었습니다");
+    }
+    
+
+    //비밀번호 유효성검사
+    const dto = document.querySelector(".dto");
+    dto.addEventListener("click",pwcheck);
+    
+    function pwcheck(qno,page){
+        
+        const inputPw = document.querySelector("#inputPw").value;
+        const messagePrompt = window.prompt("비밀번호를 입력해주세요");
+        const message = Number(messagePrompt);
+        
+        //console.log(message);
+        //console.log(inputPw);
+
+        if(message != inputPw){
+            alert("틀렸습니다 다시 입력해주세요");
+            return;
+            window.location.href="list";
+        } else if(message == inputPw) {
+            window.location.href ="read?qno="+qno+"&page="+page;
+            return;
+
+        }
+    }
+
 </script>
 </html>

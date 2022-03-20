@@ -4,8 +4,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import ds.com.phoncnic.dto.GalleryDTO;
 import ds.com.phoncnic.dto.PageRequestDTO;
 import ds.com.phoncnic.service.emoji.EmojiInfoService;
 import ds.com.phoncnic.service.emoji.EmojiService;
@@ -43,7 +45,7 @@ public class GalleryController {
         model.addAttribute("galleryDTOList", galleryService.getGalleryList(false));
         model.addAttribute("emoji", emojiService.getEmojiList("g"));
         model.addAttribute("list", galleryService.getPhotoList(pageRequestDTO));
-        return "gallery/photo";
+        return "gallery/photo/list";
     }
 
     //그림전 상세페이지
@@ -53,19 +55,36 @@ public class GalleryController {
         model.addAttribute("galleryDTOList", galleryService.getGalleryList(true));
         model.addAttribute("emoji", emojiService.getEmojiList("g"));
         model.addAttribute("list", galleryService.getPaintingList(pageRequestDTO));
-        return "gallery/painting";
+        return "gallery/painting/list";
     }
 
-    @GetMapping("/read/{gno}")
-    public String getReadPage(@PathVariable("gno")long gno, PageRequestDTO pageRequestDTO, Model model){
-        // model.addAttribute("emojiList", emojiService.getEmojiList("g", gno));
-        // log.info("read emoji ..." + emojiService.getEmojiList("g", gno));
+    @GetMapping("/{choice}/{check}")
+    public String getReadPage(@PathVariable("choice") String choice, @PathVariable("check") String check, long gno, PageRequestDTO pageRequestDTO, Model model){
+        model.addAttribute("emojiList", emojiService.getEmojiList("g", gno));
+        log.info("read emoji ..." + gno);
         
         model.addAttribute("emojiInfoList", emojiInfoService.getEmojiInfoList());
         model.addAttribute("galleryDTO", galleryService.getGallery(gno));
 
-        return "/gallery/read";
+        return "/gallery/"+choice+"/"+check;
     }
 
+    @PostMapping("/{choice}/remove")
+    public String getRemovePage(@PathVariable("choice") String choice, long gno){
+        
+        galleryService.removeWithEmojis(gno);
+
+        log.info("remove "+choice+" page "+gno+"....");
+        return "redirect:/gallery/"+choice;
+    }
+
+    @PostMapping("/{choice}/modify")
+    public String getRemovePage(@PathVariable("choice") String choice, GalleryDTO galleryDTO, long gno){
+        
+        galleryService.modify(galleryDTO);
+
+        log.info("modify "+choice+" page "+galleryDTO.getGno()+"....");
+        return "redirect:/gallery/"+choice+"/read?gno="+gno;
+    }
 
 }

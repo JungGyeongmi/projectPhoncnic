@@ -4,16 +4,15 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gallery : photo</title>
+    <title>Gallery : painting</title>
 </head>
 <body>
-   <h1>사진전</h1>
-<table>
-    <ul>
-        <li th:each="dto : ${galleryDTOList}">
-            [[${dto}]]
-        </li>
-    </ul>
-
-</table>
+   <h1>그림전</h1>
+   <ul>
+       <li th:each="dto : ${galleryDTOList} ">
+        <a th:href="@{/gallery/painting/read(gno=${dto.gno}) }">
+            [[${ dto }]]
+        </a>    
+       </li>d
+   </ul>
 </body>
