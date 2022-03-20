@@ -48,7 +48,6 @@ public class HelpServiceImpl implements HelpService {
         helpRepository.save(entity);
         helpRepository.save(helpEntity);
         return entity.getQno();
-
     }
 
     @Override

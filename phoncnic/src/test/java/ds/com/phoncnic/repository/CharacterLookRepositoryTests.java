@@ -19,11 +19,7 @@ public class CharacterLookRepositoryTests {
     @Autowired
     private CharacterLookInfoRepository characterLookInforepository;
 
-    @Autowired
-    private MemberRepository memberRepository;
-
-    //ChracterLookInfo 더미
-
+    // ChracterLookInfo 더미
     @Test
     public void insertChracterimg() {
 
@@ -41,7 +37,9 @@ public class CharacterLookRepositoryTests {
     // ChracterLook 더미
     @Test
     public void insertDummies() {
+
         IntStream.rangeClosed(1, 10).forEach(i->{
+
             Member member = Member.builder().id("user"+i+"@icloud.com").build();
             CharacterLookInfo characterLookinfo = CharacterLookInfo.builder().chno(1L).build();
 
@@ -52,11 +50,13 @@ public class CharacterLookRepositoryTests {
             .clothesname("clothes"+1)
             .build();
             repository.save(characterLook);
+
         });
     }
 
     @Test
     public void TestGetCharacterLook() {
+
         CharacterLookInfo result = characterLookInforepository.getHair("user1@icloud.com");
         System.out.println(result.getHairname());
         System.out.println(result.getHairpath());

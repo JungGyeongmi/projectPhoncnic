@@ -43,8 +43,9 @@ public class MyPageRestController {
         log.info("eno:" + eno);
 
         emojiService.emojiRemove(eno);
-        return new ResponseEntity<>(eno , HttpStatus.OK);
-        
-    }
-}
+        return new ResponseEntity<>(eno, HttpStatus.OK);
 
+    }
+
+
+}

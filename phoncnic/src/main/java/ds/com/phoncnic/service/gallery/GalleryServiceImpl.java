@@ -60,7 +60,6 @@ public class GalleryServiceImpl implements GalleryService {
     // gallery List
     @Override
     public List<GalleryDTO> getGalleryList(Boolean type) {
-
         List<Gallery> galleryList = galleryRepository.getGalleryList(type);
 
         List<GalleryDTO> galleryDTOList = galleryList.stream().map(entity -> entityToDTO(entity))
@@ -69,12 +68,12 @@ public class GalleryServiceImpl implements GalleryService {
         return galleryDTOList;
     }
 
-    // remove with emoji 
+    // remove with emoji
     @Transactional
     @Override
     public void removeWithEmojis(long gno) {
-       emojiRepository.deleteByGno(gno); 
-       galleryRepository.deleteById(gno);
+        emojiRepository.deleteByGno(gno);
+        galleryRepository.deleteById(gno);
     }
 
     @Override
@@ -84,17 +83,5 @@ public class GalleryServiceImpl implements GalleryService {
         gallery.changeTitleAndContent(dto.getTitle(), dto.getContent());
         galleryRepository.save(gallery);
 
-     
     }
-
-    // 등록
-    @Override
-    public void register(GalleryDTO dto) {
-       
-        log.info(dto.toString());
-        Gallery gallery = dtoToEntity(dto);
-        galleryRepository.save(gallery);
-    
-    }
-
 }

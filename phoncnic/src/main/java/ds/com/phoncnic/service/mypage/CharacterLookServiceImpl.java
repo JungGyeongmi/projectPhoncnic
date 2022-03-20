@@ -11,10 +11,11 @@ import ds.com.phoncnic.entity.CharacterLookInfo;
 import ds.com.phoncnic.repository.CharacterLookInfoRepository;
 import ds.com.phoncnic.repository.CharacterLookRepository;
 import lombok.RequiredArgsConstructor;
-
+import lombok.extern.log4j.Log4j2;
 
 @Service
 @RequiredArgsConstructor
+@Log4j2
 public class CharacterLookServiceImpl implements CharacterLookService{
     @Autowired
     private CharacterLookInfoRepository repository;

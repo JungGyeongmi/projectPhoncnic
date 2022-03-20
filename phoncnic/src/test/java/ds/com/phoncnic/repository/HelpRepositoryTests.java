@@ -33,7 +33,6 @@ public class HelpRepositoryTests {
             int randomMember = (int)(Math.random()*10)+1;  
             int type = (int)(Math.random()*4)+1;
             boolean rand =((int)(Math.random()*2)) !=0;
-
             // 답변용 빈깡통
             Help rehelp = Help.builder()
                 .title("답변"+i)
@@ -45,7 +44,6 @@ public class HelpRepositoryTests {
                 .writer(memberRepository.findById("user10@icloud.com").get())
             .build();
             helpRepository.save(rehelp);
-
             Help help = Help.builder()
                 .title("질문"+i)
                 .content("질문내용"+i)

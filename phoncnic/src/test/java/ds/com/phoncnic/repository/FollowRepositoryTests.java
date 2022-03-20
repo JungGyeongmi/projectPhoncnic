@@ -1,6 +1,5 @@
 package ds.com.phoncnic.repository;
 
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -18,12 +17,9 @@ public class FollowRepositoryTests {
     @Autowired
     FollowRepository followRepository;
 
-    @Autowired
-    MemberRepository memberRepository;
-
     // follow 테이블 삭제 -> Artist&Dyning 더미 돌리기
     // !!!!!!!!
-
+    // !!!!!!!!
     // artist 팔로우 더미
     @Test
     public void insertArtistFollowDummies() {
@@ -59,7 +55,6 @@ public class FollowRepositoryTests {
     public void insertDyningFollowDummies() {
         IntStream.rangeClosed(1, 10).forEach(i -> {
 
-
             List<Integer> randmember = new ArrayList<>();
 
             while (randmember.size() != 10) {
@@ -83,5 +78,12 @@ public class FollowRepositoryTests {
             }
         });
     }
+
+    // @Test
+    // public void TestGetFollowList(){
+    // String id="user1@icloud.com";
+    // List<Object[]> result = followRepository.getfollowArtistList2(id);
+    // result.forEach(i->{System.out.println(i);});
+    // }
 
 }

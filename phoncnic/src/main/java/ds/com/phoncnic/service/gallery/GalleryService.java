@@ -9,16 +9,10 @@ import ds.com.phoncnic.entity.Gallery;
 import ds.com.phoncnic.entity.Member;
 
 public interface GalleryService {
-
-    // 등록
-    void register(GalleryDTO dto);
-
-    // 삭제
     void removeWithEmojis(long gno);
 
-    // 수정
     void modify(GalleryDTO dto);
-
+    
     // 상세페이지
     GalleryDTO getGallery(long gno);
 
@@ -29,15 +23,14 @@ public interface GalleryService {
     PageResultDTO<GalleryDTO, Gallery> getPhotoList(PageRequestDTO PageRequestDTO);
     PageResultDTO<GalleryDTO, Gallery> getPaintingList(PageRequestDTO PageRequestDTO);
 
-    default Gallery dtoToEntity (GalleryDTO galleryDTO){
+    default Gallery dtoToEntity (GalleryDTO galleryDto){
         Gallery gallery = Gallery.builder()
-            .gno(galleryDTO.getGno())
-            .title(galleryDTO.getTitle())
-            .content(galleryDTO.getContent())
-            .imagename(galleryDTO.getImagename())
-            .imagetype(galleryDTO.isImagetype())
-            .imagepath(galleryDTO.getImagepath())
-            .artistid( Member.builder().id(galleryDTO.getId()).build() )
+            .gno(galleryDto.getGno())
+            .title(galleryDto.getTitle())
+            .imagename(galleryDto.getImagename())
+            .imagetype(galleryDto.isImagetype())
+            .imagepath(galleryDto.getImagepath())
+            .artistid(Member.builder().id(galleryDto.getId()).build())
             .build();
 
             return gallery;
@@ -45,14 +38,14 @@ public interface GalleryService {
 
 
     default  GalleryDTO entityToDTO(Gallery gallery){
-        String path = gallery.getImagepath()==null?"D:/":gallery.getImagepath();
+        
         GalleryDTO galleryDTO = GalleryDTO.builder()
             .gno(gallery.getGno())
             .title(gallery.getTitle())
             .content(gallery.getContent())
             .imagename(gallery.getImagename())
             .imagetype(gallery.isImagetype())
-            .imagepath(path)
+            .imagepath(gallery.getImagepath())
             .id(gallery.getArtistid().getId())
             .moddate(gallery.getModDate())
             .regdate(gallery.getRegDate())
