@@ -64,24 +64,24 @@ public class MyPageController {
     }   
 
     @PostMapping("/mypage/membermodify")
-        public String membermodify(MemberDTO memberDTO, RedirectAttributes ra) {
-            log.info("modify post.........id:"+memberDTO.getId());
-            
-            memberService.modify(memberDTO);
-            ra.addAttribute("id", memberDTO.getId());
-            return "redirect:/main/mypage";
-
+    public String membermodify(MemberDTO memberDTO, RedirectAttributes ra) {
+        log.info("modify post.........id:"+memberDTO.getId());
+        
+        memberService.modify(memberDTO);
+        ra.addAttribute("id", memberDTO.getId());
+        return "redirect:/main/mypage";
     }
+
     @PostMapping("/mypage/lookmodify")
-        public String lookmodify(CharacterLookDTO characterLookDTO,String id, RedirectAttributes ra) {
-            log.info("modify post.........:"+characterLookDTO.getHairname());
-            log.info("modify post.........:"+characterLookDTO.getClothesname());
-            
-            characterLookService.modify(characterLookDTO,id);
-            ra.addAttribute("id", id);
-            return "redirect:/main/mypage";
-
+    public String lookmodify(CharacterLookDTO characterLookDTO,String id, RedirectAttributes ra) {
+        log.info("modify post.........:"+characterLookDTO.getHairname());
+        log.info("modify post.........:"+characterLookDTO.getClothesname());
+        
+        characterLookService.modify(characterLookDTO,id);
+        ra.addAttribute("id", id);
+        return "redirect:/main/mypage";
     }
+
     @PostMapping("/mypage/memberremove")
     public String memberRemove(String id) {
         log.info("member removing....."+id);

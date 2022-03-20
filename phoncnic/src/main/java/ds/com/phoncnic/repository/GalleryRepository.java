@@ -27,7 +27,6 @@ public interface GalleryRepository extends JpaRepository<Gallery, Long> {
     @Query("select g from Gallery g where imagetype = :type")
     List<Gallery> getGalleryList(Boolean type);
 
-
     @Modifying
     @Query("delete from Gallery g where g.artistid.id=:id")
     void deleteByMemberId(String id);

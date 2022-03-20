@@ -13,7 +13,6 @@ import ds.com.phoncnic.entity.Member;
 import ds.com.phoncnic.entity.RoofDesign;
 
 public interface DyningService {
-    // PageResultDTO<DyningDTO, Object[]> getList(PageRequestDTO pageRequestDTO);
 
     Long register(DyningDTO dyningDTO);
 

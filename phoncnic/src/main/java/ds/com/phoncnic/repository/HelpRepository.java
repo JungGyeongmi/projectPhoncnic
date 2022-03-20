@@ -10,12 +10,11 @@ import ds.com.phoncnic.entity.Help;
 
 public interface HelpRepository extends JpaRepository<Help, Long> {
 
-    @Query("select q from Help q where answerstatus = true ")
+    @Query("select q from Help q where answerstatus = true or mod(qno, 2) = 0 ")
     Page<Help> getListPage(Pageable pageable);
 
-    
     @Modifying
     @Query("delete from Help h where h.writer.id=:id")
     void deleteByMemberId(String id);
-    
+
 }

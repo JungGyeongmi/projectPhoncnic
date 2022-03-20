@@ -32,7 +32,7 @@ public class DyningServiceImpl implements DyningService {
     Map<String, Object> entityMap = dtoToEntity(dyningdDTO);
     Dyning dyning = (Dyning) entityMap.get("dyning");
     dyningRepository.save(dyning);
-
+ 
     return dyning.getDno();
   }
 
@@ -50,3 +50,4 @@ public class DyningServiceImpl implements DyningService {
     return entityToDTO(dyning,dyningImageList);
   }
 }
+

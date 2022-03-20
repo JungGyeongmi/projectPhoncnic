@@ -66,7 +66,6 @@ public class CharacterLookRepositoryTests {
 
     @Test
     public void TestGetCharacterLook() {
-    
         CharacterLookInfo result = characterLookInforepository.getHair("user1@icloud.com");
         System.out.println(result.getHairname());
         System.out.println(result.getHairpath());
@@ -75,4 +74,5 @@ public class CharacterLookRepositoryTests {
         System.out.println(result2.getClothespath());
 
     }
+
 }

@@ -8,6 +8,7 @@ import ds.com.phoncnic.entity.Help;
 
 public interface HelpService {
     PageResultDTO<HelpDTO, Help> getQnaList(PageRequestDTO pageRequestDTO);
+
     Long register(HelpDTO helpDTO);
 
     HelpDTO get(Long qno);

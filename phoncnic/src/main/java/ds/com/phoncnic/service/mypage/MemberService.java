@@ -28,15 +28,9 @@ public interface MemberService {
         .password(member.getPassword())
         .regdate(member.getRegDate())
         .moddate(member.getModDate())
-        // .hairname(characterLookInfo.getHairname())
-        // .hairpath(characterLookInfo.getHairpath())
-        // .clothesname(characterLookInfo.getClothesname())
-        // .clothespath(characterLookInfo.getClothespath())
         .build();
         return memberDTO;
     }
 
-
-    
 }
         

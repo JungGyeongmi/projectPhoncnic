@@ -4,11 +4,12 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import javax.transaction.Transactional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import ds.com.phoncnic.dto.GalleryDTO;
 import ds.com.phoncnic.dto.PageRequestDTO;
@@ -23,18 +24,18 @@ import lombok.extern.log4j.Log4j2;
 @RequiredArgsConstructor
 @Log4j2
 public class GalleryServiceImpl implements GalleryService {
-   
+
     private final GalleryRepository galleryRepository;
     private final EmojiRepository emojiRepository;
-   
+
     @Override
     public PageResultDTO<GalleryDTO, Gallery> getPhotoList(PageRequestDTO PageRequestDTO) {
         Pageable pageable = PageRequestDTO.getPageable(Sort.by("gno").descending());
 
         Page<Gallery> result = galleryRepository.getPhotoPage(pageable);
-        
+
         Function<Gallery, GalleryDTO> fn = (entity -> entityToDTO(entity));
-        
+
         return new PageResultDTO<>(result, fn);
     }
 
@@ -43,15 +44,15 @@ public class GalleryServiceImpl implements GalleryService {
         Pageable pageable = PageRequestDTO.getPageable(Sort.by("gno").descending());
 
         Page<Gallery> result = galleryRepository.getPaintingPage(pageable);
-        
+
         Function<Gallery, GalleryDTO> fn = (entity -> entityToDTO(entity));
-        
+
         return new PageResultDTO<>(result, fn);
     }
 
     // 상세 페이지
     @Override
-    public GalleryDTO getGallery(long gno) {        
+    public GalleryDTO getGallery(long gno) {
         Gallery gallery = galleryRepository.getGalleryByGno(gno);
         return entityToDTO(gallery);
     }
@@ -61,12 +62,12 @@ public class GalleryServiceImpl implements GalleryService {
     public List<GalleryDTO> getGalleryList(Boolean type) {
 
         List<Gallery> galleryList = galleryRepository.getGalleryList(type);
-        
-        List<GalleryDTO> galleryDTOList = galleryList.stream().map(entity -> entityToDTO(entity)).collect(Collectors.toList());
-        
+
+        List<GalleryDTO> galleryDTOList = galleryList.stream().map(entity -> entityToDTO(entity))
+                .collect(Collectors.toList());
+
         return galleryDTOList;
     }
-
 
     // remove with emoji 
     @Transactional
@@ -76,13 +77,13 @@ public class GalleryServiceImpl implements GalleryService {
        galleryRepository.deleteById(gno);
     }
 
-    // 수정
     @Override
     public void modify(GalleryDTO dto) {
         log.info(dto.toString());
         Gallery gallery = galleryRepository.findById(dto.getGno()).get();
         gallery.changeTitleAndContent(dto.getTitle(), dto.getContent());
         galleryRepository.save(gallery);
+
      
     }
 
@@ -96,5 +97,4 @@ public class GalleryServiceImpl implements GalleryService {
     
     }
 
-    
 }

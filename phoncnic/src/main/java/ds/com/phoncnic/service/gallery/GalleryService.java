@@ -19,7 +19,6 @@ public interface GalleryService {
     // 수정
     void modify(GalleryDTO dto);
 
-
     // 상세페이지
     GalleryDTO getGallery(long gno);
 

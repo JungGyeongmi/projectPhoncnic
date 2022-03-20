@@ -31,5 +31,4 @@ public interface DyningRepository extends JpaRepository<Dyning, Long> {
     @Query("select di from DyningImage di where di.dyning.id =:dno")
     List<DyningImage> getImageDetailsPage(Long dno);
 
-
 }

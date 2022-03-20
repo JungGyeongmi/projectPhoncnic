@@ -35,7 +35,8 @@
         <a th:href="@{/help/modify(qno=${dto.qno}, page=${pageRequestDTO.page})}">
             <button type="button">수정</button>
         </a>
-        <button type="button" id="removeBtn">삭제</button>
+        <button type="button" id="removeBtn" th:if="${dto.qno % 2 == 0}">삭제</button>
+        <a th:href="@{/help/list(page=${pageRequestDTO.page})}"><button type="button">목록</button></a>
     </div>
     </form>
 </body>

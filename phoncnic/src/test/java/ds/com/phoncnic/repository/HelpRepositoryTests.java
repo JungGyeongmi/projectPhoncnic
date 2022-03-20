@@ -29,23 +29,15 @@ public class HelpRepositoryTests {
 
     @Test
     public void insertDummies() {
-        IntStream.rangeClosed(1, 15).forEach(i->{
+        IntStream.rangeClosed(1, 30).forEach(i->{
             int randomMember = (int)(Math.random()*10)+1;  
             int type = (int)(Math.random()*4)+1;
             boolean rand =((int)(Math.random()*2)) !=0;
-            Help help = Help.builder()
-                .title("제목"+i)
-                .content("내용"+i)
-                .password("1234")
-                .qtype("type"+type)
-                .answerstatus(rand)
-                .writer(memberRepository.findById("user"+randomMember+"@icloud.com").get())
-            .build();
-            helpRepository.save(help);
+
             // 답변용 빈깡통
             Help rehelp = Help.builder()
-                .title("호갱님"+i)
-                .content("블라블라"+i)
+                .title("답변"+i)
+                .content("답변내용"+i)
                 .password("1234")
                 .qtype("답변용"+type)
                 .answerstatus(rand)
@@ -53,6 +45,16 @@ public class HelpRepositoryTests {
                 .writer(memberRepository.findById("user10@icloud.com").get())
             .build();
             helpRepository.save(rehelp);
+
+            Help help = Help.builder()
+                .title("질문"+i)
+                .content("질문내용"+i)
+                .password("1234")
+                .qtype("type"+type)
+                .answerstatus(rand)
+                .writer(memberRepository.findById("user"+randomMember+"@icloud.com").get())
+            .build();
+            helpRepository.save(help);
         });
     }
 

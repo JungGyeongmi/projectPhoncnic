@@ -24,6 +24,7 @@ public class HelpServiceImpl implements HelpService {
     
     @Override
     public PageResultDTO<HelpDTO, Help> getQnaList(PageRequestDTO pageRequestDTO) {
+
         Pageable pageable = pageRequestDTO.getPageable(Sort.by("regDate").descending());
 
         Page<Help> result = helpRepository.getListPage(pageable);
@@ -37,8 +38,8 @@ public class HelpServiceImpl implements HelpService {
     public Long register(HelpDTO helpDTO) {
         Help entity = dtoToEntity(helpDTO);
         Help helpEntity = Help.builder()
-            .title("호갱님")
-            .content("")
+            .title("답변")
+            .content("답변내용")
             .password(helpDTO.getPassword())
             .qtype(helpDTO.getQtype()+"answer")
             .answerstatus(false)
@@ -77,7 +78,6 @@ public class HelpServiceImpl implements HelpService {
     @Override
     public void remove(Long qno) {
         helpRepository.deleteById(qno);
-        helpRepository.deleteById(qno+1);
+        helpRepository.deleteById(qno-1);
     }
-
 }
