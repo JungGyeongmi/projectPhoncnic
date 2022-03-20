@@ -22,8 +22,10 @@ public class FollowRepositoryTests {
     @Test
     public void insertArtistFollowDummies(){
         IntStream.rangeClosed(1, 10).forEach(i->{
+            // memberRepository.findById("user"+i+"@icloud.com").get()
+            Member member = Member.builder().id("user"+i+"@icloud.com").build();
             Follow follow = Follow.builder()
-                    .follower(memberRepository.findById("user"+i+"@icloud.com").get())
+                    .follower(member)
                     .artistname("user" + i)
                     .build();
             followRepository.save(follow);

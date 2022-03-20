@@ -31,5 +31,4 @@ public class Member extends BaseEntity {
         this.password = password;
     }
 
-
 }

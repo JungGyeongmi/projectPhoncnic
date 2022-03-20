@@ -20,8 +20,7 @@ public class MemberRepositoryTests {
     @Test
     public void insertDummies() {
 
-        IntStream.rangeClosed(1, 10).forEach(
-            i -> {
+        IntStream.rangeClosed(1, 10).forEach( i -> {
                 Member member = Member.builder()
                     .id("user" + i + "@icloud.com")
                     .nickname("user" + i)
@@ -30,9 +29,15 @@ public class MemberRepositoryTests {
 
                 memberRepository.save(member);
             }
-
         );
+    }
 
+    @Test
+    public void getMemberById() {
+
+        Member member = memberRepository.getMemberByMemberId("user1@icloud.com");
+        System.out.println(member);
+        
     }
 
 }

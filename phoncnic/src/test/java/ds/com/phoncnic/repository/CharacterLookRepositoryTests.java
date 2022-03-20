@@ -10,9 +10,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import ds.com.phoncnic.entity.CharacterLook;
 import ds.com.phoncnic.entity.CharacterLookInfo;
+import ds.com.phoncnic.entity.Member;
+import lombok.extern.log4j.Log4j2;
 
 
 @SpringBootTest
+@Log4j2
 public class CharacterLookRepositoryTests {
     @Autowired
     CharacterLookRepository repository;
@@ -45,18 +48,19 @@ public class CharacterLookRepositoryTests {
         IntStream.rangeClosed(1, 10).forEach(i->{
             Long ch = ((long)(Math.random()*3+1));
 
-            // Member member = Member.builder().id("user"+i+"@icloud.com").build();
-            // CharacterLookInfo characterLookinfo = CharacterLookInfo.builder().chno(ch).build();
-
+            Member member = memberRepository.getMemberByMemberId("user"+i+"@icloud.com");
+            log.info(i+"번째 멤버 생성"+member);
+            CharacterLookInfo characterInfo = characterLookInforepository.getCharacterLookInfo(ch);
+            log.info(i+"번째 멤버 인포 생성"+characterInfo);
+            
             CharacterLook characterLook = CharacterLook.builder()
-                .member(memberRepository.findById("user"+i+"@icloud.com").get())
-                .characterLookinfo(characterLookInforepository.findById(ch).get())
+                .member(member)
+                .characterLookinfo(characterInfo)
                 .hairname("hair"+ch)
                 .clothesname("clothes"+ch)
             .build();
+
             repository.save(characterLook);
-
-
         });
     }
 
@@ -69,7 +73,6 @@ public class CharacterLookRepositoryTests {
         CharacterLookInfo result2 = characterLookInforepository.getClothes("user1@icloud.com");
         System.out.println(result2.getClothesname());
         System.out.println(result2.getClothespath());
-
 
     }
 }
