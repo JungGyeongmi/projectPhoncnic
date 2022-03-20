@@ -17,17 +17,37 @@ public class EmojiServiceImpl implements EmojiService {
     @Autowired
     private EmojiRepository emojiRepository;
 
+
+    @Override
+    public Long dyningEmojiRegister(EmojiDTO emojiDTO) {
+        Emoji dyningemoji = dtoToEntity(emojiDTO);
+        emojiRepository.save(dyningemoji);
+
+        return dyningemoji.getEno();
+    }
+
+    @Override
+    public List<EmojiDTO> dyningEmojiList(Long dno) {
+        List<Emoji> emojilist = emojiRepository.findByDno(dno);
+        List<EmojiDTO> emojiDTOList = new ArrayList<>();
+        emojilist.stream().forEach(emoji->{
+            EmojiDTO emojiDTO = entityToEmojiDTO(emoji);
+            emojiDTOList.add(emojiDTO);
+        });
+
+        return emojiDTOList;
+    }
     @Override
     public List<EmojiDTO> getEmojiList(String id) {
 
         List<Emoji> emojiList = emojiRepository.getEmojiByMember(id);
-        
+
         // List<EmojiDTO> emojiDTOList =
-        //  emojiList.stream().map(emoji::entityToDTO)
+        // emojiList.stream().map(emoji::entityToDTO)
         // .collect(Collectors.toList());
-        
+
         List<EmojiDTO> emojiDTOList = new ArrayList<>();
-        emojiList.stream().forEach(emoji->{
+        emojiList.stream().forEach(emoji -> {
             EmojiDTO emojiDTO = entityToEmojiDTO(emoji);
             emojiDTOList.add(emojiDTO);
         });
@@ -37,10 +57,11 @@ public class EmojiServiceImpl implements EmojiService {
 
     @Override
     public List<EmojiDTO> getEmojiList(String type, Long no) {
-        List<Emoji> emojiList = type.equals("g")?emojiRepository.getEmojiByGno(no):emojiRepository.getEmojiByDno(no);
+        List<Emoji> emojiList = type.equals("g") ? emojiRepository.getEmojiByGno(no)
+                : emojiRepository.getEmojiByDno(no);
 
         List<EmojiDTO> emojiDTOList = new ArrayList<>();
-        emojiList.stream().forEach(emoji->{
+        emojiList.stream().forEach(emoji -> {
             EmojiDTO emojiDTO = entityToEmojiDTO(emoji);
             emojiDTOList.add(emojiDTO);
         });
@@ -48,15 +69,13 @@ public class EmojiServiceImpl implements EmojiService {
         return emojiDTOList;
     }
 
-
     @Override
-    public void emojiRemove(Long eno){
+    public void emojiRemove(Long eno) {
         Optional<Emoji> emoji = emojiRepository.findById(eno);
-        if(emoji.isPresent()){
+        if (emoji.isPresent()) {
             Emoji result = emoji.get();
             emojiRepository.delete(result);
         }
     }
-    
-}
 
+}

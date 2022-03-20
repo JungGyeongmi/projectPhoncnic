@@ -19,7 +19,7 @@ public class Member extends BaseEntity {
 
     @Id
     private String id;
-  
+
     private String nickname;
     private String password;
 

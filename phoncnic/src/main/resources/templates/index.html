@@ -22,6 +22,12 @@
     </fieldset>
     <fieldset>
         <legend>
+            등록 갈림길이여라
+        </legend>
+        <a th:href="@{/manage/rolechoice}">등록갈림길</a><br>
+    </fieldset>
+    <fieldset>
+        <legend>
             갈림길이여라
         </legend>
 
@@ -38,10 +44,10 @@
         <a th:href="@{/main/companyinfo}">/main/companyinfo</a><br>
         <a th:href="@{/main/galleryregister}">/main/galleryregister</a><br>
         <a th:href="@{/help/list}">/help/list</a><br>
-        <a th:href="@{/main/mypage(id='user2@icloud.com')}">
-            <button>user2@icloud.com님의 마이페이지로 이동</button>
+        <a th:href="@{/main/mypage(id='user1@icloud.com')}">
+            <button>user1@icloud.com님의 마이페이지로 이동</button>
         </a>
-       
+
     </fieldset>
 
     <fieldset>
@@ -49,7 +55,7 @@
         <a th:href="@{/dyning/restaurant/list}">/dyning/restaurant/list</a> <br>
         <a th:href="@{/dyning/cafe/list}">/dyning/cafe/list</a> <br>
         <a th:href="@{/dyning/details(dno=1)}">/dyning/restaurant/details</a> <br>
-        
+
     </fieldset>
     <fieldset>
         <legend>갤러리여라</legend>

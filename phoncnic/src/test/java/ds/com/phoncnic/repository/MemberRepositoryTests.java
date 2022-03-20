@@ -20,12 +20,13 @@ public class MemberRepositoryTests {
     @Test
     public void insertDummies() {
 
-        IntStream.rangeClosed(1, 10).forEach( i -> {
+        IntStream.rangeClosed(1, 10).forEach(
+            i -> {
                 Member member = Member.builder()
-                    .id("user" + i + "@icloud.com")
-                    .nickname("user" + i)
-                    .password("1234")
-                    .build();
+                        .id("user" + i + "@icloud.com")
+                        .nickname("user" + i)
+                        .password("1234")
+                        .build();
 
                 memberRepository.save(member);
             }

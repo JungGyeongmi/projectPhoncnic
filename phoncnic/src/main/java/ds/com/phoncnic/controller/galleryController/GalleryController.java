@@ -62,6 +62,7 @@ public class GalleryController {
     public String getReadPage(@PathVariable("choice") String choice, @PathVariable("check") String check, long gno, PageRequestDTO pageRequestDTO, Model model){
         model.addAttribute("emojiList", emojiService.getEmojiList("g", gno));
         log.info("read emoji ..." + gno);
+
         
         model.addAttribute("emojiInfoList", emojiInfoService.getEmojiInfoList());
         model.addAttribute("galleryDTO", galleryService.getGallery(gno));

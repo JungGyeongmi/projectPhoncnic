@@ -21,29 +21,30 @@ public class MyPageRestController {
     private final EmojiService emojiService;
 
     @DeleteMapping("/artistremove/{id}/{artistname}")
-    public ResponseEntity<String> removeFollowArtist(@PathVariable String id,@PathVariable String artistname) {
-        log.info("artistname:" +artistname);
+    public ResponseEntity<String> removeFollowArtist(@PathVariable String id, @PathVariable String artistname) {
+        log.info("artistname:" + artistname);
 
-        followService.removeArtistFollow(id,artistname);
-        return new ResponseEntity<>(id , HttpStatus.OK);
-        
+        followService.removeArtistFollow(id, artistname);
+        return new ResponseEntity<>(id, HttpStatus.OK);
+
     }
 
     @DeleteMapping("/dyningremove/{id}/{dyningname}")
-    public ResponseEntity<String> removeFollowDyning(@PathVariable String id,@PathVariable String dyningname) {
-        log.info("artistname:" +dyningname);
+    public ResponseEntity<String> removeFollowDyning(@PathVariable String id, @PathVariable String dyningname) {
+        log.info("artistname:" + dyningname);
 
-        followService.removeDyningFollow(id,dyningname);
-        return new ResponseEntity<>(id , HttpStatus.OK);
-        
+        followService.removeDyningFollow(id, dyningname);
+        return new ResponseEntity<>(id, HttpStatus.OK);
+
     }
 
     @DeleteMapping("/emojiremove/{eno}")
     public ResponseEntity<Long> removeEmoji(@PathVariable Long eno) {
-        log.info("eno:" +eno);
+        log.info("eno:" + eno);
 
         emojiService.emojiRemove(eno);
         return new ResponseEntity<>(eno , HttpStatus.OK);
         
     }
 }
+

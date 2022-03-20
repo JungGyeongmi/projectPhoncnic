@@ -1,6 +1,5 @@
 package ds.com.phoncnic.entity;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,11 +24,10 @@ public class Follow {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int fno;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     private Member follower;
 
     private String dyningname;
     private String artistname;
-
 
 }

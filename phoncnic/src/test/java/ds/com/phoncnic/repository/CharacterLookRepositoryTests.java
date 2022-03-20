@@ -1,6 +1,5 @@
 package ds.com.phoncnic.repository;
 
-
 import java.util.UUID;
 import java.util.stream.IntStream;
 
@@ -11,11 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import ds.com.phoncnic.entity.CharacterLook;
 import ds.com.phoncnic.entity.CharacterLookInfo;
 import ds.com.phoncnic.entity.Member;
-import lombok.extern.log4j.Log4j2;
-
 
 @SpringBootTest
-@Log4j2
 public class CharacterLookRepositoryTests {
     @Autowired
     CharacterLookRepository repository;
@@ -27,39 +23,34 @@ public class CharacterLookRepositoryTests {
     private MemberRepository memberRepository;
 
     //ChracterLookInfo 더미
-    @Test
-    public void insertChracterimg(){
 
-        IntStream.rangeClosed(1, 3).forEach(i->{
+    @Test
+    public void insertChracterimg() {
+
+        IntStream.rangeClosed(1, 3).forEach(i -> {
             CharacterLookInfo characterLookinfo = CharacterLookInfo.builder()
-            .hairname("hair"+i)
-            .hairpath(UUID.randomUUID().toString())
-            .clothesname("clothes"+i)
-            .clothespath(UUID.randomUUID().toString())
-            .build();
+                    .hairname("hair" + i)
+                    .hairpath(UUID.randomUUID().toString())
+                    .clothesname("clothes" + i)
+                    .clothespath(UUID.randomUUID().toString())
+                    .build();
             characterLookInforepository.save(characterLookinfo);
         });
     }
 
-    //ChracterLook 더미
+    // ChracterLook 더미
     @Test
-    public void insertDummies(){
-
+    public void insertDummies() {
         IntStream.rangeClosed(1, 10).forEach(i->{
-            Long ch = ((long)(Math.random()*3+1));
+            Member member = Member.builder().id("user"+i+"@icloud.com").build();
+            CharacterLookInfo characterLookinfo = CharacterLookInfo.builder().chno(1L).build();
 
-            Member member = memberRepository.getMemberByMemberId("user"+i+"@icloud.com");
-            log.info(i+"번째 멤버 생성"+member);
-            CharacterLookInfo characterInfo = characterLookInforepository.getCharacterLookInfo(ch);
-            log.info(i+"번째 멤버 인포 생성"+characterInfo);
-            
             CharacterLook characterLook = CharacterLook.builder()
-                .member(member)
-                .characterLookinfo(characterInfo)
-                .hairname("hair"+ch)
-                .clothesname("clothes"+ch)
+            .member(member)
+            .characterLookinfo(characterLookinfo)
+            .hairname("hair"+1)
+            .clothesname("clothes"+1)
             .build();
-
             repository.save(characterLook);
         });
     }
@@ -74,5 +65,4 @@ public class CharacterLookRepositoryTests {
         System.out.println(result2.getClothespath());
 
     }
-
-}   
+}
