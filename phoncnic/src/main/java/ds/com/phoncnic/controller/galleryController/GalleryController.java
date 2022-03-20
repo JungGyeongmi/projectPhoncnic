@@ -58,33 +58,6 @@ public class GalleryController {
         return "gallery/painting/list";
     }
 
-    @GetMapping("/{choice}/{check}")
-    public String getReadPage(@PathVariable("choice") String choice, @PathVariable("check") String check, long gno, PageRequestDTO pageRequestDTO, Model model){
-        model.addAttribute("emojiList", emojiService.getEmojiList("g", gno));
-        log.info("read emoji ..." + gno);
-        
-        model.addAttribute("emojiInfoList", emojiInfoService.getEmojiInfoList());
-        model.addAttribute("galleryDTO", galleryService.getGallery(gno));
-
-        return "/gallery/"+choice+"/"+check;
-    }
-
-    @PostMapping("/{choice}/remove")
-    public String getRemovePage(@PathVariable("choice") String choice, long gno){
-        
-        galleryService.removeWithEmojis(gno);
-
-        log.info("remove "+choice+" page "+gno+"....");
-        return "redirect:/gallery/"+choice;
-    }
-
-    @PostMapping("/{choice}/modify")
-    public String getRemovePage(@PathVariable("choice") String choice, GalleryDTO galleryDTO, long gno){
-        
-        galleryService.modify(galleryDTO);
-
-        log.info("modify "+choice+" page "+galleryDTO.getGno()+"....");
-        return "redirect:/gallery/"+choice+"/read?gno="+gno;
-    }
+   
 
 }

@@ -86,10 +86,14 @@ public class GalleryServiceImpl implements GalleryService {
 
     @Override
     public void register(GalleryDTO galleryDTO) {
-        
         Gallery gallery = dtoToEntity(galleryDTO);
-
         galleryRepository.save(gallery);
-
     }
+
+    @Override
+    public List<Gallery> getUserGallery(String id) {
+       return galleryRepository.findByMemberId(id);
+    }
+
+    
 }
