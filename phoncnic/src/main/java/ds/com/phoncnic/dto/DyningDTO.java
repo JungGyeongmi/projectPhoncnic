@@ -27,6 +27,8 @@ public class DyningDTO {
     private String tel;
 
     private String id;
+    private Long emojicwt;
+
 
     private long oono;
     private String roofpath;

@@ -44,4 +44,16 @@ public class EmojiRepositoryTests {
             //  System.out.println(arr[0]); //emojitype
         }
     }
+
+    // @Test
+    // public void testCountEmoji(){
+    //     Long result =emojiRepository.getEmojiCountByDno(11L);
+    //     System.out.println(result);
+    // }
+
+    // @Test
+    // public void testCountEmoji2(){
+    //     Long result =emojiRepository.getEmojiCountByEmojitype(11L,"");
+    //     System.out.println(result);
+    // }
 }

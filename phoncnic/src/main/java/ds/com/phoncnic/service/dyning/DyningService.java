@@ -69,7 +69,7 @@ public interface DyningService {
 
     }
 
-    default DyningDTO entityToDTO(Dyning dyning, List<DyningImage> dyningImages) {
+    default DyningDTO entityToDTO(Dyning dyning,Long emojiCwt, List<DyningImage> dyningImages) {
         DyningDTO dyningDTO = DyningDTO.builder()
                 .dno(dyning.getDno())
                 .dyningname(dyning.getDyningname())
@@ -81,6 +81,7 @@ public interface DyningService {
                 .tel(dyning.getTel())
                 .id(dyning.getCeoid().getId())
                 .oono(dyning.getRoofdesign().getOono())
+                .emojicwt(emojiCwt)
                 .regdate(dyning.getRegDate())
                 .moddate(dyning.getModDate())
                 .build();

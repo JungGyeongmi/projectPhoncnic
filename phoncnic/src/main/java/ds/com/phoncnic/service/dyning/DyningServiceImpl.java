@@ -2,7 +2,6 @@ package ds.com.phoncnic.service.dyning;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
@@ -78,14 +77,26 @@ public class DyningServiceImpl implements DyningService {
     List<DyningDTO> DyningList = result.stream().map(entity -> roofEntityToDTO(entity)).collect(Collectors.toList());
     return DyningList;
   }
-  @Override
-  public DyningDTO getDyningDetails(Long dno) {
-    Optional<Dyning> dyningList= dyningRepository.findById(dno);
-    Dyning dyning = dyningList.get();
-    List<DyningImage> dyningImageList = dyningRepository.getImageDetailsPage(dno);
-    return entityToDTO(dyning,dyningImageList);
-  }
+//   @Override
+//   public DyningDTO getDyningDetails(Long dno) {
+//     Optional<Dyning> dyningList= dyningRepository.findById(dno);
+//     Dyning dyning = dyningList.get();
+//     List<DyningImage> dyningImageList = dyningRepository.getImageDetailsPage(dno);
+//     return entityToDTO(dyning,dyningImageList);
+//   }
+// }
+
+@Override
+public DyningDTO getDyningDetails(Long dno) {
+  List<Object[]> result = dyningRepository.getDyningDetails(dno);
+  Dyning dyninglist = (Dyning)result.get(0)[0];
+  Long emojiCwt = (Long)result.get(0)[1];
+  List<DyningImage> dyningImageList = dyningRepository.getImageDetailsPage(dno);
+  return entityToDTO(dyninglist,emojiCwt,dyningImageList);
 }
+}
+
+
 
 // @Override
 // public BoardDTO get(Long bno) {
