@@ -28,10 +28,10 @@ public class Emoji extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long eno;
     
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Dyning dyning;
 
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
