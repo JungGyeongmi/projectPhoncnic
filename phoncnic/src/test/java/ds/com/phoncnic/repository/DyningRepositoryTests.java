@@ -1,6 +1,7 @@
 package ds.com.phoncnic.repository;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
@@ -89,7 +90,9 @@ public class DyningRepositoryTests {
                 dyningImageRepository.save(dyningImage);
             }
 
-            for (int j = 0; j < (int) (Math.random() * 5) + 1; j++) {
+            int ra = (int) (Math.random() * 5) + 1;
+
+            for (int j = 0; j < ra; j++) {
                 member = Member.builder().id("user" + randmember.get(j) + "@icloud.com")
                         .build();
 
@@ -128,7 +131,13 @@ public class DyningRepositoryTests {
         result.forEach(i -> {
             System.out.println(i);
         });
-
     }
+
+    // @Test
+    // public void testDetails() {
+    // Object result = dyningRepository.getDetailsPage(1L);
+    // Object[] arr = (Object[]) result;
+    // System.out.println(Arrays.toString(arr));
+    // }
 
 }
