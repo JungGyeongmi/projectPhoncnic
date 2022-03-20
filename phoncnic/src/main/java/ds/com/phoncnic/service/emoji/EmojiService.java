@@ -1,6 +1,8 @@
 package ds.com.phoncnic.service.emoji;
 
 import java.util.ArrayList;
+import java.util.ArrayList;
+import java.util.ArrayList;
 import java.util.List;
 
 import ds.com.phoncnic.dto.EmojiDTO;
@@ -9,6 +11,7 @@ import ds.com.phoncnic.entity.Emoji;
 import ds.com.phoncnic.entity.EmojiInfo;
 import ds.com.phoncnic.entity.Gallery;
 import ds.com.phoncnic.entity.Member;
+
 
 public interface EmojiService {
 
@@ -45,12 +48,6 @@ public interface EmojiService {
     default EmojiDTO entityToEmojiDTO(Emoji emoji){
         List<EmojiDTO> emojiDTOList = new ArrayList<>();
         if(emoji.getDyning()==null) {
-            /*List<Object[]> emojiCntList = EmojiRepository.getEmojiCountByGno(emoji.getGallery().getGno());
-            for (Object[] emojiCnt : emojiCntList ) {
-                Long type = (Long) emojiCnt[0];
-                Long cnt = (Long) emojiCnt[1];
-            }*/
-
             EmojiDTO emojiDTO = EmojiDTO.builder()
                 .eno(emoji.getEno())
                 .id(emoji.getMember().getId())
@@ -77,5 +74,10 @@ public interface EmojiService {
             .build();
             return emojiDTO;
         }
+
+
     }
+
+
+    
 }
