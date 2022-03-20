@@ -82,6 +82,14 @@ public class GalleryServiceImpl implements GalleryService {
         Gallery gallery = galleryRepository.findById(dto.getGno()).get();
         gallery.changeTitleAndContent(dto.getTitle(), dto.getContent());
         galleryRepository.save(gallery);
+    }
+
+    @Override
+    public void register(GalleryDTO galleryDTO) {
+        
+        Gallery gallery = dtoToEntity(galleryDTO);
+
+        galleryRepository.save(gallery);
 
     }
 }

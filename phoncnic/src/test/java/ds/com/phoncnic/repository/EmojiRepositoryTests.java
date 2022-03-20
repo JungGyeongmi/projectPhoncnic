@@ -26,22 +26,27 @@ public class EmojiRepositoryTests {
     @Transactional
     public void testGetEmojiListByMember() {
         List<Emoji> emojiList =  emojiRepository.getEmojiByMember("user3@icloud.com");
-        // System.out.println(emojiList.size());
+
         emojiList.stream().forEach(emoji -> {
             System.out.println(emojiService.entityToEmojiDTO(emoji));
         });
 
     } 
 
-    @Test
+    /*@Test
     public void getCountEmoji(){
-        List<Object[]> result = emojiRepository.getEmojiCountByGno(1L);
+        // List<Object[]> result = EmojiRepository.getEmojiCountByGno(1L);
         // testResult.forEach(System.out::println);    
         // System.out.println(result);
         for (Object[] arr : result ) {
             System.out.println(Arrays.toString(arr));
+            if(arr[1]!=null){
+
+                System.out.println(arr[0]);
+                System.out.println(arr[1]);
+            }
             System.out.println("============");
             //  System.out.println(arr[0]); //emojitype
         }
-    }
+    }*/
 }

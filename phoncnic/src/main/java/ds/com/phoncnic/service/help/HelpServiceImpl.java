@@ -23,7 +23,8 @@ public class HelpServiceImpl implements HelpService {
     private final HelpRepository helpRepository;
     
     @Override
-    public PageResultDTO getQnaList(PageRequestDTO pageRequestDTO) {
+    public PageResultDTO<HelpDTO, Help> getQnaList(PageRequestDTO pageRequestDTO) {
+
         Pageable pageable = pageRequestDTO.getPageable(Sort.by("regDate").descending());
 
         Page<Help> result = helpRepository.getListPage(pageable);
@@ -78,5 +79,4 @@ public class HelpServiceImpl implements HelpService {
         helpRepository.deleteById(qno);
         helpRepository.deleteById(qno-1);
     }
-
 }
