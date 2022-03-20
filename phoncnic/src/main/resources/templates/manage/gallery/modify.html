@@ -1,7 +1,104 @@
 <!DOCTYPE html>
-<html lang="ko" xmls:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GalleryList</title>
+</head>
 
-    <h1>가게 수정</h1>
+<body>
+
+    <h1>전시회 상세페이지 예제</h1>
+    <form id="frm" th:action="@{/gallery/painting/modify}" th:method="post">
+        <input type="hidden" name="galleryDTO" th:value="${galleryDTO}">
+    <table border="1">
+        <tr>
+            <th>
+                번호
+            </th>
+            <td>
+                <input type="text" name="gno" th:value="${galleryDTO.gno}" readonly> 
+            </td>
+        </tr>
+        <tr>
+            <th>
+                아이디
+            </th>
+            <td>
+                <input type="text" th:value="${galleryDTO.id}" name="id" readonly>
+            </td>
+        </tr>
+        <tr>
+            <th>제목</th>
+            <td>
+                <input name="title" type="text" th:value="${galleryDTO.title}"> 
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                [[${galleryDTO.imagepath}]]
+            </td>
+        </tr>
+        <tr>
+            <th>작품 설명</th>
+            <td>
+                <input name="content" type="text" th:value="${galleryDTO.content}"> 
+            </td>
+        </tr>
+        <tr>
+            <th>등록일</th>
+            <td>
+                [[${#temporals.format(galleryDTO.regdate,'yyyy/MM/dd')}]]
+            </td>
+        </tr>
+        <tr>
+            <th>수정일</th>
+            <td>
+                [[${#temporals.format(galleryDTO.moddate,'yyyy/MM/dd')}]]
+            </td>
+        </tr>
+    </table>
     
+        <button type="button" id="modifyBtn">반영하기</button>
+        <button type="button" id="removeBtn">삭제하기</button>
+        <button type="button" id="listBtn">돌아가기</button>
+    </form>
+    <ul>
+        <li th:each="emoji : ${emojiInfoList}">
+            [[${ emoji.emojipath }]]
+        </li>
+    </ul>
 
+
+<script th:inline="javascript">
+    var actionForm = document.querySelector("#frm");
+    var removeBtn = document.querySelector("#removeBtn");
+
+    removeBtn.onclick = function() {
+    /*[+ var urlremove = [[@{/manage/gallery/remove}]]; +]*/
+    actionForm.setAttribute("action", urlremove);
+    actionForm.setAttribute("method", "post");
+    actionForm.submit();
+    }
+
+    var modifyBtn = document.querySelector("#modifyBtn");
+    modifyBtn.onclick = function() {
+        /*[+ var modifyUrl = [[@{/mangae/gallery/modify}]]; +]*/
+        actionForm.setAttribute("action", modifyUrl);
+        actionForm.setAttribute("method", "post");
+        actionForm.submit();
+        
+    }
+
+    var listBtn = document.querySelector("#listBtn");
+    listBtn.onclick = function() {
+    /*[+ var listUrl = 
+        [[@{/manage/gallery/list(id=${galleryDTO.artistid})}]]; +]*/
+    location.href = listUrl;
+    }
+
+</script>
+
+</body>
 </html>
