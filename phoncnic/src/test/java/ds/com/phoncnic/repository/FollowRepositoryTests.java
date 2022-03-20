@@ -45,13 +45,4 @@ public class FollowRepositoryTests {
          });
      }
 
-
-
-    // @Test
-    // public void TestGetFollowList(){
-    //     String id="user1@icloud.com";
-    //    List<Object[]> result = followRepository.getfollowArtistList2(id);
-    //   result.forEach(i->{System.out.println(i);});
-    // }
-
 }
