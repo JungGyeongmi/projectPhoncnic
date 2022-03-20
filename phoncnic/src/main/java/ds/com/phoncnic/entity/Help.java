@@ -1,5 +1,6 @@
 package ds.com.phoncnic.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,7 +19,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @Getter
 @ToString(exclude = "writer")
-public class Qna extends BaseEntity {
+public class Help extends BaseEntity {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,6 +31,19 @@ public class Qna extends BaseEntity {
     private String qtype;
     private boolean answerstatus;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     private Member writer;
+
+
+    public void changeQtype(String qtype) {
+        this.qtype = qtype;
+    }
+
+    public void changeTitle(String title) {
+        this.title = title;
+    }
+
+    public void changeContent(String content) {
+        this.content = content;
+    }
 }

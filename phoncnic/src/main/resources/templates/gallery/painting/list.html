@@ -10,7 +10,9 @@
    <h1>그림전</h1>
    <ul>
        <li th:each="dto : ${galleryDTOList} ">
+        <a th:href="@{/gallery/painting/read(gno=${dto.gno}) }">
             [[${ dto }]]
-       </li>
+        </a>    
+       </li>d
    </ul>
 </body>

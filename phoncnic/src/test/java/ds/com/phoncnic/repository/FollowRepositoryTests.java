@@ -1,5 +1,6 @@
 package ds.com.phoncnic.repository;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -15,67 +16,42 @@ public class FollowRepositoryTests {
 
     @Autowired
     FollowRepository followRepository;
-
+    //follow 테이블 삭제 -> Artist&Dyning 더미 돌리기
+    //!!!!!!!!
+    //!!!!!!!!
+    //artist    팔로우 더미
     @Test
-    public void insertFollowDummies(){
+    public void insertArtistFollowDummies(){
         IntStream.rangeClosed(1, 10).forEach(i->{
-            int num = (int)(Math.random()*10+1);
             Follow follow = Follow.builder()
-            .follower(Member.builder().id("user"+i+"@icloud.com").build())
-            .artistname("user"+num)
-            .dyningname("가게이름"+num)
-            .build();
+                    .follower(Member.builder().id("user" + 1 + "@icloud.com").build())
+                    .artistname("user" + i)
+                    .build();
 
             followRepository.save(follow);
         });
     }
 
-    @Test
-    public void insertFollowDummies2(){
-        IntStream.rangeClosed(1, 1).forEach(i->{
-            
-            int num = (int)(Math.random()*10+1);
-
-            Follow follow = Follow.builder()
-            .follower(Member.builder().id("user"+1+"@icloud.com").build())
-            .artistname("user"+num)
-            .dyningname("가게이름"+num)
-            .build();
-
-            followRepository.save(follow);
-        });
-    }
-
-    @Test
-    public void insertFollowDummies3(){
-        IntStream.rangeClosed(1, 1).forEach(i->{
-            
-            int num = (int)(Math.random()*10+1);
-
-            Follow follow = Follow.builder()
-            .follower(Member.builder().id("user"+1+"@icloud.com").build())
-            .artistname("user"+num)
-            .build();
-
-            followRepository.save(follow);
-            
-
-            
-        });
-    }
+     //dyning 팔로우 더미
+     @Test
+     public void insertDyningFollowDummies(){
+         IntStream.rangeClosed(1, 10).forEach(i->{
+             Follow follow = Follow.builder()
+                     .follower(Member.builder().id("user" + 1 + "@icloud.com").build())
+                     .dyningname("가게이름" + i)
+                     .build();
+ 
+             followRepository.save(follow);
+         });
+     }
 
 
-    @Test
-    public void TestGetFollowList(){
-        String id="user1@icloud.com";
-       List<Object> result1 =followRepository.getartistnameList(id);
-       List<Object> result2 =followRepository.getdyningnameList(id);
-        System.out.println(result1);
-        System.out.println(result2);
 
-        // for(Object a: result)System.out.println(a);
-        
-    //    System.out.println(Arrays.toString(arr));
-    }
+    // @Test
+    // public void TestGetFollowList(){
+    //     String id="user1@icloud.com";
+    //    List<Object[]> result = followRepository.getfollowArtistList2(id);
+    //   result.forEach(i->{System.out.println(i);});
+    // }
 
 }

@@ -30,6 +30,7 @@ public interface DyningService {
                 .location(dto.getLocation())
                 .businesshours(dto.getBusinesshours())
                 .comment(dto.getComment())
+                .tel(dto.getTel())
                 .hashtag(dto.getHashtag())
                 .roofdesign(roofDesign)
                 .ceoid(member)
@@ -66,7 +67,9 @@ public interface DyningService {
                 .location(dyning.getLocation())
                 .businesshours(dyning.getBusinesshours())
                 .comment(dyning.getComment())
+                .tel(dyning.getTel())
                 .hashtag(dyning.getHashtag())
+                .tel(dyning.getTel())
                 .id(dyning.getCeoid().getId())
                 .oono(dyning.getRoofdesign().getOono())
                 .regdate(dyning.getRegDate())
@@ -89,25 +92,30 @@ public interface DyningService {
         return dyningDTO;
 
     }
-    DyningDTO getStreet();
+
+    
+    List<DyningDTO> getStreet();
     // DyningDTO getRoof();
-    default DyningDTO roofEntityToDTO(Dyning dyning, RoofDesign roofDesign) {
+    default DyningDTO roofEntityToDTO(Dyning dyning) {
         DyningDTO dyningDTO = DyningDTO.builder()
+                .dno(dyning.getDno())
                 .dyningname(dyning.getDyningname())
-                .roofpath(roofDesign.getRoofpath())
+                .roofpath(dyning.getRoofdesign().getRoofpath())
+                .foodtype(dyning.getFoodtype())
                 .build();
 
-                return dyningDTO;
+        return dyningDTO;
     }
 
-    //  default DyningDTO JustRoofEntityToDTO(RoofDesign roofDesign) {
-    //     DyningDTO dyningDTO = DyningDTO.builder()
-    //             .roofpath(dyning.getRoofdesign().getRoofpath())
-    //             .build();
+    // default DyningDTO JustRoofEntityToDTO(RoofDesign roofDesign) {
+    // DyningDTO dyningDTO = DyningDTO.builder()
+    // .roofpath(dyning.getRoofdesign().getRoofpath())
+    // .build();
 
-    //             return dyningDTO;
+    // return dyningDTO;
     // }
 
-
+    // 가게 상세페이지
+    DyningDTO getDyningDetails(Long dno);
 
 }

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko" xmls:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery : photo</title>
+</head>
+<body>
+   <h1>사진전</h1>
+<table>
+    <ul>
+        <li th:each="dto : ${galleryDTOList}">
+<<<<<<< HEAD:phoncnic/src/main/resources/templates/gallery/photo/list.html
+          <a th:href="@{/gallery/photo/read(gno=${dto.gno})}">
+            [[${dto}]]
+          </a>  
+        </li>
+    </ul>
+=======
+            [[${dto}]]
+        </li>
+    </ul>
+
+>>>>>>> gallery_ng:phoncnic/src/main/resources/templates/gallery/photo.html
+</table>
+</body>
