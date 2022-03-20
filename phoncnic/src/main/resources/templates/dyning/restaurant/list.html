@@ -6,6 +6,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>restaurant LIST</title>
+        <style>
+            #dyningname{cursor: pointer;}
+            #roofdesign{cursor: pointer;}
+        </style>
 </head>
 
 <body>
@@ -20,12 +24,11 @@
         \''+ @{/dyning/details(dno=${dto.dno})}
              + '\''"
               th:if="${dto.foodtype}!=1">
-            <!-- <td >[[${dto.dno}]]</td> -->
-            <td >[[${dto.dyningname}]]</td>
-            <!-- <td>[[${dto.foodtype}]]</td> -->
-            <td>[[${dto.roofpath}]]</td>
+            <td id="dyningname">[[${dto.dyningname}]]</td>
+            <td id="roofpath">[[${dto.roofpath}]]</td>
         </tr>
     </table>
+
 </body>
 
 </html>

@@ -1,6 +1,5 @@
 package ds.com.phoncnic.service.help;
 
-
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -48,9 +47,7 @@ public class HelpServiceImpl implements HelpService {
         helpRepository.save(entity);
         helpRepository.save(helpEntity);
         return entity.getQno();
-
     }
-
 
     @Override
     public HelpDTO get(Long qno) {
@@ -83,4 +80,3 @@ public class HelpServiceImpl implements HelpService {
     }
 
 }
-

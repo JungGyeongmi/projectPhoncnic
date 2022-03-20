@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import ds.com.phoncnic.dto.DyningDTO;
 import ds.com.phoncnic.dto.PageRequestDTO;
+import ds.com.phoncnic.entity.Emoji;
 import ds.com.phoncnic.service.dyning.DyningService;
+import ds.com.phoncnic.service.emoji.EmojiService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -19,6 +21,7 @@ import lombok.extern.log4j.Log4j2;
 public class DyningController {
 
     private final DyningService dyningService;
+    private final EmojiService emojiService;
 
     // // 제안
     // @GetMapping({"/{choice}", "/{choice}/list/","/{choice}/list"})
@@ -52,11 +55,15 @@ public class DyningController {
     }
 
     @GetMapping("/details")
-    public void restaurantDetails(@RequestParam("dno") Long dno, Model model) {
-        log.info("dyningDetails.................");
+    public void details(@RequestParam("dno") Long dno, Model model) {
+        log.info("Details.................");
+        if(dno!=0){
         model.addAttribute("result", dyningService.getDyningDetails(dno));
         model.addAttribute("imageresult", dyningService.getDyningDetails(dno).getDyningImageDTOList());
-    }
+        model.addAttribute("emojilist", emojiService.dyningEmojiList(dno));
+        }else return;
+        
 
+    }
 
 }

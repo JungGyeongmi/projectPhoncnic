@@ -20,7 +20,7 @@ public class Member extends BaseEntity {
 
     @Id
     private String id;
-  
+
     private String nickname;
     private String password;
 
@@ -31,6 +31,5 @@ public class Member extends BaseEntity {
     public void changePassword(String password) {
         this.password = password;
     }
-
 
 }
