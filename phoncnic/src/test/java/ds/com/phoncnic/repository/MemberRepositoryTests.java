@@ -17,9 +17,6 @@ public class MemberRepositoryTests {
     @Autowired
     MemberRepository memberRepository;
 
-    // @Autowired
-    // MemberService memberService;
-
     @Test
     public void insertDummies() {
 
@@ -37,22 +34,4 @@ public class MemberRepositoryTests {
         );
 
     }
-
-    // @Test
-    // public void getMypageData() {
-
-    // Object result = repository.getMypageData("user1@icloud.com");
-    // Object[] arr = (Object[]) result;
-    // System.out.println(arr[0]);
-    // System.out.println(arr[1]);
-    // }
-
-    // @Test
-    // public void getMypageDTO() {
-
-    // MemberDTO memberDTO = memberService.getMyPage("user1@icloud.com");
-
-    // log.info(memberDTO);
-
-    // }
 }

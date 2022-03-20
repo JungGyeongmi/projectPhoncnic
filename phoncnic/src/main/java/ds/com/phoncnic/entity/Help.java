@@ -33,4 +33,17 @@ public class Help extends BaseEntity {
 
     @ManyToOne(cascade = CascadeType.REMOVE)
     private Member writer;
+
+
+    public void changeQtype(String qtype) {
+        this.qtype = qtype;
+    }
+
+    public void changeTitle(String title) {
+        this.title = title;
+    }
+
+    public void changeContent(String content) {
+        this.content = content;
+    }
 }

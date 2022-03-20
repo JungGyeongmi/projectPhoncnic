@@ -28,20 +28,5 @@ public class RoofDesignRepositoryTests {
         });
 
     }
-
-//     @Test
-//     public void insertRoofInfo() {
-
-//         IntStream.rangeClosed(1, 5).forEach(i -> {
-//             RoofDesignInfo roofDesignInfo = RoofDesignInfo.builder()
-//             .roofpath(i+"roofpath.jpg")
-//             .kindofroof("kindofroop" + i)
-//             .build();
-    
-//         repository.save(roofDesignInfo); 
-//         });
-//     }
-// }
-
     
 }
