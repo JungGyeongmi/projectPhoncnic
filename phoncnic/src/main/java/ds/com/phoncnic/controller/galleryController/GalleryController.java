@@ -58,7 +58,7 @@ public class GalleryController {
 
     @GetMapping("/read/{gno}")
     public String getReadPage(@PathVariable("gno")long gno, PageRequestDTO pageRequestDTO, Model model){
-        model.addAttribute("emojiList", emojiService.getEmojiList("g", gno));
+        // model.addAttribute("emojiList", emojiService.getEmojiList("g", gno));
         // log.info("read emoji ..." + emojiService.getEmojiList("g", gno));
         
         model.addAttribute("emojiInfoList", emojiInfoService.getEmojiInfoList());

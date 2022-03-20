@@ -17,6 +17,26 @@ public class EmojiServiceImpl implements EmojiService {
     @Autowired
     private EmojiRepository emojiRepository;
 
+
+    @Override
+    public Long dyningEmojiRegister(EmojiDTO emojiDTO) {
+        Emoji dyningemoji = dtoToEntity(emojiDTO);
+        emojiRepository.save(dyningemoji);
+
+        return dyningemoji.getEno();
+    }
+
+    @Override
+    public List<EmojiDTO> dyningEmojiList(Long dno) {
+        List<Emoji> emojilist = emojiRepository.findByDno(dno);
+        List<EmojiDTO> emojiDTOList = new ArrayList<>();
+        emojilist.stream().forEach(emoji->{
+            EmojiDTO emojiDTO = entityToEmojiDTO(emoji);
+            emojiDTOList.add(emojiDTO);
+        });
+
+        return emojiDTOList;
+    }
     @Override
     public List<EmojiDTO> getEmojiList(String id) {
 

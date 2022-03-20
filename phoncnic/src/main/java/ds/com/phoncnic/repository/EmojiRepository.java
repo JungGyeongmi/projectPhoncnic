@@ -28,6 +28,16 @@ public interface EmojiRepository extends JpaRepository<Emoji,Long>{
     @Query("delete from Emoji e where e.dyning.dno=:dno")
     void deleteByDno(Long dno);
     
+    @Query("select e from Emoji e where e.dyning.dno=:dno")
+    List<Emoji> findByDno(Long dno);
+
+    @Query("select e from Emoji e where e.member.id=:id")
+    List<Emoji> findByMemberId(String id);
+
+    @Modifying
+    @Query("delete from Emoji where eno=:eno")
+    void deleteByEno(Long eno);
+    
     // @Query("select e, count(e) from Emoji e where e.gallery.gno=:gno group by e.gallery.gno ")
     // List<Emoji> getCountEmoji(Long gno);
 

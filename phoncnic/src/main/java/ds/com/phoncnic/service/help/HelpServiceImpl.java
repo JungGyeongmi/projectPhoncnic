@@ -1,4 +1,4 @@
-package ds.com.phoncnic.service.qna;
+package ds.com.phoncnic.service.help;
 
 import java.util.function.Function;
 
@@ -9,25 +9,33 @@ import org.springframework.stereotype.Service;
 
 import ds.com.phoncnic.dto.PageRequestDTO;
 import ds.com.phoncnic.dto.PageResultDTO;
-import ds.com.phoncnic.dto.QnaDTO;
-import ds.com.phoncnic.entity.Qna;
-import ds.com.phoncnic.repository.QnaRepository;
+import ds.com.phoncnic.dto.HelpDTO;
+import ds.com.phoncnic.entity.Help;
+import ds.com.phoncnic.repository.HelpRepository;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class QnaServiceImpl implements QnaService { 
+public class HelpServiceImpl implements HelpService { 
     
-    private final QnaRepository qnaRepository;
+    private final HelpRepository helpRepository;
     
     @Override
     public PageResultDTO getQnaList(PageRequestDTO pageRequestDTO) {
         Pageable pageable = pageRequestDTO.getPageable(Sort.by("regDate").descending());
 
-        Page<Qna> result = qnaRepository.getListPage(pageable);
+        Page<Help> result = helpRepository.getListPage(pageable);
         
-        Function<Qna, QnaDTO> fn = (entity -> entityToDTO(entity));
+        Function<Help, HelpDTO> fn = (entity -> entityToDTO(entity));
         
         return new PageResultDTO<>(result, fn);
+    }
+
+    @Override
+    public Long register(HelpDTO helpDTO) {
+        Help entity = dtoToEntity(helpDTO);
+        helpRepository.save(entity);
+        return entity.getQno();
+
     }
 }

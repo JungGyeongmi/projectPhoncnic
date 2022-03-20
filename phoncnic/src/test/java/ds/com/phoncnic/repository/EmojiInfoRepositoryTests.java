@@ -26,7 +26,7 @@ public class EmojiInfoRepositoryTests {
 
             EmojiInfo emojiInfo = EmojiInfo.builder()
                 .emojitype(i+"")
-                .emojipath("d://emoji/emojipath/emoji"+i+".jpg")
+                .emojipath("C://emoji/emojipath/emoji"+i+".jpg")
                 .kindofemoji("이모지"+i+"이여라")
             .build();
 
