@@ -11,7 +11,6 @@
 
     <h1>전시회 상세페이지 예제</h1>
     <form id="frm" th:action="@{/gallery/painting/modify}" th:method="post">
-        <input type="hidden" name="galleryDTO" th:value="${galleryDTO}">
     <table border="1">
         <tr>
             <th>
@@ -59,16 +58,10 @@
             </td>
         </tr>
     </table>
-    
         <button type="button" id="modifyBtn">반영하기</button>
         <button type="button" id="removeBtn">삭제하기</button>
         <button type="button" id="listBtn">돌아가기</button>
     </form>
-    <ul>
-        <li th:each="emoji : ${emojiInfoList}">
-            [[${ emoji.emojipath }]]
-        </li>
-    </ul>
 
 
 <script th:inline="javascript">
@@ -88,14 +81,14 @@
         actionForm.setAttribute("action", modifyUrl);
         actionForm.setAttribute("method", "post");
         actionForm.submit();
-        
     }
 
     var listBtn = document.querySelector("#listBtn");
     listBtn.onclick = function() {
-    /*[+ var listUrl = 
-        [[@{/manage/gallery/list(id=${galleryDTO.artistid})}]]; +]*/
-    location.href = listUrl;
+        /*[+ var listUrl = 
+            [[@{/manage/gallery/list(id=${galleryDTO.artistid})}]]; 
+        +]*/
+        location.href = listUrl;
     }
 
 </script>

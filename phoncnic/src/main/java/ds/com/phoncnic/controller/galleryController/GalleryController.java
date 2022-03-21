@@ -4,11 +4,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import ds.com.phoncnic.dto.GalleryDTO;
 import ds.com.phoncnic.dto.PageRequestDTO;
+import ds.com.phoncnic.dto.PageResultDTO;
 import ds.com.phoncnic.service.emoji.EmojiInfoService;
 import ds.com.phoncnic.service.emoji.EmojiService;
 import ds.com.phoncnic.service.gallery.GalleryService;
@@ -50,7 +49,7 @@ public class GalleryController {
 
     //그림전 상세페이지
     @GetMapping("/painting")
-    public String painting(PageRequestDTO pageRequestDTO, Model model){
+    public String painting( PageRequestDTO pageRequestDTO, Model model){
         // model.addAttribute("list", galleryService.getPaintingList(pageRequestDTO));
         model.addAttribute("galleryDTOList", galleryService.getGalleryList(true));
         model.addAttribute("emoji", emojiService.getEmojiList("g"));
@@ -58,6 +57,14 @@ public class GalleryController {
         return "gallery/painting/list";
     }
 
-   
+    @GetMapping("/{choice}/read")
+    public String getReadPage(@PathVariable("choice") String choice, long gno, Model model) {
+
+        model.addAttribute("emojiList", emojiService.getEmojiList("g", gno));
+        log.info("gallery read page ..." + gno);
+        model.addAttribute("emojiInfoList", emojiInfoService.getEmojiInfoList());
+        model.addAttribute("galleryDTO", galleryService.getGallery(gno));
+        return "gallery/"+choice+"/read";
+    }
 
 }
