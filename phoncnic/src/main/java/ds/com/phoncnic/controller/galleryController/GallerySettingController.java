@@ -49,13 +49,13 @@ public class GallerySettingController {
 
     // read modify remove 모두 여기로 이동
  // read and modify
-    /*@GetMapping({ "/read" })
+    @GetMapping({ "/read" })
     public void getReadPage(long gno, Model model) {
         model.addAttribute("emojiList", emojiService.getEmojiList("g", gno));
         log.info("read emoji ..." + gno);
         model.addAttribute("emojiInfoList", emojiInfoService.getEmojiInfoList());
         model.addAttribute("galleryDTO", galleryService.getGallery(gno));
-    }*/
+    }
 
     // read 후에 수정되는 부분을 어떻게 처리해야하는지
     @GetMapping({ "/modify" })

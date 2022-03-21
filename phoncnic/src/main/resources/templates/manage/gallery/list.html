@@ -13,50 +13,15 @@
   <h1>유저 갤러리 리스트</h1>
   <ul>
     <li th:each="dto : ${galleryDTOList}">
-      <span class="galleryList" th:data-gno="${dto.gno}">
+      <a th:href="@{/manage/gallery/read(gno=${dto.gno}) }">
         [[${dto}]]
-      </span>
+      </a>
     </li>
   </ul>
   <h4>임시 결과물 업로드 : RESTCONTROLLERTEST</h4>
-  <div class="uploadResult">
 
-  </div>
 </body>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"
-  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-<script th:inline="javascript">
-  $(function () {
 
-    /*[+
-        var showUrl = [[@{/manage/gallery/read}]];
-    +]*/
-
-    var targetGno=0;
-    var uploadResult = $(".uploadResult");
-
-    /* target의 gno 가져옴 */
-    $(".galleryList").click(function (){
-      targetGno = $(this).data("gno");
-      console.log(targetGno);
-      getGalleryDetails();
-    });
-
-    function getGalleryDetails() {
-      $.post(showUrl +"/"+ targetGno, function (dto) {
-        console.log("dto "+dto.gno);
-        var str = "";
-        str += `<div>${dto.gno}</div><div>${dto.id}</div><div>${dto.title}</div><div>${dto.content}</div>
-        `
-        uploadResult.html(str);
-      }).done(function () {
-        console.log("post success");
-      });
-    }
-
-  });
-
-</script>
 
 </html>

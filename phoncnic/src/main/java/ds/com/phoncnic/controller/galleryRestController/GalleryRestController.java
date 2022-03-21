@@ -15,7 +15,7 @@ import lombok.extern.log4j.Log4j2;
 @RestController
 @Log4j2
 @RequestMapping("/manage/gallery")
-public class GallerySettingRestController {
+public class GalleryRestController {
 
     @Autowired
     private GalleryService galleryService;
