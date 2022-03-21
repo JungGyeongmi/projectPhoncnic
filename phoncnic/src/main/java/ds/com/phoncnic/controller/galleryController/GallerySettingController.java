@@ -47,5 +47,34 @@ public class GallerySettingController {
         return "redirect:/main/mypage?id="+id;
     }
 
+    // read modify remove 모두 여기로 이동
+ // read and modify
+    /*@GetMapping({ "/read" })
+    public void getReadPage(long gno, Model model) {
+        model.addAttribute("emojiList", emojiService.getEmojiList("g", gno));
+        log.info("read emoji ..." + gno);
+        model.addAttribute("emojiInfoList", emojiInfoService.getEmojiInfoList());
+        model.addAttribute("galleryDTO", galleryService.getGallery(gno));
+    }*/
+
+    // read 후에 수정되는 부분을 어떻게 처리해야하는지
+    @GetMapping({ "/modify" })
+    public void getModifyPage(long gno, Model model) {
+        model.addAttribute("galleryDTO", galleryService.getGallery(gno));
+    }
+
+    @PostMapping("/modify")
+    public String getRemovePage(GalleryDTO galleryDTO) {
+        galleryService.modify(galleryDTO);
+        log.info("modify page " + galleryDTO.getGno() + "....");
+        return "redirect:/manage/gallery/read?gno=" + galleryDTO.getGno();
+    }
+
+    @PostMapping("/remove")
+    public String getRemovePage(String id, long gno) {
+        galleryService.removeWithEmojis(gno);
+        log.info("remove page " + gno + "....");
+        return "redirect:/manage/gallery/list"+id;
+    }
 
 }

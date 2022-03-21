@@ -57,6 +57,8 @@ public class GalleryController {
         return "gallery/painting/list";
     }
 
+
+    // rest 로 옮겨야함
     @GetMapping("/{choice}/read")
     public String getReadPage(@PathVariable("choice") String choice, long gno, Model model) {
 

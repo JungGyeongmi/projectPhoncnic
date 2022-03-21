@@ -34,7 +34,7 @@
     +]*/
 
     var targetGno=0;
-    var uploadResult = $("div .uploadResult");
+    var uploadResult = $(".uploadResult");
 
     /* target의 gno 가져옴 */
     $(".galleryList").click(function (){
@@ -44,12 +44,14 @@
     });
 
     function getGalleryDetails() {
-      // 비동기식 get 방식의 함수 호출
-      $.getJSON(showUrl +"/"+ targetGno, function (dto) {
-        console.log("dto"+dto);
+      $.post(showUrl +"/"+ targetGno, function (dto) {
+        console.log("dto "+dto.gno);
         var str = "";
-        str += `<div>${dto}</div>`
-        uploadResult.append(str);
+        str += `<div>${dto.gno}</div><div>${dto.id}</div><div>${dto.title}</div><div>${dto.content}</div>
+        `
+        uploadResult.html(str);
+      }).done(function () {
+        console.log("post success");
       });
     }
 
