@@ -1,57 +1,61 @@
 <!DOCTYPE html>
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gallery : photo</title>
+    <title>Gallery : phto</title>
 </head>
+
 <body>
-   <h1>사진전</h1>
-<table>
+    <h1>사진전</h1>
     <ul>
-        <li th:each="dto : ${galleryDTOList}"  class="galleryList" th:data-gno="${dto.gno}">
-          
-            [[${dto}]]
+        <li th:each="dto : ${galleryDTOList}" class="galleryList" th:data-gno="${dto.gno}">
+            [[${ dto }]]
+            </a>
         </li>
     </ul>
-</table>
+</body>
+
+<h4>임시 결과물 업로드 : RESTCONTROLLERTEST</h4>
 <div class="uploadResult">
 
 </div>
-</body>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <script th:inline="javascript">
-  $(function () {
+    $(function () {
 
-    /*[+
-        var showUrl = [[@{/manage/gallery/read}]];
-    +]*/
+        /*[+
+            var showUrl = [[@{/gallery/read}]];
+        +]*/
 
-    var targetGno=0;
-    var uploadResult = $(".uploadResult");
+        var targetGno = 0;
+        var uploadResult = $(".uploadResult");
 
-    /* target의 gno 가져옴 */
-    $(".galleryList").click(function (){
-      targetGno = $(this).data("gno");
-      console.log(targetGno);
-      getGalleryDetails();
+        /* target의 gno 가져옴 */
+        $(".galleryList").click(function () {
+            targetGno = $(this).data("gno");
+            console.log(targetGno);
+            getGalleryDetails();
+        });
+
+        function getGalleryDetails() {
+            $.post(showUrl + "/" + targetGno, function (dto) {
+                console.log("dto " + dto.gno);
+                var str = "";
+                str += `<div>${dto.gno}</div><div>${dto.id}</div><div>${dto.title}</div><div>${dto.content}</div>`;
+                uploadResult.html(str);
+            }).done(function () {
+                console.log("post success");
+            });
+        }
+
     });
 
-    function getGalleryDetails() {
-      $.post(showUrl +"/"+ targetGno, function (dto) {
-        console.log("dto "+dto.gno);
-        var str = "";
-        str += `<div>${dto.gno}</div><div>${dto.id}</div><div>${dto.title}</div><div>${dto.content}</div>
-        `
-        uploadResult.html(str);
-      }).done(function () {
-        console.log("post success");
-      });
-    }
-
-  });
-
 </script>
+</body>
+
 </html>
