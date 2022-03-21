@@ -1,7 +1,5 @@
 package ds.com.phoncnic.controller.galleryController;
 
-import javax.websocket.server.PathParam;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -49,32 +47,5 @@ public class GallerySettingController {
         return "redirect:/main/mypage?id="+id;
     }
 
-    // read and modify
-    @GetMapping({"/read", "/modify"})
-    public void getReadPage(long gno, Model model){
-        model.addAttribute("emojiList", emojiService.getEmojiList("g", gno));
-        log.info("read emoji ..." + gno);
-        
-        model.addAttribute("emojiInfoList", emojiInfoService.getEmojiInfoList());
-        model.addAttribute("galleryDTO", galleryService.getGallery(gno));
-    }
-
-    @PostMapping("/modify")
-    public String getRemovePage(GalleryDTO galleryDTO){
-        
-        galleryService.modify(galleryDTO);
-
-        log.info("modify page "+galleryDTO.getGno()+"....");
-        return "redirect:/manage/gallery/read?gno="+galleryDTO.getGno();
-    }
-    
-    @PostMapping("/remove")
-    public String getRemovePage(long gno){
-        
-        galleryService.removeWithEmojis(gno);
-
-        log.info("remove page "+gno+"....");
-        return "redirect:/manage/gallery/list";
-    }
 
 }
