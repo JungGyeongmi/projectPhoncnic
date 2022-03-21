@@ -53,7 +53,9 @@ public class GalleryServiceImpl implements GalleryService {
     // 상세 페이지
     @Override
     public GalleryDTO getGallery(long gno) {
+        log.info(gno);
         Gallery gallery = galleryRepository.getGalleryByGno(gno);
+        log.info(gallery);
         return entityToDTO(gallery);
     }
 

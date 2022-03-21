@@ -1,7 +1,10 @@
 package ds.com.phoncnic.controller.galleryRestController;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,15 +26,25 @@ public class GallerySettingRestController {
     private EmojiInfoService emojiInfoService;
     private GalleryService galleryService;
 
+
+    @GetMapping("/read/{gno}")
+    public ResponseEntity<GalleryDTO> getRead(@PathVariable("gno") Long gno) {
+        log.info("get Gallery details......... rest "+gno);
+
+        // log.info("galleryDTO : " + galleryDTO);
+        return new ResponseEntity<>(galleryService.getGallery(gno), HttpStatus.OK);
+    }
+    
     // read and modify
-    @GetMapping({ "/read" })
+    /*@GetMapping({ "/read" })
     public void getReadPage(long gno, Model model) {
         model.addAttribute("emojiList", emojiService.getEmojiList("g", gno));
         log.info("read emoji ..." + gno);
         model.addAttribute("emojiInfoList", emojiInfoService.getEmojiInfoList());
         model.addAttribute("galleryDTO", galleryService.getGallery(gno));
-    }
+    }*/
 
+    // read 후에 수정되는 부분을 어떻게 처리해야하는지
     @GetMapping({ "/modify" })
     public void getModifyPage(long gno, Model model) {
         model.addAttribute("galleryDTO", galleryService.getGallery(gno));

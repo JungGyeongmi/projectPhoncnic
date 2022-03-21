@@ -1,63 +1,60 @@
 <!-- user id 받아서 해당 게시물만 띄워주면 된다 -->
 <!DOCTYPE html>
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>user gallery</title>
-</head>
-<body>
-   <h1>유저 갤러리 리스트</h1>
-    <ul>
-        <li th:each="dto : ${galleryDTOList}">
-          <a th:href="@{/manage/gallery/read(gno=${dto.gno})}">
-            [[${dto}]]
-          </a>  
-        </li>
-    </ul>
-    <h4>임시 결과물 업로드 : RESTCONTROLLERTEST</h4>
-    <div id="uploadResult">
 
-    </div>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>user gallery</title>
+</head>
+
+<body>
+  <h1>유저 갤러리 리스트</h1>
+  <ul>
+    <li th:each="dto : ${galleryDTOList}">
+      <span class="galleryList" th:data-gno="${dto.gno}">
+        [[${dto}]]
+      </span>
+    </li>
+  </ul>
+  <h4>임시 결과물 업로드 : RESTCONTROLLERTEST</h4>
+  <div class="uploadResult">
+
+  </div>
 </body>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <script th:inline="javascript">
-       // 파일 업로드를 위한 ajax
-       $.ajax({
-          url: urlUpload, // 스크림트 도입부에 url 올려둠
-          processData: false,
-          contentType: false,
-          data: formData,
-          type: 'POST',
-          dataType: 'json',
-          success: function (result) {
-            console.log(result);
-            showResult(result);
-          },
-          error: function (jqXHR, textStatus, errorThrown) { // 이 부분 잘 이해 안됐음
-            console.log(textStatus);
-          }
-        });
-  
-      // showResult 함수 선언
-      function showResult(uploadResultArr){
-        var uploadUL=$(".uploadResult ul");
+  $(function () {
+
+    /*[+
+        var showUrl = [[@{/manage/gallery/read}]];
+    +]*/
+
+    var targetGno=0;
+    var uploadResult = $("div .uploadResult");
+
+    /* target의 gno 가져옴 */
+    $(".galleryList").click(function (){
+      targetGno = $(this).data("gno");
+      console.log(targetGno);
+      getGalleryDetails();
+    });
+
+    function getGalleryDetails() {
+      // 비동기식 get 방식의 함수 호출
+      $.getJSON(showUrl +"/"+ targetGno, function (dto) {
+        console.log("dto"+dto);
         var str = "";
-        /*[+
-        var urlDisplay=[[@{/display}]];
-        +]*/
-        $(uploadResultArr).each(function(i, obj){
-          // test출력
-          // console.log("uploadResultArr obj >> ");
-          // console.log(obj);
-          str+= `<li data-name='${obj.fileName}' data-path='${obj.folderPath}' data-uuid='${obj.uuid}'><div>`;
-          str+= `<button type='button' data-file='${obj.imageURL}\' class='btn-warning btn-sm'>X</button><br>`;
-          str+= `<img src='${urlDisplay}?fileName=${obj.thumbnailURL}'></div></li>`;
-        });
-        uploadUL.append(str); // ul에 전달쓰
-      }
-      
+        str += `<div>${dto}</div>`
+        uploadResult.append(str);
+      });
+    }
+
+  });
+
 </script>
+
 </html>
