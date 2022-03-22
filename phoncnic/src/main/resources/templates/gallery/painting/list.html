@@ -10,44 +10,52 @@
 
 <body>
     <h1>그림전</h1>
-    <ul style="list-style:none;padding-left:0px;">
-        <li style="margin-bottom:1%;" th:each="dto : ${galleryDTOList}" class="galleryList" th:data-gno="${dto.gno}" >
-            <div style="border: 1px black solid;">
-                [[${dto.title}]]
-                <br><img style="cursor:pointer;" th:src="|@{'/display'}?fileName=${dto.getThumbnailURL()}|" alt="이미지를 불러올 수 없습니다">
-                [[${dto.content}]]
-                <br>
-            </div>
+    <a th:href="@{/}">index</a>
+    <ul>
+        <li th:each="dto : ${galleryDTOList}" class="galleryList" th:data-gno="${dto.gno}">
+            <span th:if="${ dto.imagetype }">그림전</span>
+            <span th:unless="${ dto.imagetype }">사진전</span>
+            <br>
+            <img th:src="|@{'/display'}?fileName=${dto.getImageURL()}|" alt="이미지를 불러올 수 없습니다">
+            <br>
+            [[${ dto.title }]]
+            <br>
+            </a>
         </li>
     </ul>
+</body>
 
 <h4>임시 결과물 업로드 : RESTCONTROLLERTEST</h4>
 <div class="uploadResult">
 
 </div>
 
+
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"
     integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <script th:inline="javascript">
+    
     $(function () {
-
         /*[+
             var showUrl = [[@{/gallery/read}]];
         +]*/
 
+        // var myModal = new bootstrap.Modal(document.getElementById('myModal'));
+        
         var targetGno = 0;
         var uploadResult = $(".uploadResult");
 
         /* target의 gno 가져옴 */
         $(".galleryList").click(function () {
             targetGno = $(this).data("gno");
-            console.log(targetGno);
+            // console.log(targetGno);
             getGalleryDetails();
         });
 
         function getGalleryDetails() {
             $.post(showUrl + "/" + targetGno, function (dto) {
-                console.log("dto " + dto.gno);
+                // console.log("dto " + dto.gno);
                 var str = "";
                 str += `<div>${dto.gno}</div><div>${dto.id}</div><div>${dto.title}</div><div>${dto.content}</div>`;
                 uploadResult.html(str);
@@ -55,9 +63,13 @@
                 console.log("post success");
             });
         }
+
+
+
     });
 
 </script>
-</body>
 
+
+</body>
 </html>

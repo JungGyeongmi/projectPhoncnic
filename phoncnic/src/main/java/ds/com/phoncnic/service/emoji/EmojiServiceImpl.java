@@ -42,10 +42,6 @@ public class EmojiServiceImpl implements EmojiService {
 
         List<Emoji> emojiList = emojiRepository.getEmojiByMember(id);
 
-        // List<EmojiDTO> emojiDTOList =
-        // emojiList.stream().map(emoji::entityToDTO)
-        // .collect(Collectors.toList());
-
         List<EmojiDTO> emojiDTOList = new ArrayList<>();
         emojiList.stream().forEach(emoji -> {
             EmojiDTO emojiDTO = entityToEmojiDTO(emoji);
