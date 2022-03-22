@@ -10,13 +10,16 @@
 
 <body>
     <h1>그림전</h1>
-    <ul>
-        <li th:each="dto : ${galleryDTOList}" class="galleryList" th:data-gno="${dto.gno}">
-            [[${ dto }]]
-            </a>
+    <ul style="list-style:none;padding-left:0px;">
+        <li style="margin-bottom:1%;" th:each="dto : ${galleryDTOList}" class="galleryList" th:data-gno="${dto.gno}" >
+            <div style="border: 1px black solid;">
+                [[${dto.title}]]
+                <br><img style="cursor:pointer;" th:src="|@{'/display'}?fileName=${dto.getThumbnailURL()}|" alt="이미지를 불러올 수 없습니다">
+                [[${dto.content}]]
+                <br>
+            </div>
         </li>
     </ul>
-</body>
 
 <h4>임시 결과물 업로드 : RESTCONTROLLERTEST</h4>
 <div class="uploadResult">
@@ -52,7 +55,6 @@
                 console.log("post success");
             });
         }
-
     });
 
 </script>
