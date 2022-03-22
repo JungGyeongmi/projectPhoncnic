@@ -46,12 +46,14 @@ public interface EmojiRepository extends JpaRepository<Emoji,Long>{
     List<Object[]> getEmojiCountByGno(Long gno);
 
 
-
+    //다이닝 이모지 타입 갯수 카운트
     @Query("select count(e.emojiInfo.emojitype) from Emoji e where e.dyning.dno=:dno and e.emojiInfo.emojitype=:emojitype")
     Long getEmojiCountByEmojitype(Long dno,String emojitype);
 
-    
+    @Query("select e.emojiInfo.emojitype,count(e.emojiInfo.emojitype) from Emoji e where e.dyning.dno=:dno and e.emojiInfo.emojitype=:emojitype")
+    List<Object[]> getEmojiCountByEmojitype2(Long dno,String emojitype);
 
-    
+
+
 
 }

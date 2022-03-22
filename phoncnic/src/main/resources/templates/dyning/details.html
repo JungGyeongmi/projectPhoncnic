@@ -71,11 +71,11 @@
             </tr>
             <tr>
                 <td>[[${result.emojicwt}]]</td>
-                <td>😋</td>
-                <td>🥰</td>
-                <td>😭</td>
-                <td>😅</td>
-                <td>🥵</td>  
+                <td>😋<span>[[${emojitype1}]]</span></td>
+                <td>🥰[[${emojitype2}]]</td>
+                <td>😭[[${emojitype3}]]</td>
+                <td>😅[[${emojitype4}]]</td>
+                <td>🥵[[${emojitype5}]]</td>  
                 <td th:each="dto : ${emojilist}"><button type="button" th:value="${dto.eno}" class="emojiRemoveBtn">삭제</button></td>
             </tr>
             

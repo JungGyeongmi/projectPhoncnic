@@ -33,6 +33,18 @@ public class EmojiRepositoryTests {
 
     } 
 
+    @Test
+    public void testEmojitypeCwt() {
+        Long emojicwt = emojiRepository.getEmojiCountByEmojitype(11L, "3");
+        System.out.println(emojicwt);
+    }
+
+    @Test
+    public void testEmojitypeCwt2() {
+        List<Object[]> emojicwt = emojiRepository.getEmojiCountByEmojitype2(11L, "3");
+        for(Object a: emojicwt)System.out.println(a);
+        }
+
     /*@Test
     public void getCountEmoji(){
         // List<Object[]> result = EmojiRepository.getEmojiCountByGno(1L);

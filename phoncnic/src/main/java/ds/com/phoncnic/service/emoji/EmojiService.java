@@ -17,6 +17,8 @@ public interface EmojiService {
     void emojiRemove(Long eno);
     Long dyningEmojiRegister(EmojiDTO emojiDTO);
     List<EmojiDTO> getEmojiList(String type, Long no);
+    Long getEmojitypeCwt(Long dno,String emojitype);
+
     
     
     /* DTO -> Entity */

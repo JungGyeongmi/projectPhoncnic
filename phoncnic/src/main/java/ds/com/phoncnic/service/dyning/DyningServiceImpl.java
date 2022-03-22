@@ -94,13 +94,7 @@ public DyningDTO getDyningDetails(Long dno) {
   List<DyningImage> dyningImageList = dyningRepository.getImageDetailsPage(dno);
   return entityToDTO(dyninglist,emojiCwt,dyningImageList);
 }
+
 }
 
 
-
-// @Override
-// public BoardDTO get(Long bno) {
-// Object result = repository.getBoardByBno(bno);
-// Object[] arr = (Object[]) result;
-// return entityToDTO((Board)arr[0],(Member)arr[1],(Long)arr[2]);
-// }

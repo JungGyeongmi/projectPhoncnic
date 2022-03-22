@@ -30,7 +30,7 @@ public class DyningDTO {
     private Long emojicwt;
 
 
-    private long oono;
+    private Long oono;
     private String roofpath;
 
     @Builder.Default
