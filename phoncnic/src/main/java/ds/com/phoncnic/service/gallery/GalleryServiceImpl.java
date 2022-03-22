@@ -1,6 +1,7 @@
 package ds.com.phoncnic.service.gallery;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -81,9 +82,14 @@ public class GalleryServiceImpl implements GalleryService {
     @Override
     public void modify(GalleryDTO dto) {
         log.info(dto.toString());
-        Gallery gallery = galleryRepository.findById(dto.getGno()).get();
-        gallery.changeTitleAndContent(dto.getTitle(), dto.getContent());
-        galleryRepository.save(gallery);
+        Optional<Gallery> result = galleryRepository.findById(dto.getGno());
+
+        if (result.isPresent()) {
+            Gallery gallery = result.get();
+            gallery.changeTitle(dto.getTitle());
+            gallery.changeContent(dto.getContent());
+            galleryRepository.save(gallery);
+        }
     }
 
     @Override

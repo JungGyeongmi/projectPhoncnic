@@ -37,8 +37,12 @@ public class Gallery extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Member artistid;
 
-    public void changeTitleAndContent(String title, String content) {
+    public void changeTitle(String title) {
         this.title = title;
+    
+    }
+
+    public void changeContent(String content) {
         this.content = content;
     }
 }
