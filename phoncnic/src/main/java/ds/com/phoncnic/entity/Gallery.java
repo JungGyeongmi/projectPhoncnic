@@ -33,6 +33,7 @@ public class Gallery extends BaseEntity {
     private String imagename;
     private boolean imagetype;
     private String imagepath;
+    private String uuid;
     
     @ManyToOne(fetch = FetchType.LAZY)
     private Member artistid;

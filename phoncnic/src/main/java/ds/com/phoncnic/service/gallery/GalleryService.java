@@ -38,6 +38,7 @@ public interface GalleryService {
                 .imagename(galleryDTO.getImagename()==null?"temp":galleryDTO.getImagename())
                 .imagepath(galleryDTO.getImagepath()==null?"D:/temp":galleryDTO.getImagepath())
                 .imagetype(galleryDTO.isImagetype())
+                .uuid(galleryDTO.getUuid())
                 .artistid(Member.builder().id(galleryDTO.getId()).build())
                 .build();
 
@@ -53,6 +54,7 @@ public interface GalleryService {
                 .imagename(gallery.getImagename())
                 .imagetype(gallery.isImagetype())
                 .imagepath(gallery.getImagepath())
+                .uuid(gallery.getUuid())
                 .id(gallery.getArtistid().getId())
                 .moddate(gallery.getModDate())
                 .regdate(gallery.getRegDate())

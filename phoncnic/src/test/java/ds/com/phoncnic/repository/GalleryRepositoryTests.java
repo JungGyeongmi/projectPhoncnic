@@ -2,6 +2,7 @@ package ds.com.phoncnic.repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.IntStream;
 
 import javax.transaction.Transactional;
@@ -55,12 +56,13 @@ public class GalleryRepositoryTests {
 
             boolean rand = (int)(Math.random()*2)!=0;
             Gallery gallery = Gallery.builder()
-                .title(i + "title")
-                .content(i + "content")
+                .title("title"+i)
+                .content("content"+i)
                 .artistid(memberRepository.findById("user"+i+"@icloud.com").get())
-                .imagepath("D:/image/imagepath/image" + i + ".jpg")
+                .imagepath("2022\\03\\22")
                 .imagetype(rand)
-                .imagename("imagename" + i)
+                .imagename("test" + i +".jpg")
+                .uuid(UUID.randomUUID().toString())
                 .build();
             galleryRepository.save(gallery);
 
