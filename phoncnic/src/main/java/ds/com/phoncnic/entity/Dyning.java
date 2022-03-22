@@ -3,6 +3,7 @@ package ds.com.phoncnic.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -47,7 +48,7 @@ public class Dyning extends BaseEntity {
     @OneToMany(mappedBy = "dyning", fetch = FetchType.LAZY)
     List<DyningImage> image = new ArrayList<DyningImage>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
     private RoofDesign roofdesign;
 
 }
