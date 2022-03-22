@@ -10,7 +10,7 @@
 <body>
 
     <h1>전시회 상세페이지 예제</h1>
-    <form id="frm" th:action="@{/gallery/painting/modify}" th:method="post">
+    <form id="frm" >
     <table border="1">
         <tr>
             <th>
@@ -69,24 +69,26 @@
     var removeBtn = document.querySelector("#removeBtn");
 
     removeBtn.onclick = function() {
-    /*[+ var urlremove = [[@{/manage/gallery/remove}]]; +]*/
+    /*[+ var urlremove = [[@{/manage/gallery/remove}]] +]*/
     actionForm.setAttribute("action", urlremove);
     actionForm.setAttribute("method", "post");
     actionForm.submit();
+    alert("삭제되었습니다");
     }
 
     var modifyBtn = document.querySelector("#modifyBtn");
     modifyBtn.onclick = function() {
-        /*[+ var modifyUrl = [[@{/mangae/gallery/modify}]]; +]*/
+        /*[+ var modifyUrl = [[@{/manage/gallery/modify}]] +]*/
         actionForm.setAttribute("action", modifyUrl);
         actionForm.setAttribute("method", "post");
         actionForm.submit();
+        alert("수정되었습니다");
     }
 
     var listBtn = document.querySelector("#listBtn");
     listBtn.onclick = function() {
         /*[+ var listUrl = 
-            [[@{/manage/gallery/list(id=${galleryDTO.artistid})}]]; 
+            [[@{/manage/gallery/list(id=${galleryDTO.id})}]]
         +]*/
         location.href = listUrl;
     }
