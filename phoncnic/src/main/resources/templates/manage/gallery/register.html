@@ -156,6 +156,7 @@
         function showResult(uploadResultArr) {
             var uploadUL = $(".uploadResult ul");
             var str = "";
+            var  ee ="";
             /*[+
             var urlDisplay=[[@{/display}]];
             +]*/
@@ -165,6 +166,16 @@
                 str += `<img src='${urlDisplay}?fileName=${obj.thumbnailURL}'></div></li>`;
             });
             uploadUL.append(str); // ul에 전달쓰
+       
+            $(".uploadResult li").each(function (i, obj) {
+            var target = $(obj);
+            
+            ee += `<input type='hidden' name='imagename' value='${target.data('name')}'>
+            <input type='hidden' name='imagepath' value='${target.data('path')}'>
+            <input type='hidden' name='uuid' value='${target.data('uuid')}'>`;
+            });
+
+            $(".box").html(ee);
         }
 
     });
@@ -173,15 +184,7 @@
     $("#register").on("click", function (e) {
         e.preventDefault();
 
-        var str = "";
-        $(".uploadResult li").each(function (i, obj) {
-            var target = $(obj);
-            str += `<input type='hidden' name='imageDTOList[${i}].imgName' value='${target.data('name')}'>`;
-            str += `<input type='hidden' name='imageDTOList[${i}].path' value='${target.data('path')}'>`;
-            str += `<input type='hidden' name='imageDTOList[${i}].uuid' value='${target.data('uuid')}'>`;
-        });
-
-        $(".box").html(str);
+        
         $("form").submit();
     });
 

@@ -33,7 +33,7 @@
         </tr>
         <tr>
             <td colspan="2">
-                [[${galleryDTO.imagepath}]]
+                <img th:src="|@{'/display'}?fileName=${galleryDTO.getImageURL()}|" alt="이미지를 불러올 수 없습니다">
             </td>
         </tr>
         <tr>

@@ -40,7 +40,6 @@ public class GalleryController {
     //사진전 상세페이지
     @GetMapping("/photo")
     public String photo(PageRequestDTO pageRequestDTO, Model model){
-        // model.addAttribute("list", galleryService.getPhotoList(pageRequestDTO));
         model.addAttribute("galleryDTOList", galleryService.getGalleryList(false));
         model.addAttribute("emoji", emojiService.getEmojiList("g"));
         model.addAttribute("list", galleryService.getPhotoList(pageRequestDTO));

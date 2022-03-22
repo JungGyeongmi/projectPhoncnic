@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,94 +8,92 @@
 </head>
 
 <body>
-    <form id="frm">
-        <input type="hidden" name="gno" th:value="${galleryDTO.gno}">
-        <input type="hidden" name="page" th:value="${pageRequestDTO.page}">
-        <input type="hidden" name="type" th:value="${pageRequestDTO.type}">
-        <input type="hidden" name="keyword" th:value="${pageRequestDTO.keyword}">
 
-        <h1>전시회 상세페이지 예제</h1>
-
-
-
-        <div>
-            번호
-
-            <input type="text" name="gno" th:value="${galleryDTO.gno}" readonly>
-        </div>
-
-
-        <div>
-            아이디
-
-
-            <input type="text" th:value="${galleryDTO.id}" name="id" readonly>
-        </div>
-        <div>
-            제목
-
-            <input name="title" type="text" th:value="${galleryDTO.title}">
-        </div>
-        <div>
-
-
-            [[${galleryDTO.imagepath}]]
-        </div>
-
-        <div>
-            작품 설명</th>
-
-            <input name="content" type="text" th:value="${galleryDTO.content}">
-        </div>
-
-        <div>
-            등록일
-            [[${#temporals.format(galleryDTO.regdate,'yyyy/MM/dd')}]]
-            <div>
-            </div>
-            수정일
-
-            [[${#temporals.format(galleryDTO.moddate,'yyyy/MM/dd')}]]
-        </div>
-        <div>
-            <button type="button" id="mBtn">반영하기</button>
-            <button type="button" id="removeBtn">삭제하기</button>
-            <button type="button" id="listBtn">돌아가기</button>
-        </div>
+    <h1>전시회 상세페이지 예제</h1>
+    <form id="frm" >
+    <table border="1">
+        <tr>
+            <th>
+                번호
+            </th>
+            <td>
+                <input type="text" name="gno" th:value="${galleryDTO.gno}" readonly> 
+            </td>
+        </tr>
+        <tr>
+            <th>
+                아이디
+            </th>
+            <td>
+                <input type="text" th:value="${galleryDTO.id}" name="id" readonly>
+            </td>
+        </tr>
+        <tr>
+            <th>제목</th>
+            <td>
+                <input name="title" type="text" th:value="${galleryDTO.title}"> 
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <img th:src="|@{'/display'}?fileName=${galleryDTO.getImageURL()}|" alt="이미지를 불러올 수 없습니다">
+            </td>
+        </tr>
+        <tr>
+            <th>작품 설명</th>
+            <td>
+                <input name="content" type="text" th:value="${galleryDTO.content}"> 
+            </td>
+        </tr>
+        <tr>
+            <th>등록일</th>
+            <td>
+                [[${#temporals.format(galleryDTO.regdate,'yyyy/MM/dd')}]]
+            </td>
+        </tr>
+        <tr>
+            <th>수정일</th>
+            <td>
+                [[${#temporals.format(galleryDTO.moddate,'yyyy/MM/dd')}]]
+            </td>
+        </tr>
+    </table>
+        <button type="button" id="modifyBtn">반영하기</button>
+        <button type="button" id="removeBtn">삭제하기</button>
+        <button type="button" id="listBtn">돌아가기</button>
     </form>
 
 
+<script th:inline="javascript">
+    var actionForm = document.querySelector("#frm");
+    var removeBtn = document.querySelector("#removeBtn");
 
-    <script th:inline="javascript">
-        var actionForm = document.getElementById("frm");
-        var removeBtn = document.getElementById("removeBtn");
-        var mBtn = document.getElementById("mBtn");
-        /*[+ var urlremove = [[@{/manage/gallery/remove}]] 
-            var modifyUrl = [[@{/manage/gallery/modify}]] +]*/
+    removeBtn.onclick = function() {
+    /*[+ var urlremove = [[@{/manage/gallery/remove}]] +]*/
+    actionForm.setAttribute("action", urlremove);
+    actionForm.setAttribute("method", "post");
+    actionForm.submit();
+    alert("삭제되었습니다");
+    }
 
+    var modifyBtn = document.querySelector("#modifyBtn");
+    modifyBtn.onclick = function() {
+        /*[+ var modifyUrl = [[@{/manage/gallery/modify}]] +]*/
+        actionForm.setAttribute("action", modifyUrl);
+        actionForm.setAttribute("method", "post");
+        actionForm.submit();
+        alert("수정되었습니다");
+    }
 
-        removeBtn.onclick = function () {
-            actionForm.setAttribute("action", urlremove);
-            actionForm.setAttribute("method", "post");
-            actionForm.submit();
-            alert("삭제성공");
-        }
+    var listBtn = document.querySelector("#listBtn");
+    listBtn.onclick = function() {
+        /*[+ var listUrl = 
+            [[@{/manage/gallery/list(id=${galleryDTO.id})}]]
+        +]*/
+        location.href = listUrl;
+    }
 
-        mBtn.onclick = function () {
-            actionForm.setAttribute("action", modifyUrl);
-            actionForm.setAttribute("method", "post");
-            actionForm.submit();
-            alert("수정성공");
-        }
+</script>
 
-        listBtn.onclick = function () {
-            /*[+ var listUrl = 
-                [[@{/manage/gallery/list(id=${galleryDTO.id})}]] 
-            +]*/
-            window.location.href = listUrl;
-        }
-
-    </script>
-
-
+</body>
 </html>
