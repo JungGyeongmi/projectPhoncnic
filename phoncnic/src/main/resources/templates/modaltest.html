@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MODAL TEST</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .b{
+            border: 1px black solid;
+        }
+    </style>
+</head>
+<body>
+    <h1>BOOT STRAP</h1>
+    <h1 class="display-1">BOOT STRAP</h1>
+    <!-- grid는 12개가 넘어가면 넘어가는 순간부터 다음 row에 표기된다(따로 나눠주지 않아도) -->
+    <!-- 지정된 사이즈에 따라서 태그가 적용된다 -->
+    <!-- display heading  Ehsms Typography 참고 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-sm-6 b">hello</div>
+            <div class="col-md-4 col-sm-6 b">hello</div>
+            <div class="col-md-4 col-sm-12 b">hello</div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 offset-md-4 b">hello</div>
+            <div class="col-md-4 b">hello</div>
+        </div>
+    </div>
+
+    <!-- image 삽입, pixabay 저작권 프리 확인 후 이미지 사용필요 -->
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 b">
+                <!-- rounded 모서리가 깎임 -->
+                <img class="img-fluid rounded" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAP4AAADHCAMAAAAOPR4GAAAAdVBMVEX///9wbm+Zl5nR0NH8/PxpaGj29vaIhoaEg4Ogn5/s7Oyura7W1dXi4eLIx8ienZ23trbf3t99fHy/vr6SkZHx8fFkYWOUkpN1dHSqqalvbW68u7teXF3n5+fh4ODZ2dlTUVE8OTpDQUIxLS49OjtMSktZVle+Kj41AAAETElEQVR4nO2dWZLaWAAEhUBoYROSQAuIrU3f/4iGA2RNxGNoe4bKCPxTrpCS7afi0VH04cTthsj3mxgRWdtxLZ3keLkq416XiqzhLBG3cn7oL2b81EzE0yayXc7ZuOGsXHOWr0RWcCZu8zx9/LOYB3XnIiuE/ipQf7PlLB85E7e5tL71g7rWR6yPWB+xPmJ9xPqI9QnrW9/6AV3rI9ZHrI9YH7E+Yn3E+oT1rf/h+mLl6TiSK0/P2SiemnLKmVLsxcojFLbPy1VVRqTXIUGuKfaqG/eOF+ylxwvWhtsxKEu++FYudRT+6ovsv/Tqf/pn3/oBXesj1kesj1gfsT5ifcT6hPWtb/2ArvUR6yPWR6yPWB+xPmJ9wvrWt35A98f1T5y9ot8Xc2I2cDcaZtgb1crTYm/Wq5VnybcZv3CSq2rwQF7+K0WyW44H5JoL96ojXm6TJNy7pNzbV9y7NhgNzzfbO87xvWPjCzzHJzY+n+OzvvUDutZHrI9YH7E+Yn3E+oj1Cetb3/oBXesj1kesj1gfsT5ifcT6hPWtH6Y/+2H9/G0bH45u0RDNiPkQ4eY25tiLTjH3FmvuPV59zlacsUI0fepnGY5gzS1uieaaVUDWHdsGaLM79747vF58zFRGl2vaX1zrXtn4/qJzfP6tTsTf/IT1rW/9gK71Eesj1kesj1gfsT5ifcL61rd+QNf6iPUR6yPWR6yPWB+xPuGNL4r6Hf8HcY5vlnAm9RvOFkr/LLIX9NsOB7LmPnTIF+54TXOlGa+quhvXshtf7njn7JJwdmOFyXOLq8UBuVjsf+LVjzKO5iIrxAdjuuDsID4YSqF8PGrxndKK74U9R1HF0U5kq5izqZhNS/HBUArWt35Y1/qI9QnrI9ZHrI9YH7E+9yLrWz+ka33E+oT1Eesj1kesj1ife5H1rR/S/b/oi43gh/XHP6Bf1qctsKpE97ii2nYU2+A8Gal2Wrfcm8a7Atj1Sl+sPIfHY5nVB6DuNiVxOOac8d/cy9Jrjb3FHX+PM06TA/Z68Tf+LuI2n2/E4sBPTy++FxpxeE68wdU2qPa/nViGC/HBkL/x+eyWIhfvqlSsykpffGeo74VC6Ksfxs3FK/hcVK3PXesT1kesj1ifsD5ifcT6iPUR61tfdK1PWB+xPmJ9wvqI9RHrI9ZHrP/x+qEzx7+vPw/Uf2Xm2DZTJCuXxLmrOUuKkSi+z9hbJyLrOKtbvlwqFNKH/jnjEayLF0S577n3jVFZ3nmrW3yXeL18L7IJZuUgFP5x4xPjd+jGF/jm98aH+JsfsT5ifeuLrvUJ6yPWR6xPWB+xPmJ9xPqI9a0vutYnrI9YH7E+YX3E+oj1kXdtfG/Qf8vGp37j8/E4NTyCZQc8q7eaiI1vj2f1tuNdbXzijN9EbHwNbopFWuOtnJ4b34xOBz5Y4RUf97rkabQWHLg2PYjaWvTqNdXW5ZQVxEf7M/gNnH87q83ck5gAAAAASUVORK5CYII=" alter="표기할 수 없음">
+            </div>
+            <div class="col-md-4 b">
+                <!-- rounded-circle 이미지 사이즈에 맞춰 원형으로(정사각형은 구, 아닐시 타원) -->
+                <img class="img-fluid rounded-circle" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAP4AAADHCAMAAAAOPR4GAAAAdVBMVEX///9wbm+Zl5nR0NH8/PxpaGj29vaIhoaEg4Ogn5/s7Oyura7W1dXi4eLIx8ienZ23trbf3t99fHy/vr6SkZHx8fFkYWOUkpN1dHSqqalvbW68u7teXF3n5+fh4ODZ2dlTUVE8OTpDQUIxLS49OjtMSktZVle+Kj41AAAETElEQVR4nO2dWZLaWAAEhUBoYROSQAuIrU3f/4iGA2RNxGNoe4bKCPxTrpCS7afi0VH04cTthsj3mxgRWdtxLZ3keLkq416XiqzhLBG3cn7oL2b81EzE0yayXc7ZuOGsXHOWr0RWcCZu8zx9/LOYB3XnIiuE/ipQf7PlLB85E7e5tL71g7rWR6yPWB+xPmJ9xPqI9QnrW9/6AV3rI9ZHrI9YH7E+Yn3E+oT1rf/h+mLl6TiSK0/P2SiemnLKmVLsxcojFLbPy1VVRqTXIUGuKfaqG/eOF+ylxwvWhtsxKEu++FYudRT+6ovsv/Tqf/pn3/oBXesj1kesj1gfsT5ifcT6hPWtb/2ArvUR6yPWR6yPWB+xPmJ9wvrWt35A98f1T5y9ot8Xc2I2cDcaZtgb1crTYm/Wq5VnybcZv3CSq2rwQF7+K0WyW44H5JoL96ojXm6TJNy7pNzbV9y7NhgNzzfbO87xvWPjCzzHJzY+n+OzvvUDutZHrI9YH7E+Yn3E+oj1Cetb3/oBXesj1kesj1gfsT5ifcT6hPWtH6Y/+2H9/G0bH45u0RDNiPkQ4eY25tiLTjH3FmvuPV59zlacsUI0fepnGY5gzS1uieaaVUDWHdsGaLM79747vF58zFRGl2vaX1zrXtn4/qJzfP6tTsTf/IT1rW/9gK71Eesj1kesj1gfsT5ifcL61rd+QNf6iPUR6yPWR6yPWB+xPuGNL4r6Hf8HcY5vlnAm9RvOFkr/LLIX9NsOB7LmPnTIF+54TXOlGa+quhvXshtf7njn7JJwdmOFyXOLq8UBuVjsf+LVjzKO5iIrxAdjuuDsID4YSqF8PGrxndKK74U9R1HF0U5kq5izqZhNS/HBUArWt35Y1/qI9QnrI9ZHrI9YH7E+9yLrWz+ka33E+oT1Eesj1kesj1ife5H1rR/S/b/oi43gh/XHP6Bf1qctsKpE97ii2nYU2+A8Gal2Wrfcm8a7Atj1Sl+sPIfHY5nVB6DuNiVxOOac8d/cy9Jrjb3FHX+PM06TA/Z68Tf+LuI2n2/E4sBPTy++FxpxeE68wdU2qPa/nViGC/HBkL/x+eyWIhfvqlSsykpffGeo74VC6Ksfxs3FK/hcVK3PXesT1kesj1ifsD5ifcT6iPUR61tfdK1PWB+xPmJ9wvqI9RHrI9ZHrP/x+qEzx7+vPw/Uf2Xm2DZTJCuXxLmrOUuKkSi+z9hbJyLrOKtbvlwqFNKH/jnjEayLF0S577n3jVFZ3nmrW3yXeL18L7IJZuUgFP5x4xPjd+jGF/jm98aH+JsfsT5ifeuLrvUJ6yPWR6xPWB+xPmJ9xPqI9a0vutYnrI9YH7E+YX3E+oj1kXdtfG/Qf8vGp37j8/E4NTyCZQc8q7eaiI1vj2f1tuNdbXzijN9EbHwNbopFWuOtnJ4b34xOBz5Y4RUf97rkabQWHLg2PYjaWvTqNdXW5ZQVxEf7M/gNnH87q83ck5gAAAAASUVORK5CYII=" alter="표기할 수 없음">
+            </div>
+            <div class="col-md-4 b">
+                <!-- img-thumbnail 사용시 액자가 생김 -->
+                <img class="img-fluid img-thumbnail" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAP4AAADHCAMAAAAOPR4GAAAAdVBMVEX///9wbm+Zl5nR0NH8/PxpaGj29vaIhoaEg4Ogn5/s7Oyura7W1dXi4eLIx8ienZ23trbf3t99fHy/vr6SkZHx8fFkYWOUkpN1dHSqqalvbW68u7teXF3n5+fh4ODZ2dlTUVE8OTpDQUIxLS49OjtMSktZVle+Kj41AAAETElEQVR4nO2dWZLaWAAEhUBoYROSQAuIrU3f/4iGA2RNxGNoe4bKCPxTrpCS7afi0VH04cTthsj3mxgRWdtxLZ3keLkq416XiqzhLBG3cn7oL2b81EzE0yayXc7ZuOGsXHOWr0RWcCZu8zx9/LOYB3XnIiuE/ipQf7PlLB85E7e5tL71g7rWR6yPWB+xPmJ9xPqI9QnrW9/6AV3rI9ZHrI9YH7E+Yn3E+oT1rf/h+mLl6TiSK0/P2SiemnLKmVLsxcojFLbPy1VVRqTXIUGuKfaqG/eOF+ylxwvWhtsxKEu++FYudRT+6ovsv/Tqf/pn3/oBXesj1kesj1gfsT5ifcT6hPWtb/2ArvUR6yPWR6yPWB+xPmJ9wvrWt35A98f1T5y9ot8Xc2I2cDcaZtgb1crTYm/Wq5VnybcZv3CSq2rwQF7+K0WyW44H5JoL96ojXm6TJNy7pNzbV9y7NhgNzzfbO87xvWPjCzzHJzY+n+OzvvUDutZHrI9YH7E+Yn3E+oj1Cetb3/oBXesj1kesj1gfsT5ifcT6hPWtH6Y/+2H9/G0bH45u0RDNiPkQ4eY25tiLTjH3FmvuPV59zlacsUI0fepnGY5gzS1uieaaVUDWHdsGaLM79747vF58zFRGl2vaX1zrXtn4/qJzfP6tTsTf/IT1rW/9gK71Eesj1kesj1gfsT5ifcL61rd+QNf6iPUR6yPWR6yPWB+xPuGNL4r6Hf8HcY5vlnAm9RvOFkr/LLIX9NsOB7LmPnTIF+54TXOlGa+quhvXshtf7njn7JJwdmOFyXOLq8UBuVjsf+LVjzKO5iIrxAdjuuDsID4YSqF8PGrxndKK74U9R1HF0U5kq5izqZhNS/HBUArWt35Y1/qI9QnrI9ZHrI9YH7E+9yLrWz+ka33E+oT1Eesj1kesj1ife5H1rR/S/b/oi43gh/XHP6Bf1qctsKpE97ii2nYU2+A8Gal2Wrfcm8a7Atj1Sl+sPIfHY5nVB6DuNiVxOOac8d/cy9Jrjb3FHX+PM06TA/Z68Tf+LuI2n2/E4sBPTy++FxpxeE68wdU2qPa/nViGC/HBkL/x+eyWIhfvqlSsykpffGeo74VC6Ksfxs3FK/hcVK3PXesT1kesj1ifsD5ifcT6iPUR61tfdK1PWB+xPmJ9wvqI9RHrI9ZHrP/x+qEzx7+vPw/Uf2Xm2DZTJCuXxLmrOUuKkSi+z9hbJyLrOKtbvlwqFNKH/jnjEayLF0S577n3jVFZ3nmrW3yXeL18L7IJZuUgFP5x4xPjd+jGF/jm98aH+JsfsT5ifeuLrvUJ6yPWR6xPWB+xPmJ9xPqI9a0vutYnrI9YH7E+YX3E+oj1kXdtfG/Qf8vGp37j8/E4NTyCZQc8q7eaiI1vj2f1tuNdbXzijN9EbHwNbopFWuOtnJ4b34xOBz5Y4RUf97rkabQWHLg2PYjaWvTqNdXW5ZQVxEf7M/gNnH87q83ck5gAAAAASUVORK5CYII=" alter="표기할 수 없음">
+            </div>
+        </div>
+    </div>
+</body>
+</html>
