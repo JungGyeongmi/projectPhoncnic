@@ -1,6 +1,7 @@
 package ds.com.phoncnic.repository;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.IntStream;
@@ -90,9 +91,9 @@ public class GalleryRepositoryTests {
 
     @Test
     public void getGalleryTest(){
-
         GalleryDTO galleryDTO = galleryService.getGallery(3L);
-        System.out.println(galleryDTO);
+        System.out.println("galleryDTO : "+galleryDTO);
+        System.out.println("emojiCount : "+Arrays.deepToString(galleryDTO.getEmojicount()));
     }
 
     @Test
@@ -104,7 +105,7 @@ public class GalleryRepositoryTests {
     @Test
     public void modifyTest() {
         Gallery gallery = galleryRepository.findById(2L).get();
-        GalleryDTO dto = galleryService.entityToDTO(gallery);
+        GalleryDTO dto = galleryService.entityToDTO(gallery, emojiRepository.getEmojiCountByGno(gallery.getGno()));
         dto.setContent("content1004");
         dto.setTitle("title1004");
         System.out.println(dto.toString());

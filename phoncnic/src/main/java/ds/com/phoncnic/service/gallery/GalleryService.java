@@ -31,7 +31,7 @@ public interface GalleryService {
     PageResultDTO<GalleryDTO, Gallery> getPaintingList(PageRequestDTO PageRequestDTO);
     
     // user id 로 paing 처리
-    PageResultDTO<GalleryDTO, Gallery> getGalleryPage(PageRequestDTO PageRequestDTO, String sort);
+    // PageResultDTO<GalleryDTO, Gallery> getGalleryPage(PageRequestDTO PageRequestDTO, String sort);
 
     default Gallery dtoToEntity(GalleryDTO galleryDTO) {
         Gallery gallery = Gallery.builder()
@@ -48,13 +48,14 @@ public interface GalleryService {
         return gallery;
     }
 
-    default GalleryDTO entityToDTO(Gallery gallery) {
+    default GalleryDTO entityToDTO(Gallery gallery, List<Object[]> list) {
 
         GalleryDTO galleryDTO = GalleryDTO.builder()
                 .gno(gallery.getGno())
                 .title(gallery.getTitle())
                 .content(gallery.getContent())
                 .imagename(gallery.getImagename())
+                .emojicount(list.stream().toArray())
                 .imagetype(gallery.isImagetype())
                 .imagepath(gallery.getImagepath())
                 .uuid(gallery.getUuid())
@@ -62,7 +63,6 @@ public interface GalleryService {
                 .moddate(gallery.getModDate())
                 .regdate(gallery.getRegDate())
                 .build();
-
         return galleryDTO;
     }
 }

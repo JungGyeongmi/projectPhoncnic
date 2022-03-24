@@ -43,6 +43,8 @@ public interface EmojiRepository extends JpaRepository<Emoji,Long>{
     List<Emoji> getCountEmoji(String type);
 
     //타입별
-    // @Query("select e.emojiInfo.emojitype, count(e.emojiInfo.emojitype) from Emoji e where e.gallery.gno = :gno group by e.emojiInfo.emojitype")
-    // List<Object[]> getEmojiCountByGno(Long gno)
+    @Query("SELECT e.emojiInfo.emojitype, COUNT(e) FROM Emoji e "+
+           "WHERE e.gallery.gno IS NOT NULL AND e.gallery.gno = :gno " +
+           "GROUP BY e.gallery.gno, e.emojiInfo.emojitype ORDER BY 1, 2 ")
+    List<Object[]> getEmojiCountByGno(Long gno);
 }

@@ -32,4 +32,14 @@ public class EmojiRepositoryTests {
         });
 
     } 
+
+    @Test
+    public void testCountEmojiList() {
+        List<Object[]> emojiList = emojiRepository.getEmojiCountByGno(3L);
+
+        emojiList.stream().forEach(cnt -> {
+            System.out.println("type : "+cnt[0]);
+            System.out.println("count : "+cnt[1]);
+        });
+    }
 }
