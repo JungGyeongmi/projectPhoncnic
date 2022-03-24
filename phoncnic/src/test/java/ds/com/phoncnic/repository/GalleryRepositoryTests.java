@@ -10,9 +10,14 @@ import javax.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Commit;
 
 import ds.com.phoncnic.dto.GalleryDTO;
+import ds.com.phoncnic.dto.PageRequestDTO;
 import ds.com.phoncnic.entity.Emoji;
 import ds.com.phoncnic.entity.Gallery;
 import ds.com.phoncnic.entity.Member;
@@ -98,7 +103,6 @@ public class GalleryRepositoryTests {
 
     @Test
     public void modifyTest() {
-
         Gallery gallery = galleryRepository.findById(2L).get();
         GalleryDTO dto = galleryService.entityToDTO(gallery);
         dto.setContent("content1004");
@@ -106,6 +110,28 @@ public class GalleryRepositoryTests {
         System.out.println(dto.toString());
         galleryService.modify(dto);
         System.out.println(gallery.toString());
+    }
+
+
+    @Test
+    public void getPageByMemberId() {
+        PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
+            .page(1)
+            .size(3)
+            .type("t")
+            .keyword("3")
+            .build();
+
+
+        Pageable pageable = pageRequestDTO.getPageable(Sort.by("gno"));
+        // pageable = PageRequest.of(0, 3);
+        // pageable = PageRequest.of(1, 3, Sort.by("gno"));
+        
+        Page<Gallery> result = galleryRepository.getGalleryPage(pageable);
+        System.out.println(result.getSize());
+        System.out.println(result.getTotalPages());
+        System.out.println(result.hasNext());
+        System.out.println(result.getContent());
     }
 
 }

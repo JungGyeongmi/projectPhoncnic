@@ -29,6 +29,9 @@ public interface GalleryService {
     PageResultDTO<GalleryDTO, Gallery> getPhotoList(PageRequestDTO PageRequestDTO);
 
     PageResultDTO<GalleryDTO, Gallery> getPaintingList(PageRequestDTO PageRequestDTO);
+    
+    // user id 로 paing 처리
+    PageResultDTO<GalleryDTO, Gallery> getGalleryPage(PageRequestDTO PageRequestDTO, String sort);
 
     default Gallery dtoToEntity(GalleryDTO galleryDTO) {
         Gallery gallery = Gallery.builder()

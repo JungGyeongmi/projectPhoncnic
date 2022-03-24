@@ -13,8 +13,13 @@ import ds.com.phoncnic.entity.Gallery;
 
 public interface GalleryRepository extends JpaRepository<Gallery, Long> {
 
+    /* gno 값으로 특정 gallery entity 추출 */
     @Query("select g from Gallery g where gno = :gno")
     Gallery getGalleryByGno(Long gno);
+
+    /* gallerylist paging처리 */
+    @Query("select g from Gallery g")
+    Page<Gallery> getGalleryPage(Pageable pageable);
 
     /* photoList (Paging처리) */
     @Query("select g from Gallery g where imagetype = false")
@@ -28,12 +33,13 @@ public interface GalleryRepository extends JpaRepository<Gallery, Long> {
     @Query("select g from Gallery g where imagetype = :type")
     List<Gallery> getGalleryList(Boolean type);
 
+    // deledt gallery
     @Modifying
     @Query("delete from Gallery g where g.artistid.id=:id")
     void deleteByMemberId(String id);
 
+    // getGalleryList by artist id - list
     @Query("select g from Gallery g where g.artistid.id=:id")
     List<Gallery> findByMemberId(String id);
-
 
 }
