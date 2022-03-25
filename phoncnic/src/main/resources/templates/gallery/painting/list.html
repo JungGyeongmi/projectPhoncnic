@@ -134,11 +134,6 @@
                 type: 'get',
                 url : '/gallery/modal/search',
                 dataType: 'json',
-                data : JSON.stringify({
-                    "type": type,
-                    "keyword" : keyword,
-                    "sort": sort,
-                }),
                 success : function(result) {
                     console.log(result);
                 },

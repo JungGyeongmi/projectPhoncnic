@@ -35,7 +35,6 @@ public class GalleryRestController {
     @PostMapping("/read/{gno}")
     public ResponseEntity<GalleryDTO> getRead(@PathVariable("gno") Long gno) {
         log.info("post Gallery details......... rest "+gno);
-        log.info(gno.getClass());
         GalleryDTO galleryDTO = galleryService.getGallery(gno);
         log.info("galleryDTO : " + galleryDTO);
         return new ResponseEntity<>(galleryDTO, HttpStatus.OK);
@@ -45,12 +44,11 @@ public class GalleryRestController {
     public ResponseEntity<PageResultDTO<GalleryDTO, Gallery>> getSearchData(PageRequestDTO pageRequestDTO, String keyword, String type, String sort) {
 
         Pageable pageable = PageRequest.of(0, 2, Sort.by("gno").descending());
-
         Page<Object[]> page = galleryRepository.searchPage("t", "title", pageable);
-
-
         PageResultDTO<GalleryDTO, Gallery> result = galleryService.getPaintingList(pageRequestDTO);  
-        
+        log.info(type);
+        log.info(keyword);
+        log.info(sort);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
    

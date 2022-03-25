@@ -58,7 +58,6 @@ public class GalleryServiceImpl implements GalleryService {
         
         log.info("gno:"+gno);
         log.info("gallery"+gallery);
-        log.info("emojiList(cnt):"+emojiList.get(0)[1]);
 
         return entityToDTO(gallery, emojiList);
     }
