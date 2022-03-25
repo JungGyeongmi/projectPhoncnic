@@ -50,7 +50,7 @@ public class GallerySettingController {
     // read and modify
     @GetMapping({ "/read","/modify" })
     public void getReadPage(long gno, Model model) {
-        model.addAttribute("emojiList", emojiService.getEmojiList("g", gno));
+        model.addAttribute("emojiList", emojiService.getEmojiByGno( "g",gno));
         log.info("read emoji ..." + gno);
         model.addAttribute("emojiInfoList", emojiInfoService.getEmojiInfoList());
         model.addAttribute("galleryDTO", galleryService.getGallery(gno));

@@ -23,6 +23,9 @@ public class GalleryDTO {
     private String imagepath;
     private String uuid;
 
+    private Object[] emojicount;
+
+
     //Member id
     private String id;
 

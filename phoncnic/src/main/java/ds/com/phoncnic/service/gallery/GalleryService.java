@@ -5,6 +5,7 @@ import java.util.List;
 import ds.com.phoncnic.dto.GalleryDTO;
 import ds.com.phoncnic.dto.PageRequestDTO;
 import ds.com.phoncnic.dto.PageResultDTO;
+import ds.com.phoncnic.entity.Emoji;
 import ds.com.phoncnic.entity.Gallery;
 import ds.com.phoncnic.entity.Member;
 
@@ -29,6 +30,9 @@ public interface GalleryService {
     PageResultDTO<GalleryDTO, Gallery> getPhotoList(PageRequestDTO PageRequestDTO);
 
     PageResultDTO<GalleryDTO, Gallery> getPaintingList(PageRequestDTO PageRequestDTO);
+    
+    // user id 로 paing 처리
+    // PageResultDTO<GalleryDTO, Gallery> getGalleryPage(PageRequestDTO PageRequestDTO, String sort);
 
     default Gallery dtoToEntity(GalleryDTO galleryDTO) {
         Gallery gallery = Gallery.builder()
@@ -45,13 +49,14 @@ public interface GalleryService {
         return gallery;
     }
 
-    default GalleryDTO entityToDTO(Gallery gallery) {
+    default GalleryDTO entityToDTO(Gallery gallery, List<Object[]> list) {
 
         GalleryDTO galleryDTO = GalleryDTO.builder()
                 .gno(gallery.getGno())
                 .title(gallery.getTitle())
                 .content(gallery.getContent())
                 .imagename(gallery.getImagename())
+                .emojicount(list.stream().toArray())
                 .imagetype(gallery.isImagetype())
                 .imagepath(gallery.getImagepath())
                 .uuid(gallery.getUuid())
@@ -59,7 +64,9 @@ public interface GalleryService {
                 .moddate(gallery.getModDate())
                 .regdate(gallery.getRegDate())
                 .build();
-
         return galleryDTO;
     }
+
+
+
 }
