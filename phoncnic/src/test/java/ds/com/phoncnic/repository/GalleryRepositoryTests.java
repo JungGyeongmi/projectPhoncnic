@@ -18,7 +18,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Commit;
 
 import ds.com.phoncnic.dto.GalleryDTO;
-import ds.com.phoncnic.dto.PageRequestDTO;
+import ds.com.phoncnic.dto.pageDTO.PageRequestDTO;
+import ds.com.phoncnic.dto.pageDTO.PageResultDTO;
+import ds.com.phoncnic.dto.pageDTO.SearchPageRequestDTO;
 import ds.com.phoncnic.entity.Emoji;
 import ds.com.phoncnic.entity.Gallery;
 import ds.com.phoncnic.entity.Member;
@@ -151,6 +153,24 @@ public class GalleryRepositoryTests {
         Object[] gallery = galleryList.stream().toArray();
         
         System.out.println(Arrays.deepToString(gallery));
+    }
+
+    @Test 
+    public void getGalleryPageInModal() {
+        SearchPageRequestDTO requestDTO = SearchPageRequestDTO.builder()
+            .page(1)
+            .size(3)
+            .type("t")
+            .keyword("title")
+            .sort("gno")
+        .build();
+
+        PageResultDTO<GalleryDTO, Object[]> pageResult = galleryService.getGalleryPage(requestDTO);
+   
+        System.out.println(pageResult.getPage());
+        System.out.println(pageResult.getSize());
+        System.out.println(pageResult.getStart());
+        System.out.println(pageResult.getDtoList());
     }
 
 }

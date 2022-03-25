@@ -72,7 +72,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="modal-frm" action="/gallery/modal/search">
+                <form id="modal-frm" action="/gallery/curator/search">
                     <select name="type">
                         <option value="t" disabled selected>검색조건</option>
                         <option value="t">작품명</option>
@@ -88,25 +88,7 @@
                     </select>
                     <hr>
                     <div class="md-serach-result">
-                        <ul>
-                            <li th:each="dto : ${galleryDTOList}" th:data-gno="${dto.gno}">
-                                <span th:if="${ dto.imagetype }">그림전</span>
-                                <span th:unless="${ dto.imagetype }">사진전</span>
-                                <br>
-                                <img th:src="|@{'/display'}?fileName=${dto.getThumbnailURL()}|" alt="이미지를 불러올 수 없습니다">
-                                <br>
-                                [[${ dto.title }]]
-                                <br>
-                                </a>
-                            </li>
-                        </ul>
-                    
-                        <hr>
-                        <ul>
-                            <li th:each="dto : ${galleryDTOList}" class="galleryList" th:data-id="${dto.id}">
-                                [[${ dto.id }]]
-                            </li>
-                        </ul>
+                        
                     </div>
                     
                 </form>
@@ -128,13 +110,27 @@
         var keyword = $("input[name=keyword]").val();;
         var sort =  $("select[name=sort]").val();;
 
+		var str = "";
+
         searchBtn.on("click", function() {
+			str = `<ul>
+					<li th:each="dto : ${result.getDtoList}" th:data-gno="${dto.gno}">
+						<img src="|@{'/display'}?fileName=${dto.getThumbnailURL()}|" alt="이미지를 불러올 수 없습니다">
+						<br>
+						${ dto.title }
+						<br>
+						</a>
+					</li>
+				</ul>`;
+
             // alert("눌렀슈");
             $.ajax({
                 type: 'get',
-                url : '/gallery/modal/search',
+                url : '/gallery/curator',
                 dataType: 'json',
+				data: JSON.stringify(result),
                 success : function(result) {
+					searchResult.html(str);
                     console.log(result);
                 },
                 error : function (request, status, error){

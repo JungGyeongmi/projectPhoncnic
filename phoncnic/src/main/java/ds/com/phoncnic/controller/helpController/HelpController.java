@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ds.com.phoncnic.dto.HelpDTO;
-import ds.com.phoncnic.dto.PageRequestDTO;
+import ds.com.phoncnic.dto.pageDTO.PageRequestDTO;
 import ds.com.phoncnic.service.help.HelpService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;

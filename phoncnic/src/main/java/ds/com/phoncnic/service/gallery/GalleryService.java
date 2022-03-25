@@ -3,8 +3,9 @@ package ds.com.phoncnic.service.gallery;
 import java.util.List;
 
 import ds.com.phoncnic.dto.GalleryDTO;
-import ds.com.phoncnic.dto.PageRequestDTO;
-import ds.com.phoncnic.dto.PageResultDTO;
+import ds.com.phoncnic.dto.pageDTO.PageRequestDTO;
+import ds.com.phoncnic.dto.pageDTO.PageResultDTO;
+import ds.com.phoncnic.dto.pageDTO.SearchPageRequestDTO;
 import ds.com.phoncnic.entity.Gallery;
 import ds.com.phoncnic.entity.Member;
 
@@ -15,15 +16,18 @@ public interface GalleryService {
     void removeWithEmojis(long gno);
     
     void modify(GalleryDTO dto);
-
+    
     // manage 페이지 list
     List<Gallery> getUserGallery(String id);
-
+    
     // 상세페이지
     GalleryDTO getGallery(long gno);
-
+    
     // List
     List<GalleryDTO> getGalleryList(Boolean type);
+
+    // 모달 창에 띄울 gallery page
+    PageResultDTO<GalleryDTO, Object[]> getGalleryPage(SearchPageRequestDTO pageRequestDTO);
 
     // Paging처리
     PageResultDTO<GalleryDTO, Gallery> getPhotoList(PageRequestDTO PageRequestDTO);

@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import ds.com.phoncnic.dto.PageRequestDTO;
+import ds.com.phoncnic.dto.pageDTO.PageRequestDTO;
 import ds.com.phoncnic.service.emoji.EmojiInfoService;
 import ds.com.phoncnic.service.emoji.EmojiService;
 import ds.com.phoncnic.service.gallery.GalleryService;

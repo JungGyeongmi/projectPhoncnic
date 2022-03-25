@@ -1,4 +1,4 @@
-package ds.com.phoncnic.dto;
+package ds.com.phoncnic.dto.pageDTO;
 
 import java.util.List;
 import java.util.function.Function;
@@ -21,6 +21,7 @@ public class PageResultDTO<DTO, EN> {
     private boolean prev, next; 
     private List<Integer> pageList;
 
+    // 임시 수정
     public PageResultDTO(Page<EN> result, Function<EN, DTO> fn) {
         dtoList = result.stream().map(fn).collect(Collectors.toList());
         totalPage = result.getTotalPages();

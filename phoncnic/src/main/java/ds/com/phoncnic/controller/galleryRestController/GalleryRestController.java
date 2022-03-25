@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ds.com.phoncnic.dto.GalleryDTO;
-import ds.com.phoncnic.dto.PageRequestDTO;
-import ds.com.phoncnic.dto.PageResultDTO;
+import ds.com.phoncnic.dto.pageDTO.PageResultDTO;
+import ds.com.phoncnic.dto.pageDTO.SearchPageRequestDTO;
 import ds.com.phoncnic.entity.Gallery;
 import ds.com.phoncnic.repository.GalleryRepository;
 import ds.com.phoncnic.service.gallery.GalleryService;
@@ -40,12 +40,11 @@ public class GalleryRestController {
         return new ResponseEntity<>(galleryDTO, HttpStatus.OK);
     }
     
-    @GetMapping("/modal/search")
-    public ResponseEntity<PageResultDTO<GalleryDTO, Gallery>> getSearchData(PageRequestDTO pageRequestDTO, String keyword, String type, String sort) {
+    @GetMapping("/curator")
+    public ResponseEntity<PageResultDTO<GalleryDTO, Object[]>> getSearchData(SearchPageRequestDTO pageRequestDTO, String keyword, String type, String sort) {
 
-        Pageable pageable = PageRequest.of(0, 2, Sort.by("gno").descending());
-        Page<Object[]> page = galleryRepository.searchPage("t", "title", pageable);
-        PageResultDTO<GalleryDTO, Gallery> result = galleryService.getPaintingList(pageRequestDTO);  
+        PageResultDTO<GalleryDTO, Object[]> result = galleryService.getGalleryPage(pageRequestDTO);
+         
         log.info(type);
         log.info(keyword);
         log.info(sort);
