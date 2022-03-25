@@ -49,14 +49,14 @@ public interface GalleryService {
         return gallery;
     }
 
-    default GalleryDTO entityToDTO(Gallery gallery, List<Object[]> list) {
+    default GalleryDTO entityToDTO(Gallery gallery, Long[][] emojiArr) {
 
         GalleryDTO galleryDTO = GalleryDTO.builder()
                 .gno(gallery.getGno())
                 .title(gallery.getTitle())
                 .content(gallery.getContent())
                 .imagename(gallery.getImagename())
-                .emojicount(list.stream().toArray())
+                .emojicount(emojiArr)
                 .imagetype(gallery.isImagetype())
                 .imagepath(gallery.getImagepath())
                 .uuid(gallery.getUuid())
@@ -66,7 +66,6 @@ public interface GalleryService {
                 .build();
         return galleryDTO;
     }
-
 
 
 }

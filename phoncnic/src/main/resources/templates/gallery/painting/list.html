@@ -14,13 +14,11 @@
 	}
 
 	input[name="emojitype"]+label {
-		padding: 5px 10px;
-		border: 1px solid #ccc;
-		border-radius: 3px;
+		padding: 20px 10px;
 	}
 
-	input[name="emojitype"]:checked+label {
-		border: 3px solid red;
+	input[name="emojitype"]:checked+label+span {
+		color: red;
 
 	}
 </style>
@@ -29,8 +27,7 @@
 	<h1>그림전</h1>
 	<ul style="list-style:none;padding-left:0px;">
 		<li style="margin-bottom:1%;" class="galleryList" th:each="dto : ${galleryDTOList}" th:data-gno="${dto.gno}"
-			th:data-file="${dto.getImageURL}"
-			data-bs-toggle="modal" data-bs-target="#myModal">
+			th:data-file="${dto.getImageURL}" data-bs-toggle="modal" data-bs-target="#myModal">
 			<div style="border: 1px black solid;">
 				[[${dto.title}]]
 				<br><img style="cursor:pointer;" th:src="|@{'/display'}?fileName=${dto.getThumbnailURL()}|"
@@ -43,9 +40,8 @@
 	</ul>
 	</ul>
 
-	<h4>임시 결과물 업로드 : RESTCONTROLLERTEST</h4>
-	<div class="uploadResult">
-	</div>
+	<h4 class="uploadResult">임시 결과물 업로드 : RESTCONTROLLERTEST</h4>
+	
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script th:inline="javascript">
 		$(function () {
@@ -54,72 +50,76 @@
 				var readUrl = [[@{/gallery/read}]];
 				var emojiUrl = [[@{/gallery/emoji}]];
 				var emojiaddUrl = [[@{/gallery/register}]];
-				var urlDisplay = [[@{/display}]]
+				var urlDisplay = [[@{/display}]];
 		    
 			+]*/
 
 			var targetGno = 0;
 			var uploadResult = $(".uploadResult");
 			var modalBody = $(".modal-body");
-
-
-			/* target의 gno / imagepath 가져옴 */
+			
+			
+			
+			/* target의 gno / target의 imagepath 가져옴 / emoji 갯수 */
 			$(".galleryList").click(function () {
 				var targetGno = $(this).data("gno");
 				var targetFile = $(this).data("file");
 				console.log("targetGno: " + targetGno);
 				console.log("targetFile: " + targetFile);
 
-				$.get(readUrl + "/" + targetGno, function (dto) {
+				$.getJSON(readUrl + "/" + targetGno, function (dto) {
 
-					console.log("getLsit..........dto " + JSON.stringify(dto));
+					console.log("getList..........dto " + JSON.stringify(dto));
 					var str = "";
-					str += `<img style='width:100%' src="${urlDisplay}?fileName=${targetFile}">
-                                <div class=row>
-                                    <div class="col-md-7"><h2>${dto.title}</h2></div>
-                                    <div class="col-md-4"><h4>${dto.id}</h4></div>
-                                </div>
-                                <div>${dto.content}</div>`;
+					
+					str += `
+					
+					<input type="hidden" name = "gno" value="${targetGno}" class="inputGno" data-gno="${targetGno}">
+					<input type="hidden" name = "id" value="user1@icloud.com" class="inputId" data-id="${dto.id}">
 
+					<img style='width:100%' src="${urlDisplay}?fileName=${targetFile}">
+
+				 <div class=row>
+					 <div class="col-md-7"><h2>${dto.title}</h2></div>
+					 <div class="col-md-4"><h4>${dto.id}</h4></div>
+				 </div>
+
+				 <div>
+				<input type="radio" id="1" value="1" name="emojitype" data-emojitype="${dto.emojicount[0]}">      
+				<label for="1" class="emojibtn">🥰</label>
+				<span>${dto.emojicount[0][1]}</span>
+				
+				<input type="radio" id="2" value="2" name="emojitype" data-emojitype="${dto.emojicount[1]}">      
+				<label for="2" class="emojibtn">😊</label>
+				<span>${dto.emojicount[1][1]}</span>
+			
+				<input type="radio" id="3" value="3" name="emojitype" data-emojitype="${dto.emojicount[2]}">      
+				<label for="3" class="emojibtn">😥</label>
+				<span>${dto.emojicount[2][1]}</span>
+	
+				<input type="radio" id="4" value="4" name="emojitype" data-emojitype="${dto.emojicount[3]}">      
+				<label for="4" class="emojibtn">😂</label>
+				<span>${dto.emojicount[3][1]}</span>
+				
+				<input type="radio" id="5" value="5" name="emojitype" data-emojitype="${dto.emojicount[4]}">      
+				<label for="5" class="emojibtn">😝</label>
+				<span>${dto.emojicount[4][1]}</span>
+		 </div>
+		 `;
 					modalBody.html(str);
 				})
 			});
 
-			/*emoji 데이터 */
-			$(".galleryList").click(function () {
-				var modalbody2 = $(".modal-body2");
-				var gno = $(this).data("gno");
-				$.get(emojiUrl + "/" + gno, function (emoji) {
-					console.log("emoji 좀 나와라:"+(emoji));
-					var str = "";
-					str += `
-					<input type="hidden" data-gno="${gno}" name="gno">
-					<input type="hidden" name = "id" value="user1@icloud.com">
-					<p>${emoji.emojipath}</p>
-					<p>${emoji.id}</p>
-							<input type="radio" id="1" value="1" name="emojitype" >		
-								<label for="1" class="emojibtn">🥰</label>							
-							<input type="radio" id="2" value="2" name="emojitype" >		
-								<label class ="emojibtn" for="2">😊</label>
-							<input type="radio" id="3" value="3"name="emojitype" >
-								<label class ="emojibtn" for="3">😥</label>
-							<input type="radio" id="4" value="4"name="emojitype" >
-								<label class ="emojibtn" for="4">😂</label>
-							<input type="radio" id="5" value="5"name="emojitype" >
-								<label class ="emojibtn" for="5">😝</label>
-						`;
-					modalbody2.html(str);
-				}).done(function() {
-					console.log("이모지겟 성공");
-				});
-
-
-			});
-			$("input[name='emojitype']").click(function () {
-				var id = $("input[name='name']").val();
-				var gno = $("input[name='emojitype']").val();
-				var emojitype = $("input[name='emojitype']").val();
-
+			
+			
+			$(".emojibtn").click(function () {
+				var id = $("inputId").data("id").val();
+				console.log("id:"+id);
+				var gno =  $(".inputGno").data("gno").val();
+				console.log("gno:"+gno);
+				var emojitype = $("input[name='emojitype']").data("emojitype").substr(0,1);
+				console.log("emojitype:"+emojitype);
+				
 				var data = { id: id, gno: gno, emojitype: emojitype };
 				console.log(data);
 
@@ -131,34 +131,20 @@
 					dataType: "text",
 					success: function (result) {
 						console.log("result: " + result);
+						alert(" 성공 ")
 						self.location.reload();
 					}
-
+					
 				});
-
-
 			});
-
-			// function getGalleryDetails() {
-			//     $.post(showUrl + "/" + targetGno, function (dto) {
-			//         console.log("dto " + dto.gno);
-			//         var str = "";
-			//         str += `<img style='width:100%' src="${urlDisplay}?fileName=${targetFile}">
-			//                 <div>${dto.gno}</div>
-			//                 <div>${dto.id}</div>
-			//                 <div>${dto.title}</div>
-			//                 <div>${dto.content}</div>
-			//                 <div>${emoji.emojitype}</div>`;
-			//         modalContent.html(str);
-			//     }).done(function () {
-			//         console.log("post success");
-			//     });
-			// }
+	
+	
+			
 		});
+		
 
 	</script>
 
-	<button type="button" data-bs-toggle="modal" data-bs-target="#myModal">모달</button>
 	<!-- 모달창 -->
 	<div class="modal" tabindex="-1" id="myModal">
 		<div class="container">

@@ -83,6 +83,40 @@ public class EmojiServiceImpl implements EmojiService {
     }
 
     
+    @Override
+    public Long[][] getEmojiCountArrayByGno(Long gno) {
+        List<Object[]> result = emojiRepository.getEmojiCountByGno(gno);
+        Long[][] emojiCntArr = new Long[5][2];
+        
+        for(int i = 0; i< emojiCntArr.length; i++) {
+            emojiCntArr[i][0]=Long.valueOf(i+1);
+            emojiCntArr[i][1]=Long.valueOf(0);
+        }
+
+        result.stream().forEach(obj -> {
+            String type = (obj[0]).toString();
+            Long count = (Long) (obj[1]);
+            switch (type) {
+                case "1":
+                    emojiCntArr[0][1] = count;
+                    break;
+                case "2":
+                    emojiCntArr[1][1] = count;
+                    break;
+                case "3":
+                    emojiCntArr[2][1] = count;
+                    break;
+                case "4":
+                    emojiCntArr[3][1] = count;
+                    break;
+                case "5":
+                   emojiCntArr[4][1] = count;
+                    break;
+            }
+        });
+        return emojiCntArr;
+    }
+    
 
     // @Override
     // public List<EmojiDTO> getEmojiByGno2(Long gno) {
