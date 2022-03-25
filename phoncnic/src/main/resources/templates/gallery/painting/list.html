@@ -40,11 +40,13 @@
 	</ul>
 	</ul>
 
-	<h4 class="uploadResult">임시 결과물 업로드 : RESTCONTROLLERTEST</h4>
+	<h4 >임시 결과물 업로드 : RESTCONTROLLERTEST</h4>
+	<div class="uploadResult"></div>
 	
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script th:inline="javascript">
-		$(function () {
+
+		$(document).ready(function(){
 
 			/*[+
 				var readUrl = [[@{/gallery/read}]];
@@ -85,53 +87,63 @@
 				 </div>
 
 				 <div>
-				<input type="radio" id="1" value="1" name="emojitype" data-emojitype="${dto.emojicount[0]}">      
+				<input type="radio" id="1" value="1" name="emojitype" data-emojitype="${dto.emojicount[0]}" class="emoji">      
 				<label for="1" class="emojibtn">🥰</label>
 				<span>${dto.emojicount[0][1]}</span>
 				
-				<input type="radio" id="2" value="2" name="emojitype" data-emojitype="${dto.emojicount[1]}">      
+				<input type="radio" id="2" value="2" name="emojitype" data-emojitype="${dto.emojicount[1]}" class="emoji">      
 				<label for="2" class="emojibtn">😊</label>
 				<span>${dto.emojicount[1][1]}</span>
 			
-				<input type="radio" id="3" value="3" name="emojitype" data-emojitype="${dto.emojicount[2]}">      
+				<input type="radio" id="3" value="3" name="emojitype" data-emojitype="${dto.emojicount[2]}" class="emoji">       
 				<label for="3" class="emojibtn">😥</label>
 				<span>${dto.emojicount[2][1]}</span>
 	
-				<input type="radio" id="4" value="4" name="emojitype" data-emojitype="${dto.emojicount[3]}">      
+				<input type="radio" id="4" value="4" name="emojitype" data-emojitype="${dto.emojicount[3]}" class="emoji">      
 				<label for="4" class="emojibtn">😂</label>
 				<span>${dto.emojicount[3][1]}</span>
 				
-				<input type="radio" id="5" value="5" name="emojitype" data-emojitype="${dto.emojicount[4]}">      
+				<input type="radio" id="5" value="5" name="emojitype" data-emojitype="${dto.emojicount[4]}" class="emoji">      
 				<label for="5" class="emojibtn">😝</label>
 				<span>${dto.emojicount[4][1]}</span>
 		 </div>
+		 <input type="button" value="추가하기" class="add">
 		 `;
 					modalBody.html(str);
+					// $("uploadResult").html(str);
 				})
 			});
 
 			
 			
-			$(".emojibtn").click(function () {
-				var id = $("inputId").data("id").val();
+			
+
+			$(document).on("click",".emoji",function (event) {
+				var check = $(".emoji:checked").val();
+				console.log("check!!!!!!!!!!!!!!:"+check);
+				var id = $(".inputId").data("id");
 				console.log("id:"+id);
-				var gno =  $(".inputGno").data("gno").val();
+				var gno =  $(".inputGno").data("gno");
 				console.log("gno:"+gno);
-				var emojitype = $("input[name='emojitype']").data("emojitype").substr(0,1);
+				var emojitype = $(".emoji:checked").val();
 				console.log("emojitype:"+emojitype);
 				
-				var data = { id: id, gno: gno, emojitype: emojitype };
+				var data = { id:id, 
+								gno: gno, 
+								emojitype: emojitype 
+							};
+
 				console.log(data);
 
 				$.ajax({
-					url: emojiaddUrl + "/" + gno,
-					type: "POST",
+					url: emojiaddUrl+"/"+gno,
+					method: "POST",
 					data: JSON.stringify(data),
 					contentType: "application/json; charset=utf-8",
 					dataType: "text",
 					success: function (result) {
 						console.log("result: " + result);
-						alert(" 성공 ")
+						alert(" 성공 ");
 						self.location.reload();
 					}
 					

@@ -64,10 +64,10 @@ public class GalleryRestController {
 
     //Emoji Register
     @PostMapping("/register/{gno}")
-    public ResponseEntity <Long> emojiRegister (@RequestBody EmojiDTO emojiDTO){
-        log.info("emoji Register....................emojiDTO:"+emojiDTO);
+    public ResponseEntity <Long> emojiRegister (@RequestBody EmojiDTO dto){
+        log.info("emoji Register....................emojiDTO:"+dto);
 
-        Long eno = emojiService.galleryEmojiRegiter(emojiDTO);
+        Long eno = emojiService.galleryEmojiRegiter(dto);
         return new ResponseEntity<>(eno, HttpStatus.OK);
     }
 
