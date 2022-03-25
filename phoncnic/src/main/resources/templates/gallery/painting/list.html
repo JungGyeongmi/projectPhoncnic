@@ -25,11 +25,8 @@
         </li>
     </ul>
 </body>
-<button type="button" data-bs-toggle="modal" data-bs-target="#Mymodal">큐레이터</button>
+<button type="button" id="curatorBtn" data-bs-toggle="modal" data-bs-target="#Mymodal">큐레이터</button>
 
-<h4>임시 결과물 업로드 : RESTCONTROLLERTEST</h4>
-<div class="uploadResult">
-</div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"
     integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
@@ -112,33 +109,48 @@
 
 		var str = "";
 
-        searchBtn.on("click", function() {
-			str = `<ul>
-					<li th:each="dto : ${result.getDtoList}" th:data-gno="${dto.gno}">
-						<img src="|@{'/display'}?fileName=${dto.getThumbnailURL()}|" alt="이미지를 불러올 수 없습니다">
-						<br>
-						${ dto.title }
-						<br>
-						</a>
-					</li>
-				</ul>`;
-
-            // alert("눌렀슈");
-            $.ajax({
-                type: 'get',
-                url : '/gallery/curator',
-                dataType: 'json',
-				data: JSON.stringify(result),
-                success : function(result) {
-					searchResult.html(str);
-                    console.log(result);
-                },
-                error : function (request, status, error){
-                    console.log(error);
-                }
-
-            });
+		searchBtn.on("click", function() {
+           
         });
+
+		$("#curatorBtn").on("click", function (){
+			alert("눌렀슈");
+			getGalleryDetails();
+		});
+
+		function getCuratorList() {
+			$.post("/gallery/curator", function (result) {
+				console.log(result);
+				var str = "";
+				
+				$.each(result.getDtoList, function (idx, dto) {
+					console.log(dto);			
+					str = `<img style='width:100%' src="${urlDisplay}?fileName=${targetFile}">`;
+				});
+				searchResult.html(str);
+			}).done(function () {
+                console.log("modal post success");
+            });
+		}
+
+		function getGalleryDetails() {
+            $.get("/curator", function (dto) {
+                var str = "";
+				
+				$.each(result.getDtoList, function (idx, dto) {
+					str = `<div>${dto.gno}</div>
+						<img style='width:100%' src="${urlDisplay}?fileName=${targetFile}">
+						<div>${dto.id}</div>
+						<div>${dto.title}</div>
+						<div>${dto.content}</div>`;
+					});
+				searchResult.html(str);
+			}).done(function () {
+                console.log("modal post success");
+            }).fail(function(response) {
+				console.log(response);
+			});
+        }
 
     });
 </script>

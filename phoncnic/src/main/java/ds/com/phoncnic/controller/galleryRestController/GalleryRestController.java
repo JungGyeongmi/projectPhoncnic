@@ -1,10 +1,6 @@
 package ds.com.phoncnic.controller.galleryRestController;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 import ds.com.phoncnic.dto.GalleryDTO;
 import ds.com.phoncnic.dto.pageDTO.PageResultDTO;
 import ds.com.phoncnic.dto.pageDTO.SearchPageRequestDTO;
-import ds.com.phoncnic.entity.Gallery;
 import ds.com.phoncnic.repository.GalleryRepository;
 import ds.com.phoncnic.service.gallery.GalleryService;
 import lombok.extern.log4j.Log4j2;
@@ -41,14 +36,12 @@ public class GalleryRestController {
     }
     
     @GetMapping("/curator")
-    public ResponseEntity<PageResultDTO<GalleryDTO, Object[]>> getSearchData(SearchPageRequestDTO pageRequestDTO, String keyword, String type, String sort) {
+    public ResponseEntity<PageResultDTO<GalleryDTO, Object[]>> getSearchData(SearchPageRequestDTO pageRequestDTO) {
 
         PageResultDTO<GalleryDTO, Object[]> result = galleryService.getGalleryPage(pageRequestDTO);
-         
-        log.info(type);
-        log.info(keyword);
-        log.info(sort);
+        log.info("gallery rest controller ... curator ...");
+
+        log.info(result.getDtoList());
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
-   
 }
