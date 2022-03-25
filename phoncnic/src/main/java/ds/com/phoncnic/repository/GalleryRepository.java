@@ -9,8 +9,9 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import ds.com.phoncnic.entity.Gallery;
+import ds.com.phoncnic.repository.search.SearchGalleryRepository;
 
-public interface GalleryRepository extends JpaRepository<Gallery, Long> {
+public interface GalleryRepository extends JpaRepository<Gallery, Long>, SearchGalleryRepository {
 
     /* gno 값으로 특정 gallery entity 추출 */
     @Query("select g from Gallery g where gno = :gno")

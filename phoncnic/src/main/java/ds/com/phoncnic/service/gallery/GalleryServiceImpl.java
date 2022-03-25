@@ -40,8 +40,8 @@ public class GalleryServiceImpl implements GalleryService {
     }
 
     @Override
-    public PageResultDTO<GalleryDTO, Gallery> getPaintingList(PageRequestDTO PageRequestDTO) {
-        Pageable pageable = PageRequestDTO.getPageable(Sort.by("gno").descending());
+    public PageResultDTO<GalleryDTO, Gallery> getPaintingList(PageRequestDTO pageRequestDTO) {
+        Pageable pageable = pageRequestDTO.getPageable(Sort.by("gno").descending());
 
         Page<Gallery> result = galleryRepository.getPaintingPage(pageable);
 
@@ -49,15 +49,6 @@ public class GalleryServiceImpl implements GalleryService {
 
         return new PageResultDTO<>(result, fn);
     }
-
-    // 수정중인 부분
-    // @Override
-    // public PageResultDTO<GalleryDTO, Gallery> getGalleryPage(PageRequestDTO PageRequestDTO, String sort) {
-    //     Pageable pageable = PageRequestDTO.getPageable(Sort.by(sort).descending());
-    //     Page<Gallery> result = galleryRepository.getGalleryPage(pageable);
-    //     Function<Gallery, GalleryDTO> fn = (entity -> entityToDTO(entity));
-    //     return new PageResultDTO<>(result, fn);
-    // }
 
     // 상세 페이지
     @Override
