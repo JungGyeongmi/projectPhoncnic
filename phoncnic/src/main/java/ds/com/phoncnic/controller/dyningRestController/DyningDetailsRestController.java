@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import ds.com.phoncnic.dto.EmojiDTO;
-import ds.com.phoncnic.service.FollowService;
 import ds.com.phoncnic.service.dyning.DyningService;
 import ds.com.phoncnic.service.emoji.EmojiService;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +24,6 @@ import lombok.extern.log4j.Log4j2;
 public class DyningDetailsRestController {
 
     private final DyningService dyningService;
-    private final FollowService followService;
     private final EmojiService emojiService;
 
     @PostMapping("/details")

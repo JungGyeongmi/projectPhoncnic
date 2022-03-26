@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ds.com.phoncnic.dto.HelpDTO;
-import ds.com.phoncnic.dto.PageRequestDTO;
+import ds.com.phoncnic.dto.pageDTO.PageRequestDTO;
 import ds.com.phoncnic.service.help.HelpService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -77,8 +77,7 @@ public class HelpController {
 
         if (helpService.getQnaList(pageRequestDTO).getDtoList().size() == 0 && pageRequestDTO.getPage() != 1) {
             pageRequestDTO.setPage(pageRequestDTO.getPage() - 1);
-        }
-        ;
+        };
         ra.addFlashAttribute("msg2", qno);
         ra.addFlashAttribute("page", pageRequestDTO.getPage());
         ra.addFlashAttribute("type", pageRequestDTO.getType());
