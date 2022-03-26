@@ -10,17 +10,6 @@
 </head>
 
 <body>
-  <ul>
-    <li th:each="dto : ${result.getDtoList}">
-      <p>
-        [[ ${dto.title} ]]
-      </p>
-      <p>
-        [[ ${dto.content} ]]
-      </p>
-        <img th:src="|@{'/display'}?fileName=${dto.getImageURL()}|" alt="이미지를 불러올 수 없습니다">
-    </li>
-  </ul>
-
-
+  
+</body>
 </html>

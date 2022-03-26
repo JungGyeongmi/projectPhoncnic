@@ -24,9 +24,14 @@
             </a>
         </li>
     </ul>
-</body>
-<button type="button" id="curatorBtn" data-bs-toggle="modal" data-bs-target="#Mymodal">큐레이터</button>
 
+	<div id="testResult">
+
+	</div>
+<button type="button" id="curatorBtn" data-bs-toggle="modal" data-bs-target="#Mymodal">큐레이터</button>
+<button type="button" id="testBtn">테스트버튼</button>
+<br>
+<br>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"
     integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
@@ -48,16 +53,57 @@
         });
 
         function getGalleryDetails() {
-            $.post(showUrl + "/" + targetGno, function (dto) {
+            $.get(showUrl + "/" + targetGno, function (dto) {
                 var str = "";
                 str += `<div>${dto.gno}</div><div>${dto.id}</div><div>${dto.title}</div><div>${dto.content}</div>`;
                 uploadResult.html(str);
             }).done(function () {
-                console.log("post success");
+                console.log("get success modal1");
             });
         }
-    });
 
+	// 큐레이터 모달 제어
+
+
+	 /*[+
+		var curatorUrl = [[@{/curator}]];
+	+]*/
+
+        // var searchResult = $(".md-serach-result");
+        var searchResult = $("#testResult");
+        var type = $("select[name=type]").val();
+        var searchBtn = $("#md-search-btn");
+        var keyword = $("input[name=keyword]").val();;
+        var sort =  $("select[name=sort]").val();;
+
+		var str = "";
+
+		searchBtn.on("click", function() {
+           
+        });
+
+		$("#testBtn").on("click", function () {
+			console.log("test button clicked");
+			getCuratorList();
+		});
+
+		function getCuratorList() {
+			$.get(curatorUrl, function (result) {
+                var str = "";
+				$.each(result.dtoList, function(idx, dto) {
+					str += `<div>${dto.gno}</div>
+					<img style='width:100%' src="${}?fileName=${dto.imagename}">`;
+				})
+                searchResult.html(str);
+            }).done(function () {
+                console.log("get success curator");
+            }).fail(function (response) {
+				console.log("get curator fial...");
+				console.log(response);
+			});
+		}
+
+    });
 </script>
 
 <!-- 모달창 -->
@@ -99,61 +145,6 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
-<script th:inline="javascript">
-    $(function() {
-        var searchResult = $(".md-serach-result");
-        var searchBtn = $("#md-search-btn");
-        var type = $("select[name=type]").val();
-        var keyword = $("input[name=keyword]").val();;
-        var sort =  $("select[name=sort]").val();;
-
-		var str = "";
-
-		searchBtn.on("click", function() {
-           
-        });
-
-		$("#curatorBtn").on("click", function (){
-			alert("눌렀슈");
-			getGalleryDetails();
-		});
-
-		function getCuratorList() {
-			$.post("/gallery/curator", function (result) {
-				console.log(result);
-				var str = "";
-				
-				$.each(result.getDtoList, function (idx, dto) {
-					console.log(dto);			
-					str = `<img style='width:100%' src="${urlDisplay}?fileName=${targetFile}">`;
-				});
-				searchResult.html(str);
-			}).done(function () {
-                console.log("modal post success");
-            });
-		}
-
-		function getGalleryDetails() {
-            $.get("/curator", function (dto) {
-                var str = "";
-				
-				$.each(result.getDtoList, function (idx, dto) {
-					str = `<div>${dto.gno}</div>
-						<img style='width:100%' src="${urlDisplay}?fileName=${targetFile}">
-						<div>${dto.id}</div>
-						<div>${dto.title}</div>
-						<div>${dto.content}</div>`;
-					});
-				searchResult.html(str);
-			}).done(function () {
-                console.log("modal post success");
-            }).fail(function(response) {
-				console.log(response);
-			});
-        }
-
-    });
-</script>
 
 </body>
 </html>

@@ -14,17 +14,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
 @Controller
-@Log4j2
-@RequiredArgsConstructor
 public class TestController {
 
-    private final GalleryService galleryService;
-    
     @GetMapping("/test")
-    public String test (SearchPageRequestDTO pageRequestDTO, Model model) {
-        PageResultDTO<GalleryDTO, Object[]> result = galleryService.getGalleryPage(pageRequestDTO);
-        model.addAttribute("result", result);
-        
+    public String test () {
         return "test";
     }
 
