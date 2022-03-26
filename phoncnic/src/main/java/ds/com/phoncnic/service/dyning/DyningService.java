@@ -19,7 +19,6 @@ public interface DyningService {
 
     Long register(DyningDTO dyningDTO);
 
-
     default Map<String, Object> dtoToEntity(DyningDTO dto) {
         Map<String, Object> entityMap = new HashMap<>();
 
@@ -33,6 +32,7 @@ public interface DyningService {
                 .location(dto.getLocation())
                 .businesshours(dto.getBusinesshours())
                 .comment(dto.getComment())
+                .foodtype(dto.getFoodtype())
                 .tel(dto.getTel())
                 .hashtag(dto.getHashtag())
                 .roofdesign(roofDesign)
@@ -63,7 +63,7 @@ public interface DyningService {
 
     }
 
-    default DyningDTO entityToDTO(Dyning dyning,Long emojiCwt, List<DyningImage> dyningImages) {
+    default DyningDTO entityToDTO(Dyning dyning, Long emojiCwt, List<DyningImage> dyningImages) {
         DyningDTO dyningDTO = DyningDTO.builder()
                 .dno(dyning.getDno())
                 .dyningname(dyning.getDyningname())
@@ -75,6 +75,7 @@ public interface DyningService {
                 .tel(dyning.getTel())
                 .id(dyning.getCeoid().getId())
                 .oono(dyning.getRoofdesign().getOono())
+                .foodtype(dyning.getFoodtype())
                 .emojicwt(emojiCwt)
                 .regdate(dyning.getRegDate())
                 .moddate(dyning.getModDate())
