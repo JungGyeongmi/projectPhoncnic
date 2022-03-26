@@ -12,6 +12,7 @@ import ds.com.phoncnic.entity.Emoji;
 import ds.com.phoncnic.repository.EmojiRepository;
 import lombok.extern.log4j.Log4j2;
 
+
 @Log4j2
 @Service
 public class EmojiServiceImpl implements EmojiService {

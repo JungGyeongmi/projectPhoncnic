@@ -1,6 +1,5 @@
 package ds.com.phoncnic.repository;
 
-import java.util.Arrays;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -55,7 +54,6 @@ public class EmojiRepositoryTests {
 
     @Test
     public void getEmojiCountgno(){
-        List<Object[]> result = emojiRepository.getEmojiCountByGno(3L);
         Long[][] emojicntArr = new Long[5][2];
         for(int i = 0; i< emojicntArr.length; i++) {
             emojicntArr[i][0]=Long.valueOf(i+1);

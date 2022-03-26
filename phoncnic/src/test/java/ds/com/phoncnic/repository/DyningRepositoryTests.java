@@ -1,7 +1,6 @@
 package ds.com.phoncnic.repository;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
@@ -66,14 +65,10 @@ public class DyningRepositoryTests {
 
             Dyning dyning = Dyning.builder()
                     .dyningname("가게이름" + i)
-<<<<<<< HEAD
-                    .location("실제가게위치" + i)
-=======
                     .comment("사장님 한 마디" + i)
                     .location("실제가게위치" + i)
                     .foodtype(roof)
                     .tel("051-1234-1234")
->>>>>>> T_main
                     .businesshours("영업시간" + i)
                     .hashtag("해쉬태그" + i)
                     .ceoid(member)

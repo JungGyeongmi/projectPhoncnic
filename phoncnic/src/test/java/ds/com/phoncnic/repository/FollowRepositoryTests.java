@@ -1,9 +1,5 @@
 package ds.com.phoncnic.repository;
 
-<<<<<<< HEAD
-import org.springframework.boot.test.context.SpringBootTest;
-
-=======
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -14,19 +10,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import ds.com.phoncnic.entity.Follow;
 import ds.com.phoncnic.entity.Member;
->>>>>>> T_main
 
 @SpringBootTest
 public class FollowRepositoryTests {
 
-<<<<<<< HEAD
-=======
     @Autowired
     FollowRepository followRepository;
 
     // follow 테이블 삭제 -> Artist&Dyning 더미 돌리기
-    // !!!!!!!!
-    // !!!!!!!!
+    
     // artist 팔로우 더미
     @Test
     public void insertArtistFollowDummies() {
@@ -85,13 +77,4 @@ public class FollowRepositoryTests {
             }
         });
     }
-
-    // @Test
-    // public void TestGetFollowList(){
-    // String id="user1@icloud.com";
-    // List<Object[]> result = followRepository.getfollowArtistList2(id);
-    // result.forEach(i->{System.out.println(i);});
-    // }
-
->>>>>>> T_main
 }

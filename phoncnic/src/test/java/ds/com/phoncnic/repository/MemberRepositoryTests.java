@@ -21,21 +21,16 @@ public class MemberRepositoryTests {
     public void insertDummies() {
 
         IntStream.rangeClosed(1, 10).forEach(
-                i -> {
-                    Member member = Member.builder()
-                            .id("user" + i + "@icloud.com")
-                            .nickname("user" + i)
-                            .password("1234")
-                            .build();
+            i -> {
+                Member member = Member.builder()
+                        .id("user" + i + "@icloud.com")
+                        .nickname("user" + i)
+                        .password("1234")
+                        .build();
 
-<<<<<<< HEAD
                 memberRepository.save(member);
             }
-=======
-                    memberRepository.save(member);
-                }
 
->>>>>>> T_main
         );
     }
 }
