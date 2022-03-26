@@ -74,13 +74,13 @@
         var keyword = $("input[name=keyword]").val();;
         var sort =  $("select[name=sort]").val();
 
-		searchBtn.on("click", function() {
-			alert("clicked");
+		searchBtn.on("click", function(e) {
 			getSearchList();
 		});
 
-		$("#curatorBtn").on("click", function () {
+		$("#curatorBtn").on("click", function (e) {
 			console.log("curator button clicked");
+			e.preventDefault();
 			getCuratorList();
 		});
 
@@ -104,22 +104,25 @@
 		}
 
 		function getSearchList() {
-			$.get(curatorUrl, function (result) {
-                var str = "";
-				$.each(result.dtoList, function(idx, dto) {
-					str += `<li>
+			$.ajax({
+				type: "GET",
+				url: curatorUrl,
+				data: searchForm.serialize(),
+				success: function (response) {
+					console.log("get curator saerch success");
+					var str = "";
+					$.each(response.dtoList, function (idx, dto) {
+						str += `<li>
 							<div>${dto.gno}</div>
-							<img src="${displayUrl}?fileName=${dto.thumbnailURL}">
+							<img src="${displayUrl}?fileName=${dto.thumbnailURL}">	
 							<div>${dto.title}</div>
 						</li>`;
-				})
-                searchResult.html(str);
-            }).done(function (result) {
-				alert(result.message);
-                console.log("get success curator");
-            }).fail(function (response) {
-				console.log("get curator fial...");
-				console.log(response);
+					})
+					searchResult.html(str);
+				},
+				error: function () {
+					alert('Error');
+				}
 			});
 		}
     });
@@ -134,7 +137,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="modal-frm" th:action="@{/gallery/curator}" method="get">
+                <form id="modal-frm">
                     <select name="type">
                         <option value="t" disabled selected>검색조건</option>
                         <option value="t">작품명</option>
