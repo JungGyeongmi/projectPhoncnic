@@ -7,6 +7,8 @@ import java.util.stream.Collectors;
 
 import ds.com.phoncnic.dto.DyningDTO;
 import ds.com.phoncnic.dto.DyningImageDTO;
+import ds.com.phoncnic.dto.PageRequestDTO;
+import ds.com.phoncnic.dto.PageResultDTO;
 import ds.com.phoncnic.entity.Dyning;
 import ds.com.phoncnic.entity.DyningImage;
 import ds.com.phoncnic.entity.Member;
@@ -95,8 +97,8 @@ public interface DyningService {
 
     }
 
-    
     List<DyningDTO> getStreet();
+
     // DyningDTO getRoof();
     default DyningDTO roofEntityToDTO(Dyning dyning) {
         DyningDTO dyningDTO = DyningDTO.builder()
@@ -120,4 +122,16 @@ public interface DyningService {
     // 가게 상세페이지
     DyningDTO getDyningDetails(Long dno);
 
+    // 검색용 페이징 처리
+    PageResultDTO<DyningDTO, Dyning> getList(PageRequestDTO pageRequestDTO);
+
+    default DyningDTO entitiesToDTO(Dyning dyning) {
+        DyningDTO dto = DyningDTO.builder()
+                .dno(dyning.getDno())
+                .dyningname(dyning.getDyningname())
+                .hashtag(dyning.getHashtag())
+                .build();
+        return dto;
+
+    }
 }
