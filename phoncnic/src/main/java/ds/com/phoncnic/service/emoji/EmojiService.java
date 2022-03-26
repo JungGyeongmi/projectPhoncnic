@@ -1,8 +1,6 @@
 package ds.com.phoncnic.service.emoji;
 
 import java.util.ArrayList;
-import java.util.ArrayList;
-import java.util.ArrayList;
 import java.util.List;
 
 import ds.com.phoncnic.dto.EmojiDTO;

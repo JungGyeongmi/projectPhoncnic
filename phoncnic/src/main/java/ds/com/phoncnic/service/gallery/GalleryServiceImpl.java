@@ -12,8 +12,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import ds.com.phoncnic.dto.GalleryDTO;
-import ds.com.phoncnic.dto.PageRequestDTO;
-import ds.com.phoncnic.dto.PageResultDTO;
+import ds.com.phoncnic.dto.pageDTO.PageRequestDTO;
+import ds.com.phoncnic.dto.pageDTO.PageResultDTO;
+import ds.com.phoncnic.dto.pageDTO.SearchPageRequestDTO;
 import ds.com.phoncnic.entity.Gallery;
 import ds.com.phoncnic.repository.EmojiRepository;
 import ds.com.phoncnic.repository.GalleryRepository;
@@ -35,7 +36,6 @@ public class GalleryServiceImpl implements GalleryService {
         Pageable pageable = PageRequestDTO.getPageable(Sort.by("gno").descending());
 
         Page<Gallery> result = galleryRepository.getPhotoPage(pageable);
-        
         Function<Gallery, GalleryDTO> fn = (entity -> entityToDTO(entity, emojiService.getEmojiCountArrayByGno(entity.getGno())));
 
         return new PageResultDTO<>(result, fn);
@@ -49,6 +49,21 @@ public class GalleryServiceImpl implements GalleryService {
         return new PageResultDTO<>(result, fn);
     }
 
+    @Override
+    public PageResultDTO<GalleryDTO, Object[]> getGalleryPage(SearchPageRequestDTO pageRequestDTO) {
+        // 임시로 3L로 고정
+        Long[][] emojiArray = emojiService.getEmojiCountArrayByGno(3L);
+        Function<Object[], GalleryDTO> fn = (entity -> entityToDTO((Gallery)entity[0], emojiArray));
+
+        Page<Object[]> result = galleryRepository.searchPage(
+            pageRequestDTO.getType(), 
+            pageRequestDTO.getKeyword(),
+            pageRequestDTO.getPageable(Sort.by("gno").descending()) );
+
+        return new PageResultDTO<>(result, fn);
+    }
+
+
     // 상세 페이지
     @Override
     public GalleryDTO getGallery(long gno) {
@@ -61,6 +76,7 @@ public class GalleryServiceImpl implements GalleryService {
         log.info("gallery"+gallery);
     
         return entityToDTO(gallery, emojiCountArr);
+
     }
 
     // gallery List
@@ -101,6 +117,4 @@ public class GalleryServiceImpl implements GalleryService {
     public List<Gallery> getUserGallery(String id) {
        return galleryRepository.findByMemberId(id);
     }
-
-
 }

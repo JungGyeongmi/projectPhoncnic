@@ -18,10 +18,13 @@ import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Commit;
 
 import ds.com.phoncnic.dto.GalleryDTO;
-import ds.com.phoncnic.dto.PageRequestDTO;
+import ds.com.phoncnic.dto.pageDTO.PageRequestDTO;
+import ds.com.phoncnic.dto.pageDTO.PageResultDTO;
+import ds.com.phoncnic.dto.pageDTO.SearchPageRequestDTO;
 import ds.com.phoncnic.entity.Emoji;
 import ds.com.phoncnic.entity.Gallery;
 import ds.com.phoncnic.entity.Member;
+import ds.com.phoncnic.service.emoji.EmojiService;
 import ds.com.phoncnic.service.gallery.GalleryService;
 
 @SpringBootTest
@@ -38,6 +41,9 @@ public class GalleryRepositoryTests {
 
     @Autowired
     EmojiRepository emojiRepository;
+    
+    @Autowired
+    EmojiService emojiService;
 
     @Autowired
     EmojiInfoRepository emojiInfoRepository;
@@ -102,37 +108,73 @@ public class GalleryRepositoryTests {
         galleryDTOList.forEach(System.out::println);
     }
 
-    // @Test
-    // public void modifyTest() {
-    //     Gallery gallery = galleryRepository.findById(2L).get();
-    //     GalleryDTO dto = galleryService.entityToDTO(gallery, emojiRepository.getEmojiCountByGno(gallery.getGno()));
-    //     dto.setContent("content1004");
-    //     dto.setTitle("title1004");
-    //     System.out.println(dto.toString());
-    //     galleryService.modify(dto);
-    //     System.out.println(gallery.toString());
-    // }
+
+    @Test
+    public void modifyTest() {
+        Gallery gallery = galleryRepository.findById(2L).get();
+        GalleryDTO dto = galleryService.entityToDTO(gallery, emojiService.getEmojiCountArrayByGno(gallery.getGno()));
+        dto.setContent("content1004");
+        dto.setTitle("title1004");
+        System.out.println(dto.toString());
+        galleryService.modify(dto);
+        System.out.println(gallery.toString());
+    }
+
+    @Test
+    public void getPageByMemberId() {
+        PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
+            .page(1)
+            .size(3)
+            .type("t")
+            .keyword("3")
+            .build();
 
 
-    // @Test
-    // public void getPageByMemberId() {
-    //     PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
-    //         .page(1)
-    //         .size(3)
-    //         .type("t")
-    //         .keyword("3")
-    //         .build();
-
-
-    //     Pageable pageable = pageRequestDTO.getPageable(Sort.by("gno"));
-    //     // pageable = PageRequest.of(0, 3);
-    //     // pageable = PageRequest.of(1, 3, Sort.by("gno"));
+        Pageable pageable = pageRequestDTO.getPageable(Sort.by("gno"));
+        // pageable = PageRequest.of(0, 3);
+        // pageable = PageRequest.of(1, 3, Sort.by("gno"));
         
-    //     Page<Gallery> result = galleryRepository.getGalleryPage(pageable);
-    //     System.out.println(result.getSize());
-    //     System.out.println(result.getTotalPages());
-    //     System.out.println(result.hasNext());
-    //     System.out.println(result.getContent());
-    // }
+        Page<Gallery> result = galleryRepository.getGalleryPage(pageable);
+        System.out.println(result.getSize());
+        System.out.println(result.getTotalPages());
+        System.out.println(result.hasNext());
+        System.out.println(result.getContent());
+    }
+
+    @Test
+    public void testSearch1() {
+        galleryRepository.search1();
+    }
+
+    @Test
+    public void testSearchPage() {
+        Pageable pageable = PageRequest.of(0, 2, Sort.by("gno").descending());
+
+        Page<Object[]> result = galleryRepository.searchPage("t", "title", pageable);
+        // System.out.println(result.getContet());
+        List<Object[]> galleryList = result.getContent();
+        
+        Object[] gallery = galleryList.stream().toArray();
+        
+        System.out.println(Arrays.deepToString(gallery));
+    }
+
+    @Test 
+    public void getGalleryPageInModal() {
+        SearchPageRequestDTO requestDTO = SearchPageRequestDTO.builder()
+            .page(1)
+            .size(3)
+            .type("t")
+            .keyword("title")
+            .sort("gno")
+        .build();
+
+        PageResultDTO<GalleryDTO, Object[]> pageResult = galleryService.getGalleryPage(requestDTO);
+   
+        System.out.println(pageResult.getPage());
+        System.out.println(pageResult.getSize());
+        System.out.println(pageResult.getStart());
+        System.out.println(pageResult.getDtoList());
+    }
 
 }

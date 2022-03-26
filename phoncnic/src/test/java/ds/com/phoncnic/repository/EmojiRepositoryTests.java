@@ -33,25 +33,7 @@ public class EmojiRepositoryTests {
         });
 
     } 
-    // @Test
-    // public void getEmojiCountByGno (){
-    //     Object result = emojiRepository.getEmojiCountByGno(3L);
-    //     Object[] arr = (Object[])result;
-    //     System.out.println(Arrays.toString(arr));
 
-
-    // }
-
-    // @Test
-    // public void getEmojiCountgno(){
-    //     List<Object[]> result = emojiRepository.getEmojiCountByGno(3L);
-
-    //     for(Object[] arr : result){
-    //         System.out.println(arr[0]);
-    //         System.out.println(arr[1]);
-    //     }
-
-    //}
     @Test
     public void getEmojiCountgno1(){
         List<Object[]> result = emojiRepository.getEmojiCountByGno(30L);
@@ -61,10 +43,6 @@ public class EmojiRepositoryTests {
             System.out.println(arr[0]);
             System.out.println("==========count");
             System.out.println(arr[1]);
-            // System.out.println("==========type");
-            // System.out.println(arr[2]);
-            // System.out.println("==========count");
-            // System.out.println(arr[3]);
         }
 
     }
@@ -109,4 +87,13 @@ public class EmojiRepositoryTests {
         System.out.println(Arrays.deepToString(emojicntArr));
     }
 
+    @Test
+    public void testCountEmojiList() {
+        List<Object[]> emojiList = emojiRepository.getEmojiCountByGno(3L);
+
+        emojiList.stream().forEach(cnt -> {
+            System.out.println("type : "+cnt[0]);
+            System.out.println("count : "+cnt[1]);
+        });
+    }
 }
