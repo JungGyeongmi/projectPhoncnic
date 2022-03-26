@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CAFE LIST</title>
     <style>
+<<<<<<< HEAD
         #dyningname {
             cursor: pointer;
         }
@@ -14,6 +15,10 @@
         #roofdesign {
             cursor: pointer;
         }
+=======
+        #dyningname {cursor: pointer;}
+        #roofdesign {cursor: pointer;}
+>>>>>>> T_gallery
     </style>
 </head>
 
@@ -30,9 +35,15 @@
              + '\''"
               th:if="${dto.foodtype}==1">
             <!-- <td >[[${dto.dno}]]</td> -->
+<<<<<<< HEAD
             <td >[[${dto.dyningname}]]</td>
             <!-- <td>[[${dto.foodtype}]]</td> -->
             <td>[[${dto.roofpath}]]</td>
+=======
+            <td id="dyningname">[[${dto.dyningname}]]</td>
+            <!-- <td>[[${dto.foodtype}]]</td> -->
+            <td id="roofpath">[[${dto.roofpath}]]</td>
+>>>>>>> T_gallery
         </tr>
     </table>
 </body>

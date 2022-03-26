@@ -12,7 +12,6 @@ import ds.com.phoncnic.entity.EmojiInfo;
 import ds.com.phoncnic.entity.Gallery;
 import ds.com.phoncnic.entity.Member;
 
-
 public interface EmojiService {
     Long[][] getEmojiCountArrayByGno(Long gno);
     List<EmojiDTO> dyningEmojiList(Long dno);
@@ -21,8 +20,8 @@ public interface EmojiService {
     Long dyningEmojiRegister(EmojiDTO emojiDTO);
     Long galleryEmojiRegiter(EmojiDTO emojiDTO);  
     List<EmojiDTO> getEmojiByGno(String type, Long no);
-    // List<EmojiDTO> getEmojiByGno2(Long gno);
-    
+    Long getEmojitypeCwt(Long dno,String emojitype);
+
     
     /* DTO -> Entity */
     //gno 나 dno 가 null 값이 들어왔을뗀 전환을 제외하도록 if 문을 써 줌.(안 나누면 Pk가 자동생성됨)
@@ -48,8 +47,8 @@ public interface EmojiService {
 
     /* Entity -> DTO */
     default EmojiDTO entityToEmojiDTO(Emoji emoji){
-        List<EmojiDTO> emojiDTOList = new ArrayList<>();
         if(emoji.getDyning()==null) {
+            
             EmojiDTO emojiDTO = EmojiDTO.builder()
                 .eno(emoji.getEno())
                 .id(emoji.getMember().getId())
@@ -76,10 +75,5 @@ public interface EmojiService {
             .build();
             return emojiDTO;
         }
-
-
     }
-
-
-    
 }

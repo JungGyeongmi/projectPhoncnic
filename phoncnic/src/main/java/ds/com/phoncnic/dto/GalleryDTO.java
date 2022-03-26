@@ -18,6 +18,7 @@ public class GalleryDTO {
     private Long gno;
     private String title;
     private String  content;
+    
     private String imagename;
     private boolean imagetype;
     private String imagepath;

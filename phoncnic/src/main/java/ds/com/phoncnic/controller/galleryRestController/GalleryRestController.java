@@ -14,21 +14,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ds.com.phoncnic.dto.EmojiDTO;
 import ds.com.phoncnic.dto.GalleryDTO;
-import ds.com.phoncnic.service.emoji.EmojiInfoService;
+import ds.com.phoncnic.dto.pageDTO.PageResultDTO;
+import ds.com.phoncnic.dto.pageDTO.SearchPageRequestDTO;
 import ds.com.phoncnic.service.emoji.EmojiService;
 import ds.com.phoncnic.service.gallery.GalleryService;
 import lombok.extern.log4j.Log4j2;
 
 @RestController
-@Log4j2
 @RequestMapping("/gallery")
+@Log4j2
 public class GalleryRestController {
 
     @Autowired
     private GalleryService galleryService;
-
-    @Autowired
-    private EmojiInfoService emojiInfoService;
 
     @Autowired
     private EmojiService emojiService;
@@ -62,5 +60,22 @@ public class GalleryRestController {
         return new ResponseEntity<>(eno, HttpStatus.OK);
     }
 
+
+    
+    @GetMapping("/curator")
+    public ResponseEntity<PageResultDTO<GalleryDTO, Object[]>> getCuratorModal(SearchPageRequestDTO pageRequestDTO,
+        String type, String sort, String keyword) {
+
+        log.info("---------------get curator rest---------------");
+        log.info("type"+type);
+        log.info("sort"+sort);
+        log.info("keyword"+keyword);
+        pageRequestDTO.setType(type);
+        pageRequestDTO.setSort(sort);
+        pageRequestDTO.setKeyword(keyword);
+        PageResultDTO<GalleryDTO, Object[]> result = galleryService.getGalleryPage(pageRequestDTO);
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
 
 }

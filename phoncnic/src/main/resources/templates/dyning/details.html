@@ -25,6 +25,10 @@
             <th scope="col">tel</th>
             <th scope="col">menu</th>
             <th scope="col">background</th>
+<<<<<<< HEAD
+=======
+            <th scope="col">emojicwt</th>
+>>>>>>> T_gallery
     
     
         </tr>
@@ -35,16 +39,26 @@
             <td >[[${dto.comment}]]</td>
             <td >[[${dto.hashtag}]]</td>
             <td >[[${dto.tel}]]</td>
+<<<<<<< HEAD
+=======
+
+>>>>>>> T_gallery
             <td>
                    <th:block th:each="idto : ${imageresult}">[[${idto.menuimagepath}]],</th:block> 
             </td>
             <td>
                 <th:block th:each="idto : ${imageresult}">[[${idto.backgroundpath}]],</th:block> 
              </td>
+<<<<<<< HEAD
+=======
+             <td >[[${dto.emojicwt}]]</td>
+
+>>>>>>> T_gallery
         </tr>
     </table>
    
     <form action="">
+<<<<<<< HEAD
     <label for="">id
         <input type="text" name="id" value="user1@icloud.com"y>
     </label>
@@ -53,11 +67,17 @@
     </label>
     
     <label for="">emojitype
+=======
+        <input type="hidden" name="id" value="user1@icloud.com"  readonly>
+        <input type="hidden" name="dno" th:value="${result.dno}">
+    
+>>>>>>> T_gallery
         <select name="emojitype" id="">
             <option value="1">😋</option>
             <option value="2">🥰</option>
             <option value="3">😭</option>
             <option value="4">😅</option>
+<<<<<<< HEAD
 
         </select>
     </label>
@@ -77,6 +97,31 @@
 
                 
             </tr>
+=======
+            <option value="5">🥵</option>
+
+        </select>
+        <button type="button" id="emojisave">이모지 추가하기</button>
+
+</form>
+        <table border="1">
+            <tr >
+                <th>이모지 갯수</th>
+                <th scope="col" colspan="5">이모지 타입</th>
+                <th th:colspan="${result.emojicwt}">이모지 삭제</th>
+            </tr>
+            <tr>
+                <td>[[${result.emojicwt}]]</td>
+                <td>😋<span>[[${emojitype1}]]</span></td>
+                <td>🥰[[${emojitype2}]]</td>
+                <td>😭[[${emojitype3}]]</td>
+                <td>😅[[${emojitype4}]]</td>
+                <td>🥵[[${emojitype5}]]</td>  
+                <td th:each="dto : ${emojilist}"><button type="button" th:value="${dto.eno}" class="emojiRemoveBtn">삭제</button></td>
+            </tr>
+            
+            
+>>>>>>> T_gallery
         </table>
 
 

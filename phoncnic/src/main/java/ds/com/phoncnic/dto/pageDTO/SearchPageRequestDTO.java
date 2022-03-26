@@ -1,4 +1,4 @@
-package ds.com.phoncnic.dto;
+package ds.com.phoncnic.dto.pageDTO;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -11,18 +11,19 @@ import lombok.Data;
 @Builder
 @AllArgsConstructor
 @Data
-public class PageRequestDTO {
+public class SearchPageRequestDTO {
     private int page;
     private int size;
     private String type;
     private String keyword;
+    private String sort;
 
-    public PageRequestDTO() {
+    public SearchPageRequestDTO() {
         this.page = 1;
-        this.size = 10;
+        this.size = 3;
     }
-    public Pageable getPageable(Sort sort){
 
+    public Pageable getPageable(Sort sort){
         return PageRequest.of(page -1, size, sort);
     }
 }

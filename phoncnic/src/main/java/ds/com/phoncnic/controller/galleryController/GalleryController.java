@@ -6,11 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import ds.com.phoncnic.dto.EmojiDTO;
-import ds.com.phoncnic.dto.PageRequestDTO;
-import ds.com.phoncnic.dto.PageResultDTO;
+import ds.com.phoncnic.dto.pageDTO.PageRequestDTO;
 import ds.com.phoncnic.service.emoji.EmojiInfoService;
-import ds.com.phoncnic.service.emoji.EmojiService;
 import ds.com.phoncnic.service.gallery.GalleryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -22,7 +19,6 @@ import lombok.extern.log4j.Log4j2;
 public class GalleryController {
 
     private final GalleryService galleryService;
-    private final EmojiService emojiService;
     private final EmojiInfoService emojiInfoService;
 
     @GetMapping({"/", ""})
@@ -50,22 +46,8 @@ public class GalleryController {
     //그림전 상세페이지
     @GetMapping("/painting")
     public String painting( PageRequestDTO pageRequestDTO, Model model, Long gno){
-        // model.addAttribute("list", galleryService.getPaintingList(pageRequestDTO));
         model.addAttribute("galleryDTOList", galleryService.getGalleryList(true));
         model.addAttribute("emojiInfoList", emojiInfoService.getEmojiInfoList());
         model.addAttribute("list", galleryService.getPaintingList(pageRequestDTO));
         return "gallery/painting/list";
-    }
-    // rest 로 옮겨야함
-    // @GetMapping("/read/{choice}/list")
-    // public String getReadPage(@PathVariable("choice") String choice, long gno, Model model) {
-
-    //     model.addAttribute("emojiList", emojiService.getEmojiByGno(gno));
-    //     log.info("gallery read page ..." + gno);
-    //     model.addAttribute("emojiInfoList", emojiInfoService.getEmojiInfoList());
-    //     model.addAttribute("galleryDTO", galleryService.getGallery(gno));
-    //     return "gallery/" + choice + "/list";
-    // }
-
-
 }
