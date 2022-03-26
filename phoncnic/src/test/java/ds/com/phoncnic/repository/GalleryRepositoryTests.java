@@ -129,10 +129,7 @@ public class GalleryRepositoryTests {
             .keyword("3")
             .build();
 
-
         Pageable pageable = pageRequestDTO.getPageable(Sort.by("gno"));
-        // pageable = PageRequest.of(0, 3);
-        // pageable = PageRequest.of(1, 3, Sort.by("gno"));
         
         Page<Gallery> result = galleryRepository.getGalleryPage(pageable);
         System.out.println(result.getSize());
