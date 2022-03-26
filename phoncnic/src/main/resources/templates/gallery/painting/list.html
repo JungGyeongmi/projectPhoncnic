@@ -25,11 +25,8 @@
         </li>
     </ul>
 
-	<div id="testResult">
-
-	</div>
 <button type="button" id="curatorBtn" data-bs-toggle="modal" data-bs-target="#Mymodal">큐레이터</button>
-<button type="button" id="testBtn">테스트버튼</button>
+
 <br>
 <br>
 
@@ -66,24 +63,24 @@
 
 
 	 /*[+
-		var curatorUrl = [[@{/curator}]];
+		var curatorUrl = [[@{/gallery/curator}]];
+		var displayUrl = [[@{/display}]];
 	+]*/
 
-        // var searchResult = $(".md-serach-result");
-        var searchResult = $("#testResult");
+        var searchResult = $(".md-serach-result");
         var type = $("select[name=type]").val();
         var searchBtn = $("#md-search-btn");
+		var searchForm = $("#modal-frm");
         var keyword = $("input[name=keyword]").val();;
-        var sort =  $("select[name=sort]").val();;
-
-		var str = "";
+        var sort =  $("select[name=sort]").val();
 
 		searchBtn.on("click", function() {
-           
-        });
+			alert("clicked");
+			getSearchList();
+		});
 
-		$("#testBtn").on("click", function () {
-			console.log("test button clicked");
+		$("#curatorBtn").on("click", function () {
+			console.log("curator button clicked");
 			getCuratorList();
 		});
 
@@ -91,8 +88,11 @@
 			$.get(curatorUrl, function (result) {
                 var str = "";
 				$.each(result.dtoList, function(idx, dto) {
-					str += `<div>${dto.gno}</div>
-					<img style='width:100%' src="${}?fileName=${dto.imagename}">`;
+					str += `<li>
+							<div>${dto.gno}</div>
+							<img src="${displayUrl}?fileName=${dto.thumbnailURL}">	
+							<div>${dto.title}</div>
+						</li>`;
 				})
                 searchResult.html(str);
             }).done(function () {
@@ -103,6 +103,25 @@
 			});
 		}
 
+		function getSearchList() {
+			$.get(curatorUrl, function (result) {
+                var str = "";
+				$.each(result.dtoList, function(idx, dto) {
+					str += `<li>
+							<div>${dto.gno}</div>
+							<img src="${displayUrl}?fileName=${dto.thumbnailURL}">
+							<div>${dto.title}</div>
+						</li>`;
+				})
+                searchResult.html(str);
+            }).done(function (result) {
+				alert(result.message);
+                console.log("get success curator");
+            }).fail(function (response) {
+				console.log("get curator fial...");
+				console.log(response);
+			});
+		}
     });
 </script>
 
@@ -115,7 +134,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="modal-frm" action="/gallery/curator/search">
+                <form id="modal-frm" th:action="@{/gallery/curator}" method="get">
                     <select name="type">
                         <option value="t" disabled selected>검색조건</option>
                         <option value="t">작품명</option>
@@ -129,12 +148,13 @@
                         <option value="e">좋아요순</option>
                         <option value="d">가나다순</option>
                     </select>
-                    <hr>
-                    <div class="md-serach-result">
-                        
-                    </div>
-                    
-                </form>
+				</form>
+				<hr>
+				<div>
+					<ul class="md-serach-result">
+						
+					</ul>
+				</div>
             </div>
             <div class="modal-footer">
                 <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
