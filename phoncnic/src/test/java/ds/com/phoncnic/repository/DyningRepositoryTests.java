@@ -130,10 +130,6 @@ public class DyningRepositoryTests {
         result.forEach(i -> {
             System.out.println(i);
         });
-<<<<<<< HEAD
-
-    }
-=======
     }
 
     // @Test
@@ -145,6 +141,5 @@ public class DyningRepositoryTests {
 
 
 
->>>>>>> T_gallery
 
 }

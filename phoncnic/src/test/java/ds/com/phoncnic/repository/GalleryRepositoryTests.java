@@ -18,13 +18,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Commit;
 
 import ds.com.phoncnic.dto.GalleryDTO;
-<<<<<<< HEAD
-import ds.com.phoncnic.dto.PageRequestDTO;
-=======
 import ds.com.phoncnic.dto.pageDTO.PageRequestDTO;
 import ds.com.phoncnic.dto.pageDTO.PageResultDTO;
 import ds.com.phoncnic.dto.pageDTO.SearchPageRequestDTO;
->>>>>>> T_gallery
 import ds.com.phoncnic.entity.Emoji;
 import ds.com.phoncnic.entity.Gallery;
 import ds.com.phoncnic.entity.Member;
@@ -112,40 +108,6 @@ public class GalleryRepositoryTests {
         galleryDTOList.forEach(System.out::println);
     }
 
-<<<<<<< HEAD
-    // @Test
-    // public void modifyTest() {
-    //     Gallery gallery = galleryRepository.findById(2L).get();
-    //     GalleryDTO dto = galleryService.entityToDTO(gallery, emojiRepository.getEmojiCountByGno(gallery.getGno()));
-    //     dto.setContent("content1004");
-    //     dto.setTitle("title1004");
-    //     System.out.println(dto.toString());
-    //     galleryService.modify(dto);
-    //     System.out.println(gallery.toString());
-    // }
-
-
-    // @Test
-    // public void getPageByMemberId() {
-    //     PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
-    //         .page(1)
-    //         .size(3)
-    //         .type("t")
-    //         .keyword("3")
-    //         .build();
-
-
-    //     Pageable pageable = pageRequestDTO.getPageable(Sort.by("gno"));
-    //     // pageable = PageRequest.of(0, 3);
-    //     // pageable = PageRequest.of(1, 3, Sort.by("gno"));
-        
-    //     Page<Gallery> result = galleryRepository.getGalleryPage(pageable);
-    //     System.out.println(result.getSize());
-    //     System.out.println(result.getTotalPages());
-    //     System.out.println(result.hasNext());
-    //     System.out.println(result.getContent());
-    // }
-=======
 
     @Test
     public void modifyTest() {
@@ -214,6 +176,5 @@ public class GalleryRepositoryTests {
         System.out.println(pageResult.getStart());
         System.out.println(pageResult.getDtoList());
     }
->>>>>>> T_gallery
 
 }

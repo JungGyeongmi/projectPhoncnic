@@ -25,43 +25,12 @@ public class EmojiRepositoryTests {
     @Test
     @Transactional
     public void testGetEmojiListByMember() {
-<<<<<<< HEAD
-        List<Emoji> emojiList =  emojiRepository.getEmojiByMember("user3@icloud.com");
-=======
         List<Emoji> emojiList = emojiRepository.getEmojiByMember("user3@icloud.com");
->>>>>>> T_gallery
 
         emojiList.stream().forEach(emoji -> {
             System.out.println(emojiService.entityToEmojiDTO(emoji));
         });
 
-<<<<<<< HEAD
-    } 
-    // @Test
-    // public void getEmojiCountByGno (){
-    //     Object result = emojiRepository.getEmojiCountByGno(3L);
-    //     Object[] arr = (Object[])result;
-    //     System.out.println(Arrays.toString(arr));
-
-
-    // }
-
-    // @Test
-    // public void getEmojiCountgno(){
-    //     List<Object[]> result = emojiRepository.getEmojiCountByGno(3L);
-
-    //     for(Object[] arr : result){
-    //         System.out.println(arr[0]);
-    //         System.out.println(arr[1]);
-    //     }
-
-    //}
-    @Test
-    public void getEmojiCountgno1(){
-        List<Object[]> result = emojiRepository.getEmojiCountByGno(30L);
-
-        for(Object[] arr : result){
-=======
     }
 
     @Test
@@ -69,34 +38,10 @@ public class EmojiRepositoryTests {
         List<Object[]> result = emojiRepository.getEmojiCountByGno(30L);
 
         for (Object[] arr : result) {
->>>>>>> T_gallery
             System.out.println("==========type");
             System.out.println(arr[0]);
             System.out.println("==========count");
             System.out.println(arr[1]);
-<<<<<<< HEAD
-            // System.out.println("==========type");
-            // System.out.println(arr[2]);
-            // System.out.println("==========count");
-            // System.out.println(arr[3]);
-        }
-
-    }
-    @Test
-    @Transactional
-    public void test(){
-        List<EmojiDTO>  emojiList = emojiService.getEmojiByGno("g", 3L);
-        emojiList.forEach(emoji ->System.out.println(emoji));
-    }
-
-    @Test
-    public void getEmojiCountgno(){
-        List<Object[]> result = emojiRepository.getEmojiCountByGno(3L);
-        Long[][] emojicntArr = new Long[5][2];
-        for(int i = 0; i< emojicntArr.length; i++) {
-            emojicntArr[i][0]=Long.valueOf(i+1);
-            emojicntArr[i][1]=Long.valueOf(0);
-=======
         }
 
     }
@@ -115,7 +60,6 @@ public class EmojiRepositoryTests {
         for (int i = 0; i < emojicntArr.length; i++) {
             emojicntArr[i][0] = Long.valueOf(i + 1);
             emojicntArr[i][1] = Long.valueOf(0);
->>>>>>> T_gallery
         }
 
         result.stream().forEach(obj -> {
@@ -135,20 +79,12 @@ public class EmojiRepositoryTests {
                     emojicntArr[3][1] = count;
                     break;
                 case "5":
-<<<<<<< HEAD
-                   emojicntArr[4][1] = count;
-=======
                     emojicntArr[4][1] = count;
->>>>>>> T_gallery
                     break;
             }
         });
 
         System.out.println(Arrays.deepToString(emojicntArr));
-<<<<<<< HEAD
-    }
-
-=======
 
     }
 
@@ -174,5 +110,4 @@ public class EmojiRepositoryTests {
             System.out.println("count : " + cnt[1]);
         });
     }
->>>>>>> T_gallery
 }

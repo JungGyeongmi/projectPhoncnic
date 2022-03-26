@@ -77,13 +77,13 @@ public class HelpController {
 
         if (helpService.getQnaList(pageRequestDTO).getDtoList().size() == 0 && pageRequestDTO.getPage() != 1) {
             pageRequestDTO.setPage(pageRequestDTO.getPage() - 1);
-        };
-        ra.addFlashAttribute("msg2", qno);
-        ra.addFlashAttribute("page", pageRequestDTO.getPage());
-        ra.addFlashAttribute("type", pageRequestDTO.getType());
-        ra.addFlashAttribute("keyword", pageRequestDTO.getKeyword());
 
+            ra.addFlashAttribute("msg2", qno);
+            ra.addFlashAttribute("page", pageRequestDTO.getPage());
+            ra.addFlashAttribute("type", pageRequestDTO.getType());
+            ra.addFlashAttribute("keyword", pageRequestDTO.getKeyword());
+
+        }
         return "redirect:/help/list";
-
     }
 }

@@ -51,3 +51,4 @@ public class GalleryController {
         model.addAttribute("list", galleryService.getPaintingList(pageRequestDTO));
         return "gallery/painting/list";
 }
+}
