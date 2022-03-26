@@ -17,6 +17,7 @@ import ds.com.phoncnic.dto.PageResultDTO;
 import ds.com.phoncnic.entity.Gallery;
 import ds.com.phoncnic.repository.EmojiRepository;
 import ds.com.phoncnic.repository.GalleryRepository;
+import ds.com.phoncnic.service.emoji.EmojiService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -27,14 +28,15 @@ public class GalleryServiceImpl implements GalleryService {
 
     private final GalleryRepository galleryRepository;
     private final EmojiRepository emojiRepository;
+    private final EmojiService emojiService;
 
     @Override
     public PageResultDTO<GalleryDTO, Gallery> getPhotoList(PageRequestDTO PageRequestDTO) {
         Pageable pageable = PageRequestDTO.getPageable(Sort.by("gno").descending());
 
         Page<Gallery> result = galleryRepository.getPhotoPage(pageable);
-
-        Function<Gallery, GalleryDTO> fn = (entity -> entityToDTO(entity));
+        
+        Function<Gallery, GalleryDTO> fn = (entity -> entityToDTO(entity, emojiService.getEmojiCountArrayByGno(entity.getGno())));
 
         return new PageResultDTO<>(result, fn);
     }
@@ -42,21 +44,23 @@ public class GalleryServiceImpl implements GalleryService {
     @Override
     public PageResultDTO<GalleryDTO, Gallery> getPaintingList(PageRequestDTO PageRequestDTO) {
         Pageable pageable = PageRequestDTO.getPageable(Sort.by("gno").descending());
-
         Page<Gallery> result = galleryRepository.getPaintingPage(pageable);
-
-        Function<Gallery, GalleryDTO> fn = (entity -> entityToDTO(entity));
-
+        Function<Gallery, GalleryDTO> fn = (entity -> entityToDTO(entity, emojiService.getEmojiCountArrayByGno(entity.getGno())));
         return new PageResultDTO<>(result, fn);
     }
 
     // 상세 페이지
     @Override
     public GalleryDTO getGallery(long gno) {
-        log.info(gno);
         Gallery gallery = galleryRepository.getGalleryByGno(gno);
-        log.info(gallery);
-        return entityToDTO(gallery);
+        Long[][] emojiCountArr = emojiService.getEmojiCountArrayByGno(gno);
+        // List<Object[]> emojiList = emojiRepository.getEmojiCountByGno(gno);
+
+        
+        log.info("gno:"+gno);
+        log.info("gallery"+gallery);
+    
+        return entityToDTO(gallery, emojiCountArr);
     }
 
     // gallery List
@@ -64,8 +68,9 @@ public class GalleryServiceImpl implements GalleryService {
     public List<GalleryDTO> getGalleryList(Boolean type) {
         List<Gallery> galleryList = galleryRepository.getGalleryList(type);
 
-        List<GalleryDTO> galleryDTOList = galleryList.stream().map(entity -> entityToDTO(entity))
-                .collect(Collectors.toList());
+        List<GalleryDTO> galleryDTOList = galleryList.stream()
+            .map(entity -> entityToDTO(entity,emojiService.getEmojiCountArrayByGno(entity.getGno())))
+            .collect(Collectors.toList());
 
         return galleryDTOList;
     }
@@ -97,5 +102,5 @@ public class GalleryServiceImpl implements GalleryService {
        return galleryRepository.findByMemberId(id);
     }
 
-    
+
 }
