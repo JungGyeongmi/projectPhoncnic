@@ -50,16 +50,13 @@ public class DyningServiceImpl implements DyningService {
     Map<String, Object> entityMap = dtoToEntity(dyningdDTO);
     Dyning dyning = (Dyning) entityMap.get("dyning");
     dyningRepository.save(dyning);
-    List<DyningImage> dyningImageList =
-            (List<DyningImage>) entityMap.get("dyningImageList");
+    List<DyningImage> dyningImageList = (List<DyningImage>) entityMap.get("dyningImageList");
     dyningImageList.forEach(dyningImage -> {
-    dyningImageRepository.save(dyningImage);
+      dyningImageRepository.save(dyningImage);
     });
     log.info(dyning.getDno());
     return dyning.getDno();
   }
-
-
 
   // @Override
   // public PageResultDTO<DyningDTO, Object[]> getList(PageRequestDTO
@@ -92,13 +89,23 @@ public class DyningServiceImpl implements DyningService {
     List<DyningDTO> DyningList = result.stream().map(entity -> roofEntityToDTO(entity)).collect(Collectors.toList());
     return DyningList;
   }
+  // @Override
+  // public DyningDTO getDyningDetails(Long dno) {
+  // Optional<Dyning> dyningList= dyningRepository.findById(dno);
+  // Dyning dyning = dyningList.get();
+  // List<DyningImage> dyningImageList =
+  // dyningRepository.getImageDetailsPage(dno);
+  // return entityToDTO(dyning,dyningImageList);
+  // }
+  // }
 
   @Override
   public DyningDTO getDyningDetails(Long dno) {
-    Optional<Dyning> dyningList = dyningRepository.findById(dno);
-    Dyning dyning = dyningList.get();
+    List<Object[]> result = dyningRepository.getDyningDetails(dno);
+    Dyning dyninglist = (Dyning) result.get(0)[0];
+    Long emojiCwt = (Long) result.get(0)[1];
     List<DyningImage> dyningImageList = dyningRepository.getImageDetailsPage(dno);
-    return entityToDTO(dyning, dyningImageList);
+    return entityToDTO(dyninglist, emojiCwt, dyningImageList);
   }
 
   @Override
@@ -150,8 +157,5 @@ public class DyningServiceImpl implements DyningService {
     builder.and(conditionBuilder);
     return builder;
   }
-
-}
-
 
 }
