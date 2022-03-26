@@ -18,6 +18,7 @@ import ds.com.phoncnic.dto.pageDTO.SearchPageRequestDTO;
 import ds.com.phoncnic.entity.Gallery;
 import ds.com.phoncnic.repository.EmojiRepository;
 import ds.com.phoncnic.repository.GalleryRepository;
+import ds.com.phoncnic.service.emoji.EmojiService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -28,34 +29,31 @@ public class GalleryServiceImpl implements GalleryService {
 
     private final GalleryRepository galleryRepository;
     private final EmojiRepository emojiRepository;
+    private final EmojiService emojiService;
 
     @Override
     public PageResultDTO<GalleryDTO, Gallery> getPhotoList(PageRequestDTO PageRequestDTO) {
         Pageable pageable = PageRequestDTO.getPageable(Sort.by("gno").descending());
 
         Page<Gallery> result = galleryRepository.getPhotoPage(pageable);
-        
-        Function<Gallery, GalleryDTO> fn = (entity -> entityToDTO(entity, emojiRepository.getEmojiCountByGno(entity.getGno())));
+        Function<Gallery, GalleryDTO> fn = (entity -> entityToDTO(entity, emojiService.getEmojiCountArrayByGno(entity.getGno())));
 
         return new PageResultDTO<>(result, fn);
     }
 
     @Override
-    public PageResultDTO<GalleryDTO, Gallery> getPaintingList(PageRequestDTO pageRequestDTO) {
-        Pageable pageable = pageRequestDTO.getPageable(Sort.by("gno").descending());
-
+    public PageResultDTO<GalleryDTO, Gallery> getPaintingList(PageRequestDTO PageRequestDTO) {
+        Pageable pageable = PageRequestDTO.getPageable(Sort.by("gno").descending());
         Page<Gallery> result = galleryRepository.getPaintingPage(pageable);
-
-        Function<Gallery, GalleryDTO> fn = (entity -> entityToDTO(entity, emojiRepository.getEmojiCountByGno(entity.getGno())));
-
+        Function<Gallery, GalleryDTO> fn = (entity -> entityToDTO(entity, emojiService.getEmojiCountArrayByGno(entity.getGno())));
         return new PageResultDTO<>(result, fn);
     }
 
     @Override
     public PageResultDTO<GalleryDTO, Object[]> getGalleryPage(SearchPageRequestDTO pageRequestDTO) {
         // 임시로 3L로 고정
-        List<Object[]> emojiList = emojiRepository.getEmojiCountByGno(3L);
-        Function<Object[], GalleryDTO> fn = (entity -> entityToDTO((Gallery)entity[0], emojiList));
+        Long[][] emojiArray = emojiService.getEmojiCountArrayByGno(3L);
+        Function<Object[], GalleryDTO> fn = (entity -> entityToDTO((Gallery)entity[0], emojiArray));
 
         Page<Object[]> result = galleryRepository.searchPage(
             pageRequestDTO.getType(), 
@@ -70,12 +68,15 @@ public class GalleryServiceImpl implements GalleryService {
     @Override
     public GalleryDTO getGallery(long gno) {
         Gallery gallery = galleryRepository.getGalleryByGno(gno);
-        List<Object[]> emojiList = emojiRepository.getEmojiCountByGno(gno); 
+        Long[][] emojiCountArr = emojiService.getEmojiCountArrayByGno(gno);
+        // List<Object[]> emojiList = emojiRepository.getEmojiCountByGno(gno);
+
         
         log.info("gno:"+gno);
         log.info("gallery"+gallery);
+    
+        return entityToDTO(gallery, emojiCountArr);
 
-        return entityToDTO(gallery, emojiList);
     }
 
     // gallery List
@@ -84,7 +85,7 @@ public class GalleryServiceImpl implements GalleryService {
         List<Gallery> galleryList = galleryRepository.getGalleryList(type);
 
         List<GalleryDTO> galleryDTOList = galleryList.stream()
-            .map(entity -> entityToDTO(entity, emojiRepository.getEmojiCountByGno(entity.getGno())))
+            .map(entity -> entityToDTO(entity,emojiService.getEmojiCountArrayByGno(entity.getGno())))
             .collect(Collectors.toList());
 
         return galleryDTOList;
@@ -116,5 +117,4 @@ public class GalleryServiceImpl implements GalleryService {
     public List<Gallery> getUserGallery(String id) {
        return galleryRepository.findByMemberId(id);
     }
-
 }

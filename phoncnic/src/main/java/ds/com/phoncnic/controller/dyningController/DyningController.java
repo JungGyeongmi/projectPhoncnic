@@ -20,24 +20,6 @@ public class DyningController {
     private final DyningService dyningService;
     private final EmojiService emojiService;
 
-    // // 제안
-    // @GetMapping({"/{choice}", "/{choice}/list/","/{choice}/list"})
-    // public String getList(@PathVariable("choice") String choice, Model model,
-    // PageRequestDTO pageRequestDTO) {
-    // log.info(choice+"list.................");
-    // model.addAttribute("result", dyningService.getList(pageRequestDTO));
-
-    // return "dyning/"+choice+"/list";
-    // }
-
-    // // 음식점 거리 페이지
-    // @GetMapping("/restaurant/list")
-    // public void restaurantList(Model model, PageRequestDTO pageRequestDTO) {
-    // log.info("restaurant list...........");
-    // model.addAttribute("result", dyningService.getList(pageRequestDTO));
-
-    // }
-
     // 카페 거리 페이지
     @GetMapping("/cafe/list")
     public void cafeList(Model model) {
@@ -58,9 +40,14 @@ public class DyningController {
         model.addAttribute("result", dyningService.getDyningDetails(dno));
         model.addAttribute("imageresult", dyningService.getDyningDetails(dno).getDyningImageDTOList());
         model.addAttribute("emojilist", emojiService.dyningEmojiList(dno));
+        model.addAttribute("emojitype1",emojiService.getEmojitypeCwt(dno, "1"));
+        model.addAttribute("emojitype2",emojiService.getEmojitypeCwt(dno, "2"));
+        model.addAttribute("emojitype3",emojiService.getEmojitypeCwt(dno, "3"));
+        model.addAttribute("emojitype4",emojiService.getEmojitypeCwt(dno, "4"));
+        model.addAttribute("emojitype5",emojiService.getEmojitypeCwt(dno, "5"));
+
         }else return;
         
-
     }
 
 }
