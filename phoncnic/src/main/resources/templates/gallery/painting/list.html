@@ -68,17 +68,25 @@
 	+]*/
 
         var searchResult = $(".md-serach-result");
-        var type = $("select[name=type]").val();
+		var curatorBtn = $("#curatorBtn");
         var searchBtn = $("#md-search-btn");
 		var searchForm = $("#modal-frm");
-        var keyword = $("input[name=keyword]").val();;
-        var sort =  $("select[name=sort]").val();
+        var keyword = $("input[name=keyword]");
 
 		searchBtn.on("click", function(e) {
 			getSearchList();
 		});
 
-		$("#curatorBtn").on("click", function (e) {
+		keyword.on("keydown", function(e) {
+			var keycode = e.keyCode;
+			if(keycode == "13") {
+				e.preventDefault();
+				getSearchList();
+			}
+		});
+
+
+		curatorBtn.on("click", function (e) {
 			console.log("curator button clicked");
 			e.preventDefault();
 			getCuratorList();
@@ -137,14 +145,14 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="modal-frm">
+                <form id="modal-frm" th:action="@{/gallery/curator}" method="get" >
                     <select name="type">
                         <option value="t" disabled selected>검색조건</option>
                         <option value="t">작품명</option>
                         <option value="c">내용</option>
                         <option value="w">작가</option>
                     </select>
-                    <input type="text" name="keyword" value="">
+                    <input id="md-search-keyword" type="text" name="keyword" value="">
                     <input id="md-search-btn" type="button" value="검색">
                     <select name="sort">
                         <option value="d" disabled selected>정렬조건</option>
