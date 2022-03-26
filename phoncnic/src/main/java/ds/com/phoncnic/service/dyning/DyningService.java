@@ -17,6 +17,7 @@ public interface DyningService {
 
     Long register(DyningDTO dyningDTO);
 
+
     default Map<String, Object> dtoToEntity(DyningDTO dto) {
         Map<String, Object> entityMap = new HashMap<>();
 

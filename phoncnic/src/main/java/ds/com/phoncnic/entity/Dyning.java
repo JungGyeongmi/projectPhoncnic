@@ -48,7 +48,7 @@ public class Dyning extends BaseEntity {
     @OneToMany(mappedBy = "dyning", fetch = FetchType.LAZY)
     List<DyningImage> image = new ArrayList<DyningImage>();
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.LAZY)
     private RoofDesign roofdesign;
 
 }

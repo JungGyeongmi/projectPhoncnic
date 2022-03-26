@@ -2,7 +2,7 @@
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
 
     <h1>가게 등록</h1>
-    <form th:action="@{/manage/dyning/register}" th:method="post">
+    <form th:action="@{/manage/dyning/register}" th:method="post" id="form">
       <label for="">id
       <input type="text" name="id" value="user1@icloud.com">
     </label><br><br>
@@ -58,7 +58,7 @@
               </div>
               <div class="backgroundbox">
               </div>
-              <div class="backgounduploadResult">
+              <div class="backgroundshowResult">
                 <ul>
           
                 </ul>
@@ -66,12 +66,12 @@
             
         </label><br><br>
         <label for="">roofdesign
-            <select name="roofdesign" id="">
-                <option value="">카페</option>
-                <option value="">한식</option>
-                <option value="">일식</option>
-                <option value="">중식</option>
-                <option value="">양식</option>
+            <select name="oono" id="">
+                <option value="1">카페</option>
+                <option value="2">한식</option>
+                <option value="3">일식</option>
+                <option value="4">중식</option>
+                <option value="5">양식</option>
             </select>
         </label><br><br>
         
@@ -236,7 +236,7 @@
       
 
        function backgroundshowResult(uploadResultArr){
-           var uploadUL=$(".backgounduploadResult ul");
+           var uploadUL=$(".backgroundshowResult ul");
            var str = "";
            /*[+
            var urlDisplay=[[@{/display}]];
@@ -260,15 +260,15 @@
          // 빈 문자열
          var str = "";
          var str2 = "";
-
          $(".menuuploadResult li").each(function (i, obj) {
            // each로 i idx값과 obj value값을 받아옴
            var target = $(obj);
-           str += `<input type='hidden' name='dyningimageDTOList[${i}].menuimagename' value='${target.data('name')}'>`;
+           str += `<input type='hidden' name='dyningImageDTOList[${i}].menuimagename' value='${target.data('name')}'>`;
            str += `<input type='hidden' name='dyningimageDTOList[${i}].menuimagepath' value='${target.data('path')}'>`;
          });
+         
 
-         $(".backgounduploadResult li").each(function (i, obj) {
+         $(".backgroundshowResult li").each(function (i, obj) {
            // each로 i idx값과 obj value값을 받아옴
            var target = $(obj);
            str2 += `<input type='hidden' name='dyningimageDTOList[${i}].backgroundname' value='${target.data('name')}'>`;
@@ -279,6 +279,9 @@
          $(".backgroundbox").html(str2); // 데이터 전달을 위해서
 
          $("form").submit(); // 전송쓰
+         
+        //  var form = $("#form").html();
+        //  console.log(form);
        });
    
        // 사진 삭제
@@ -305,7 +308,7 @@
            });
          });
 
-         $(".backgounduploadResult").on("click","li button",function(e){
+         $(".backgroundshowResult").on("click","li button",function(e){
            console.log("delete file...");
            
            var targetFile = $(this).data("file");

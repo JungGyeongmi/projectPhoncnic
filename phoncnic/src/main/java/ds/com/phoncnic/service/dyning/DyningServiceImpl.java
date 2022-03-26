@@ -39,12 +39,16 @@ public class DyningServiceImpl implements DyningService {
     Map<String, Object> entityMap = dtoToEntity(dyningdDTO);
     Dyning dyning = (Dyning) entityMap.get("dyning");
     dyningRepository.save(dyning);
-    // dyningImageList.forEach(dyningImage -> {
-    // dyningImageRepository.save(dyningImage);
-    // });
-
+    List<DyningImage> dyningImageList = 
+            (List<DyningImage>) entityMap.get("dyningImageList");
+    dyningImageList.forEach(dyningImage -> {
+    dyningImageRepository.save(dyningImage);
+    });
+    log.info(dyning.getDno());
     return dyning.getDno();
   }
+
+ 
 
   // @Override
   // public PageResultDTO<DyningDTO, Object[]> getList(PageRequestDTO
