@@ -19,7 +19,7 @@ public interface EmojiService {
     Long galleryEmojiRegiter(EmojiDTO emojiDTO);  
     List<EmojiDTO> getEmojiByGno(String type, Long no);
     // List<EmojiDTO> getEmojiByGno2(Long gno);
-    List<EmojiDTO> getEmojiList(String type, Long no);
+    // List<EmojiDTO> getEmojiList(String type, Long no);
     Long getEmojitypeCwt(Long dno,String emojitype);
 
     

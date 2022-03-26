@@ -60,6 +60,10 @@ public class EmojiRepositoryTests {
         for(int i = 0; i< emojicntArr.length; i++) {
             emojicntArr[i][0]=Long.valueOf(i+1);
             emojicntArr[i][1]=Long.valueOf(0);
+        }
+    }
+
+@Test            
     public void testEmojitypeCwt() {
         Long emojicwt = emojiRepository.getEmojiCountByEmojitype(11L, "3");
         System.out.println(emojicwt);
