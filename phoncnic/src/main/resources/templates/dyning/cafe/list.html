@@ -5,16 +5,31 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CAFE</title>
+    <title>CAFE LIST</title>
+    <style>
+        #dyningname {cursor: pointer;}
+        #roofdesign {cursor: pointer;}
+    </style>
 </head>
 
 <body>
     <h1>cafe</h1>
-    <ul>
-        <li th:each="dto : ${result.dtoList}" th:if="${dto.foodtype = 1} ">
-            [[${dto}]]
-        </li>
-    </ul>
+    <table border="1" >
+        <tr >
+            <th scope="col">dyningname</th>
+            <th scope="col">Roof Path</th>
+        </tr>
+        <tr  th:each="dto : ${result}"
+        th:onclick="'location.href=
+        \''+ @{/dyning/details(dno=${dto.dno})}
+             + '\''"
+              th:if="${dto.foodtype}==1">
+            <!-- <td >[[${dto.dno}]]</td> -->
+            <td id="dyningname">[[${dto.dyningname}]]</td>
+            <!-- <td>[[${dto.foodtype}]]</td> -->
+            <td id="roofpath">[[${dto.roofpath}]]</td>
+        </tr>
+    </table>
 </body>
 
 </html>

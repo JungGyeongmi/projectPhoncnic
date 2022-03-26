@@ -20,7 +20,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString(exclude = {"artistid"})
+@ToString(exclude = "artistid")
 public class Gallery extends BaseEntity {
 
     @Id
@@ -29,9 +29,16 @@ public class Gallery extends BaseEntity {
 
     private String title;
     private String content;
-    private String imagenmae;
+    private String imagename;
+    private boolean imagetype;
     private String imagepath;
+    private String uuid;
     
     @ManyToOne(fetch = FetchType.LAZY)
     private Member artistid;
+
+    public void changeTitleAndContent(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
 }

@@ -15,14 +15,18 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
+
+
 
 @Entity
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@ToString(exclude = { "ceoid", "image" })
+@Setter
+@ToString(exclude = { "ceoid", "image", "roofdesign" })
 public class Dyning extends BaseEntity {
 
     @Id
@@ -31,16 +35,21 @@ public class Dyning extends BaseEntity {
 
     private String dyningname;
     private String comment;
-    
+
     private String location;
-    private String foodtype;
+    private Long foodtype;
     private String businesshours;
+    private String tel;
 
     private String hashtag;
-    
+
     @ManyToOne(fetch = FetchType.LAZY)
     private Member ceoid;
 
     @OneToMany(mappedBy = "dyning", fetch = FetchType.LAZY)
     List<DyningImage> image = new ArrayList<DyningImage>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private RoofDesign roofdesign;
+
 }

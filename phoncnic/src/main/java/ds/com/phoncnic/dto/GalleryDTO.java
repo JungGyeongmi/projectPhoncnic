@@ -1,5 +1,7 @@
 package ds.com.phoncnic.dto;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
@@ -16,11 +18,38 @@ public class GalleryDTO {
     private Long gno;
     private String title;
     private String  content;
+    
+    private String imagename;
     private boolean imagetype;
     private String imagepath;
+    private String uuid;
 
+    private Long[][] emojicount;
+
+
+    //Member id
     private String id;
-    
-    private LocalDateTime regDate;
-    private LocalDateTime modDate;
+
+    private LocalDateTime regdate;
+    private LocalDateTime moddate;
+
+    public String getImageURL() {
+        try {
+            return URLEncoder.encode(imagepath+"/"+uuid+"_"+imagename, "UTF-8");
+
+        } catch(UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    public String getThumbnailURL() {
+        try {
+            return URLEncoder.encode(imagepath+"/s_"+uuid+"_"+imagename, "UTF-8");
+
+        } catch(UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
 }

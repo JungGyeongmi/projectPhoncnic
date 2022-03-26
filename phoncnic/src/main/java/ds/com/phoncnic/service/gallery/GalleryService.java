@@ -1,41 +1,69 @@
 package ds.com.phoncnic.service.gallery;
 
+import java.util.List;
+
 import ds.com.phoncnic.dto.GalleryDTO;
-import ds.com.phoncnic.dto.PageRequestDTO;
-import ds.com.phoncnic.dto.PageResultDTO;
+import ds.com.phoncnic.dto.pageDTO.PageRequestDTO;
+import ds.com.phoncnic.dto.pageDTO.PageResultDTO;
+import ds.com.phoncnic.dto.pageDTO.SearchPageRequestDTO;
 import ds.com.phoncnic.entity.Gallery;
 import ds.com.phoncnic.entity.Member;
 
 public interface GalleryService {
     
-    PageResultDTO<GalleryDTO, Gallery> getList(PageRequestDTO PageRequestDTO);
+    void register(GalleryDTO galleryDTO);
+    
+    void removeWithEmojis(long gno);
+    
+    void modify(GalleryDTO dto);
+    
+    // manage 페이지 list
+    List<Gallery> getUserGallery(String id);
+    
+    // 상세페이지
+    GalleryDTO getGallery(long gno);
+    
+    // List
+    List<GalleryDTO> getGalleryList(Boolean type);
+
+    // 모달 창에 띄울 gallery page
+    PageResultDTO<GalleryDTO, Object[]> getGalleryPage(SearchPageRequestDTO pageRequestDTO);
+
+    // Paging처리
+    PageResultDTO<GalleryDTO, Gallery> getPhotoList(PageRequestDTO PageRequestDTO);
+
+    PageResultDTO<GalleryDTO, Gallery> getPaintingList(PageRequestDTO PageRequestDTO);
 
     default Gallery dtoToEntity(GalleryDTO galleryDTO) {
-
         Gallery gallery = Gallery.builder()
-        .gno(galleryDTO.getGno())
-        .title(galleryDTO.getTitle())
-        .content(galleryDTO.getContent())
-        .artistid(
-            Member.builder()
-            .id(galleryDTO.getId())
-            .build()
-        )
-        .build();
+                .gno(galleryDTO.getGno())
+                .title(galleryDTO.getTitle())
+                .content(galleryDTO.getContent())
+                .imagename(galleryDTO.getImagename()==null?"temp":galleryDTO.getImagename())
+                .imagepath(galleryDTO.getImagepath()==null?"D:/temp":galleryDTO.getImagepath())
+                .imagetype(galleryDTO.isImagetype())
+                .uuid(galleryDTO.getUuid())
+                .artistid(Member.builder().id(galleryDTO.getId()).build())
+                .build();
 
         return gallery;
     }
 
-    default GalleryDTO entityToDTO(Gallery gallery) {
+    default GalleryDTO entityToDTO(Gallery gallery, Long[][] emojiArr) {
 
         GalleryDTO galleryDTO = GalleryDTO.builder()
-            .gno(gallery.getGno())
-            .title(gallery.getTitle())
-            .content(gallery.getContent())
-            .id(gallery.getArtistid().getId())
-            .regDate(gallery.getRegDate())
-            .modDate(gallery.getModDate())
-            .build();
-            return galleryDTO;
-        }
+                .gno(gallery.getGno())
+                .title(gallery.getTitle())
+                .content(gallery.getContent())
+                .imagename(gallery.getImagename())
+                .emojicount(emojiArr)
+                .imagetype(gallery.isImagetype())
+                .imagepath(gallery.getImagepath())
+                .uuid(gallery.getUuid())
+                .id(gallery.getArtistid().getId())
+                .moddate(gallery.getModDate())
+                .regdate(gallery.getRegDate())
+                .build();
+        return galleryDTO;
+    }
 }

@@ -1,58 +1,49 @@
 package ds.com.phoncnic.controller.dyningController;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import ds.com.phoncnic.dto.DyningDTO;
 import ds.com.phoncnic.service.dyning.DyningService;
+import ds.com.phoncnic.service.emoji.EmojiService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
 @Controller
 @Log4j2
-@RequestMapping("/dyning/setting")
+@RequestMapping("/manage/dyning")
 @RequiredArgsConstructor
 public class DyningSettingController {
-
     private final DyningService dyningService;
-
+    private final EmojiService emojiService;
+    //가게 등록 폼
     @GetMapping("/register")
-    public void register() {
-        log.info("dyning register.....");
+    public String dyningRegister() {
+        return "/manage/dyning/register";
     }
-
-    // 가게를 처음으로 등록할 때 뜨는 페이지
+    //가게 수정 폼
+    @GetMapping("/modify")
+    public String dyningModify() {
+        return "/manage/dyning/modify";
+    }
+    //등록 가게 열람 폼
+    @GetMapping("/read")
+    public String dyningRead() {
+        
+        return "/manage/dyning/read";
+    }
+    // 가게를 처음으로 등록시
     @PostMapping("/register")
-    public String register(Model model) {
-        log.info("dyning register.....");
-
-        // 가게를 등록하고 난 후 아래로 이동
-        return "/dyning/manage/read";
+    public String register(DyningDTO dyningDTO, RedirectAttributes ra) {
+        log.info("dyning register....."+dyningDTO);
+        Long dno = dyningService.register(dyningDTO);
+        ra.addFlashAttribute("dno",dno);
+         
+        // 가게를 등록하고 난 후 바로 아래로 이동
+        return "redirect:/manage/dyning/read";
     }
     
-    // 가게가 등록되어 있는 사장이 등록을 눌렀을 때 뜨는 페이지
-    // 이미지 클릭 시 이미지 업로드 창이 뜨고, 이미지 업로드 시 기존 이미지는 삭제후 등록.
-    @GetMapping("/read")
-    public String read() {
-        log.info("dyning read.....");
-
-        return "redirect:/dyning/manage/read";
-    }
-
-    // 수정하기 눌렀을 때
-    @PostMapping("/read/modify")
-    public String read(Model model) {
-        log.info("dyning modify.....");
-
-        return "redirect:/dyning/manage/read";
-    }
-
-    @GetMapping("/read/remove")
-    public String remove() {
-        log.info("dyning remove.....");
-
-        return "redirect:/dyning/manage/register";
-    }
 }

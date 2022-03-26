@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help</title>
+</head>
+
+<body>
+    <h1>고객센터</h1>
+    <form th:action="@{/help/lsit}" method="get" id="serchForm">
+        <select name="" id="">
+            <option th:selected="${pageRequestDTO.type == null}">선택</option>
+            <option value="t" th:selected="${pageRequestDTO.type == 't'}">제목</option>
+            <option value="c" th:selected="${pageRequestDTO.type == 'c'}">내용</option>
+            <option value="w" th:selected="${pageRequestDTO.type == 'w'}">작성자</option>
+            <option value="tc" th:selected="${pageRequestDTO.type == 'tc'}">제목 + 내용</option>
+        </select>
+        <input id="srch" name="keyword" th:value="${pageRequestDTO.keyword}">
+        <button type="button">검색</button>
+    </form>
+    <a th:href="@{/help/register}">
+        <button type="button">
+            문의하기
+        </button>
+    </a>
+    <table border="1">
+        <thead>
+            <tr>
+                <!--/* <th scope="col">No.</th> */-->
+                <th scope="col">문의 종류</th>
+                <th scope="col">제목</th>
+                <th scope="col">내용</th>
+                <th scope="col">작성자</th>
+                <th scope="col">등록일</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="dto, state : ${result.dtoList}" class="dto"
+                th:onclick="|javascript:pwcheck([[${dto.qno}]],[[${result.page}]])|"
+                th:style="${dto.qtype.contains('답변') ? 'background-color:lightgray':''}">
+                <!--/* <td>[[${ state.count }]]</td> */-->
+                <td>[[${dto.qtype}]]</td>
+                <td>[[${ dto.title }]]</td>
+                <td><b th:text="${dto.content}"></b></td>
+                <td><b th:text="${dto.writer}"></b></td>
+                <td>[[${#temporals.format(dto.regdate,'yyyy/MM/dd')}]]</td>
+                <td style="border: none;"><input type="hidden" th:value="${dto.password}" id="inputPw"></td>
+            </tr>
+        </tbody>
+    </table>
+    <!--/* <th:block th:each="num : ${#numbers.sequence(1, result.end*result.size)}">
+        <b scope="row">[[${ num }]]</b>
+    </th:block> */-->
+    <ul>
+        <li th:if="${result.prev}">
+            <a th:href="@{/help/list( page=${result.start-1} )}" tabindex="-1">Previous</a>
+        </li>
+        <li th:each="page : ${result.pageList}">
+            <a class="page-link" th:href="@{/help/list( page=${page} )}">[[${page}]]</a>
+        </li>
+        <li th:if="${result.next}">
+            <a th:href="@{/help/list( page=${result.end+1} )}">Next</a>
+        </li>
+    </ul>
+</body>
+<script th:inline="javascript">
+    /*[+ var msg=[[${msg}]]; +]*/
+
+    console.log(msg);
+
+    if (msg != null) {
+        alert("글이 등록되었습니다");
+    }
+
+    /*[+ var msg2=[[${msg2}]]; +]*/
+
+    if (msg2 != null) {
+        alert("글이 삭제되었습니다");
+    }
+
+
+    //비밀번호 유효성검사
+    const dto = document.querySelector(".dto");
+    dto.addEventListener("click", pwcheck, once);
+
+    function pwcheck(qno, page) {
+
+        const inputPw = document.querySelector("#inputPw").value;
+        const messagePrompt = window.prompt("비밀번호를 입력해주세요");
+        const message = Number(messagePrompt);
+
+        //console.log(message);
+        //console.log(inputPw);
+
+        if (message != inputPw || message == "") {
+            alert("비밀번호를 다시 입력해주세요");
+            return;
+        } else if (message == inputPw) {
+            window.location.href = "read?qno=" + qno + "&page=" + page;
+            return;
+        }
+    }
+
+</script>
+
+</html>

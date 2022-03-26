@@ -18,10 +18,17 @@
         <legend>
             테스트여라
         </legend>
-        <!-- <a th:href="@{/member/list}">/member/listTest</a> <br> -->
-        <a th:href="@{/gallery/list}">/gallery/list</a><br>
+        <a th:href="@{/test}">/test</a><br>
     </fieldset>
-
+    <fieldset>
+        <legend>
+            등록 갈림길이여라
+        </legend>
+        <a th:href="@{/manage/rolechoice}">등록갈림길</a><br>
+        <a th:href="@{/manage/gallery/list(id='user1@icloud.com')}">user1의 galleryList</a><br>
+        <a th:href="@{/manage/gallery/register(id='user1@icloud.com')}">user1의 galleryRegister</a><br>
+        <a th:href="@{/manage/gallery/read(gno=20)}">gno = 20 galleryRead</a><br>
+    </fieldset>
     <fieldset>
         <legend>
             갈림길이여라
@@ -29,6 +36,8 @@
 
         <a th:href="@{/crossroad}">/crossroad</a><br>
         <a th:href="@{/crossroad/gallery}">/crossroad/gallery</a> <br>
+        <a th:href="@{/gallery/crossgallery/photo}">/gallery/crossgallery/photo</a><br>   
+        <a th:href="@{/gallery/crossgallery/painting}">/gallery/crossgallery/painting</a><br>
         <a th:href="@{/crossroad/dyning/cafe}">/crossroad/dyning/cafe</a> <br>
         <a th:href="@{/crossroad/dyning/restaurant}">/crossroad/dyning/restaurant</a> <br>
     </fieldset>
@@ -36,16 +45,18 @@
     <fieldset>
         <legend>메인이여라</legend>
         <a th:href="@{/main/companyinfo}">/main/companyinfo</a><br>
-        <a th:href="@{/main/help}">/main/help</a><br>
-       <form th:action="@{/main/mypage(id='user1@icloud.com')}" method="post">
-        <button>user1@icloud.com님의 마이페이지로 이동</button>
-       </form>
+        <a th:href="@{/help/list}">/help/list</a><br>
+        <a th:href="@{/main/mypage(id='user1@icloud.com')}">
+            <button>user1@icloud.com님의 마이페이지로 이동</button>
+        </a>
+
     </fieldset>
 
     <fieldset>
         <legend>다이닝이여라</legend>
         <a th:href="@{/dyning/restaurant/list}">/dyning/restaurant/list</a> <br>
         <a th:href="@{/dyning/cafe/list}">/dyning/cafe/list</a> <br>
+        <a th:href="@{/dyning/details(dno=1)}">/dyning/restaurant/details</a> <br>
     </fieldset>
     <fieldset>
         <legend>갤러리여라</legend>
