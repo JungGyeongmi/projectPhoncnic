@@ -30,8 +30,8 @@
         <label for="">businesshours
             <input type="text" name="businesshours" id="">
         </label><br><br>
-        <label for="">hastag
-            <input type="text" name="hastag" id="">
+        <label for="">hashtag
+            <input type="text" name="hashtag" id="">
         </label><br><br>
         <label for="">menuimage (중복 선택 가능)
             <div class="form-group menuimage">
@@ -264,15 +264,15 @@
            // each로 i idx값과 obj value값을 받아옴
            var target = $(obj);
            str += `<input type='hidden' name='dyningImageDTOList[${i}].menuimagename' value='${target.data('name')}'>`;
-           str += `<input type='hidden' name='dyningimageDTOList[${i}].menuimagepath' value='${target.data('path')}'>`;
+           str += `<input type='hidden' name='dyningImageDTOList[${i}].menuimagepath' value='${target.data('path')}'>`;
          });
          
 
          $(".backgroundshowResult li").each(function (i, obj) {
            // each로 i idx값과 obj value값을 받아옴
            var target = $(obj);
-           str2 += `<input type='hidden' name='dyningimageDTOList[${i}].backgroundname' value='${target.data('name')}'>`;
-           str2 += `<input type='hidden' name='dyningimageDTOList[${i}].backgroundpath' value='${target.data('path')}'>`;
+           str2 += `<input type='hidden' name='dyningImageDTOList[${i}].backgroundname' value='${target.data('name')}'>`;
+           str2 += `<input type='hidden' name='dyningImageDTOList[${i}].backgroundpath' value='${target.data('path')}'>`;
          });
    
          $(".menubox").html(str); // 데이터 전달을 위해서
