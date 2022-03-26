@@ -30,6 +30,7 @@ public class EmojiServiceImpl implements EmojiService {
     public Long galleryEmojiRegiter(EmojiDTO emojiDTO){
         Emoji galleryEmoji = dtoToEntity(emojiDTO);
         emojiRepository.save(galleryEmoji);
+        
         return galleryEmoji.getEno();
     }
 

@@ -33,15 +33,6 @@ public class GalleryRestController {
     @Autowired
     private EmojiService emojiService;
     
-    // @GetMapping("/read")
-    // public String read (@RequestParam("gno") Long gno, Model model){
-    //     log.info("read..............emoji:"+gno);
-    //     if(gno != null){
-    //     model.addAttribute("emoji", emojiService.getEmojiByGno(gno));
-    //     } 
-    //     return "redirect:/gallery/painting";
-    // }
-
 
     //Gallery List
     @GetMapping("/read/{gno}")
@@ -71,19 +62,5 @@ public class GalleryRestController {
         return new ResponseEntity<>(eno, HttpStatus.OK);
     }
 
-    // @PostMapping("/read/{gno}/all")
-    // public ResponseEntity<GalleryDTO> getRead(@PathVariable("gno") Long gno) {
-    //     log.info("post Gallery details......... rest " + gno);
-    //     log.info(gno.getClass());
-    //     GalleryDTO galleryDTO = galleryService.getGallery(gno);
-    //     log.info("galleryDTO : " + galleryDTO);
-    //     return new ResponseEntity<>(galleryDTO, HttpStatus.OK);
-    // }
-
-    // @PostMapping("/read/{gno}")
-    // public ResponseEntity<EmojiDTO> getemoji(@PathVariable("gno") Long gno) {
-    //     EmojiDTO emojiDTO = emojiService.getEmojiByGno(gno);
-    //     return new ResponseEntity<>(emojiDTO, HttpStatus.OK);
-    // }
 
 }

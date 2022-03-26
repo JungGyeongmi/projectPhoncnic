@@ -2,6 +2,7 @@ package ds.com.phoncnic.service.gallery;
 
 import java.util.List;
 
+import ds.com.phoncnic.dto.EmojiDTO;
 import ds.com.phoncnic.dto.GalleryDTO;
 import ds.com.phoncnic.dto.PageRequestDTO;
 import ds.com.phoncnic.dto.PageResultDTO;

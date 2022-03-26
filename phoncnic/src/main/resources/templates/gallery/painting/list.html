@@ -40,13 +40,13 @@
 	</ul>
 	</ul>
 
-	<h4 >임시 결과물 업로드 : RESTCONTROLLERTEST</h4>
+	<h4>임시 결과물 업로드 : RESTCONTROLLERTEST</h4>
 	<div class="uploadResult"></div>
-	
+
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script th:inline="javascript">
 
-		$(document).ready(function(){
+		$(document).ready(function () {
 
 			/*[+
 				var readUrl = [[@{/gallery/read}]];
@@ -59,9 +59,9 @@
 			var targetGno = 0;
 			var uploadResult = $(".uploadResult");
 			var modalBody = $(".modal-body");
-			
-			
-			
+
+
+
 			/* target의 gno / target의 imagepath 가져옴 / emoji 갯수 */
 			$(".galleryList").click(function () {
 				var targetGno = $(this).data("gno");
@@ -73,7 +73,7 @@
 
 					console.log("getList..........dto " + JSON.stringify(dto));
 					var str = "";
-					
+
 					str += `
 					
 					<input type="hidden" name = "gno" value="${targetGno}" class="inputGno" data-gno="${targetGno}">
@@ -107,53 +107,50 @@
 				<label for="5" class="emojibtn">😝</label>
 				<span>${dto.emojicount[4][1]}</span>
 		 </div>
-		 <input type="button" value="추가하기" class="add">
 		 `;
 					modalBody.html(str);
 					// $("uploadResult").html(str);
 				})
 			});
 
-			
-			
-			
 
-			$(document).on("click",".emoji",function (event) {
+
+
+
+			$(document).on("click", ".emoji", function (event) {
 				var check = $(".emoji:checked").val();
-				console.log("check!!!!!!!!!!!!!!:"+check);
+				console.log("check!!!!!!!!!!!!!!:" + check);
 				var id = $(".inputId").data("id");
-				console.log("id:"+id);
-				var gno =  $(".inputGno").data("gno");
-				console.log("gno:"+gno);
+				console.log("id:" + id);
+				var gno = $(".inputGno").data("gno");
+				console.log("gno:" + gno);
 				var emojitype = $(".emoji:checked").val();
-				console.log("emojitype:"+emojitype);
-				
-				var data = { id:id, 
-								gno: gno, 
-								emojitype: emojitype 
-							};
+				console.log("emojitype:" + emojitype);
+
+				var data = { id: id, gno: gno, emojitype: emojitype };
 
 				console.log(data);
 
 				$.ajax({
-					url: emojiaddUrl+"/"+gno,
+					url: emojiaddUrl + "/" + gno,
 					method: "POST",
 					data: JSON.stringify(data),
 					contentType: "application/json; charset=utf-8",
 					dataType: "text",
 					success: function (result) {
-						console.log("result: " + result);
-						alert(" 성공 ");
-						self.location.reload();
+						alert(result.message);
 					}
-					
+					, error: function (request, status, error) {
+						console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+					}
 				});
+
 			});
-	
-	
-			
+
+
+
 		});
-		
+
 
 	</script>
 
