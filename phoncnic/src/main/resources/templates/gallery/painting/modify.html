@@ -10,7 +10,9 @@
 <body>
 
     <h1>전시회 상세페이지 예제</h1>
-    <form id="frm" >
+    <form id="frm" th:action="@{/gallery/painting/modify}" th:method="post">
+        <input type="hidden" name="page" th:value="${pageRequestDTO.page}">
+        <input type="hidden" name="galleryDTO" th:value="${galleryDTO}">
     <table border="1">
         <tr>
             <th>
@@ -36,7 +38,7 @@
         </tr>
         <tr>
             <td colspan="2">
-                <img th:src="|@{'/display'}?fileName=${galleryDTO.getImageURL()}|" alt="이미지를 불러올 수 없습니다">
+                [[${galleryDTO.imagepath}]]
             </td>
         </tr>
         <tr>
@@ -58,10 +60,16 @@
             </td>
         </tr>
     </table>
+    
         <button type="button" id="modifyBtn">반영하기</button>
         <button type="button" id="removeBtn">삭제하기</button>
         <button type="button" id="listBtn">돌아가기</button>
     </form>
+    <ul>
+        <li th:each="emoji : ${emojiInfoList}">
+            [[${ emoji.emojipath }]]
+        </li>
+    </ul>
 
 
 <script th:inline="javascript">
@@ -69,28 +77,26 @@
     var removeBtn = document.querySelector("#removeBtn");
 
     removeBtn.onclick = function() {
-    /*[+ var urlremove = [[@{/manage/gallery/remove}]] +]*/
+    /*[+ var urlremove = [[@{/gallery/painting/remove}]]; +]*/
     actionForm.setAttribute("action", urlremove);
     actionForm.setAttribute("method", "post");
     actionForm.submit();
-    alert("삭제되었습니다");
     }
 
     var modifyBtn = document.querySelector("#modifyBtn");
     modifyBtn.onclick = function() {
-        /*[+ var modifyUrl = [[@{/manage/gallery/modify}]] +]*/
+        /*[+ var modifyUrl = [[@{/gallery/painting/modify(gno=${galleryDTO.gno})}]]; +]*/
         actionForm.setAttribute("action", modifyUrl);
         actionForm.setAttribute("method", "post");
         actionForm.submit();
-        alert("수정되었습니다");
+        
     }
 
     var listBtn = document.querySelector("#listBtn");
     listBtn.onclick = function() {
-        /*[+ var listUrl = 
-            [[@{/manage/gallery/list(id=${galleryDTO.id})}]]
-        +]*/
-        location.href = listUrl;
+    /*[+ var listUrl = 
+        [[@{/gallery/painting(page=${pageRequestDTO.page})}]]; +]*/
+    location.href = listUrl;
     }
 
 </script>

@@ -10,6 +10,17 @@
 
 <body>
     <h1>고객센터</h1>
+    <form th:action="@{/help/lsit}" method="get" id="serchForm">
+        <select name="" id="">
+            <option th:selected="${pageRequestDTO.type == null}">선택</option>
+            <option value="t" th:selected="${pageRequestDTO.type == 't'}">제목</option>
+            <option value="c" th:selected="${pageRequestDTO.type == 'c'}">내용</option>
+            <option value="w" th:selected="${pageRequestDTO.type == 'w'}">작성자</option>
+            <option value="tc" th:selected="${pageRequestDTO.type == 'tc'}">제목 + 내용</option>
+        </select>
+        <input id="srch" name="keyword" th:value="${pageRequestDTO.keyword}">
+        <button type="button">검색</button>
+    </form>
     <a th:href="@{/help/register}">
         <button type="button">
             문의하기
@@ -84,7 +95,7 @@
         //console.log(message);
         //console.log(inputPw);
 
-       if (message != inputPw || message =="") {
+        if (message != inputPw || message == "") {
             alert("비밀번호를 다시 입력해주세요");
             return;
         } else if (message == inputPw) {

@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import ds.com.phoncnic.dto.EmojiDTO;
 import ds.com.phoncnic.entity.Emoji;
 import ds.com.phoncnic.service.emoji.EmojiService;
 
@@ -33,20 +34,66 @@ public class EmojiRepositoryTests {
 
     } 
 
-    /*@Test
-    public void getCountEmoji(){
-        // List<Object[]> result = EmojiRepository.getEmojiCountByGno(1L);
-        // testResult.forEach(System.out::println);    
-        // System.out.println(result);
-        for (Object[] arr : result ) {
-            System.out.println(Arrays.toString(arr));
-            if(arr[1]!=null){
+    @Test
+    public void getEmojiCountgno1(){
+        List<Object[]> result = emojiRepository.getEmojiCountByGno(30L);
 
-                System.out.println(arr[0]);
-                System.out.println(arr[1]);
-            }
-            System.out.println("============");
-            //  System.out.println(arr[0]); //emojitype
+        for(Object[] arr : result){
+            System.out.println("==========type");
+            System.out.println(arr[0]);
+            System.out.println("==========count");
+            System.out.println(arr[1]);
         }
-    }*/
+
+    }
+    @Test
+    @Transactional
+    public void test(){
+        List<EmojiDTO>  emojiList = emojiService.getEmojiByGno("g", 3L);
+        emojiList.forEach(emoji ->System.out.println(emoji));
+    }
+
+    @Test
+    public void getEmojiCountgno(){
+        List<Object[]> result = emojiRepository.getEmojiCountByGno(3L);
+        Long[][] emojicntArr = new Long[5][2];
+        for(int i = 0; i< emojicntArr.length; i++) {
+            emojicntArr[i][0]=Long.valueOf(i+1);
+            emojicntArr[i][1]=Long.valueOf(0);
+        }
+
+        result.stream().forEach(obj -> {
+            String type = (obj[0]).toString();
+            Long count = (Long) (obj[1]);
+            switch (type) {
+                case "1":
+                    emojicntArr[0][1] = count;
+                    break;
+                case "2":
+                    emojicntArr[1][1] = count;
+                    break;
+                case "3":
+                    emojicntArr[2][1] = count;
+                    break;
+                case "4":
+                    emojicntArr[3][1] = count;
+                    break;
+                case "5":
+                   emojicntArr[4][1] = count;
+                    break;
+            }
+        });
+
+        System.out.println(Arrays.deepToString(emojicntArr));
+    }
+
+    @Test
+    public void testCountEmojiList() {
+        List<Object[]> emojiList = emojiRepository.getEmojiCountByGno(3L);
+
+        emojiList.stream().forEach(cnt -> {
+            System.out.println("type : "+cnt[0]);
+            System.out.println("count : "+cnt[1]);
+        });
+    }
 }

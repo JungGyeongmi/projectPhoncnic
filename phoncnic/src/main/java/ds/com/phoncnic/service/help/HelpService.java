@@ -1,10 +1,10 @@
 package ds.com.phoncnic.service.help;
 
-import ds.com.phoncnic.dto.PageRequestDTO;
-import ds.com.phoncnic.dto.PageResultDTO;
 import ds.com.phoncnic.dto.HelpDTO;
-import ds.com.phoncnic.entity.Member;
+import ds.com.phoncnic.dto.pageDTO.PageRequestDTO;
+import ds.com.phoncnic.dto.pageDTO.PageResultDTO;
 import ds.com.phoncnic.entity.Help;
+import ds.com.phoncnic.entity.Member;
 
 public interface HelpService {
     PageResultDTO<HelpDTO, Help> getQnaList(PageRequestDTO pageRequestDTO);
