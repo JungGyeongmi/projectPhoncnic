@@ -7,12 +7,16 @@ import org.springframework.stereotype.Service;
 
 import ds.com.phoncnic.entity.EmojiInfo;
 import ds.com.phoncnic.repository.EmojiInfoRepository;
+import ds.com.phoncnic.repository.EmojiRepository;
 
 @Service
 public class EmojiInfoServiceImpl implements EmojiInfoService {
     
     @Autowired
     EmojiInfoRepository emojiInfoRepository;
+
+    @Autowired
+    EmojiRepository emojiRepository;
 
     @Override
     public List<EmojiInfo> getEmojiInfoList() {
@@ -21,5 +25,7 @@ public class EmojiInfoServiceImpl implements EmojiInfoService {
         
         return emojiInfoList;
     }
+
+
     
 }

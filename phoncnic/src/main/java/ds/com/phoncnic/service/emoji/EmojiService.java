@@ -10,7 +10,6 @@ import ds.com.phoncnic.entity.EmojiInfo;
 import ds.com.phoncnic.entity.Gallery;
 import ds.com.phoncnic.entity.Member;
 
-
 public interface EmojiService {
     Long[][] getEmojiCountArrayByGno(Long gno);
     List<EmojiDTO> dyningEmojiList(Long dno);
@@ -20,6 +19,9 @@ public interface EmojiService {
     Long galleryEmojiRegiter(EmojiDTO emojiDTO);  
     List<EmojiDTO> getEmojiByGno(String type, Long no);
     // List<EmojiDTO> getEmojiByGno2(Long gno);
+    List<EmojiDTO> getEmojiList(String type, Long no);
+    Long getEmojitypeCwt(Long dno,String emojitype);
+
     
     
     /* DTO -> Entity */
@@ -48,6 +50,7 @@ public interface EmojiService {
     default EmojiDTO entityToEmojiDTO(Emoji emoji){
         List<EmojiDTO> emojiDTOList = new ArrayList<>();
         if(emoji.getDyning()==null) {
+            
             EmojiDTO emojiDTO = EmojiDTO.builder()
                 .eno(emoji.getEno())
                 .id(emoji.getMember().getId())
@@ -74,9 +77,12 @@ public interface EmojiService {
             .build();
             return emojiDTO;
         }
-
-
     }
+
+       
+
+
+    
 
 
     

@@ -1,6 +1,7 @@
 package ds.com.phoncnic.repository;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
@@ -130,7 +131,16 @@ public class DyningRepositoryTests {
         result.forEach(i -> {
             System.out.println(i);
         });
-
     }
+
+    // @Test
+    // public void getdynig(){
+    //     List<Object[]> result = dyningRepository.getDyningDetails(11L);
+    //     for(Object[] arr :result)System.out.println(Arrays.toString(arr));
+    // }
+
+
+
+
 
 }

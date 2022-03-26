@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import ds.com.phoncnic.entity.Emoji;
 
-public interface EmojiRepository extends JpaRepository<Emoji,Long>{
+public interface EmojiRepository extends JpaRepository<Emoji, Long> {
     // 인자로 member id 를 받아서 emoji list를 출력하도록
     /* 이모지를 멤버가 마이페이지에서 확인할 때 사용할 것 */
     @Query("select e from Emoji e where e.member.id=:id")
@@ -16,7 +16,7 @@ public interface EmojiRepository extends JpaRepository<Emoji,Long>{
 
     @Query("select e from Emoji e where e.gallery.gno=:gno")
     List<Emoji> getEmojiByGno(Long gno);
-    
+
     @Query("select e from Emoji e where e.dyning.dno=:dno")
     List<Emoji> getEmojiByDno(Long dno);
 
@@ -27,7 +27,7 @@ public interface EmojiRepository extends JpaRepository<Emoji,Long>{
     @Modifying
     @Query("delete from Emoji e where e.dyning.dno=:dno")
     void deleteByDno(Long dno);
-    
+
     @Query("select e from Emoji e where e.dyning.dno=:dno")
     List<Emoji> findByDno(Long dno);
 
@@ -38,7 +38,7 @@ public interface EmojiRepository extends JpaRepository<Emoji,Long>{
     @Query("delete from Emoji where eno=:eno")
     void deleteByEno(Long eno);
 
-    //게시물별
+    // 게시물별
     @Query("select e, count(e) from Emoji e where e.emojiInfo.emojitype= :type group by e.eno ")
     List<Emoji> getCountEmoji(String type);
 
@@ -47,4 +47,19 @@ public interface EmojiRepository extends JpaRepository<Emoji,Long>{
            "WHERE e.gallery.gno IS NOT NULL AND e.gallery.gno = :gno " +
            "GROUP BY e.gallery.gno, e.emojiInfo.emojitype ORDER BY 1, 2 ")
     List<Object[]> getEmojiCountByGno(Long gno);
+
+    @Query("select e.emojiInfo.emojitype, count(e.emojiInfo.emojitype) from Emoji e where e.gallery.gno = :gno group by e.emojiInfo.emojitype")
+    List<Object[]> getEmojiCountByGno(Long gno);
+
+
+    //다이닝 이모지 타입 갯수 카운트
+    @Query("select count(e.emojiInfo.emojitype) from Emoji e where e.dyning.dno=:dno and e.emojiInfo.emojitype=:emojitype")
+    Long getEmojiCountByEmojitype(Long dno,String emojitype);
+
+    @Query("select e.emojiInfo.emojitype,count(e.emojiInfo.emojitype) from Emoji e where e.dyning.dno=:dno and e.emojiInfo.emojitype=:emojitype")
+    List<Object[]> getEmojiCountByEmojitype2(Long dno,String emojitype);
+
+
+
+
 }

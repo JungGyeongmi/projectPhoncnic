@@ -27,8 +27,10 @@ public class DyningDTO {
     private String tel;
 
     private String id;
+    private Long emojicwt;
 
-    private long oono;
+
+    private Long oono;
     private String roofpath;
 
     @Builder.Default

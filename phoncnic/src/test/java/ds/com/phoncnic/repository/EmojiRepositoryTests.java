@@ -60,32 +60,18 @@ public class EmojiRepositoryTests {
         for(int i = 0; i< emojicntArr.length; i++) {
             emojicntArr[i][0]=Long.valueOf(i+1);
             emojicntArr[i][1]=Long.valueOf(0);
+    public void testEmojitypeCwt() {
+        Long emojicwt = emojiRepository.getEmojiCountByEmojitype(11L, "3");
+        System.out.println(emojicwt);
+    }
+
+    @Test
+    public void testEmojitypeCwt2() {
+        List<Object[]> emojicwt = emojiRepository.getEmojiCountByEmojitype2(11L, "3");
+        for(Object a: emojicwt)System.out.println(a);
         }
 
-        result.stream().forEach(obj -> {
-            String type = (obj[0]).toString();
-            Long count = (Long) (obj[1]);
-            switch (type) {
-                case "1":
-                    emojicntArr[0][1] = count;
-                    break;
-                case "2":
-                    emojicntArr[1][1] = count;
-                    break;
-                case "3":
-                    emojicntArr[2][1] = count;
-                    break;
-                case "4":
-                    emojicntArr[3][1] = count;
-                    break;
-                case "5":
-                   emojicntArr[4][1] = count;
-                    break;
-            }
-        });
 
-        System.out.println(Arrays.deepToString(emojicntArr));
-    }
 
     @Test
     public void testCountEmojiList() {
