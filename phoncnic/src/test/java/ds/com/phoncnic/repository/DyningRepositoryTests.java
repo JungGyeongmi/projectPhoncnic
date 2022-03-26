@@ -132,14 +132,4 @@ public class DyningRepositoryTests {
         });
     }
 
-    // @Test
-    // public void getdynig(){
-    //     List<Object[]> result = dyningRepository.getDyningDetails(11L);
-    //     for(Object[] arr :result)System.out.println(Arrays.toString(arr));
-    // }
-
-
-
-
-
 }
