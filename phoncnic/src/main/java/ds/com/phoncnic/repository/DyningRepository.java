@@ -3,14 +3,19 @@ package ds.com.phoncnic.repository;
 import java.util.List;
 import java.util.Optional;
 
+import com.querydsl.core.BooleanBuilder;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 
 import ds.com.phoncnic.entity.Dyning;
 import ds.com.phoncnic.entity.DyningImage;
 
-public interface DyningRepository extends JpaRepository<Dyning, Long> {
+public interface DyningRepository extends JpaRepository<Dyning, Long>, QuerydslPredicateExecutor<Dyning> {
 
     // @Query("select d, di, r " +
     // "from Dyning d " +
@@ -35,6 +40,9 @@ public interface DyningRepository extends JpaRepository<Dyning, Long> {
 
     @Query("select di from DyningImage di where di.dyning.id =:dno")
     List<DyningImage> getImageDetailsPage(Long dno);
+
+    // @Query
+    // Page<Dyning> findAll(BooleanBuilder builder, Pageable pageable);
 
     // @Query("SELECT d, di, count(e) FRIM Dyning d " +
     // "LEFT OUTER JOIN Emoji e ON e.dyning = d " +
