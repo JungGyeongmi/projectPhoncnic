@@ -7,6 +7,7 @@ import ds.com.phoncnic.entity.EmojiInfo;
 
 public interface EmojiInfoService {
     List<EmojiInfo> getEmojiInfoList();
+    
 
     /* Entity -> DTO */
     default EmojiInfoDTO entityToDTO(EmojiInfo emojiInfo) {

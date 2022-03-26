@@ -50,14 +50,6 @@ public class HomeController {
         return "/manage/rolechoice";
     }
 
-    @GetMapping("/manage/dyning/register")
-    public String dyningRegister() {
-        return "/manage/dyning/register";
-    }
-
-    @GetMapping("/manage/dyning/modify")
-    public String dyningModify() {
-        return "/manage/dyning/modify";
-    }
+   
 
 }
