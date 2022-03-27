@@ -6,24 +6,44 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>restaurant LIST</title>
-        <style>
-            #dyningname{cursor: pointer;}
-            #roofpath{cursor: pointer;}
-        </style>
+    <style>
+        #dyningname {
+            cursor: pointer;
+        }
+
+        #roofpath {
+            cursor: pointer;
+        }
+    </style>
 </head>
 
 <body>
+    <header>
+        <nav>
+            <div>
+                <i></i>
+                <button>토글</button>
+            </div>
+            <div>
+                <input type="text" placeholder="메뉴명 / 가게명">
+                <button>검색</button>
+            </div>
+            <div>
+
+            </div>
+        </nav>
+    </header>
+
+
     <h1>restaurant</h1>
-    <table border="1" >
-        <tr >
+    <table border="1">
+        <tr>
             <th scope="col">dyningname</th>
             <th scope="col">Roof Path</th>
         </tr>
-        <tr  th:each="dto : ${result}" 
-        th:onclick="'location.href=
+        <tr th:each="dto : ${result}" th:onclick="'location.href=
         \''+ @{/dyning/details(dno=${dto.dno})}
-             + '\''"
-              th:if="${dto.foodtype}!=1">
+             + '\''" th:if="${dto.foodtype}!=1">
             <td id="dyningname">[[${dto.dyningname}]]</td>
             <td id="roofpath">[[${dto.roofpath}]]</td>
         </tr>
