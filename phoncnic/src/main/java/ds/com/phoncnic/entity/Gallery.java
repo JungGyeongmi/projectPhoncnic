@@ -1,6 +1,5 @@
 package ds.com.phoncnic.entity;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -33,6 +32,7 @@ public class Gallery extends BaseEntity {
     private String imagename;
     private boolean imagetype;
     private String imagepath;
+    private String uuid;
     
     @ManyToOne(fetch = FetchType.LAZY)
     private Member artistid;

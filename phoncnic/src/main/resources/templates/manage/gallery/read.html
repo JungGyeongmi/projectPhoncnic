@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    <h1>전시회 상세페이지 예제</h1>
+    <h1>READ : GALLERY</h1>
     <table border="1">
         <tr>
             <th>
@@ -33,7 +33,7 @@
         </tr>
         <tr>
             <td colspan="2">
-                [[${galleryDTO.imagepath}]]
+                <img th:src="|@{'/display'}?fileName=${galleryDTO.getImageURL()}|" alt="이미지를 불러올 수 없습니다">
             </td>
         </tr>
         <tr>
@@ -54,19 +54,22 @@
                 [[${#temporals.format(galleryDTO.moddate,'yyyy/MM/dd')}]]
             </td>
         </tr>
-
     </table>
-    <a th:href="@{/gallery/photo/modify(gno=${galleryDTO.gno})}">
+    <a
+        th:href="@{/manage/gallery/modify(gno=${galleryDTO.gno})}">
         <button type="button">수 정</button>
     </a>
-    <a th:href="@{/gallery/photo(page=${pageRequestDTO.page})}">
+    <a
+        th:href="@{/manage/gallery/list(id=${galleryDTO.id})}">
         <button type="button">돌아가기</button>
     </a>
+
     <ul>
         <li th:each="emoji : ${emojiInfoList}">
             [[${ emoji.emojipath }]]
         </li>
     </ul>
+
 
 </html>
 </body>

@@ -11,12 +11,15 @@ import ds.com.phoncnic.entity.Gallery;
 import ds.com.phoncnic.entity.Member;
 
 public interface EmojiService {
-
+    Long[][] getEmojiCountArrayByGno(Long gno);
     List<EmojiDTO> dyningEmojiList(Long dno);
     List<EmojiDTO> getEmojiList(String id);
     void emojiRemove(Long eno);
     Long dyningEmojiRegister(EmojiDTO emojiDTO);
-    List<EmojiDTO> getEmojiList(String type, Long no);
+    Long galleryEmojiRegiter(EmojiDTO emojiDTO);  
+    List<EmojiDTO> getEmojiByGno(String type, Long no);
+    // List<EmojiDTO> getEmojiByGno2(Long gno);
+    // List<EmojiDTO> getEmojiList(String type, Long no);
     Long getEmojitypeCwt(Long dno,String emojitype);
 
     

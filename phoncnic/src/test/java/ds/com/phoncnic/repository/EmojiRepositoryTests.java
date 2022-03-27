@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import ds.com.phoncnic.dto.EmojiDTO;
 import ds.com.phoncnic.entity.Emoji;
 import ds.com.phoncnic.service.emoji.EmojiService;
 
@@ -34,6 +35,35 @@ public class EmojiRepositoryTests {
     } 
 
     @Test
+    public void getEmojiCountgno1(){
+        List<Object[]> result = emojiRepository.getEmojiCountByGno(30L);
+
+        for(Object[] arr : result){
+            System.out.println("==========type");
+            System.out.println(arr[0]);
+            System.out.println("==========count");
+            System.out.println(arr[1]);
+        }
+
+    }
+    @Test
+    @Transactional
+    public void test(){
+        List<EmojiDTO>  emojiList = emojiService.getEmojiByGno("g", 3L);
+        emojiList.forEach(emoji ->System.out.println(emoji));
+    }
+
+    @Test
+    public void getEmojiCountgno(){
+        List<Object[]> result = emojiRepository.getEmojiCountByGno(3L);
+        Long[][] emojicntArr = new Long[5][2];
+        for(int i = 0; i< emojicntArr.length; i++) {
+            emojicntArr[i][0]=Long.valueOf(i+1);
+            emojicntArr[i][1]=Long.valueOf(0);
+        }
+    }
+
+@Test            
     public void testEmojitypeCwt() {
         Long emojicwt = emojiRepository.getEmojiCountByEmojitype(11L, "3");
         System.out.println(emojicwt);
@@ -45,20 +75,15 @@ public class EmojiRepositoryTests {
         for(Object a: emojicwt)System.out.println(a);
         }
 
-    /*@Test
-    public void getCountEmoji(){
-        // List<Object[]> result = EmojiRepository.getEmojiCountByGno(1L);
-        // testResult.forEach(System.out::println);    
-        // System.out.println(result);
-        for (Object[] arr : result ) {
-            System.out.println(Arrays.toString(arr));
-            if(arr[1]!=null){
 
-                System.out.println(arr[0]);
-                System.out.println(arr[1]);
-            }
-            System.out.println("============");
-            //  System.out.println(arr[0]); //emojitype
-        }
-    }*/
+
+    @Test
+    public void testCountEmojiList() {
+        List<Object[]> emojiList = emojiRepository.getEmojiCountByGno(3L);
+
+        emojiList.stream().forEach(cnt -> {
+            System.out.println("type : "+cnt[0]);
+            System.out.println("count : "+cnt[1]);
+        });
+    }
 }
