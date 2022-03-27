@@ -51,7 +51,7 @@
     <form action="">
         <input type="hidden" name="id" value="user1@icloud.com"  readonly>
         <input type="hidden" name="dno" th:value="${result.dno}">
-    
+<!--     
         <select name="emojitype" id="">
             <option value="1">😋</option>
             <option value="2">🥰</option>
@@ -60,23 +60,23 @@
             <option value="5">🥵</option>
 
         </select>
-        <button type="button" id="emojisave">이모지 추가하기</button>
+        <button type="button" id="emojisave">이모지 추가하기</button> -->
 
 </form>
         <table border="1">
             <tr >
                 <th>이모지 갯수</th>
                 <th scope="col" colspan="5">이모지 타입</th>
-                <th th:colspan="${result.emojicwt}">이모지 삭제</th>
+                <!--/* <th th:colspan="${result.emojicwt}">이모지 삭제</th> */-->
             </tr>
-            <tr>
+            <tr id="ttt">
                 <td>[[${result.emojicwt}]]</td>
-                <td>😋<span>[[${emojitype1}]]</span></td>
-                <td>🥰[[${emojitype2}]]</td>
-                <td>😭[[${emojitype3}]]</td>
-                <td>😅[[${emojitype4}]]</td>
-                <td>🥵[[${emojitype5}]]</td>  
-                <td th:each="dto : ${emojilist}"><button type="button" th:value="${dto.eno}" class="emojiRemoveBtn">삭제</button></td>
+                <td><button class="up" value="1" name="emojitype" type="button">😋[[${emojitype1}]]</button></td>
+                <td><button class="up" value="2" name="emojitype" type="button">🥰[[${emojitype2}]]</button></td>
+                <td><button class="up" value="3" name="emojitype" type="button">😭[[${emojitype3}]]</button></td>
+                <td><button class="up" value="4" name="emojitype" type="button">😅[[${emojitype4}]]</button></td>
+                <td><button class="up" value="5" name="emojitype" type="button">🥵[[${emojitype5}]]</button></td>  
+                <!--/* <td th:each="dto : ${emojilist}"><button type="button" th:value="${dto.eno}" class="emojiRemoveBtn">삭제</button></td> */-->
             </tr>
             
             
@@ -86,12 +86,15 @@
 </body>
 <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script>
-
-$("#emojisave").click(function () {
+    var eno=localStorage.getItem("eno");
+    
+if(!eno){
+    $(".up").click(function () {
     var id = $("input[name='id']").val();
     var dno = $("input[name='dno']").val();
-    var emojitype = $("select[name='emojitype']").val();
-
+    var emojitype = $(this).val();
+    var next = $(this).next();
+    
 
 var data = { id: id, dno: dno, emojitype:emojitype};
        var urlemojiregister = `[[@{/dyning/emojiregister}]]`;
@@ -104,16 +107,19 @@ $.ajax({
     dataType: "text",
     success: function (result) {
         console.log("result: " + result);
+        localStorage.setItem("eno", result);
         self.location.reload();
     }
 })
+
 });
+}else{
 
-
-$(".emojiRemoveBtn").click( function(){
-        var eno =$(this).val();
+    $(".up").click( function(){
+        var eno =localStorage.getItem("eno");
         var data = {eno:eno};
-
+        // $(this).toggleClass("down");
+        // $("button[name='emojitype']").toggleClass("up");
         console.log(data);
         var urlemojiremove = `[[@{/dyning/emojiremove}]]`;
         $.ajax({
@@ -125,8 +131,13 @@ $(".emojiRemoveBtn").click( function(){
             success: function (result) {
                 console.log("result: " + result);
                 self.location.reload();
+                localStorage.clear();
         }
         })
     });
+}
+
+
+
 </script>
 </html>
