@@ -82,10 +82,10 @@
     <script th:inline="javascript">
 
       $(document).ready(function (e) {
-         //  upload url 선언 및 초기화
-         /*[+
-           var urlUpload = [[@{/uploadAjax/}]];
-         +]*/
+        //  upload url 선언 및 초기화
+        /*[+
+          var urlUpload = [[@{/uploadAjax/}]];
+        +]*/
 
         var regex = new RegExp("(.*?)\.(exe|sh|zip|alz|tiff|txt)$");
         var maxSize = 10485760;
@@ -112,9 +112,9 @@
 
           $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
 
-          var formData = new FormData(); 
-          var inputFile = $(this); 
-          var files = inputFile[0].files; 
+          var formData = new FormData();
+          var inputFile = $(this);
+          var files = inputFile[0].files;
           var appended = false;
 
           for (let i = 0; i < files.length; i++) {
@@ -123,13 +123,13 @@
             }
             console.log(files[i]);
             formData.append("uploadFiles", files[i]);
-            appended = true; 
+            appended = true;
           }
 
 
-          if (!appended) { return; } 
+          if (!appended) { return; }
 
-         
+
           for (var value of formData.values()) console.log("formData >> " + value);
 
           // 파일 업로드를 위한 ajax
@@ -162,9 +162,9 @@
 
           $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
 
-          var formData = new FormData(); 
-          var inputFile = $(this); 
-          var files = inputFile[0].files; 
+          var formData = new FormData();
+          var inputFile = $(this);
+          var files = inputFile[0].files;
           var appended = false;
 
           for (let i = 0; i < files.length; i++) {
@@ -172,18 +172,17 @@
               return false;
             }
             console.log(files[i]);
-            formData.append("uploadFiles", files[i]); 
-            appended = true; 
+            formData.append("uploadFiles", files[i]);
+            appended = true;
           }
 
-
-          if (!appended) { return; } 
+          if (!appended) { return; }
 
           for (var value of formData.values()) console.log("formData >> " + value);
 
           // 파일 업로드를 위한 ajax
           $.ajax({
-            url: urlUpload, 
+            url: urlUpload,
             processData: false,
             contentType: false,
             data: formData,
