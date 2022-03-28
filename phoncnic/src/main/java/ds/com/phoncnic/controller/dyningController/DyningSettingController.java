@@ -8,7 +8,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ds.com.phoncnic.dto.DyningDTO;
 import ds.com.phoncnic.service.dyning.DyningService;
-import ds.com.phoncnic.service.emoji.EmojiService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -17,8 +16,9 @@ import lombok.extern.log4j.Log4j2;
 @RequestMapping("/manage/dyning")
 @RequiredArgsConstructor
 public class DyningSettingController {
+    
     private final DyningService dyningService;
-    private final EmojiService emojiService;
+    
     //가게 등록 폼
     @GetMapping("/register")
     public String dyningRegister() {

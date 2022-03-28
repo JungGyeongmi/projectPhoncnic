@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>dyning details</title>
-</head>
+<th:block th:replace="~{layout/dyninglayout :: setContent(~{::content})}">
+    <th:block th:fragment="content">
+        <h1>dyning details</h1>
+        <ul>
+            <li th:each="dto : ${result}">
+                [[${ dto }]]
+            </li>
+        </ul>
 
 <body>
     <h1>dyning details</h1>
@@ -26,8 +28,8 @@
             <th scope="col">menu</th>
             <th scope="col">background</th>
             <th scope="col">emojicwt</th>
-    
-    
+
+
         </tr>
         <tr th:each="dto : ${result}" >
             <td >[[${dto.dyningname}]]</td>
@@ -38,10 +40,10 @@
             <td >[[${dto.tel}]]</td>
 
             <td>
-                   <th:block th:each="idto : ${imageresult}">[[${idto.menuimagepath}]],</th:block> 
+                   <th:block th:each="idto : ${imageresult}">[[${idto.menuimagepath}]],</th:block>
             </td>
             <td>
-                <th:block th:each="idto : ${imageresult}">[[${idto.backgroundpath}]],</th:block> 
+                <th:block th:each="idto : ${imageresult}">[[${idto.backgroundpath}]],</th:block>
              </td>
              <td >[[${dto.emojicwt}]]</td>
 
@@ -60,7 +62,7 @@
     <div id="map">
         <iframe height="450"
         style="border: 0ch;"
-        allowfullscreen        
+        allowfullscreen
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyChX8cJ6bEy6MWOp4-uK-KeT1m3T-9sR4M&callback=initMap&q=-33.8569,151.2152&region=KR&language=ko"
         >
         </iframe>
@@ -70,7 +72,7 @@
     <form action="">
         <input type="hidden" name="id" value="user1@icloud.com"  readonly>
         <input type="hidden" name="dno" th:value="${result.dno}">
-    
+
         <select name="emojitype" id="">
             <option value="1">😋</option>
             <option value="2">🥰</option>
@@ -80,10 +82,9 @@
 
         </select>
         <button type="button" id="emojisave">이모지 추가하기</button>
-
-</form>
+        </form>
         <table border="1">
-            <tr >
+            <tr>
                 <th>이모지 갯수</th>
                 <th scope="col" colspan="5">이모지 타입</th>
                 <th th:colspan="${result.emojicwt}">이모지 삭제</th>
@@ -94,11 +95,9 @@
                 <td>🥰[[${emojitype2}]]</td>
                 <td>😭[[${emojitype3}]]</td>
                 <td>😅[[${emojitype4}]]</td>
-                <td>🥵[[${emojitype5}]]</td>  
+                <td>🥵[[${emojitype5}]]</td>
                 <td th:each="dto : ${emojilist}"><button type="button" th:value="${dto.eno}" class="emojiRemoveBtn">삭제</button></td>
             </tr>
-            
-            
         </table>
 
 
@@ -124,40 +123,41 @@ $("#emojisave").click(function () {
     var emojitype = $("select[name='emojitype']").val();
 
 
-var data = { id: id, dno: dno, emojitype:emojitype};
-       var urlemojiregister = `[[@{/dyning/emojiregister}]]`;
-        console.log(data);
-$.ajax({
-    url: urlemojiregister + "/" + dno,
-    type: "POST",
-    data: JSON.stringify(data),
-    contentType: "application/json; charset=utf-8",
-    dataType: "text",
-    success: function (result) {
-        console.log("result: " + result);
-        self.location.reload();
-    }
-})
-});
+                var data = { id: id, dno: dno, emojitype: emojitype };
+                var urlemojiregister = `[[@{/dyning/emojiregister}]]`;
+                console.log(data);
+                $.ajax({
+                    url: urlemojiregister + "/" + dno,
+                    type: "POST",
+                    data: JSON.stringify(data),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "text",
+                    success: function (result) {
+                        console.log("result: " + result);
+                        self.location.reload();
+                    }
+                })
+            });
 
 
-$(".emojiRemoveBtn").click( function(){
-        var eno =$(this).val();
-        var data = {eno:eno};
+            $(".emojiRemoveBtn").click(function () {
+                var eno = $(this).val();
+                var data = { eno: eno };
 
-        console.log(data);
-        var urlemojiremove = `[[@{/dyning/emojiremove}]]`;
-        $.ajax({
-            url: urlemojiremove +"/"+ eno,
-            type: "DELETE",
-            data: JSON.stringify(data),
-            contentType: "application/json; charset=utf-8",
-            dataType: "text",
-            success: function (result) {
-                console.log("result: " + result);
-                self.location.reload();
-        }
-        })
-    });
-</script>
-</html>
+                console.log(data);
+                var urlemojiremove = `[[@{/dyning/emojiremove}]]`;
+                $.ajax({
+                    url: urlemojiremove + "/" + eno,
+                    type: "DELETE",
+                    data: JSON.stringify(data),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "text",
+                    success: function (result) {
+                        console.log("result: " + result);
+                        self.location.reload();
+                    }
+                })
+            });
+        </script>
+    </th:block>
+</th:block>

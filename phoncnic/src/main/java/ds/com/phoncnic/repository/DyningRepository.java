@@ -3,10 +3,6 @@ package ds.com.phoncnic.repository;
 import java.util.List;
 import java.util.Optional;
 
-import com.querydsl.core.BooleanBuilder;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -16,13 +12,6 @@ import ds.com.phoncnic.entity.Dyning;
 import ds.com.phoncnic.entity.DyningImage;
 
 public interface DyningRepository extends JpaRepository<Dyning, Long>, QuerydslPredicateExecutor<Dyning> {
-
-    // @Query("select d, di, r " +
-    // "from Dyning d " +
-    // "LEFT OUTER JOIN DyningImage di ON d = di.dyning "+
-    // "LEFT OUTER JOIN RoofDesign r ON d = r.dyning "+
-    // "group by d")
-    // Page<Object[]> getListPage(Pageable pageable);
 
     // 거리에서 가게명/루프패스
     @Query("SELECT d, r FROM Dyning d LEFT JOIN RoofDesign r ON d.roofdesign = r.oono")
