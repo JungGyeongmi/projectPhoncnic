@@ -2,6 +2,8 @@ package ds.com.phoncnic.service.gallery;
 
 import java.util.List;
 
+import org.springframework.data.domain.Sort;
+
 import ds.com.phoncnic.dto.GalleryDTO;
 import ds.com.phoncnic.dto.pageDTO.PageRequestDTO;
 import ds.com.phoncnic.dto.pageDTO.PageResultDTO;
@@ -67,9 +69,18 @@ public interface GalleryService {
         return galleryDTO;
     }
 
-    default String getSort(String sort) {
-        
-
+    default Sort getSort(String sortkeyword) {
+        Sort sort = Sort.by("gno").descending();
+        if (sortkeyword != null) {
+              switch (sortkeyword) {
+                case "a":
+                  sort = Sort.by("gno").ascending();
+                  break;
+                case "d":
+                  sort = Sort.by("gno").descending();
+                  break;
+              }
+            }
         return sort;
     }
 }
