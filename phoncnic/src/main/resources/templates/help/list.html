@@ -74,6 +74,7 @@
     </ul>
 </body>
 
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script th:inline="javascript">
     // 검색 submit
     var search = document.querySelector("#searchForm");
@@ -82,49 +83,43 @@
     document.querySelector("#searchBtn").onclick = function() {
         if(sel.options[0].selected == true) {
             srch.value="";
-            alert("검색조건을 설정하세요");
+            swal("확인해주세요", "검색조건을 설정하세요", "warning");
+        } else {
+            search.submit();
         }
-        search.submit();
     }
 
-
     /*[+ var msg=[[${msg}]]; +]*/
-
     console.log(msg);
 
     if (msg != null) {
-        alert("글이 등록되었습니다");
+        swal("성공!", "문의글이 등록되었습니다.", "success");
     }
 
     /*[+ var msg2=[[${msg2}]]; +]*/
 
     if (msg2 != null) {
-        alert("글이 삭제되었습니다");
+        swal("글이 삭제되었습니다");
     }
-
 
     //비밀번호 유효성검사
     const dto = document.querySelector(".dto");
     dto.addEventListener("click", pwcheck, once);
 
     function pwcheck(qno, page) {
-
         const inputPw = document.querySelector("#inputPw").value;
-        const messagePrompt = window.prompt("비밀번호를 입력해주세요");
-        const message = Number(messagePrompt);
-
-        //console.log(message);
-        //console.log(inputPw);
-
-        if (message != inputPw || message == "") {
-            alert("비밀번호를 다시 입력해주세요");
-            return;
-        } else if (message == inputPw) {
-            window.location.href = "read?qno=" + qno + "&page=" + page;
-            return;
-        }
+        swal("비밀번호를 입력해주세요", {
+            content: "input",
+        }).then((message) => {
+            if (message != inputPw || message == "") {
+                swal("비밀번호를 다시 입력해주세요");
+                return;
+            } else if (message == inputPw) {
+                window.location.href = "read?qno=" + qno + "&page=" + page;
+                return;
+            }
+        });
     }
-
 </script>
 
 </html>
