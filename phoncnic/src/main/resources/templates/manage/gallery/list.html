@@ -1,25 +1,16 @@
-<!-- user id 받아서 해당 게시물만 띄워주면 된다 -->
 <!DOCTYPE html>
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
+<th:block th:replace="~{layout/basic :: setContent(~{::content})}">
+  <th:block th:fragment="content">
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>user gallery</title>
-</head>
-
-<body>
-  <h1>유저 갤러리 리스트</h1>
-  <a th:href="@{/}">index</a>
-  <ul>
-    <li th:each="dto : ${galleryDTOList}">
-      <a th:href="@{/manage/gallery/read(gno=${dto.gno}) }">
-        [[${dto}]]
-      </a>
-    </li>
-  </ul>
-
-</body>
-</script>
-</html>
+    <h1>유저 갤러리 리스트</h1>
+    <a th:href="@{/}">index</a>
+    <ul>
+      <li th:each="dto : ${galleryDTOList}">
+        <a th:href="@{/manage/gallery/read(gno=${dto.gno}) }">
+          [[${dto}]]
+        </a>
+      </li>
+    </ul>
+  </th:block>
+</th:block>
