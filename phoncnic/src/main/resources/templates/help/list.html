@@ -3,115 +3,115 @@
 
 <th:block th:replace="~{layout/basic :: setContent(~{::content})}">
     <th:block th:fragment="content">
-    <h1>고객센터</h1>
-    <form th:action="@{/help/list}" method="get" id="searchForm">
-        <input type="hidden" name="page" value="1">
-        <select class="form-select" name="type">
-            <option th:selected="${pageRequestDTO.type == null}">선택</option>
-            <option value="t" th:selected="${pageRequestDTO.type == 't'}">제목</option>
-            <option value="c" th:selected="${pageRequestDTO.type == 'c'}">내용</option>
-            <option value="w" th:selected="${pageRequestDTO.type == 'w'}">작성자</option>
-            <option value="tc" th:selected="${pageRequestDTO.type == 'tc'}">제목+내용</option>
-        </select>
-        <input id="srch" name="keyword" th:value="${pageRequestDTO.keyword}">
-        <button id="searchBtn" type="button">
-            검색
-        </button>
-    </form>
-    <a th:href="@{/help/register}">
-        <button type="button">
-            문의하기
-        </button>
-    </a>
-    <table border="1">
-        <thead>
-            <tr>
-                <!--/* <th scope="col">No.</th> */-->
-                <th scope="col">문의 종류</th>
-                <th scope="col">제목</th>
-                <th scope="col">내용</th>
-                <th scope="col">작성자</th>
-                <th scope="col">등록일</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="dto, state : ${result.dtoList}" class="dto"
-                th:onclick="|javascript:pwcheck([[${dto.qno}]],[[${result.page}]])|"
-                th:style="${dto.qtype.contains('답변') ? 'background-color:lightgray':''}">
-                <!--/* <td>[[${ state.count }]]</td> */-->
-                <td>[[${dto.qtype}]]</td>
-                <td>[[${ dto.title }]]</td>
-                <td><b th:text="${dto.content}"></b></td>
-                <td><b th:text="${dto.writer}"></b></td>
-                <td>[[${#temporals.format(dto.regdate,'yyyy/MM/dd')}]]</td>
-                <td style="border: none;"><input type="hidden" th:value="${dto.password}" id="inputPw"></td>
-            </tr>
-        </tbody>
-    </table>
-    <ul>
-        <li th:if="${result.prev}">
-            <a th:href="@{/help/list(page=${result.start-1}, 
+        <h1>고객센터</h1>
+        <form th:action="@{/help/list}" method="get" id="searchForm">
+            <input type="hidden" name="page" value="1">
+            <select class="form-select" name="type">
+                <option th:selected="${pageRequestDTO.type == null}">선택</option>
+                <option value="t" th:selected="${pageRequestDTO.type == 't'}">제목</option>
+                <option value="c" th:selected="${pageRequestDTO.type == 'c'}">내용</option>
+                <option value="w" th:selected="${pageRequestDTO.type == 'w'}">작성자</option>
+                <option value="tc" th:selected="${pageRequestDTO.type == 'tc'}">제목+내용</option>
+            </select>
+            <input id="srch" name="keyword" th:value="${pageRequestDTO.keyword}">
+            <button id="searchBtn" type="button">
+                검색
+            </button>
+        </form>
+        <a th:href="@{/help/register}">
+            <button type="button">
+                문의하기
+            </button>
+        </a>
+        <table border="1">
+            <thead>
+                <tr>
+                    <!--/* <th scope="col">No.</th> */-->
+                    <th scope="col">문의 종류</th>
+                    <th scope="col">제목</th>
+                    <th scope="col">내용</th>
+                    <th scope="col">작성자</th>
+                    <th scope="col">등록일</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="dto, state : ${result.dtoList}" class="dto"
+                    th:onclick="|javascript:pwcheck([[${dto.qno}]],[[${result.page}]])|"
+                    th:style="${dto.qtype.contains('답변') ? 'background-color:lightgray':''}">
+                    <!--/* <td>[[${ state.count }]]</td> */-->
+                    <td>[[${dto.qtype}]]</td>
+                    <td>[[${ dto.title }]]</td>
+                    <td><b th:text="${dto.content}"></b></td>
+                    <td><b th:text="${dto.writer}"></b></td>
+                    <td>[[${#temporals.format(dto.regdate,'yyyy/MM/dd')}]]</td>
+                    <td style="border: none;"><input type="hidden" th:value="${dto.password}" id="inputPw"></td>
+                </tr>
+            </tbody>
+        </table>
+        <ul>
+            <li th:if="${result.prev}">
+                <a th:href="@{/help/list(page=${result.start-1}, 
                 type=${pageRequestDTO.type},
                 keyword=${pageRequestDTO.keyword})}" tabindex="-1">Previous</a>
-        </li>
-        <li th:each="page : ${result.pageList}">
-            <a class="page-link" th:href="@{/help/list
+            </li>
+            <li th:each="page : ${result.pageList}">
+                <a class="page-link" th:href="@{/help/list
                     (page=${page}, 
                     type=${pageRequestDTO.type},
                     keyword=${pageRequestDTO.keyword})}">[[${page}]]</a>
-        </li>
-        <li th:if="${result.next}">
-            <a th:href="@{/help/list(page=${result.end+1}, 
+            </li>
+            <li th:if="${result.next}">
+                <a th:href="@{/help/list(page=${result.end+1}, 
                 type=${pageRequestDTO.type},
                 keyword=${pageRequestDTO.keyword})}">Next</a>
-        </li>
-    </ul>
+            </li>
+        </ul>
 
-    <script th:inline="javascript">
-        // 검색 submit
-        var search = document.querySelector("#searchForm");
-        var sel = document.querySelector("#searchForm select");
-        var srch = document.querySelector("#srch");
-        document.querySelector("#searchBtn").onclick = function () {
-            if (sel.options[0].selected == true) {
-                srch.value = "";
-                swal("확인해주세요", "검색조건을 설정하세요", "warning");
-            } else {
-                search.submit();
-            }
-        }
-
-        /*[+ var msg=[[${msg}]]; +]*/
-        console.log(msg);
-
-        if (msg != null) {
-            swal("성공!", "문의글이 등록되었습니다.", "success");
-        }
-
-        /*[+ var msg2=[[${msg2}]]; +]*/
-
-        if (msg2 != null) {
-            swal("글이 삭제되었습니다");
-        }
-
-        //비밀번호 유효성검사
-        const dto = document.querySelector(".dto");
-        dto.addEventListener("click", pwcheck, once);
-
-        function pwcheck(qno, page) {
-            const inputPw = document.querySelector("#inputPw").value;
-            swal("비밀번호를 입력해주세요", {
-                content: "input",
-            }).then((message) => {
-                if (message != inputPw || message == "") {
-                    swal("비밀번호를 다시 입력해주세요");
-                    return;
-                } else if (message == inputPw) {
-                    window.location.href = "read?qno=" + qno + "&page=" + page;
-                    return;
+        <script th:inline="javascript">
+            // 검색 submit
+            var search = document.querySelector("#searchForm");
+            var sel = document.querySelector("#searchForm select");
+            var srch = document.querySelector("#srch");
+            document.querySelector("#searchBtn").onclick = function () {
+                if (sel.options[0].selected == true) {
+                    srch.value = "";
+                    swal("확인해주세요", "검색조건을 설정하세요", "warning");
+                } else {
+                    search.submit();
                 }
-            });
-        }
-    </script>
+            }
+
+            /*[+ var msg=[[${msg}]]; +]*/
+            console.log(msg);
+
+            if (msg != null) {
+                swal("성공!", "문의글이 등록되었습니다.", "success");
+            }
+
+            /*[+ var msg2=[[${msg2}]]; +]*/
+
+            if (msg2 != null) {
+                swal("글이 삭제되었습니다");
+            }
+
+            //비밀번호 유효성검사
+            const dto = document.querySelector(".dto");
+            dto.addEventListener("click", pwcheck, once);
+
+            function pwcheck(qno, page) {
+                const inputPw = document.querySelector("#inputPw").value;
+                swal("비밀번호를 입력해주세요", {
+                    content: "input",
+                }).then((message) => {
+                    if (message != inputPw || message == "") {
+                        swal("비밀번호를 다시 입력해주세요");
+                        return;
+                    } else if (message == inputPw) {
+                        window.location.href = "read?qno=" + qno + "&page=" + page;
+                        return;
+                    }
+                });
+            }
+        </script>
     </th:block>
 </th:block>

@@ -58,9 +58,8 @@ public class GalleryServiceImpl implements GalleryService {
         Page<Object[]> result = galleryRepository.searchPage(
             pageRequestDTO.getType(), 
             pageRequestDTO.getKeyword(),
-            pageRequestDTO.getPageable(sort )
+            pageRequestDTO.getPageable(sort)
         );
-
         return new PageResultDTO<>(result, fn);
     }
 
@@ -70,7 +69,8 @@ public class GalleryServiceImpl implements GalleryService {
     public GalleryDTO getGallery(long gno) {
         Gallery gallery = galleryRepository.getGalleryByGno(gno);
         Long[][] emojiCountArr = emojiService.getEmojiCountArrayByGno(gno);
-    
+        log.info("gno:"+gno);
+        log.info("gallery"+gallery);
         return entityToDTO(gallery, emojiCountArr);
     }
 
@@ -78,11 +78,9 @@ public class GalleryServiceImpl implements GalleryService {
     @Override
     public List<GalleryDTO> getGalleryList(Boolean type) {
         List<Gallery> galleryList = galleryRepository.getGalleryList(type);
-
         List<GalleryDTO> galleryDTOList = galleryList.stream()
             .map(entity -> entityToDTO(entity,emojiService.getEmojiCountArrayByGno(entity.getGno())))
             .collect(Collectors.toList());
-
         return galleryDTOList;
     }
 

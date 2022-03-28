@@ -23,7 +23,7 @@
 				th:data-file="${dto.getImageURL}" data-bs-toggle="modal" data-bs-target="#detailsModal">
 				<div style="border: 1px black solid;">
 					[[${dto.title}]]
-					<br><img th:src="|@{'/display'}?fileName=${dto.getThumbnailURL()}|"
+					<br><img style="cursor:pointer;" th:src="|@{'/display'}?fileName=${dto.getThumbnailURL()}|"
 						alt="이미지를 불러올 수 없습니다">
 					[[${dto.content}]]
 					<br>
@@ -33,7 +33,6 @@
 		<button type="button" id="curatorBtn" data-bs-toggle="modal" data-bs-target="#curatorModal">큐레이터</button>
 
 		<script th:inline="javascript">
-
 			$(document).ready(function () {
 
 				/*[+
@@ -44,17 +43,12 @@
 			    
 				+]*/
 
-				var targetGno = 0;
 				var uploadResult = $(".uploadResult");
 				var detailsModalbody = $(".details-modal-body");
 				var showdetailsModal = function (targetGno, targetFile) {
-
-
 					$.getJSON(readUrl + "/" + targetGno, function (dto) {
-
 						console.log("getList..........dto " + JSON.stringify(dto));
 						var str = "";
-
 						str += `
 							<input type="hidden" name = "gno" value="${targetGno}" class="inputGno" data-gno="${targetGno}">
 							<input type="hidden" name = "id" value="user1@icloud.com" class="inputId" data-id="${dto.id}">
@@ -66,7 +60,7 @@
 								<div class="col-md-4"><h4>${dto.id}</h4></div>
 							</div>
 
-							<div>
+							<div id="emojiBox">
 							<input type="radio" id="1" value="1" name="emojitype" data-emojitype="${dto.emojicount[0]}" class="emoji">      
 							<label for="1" class="emojibtn">🥰</label>
 							<span>${dto.emojicount[0][1]}</span>
@@ -132,7 +126,7 @@
 					$.get(curatorUrl, function (result) {
 						var str = "";
 						$.each(result.dtoList, function (idx, dto) {
-							str += `<li class="search-result-Item point-coursor" data-search-file="${dto.imageURL}" data-search-gno="${dto.gno}">
+							str += `<li class="search-result-Item" data-search-file="${dto.imageURL}" data-search-gno="${dto.gno}">
 										<div>
 											<p>
 												${dto.title}
@@ -160,7 +154,7 @@
 							console.log("get curator saerch success");
 							var str = "";
 							$.each(response.dtoList, function (idx, dto) {
-								str += `<li class="search-result-Item point-coursor" data-search-file="${dto.imageURL}" data-search-gno="${dto.gno}">
+								str += `<li class="search-result-Item " data-search-file="${dto.imageURL}" data-search-gno="${dto.gno}">
 											<div>
 												<p>
 													${dto.title}
@@ -178,13 +172,16 @@
 					});
 				}
 
+				function emojiBoxReload() {
+					$("#myModal").modal("show");
 
+				}
+				
+				//이모지 등록
 				$(document).on("click", ".emoji", function (event) {
-					var check = $(".emoji:checked").val();
-					console.log("check!!!!!!!!!!!!!!:" + check);
-					var id = $(".inputId").data("id");
+					var id = $(".inputId").val();
 					console.log("id:" + id);
-					var gno = $(".inputGno").data("gno");
+					var gno = $(".inputGno").val();
 					console.log("gno:" + gno);
 					var emojitype = $(".emoji:checked").val();
 					console.log("emojitype:" + emojitype);
@@ -192,7 +189,6 @@
 					var data = { id: id, gno: gno, emojitype: emojitype };
 
 					console.log(data);
-
 					$.ajax({
 						url: emojiaddUrl + "/" + gno,
 						method: "POST",
@@ -200,23 +196,43 @@
 						contentType: "application/json; charset=utf-8",
 						dataType: "text",
 						success: function (result) {
-							alert(result.message);
-						}
-						, error: function (request, status, error) {
-							console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+							// location.reload();
+							// emojiBoxReload();
+							self.location.reload();
+							console.log(result.message);
 						}
 					});
+					
+					//이모지 삭제
+					$(document).on("click", ".emoji", function (event) {
+						var id = $(".inputId").val();
+						var gno = $(".inputGno").val();
+						var emojitype = $(".emoji:checked").val();
+						var data = { eno: eno };
+						$.ajax({
+							url: emojiRemoveUrl + "/" + eno,
+							method: "DELETE",
+							data: JSON.stringify(data),
+							contentType: "application/json; charset=utf-8",
+							dataType: "text",
+							success: function (result) {
+								alert(result.message);
+							}, error: function (request, status, error) {
+								console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+							}
+						});
 
-				});
+					});
 
-				// 모달 창 내 search result 클릭 시 이동 제어
-				$(document).on("click", ".search-result-Item", function (e) {
-					var targetGno = $(this).closest("li").data("searchGno");
-					var targetFile = $(this).closest("li").data("searchFile");
-					console.log("search modal -> detail modal" + targetGno);
-					$("#detailsModal").modal("show");
-					showdetailsModal(targetGno, targetFile);
-					$("#curatorModal").modal("hide");
+					// 모달 창 내 search result 클릭 시 이동 제어
+					$(document).on("click", ".search-result-Item", function (e) {
+						var targetGno = $(this).closest("li").data("searchGno");
+						var targetFile = $(this).closest("li").data("searchFile");
+						console.log("search modal -> detail modal" + targetGno);
+						$("#detailsModal").modal("show");
+						showdetailsModal(targetGno, targetFile);
+						$("#curatorModal").modal("hide");
+					});
 				});
 			});
 		</script>
@@ -259,7 +275,6 @@
 				</div>
 			</div>
 		</div>
-
 
 		<!-- Details 모달창 -->
 		<div class="modal" tabindex="-1" id="detailsModal">

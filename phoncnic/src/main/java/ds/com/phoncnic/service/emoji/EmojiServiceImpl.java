@@ -23,7 +23,6 @@ public class EmojiServiceImpl implements EmojiService {
     public Long dyningEmojiRegister(EmojiDTO emojiDTO) {
         Emoji dyningemoji = dtoToEntity(emojiDTO);
         emojiRepository.save(dyningemoji);
-
         return dyningemoji.getEno();
     }
 
@@ -31,7 +30,6 @@ public class EmojiServiceImpl implements EmojiService {
     public Long galleryEmojiRegiter(EmojiDTO emojiDTO) {
         Emoji galleryEmoji = dtoToEntity(emojiDTO);
         emojiRepository.save(galleryEmoji);
-
         return galleryEmoji.getEno();
     }
 
@@ -42,23 +40,18 @@ public class EmojiServiceImpl implements EmojiService {
         emojilist.stream().forEach(emoji -> {
             EmojiDTO emojiDTO = entityToEmojiDTO(emoji);
             emojiDTOList.add(emojiDTO);
-
         });
-
         return emojiDTOList;
     }
 
     @Override
     public List<EmojiDTO> getEmojiList(String id) {
-
         List<Emoji> emojiList = emojiRepository.getEmojiByMember(id);
-
         List<EmojiDTO> emojiDTOList = new ArrayList<>();
         emojiList.stream().forEach(emoji -> {
             EmojiDTO emojiDTO = entityToEmojiDTO(emoji);
             emojiDTOList.add(emojiDTO);
         });
-
         return emojiDTOList;
     }
 
@@ -68,7 +61,6 @@ public class EmojiServiceImpl implements EmojiService {
                 : emojiRepository.getEmojiByDno(no);
         log.info("gno......:" + no);
         log.info("info......:" + info);
-
         List<EmojiDTO> emojiDTOList = new ArrayList<>();
         emojiList.stream().forEach(emoji -> {
             EmojiDTO emojiDTO = entityToEmojiDTO(emoji);
@@ -76,7 +68,6 @@ public class EmojiServiceImpl implements EmojiService {
         });
         log.info("emojiList......:" + emojiList);
         log.info("emojiDTOList......:" + emojiDTOList);
-
         return emojiDTOList;
     }
 
@@ -84,12 +75,10 @@ public class EmojiServiceImpl implements EmojiService {
     public Long[][] getEmojiCountArrayByGno(Long gno) {
         List<Object[]> result = emojiRepository.getEmojiCountByGno(gno);
         Long[][] emojiCntArr = new Long[5][2];
-
         for (int i = 0; i < emojiCntArr.length; i++) {
             emojiCntArr[i][0] = Long.valueOf(i + 1);
             emojiCntArr[i][1] = Long.valueOf(0);
         }
-
         result.stream().forEach(obj -> {
             String type = (obj[0]).toString();
             Long count = (Long) (obj[1]);
@@ -128,5 +117,4 @@ public class EmojiServiceImpl implements EmojiService {
         Long emojicwt = emojiRepository.getEmojiCountByEmojitype(dno, emojitype);
         return emojicwt;
     }
-
 }
