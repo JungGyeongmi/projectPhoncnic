@@ -63,18 +63,9 @@ public class GalleryRestController {
 
     
     @GetMapping("/curator")
-    public ResponseEntity<PageResultDTO<GalleryDTO, Object[]>> getCuratorModal(SearchPageRequestDTO pageRequestDTO,
-        String type, String sort, String keyword) {
-
+    public ResponseEntity<PageResultDTO<GalleryDTO, Object[]>> getCuratorModal(SearchPageRequestDTO pageRequestDTO) {
         log.info("---------------get curator rest---------------");
-        log.info("type"+type);
-        log.info("sort"+sort);
-        log.info("keyword"+keyword);
-        pageRequestDTO.setType(type);
-        pageRequestDTO.setSort(sort);
-        pageRequestDTO.setKeyword(keyword);
         PageResultDTO<GalleryDTO, Object[]> result = galleryService.getGalleryPage(pageRequestDTO);
-
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 

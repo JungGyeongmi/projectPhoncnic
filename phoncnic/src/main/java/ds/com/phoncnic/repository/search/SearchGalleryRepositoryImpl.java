@@ -29,10 +29,12 @@ public class SearchGalleryRepositoryImpl
     extends QuerydslRepositorySupport
     implements SearchGalleryRepository {
 
-    //JpaRepository의 부족한 부분은 바로 각 항목에 대한 
-    //max, min 값을 구하는 Predicate query와 
-    //다양한 update,delete를 하는 query들을 만들어주는 것이 불가능
-    //그래서 QuerydslRepositorySupport을 사용
+    /*
+      JpaRepository의 부족한 부분은 바로 각 항목에 대한 
+      max, min 값을 구하는 Predicate query와 
+      다양한 update,delete를 하는 query들을 만들어주는 것이 불가능
+      그래서 QuerydslRepositorySupport을 사용
+    */
 
   public SearchGalleryRepositoryImpl() {
     super(Gallery.class);

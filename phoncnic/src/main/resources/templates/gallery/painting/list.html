@@ -105,7 +105,6 @@
 				</div>
 				`;
 					modalBody.html(str);
-					// $("uploadResult").html(str);
 				})
 			});
 
@@ -164,7 +163,6 @@
 				}
 			});
 
-
 			curatorBtn.on("click", function (e) {
 				console.log("curator button clicked");
 				e.preventDefault();
@@ -183,7 +181,7 @@
 					})
 					searchResult.html(str);
 				}).done(function () {
-					console.log("get success curator");
+					console.log("get curator success...");
 				}).fail(function (response) {
 					console.log("get curator fial...");
 					console.log(response);

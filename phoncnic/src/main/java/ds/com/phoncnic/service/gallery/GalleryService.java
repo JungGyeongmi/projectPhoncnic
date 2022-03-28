@@ -66,4 +66,10 @@ public interface GalleryService {
                 .build();
         return galleryDTO;
     }
+
+    default String getSort(String sort) {
+        
+
+        return sort;
+    }
 }
