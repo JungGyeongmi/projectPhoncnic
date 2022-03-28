@@ -49,6 +49,7 @@
 			var emojiUrl = [[@{/gallery/emoji}]];
 			var emojiaddUrl = [[@{/gallery/register}]];
 			var emojiRemoveUrl = [[@{gallery/remove}]];
+			var emojicountUrl ] [[@{gallery/count}]];
 			var readUrl = [[@{/gallery/read}]];
 			var urlDisplay = [[@{/display}]];
 		    
@@ -87,23 +88,23 @@
 				 <div id="emojiBox">
 				<input type="radio" id="1" value="1" name="emojitype" data-emojitype="${dto.emojicount[0]}" class="emoji">      
 				<label for="1" class="emojibtn">🥰</label>
-				<span>${dto.emojicount[0][1]}</span>
+				<span class="emojicount">${dto.emojicount[0][1]}</span>
 				
 				<input type="radio" id="2" value="2" name="emojitype" data-emojitype="${dto.emojicount[1]}" class="emoji">      
 				<label for="2" class="emojibtn">😊</label>
-				<span>${dto.emojicount[1][1]}</span>
+				<span class="emojicount">${dto.emojicount[1][1]}</span>
 			
 				<input type="radio" id="3" value="3" name="emojitype" data-emojitype="${dto.emojicount[2]}" class="emoji">       
 				<label for="3" class="emojibtn">😥</label>
-				<span>${dto.emojicount[2][1]}</span>
+				<span class="emojicount">${dto.emojicount[2][1]}</span>
 	
 				<input type="radio" id="4" value="4" name="emojitype" data-emojitype="${dto.emojicount[3]}" class="emoji">      
 				<label for="4" class="emojibtn">😂</label>
-				<span>${dto.emojicount[3][1]}</span>
+				<span class="emojicount">${dto.emojicount[3][1]}</span>
 				
 				<input type="radio" id="5" value="5" name="emojitype" data-emojitype="${dto.emojicount[4]}" class="emoji">      
 				<label for="5" class="emojibtn">😝</label>
-				<span>${dto.emojicount[4][1]}</span>
+				<span class="emojicount">${dto.emojicount[4][1]}</span>
 				</div>
 				`;
 					modalBody.html(str);
@@ -134,12 +135,31 @@
 					contentType: "application/json; charset=utf-8",
 					dataType: "text",
 					success: function (result) {
-						location.reload();
+						// location.reload();
+						emojicount();
 						emojiBoxReload();
 						console.log(result.message);
 					}
 				});
 			});
+
+			
+				//이모지 갯수 업데이트
+				function emojicount(){
+					var gno = $(".inputGno").val();
+					data:{gno:gno};
+					$.ajax({
+						url: emojicountUrl +"/"+gno,
+						method: "post",
+						data: JSON.stringify(data),
+						success: function(count){
+							$(".emojicount").html(count);
+						}
+					});
+				}
+				emojicount(); //처음 시작했을 때 실행되도록 해당함수 실행
+
+
 				//이모지 삭제
 				$(document).on("click", ".emoji", function (event) {
 					var id = $(".inputId").val();
@@ -162,8 +182,10 @@
 							self.location.reload();
 							// emojiBoxReload();
 							console.log(result.message);
+							emojicount();
 						}
 					});
+				
 
 			});
 		

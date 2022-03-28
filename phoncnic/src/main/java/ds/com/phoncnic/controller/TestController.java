@@ -15,4 +15,8 @@ public class TestController {
         return "test";
     }
 
+    @GetMapping("/toggle")
+    public String toggleTest(){
+        return "toggleTest";
+    }
 }
