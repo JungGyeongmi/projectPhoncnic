@@ -1,5 +1,8 @@
 package ds.com.phoncnic.service.emoji;
 
+import java.util.ArrayList;
+import java.util.ArrayList;
+import java.util.ArrayList;
 import java.util.List;
 
 import ds.com.phoncnic.dto.EmojiDTO;
@@ -10,7 +13,6 @@ import ds.com.phoncnic.entity.Gallery;
 import ds.com.phoncnic.entity.Member;
 
 public interface EmojiService {
-
     Long[][] getEmojiCountArrayByGno(Long gno);
     List<EmojiDTO> dyningEmojiList(Long dno);
     List<EmojiDTO> getEmojiList(String id);

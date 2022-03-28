@@ -44,11 +44,13 @@
 
 		$(document).ready(function () {
 
-			/*[+
-				var readUrl = [[@{/gallery/read}]];
-				var emojiUrl = [[@{/gallery/emoji}]];
-				var emojiaddUrl = [[@{/gallery/register}]];
-				var urlDisplay = [[@{/display}]];
+			/*[+ 				
+
+			var emojiUrl = [[@{/gallery/emoji}]];
+			var emojiaddUrl = [[@{/gallery/register}]];
+			var emojiRemoveUrl = [[@{gallery/remove}]];
+			var readUrl = [[@{/gallery/read}]];
+			var urlDisplay = [[@{/display}]];
 		    
 			+]*/
 
@@ -82,7 +84,7 @@
 					 <div class="col-md-4"><h4>${dto.id}</h4></div>
 				 </div>
 
-				 <div>
+				 <div id="emojiBox">
 				<input type="radio" id="1" value="1" name="emojitype" data-emojitype="${dto.emojicount[0]}" class="emoji">      
 				<label for="1" class="emojibtn">🥰</label>
 				<span>${dto.emojicount[0][1]}</span>
@@ -108,13 +110,16 @@
 					// $("uploadResult").html(str);
 				})
 			});
+			
+			function emojiBoxReload(){
+					$("#myModal").modal("show");
 
+			}
+			//이모지 등록
 			$(document).on("click", ".emoji", function (event) {
-				var check = $(".emoji:checked").val();
-				console.log("check!!!!!!!!!!!!!!:" + check);
-				var id = $(".inputId").data("id");
+				var id = $(".inputId").val();
 				console.log("id:" + id);
-				var gno = $(".inputGno").data("gno");
+				var gno = $(".inputGno").val();
 				console.log("gno:" + gno);
 				var emojitype = $(".emoji:checked").val();
 				console.log("emojitype:" + emojitype);
@@ -122,7 +127,6 @@
 				var data = { id: id, gno: gno, emojitype: emojitype };
 
 				console.log(data);
-
 				$.ajax({
 					url: emojiaddUrl + "/" + gno,
 					method: "POST",
@@ -130,14 +134,41 @@
 					contentType: "application/json; charset=utf-8",
 					dataType: "text",
 					success: function (result) {
-						alert(result.message);
-					}
-					, error: function (request, status, error) {
-						console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+						location.reload();
+						emojiBoxReload();
+						console.log(result.message);
 					}
 				});
+			});
+				//이모지 삭제
+				$(document).on("click", ".emoji", function (event) {
+					var id = $(".inputId").val();
+					console.log("id:" + id);
+					var gno = $(".inputGno").val();
+					console.log("gno:" + gno);
+					var emojitype = $(".emoji:checked").val();
+					console.log("emojitype:" + emojitype);
+
+					var data = { eno : eno };
+
+					console.log(data);
+					$.ajax({
+						url: emojiRemoveUrl + "/" + eno,
+						method: "DELETE",
+						data: JSON.stringify(data),
+						contentType: "application/json; charset=utf-8",
+						dataType: "text",
+						success: function (result) {
+							self.location.reload();
+							// emojiBoxReload();
+							console.log(result.message);
+						}
+					});
 
 			});
+		
+
+
 
 
 			// 큐레이터 모달 제어

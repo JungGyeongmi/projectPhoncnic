@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -57,6 +58,14 @@ public class GalleryRestController {
         log.info("emoji Register....................emojiDTO:"+dto);
 
         Long eno = emojiService.galleryEmojiRegiter(dto);
+        return new ResponseEntity<>(eno, HttpStatus.OK);
+    }
+
+    //Emoji Remove
+    @DeleteMapping("/remove/{eno}")
+    public ResponseEntity <Long> emojiRemove (@PathVariable Long eno) {
+        emojiService.emojiRemove(eno);
+        
         return new ResponseEntity<>(eno, HttpStatus.OK);
     }
 
