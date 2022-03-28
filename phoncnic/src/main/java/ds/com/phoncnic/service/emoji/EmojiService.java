@@ -1,8 +1,5 @@
 package ds.com.phoncnic.service.emoji;
 
-import java.util.ArrayList;
-import java.util.ArrayList;
-import java.util.ArrayList;
 import java.util.List;
 
 import ds.com.phoncnic.dto.EmojiDTO;
@@ -21,7 +18,6 @@ public interface EmojiService {
     Long galleryEmojiRegiter(EmojiDTO emojiDTO);  
     List<EmojiDTO> getEmojiByGno(String type, Long no);
     Long getEmojitypeCwt(Long dno,String emojitype);
-
     
     /* DTO -> Entity */
     //gno 나 dno 가 null 값이 들어왔을뗀 전환을 제외하도록 if 문을 써 줌.(안 나누면 Pk가 자동생성됨)

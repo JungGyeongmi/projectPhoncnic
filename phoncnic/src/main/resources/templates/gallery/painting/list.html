@@ -1,157 +1,215 @@
 <!DOCTYPE html>
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
+<th:block th:replace="~{layout/basic :: setContent(~{::content})}">
+	<th:block th:fragment="content">
+		<style>
+			input[name="emojitype"] {
+				opacity: 0;
+			}
 
-<head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Gallery : painting</title>
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<style>
-	input[name="emojitype"] {
-		opacity: 0;
-	}
+			input[name="emojitype"]+label {
+				padding: 20px 10px;
+			}
 
-	input[name="emojitype"]+label {
-		padding: 20px 10px;
-	}
-
-	input[name="emojitype"]:checked+label+span {
-		color: red;
-
-	}
-</style>
-
-<body>
-	<h1>그림전</h1>
-	<ul style="list-style:none;padding-left:0px;">
-		<li style="margin-bottom:1%;" class="galleryList" th:each="dto : ${galleryDTOList}" th:data-gno="${dto.gno}"
-			th:data-file="${dto.getImageURL}" data-bs-toggle="modal" data-bs-target="#myModal">
-			<div style="border: 1px black solid;">
-				[[${dto.title}]]
-				<br><img style="cursor:pointer;" th:src="|@{'/display'}?fileName=${dto.getThumbnailURL()}|"
-					alt="이미지를 불러올 수 없습니다">
-				[[${dto.content}]]
-				<br>
-			</div>
-		</li>
-	</ul>
-	<button type="button" id="curatorBtn" data-bs-toggle="modal" data-bs-target="#Mymodal">큐레이터</button>
-
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	<script th:inline="javascript">
-
-		$(document).ready(function () {
-
-			/*[+ 				
-
-			var emojiUrl = [[@{/gallery/emoji}]];
-			var emojiaddUrl = [[@{/gallery/register}]];
-			var emojiRemoveUrl = [[@{gallery/remove}]];
-			var readUrl = [[@{/gallery/read}]];
-			var urlDisplay = [[@{/display}]];
-		    
-			+]*/
-
-			var targetGno = 0;
-			var uploadResult = $(".uploadResult");
-			var modalBody = $(".modal-body");
-
-
-
-			/* target의 gno / target의 imagepath 가져옴 / emoji 갯수 */
-			$(".galleryList").click(function () {
-				var targetGno = $(this).data("gno");
-				var targetFile = $(this).data("file");
-				console.log("targetGno: " + targetGno);
-				console.log("targetFile: " + targetFile);
-
-				$.getJSON(readUrl + "/" + targetGno, function (dto) {
-
-					console.log("getList..........dto " + JSON.stringify(dto));
-					var str = "";
-
-					str += `
-					
-					<input type="hidden" name = "gno" value="${targetGno}" class="inputGno" data-gno="${targetGno}">
-					<input type="hidden" name = "id" value="user1@icloud.com" class="inputId" data-id="${dto.id}">
-
-					<img style='width:100%' src="${urlDisplay}?fileName=${targetFile}">
-
-				 <div class=row>
-					 <div class="col-md-7"><h2>${dto.title}</h2></div>
-					 <div class="col-md-4"><h4>${dto.id}</h4></div>
-				 </div>
-
-				 <div id="emojiBox">
-				<input type="radio" id="1" value="1" name="emojitype" data-emojitype="${dto.emojicount[0]}" class="emoji">      
-				<label for="1" class="emojibtn">🥰</label>
-				<span>${dto.emojicount[0][1]}</span>
-				
-				<input type="radio" id="2" value="2" name="emojitype" data-emojitype="${dto.emojicount[1]}" class="emoji">      
-				<label for="2" class="emojibtn">😊</label>
-				<span>${dto.emojicount[1][1]}</span>
-			
-				<input type="radio" id="3" value="3" name="emojitype" data-emojitype="${dto.emojicount[2]}" class="emoji">       
-				<label for="3" class="emojibtn">😥</label>
-				<span>${dto.emojicount[2][1]}</span>
-	
-				<input type="radio" id="4" value="4" name="emojitype" data-emojitype="${dto.emojicount[3]}" class="emoji">      
-				<label for="4" class="emojibtn">😂</label>
-				<span>${dto.emojicount[3][1]}</span>
-				
-				<input type="radio" id="5" value="5" name="emojitype" data-emojitype="${dto.emojicount[4]}" class="emoji">      
-				<label for="5" class="emojibtn">😝</label>
-				<span>${dto.emojicount[4][1]}</span>
-				</div>
-				`;
-					modalBody.html(str);
-					// $("uploadResult").html(str);
-				})
-			});
-			
-			function emojiBoxReload(){
-					$("#myModal").modal("show");
+			input[name="emojitype"]:checked+label+span {
+				color: red;
 
 			}
-			//이모지 등록
-			$(document).on("click", ".emoji", function (event) {
-				var id = $(".inputId").val();
-				console.log("id:" + id);
-				var gno = $(".inputGno").val();
-				console.log("gno:" + gno);
-				var emojitype = $(".emoji:checked").val();
-				console.log("emojitype:" + emojitype);
+		</style>
 
-				var data = { id: id, gno: gno, emojitype: emojitype };
+		<h1>그림전</h1>
+		<ul style="list-style:none;padding-left:0px;">
+			<li style="margin-bottom:1%;" class="galleryList" th:each="dto : ${galleryDTOList}" th:data-gno="${dto.gno}"
+				th:data-file="${dto.getImageURL}" data-bs-toggle="modal" data-bs-target="#detailsModal">
+				<div style="border: 1px black solid;">
+					[[${dto.title}]]
+					<br><img style="cursor:pointer;" th:src="|@{'/display'}?fileName=${dto.getThumbnailURL()}|"
+						alt="이미지를 불러올 수 없습니다">
+					[[${dto.content}]]
+					<br>
+				</div>
+			</li>
+		</ul>
+		<button type="button" id="curatorBtn" data-bs-toggle="modal" data-bs-target="#curatorModal">큐레이터</button>
 
-				console.log(data);
-				$.ajax({
-					url: emojiaddUrl + "/" + gno,
-					method: "POST",
-					data: JSON.stringify(data),
-					contentType: "application/json; charset=utf-8",
-					dataType: "text",
-					success: function (result) {
-						location.reload();
-						emojiBoxReload();
-						console.log(result.message);
+		<script th:inline="javascript">
+			$(document).ready(function () {
+
+				/*[+
+					var readUrl = [[@{/gallery/read}]];
+					var emojiUrl = [[@{/gallery/emoji}]];
+					var emojiaddUrl = [[@{/gallery/register}]];
+					var urlDisplay = [[@{/display}]];
+			    
+				+]*/
+
+				var uploadResult = $(".uploadResult");
+				var detailsModalbody = $(".details-modal-body");
+				var showdetailsModal = function (targetGno, targetFile) {
+					$.getJSON(readUrl + "/" + targetGno, function (dto) {
+						// console.log("getList..........dto " + JSON.stringify(dto));
+						var str = "";
+						str += `
+							<input type="hidden" name = "gno" value="${targetGno}" class="inputGno" data-gno="${targetGno}">
+							<input type="hidden" name = "id" value="user1@icloud.com" class="inputId" data-id="${dto.id}">
+
+							<img style='width:100%' src="${urlDisplay}?fileName=${targetFile}">
+
+							<div class=row>
+								<div class="col-md-7"><h2>${dto.title}</h2></div>
+								<div class="col-md-4"><h4>${dto.id}</h4></div>
+							</div>
+
+							<div id="emojiBox">
+							<input type="radio" id="1" value="1" name="emojitype" data-emojitype="${dto.emojicount[0]}" class="emoji">      
+							<label for="1" class="emojibtn">🥰</label>
+							<span>${dto.emojicount[0][1]}</span>
+							
+							<input type="radio" id="2" value="2" name="emojitype" data-emojitype="${dto.emojicount[1]}" class="emoji">      
+							<label for="2" class="emojibtn">😊</label>
+							<span>${dto.emojicount[1][1]}</span>
+						
+							<input type="radio" id="3" value="3" name="emojitype" data-emojitype="${dto.emojicount[2]}" class="emoji">       
+							<label for="3" class="emojibtn">😥</label>
+							<span>${dto.emojicount[2][1]}</span>
+				
+							<input type="radio" id="4" value="4" name="emojitype" data-emojitype="${dto.emojicount[3]}" class="emoji">      
+							<label for="4" class="emojibtn">😂</label>
+							<span>${dto.emojicount[3][1]}</span>
+							
+							<input type="radio" id="5" value="5" name="emojitype" data-emojitype="${dto.emojicount[4]}" class="emoji">      
+							<label for="5" class="emojibtn">😝</label>
+							<span>${dto.emojicount[4][1]}</span>
+							</div>`;
+						detailsModalbody.html(str);
+					});
+				}
+
+				/* target의 gno / target의 imagepath 가져옴 / emoji 갯수 */
+				$(".galleryList").click(function () {
+					var targetGno = $(this).data("gno");
+					var targetFile = $(this).data("file");
+					showdetailsModal(targetGno, targetFile);
+				});
+
+				// 큐레이터 모달 제어
+				/*[+
+					var curatorUrl = [[@{/gallery/curator}]];
+					var displayUrl = [[@{/display}]];
+				+]*/
+
+				var searchResult = $(".md-serach-result");
+				var curatorBtn = $("#curatorBtn");
+				var searchBtn = $("#md-search-btn");
+				var searchForm = $("#modal-frm");
+				var keyword = $("input[name=keyword]");
+
+				searchBtn.on("click", function (e) {
+					getSearchList();
+				});
+
+				keyword.on("keydown", function (e) {
+					var keycode = e.keyCode;
+					if (keycode == "13") {
+						e.preventDefault();
+						getSearchList();
 					}
 				});
-			});
+
+				curatorBtn.on("click", function (e) {
+					console.log("curator button clicked");
+					e.preventDefault();
+					getCuratorList();
+				});
+
+				function getCuratorList() {
+					$.get(curatorUrl, function (result) {
+						var str = "";
+						$.each(result.dtoList, function (idx, dto) {
+							str += `<li class="search-result-Item" data-search-file="${dto.imageURL}" data-search-gno="${dto.gno}">
+										<div>
+											<p>
+												${dto.title}
+											</p>
+											<img src="${displayUrl}?fileName=${dto.thumbnailURL}">
+											${dto.content}
+										</div>
+									</li>`;
+						})
+						searchResult.html(str);
+					}).done(function () {
+						console.log("get success curator");
+					}).fail(function (response) {
+						console.log("get curator fial...");
+						console.log(response);
+					});
+				}
+
+				function getSearchList() {
+					$.ajax({
+						type: "GET",
+						url: curatorUrl,
+						data: searchForm.serialize(),
+						success: function (response) {
+							console.log("get curator saerch success");
+							var str = "";
+							$.each(response.dtoList, function (idx, dto) {
+								str += `<li class="search-result-Item " data-search-file="${dto.imageURL}" data-search-gno="${dto.gno}">
+											<div>
+												<p>
+													${dto.title}
+												</p>
+												<img src="${displayUrl}?fileName=${dto.thumbnailURL}">
+												${dto.content}
+											</div>
+										</li>`;
+							})
+							searchResult.html(str);
+						},
+						error: function () {
+							alert('Error');
+						}
+					});
+				}
+
+				function emojiBoxReload() {
+					$("#myModal").modal("show");
+
+				}
+				
+				//이모지 등록
+				$(document).on("click", ".emoji", function (event) {
+					var id = $(".inputId").val();
+					var gno = $(".inputGno").val();
+					var emojitype = $(".emoji:checked").val();
+					var data = { id: id, gno: gno, emojitype: emojitype };
+					
+					console.log("id:" + id);
+					console.log("gno:" + gno);
+					console.log("emojitype:" + emojitype);
+					console.log(data);
+					
+					$.ajax({
+						url: emojiaddUrl + "/" + gno,
+						method: "POST",
+						data: JSON.stringify(data),
+						contentType: "application/json; charset=utf-8",
+						dataType: "text",
+						success: function (result) {
+							// location.reload();
+							// emojiBoxReload();
+							self.location.reload();
+							console.log(result.message);
+						}
+					});
+				});
+
 				//이모지 삭제
 				$(document).on("click", ".emoji", function (event) {
 					var id = $(".inputId").val();
-					console.log("id:" + id);
 					var gno = $(".inputGno").val();
-					console.log("gno:" + gno);
 					var emojitype = $(".emoji:checked").val();
-					console.log("emojitype:" + emojitype);
-
-					var data = { eno : eno };
-
-					console.log(data);
+					var data = { eno: eno };
 					$.ajax({
 						url: emojiRemoveUrl + "/" + eno,
 						method: "DELETE",
@@ -159,157 +217,86 @@
 						contentType: "application/json; charset=utf-8",
 						dataType: "text",
 						success: function (result) {
-							self.location.reload();
-							// emojiBoxReload();
-							console.log(result.message);
+							alert(result.message);
+						}, error: function (request, status, error) {
+							console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
 						}
 					});
 
-			});
-		
-
-
-
-
-			// 큐레이터 모달 제어
-			/*[+
-				var curatorUrl = [[@{/gallery/curator}]];
-				var displayUrl = [[@{/display}]];
-			+]*/
-
-			var searchResult = $(".md-serach-result");
-			var curatorBtn = $("#curatorBtn");
-			var searchBtn = $("#md-search-btn");
-			var searchForm = $("#modal-frm");
-			var keyword = $("input[name=keyword]");
-
-			searchBtn.on("click", function(e) {
-				getSearchList();
-			});
-
-			keyword.on("keydown", function(e) {
-				var keycode = e.keyCode;
-				if(keycode == "13") {
-					e.preventDefault();
-					getSearchList();
-				}
-			});
-
-
-			curatorBtn.on("click", function (e) {
-				console.log("curator button clicked");
-				e.preventDefault();
-				getCuratorList();
-			});
-
-			function getCuratorList() {
-				$.get(curatorUrl, function (result) {
-					var str = "";
-					$.each(result.dtoList, function(idx, dto) {
-						str += `<li>
-								<div>${dto.gno}</div>
-								<img src="${displayUrl}?fileName=${dto.thumbnailURL}">	
-								<div>${dto.title}</div>
-							</li>`;
-					})
-					searchResult.html(str);
-				}).done(function () {
-					console.log("get success curator");
-				}).fail(function (response) {
-					console.log("get curator fial...");
-					console.log(response);
 				});
-			}
 
-			function getSearchList() {
-				$.ajax({
-					type: "GET",
-					url: curatorUrl,
-					data: searchForm.serialize(),
-					success: function (response) {
-						console.log("get curator saerch success");
-						var str = "";
-						$.each(response.dtoList, function (idx, dto) {
-							str += `<li>
-								<div>${dto.gno}</div>
-								<img src="${displayUrl}?fileName=${dto.thumbnailURL}">	
-								<div>${dto.title}</div>
-							</li>`;
-						})
-						searchResult.html(str);
-					},
-					error: function () {
-						alert('Error');
-					}
+				// 모달 창 내 search result 클릭 시 이동 제어
+				$(document).on("click", ".search-result-Item", function (e) {
+					var targetGno = $(this).closest("li").data("searchGno");
+					var targetFile = $(this).closest("li").data("searchFile");
+					$("#curatorModal").modal("hide");
+					$("#detailsModal").modal("show");
+					showdetailsModal(targetGno, targetFile);
 				});
-			}
-    	});
-	</script>
+			});
+		</script>
 
-<!-- 모달창 -->
-<div class="modal" tabindex="-1" id="Mymodal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">큐레이터</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="modal-frm" th:action="@{/gallery/curator}" method="get" >
-                    <select name="type">
-                        <option value="t" disabled selected>검색조건</option>
-                        <option value="t">작품명</option>
-                        <option value="c">내용</option>
-                        <option value="w">작가</option>
-                    </select>
-                    <input id="md-search-keyword" type="text" name="keyword" value="">
-                    <input id="md-search-btn" type="button" value="검색">
-                    <select name="sort">
-                        <option value="d" disabled selected>정렬조건</option>
-                        <option value="e">좋아요순</option>
-                        <option value="d">가나다순</option>
-                    </select>
-				</form>
-				<hr>
-				<div>
-					<ul class="md-serach-result">
-						
-					</ul>
-				</div>
-            </div>
-            <div class="modal-footer">
-                <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button> -->
-            </div>
-        </div>
-    </div>
-</div>
-
-
-	<!-- Details 모달창 -->
-	<div class="modal" tabindex="-1" id="myModal">
-		<div class="container">
-			<div class="modal-dialog modal-xl">
+		<!-- 큐레이터 모달창 -->
+		<div class="modal" tabindex="-1" id="curatorModal">
+			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title">작품 상세페이지</h5>
+						<h5 class="modal-title">큐레이터</h5>
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body">
-					</div>
-					<div class="modal-body2">
+						<form id="modal-frm" th:action="@{/gallery/curator}" method="get">
+							<select name="type">
+								<option value="t" disabled selected>검색조건</option>
+								<option value="t">작품명</option>
+								<option value="c">내용</option>
+								<option value="w">작가</option>
+							</select>
+							<input id="md-search-keyword" type="text" name="keyword" value="">
+							<input id="md-search-btn" type="button" value="검색">
+							<select name="sort">
+								<option value="d" disabled selected>정렬조건</option>
+								<option value="e">좋아요순</option>
+								<option value="d">가나다순</option>
+							</select>
+						</form>
+						<hr>
+						<div>
+							<ul class="md-serach-result">
+
+							</ul>
+						</div>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-						<button type="button" class="btn btn-primary">Save changes</button>
+						<!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+             		   <button type="button" class="btn btn-primary">Save changes</button> -->
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-
-
-</body>
-</html>
+		<!-- Details 모달창 -->
+		<div class="modal" tabindex="-1" id="detailsModal">
+			<div class="container">
+				<div class="modal-dialog modal-xl">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title">작품 상세페이지</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							<div class="details-modal-body">
+							</div>
+							<div class="detail-modal-body2">
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+							<button type="button" class="btn btn-primary">Save changes</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</th:block>
+</th:block>

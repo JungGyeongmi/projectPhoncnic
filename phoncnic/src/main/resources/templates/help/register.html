@@ -1,54 +1,49 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Help Register</title>
-</head>
-<body>
-    <h1>고객센터</h1>
-    <h3>문의 작성</h3>
-    <form th:action="@{/help/register}" th:method="post">
-        <div>
+<th:block th:replace="~{layout/basic :: setContent(~{::content})}">
+    <th:block th:fragment="content">
+        <h1>고객센터</h1>
+        <h3>문의 작성</h3>
+        <form th:action="@{/help/register}" th:method="post">
             <div>
-                <label>문의 종류</label> <br>
-                <select name="qtype" id="">
-                    <option value="type1">type1</option>
-                    <option value="type2">type2</option>
-                    <option value="type3">type3</option>
-                    <option value="type4">type4</option>
-                </select>
+                <div>
+                    <label>문의 종류</label> <br>
+                    <select name="qtype" id="">
+                        <option value="type1">type1</option>
+                        <option value="type2">type2</option>
+                        <option value="type3">type3</option>
+                        <option value="type4">type4</option>
+                    </select>
+                </div>
+                <div>
+                    <label>작성자</label> <br>
+                    <input type="text" name="writer">
+                </div>
+                <div>
+                    <label>제목</label> <br>
+                    <input type="text" name="title">
+                </div>
+                <div>
+                    <label>내용</label> <br>
+                    <textarea name="content" id="" cols="30" rows="10"></textarea>
+                </div>
+                <div>
+                    <label>비밀번호</label> <br>
+                    <input type="number" name="password" id="pwInput" oninput="pwLength(this,4)">
+                    <span>숫자 4자리를 입력해주세요</span>
+                </div> <br>
+                <button type="submit">등록</button>
+                <a th:href="@{/help/list}"><button type="button">목록</button></a>
             </div>
-            <div>
-                <label>작성자</label> <br>
-                <input type="text" name="writer">
-            </div>
-            <div>
-                <label>제목</label> <br>
-                <input type="text" name="title">
-            </div>
-            <div>
-                <label>내용</label> <br>
-                <textarea name="content" id="" cols="30" rows="10"></textarea>
-            </div>
-            <div>
-                <label>비밀번호</label> <br>
-                <input type="number" name="password" id="pwInput" oninput="pwLength(this,4)">
-                <span>숫자 4자리를 입력해주세요</span>
-            </div> <br>
-            <button type="submit">등록</button>
-            <a th:href="@{/help/list}"><button type="button">목록</button></a>
-        </div>
-    </form>
-</body>
-<script th:inline="javascript">
-    //글자수 제한
-    pwInput = document.getElementById("pwInput");
-    function pwLength(input, maxlength) {
-        if (pwInput.value > maxlength) {
-            input.value = input.value.substr(0,maxlength);
-        }
-    }
-</script>
-</html>
+        </form>
+        <script th:inline="javascript">
+            //글자수 제한
+            pwInput = document.getElementById("pwInput");
+            function pwLength(input, maxlength) {
+                if (pwInput.value > maxlength) {
+                    input.value = input.value.substr(0, maxlength);
+                }
+            }
+        </script>
+    </th:block>
+</th:block>

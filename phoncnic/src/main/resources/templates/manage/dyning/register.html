@@ -1,334 +1,316 @@
 <!DOCTYPE html>
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
-
+<th:block th:replace="~{layout/basic :: setContent(~{::content})}">
+  <th:block th:fragment="content">
     <h1>가게 등록</h1>
     <form th:action="@{/manage/dyning/register}" th:method="post" id="form">
       <label for="">id
-      <input type="text" name="id" value="user1@icloud.com">
-    </label><br><br>
-        <label for="">dyningname
-            <input type="text" name="dyningname" id="">
-        </label><br><br>
-        <label for="">comment
-            <input type="text" name="comment" id="">
-        </label><br><br>
-        <label for="">location
-            <input type="text" name="location" id=""><button type="button">우편찾기</button>
-        </label><br><br>
-        <label for="">tel
-            <input type="text" name="tel" id="">
-        </label><br><br>
-        <label for="">foodtype
-            <select name="foodtype" id="">
-                <option value="1">카페</option>
-                <option value="2">한식</option>
-                <option value="3">일식</option>
-                <option value="4">중식</option>
-                <option value="5">양식</option>
-            </select>
-        </label><br><br>
-        <label for="">businesshours
-            <input type="text" name="businesshours" id="">
-        </label><br><br>
-        <label for="">hashtag
-            <input type="text" name="hashtag" id="">
-        </label><br><br>
-        <label for="">menuimage (중복 선택 가능)
-            <div class="form-group menuimage">
-                <div class="custom-file">
-                  <input type="file" class="custom-file-input1 files form-control" id="fileInput1" multiple>
-                  <label data-browse="Browse"></label>
-                </div>
-              </div>
-              <div class="menubox">
-              </div>
-              <div class="menuuploadResult">
-                <ul>
-          
-                </ul>
-              </div>
-        </label><br><br>
-        <label for="">backgroundimage (1장 선택 가능)
-            <div class="form-group background">
-                <label>이미지 넣기</label>
-                <div class="custom-file">
-                  <input type="file" class="custom-file-input2 files form-control" id="fileInput2" multiple>
-                  <label data-browse="Browse"></label>
-                </div>
-              </div>
-              <div class="backgroundbox">
-              </div>
-              <div class="backgroundshowResult">
-                <ul>
-          
-                </ul>
-              </div>
-            
-        </label><br><br>
-        <label for="">roofdesign
-            <select name="oono" id="">
-                <option value="1">카페</option>
-                <option value="2">한식</option>
-                <option value="3">일식</option>
-                <option value="4">중식</option>
-                <option value="5">양식</option>
-            </select>
-        </label><br><br>
-        
-    </form>
+        <input type="text" name="id" value="user1@icloud.com">
+      </label><br><br>
+      <label for="">dyningname
+        <input type="text" name="dyningname" id="">
+      </label><br><br>
+      <label for="">comment
+        <input type="text" name="comment" id="">
+      </label><br><br>
+      <label for="">location
+        <input type="text" name="location" id=""><button type="button">우편찾기</button>
+      </label><br><br>
+      <label for="">tel
+        <input type="text" name="tel" id="">
+      </label><br><br>
+      <label for="">foodtype
+        <select name="foodtype" id="">
+          <option value="1">카페</option>
+          <option value="2">한식</option>
+          <option value="3">일식</option>
+          <option value="4">중식</option>
+          <option value="5">양식</option>
+        </select>
+      </label><br><br>
+      <label for="">businesshours
+        <input type="text" name="businesshours" id="">
+      </label><br><br>
+      <label for="">hashtag
+        <input type="text" name="hashtag" id="">
+      </label><br><br>
+      <label for="">menuimage (중복 선택 가능)
+        <div class="form-group menuimage">
+          <div class="custom-file">
+            <input type="file" class="custom-file-input1 files form-control" id="fileInput1" multiple>
+            <label data-browse="Browse"></label>
+          </div>
+        </div>
+        <div class="menubox">
+        </div>
+        <div class="menuuploadResult">
+          <ul>
 
+          </ul>
+        </div>
+      </label><br><br>
+      <label for="">backgroundimage (1장 선택 가능)
+        <div class="form-group background">
+          <label>이미지 넣기</label>
+          <div class="custom-file">
+            <input type="file" class="custom-file-input2 files form-control" id="fileInput2" multiple>
+            <label data-browse="Browse"></label>
+          </div>
+        </div>
+        <div class="backgroundbox">
+        </div>
+        <div class="backgroundshowResult">
+          <ul>
+
+          </ul>
+        </div>
+
+      </label><br><br>
+      <label for="">roofdesign
+        <select name="oono" id="">
+          <option value="1">카페</option>
+          <option value="2">한식</option>
+          <option value="3">일식</option>
+          <option value="4">중식</option>
+          <option value="5">양식</option>
+        </select>
+      </label><br><br>
+
+    </form>
     <button type="button" class="btn-submit">등록하기</button>
 
-      <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-      <script th:inline="javascript">
-       
-       $(document).ready(function (e) {
-         //  upload url 선언 및 초기화
-         /*[+
-           var urlUpload = [[@{/uploadAjax/}]];
-         +]*/0
-   
-         // 입력 파일 형식 및 크기 제한 : 여기서는 jpg만 받음
-         // 이걸 함수에서만 쓰는거면 지역변수로 넣는게 좋은듯
-         var regex = new RegExp("(.*?)\.(exe|sh|zip|alz|tiff|txt)$");
-         var maxSize = 10485760;
-   
-         // 이미지 파일 유효성 검사를 위한 함수 fileName과 fileSize를 파라미터로 받음
-         function checkExtension(fileName, fileSize) {
-           // 사이즈 유효성 검사
-           if (fileSize >= maxSize) {
-             alert("파일사이즈 초과");
-             return false;
-           }
-           // 파일 이름으로 유효성 검사 
-           // regex에 .이 포함되어있으니까 +1을 안해줘도 돼
-           if (regex.test(fileName.substring(fileName.lastIndexOf(".")))) {
-             // alert("해당파일은 업로드 될 수 없습니다!");
-             return false;
-           }
-   
-           return true;
-         }
-   
-         // 해당 클래스에 변화가 있을 때 동작하는 이벤트
-         $(".custom-file-input1").on("change", function () {
-   
-           // this 즉 이벤트 타겟의 값을 불러와서 기준값에 따라서 배열로 나누고 배열에서 마지막 요소를 제거하고 그 요소를 반환(pop메소드)
-           var fileName = $(this).val().split("/").pop();
-   
-           // 테스트용 콘솔
-           console.log("fileName >> "+fileName);
-           console.log("확장자 인덱스 >> "+fileName.lastIndexOf("."));
-           console.log("확장자 >> "+ fileName.substring(fileName.lastIndexOf(".")+1));
-           
-           // 해당 클래스에 selected라는 클래스를 추가함
-           $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
-           
-           var formData = new FormData(); //Form태그에 동적으로 데이터할당
-           var inputFile = $(this); // 이벤트 대상
-           var files = inputFile[0].files; // 해당 파일 객체
-           var appended = false; // 추가가 정상적으로 이루어졌는지 확인하기 위한 boolean 변수
-           
-           for (let i = 0; i < files.length; i++) {
-             if (!checkExtension(files[i].name, files[i].size)) {
-               // 여기서 유효성 검사 통과하지 못하면 파일선택에 들어가있는 값 털어버리는 것 추가 필요 서치 더 해보기
-               return false;
-             }
-             console.log(files[i]);
-             formData.append("uploadFiles", files[i]); // if문을 통과하는경우에 Form태그에 데이터를 append시킴
-             appended = true; // 제대로 추가돼었다는것을 알리기위해서 true값 재할당
-           }
-   
-   
-           if (!appended) { return; } // 어펜드가 제대로 되지 않은 경우에 리턴하는데 위에서 return false로 함수 나가게 했으니까 필요없지 않나?
-           
-           // value라는 변수에 formData의 값들을 하나씩 넣음 forEach내지 향포 개념임 for of 반복문
-           for(var value of formData.values()) console.log("formData >> "+value);
-   
-           // 파일 업로드를 위한 ajax
-           $.ajax({
-             url: urlUpload, // 스크림트 도입부에 url 올려둠
-             processData: false,
-             contentType: false,
-             data: formData,
-             type: 'POST',
-             dataType: 'json',
-             success: function (result) {
-               console.log(result);
-               menushowResult(result);
-             },
-             error: function (jqXHR, textStatus, errorThrown) { // 이 부분 잘 이해 안됐음
-               console.log(textStatus);
-             }
-           });
-         });
+    <script th:inline="javascript">
 
-         $(".custom-file-input2").on("change", function () {
-   
-   // this 즉 이벤트 타겟의 값을 불러와서 기준값에 따라서 배열로 나누고 배열에서 마지막 요소를 제거하고 그 요소를 반환(pop메소드)
-   var fileName = $(this).val().split("/").pop();
+      $(document).ready(function (e) {
+        //  upload url 선언 및 초기화
+        /*[+
+          var urlUpload = [[@{/uploadAjax/}]];
+        +]*/
 
-   // 테스트용 콘솔
-   console.log("fileName >> "+fileName);
-   console.log("확장자 인덱스 >> "+fileName.lastIndexOf("."));
-   console.log("확장자 >> "+ fileName.substring(fileName.lastIndexOf(".")+1));
-   
-   // 해당 클래스에 selected라는 클래스를 추가함
-   $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
-   
-   var formData = new FormData(); //Form태그에 동적으로 데이터할당
-   var inputFile = $(this); // 이벤트 대상
-   var files = inputFile[0].files; // 해당 파일 객체
-   var appended = false; // 추가가 정상적으로 이루어졌는지 확인하기 위한 boolean 변수
-   
-   for (let i = 0; i < files.length; i++) {
-     if (!checkExtension(files[i].name, files[i].size)) {
-       // 여기서 유효성 검사 통과하지 못하면 파일선택에 들어가있는 값 털어버리는 것 추가 필요 서치 더 해보기
-       return false;
-     }
-     console.log(files[i]);
-     formData.append("uploadFiles", files[i]); // if문을 통과하는경우에 Form태그에 데이터를 append시킴
-     appended = true; // 제대로 추가돼었다는것을 알리기위해서 true값 재할당
-   }
+        var regex = new RegExp("(.*?)\.(exe|sh|zip|alz|tiff|txt)$");
+        var maxSize = 10485760;
+
+        // 이미지 파일 유효성 검사를 위한 함수 fileName과 fileSize를 파라미터로 받음
+        function checkExtension(fileName, fileSize) {
+          // 사이즈 유효성 검사
+          if (fileSize >= maxSize) {
+            alert("파일사이즈 초과");
+            return false;
+          }
+          // 파일 이름으로 유효성 검사 
+          if (regex.test(fileName.substring(fileName.lastIndexOf(".")))) {
+            return false;
+          }
+
+          return true;
+        }
+
+        // 해당 클래스에 변화가 있을 때 동작하는 이벤트
+        $(".custom-file-input1").on("change", function () {
+
+          var fileName = $(this).val().split("/").pop();
+
+          $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+
+          var formData = new FormData();
+          var inputFile = $(this);
+          var files = inputFile[0].files;
+          var appended = false;
+
+          for (let i = 0; i < files.length; i++) {
+            if (!checkExtension(files[i].name, files[i].size)) {
+              return false;
+            }
+            console.log(files[i]);
+            formData.append("uploadFiles", files[i]);
+            appended = true;
+          }
 
 
-   if (!appended) { return; } // 어펜드가 제대로 되지 않은 경우에 리턴하는데 위에서 return false로 함수 나가게 했으니까 필요없지 않나?
-   
-   // value라는 변수에 formData의 값들을 하나씩 넣음 forEach내지 향포 개념임 for of 반복문
-   for(var value of formData.values()) console.log("formData >> "+value);
+          if (!appended) { return; }
 
-   // 파일 업로드를 위한 ajax
-   $.ajax({
-     url: urlUpload, // 스크림트 도입부에 url 올려둠
-     processData: false,
-     contentType: false,
-     data: formData,
-     type: 'POST',
-     dataType: 'json',
-     success: function (result) {
-       console.log(result);
-       backgroundshowResult(result);
-     },
-     error: function (jqXHR, textStatus, errorThrown) { // 이 부분 잘 이해 안됐음
-       console.log(textStatus);
-     }
-   });
- });
-     
-         // showResult 함수 선언
-         function menushowResult(uploadResultArr){
-           var uploadUL=$(".menuuploadResult ul");
-           var str = "";
-           /*[+
-           var urlDisplay=[[@{/display}]];
-           +]*/
-           $(uploadResultArr).each(function(i, obj){
-             // test출력
-             // console.log("uploadResultArr obj >> ");
-             // console.log(obj);
-             str+= `<li data-name='${obj.fileName}' data-path='${obj.folderPath}'><div>`;
-             str+= `<button type='button' data-file='${obj.imageURL}\' class='btn-warning btn-sm'>X</button><br>`;
-             str+= `<img src='${urlDisplay}?fileName=${obj.thumbnailURL}'></div></li>`;
-           });
-           uploadUL.append(str); // ul에 전달쓰
-         }
-         
-      
 
-       function backgroundshowResult(uploadResultArr){
-           var uploadUL=$(".backgroundshowResult ul");
-           var str = "";
-           /*[+
-           var urlDisplay=[[@{/display}]];
-           +]*/
-           $(uploadResultArr).each(function(i, obj){
-             // test출력
-             // console.log("uploadResultArr obj >> ");
-             // console.log(obj);
-             str+= `<li data-name='${obj.fileName}' data-path='${obj.folderPath}'><div>`;
-             str+= `<button type='button' data-file='${obj.imageURL}\' class='btn-warning btn-sm'>X</button><br>`;
-             str+= `<img src='${urlDisplay}?fileName=${obj.thumbnailURL}'></div></li>`;
-           });
-           uploadUL.append(str); // ul에 전달쓰
-         }
+          for (var value of formData.values()) console.log("formData >> " + value);
+
+          // 파일 업로드를 위한 ajax
+          $.ajax({
+            url: urlUpload,
+            processData: false,
+            contentType: false,
+            data: formData,
+            type: 'POST',
+            dataType: 'json',
+            success: function (result) {
+              console.log(result);
+              menushowResult(result);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+              console.log(textStatus);
+            }
+          });
         });
-       
-   
-       // submit 버튼
-       $(".btn-submit").on("click", function (e) {
-         e.preventDefault(); // 기본 이벤트 submit을 막음
-         // 빈 문자열
-         var str = "";
-         var str2 = "";
-         $(".menuuploadResult li").each(function (i, obj) {
-           // each로 i idx값과 obj value값을 받아옴
-           var target = $(obj);
-           str += `<input type='hidden' name='dyningImageDTOList[${i}].menuimagename' value='${target.data('name')}'>`;
-           str += `<input type='hidden' name='dyningImageDTOList[${i}].menuimagepath' value='${target.data('path')}'>`;
-         });
-         
 
-         $(".backgroundshowResult li").each(function (i, obj) {
-           // each로 i idx값과 obj value값을 받아옴
-           var target = $(obj);
-           str2 += `<input type='hidden' name='dyningImageDTOList[${i}].backgroundname' value='${target.data('name')}'>`;
-           str2 += `<input type='hidden' name='dyningImageDTOList[${i}].backgroundpath' value='${target.data('path')}'>`;
-         });
-   
-         $(".menubox").html(str); // 데이터 전달을 위해서
-         $(".backgroundbox").html(str2); // 데이터 전달을 위해서
+        $(".custom-file-input2").on("change", function () {
 
-         $("form").submit(); // 전송쓰
-         
+          var fileName = $(this).val().split("/").pop();
+
+          // 테스트용 콘솔
+          console.log("fileName >> " + fileName);
+          console.log("확장자 인덱스 >> " + fileName.lastIndexOf("."));
+          console.log("확장자 >> " + fileName.substring(fileName.lastIndexOf(".") + 1));
+
+
+          $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+
+          var formData = new FormData();
+          var inputFile = $(this);
+          var files = inputFile[0].files;
+          var appended = false;
+
+          for (let i = 0; i < files.length; i++) {
+            if (!checkExtension(files[i].name, files[i].size)) {
+              return false;
+            }
+            console.log(files[i]);
+            formData.append("uploadFiles", files[i]);
+            appended = true;
+          }
+
+
+          if (!appended) { return; }
+
+          for (var value of formData.values()) console.log("formData >> " + value);
+
+          // 파일 업로드를 위한 ajax
+          $.ajax({
+            url: urlUpload,
+            processData: false,
+            contentType: false,
+            data: formData,
+            type: 'POST',
+            dataType: 'json',
+            success: function (result) {
+              console.log(result);
+              backgroundshowResult(result);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+              console.log(textStatus);
+            }
+          });
+        });
+
+        // showResult 함수 선언
+        function menushowResult(uploadResultArr) {
+          var uploadUL = $(".menuuploadResult ul");
+          var str = "";
+          /*[+
+          var urlDisplay=[[@{/display}]];
+          +]*/
+          $(uploadResultArr).each(function (i, obj) {
+            str += `<li data-name='${obj.fileName}' data-path='${obj.folderPath}'><div>`;
+            str += `<button type='button' data-file='${obj.imageURL}\' class='btn-warning btn-sm'>X</button><br>`;
+            str += `<img src='${urlDisplay}?fileName=${obj.thumbnailURL}'></div></li>`;
+          });
+          uploadUL.append(str); // ul에 전달쓰
+        }
+
+
+
+        function backgroundshowResult(uploadResultArr) {
+          var uploadUL = $(".backgroundshowResult ul");
+          var str = "";
+          /*[+
+          var urlDisplay=[[@{/display}]];
+          +]*/
+          $(uploadResultArr).each(function (i, obj) {
+            // test출력
+            // console.log("uploadResultArr obj >> ");
+            // console.log(obj);
+            str += `<li data-name='${obj.fileName}' data-path='${obj.folderPath}'><div>`;
+            str += `<button type='button' data-file='${obj.imageURL}\' class='btn-warning btn-sm'>X</button><br>`;
+            str += `<img src='${urlDisplay}?fileName=${obj.thumbnailURL}'></div></li>`;
+          });
+          uploadUL.append(str); // ul에 전달쓰
+        }
+      });
+
+
+      // submit 버튼
+      $(".btn-submit").on("click", function (e) {
+        e.preventDefault(); // 기본 이벤트 submit을 막음
+        // 빈 문자열
+        var str = "";
+        var str2 = "";
+        $(".menuuploadResult li").each(function (i, obj) {
+          // each로 i idx값과 obj value값을 받아옴
+          var target = $(obj);
+          str += `<input type='hidden' name='dyningImageDTOList[${i}].menuimagename' value='${target.data('name')}'>`;
+          str += `<input type='hidden' name='dyningImageDTOList[${i}].menuimagepath' value='${target.data('path')}'>`;
+        });
+
+
+        $(".backgroundshowResult li").each(function (i, obj) {
+          // each로 i idx값과 obj value값을 받아옴
+          var target = $(obj);
+          str2 += `<input type='hidden' name='dyningImageDTOList[${i}].backgroundname' value='${target.data('name')}'>`;
+          str2 += `<input type='hidden' name='dyningImageDTOList[${i}].backgroundpath' value='${target.data('path')}'>`;
+        });
+
+        $(".menubox").html(str); // 데이터 전달을 위해서
+        $(".backgroundbox").html(str2); // 데이터 전달을 위해서
+
+        $("form").submit(); // 전송쓰
+
         //  var form = $("#form").html();
         //  console.log(form);
-       });
-   
-       // 사진 삭제
-       // uploadResult 태그를 click 하는 경우에 li의 button에 이벤트를 적용하겠다라는 의미임
-       $(".menuuploadResult ").on("click","li button",function(e){
-           console.log("delete file...");
-           
-           var targetFile = $(this).data("file");
-           var targetLi = $(this).closest("li");
-   
-           /*[+
-             var urlRemove = [[@{/removeFile}]];
-           +]*/
-   
-           $.ajax({
-             url: urlRemove,
-             data: {fileName:targetFile},
-             dataType: 'text',
-             type: 'POST',
-             success: function(result){
-               alert(result?"Deleted!":"Error");
-               targetLi.remove();
-             }
-           });
-         });
+      });
 
-         $(".backgroundshowResult").on("click","li button",function(e){
-           console.log("delete file...");
-           
-           var targetFile = $(this).data("file");
-           var targetLi = $(this).closest("li");
-   
-           /*[+
-             var urlRemove = [[@{/removeFile}]];
-           +]*/
-   
-           $.ajax({
-             url: urlRemove,
-             data: {fileName:targetFile},
-             dataType: 'text',
-             type: 'POST',
-             success: function(result){
-               alert(result?"Deleted!":"Error");
-               targetLi.remove();
-             }
-           });
-         });
-     </script>
+      // 사진 삭제
+      // uploadResult 태그를 click 하는 경우에 li의 button에 이벤트를 적용하겠다라는 의미임
+      $(".menuuploadResult ").on("click", "li button", function (e) {
+        console.log("delete file...");
 
-</html>
+        var targetFile = $(this).data("file");
+        var targetLi = $(this).closest("li");
+
+        /*[+
+          var urlRemove = [[@{/removeFile}]];
+        +]*/
+
+        $.ajax({
+          url: urlRemove,
+          data: { fileName: targetFile },
+          dataType: 'text',
+          type: 'POST',
+          success: function (result) {
+            alert(result ? "Deleted!" : "Error");
+            targetLi.remove();
+          }
+        });
+      });
+
+      $(".backgroundshowResult").on("click", "li button", function (e) {
+        console.log("delete file...");
+
+        var targetFile = $(this).data("file");
+        var targetLi = $(this).closest("li");
+
+        /*[+
+          var urlRemove = [[@{/removeFile}]];
+        +]*/
+
+        $.ajax({
+          url: urlRemove,
+          data: { fileName: targetFile },
+          dataType: 'text',
+          type: 'POST',
+          success: function (result) {
+            alert(result ? "Deleted!" : "Error");
+            targetLi.remove();
+          }
+        });
+      });
+    </script>
+
+  </th:block>
+</th:block>
