@@ -47,7 +47,26 @@
 
         </tr>
     </table>
-   
+    <button type="button" id="location">지도 Api</button>
+    <style>
+        #map {
+            width: 100%;
+            height: 400px;
+            background-color: grey;
+        }
+    </style>
+    <!-- GoogleMap API 연동 -->
+    <h3>가게 위치</h3>
+    <div id="map">
+        <iframe height="450"
+        style="border: 0ch;"
+        allowfullscreen        
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyChX8cJ6bEy6MWOp4-uK-KeT1m3T-9sR4M&callback=initMap&q=-33.8569,151.2152&region=KR&language=ko"
+        >
+        </iframe>
+    </div> <!-- 지도가 붙을 위치 -->
+
+
     <form action="">
         <input type="hidden" name="id" value="user1@icloud.com"  readonly>
         <input type="hidden" name="dno" th:value="${result.dno}">
@@ -85,7 +104,19 @@
 
 </body>
 <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+// 아래는 서버로부터 지도를 로딩하기 위해 요청하는 경로 async는 비동기로 로딩하도록해 지도 로딩 중 다른 웹 부분들이 열릴 수 있도록하기 위함
+//  key부분에는 자신의 키를 넣고, 로딩이 완료되면 callback에 지정한 함수를 수행하게 됨.
+
+
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyChX8cJ6bEy6MWOp4-uK-KeT1m3T-9sR4M&callback=initMap&q=부산광역시 부산진구 KR 부산광역시 부산진구 동성직업전문학교 A1프라자 6층&region=KR&language=ko">
+
+        </script>
+
+<!-- End of GoogleMap API 연동(황영롱) -->
 <script>
+
+
+
 
 $("#emojisave").click(function () {
     var id = $("input[name='id']").val();
