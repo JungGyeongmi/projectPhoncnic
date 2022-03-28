@@ -18,8 +18,6 @@ public class FollowRepositoryTests {
     FollowRepository followRepository;
 
     // follow 테이블 삭제 -> Artist&Dyning 더미 돌리기
-    // !!!!!!!!
-    // !!!!!!!!
     // artist 팔로우 더미
     @Test
     public void insertArtistFollowDummies() {
@@ -37,11 +35,10 @@ public class FollowRepositoryTests {
                 }
             }
 
-            int ran = (int) (Math.random() * 10) + 1;
             for (int j = 0; j < (int) (Math.random() * 5) + 1; j++) {
                 Follow follow = Follow.builder()
                         .follower(Member.builder().id("user" + randmember.get(j) + "@icloud.com").build())
-                        .artistname("user" + ran)
+                        .artistname("user" + i)
                         .build();
 
                 followRepository.save(follow);
@@ -67,11 +64,10 @@ public class FollowRepositoryTests {
                 }
             }
 
-            int ran = (int) (Math.random() * 10) + 1;
             for (int j = 0; j < (int) (Math.random() * 5) + 1; j++) {
                 Follow follow = Follow.builder()
                         .follower(Member.builder().id("user" + randmember.get(j) + "@icloud.com").build())
-                        .dyningname("가게이름" + ran)
+                        .dyningname("가게이름" + i)
                         .build();
 
                 followRepository.save(follow);

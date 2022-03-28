@@ -25,7 +25,11 @@
                 <button>토글</button>
             </div>
             <div>
-                <input type="text" placeholder="메뉴명 / 가게명">
+                <select name="" id="">
+                    <option value="">가게명</option>
+                    <option value="">해쉬태그</option>
+                </select>
+                <input type="text">
                 <button>검색</button>
             </div>
             <div>
@@ -48,6 +52,32 @@
             <td id="roofpath">[[${dto.roofpath}]]</td>
         </tr>
     </table>
+
+    <script>
+        $(function () {
+            //사이드메뉴 온오프
+            $('.btn-menu').on('click', function () {
+                $('.side-menu').show();
+                $('body').addClass('lock');
+            });
+            $('.side-menu-wrap').on('click', function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                if ($(this).parent().hasClass('side-menu')) {
+                    if (e.target.className == 'side-menu-wrap') {
+                        $(this).parent().hide();
+                        $('body').removeClass('lock');
+                    }
+                }
+            });
+
+            //snb 메뉴 클릭
+            $('.snb ul li').on('click', function () {
+                $(this).toggleClass('on');
+            });
+        });
+
+    </script>
 
 </body>
 

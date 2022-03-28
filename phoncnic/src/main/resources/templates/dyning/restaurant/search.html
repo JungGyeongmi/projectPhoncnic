@@ -7,46 +7,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>restaurant search</title>
 
-<div class="input-group">
-    <input type="hidden" name="page" value="1">
-    <div class="input-group-prepend">
-        <select class="form-select" name="type">
-            <option value="n" th:selected="${pageRequestDTO.type == 'n'}">가게 이름</option>
-            <option value="h" th:selected="${pageRequestDTO.type == 'h'}">해쉬태그</option>
-        </select>
-    </div>
+    <form>
+        <div class="input-group">
+            <input type="hidden" name="page" value="1">
+            <div class="input-group-prepend">
+                <select class="form-select" name="type">
+                    <option value="n" th:selected="${pageRequestDTO.type == 'n'}">가게 이름</option>
+                    <option value="h" th:selected="${pageRequestDTO.type == 'h'}">해쉬태그</option>
+                </select>
+            </div>
 
-    <input id="srch" class="form-control" name="keyword" th:value="${pageRequestDTO.keyword}">
-    <div class="input-group-append" id="button-addon4">
-        <button class="btn btn-outline-secondary searchBtn" type="button">
-            Search
-        </button>
-    </div>
-</div>
-</form>
+            <input id="srch" class="form-control" name="keyword" th:value="${pageRequestDTO.keyword}">
+            <div class="input-group-append" id="button-addon4">
+                <button class="btn btn-outline-secondary searchBtn" type="button">
+                    Search
+                </button>
+            </div>
+        </div>
+    </form>
 
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th scrope="col">dno</th>
-            <th scrope="col">가게 이름</th>
-            <th scrope="col">해쉬태그</th>
-        </tr>
-    </thead>
-    <style>
-        .tr-list {
-            cursor: pointer
-        }
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scrope="col">dno</th>
+                <th scrope="col">가게 이름</th>
+                <th scrope="col">해쉬태그</th>
+            </tr>
+        </thead>
+        <style>
+            .tr-list {
+                cursor: pointer
+            }
 
-        .tr-list:hover {
-            background-color: #d6e7ff;
-        }
-    </style>
-    <tbody>
+            .tr-list:hover {
+                background-color: #d6e7ff;
+            }
+        </style>
+        <tbody>
 
-        </tr>
-    </tbody>
-</table>
+            <tr th:each="dto:${result.dtoList}" class="tr-list" th:onclick="'location.href=\''+ @{/dyning/details(dno=${dto.dno},
+        page=${result.page},
+        type=${pageRequestDTO.type},
+        keyword=${pageRequestDTO.keyword})} + '\''">
+                <td>[[${dto.dno}]]</td>
+                <td>[[${dto.dyningname}]]</td>
+                <td>[[${dto.hashtag}]]</td>
+            </tr>
+        </tbody>
+    </table>
 
-</ul>
+    </ul>
