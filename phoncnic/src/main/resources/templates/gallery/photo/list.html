@@ -13,7 +13,6 @@
 
 			input[name="emojitype"]:checked+label+span {
 				color: red;
-
 			}
 		</style>
 
@@ -31,7 +30,7 @@
 			</li>
 		</ul>
 		<button type="button" id="curatorBtn" data-bs-toggle="modal" data-bs-target="#curatorModal">큐레이터</button>
-
+		<button type="button" class="testBtn">test</button>
 		<script th:inline="javascript">
 			$(document).ready(function () {
 
@@ -39,6 +38,7 @@
 					var readUrl = [[@{/gallery/read}]];
 					var emojiUrl = [[@{/gallery/emoji}]];
 					var emojiaddUrl = [[@{/gallery/register}]];
+					var emojiRecountUrl = [[@{/gallery/recount}]];
 					var urlDisplay = [[@{/display}]];
 			    
 				+]*/
@@ -90,6 +90,7 @@
 					var targetGno = $(this).data("gno");
 					var targetFile = $(this).data("file");
 					showdetailsModal(targetGno, targetFile);
+					recCount();
 				});
 
 				// 큐레이터 모달 제어
@@ -177,54 +178,41 @@
 
 				}
 				
+				// 추천 수 업데이트
+				function recCount() {
+					var gno = $(".inputGno").val();
+					$.ajax({
+						url: emojiRecountUrl + "/" + gno,
+						type: "POST",
+						data: {
+							no: gno
+						},
+						success: function (count) {
+							alert(count);
+						}
+					});
+				}
+
 				//이모지 등록
 				$(document).on("click", ".emoji", function (event) {
 					var id = $(".inputId").val();
 					var gno = $(".inputGno").val();
 					var emojitype = $(".emoji:checked").val();
 					var data = { id: id, gno: gno, emojitype: emojitype };
-					
-					console.log("id:" + id);
-					console.log("gno:" + gno);
-					console.log("emojitype:" + emojitype);
+					console.log("post emoji add ...");
 					console.log(data);
-					
 					$.ajax({
 						url: emojiaddUrl + "/" + gno,
 						method: "POST",
 						data: JSON.stringify(data),
 						contentType: "application/json; charset=utf-8",
 						dataType: "text",
-						success: function (result) {
-							// location.reload();
-							// emojiBoxReload();
-							self.location.reload();
-							console.log(result.message);
+						success: function (response) {
+							alert("등록된 이모지 번호 "+response);
 						}
 					});
 				});
-
-				//이모지 삭제
-				$(document).on("click", ".emoji", function (event) {
-					var id = $(".inputId").val();
-					var gno = $(".inputGno").val();
-					var emojitype = $(".emoji:checked").val();
-					var data = { eno: eno };
-					$.ajax({
-						url: emojiRemoveUrl + "/" + eno,
-						method: "DELETE",
-						data: JSON.stringify(data),
-						contentType: "application/json; charset=utf-8",
-						dataType: "text",
-						success: function (result) {
-							alert(result.message);
-						}, error: function (request, status, error) {
-							console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
-						}
-					});
-
-				});
-
+				
 				// 모달 창 내 search result 클릭 시 이동 제어
 				$(document).on("click", ".search-result-Item", function (e) {
 					var targetGno = $(this).closest("li").data("searchGno");
