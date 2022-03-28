@@ -16,7 +16,8 @@ import lombok.extern.log4j.Log4j2;
 @Service
 @RequiredArgsConstructor
 @Log4j2
-public class CharacterLookServiceImpl implements CharacterLookService{
+public class CharacterLookServiceImpl implements CharacterLookService {
+
     @Autowired
     private CharacterLookInfoRepository repository;
     @Autowired
@@ -33,17 +34,15 @@ public class CharacterLookServiceImpl implements CharacterLookService{
         CharacterLookInfo characterLookinfo = repository.getClothes(id);
         return entityToDTO(characterLookinfo);
     }
+    
     @Override
     public void modify(CharacterLookDTO dto,String id) {
-         //findById는 바로 로딩을 해주고, getOne은 필요한 순간까지 로딩을 지연함
-         Optional<CharacterLook> result = characterLookRepository.getLnoById(id);
-
-      if(result.isPresent()){
-        CharacterLook characterLook = result.get();
-        characterLook.changeHairname(dto.getHairname());
-        characterLook.changeClothesname(dto.getClothesname());
-        
-        characterLookRepository.save(characterLook);
+        Optional<CharacterLook> result = characterLookRepository.getLnoById(id);
+        if(result.isPresent()){
+            CharacterLook characterLook = result.get();
+            characterLook.changeHairname(dto.getHairname());
+            characterLook.changeClothesname(dto.getClothesname());
+            characterLookRepository.save(characterLook);
+        }
     }
-}
 }

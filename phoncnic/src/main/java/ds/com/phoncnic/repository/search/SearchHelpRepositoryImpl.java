@@ -18,48 +18,37 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
-import ds.com.phoncnic.entity.Gallery;
-import ds.com.phoncnic.entity.QGallery;
+import ds.com.phoncnic.entity.Help;
+import ds.com.phoncnic.entity.QHelp;
 import ds.com.phoncnic.entity.QMember;
 import lombok.extern.log4j.Log4j2;
+
+
 @Log4j2
-public class SearchGalleryRepositoryImpl 
+public class SearchHelpRepositoryImpl 
     extends QuerydslRepositorySupport
-    implements SearchGalleryRepository {
+    implements SearchHelpRepository {
 
-
-    /*
-      JpaRepository의 부족한 부분은 바로 각 항목에 대한 
-      max, min 값을 구하는 Predicate query와 
-      다양한 update,delete를 하는 query들을 만들어주는 것이 불가능
-      그래서 QuerydslRepositorySupport을 사용
-    */
-
-  public SearchGalleryRepositoryImpl() {
-    super(Gallery.class);
+  public SearchHelpRepositoryImpl() {
+    super(Help.class);
   }
 
   @Override
-  public Gallery search1() {
+  public Help search1() {
     log.info("serch1...........");
-    // 1. 사용하고자 하는 Q도메인을 선언
-    QGallery gallery = QGallery.gallery;
+    QHelp help = QHelp.help;
     QMember member = QMember.member;
-
-    // 2. JPQLQuery을 이용해서 서로 연관(조인) 시킴
-    JPQLQuery<Gallery> jpqlQuery = from(gallery);
-    jpqlQuery.leftJoin(member).on(gallery.artistid.eq(member));
-
-    // 3. 쿼리 대상(내용)을 정한다. Tuple은 Object[]과 같은 기능
+    JPQLQuery<Help> jpqlQuery = from(help);
+    jpqlQuery.leftJoin(member).on(help.writer.eq(member));
     JPQLQuery<Tuple> tuple = jpqlQuery.select(
-        gallery, member.id);
-    tuple.groupBy(gallery);
+      help, member.id);
+    tuple.groupBy(help);
 
     log.info("----------------------------");
     log.info(tuple);
     log.info("----------------------------");
 
-    List<Gallery> result = jpqlQuery.fetch();
+    List<Help> result = jpqlQuery.fetch();
     log.info(result);
     return null;
   }
@@ -67,21 +56,17 @@ public class SearchGalleryRepositoryImpl
   @Override
   public Page<Object[]> searchPage(String type, String keyword, Pageable pageable) {
     log.info("searchPage.....");
-    // 1. 사용하고자 하는 Q도메인을 선언(동적쿼리 호출을 위해 선언)
-    QGallery gallery = QGallery.gallery;
+    QHelp help = QHelp.help;
     QMember member = QMember.member;
 
-    // 2. JPQLQuery을 이용해서 서로 연관(조인) 시킴
-    JPQLQuery<Gallery> jpqlQuery = from(gallery);
-    jpqlQuery.leftJoin(member).on(gallery.artistid.eq(member));
+    JPQLQuery<Help> jpqlQuery = from(help);
+    jpqlQuery.leftJoin(member).on(help.writer.eq(member));
 
-    // 3. 쿼리 대상(내용)을 정한다. Tuple은 Object[]과 같은 기능
     JPQLQuery<Tuple> tuple = jpqlQuery.select(
-        gallery, member);
+      help, member);
 
-    // 4. 검색 조건을 위한 객체 선언
     BooleanBuilder builder = new BooleanBuilder();
-    BooleanExpression expression = gallery.gno.gt(0L);
+    BooleanExpression expression = help.qno.gt(0L);
     builder.and(expression);
 
     if (type != null) {
@@ -90,13 +75,13 @@ public class SearchGalleryRepositoryImpl
       for (String t : typeArr) {
         switch (t) {
           case "t":
-            conditionBuilder.or(gallery.title.contains(keyword));
+            conditionBuilder.or(help.title.contains(keyword));
             break;
           case "w":
             conditionBuilder.or(member.id.contains(keyword));
             break;
           case "c":
-            conditionBuilder.or(gallery.content.contains(keyword));
+            conditionBuilder.or(help.content.contains(keyword));
             break;
         }
       }
@@ -112,12 +97,12 @@ public class SearchGalleryRepositoryImpl
         String prop = order.getProperty();
         log.info("prop>>"+prop);
         PathBuilder orderByExpression = new PathBuilder<>(
-          Gallery.class,"gallery");
+          Help.class,"help");
         tuple.orderBy(new OrderSpecifier<>(direction, orderByExpression.get(prop)));
       }
     });
 
-    tuple.groupBy(gallery); //board의 목록에 따른 그룹
+    tuple.groupBy(help);
     tuple.offset(pageable.getOffset());
     tuple.limit(pageable.getPageSize());
 
