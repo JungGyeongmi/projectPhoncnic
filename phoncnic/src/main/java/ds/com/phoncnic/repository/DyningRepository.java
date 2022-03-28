@@ -44,21 +44,9 @@ public interface DyningRepository extends JpaRepository<Dyning, Long>, QuerydslP
     @Query ("select d,count(e.eno) from Dyning d left join Emoji e on e.dyning.dno = dno where d.dno =:dno group by dno")
     List<Object[]> getDyningDetails(Long dno);
 
+    @Modifying
+    @Query("delete from Dyning d where d.dno=:dno")
+    void deleteByDno(Long dno);
 
-    // @Query("SELECT d, r FROM Dyning d LEFT JOIN RoofDesign r ON d.roofdesign = r.oono where d.foodtype != 1L")
-    // List<Object[]> getRestaurantList();
-
-    // 특정 가게 상세페이지(dyning-Details)
-    // @Query("select d, di from Dyning d " +
-    // "LEFT OUTER JOIN DyningImage di ON d = di.dyning where d.dno =:dno group by
-    // d")
-    // List<Object[]> getDetailsPage(Long dno);
-
-    // Movie참고
-    // @Query("select m, mi,avg(coalesce(r.grade,0)),count(r) " +
-    // "from Movie m left outer join MovieImage mi on mi.movie = m " +
-    // "left outer join Review r on r.movie = m " +
-    // "where m.mno =:mno group by mi")
-    // List<Object[]> getMovieWithAll(Long mno);
 
 }

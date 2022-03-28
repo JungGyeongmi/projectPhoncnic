@@ -4,7 +4,7 @@
     <h1>가게 등록</h1>
     <form th:action="@{/manage/dyning/register}" th:method="post" id="form">
       <label for="">id
-      <input type="text" name="id" value="user1@icloud.com">
+      <input type="text" name="id" th:value="${id}">
     </label><br><br>
         <label for="">dyningname
             <input type="text" name="dyningname" id="">
@@ -86,7 +86,7 @@
          //  upload url 선언 및 초기화
          /*[+
            var urlUpload = [[@{/uploadAjax/}]];
-         +]*/0
+         +]*/
    
          // 입력 파일 형식 및 크기 제한 : 여기서는 jpg만 받음
          // 이걸 함수에서만 쓰는거면 지역변수로 넣는게 좋은듯

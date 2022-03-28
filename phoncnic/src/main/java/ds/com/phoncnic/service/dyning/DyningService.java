@@ -18,6 +18,7 @@ public interface DyningService {
     // PageResultDTO<DyningDTO, Object[]> getList(PageRequestDTO pageRequestDTO);
 
     Long register(DyningDTO dyningDTO);
+    void removeWithImages(Long dno);
 
 
     default Map<String, Object> dtoToEntity(DyningDTO dto) {
@@ -100,6 +101,7 @@ public interface DyningService {
     }
 
     List<DyningDTO> getStreet();
+    List<DyningDTO> getMyDyningList(String id);
 
     // DyningDTO getRoof();
     default DyningDTO roofEntityToDTO(Dyning dyning) {
@@ -107,6 +109,7 @@ public interface DyningService {
                 .dno(dyning.getDno())
                 .dyningname(dyning.getDyningname())
                 .roofpath(dyning.getRoofdesign().getRoofpath())
+                .id(dyning.getCeoid().getId())
                 .foodtype(dyning.getFoodtype())
                 .build();
 

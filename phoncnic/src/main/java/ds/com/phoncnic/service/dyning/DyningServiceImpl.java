@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
 import ds.com.phoncnic.dto.DyningDTO;
@@ -87,6 +88,21 @@ public class DyningServiceImpl implements DyningService {
     List<Dyning> result = dyningRepository.getStreetList();
     List<DyningDTO> DyningList = result.stream().map(entity -> roofEntityToDTO(entity)).collect(Collectors.toList());
     return DyningList;
+  }
+
+  @Override
+  public List<DyningDTO> getMyDyningList(String id) {
+    List<Dyning> result = dyningRepository.findByMemberId(id);
+    List<DyningDTO> DyningList = result.stream().map(entity -> roofEntityToDTO(entity)).collect(Collectors.toList());
+    return DyningList;
+  }
+
+  @Transactional
+  @Modifying
+  @Override
+  public void removeWithImages(Long dno) {
+    dyningImageRepository.deleteByDno(dno);    
+    dyningRepository.deleteByDno(dno);
   }
   // @Override
   // public DyningDTO getDyningDetails(Long dno) {
