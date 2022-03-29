@@ -18,11 +18,13 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
 import ds.com.phoncnic.dto.DyningDTO;
+import ds.com.phoncnic.dto.DyningImageDTO;
 import ds.com.phoncnic.dto.pageDTO.PageRequestDTO;
 import ds.com.phoncnic.dto.pageDTO.PageResultDTO;
 import ds.com.phoncnic.entity.Dyning;
 import ds.com.phoncnic.entity.DyningImage;
 import ds.com.phoncnic.entity.QDyning;
+import ds.com.phoncnic.entity.RoofDesign;
 import ds.com.phoncnic.repository.DyningImageRepository;
 import ds.com.phoncnic.repository.DyningRepository;
 import ds.com.phoncnic.repository.RoofDesignRepository;
@@ -104,15 +106,25 @@ public class DyningServiceImpl implements DyningService {
     dyningImageRepository.deleteByDno(dno);    
     dyningRepository.deleteByDno(dno);
   }
-  // @Override
-  // public DyningDTO getDyningDetails(Long dno) {
-  // Optional<Dyning> dyningList= dyningRepository.findById(dno);
-  // Dyning dyning = dyningList.get();
-  // List<DyningImage> dyningImageList =
-  // dyningRepository.getImageDetailsPage(dno);
-  // return entityToDTO(dyning,dyningImageList);
-  // }
-  // }
+
+  @Transactional
+  @Modifying
+  @Override
+  public void modify(DyningDTO dyningDTO) {
+    log.info(dyningDTO.getDyningImageDTOList());
+
+    Dyning dyning = dyningRepository.findById(dyningDTO.getDno()).get();
+    dyningImageRepository.deleteByDno(dyningDTO.getDno());
+    List<DyningImage> dyningImageList = imagesDTOToEntity(dyningDTO) ;
+
+    dyningImageList.forEach(dyningImage -> {
+      dyningImageRepository.save(dyningImage);
+    });
+    RoofDesign roof = roofDesignRepository.findById(dyningDTO.getOono()).get();
+    dyning.modifyDyning(dyningDTO.getDyningname(),dyningDTO.getComment(),dyningDTO.getLocation(),dyningDTO.getFoodtype(),
+    dyningDTO.getBusinesshours(),dyningDTO.getTel(),dyningDTO.getHashtag(),dyningImageList,roof);
+    dyningRepository.save(dyning);
+  }
 
   @Override
   public DyningDTO getDyningDetails(Long dno) {
@@ -122,6 +134,8 @@ public class DyningServiceImpl implements DyningService {
     List<DyningImage> dyningImageList = dyningRepository.getImageDetailsPage(dno);
     return entityToDTO(dyninglist, emojiCwt, dyningImageList);
   }
+
+
 
   @Override
   // 결과값을 결국 RageResultDTO로 받음

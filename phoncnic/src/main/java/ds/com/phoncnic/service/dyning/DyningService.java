@@ -19,7 +19,7 @@ public interface DyningService {
 
     Long register(DyningDTO dyningDTO);
     void removeWithImages(Long dno);
-
+    void modify(DyningDTO dyningDTO);
 
     default Map<String, Object> dtoToEntity(DyningDTO dto) {
         Map<String, Object> entityMap = new HashMap<>();
@@ -81,6 +81,7 @@ public interface DyningService {
                 .oono(dyning.getRoofdesign().getOono())
                 .foodtype(dyning.getFoodtype())
                 .emojicwt(emojiCwt)
+                .roofpath(dyning.getRoofdesign().getRoofpath())
                 .regdate(dyning.getRegDate())
                 .moddate(dyning.getModDate())
                 .build();
@@ -143,4 +144,25 @@ public interface DyningService {
         return dto;
 
     }
+
+    default List<DyningImage> imagesDTOToEntity(DyningDTO dyningDTO){
+        List<DyningImageDTO> dyningImageDTOList = dyningDTO.getDyningImageDTOList();
+
+            List<DyningImage> dyningImageList = dyningImageDTOList.stream().map(DyningImageDTO -> {
+                DyningImage dyningImage = DyningImage.builder()
+                        .menuimagename(DyningImageDTO.getMenuimagename())
+                        .menuimageuuid(DyningImageDTO.getMenuimageuuid())
+                        .menuimagepath(DyningImageDTO.getMenuimagepath())
+                        .backgroundname(DyningImageDTO.getBackgroundname())
+                        .backgrounduuid(DyningImageDTO.getBackgrounduuid())
+                        .backgroundpath(DyningImageDTO.getBackgroundpath())
+                        .dyning(Dyning.builder().dno(dyningDTO.getDno()).build())
+                        .build();
+
+                return dyningImage;
+            }).collect(Collectors.toList());
+        
+        return dyningImageList;
+    }
+
 }

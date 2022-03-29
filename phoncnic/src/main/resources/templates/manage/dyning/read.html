@@ -27,7 +27,8 @@
 
             <td>
                 <th:block th:each="idto : ${imageresult}" >
-                    <img class="thumbimage" th:src="|@{'/display'}?fileName=${idto.getMenuThumbnailImageURL()}|" th:data-file="|@{'/display'}?fileName=${idto.getMenuImageURL()}|" >
+                    <img class="thumbimage" th:src="|@{'/display'}?fileName=${idto.getMenuThumbnailImageURL()}|" 
+                    th:data-file="|@{'/display'}?fileName=${idto.getMenuImageURL()}|" alt="">
                 </th:block>
             </td>
             <td >

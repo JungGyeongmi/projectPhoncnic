@@ -35,7 +35,7 @@ public class DyningSettingController {
     }
     //가게 수정 폼
     @GetMapping("/modify")
-    public void dyningModify(@RequestParam("dno") Long dno,String id, Model model) {
+    public void getDyningModify(@RequestParam("dno") Long dno,String id, Model model) {
         log.info("Modify................."+dno);
         if(dno!=0){
         model.addAttribute("result", dyningService.getDyningDetails(dno));
@@ -43,6 +43,15 @@ public class DyningSettingController {
         
         model.addAttribute("id",id);
         }
+    }
+    //가게 수정 폼
+    @PostMapping("/modify")
+    public String postDyningModify(DyningDTO dyningDTO) {
+
+        log.info("Modifying......"+dyningDTO);
+        dyningService.modify(dyningDTO);
+
+        return "redirect:/manage/dyning/read?dno="+dyningDTO.getDno();
     }
     //등록 가게 열람 폼
     @GetMapping("/read")
