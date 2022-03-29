@@ -1,9 +1,9 @@
 package ds.com.phoncnic.repository;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.IntStream;
 
 import javax.transaction.Transactional;
@@ -81,8 +81,10 @@ public class DyningRepositoryTests {
             for (int j = 0; j < Math.random() * 3; j++) {
                 DyningImage dyningImage = DyningImage.builder()
                         .menuimagename(j + "menuimagename.jpg")
+                        .menuimageuuid(UUID.randomUUID().toString())
                         .menuimagepath("menuimagepath" + j)
                         .backgroundname(j + "backgroundname.jpg")
+                        .backgrounduuid(UUID.randomUUID().toString())
                         .backgroundpath("backgroundpath" + j)
                         .dyning(dyning)
                         .build();

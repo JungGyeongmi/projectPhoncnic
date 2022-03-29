@@ -226,7 +226,7 @@
              // test출력
              // console.log("uploadResultArr obj >> ");
              // console.log(obj);
-             str+= `<li data-name='${obj.fileName}' data-path='${obj.folderPath}'><div>`;
+             str+= `<li data-name='${obj.fileName}' data-file='${obj.imageURL}\' data-path='${obj.folderPath}' data-uuid='${obj.uuid}'><div>`;
              str+= `<button type='button' data-file='${obj.imageURL}\' class='btn-warning btn-sm'>X</button><br>`;
              str+= `<img src='${urlDisplay}?fileName=${obj.thumbnailURL}'></div></li>`;
            });
@@ -245,7 +245,7 @@
              // test출력
              // console.log("uploadResultArr obj >> ");
              // console.log(obj);
-             str+= `<li data-name='${obj.fileName}' data-path='${obj.folderPath}'><div>`;
+             str+= `<li data-name='${obj.fileName}' data-file='${obj.imageURL}\' data-path='${obj.folderPath}' data-uuid='${obj.uuid}'><div>`;
              str+= `<button type='button' data-file='${obj.imageURL}\' class='btn-warning btn-sm'>X</button><br>`;
              str+= `<img src='${urlDisplay}?fileName=${obj.thumbnailURL}'></div></li>`;
            });
@@ -264,6 +264,7 @@
            // each로 i idx값과 obj value값을 받아옴
            var target = $(obj);
            str += `<input type='hidden' name='dyningImageDTOList[${i}].menuimagename' value='${target.data('name')}'>`;
+           str += `<input type='hidden' name='dyningImageDTOList[${i}].menuimageuuid' value='${target.data('uuid')}'>`;
            str += `<input type='hidden' name='dyningImageDTOList[${i}].menuimagepath' value='${target.data('path')}'>`;
          });
          
@@ -272,6 +273,7 @@
            // each로 i idx값과 obj value값을 받아옴
            var target = $(obj);
            str2 += `<input type='hidden' name='dyningImageDTOList[${i}].backgroundname' value='${target.data('name')}'>`;
+           str2 += `<input type='hidden' name='dyningImageDTOList[${i}].backgrounduuid' value='${target.data('uuid')}'>`;
            str2 += `<input type='hidden' name='dyningImageDTOList[${i}].backgroundpath' value='${target.data('path')}'>`;
          });
    

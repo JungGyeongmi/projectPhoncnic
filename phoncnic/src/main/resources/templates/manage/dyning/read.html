@@ -25,12 +25,16 @@
             <td >[[${dto.hashtag}]]</td>
             <td >[[${dto.tel}]]</td>
 
-            <td>
-                   <th:block th:each="idto : ${imageresult}">[[${idto.menuimagepath}]],</th:block> 
+            <td >
+                <th:block th:each="idto : ${imageresult}">
+                    <img th:src="|@{'/display'}?fileName=${idto.getMenuThumbnailImageURL()}|" alt="">
+                </th:block>
             </td>
-            <td>
-                <th:block th:each="idto : ${imageresult}">[[${idto.backgroundpath}]],</th:block> 
-             </td>
+            <td >
+                <th:block th:each="idto : ${imageresult}">
+                    <img th:src="|@{'/display'}?fileName=${idto.getBackgoundThumbnailImageURL()}|" alt="">
+                </th:block>
+            </td>
              <td >[[${dto.emojicwt}]]</td>
 
         </tr>

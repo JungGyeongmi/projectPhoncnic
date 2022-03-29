@@ -49,8 +49,10 @@ public interface DyningService {
             List<DyningImage> dyningImageList = dyningImageDTOList.stream().map(DyningImageDTO -> {
                 DyningImage dyningImage = DyningImage.builder()
                         .menuimagename(DyningImageDTO.getMenuimagename())
+                        .menuimageuuid(DyningImageDTO.getMenuimageuuid())
                         .menuimagepath(DyningImageDTO.getMenuimagepath())
                         .backgroundname(DyningImageDTO.getBackgroundname())
+                        .backgrounduuid(DyningImageDTO.getBackgrounduuid())
                         .backgroundpath(DyningImageDTO.getBackgroundpath())
                         .dyning(dyning)
                         .build();
@@ -86,8 +88,10 @@ public interface DyningService {
         List<DyningImageDTO> dyningImageDTOList = dyningImages.stream().map(dyningImage -> {
             return DyningImageDTO.builder()
                     .backgroundname(dyningImage.getBackgroundname())
+                    .backgrounduuid(dyningImage.getBackgrounduuid())
                     .backgroundpath(dyningImage.getBackgroundpath())
                     .menuimagename(dyningImage.getMenuimagename())
+                    .menuimageuuid(dyningImage.getMenuimageuuid())
                     .menuimagepath(dyningImage.getMenuimagepath())
                     .dno(dyning.getDno())
                     .id(dyning.getCeoid().getId())
