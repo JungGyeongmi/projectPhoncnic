@@ -51,7 +51,6 @@ public class EmojiServiceImpl implements EmojiService {
         emojiList.stream().forEach(emoji -> {
             EmojiDTO emojiDTO = entityToEmojiDTO(emoji);
             emojiDTOList.add(emojiDTO);
-            
         });
         return emojiDTOList;
     }
