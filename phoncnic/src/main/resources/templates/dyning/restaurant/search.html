@@ -46,10 +46,7 @@
         </style>
         <tbody>
 
-            <tr th:each="dto:${result.dtoList}" class="tr-list" th:onclick="'location.href=\''+ @{/dyning/details(dno=${dto.dno},
-        page=${result.page},
-        type=${pageRequestDTO.type},
-        keyword=${pageRequestDTO.keyword})} + '\''">
+            <tr th:each="dto:${result.dtoList}" class="tr-list">
                 <td>[[${dto.dno}]]</td>
                 <td>[[${dto.dyningname}]]</td>
                 <td>[[${dto.hashtag}]]</td>

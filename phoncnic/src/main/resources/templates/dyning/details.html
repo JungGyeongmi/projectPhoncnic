@@ -56,7 +56,7 @@
             <style>
                 #map {
                     width: 40%;
-                    height: 400px;
+                    height: 500px;
                     background-color: grey;
                 }
                 
@@ -150,10 +150,17 @@
         <!-- map toggle 제어 -->
         <script>
             $( document ).ready(function() {
-                var map = $('#map');
                 $('#btnlocation').click(function() {
-                    map.toggle();
+                    // display: none -> block으로 변경시 지도가 깨지는 현상이 생김
+                    $('#map').toggle();
+                    // 중심의 좌표 가져오기
+                    var coords = map.getCenter();   
+                    // 맵의 레이아웃 재조정                 
+                    map.relayout();    
+                    // 센터 재조정                
+                    map.setCenter(coords);
                 });
+                
             });
         </script>
 
