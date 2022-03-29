@@ -1,12 +1,15 @@
 package ds.com.phoncnic.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import ds.com.phoncnic.entity.Emoji;
+import ds.com.phoncnic.entity.Gallery;
+import ds.com.phoncnic.entity.Member;
 
 public interface EmojiRepository extends JpaRepository<Emoji, Long> {
     // 인자로 member id 를 받아서 emoji list를 출력하도록
@@ -47,8 +50,6 @@ public interface EmojiRepository extends JpaRepository<Emoji, Long> {
            "WHERE e.gallery.gno IS NOT NULL AND e.gallery.gno = :gno " +
            "GROUP BY e.gallery.gno, e.emojiInfo.emojitype ORDER BY 1, 2 ")
     List<Object[]> getEmojiCountByGno(Long gno);
-
-
 
     //다이닝 이모지 타입 갯수 카운트
     @Query("select count(e.emojiInfo.emojitype) from Emoji e where e.dyning.dno=:dno and e.emojiInfo.emojitype=:emojitype")

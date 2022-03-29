@@ -110,4 +110,14 @@ public class EmojiRepositoryTests {
             System.out.println("count : " + cnt[1]);
         });
     }
+
+    // @Test
+    // public void GetEmojiByGnoAndId() {
+    //     List<Emoji> emojiList = emojiRepository.getEmojiCheckByGnoAndId(1L, "user2@icloud.com" );
+
+    //         emojiList.forEach(emoji -> System.out.println(emoji));
+
+    
+    // }
+
 }

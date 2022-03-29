@@ -47,9 +47,9 @@
 			/*[+ 				
 
 			var emojiUrl = [[@{/gallery/emoji}]];
-			var emojiaddUrl = [[@{/gallery/register}]];
-			var emojiRemoveUrl = [[@{gallery/remove}]];
-			var emojicountUrl ] [[@{gallery/count}]];
+			var emojiAddUrl = [[@{/gallery/register}]];
+			var emojiRemoveUrl = [[@{/gallery/remove}]];
+			var emojiCountUrl = [[@{/gallery/count}]];
 			var readUrl = [[@{/gallery/read}]];
 			var urlDisplay = [[@{/display}]];
 		    
@@ -129,7 +129,7 @@
 
 				console.log(data);
 				$.ajax({
-					url: emojiaddUrl + "/" + gno,
+					url: emojiAddUrl + "/" + gno,
 					method: "POST",
 					data: JSON.stringify(data),
 					contentType: "application/json; charset=utf-8",
@@ -149,7 +149,7 @@
 					var gno = $(".inputGno").val();
 					data:{gno:gno};
 					$.ajax({
-						url: emojicountUrl +"/"+gno,
+						url: emojiCountUrl +"/"+gno,
 						method: "post",
 						data: JSON.stringify(data),
 						success: function(count){

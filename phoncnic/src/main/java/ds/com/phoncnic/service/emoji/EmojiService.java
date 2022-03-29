@@ -11,6 +11,7 @@ import ds.com.phoncnic.entity.Emoji;
 import ds.com.phoncnic.entity.EmojiInfo;
 import ds.com.phoncnic.entity.Gallery;
 import ds.com.phoncnic.entity.Member;
+import ds.com.phoncnic.repository.EmojiRepository;
 
 public interface EmojiService {
     Long[][] getEmojiCountArrayByGno(Long gno);
@@ -21,6 +22,7 @@ public interface EmojiService {
     Long galleryEmojiRegiter(EmojiDTO emojiDTO);  
     List<EmojiDTO> getEmojiByGno(String type, Long no);
     Long getEmojitypeCwt(Long dno,String emojitype);
+
 
     
     /* DTO -> Entity */
