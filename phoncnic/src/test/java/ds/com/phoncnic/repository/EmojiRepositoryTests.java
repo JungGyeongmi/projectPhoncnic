@@ -110,4 +110,21 @@ public class EmojiRepositoryTests {
             System.out.println("count : " + cnt[1]);
         });
     }
+
+    @Test
+    @Transactional
+    public void testUpdateEmoji() {
+        // List<Emoji> emoji = emojiRepository.getEmojiByGno(28L);
+        // emoji.stream().forEach(e -> {
+        //     System.out.println("type : " + e.getEmojiInfo());
+        // });
+        // System.out.println("---변경 전--");
+        Integer eno = emojiRepository.updateEmojiTypeByGnoAndMemberId("3", 28L, "user1@icloud.com");
+        System.out.println(eno);
+        // emoji = emojiRepository.getEmojiByGno(28L);
+        // System.out.println("---변경 후--");
+        // emoji.stream().forEach(e -> {
+        //     System.out.println("type : " + e.getEmojiInfo());
+        // });
+    }
 }

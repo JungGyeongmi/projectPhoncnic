@@ -13,7 +13,6 @@
 
 			input[name="emojitype"]:checked+label+span {
 				color: red;
-
 			}
 		</style>
 
@@ -31,7 +30,7 @@
 			</li>
 		</ul>
 		<button type="button" id="curatorBtn" data-bs-toggle="modal" data-bs-target="#curatorModal">큐레이터</button>
-
+		<button type="button" class="testBtn">test</button>
 		<script th:inline="javascript">
 			$(document).ready(function () {
 
@@ -39,6 +38,7 @@
 					var readUrl = [[@{/gallery/read}]];
 					var emojiUrl = [[@{/gallery/emoji}]];
 					var emojiaddUrl = [[@{/gallery/register}]];
+					var emojiRecountUrl = [[@{/gallery/recount}]];
 					var urlDisplay = [[@{/display}]];
 			    
 				+]*/
@@ -90,6 +90,7 @@
 					var targetGno = $(this).data("gno");
 					var targetFile = $(this).data("file");
 					showdetailsModal(targetGno, targetFile);
+					recCount();
 				});
 
 				// 큐레이터 모달 제어

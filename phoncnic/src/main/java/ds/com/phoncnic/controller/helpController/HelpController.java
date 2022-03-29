@@ -26,8 +26,7 @@ public class HelpController {
         model.addAttribute("result", helpService.getQnaList(pageRequestDTO));
         return "/help/list";
     }
-
-
+    
     @GetMapping("register")
     public String Register() {
         return "/help/register";
