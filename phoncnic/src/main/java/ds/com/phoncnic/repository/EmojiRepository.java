@@ -62,5 +62,4 @@ public interface EmojiRepository extends JpaRepository<Emoji, Long> {
     @Modifying 
     @Query("UPDATE Emoji e SET e.emojiInfo.emojitype = :type WHERE e.gallery.gno = :gno AND e.member.id = :id")
     Integer updateEmojiTypeByGnoAndMemberId(String type, Long gno, String id);
-
 }
