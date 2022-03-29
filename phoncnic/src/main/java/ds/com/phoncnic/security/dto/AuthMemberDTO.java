@@ -35,7 +35,7 @@ public class AuthMemberDTO extends User implements OAuth2User {
 
   // OAuth로부터 사용자를 초기화하는 생성자2
   public AuthMemberDTO(String id, String password, String nickname, Collection<? extends GrantedAuthority> authorities, Map<String, Object> attr) {
-    this(id, nickname, password, authorities);
+    this(id, password, nickname, authorities);
     this.attr = attr;
   }
 

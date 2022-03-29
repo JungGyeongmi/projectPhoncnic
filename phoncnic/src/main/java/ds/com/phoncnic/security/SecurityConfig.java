@@ -50,10 +50,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     return new CustomLogoutSuccessHandler();
   }
 
-  @Bean
-  public ApiCheckFilter apiCheckFilter() {
-    return new ApiCheckFilter("/phoncnic/manage/**/*", jwtUtil());
-  }
+  // @Bean
+  // public ApiCheckFilter apiCheckFilter() {
+  //   return new ApiCheckFilter("/phoncnic/manage/**/*", jwtUtil());
+  // }
 
   @Bean
   public ApiLoginFilter apiLoginFilter() throws Exception {
@@ -100,8 +100,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     http.logout().logoutSuccessHandler(logoutSuccessHandler());
     //.logoutUrl("/member/logout").logoutSuccessUrl("/member/login")
     http.rememberMe().tokenValiditySeconds(60*60*24*7).userDetailsService((UserDetailsService) memberDetailsService);
-    http.addFilterBefore(apiCheckFilter(), 
-              UsernamePasswordAuthenticationFilter.class);
+    // http.addFilterBefore(apiCheckFilter(), 
+    //           UsernamePasswordAuthenticationFilter.class);
     http.addFilterBefore(apiLoginFilter(), 
               UsernamePasswordAuthenticationFilter.class);
 
