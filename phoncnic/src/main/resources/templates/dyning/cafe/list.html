@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
 
+<<<<<<< HEAD
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -49,3 +50,34 @@
 </body>
 
 </html>
+=======
+<th:block th:replace="~{layout/dyninglayout :: setContent(~{::content})}">
+    <th:block th:fragment="content">
+        <style>
+            #dyningname {
+                cursor: pointer;
+            }
+
+            #roofdesign {
+                cursor: pointer;
+            }
+        </style>
+
+        <h1>cafe</h1>
+        <table border="1">
+            <tr>
+                <th scope="col">dyningname</th>
+                <th scope="col">Roof Path</th>
+            </tr>
+            <tr th:each="dto : ${result}" th:onclick="'location.href=
+                \''+ @{/dyning/details(dno=${dto.dno})}
+                + '\''" th:if="${dto.foodtype}==1">
+                <!-- <td >[[${dto.dno}]]</td> -->
+                <td id="dyningname">[[${dto.dyningname}]]</td>
+                <!-- <td>[[${dto.foodtype}]]</td> -->
+                <td id="roofpath">[[${dto.roofpath}]]</td>
+            </tr>
+        </table>
+    </th:block>
+</th:block>
+>>>>>>> T_main

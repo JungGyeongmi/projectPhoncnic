@@ -31,60 +31,44 @@ public class GalleryRestController {
 
     @Autowired
     private EmojiService emojiService;
-    
 
-    //Gallery List
-    @GetMapping("/read/{gno}")
-    public ResponseEntity<GalleryDTO>getList(@PathVariable("gno") Long gno) {
-         log.info("getgalleryList........gno" + gno);
-         GalleryDTO galleryDTO = galleryService.getGallery(gno);
-         log.info("galleryDTO : " + galleryDTO);
-         return new ResponseEntity<>(galleryDTO, HttpStatus.OK);
-         
-}   
-    //Emoji getList
-    @GetMapping("/emoji/{gno}")
-        public ResponseEntity<List<EmojiDTO>>getemojiList(@PathVariable("gno") Long gno) {
-            log.info("getemojiList........gno" + gno);
-            List<EmojiDTO> emojiDTO = emojiService.getEmojiByGno("g",gno);
-            log.info("emojiDTO : " + emojiDTO);
-            return new ResponseEntity<>(emojiDTO, HttpStatus.OK);
-   
+    @GetMapping("/curator")
+    public ResponseEntity<PageResultDTO<GalleryDTO, Object[]>> getCuratorModal(SearchPageRequestDTO pageRequestDTO) {
+        log.info("---------------get curator rest---------------");
+        PageResultDTO<GalleryDTO, Object[]> result = galleryService.getGalleryPage(pageRequestDTO);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    //Emoji Register
-    @PostMapping("/register/{gno}")
-    public ResponseEntity <Long> emojiRegister (@RequestBody EmojiDTO dto){
-        log.info("emoji Register....................emojiDTO:"+dto);
+    // Gallery List
+    @GetMapping("/read/{gno}")
+    public ResponseEntity<GalleryDTO> getList(@PathVariable("gno") Long gno) {
+        log.info("getgalleryList........gno" + gno);
+        GalleryDTO galleryDTO = galleryService.getGallery(gno);
+        log.info("galleryDTO : " + galleryDTO);
+        return new ResponseEntity<>(galleryDTO, HttpStatus.OK);
+    }
 
+    // Emoji getList
+    @GetMapping("/emoji/{gno}")
+    public ResponseEntity<List<EmojiDTO>> getemojiList(@PathVariable("gno") Long gno) {
+        log.info("getemojiList........gno" + gno);
+        List<EmojiDTO> emojiDTO = emojiService.getEmojiByGno("g", gno);
+        log.info("emojiDTO : " + emojiDTO);
+        return new ResponseEntity<>(emojiDTO, HttpStatus.OK);
+    }
+
+    // Emoji Register
+    @PostMapping("/register/{gno}")
+    public ResponseEntity<Long> emojiRegister(@RequestBody EmojiDTO dto) {
+        log.info("emoji Register....................emojiDTO:" + dto);
         Long eno = emojiService.galleryEmojiRegiter(dto);
         return new ResponseEntity<>(eno, HttpStatus.OK);
     }
 
-    //Emoji Remove
+    // Emoji Remove
     @DeleteMapping("/remove/{eno}")
-    public ResponseEntity <Long> emojiRemove (@PathVariable Long eno) {
+    public ResponseEntity<Long> emojiRemove(@PathVariable Long eno) {
         emojiService.emojiRemove(eno);
-        
         return new ResponseEntity<>(eno, HttpStatus.OK);
     }
-
-
-    
-    @GetMapping("/curator")
-    public ResponseEntity<PageResultDTO<GalleryDTO, Object[]>> getCuratorModal(SearchPageRequestDTO pageRequestDTO,
-        String type, String sort, String keyword) {
-
-        log.info("---------------get curator rest---------------");
-        log.info("type"+type);
-        log.info("sort"+sort);
-        log.info("keyword"+keyword);
-        pageRequestDTO.setType(type);
-        pageRequestDTO.setSort(sort);
-        pageRequestDTO.setKeyword(keyword);
-        PageResultDTO<GalleryDTO, Object[]> result = galleryService.getGalleryPage(pageRequestDTO);
-
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    }
-
 }

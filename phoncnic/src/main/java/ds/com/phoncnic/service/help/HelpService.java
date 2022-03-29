@@ -7,7 +7,11 @@ import ds.com.phoncnic.entity.Help;
 import ds.com.phoncnic.entity.Member;
 
 public interface HelpService {
+<<<<<<< HEAD
     PageResultDTO<HelpDTO, Help> getQnaList(PageRequestDTO pageRequestDTO);
+=======
+    PageResultDTO<HelpDTO, Object[]> getQnaList(PageRequestDTO pageRequestDTO);
+>>>>>>> T_main
 
     Long register(HelpDTO helpDTO);
 

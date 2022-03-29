@@ -29,6 +29,7 @@ public class HelpController {
         return "/help/list";
     }
 
+
     @GetMapping("register")
 
     public String Register() {
@@ -39,10 +40,7 @@ public class HelpController {
     @PostMapping("/register")
     public String RegisterPost(HelpDTO helpDTO, RedirectAttributes ra) {
         log.info("help resister.................:" + helpDTO);
-
-        // 새로 추가된 Qna 번호
         Long qno = helpService.register(helpDTO);
-
         ra.addFlashAttribute("msg", qno);
         return "redirect:/help/list";
     }
@@ -58,32 +56,25 @@ public class HelpController {
     @PostMapping("/modify")
     public String modify(HelpDTO helpDTO, RedirectAttributes ra, Long qno, PageRequestDTO pageRequestDTO) {
         log.info("modify..........qno:" + helpDTO);
-
         helpService.modify(helpDTO);
-
         ra.addAttribute("page", pageRequestDTO.getPage());
         ra.addAttribute("type", pageRequestDTO.getType());
         ra.addAttribute("keyword", pageRequestDTO.getKeyword());
         ra.addAttribute("qno", helpDTO.getQno());
-
         return "redirect:/help/read";
     }
 
     @PostMapping("/remove")
     public String remove(Long qno, RedirectAttributes ra, PageRequestDTO pageRequestDTO) {
         log.info("remove...........qno:" + qno);
-
         helpService.remove(qno);
-
         if (helpService.getQnaList(pageRequestDTO).getDtoList().size() == 0 && pageRequestDTO.getPage() != 1) {
             pageRequestDTO.setPage(pageRequestDTO.getPage() - 1);
-
-            ra.addFlashAttribute("msg2", qno);
-            ra.addFlashAttribute("page", pageRequestDTO.getPage());
-            ra.addFlashAttribute("type", pageRequestDTO.getType());
-            ra.addFlashAttribute("keyword", pageRequestDTO.getKeyword());
-
-        }
+        };
+        ra.addFlashAttribute("msg2", qno);
+        ra.addFlashAttribute("page", pageRequestDTO.getPage());
+        ra.addFlashAttribute("type", pageRequestDTO.getType());
+        ra.addFlashAttribute("keyword", pageRequestDTO.getKeyword());
         return "redirect:/help/list";
     }
 }

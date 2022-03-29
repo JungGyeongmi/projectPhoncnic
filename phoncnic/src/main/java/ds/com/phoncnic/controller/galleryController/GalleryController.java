@@ -50,5 +50,5 @@ public class GalleryController {
         model.addAttribute("emojiInfoList", emojiInfoService.getEmojiInfoList());
         model.addAttribute("list", galleryService.getPaintingList(pageRequestDTO));
         return "gallery/painting/list";
-}
+    }
 }
