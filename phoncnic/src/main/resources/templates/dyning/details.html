@@ -3,124 +3,167 @@
 <th:block th:replace="~{layout/dyninglayout :: setContent(~{::content})}">
     <th:block th:fragment="content">
         <h1>dyning details</h1>
+        <input type="hide" name="" id="detaillocation" th:value="${result.location}">
         <ul>
             <li th:each="dto : ${result}">
                 [[${ dto }]]
             </li>
         </ul>
 
-<body>
-    <h1>dyning details</h1>
-    <ul>
-        <li th:each="dto : ${result}">
-            [[${ dto }]]
-        </li>
-    </ul>
+        <body>
+            <h1>dyning details</h1>
+            <ul>
+                <li th:each="dto : ${result}">
+                    [[${ dto }]]
+                </li>
+            </ul>
 
-    <table border="1">
-        <tr>
-            <th scope="col">dyningname</th>
-            <th scope="col">businesshours</th>
-            <th scope="col">location</th>
-            <th scope="col">comment</th>
-            <th scope="col">hashtag</th>
-            <th scope="col">tel</th>
-            <th scope="col">menu</th>
-            <th scope="col">background</th>
-            <th scope="col">emojicwt</th>
-
-
-        </tr>
-        <tr th:each="dto : ${result}" >
-            <td >[[${dto.dyningname}]]</td>
-            <td >[[${dto.businesshours}]]</td>
-            <td >[[${dto.location}]]</td>
-            <td >[[${dto.comment}]]</td>
-            <td >[[${dto.hashtag}]]</td>
-            <td >[[${dto.tel}]]</td>
-
-            <td>
-                   <th:block th:each="idto : ${imageresult}">[[${idto.menuimagepath}]],</th:block>
-            </td>
-            <td>
-                <th:block th:each="idto : ${imageresult}">[[${idto.backgroundpath}]],</th:block>
-             </td>
-             <td >[[${dto.emojicwt}]]</td>
-
-        </tr>
-    </table>
-    <button type="button" id="location">지도 Api</button>
-    <style>
-        #map {
-            width: 100%;
-            height: 400px;
-            background-color: grey;
-        }
-    </style>
-    <!-- GoogleMap API 연동 -->
-    <h3>가게 위치</h3>
-    <div id="map">
-        <iframe height="450"
-        style="border: 0ch;"
-        allowfullscreen
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyChX8cJ6bEy6MWOp4-uK-KeT1m3T-9sR4M&callback=initMap&q=-33.8569,151.2152&region=KR&language=ko"
-        >
-        </iframe>
-    </div> <!-- 지도가 붙을 위치 -->
+            <table border="1">
+                <tr>
+                    <th scope="col">dyningname</th>
+                    <th scope="col">businesshours</th>
+                    <th scope="col">location</th>
+                    <th scope="col">comment</th>
+                    <th scope="col">hashtag</th>
+                    <th scope="col">tel</th>
+                    <th scope="col">menu</th>
+                    <th scope="col">background</th>
+                    <th scope="col">emojicwt</th>
 
 
-    <form action="">
-        <input type="hidden" name="id" value="user1@icloud.com"  readonly>
-        <input type="hidden" name="dno" th:value="${result.dno}">
+                </tr>
+                <tr th:each="dto : ${result}">
+                    <td>[[${dto.dyningname}]]</td>
+                    <td>[[${dto.businesshours}]]</td>
+                    <td>[[${dto.location}]]</td>
+                    <td>[[${dto.comment}]]</td>
+                    <td>[[${dto.hashtag}]]</td>
+                    <td>[[${dto.tel}]]</td>
 
-        <select name="emojitype" id="">
-            <option value="1">😋</option>
-            <option value="2">🥰</option>
-            <option value="3">😭</option>
-            <option value="4">😅</option>
-            <option value="5">🥵</option>
+                    <td>
+                        <th:block th:each="idto : ${imageresult}">[[${idto.menuimagepath}]],</th:block>
+                    </td>
+                    <td>
+                        <th:block th:each="idto : ${imageresult}">[[${idto.backgroundpath}]],</th:block>
+                    </td>
+                    <td>[[${dto.emojicwt}]]</td>
 
-        </select>
-        <button type="button" id="emojisave">이모지 추가하기</button>
-        </form>
-        <table border="1">
-            <tr>
-                <th>이모지 갯수</th>
-                <th scope="col" colspan="5">이모지 타입</th>
-                <th th:colspan="${result.emojicwt}">이모지 삭제</th>
-            </tr>
-            <tr>
-                <td>[[${result.emojicwt}]]</td>
-                <td>😋<span>[[${emojitype1}]]</span></td>
-                <td>🥰[[${emojitype2}]]</td>
-                <td>😭[[${emojitype3}]]</td>
-                <td>😅[[${emojitype4}]]</td>
-                <td>🥵[[${emojitype5}]]</td>
-                <td th:each="dto : ${emojilist}"><button type="button" th:value="${dto.eno}" class="emojiRemoveBtn">삭제</button></td>
-            </tr>
-        </table>
+                </tr>
+            </table>
 
-
-</body>
-<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
-// 아래는 서버로부터 지도를 로딩하기 위해 요청하는 경로 async는 비동기로 로딩하도록해 지도 로딩 중 다른 웹 부분들이 열릴 수 있도록하기 위함
-//  key부분에는 자신의 키를 넣고, 로딩이 완료되면 callback에 지정한 함수를 수행하게 됨.
+            <!-- 지도 API 버튼 -->
+            <button type="button" id="btnlocation">지도 Api</button>
+            <style>
+                #map {
+                    width: 40%;
+                    height: 400px;
+                    background-color: grey;
+                }
+                
+            </style>
+            <div id="map" style="display: none;"></div>
+            
 
 
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyChX8cJ6bEy6MWOp4-uK-KeT1m3T-9sR4M&callback=initMap&q=부산광역시 부산진구 KR 부산광역시 부산진구 동성직업전문학교 A1프라자 6층&region=KR&language=ko">
+            <form action="">
+                <input type="hidden" name="id" value="user1@icloud.com" readonly>
+                <input type="hidden" name="dno" th:value="${result.dno}">
 
+                <select name="emojitype" id="">
+                    <option value="1">😋</option>
+                    <option value="2">🥰</option>
+                    <option value="3">😭</option>
+                    <option value="4">😅</option>
+                    <option value="5">🥵</option>
+
+                </select>
+                <button type="button" id="emojisave">이모지 추가하기</button>
+            </form>
+            <table border="1">
+                <tr>
+                    <th>이모지 개수</th>
+                    <th scope="col" colspan="5">이모지 타입</th>
+                    <th th:colspan="${result.emojicwt}">이모지 삭제</th>
+                </tr>
+                <tr>
+                    <td>[[${result.emojicwt}]]</td>
+                    <td>😋<span>[[${emojitype1}]]</span></td>
+                    <td>🥰[[${emojitype2}]]</td>
+                    <td>😭[[${emojitype3}]]</td>
+                    <td>😅[[${emojitype4}]]</td>
+                    <td>🥵[[${emojitype5}]]</td>
+                    <td th:each="dto : ${emojilist}"><button type="button" th:value="${dto.eno}"
+                            class="emojiRemoveBtn">삭제</button></td>
+                </tr>
+            </table>
+
+
+        </body>
+        <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+
+        <!-- 지도 -->
+        <script type="text/javascript"
+            src="//dapi.kakao.com/v2/maps/sdk.js?appkey=acf4120589cf996321f7660949777c8c&libraries=services"></script>
+        <script type="text/javascript"
+            src="//dapi.kakao.com/v2/maps/sdk.js?appkey=acf4120589cf996321f7660949777c8c"></script>
+        <script type="text/javascript">
+            var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+                mapOption = {
+                    center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+                    level: 3 // 지도의 확대 레벨
+                };
+
+            // 지도를 생성합니다    
+            var map = new kakao.maps.Map(mapContainer, mapOption);
+
+            // 주소-좌표 변환 객체를 생성합니다
+            var geocoder = new kakao.maps.services.Geocoder();
+
+            var detaillocation = $('#detaillocation').val();
+
+            var testbtn = document.querySelector('#btnlocation');
+
+            $('#btnlocation').on('click', function(){
+                console.log(detaillocation);
+            });
+            
+
+            // 주소로 좌표를 검색합니다
+            geocoder.addressSearch(detaillocation, function (result, status) {
+
+                // 정상적으로 검색이 완료됐으면 
+                if (status === kakao.maps.services.Status.OK) {
+
+                    var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+                    // 결과값으로 받은 위치를 마커로 표시합니다
+                    var marker = new kakao.maps.Marker({
+                        map: map,
+                        position: coords
+                    });
+                  
+                    // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+                    map.setCenter(coords);
+                }
+            });    
+        </script>
+        <!-- map toggle 제어 -->
+        <script>
+            $( document ).ready(function() {
+                var map = $('#map');
+                $('#btnlocation').click(function() {
+                    map.toggle();
+                });
+            });
         </script>
 
-<!-- End of GoogleMap API 연동(황영롱) -->
-<script>
 
 
-
-
-$("#emojisave").click(function () {
-    var id = $("input[name='id']").val();
-    var dno = $("input[name='dno']").val();
-    var emojitype = $("select[name='emojitype']").val();
+        <script>
+            $("#emojisave").click(function () {
+                var id = $("input[name='id']").val();
+                var dno = $("input[name='dno']").val();
+                var emojitype = $("select[name='emojitype']").val();
 
 
                 var data = { id: id, dno: dno, emojitype: emojitype };
