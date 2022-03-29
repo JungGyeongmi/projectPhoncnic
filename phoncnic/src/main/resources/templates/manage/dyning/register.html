@@ -13,7 +13,9 @@
             <input type="text" name="comment" id="">
         </label><br><br>
         <label for="">location
-            <input type="text" name="location" id=""><button type="button">우편찾기</button>
+          <input type="button" value="우편찾기" id="address"><br>
+            <input type="text" name="location" id=""><br>
+            <input type="text" name="location" id="detail" placeholder="상세주소">
         </label><br><br>
         <label for="">tel
             <input type="text" name="tel" id="">
@@ -80,9 +82,24 @@
     <button type="button" class="btn-submit">등록하기</button>
 
       <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+      <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
       <script th:inline="javascript">
-       
+
+       window.onload = function(){
+    document.getElementById("address").addEventListener("click", function(){ //주소입력칸을 클릭하면
+        //카카오 지도 발생
+        new daum.Postcode({
+            oncomplete: function(data) { //선택시 입력값 세팅
+              document.querySelector("input[name=location]").value = data.address; // 주소 넣기
+              document.getElementById("detail").focus(); //상세입력 포커싱
+              window.close();
+            }
+        }).open();
+    });
+}
        $(document).ready(function (e) {
+
+        
          //  upload url 선언 및 초기화
          /*[+
            var urlUpload = [[@{/uploadAjax/}]];
