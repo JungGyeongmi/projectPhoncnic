@@ -11,10 +11,6 @@ import ds.com.phoncnic.entity.Emoji;
 import ds.com.phoncnic.entity.EmojiInfo;
 import ds.com.phoncnic.entity.Gallery;
 import ds.com.phoncnic.entity.Member;
-<<<<<<< HEAD
-import ds.com.phoncnic.repository.EmojiRepository;
-=======
->>>>>>> T_main
 
 public interface EmojiService {
     Long[][] getEmojiCountArrayByGno(Long gno);
@@ -26,11 +22,6 @@ public interface EmojiService {
     List<EmojiDTO> getEmojiByGno(String type, Long no);
     Long getEmojitypeCwt(Long dno,String emojitype);
 
-<<<<<<< HEAD
-
-    
-=======
->>>>>>> T_main
     /* DTO -> Entity */
     //gno 나 dno 가 null 값이 들어왔을뗀 전환을 제외하도록 if 문을 써 줌.(안 나누면 Pk가 자동생성됨)
     default Emoji dtoToEntity(EmojiDTO emojiDTO) {

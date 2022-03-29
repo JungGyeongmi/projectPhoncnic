@@ -46,25 +46,6 @@ public class GalleryServiceImpl implements GalleryService {
         Pageable pageable = PageRequestDTO.getPageable(Sort.by("gno").descending());
         Page<Gallery> result = galleryRepository.getPaintingPage(pageable);
         Function<Gallery, GalleryDTO> fn = (entity -> entityToDTO(entity, emojiService.getEmojiCountArrayByGno(entity.getGno())));
-<<<<<<< HEAD
-        return new PageResultDTO<>(result, fn);
-    }
-
-    @Override
-    public PageResultDTO<GalleryDTO, Object[]> getGalleryPage(SearchPageRequestDTO pageRequestDTO) {
-        // 임시로 3L로 고정
-        Long[][] emojiArray = emojiService.getEmojiCountArrayByGno(3L);
-        Function<Object[], GalleryDTO> fn = (entity -> entityToDTO((Gallery)entity[0], emojiArray));
-
-        Page<Object[]> result = galleryRepository.searchPage(
-            pageRequestDTO.getType(), 
-            pageRequestDTO.getKeyword(),
-            pageRequestDTO.getPageable(Sort.by("gno").descending()) );
-
-        return new PageResultDTO<>(result, fn);
-    }
-
-=======
         return new PageResultDTO<>(result, fn);
     }
 
@@ -82,27 +63,15 @@ public class GalleryServiceImpl implements GalleryService {
         return new PageResultDTO<>(result, fn);
     }
 
->>>>>>> T_main
 
     // 상세 페이지
     @Override
     public GalleryDTO getGallery(long gno) {
         Gallery gallery = galleryRepository.getGalleryByGno(gno);
         Long[][] emojiCountArr = emojiService.getEmojiCountArrayByGno(gno);
-<<<<<<< HEAD
-        // List<Object[]> emojiList = emojiRepository.getEmojiCountByGno(gno);
-
-        
-        log.info("gno:"+gno);
-        log.info("gallery"+gallery);
-    
-        return entityToDTO(gallery, emojiCountArr);
-
-=======
         log.info("gno:"+gno);
         log.info("gallery"+gallery);
         return entityToDTO(gallery, emojiCountArr);
->>>>>>> T_main
     }
 
     // gallery List
@@ -113,10 +82,6 @@ public class GalleryServiceImpl implements GalleryService {
         List<GalleryDTO> galleryDTOList = galleryList.stream()
             .map(entity -> entityToDTO(entity,emojiService.getEmojiCountArrayByGno(entity.getGno())))
             .collect(Collectors.toList());
-<<<<<<< HEAD
-
-=======
->>>>>>> T_main
         return galleryDTOList;
     }
 
