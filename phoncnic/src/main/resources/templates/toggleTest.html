@@ -53,11 +53,10 @@
   <body>
     <h1>그림전</h1>
 		<div class="swiper mySwiper">
-			<div>
-				<div class="swiper-slide"  class="swiper-wrapper" id="galleryList" th:each="dto : ${galleryDTOList}" th:data-gno="${dto.gno}"
-        th:data-file="${dto.getImageURL}" data-bs-toggle="modal" data-bs-target="#detailsModal">
-					[[${dto.title}]]
-					<img style="cursor:pointer;" th:src="|@{'/display'}?fileName=${dto.getThumbnailURL()}|"
+			<div class="swiper-wrapper">
+				<div class="swiper-slide"   id="galleryList" th:each="dto : ${galleryDTOList}" th:data-gno="${dto.gno}"
+        th:data-file="${dto.getImageURL}" >
+					<img style="cursor:pointer;" th:src="|@{'/display'}?fileName=${dto.getImageURL()}|"
 						alt="이미지를 불러올 수 없습니다" />
 				</div>
 			</div>
