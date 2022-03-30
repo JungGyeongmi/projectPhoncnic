@@ -37,15 +37,10 @@ public class DyningSearchRestController {
     @GetMapping("/restaurant/toggle")
     public ResponseEntity<PageResultDTO<DyningDTO, Object[]>> getToggle(SearchDyningPageRequestDTO searchpageRequestDTO) {
         log.info("---------------get toggle rest---------------");
+        log.info(searchpageRequestDTO.getKeyword());
+        log.info(searchpageRequestDTO.getType());
         PageResultDTO<DyningDTO, Object[]> result = dyningService.getDyningPage(searchpageRequestDTO);
+        log.info(dyningService.getDyningPage(searchpageRequestDTO));
         return new ResponseEntity<>(result, HttpStatus.OK); 
     }
-
-    // @GetMapping("/curator")
-    // public ResponseEntity<PageResultDTO<GalleryDTO, Object[]>> getCuratorModal(SearchPageRequestDTO pageRequestDTO) {
-    //     log.info("---------------get curator rest---------------");
-    //     PageResultDTO<GalleryDTO, Object[]> result = galleryService.getGalleryPage(pageRequestDTO);
-    //     return new ResponseEntity<>(result, HttpStatus.OK);
-    // }
-
 }
