@@ -31,7 +31,6 @@ public class GalleryRestController {
 
     @Autowired
     private EmojiService emojiService;
-
     @GetMapping("/curator")
     public ResponseEntity<PageResultDTO<GalleryDTO, Object[]>> getCuratorModal(SearchPageRequestDTO pageRequestDTO) {
         log.info("---------------get curator rest---------------");

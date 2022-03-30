@@ -27,17 +27,5 @@ public class TestController {
         return "test";
     }
 
-    // @GetMapping("/toggle")
-    // public String slide(){
-    //     return "toggleTest";
-    // }
-
-    @GetMapping("/toggle")
-    public String painting( PageRequestDTO pageRequestDTO, Model model, Long gno){
-        model.addAttribute("galleryDTOList", galleryService.getGalleryList(true));
-        model.addAttribute("emojiInfoList", emojiInfoService.getEmojiInfoList());
-        model.addAttribute("list", galleryService.getPaintingList(pageRequestDTO));
-        return "toggleTest";
-    }
 
 }

@@ -50,6 +50,7 @@ public class DyningServiceImpl implements DyningService {
     dyningImageList.forEach(dyningImage -> {
       dyningImageRepository.save(dyningImage);
     });
+      
     log.info(dyning.getDno());
     return dyning.getDno();
   }

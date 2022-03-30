@@ -130,6 +130,10 @@ public class GalleryRepositoryTests {
             .build();
 
         Pageable pageable = pageRequestDTO.getPageable(Sort.by("gno"));
+<<<<<<< HEAD
+=======
+        
+>>>>>>> T_gallery
         Page<Gallery> result = galleryRepository.getGalleryPage(pageable);
         System.out.println(result.getSize());
         System.out.println(result.getTotalPages());

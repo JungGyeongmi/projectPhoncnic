@@ -45,6 +45,7 @@ public class EmojiRepositoryTests {
         }
 
     }
+<<<<<<< HEAD
 
     @Test
     @Transactional
@@ -54,6 +55,17 @@ public class EmojiRepositoryTests {
     }
 
     @Test
+=======
+
+    @Test
+    @Transactional
+    public void test() {
+        List<EmojiDTO> emojiList = emojiService.getEmojiByGno("g", 3L);
+        emojiList.forEach(emoji -> System.out.println(emoji));
+    }
+
+    @Test
+>>>>>>> T_gallery
     public void getEmojiCountgno() {
         List<Object[]> result = emojiRepository.getEmojiCountByGno(3L);
         Long[][] emojicntArr = new Long[5][2];
@@ -106,9 +118,32 @@ public class EmojiRepositoryTests {
         List<Object[]> emojiList = emojiRepository.getEmojiCountByGno(3L);
 
         emojiList.stream().forEach(cnt -> {
+<<<<<<< HEAD
             System.out.println("count : " + cnt[1]);
             System.out.println("type : " + cnt[0]);
             System.out.println("count : " + cnt[1]);
         });
+=======
+            System.out.println("type : " + cnt[0]);
+            System.out.println("count : " + cnt[1]);
+        });
+    }
+
+    @Test
+    @Transactional
+    public void testUpdateEmoji() {
+        // List<Emoji> emoji = emojiRepository.getEmojiByGno(28L);
+        // emoji.stream().forEach(e -> {
+        //     System.out.println("type : " + e.getEmojiInfo());
+        // });
+        // System.out.println("---변경 전--");
+        Integer eno = emojiRepository.updateEmojiTypeByGnoAndMemberId("3", 28L, "user1@icloud.com");
+        System.out.println(eno);
+        // emoji = emojiRepository.getEmojiByGno(28L);
+        // System.out.println("---변경 후--");
+        // emoji.stream().forEach(e -> {
+        //     System.out.println("type : " + e.getEmojiInfo());
+        // });
+>>>>>>> T_gallery
     }
 }

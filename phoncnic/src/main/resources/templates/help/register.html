@@ -35,41 +35,8 @@
                 <button type="submit">등록</button>
                 <a th:href="@{/help/list}"><button type="button">목록</button></a>
             </div>
-<<<<<<< HEAD
-            <div>
-                <label>작성자</label> <br>
-                <input type="text" name="writer">
-            </div>
-            <div>
-                <label>제목</label> <br>
-                <input type="text" name="title">
-            </div>
-            <div>
-                <label>내용</label> <br>
-                <textarea name="content" id="" cols="30" rows="10"></textarea>
-            </div>
-            <div>
-                <label>비밀번호</label> <br>
-                <input type="number" name="password" id="pwInput" oninput="pwLength(this,4)">
-                <span>숫자 4자리를 입력해주세요</span>
-            </div> <br>
-            <button type="submit">등록</button>
-            <a th:href="@{/help/list}"><button type="button">목록</button></a>
-        </div>
-    </form>
-</body>
-<script th:inline="javascript">
-    //글자수 제한
-    pwInput = document.getElementById("pwInput");
-    function pwLength(input, maxlength) {
-        if (pwInput.value > maxlength) {
-            input.value = input.value.substr(0,maxlength);
-        }
-    }
-</script>
-</html>
-=======
         </form>
+        </body>
         <script th:inline="javascript">
             //글자수 제한
             pwInput = document.getElementById("pwInput");
@@ -79,6 +46,8 @@
                 }
             }
         </script>
-    </th:block>
+
+</html>
+</script>
 </th:block>
->>>>>>> T_main
+</th:block>
