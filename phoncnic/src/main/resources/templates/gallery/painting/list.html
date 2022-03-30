@@ -39,21 +39,24 @@
 				}
 
 				.swiper {
-					width: 100%;
-					padding-top: 50px;
-					padding-bottom: 50px;
+					width: 95%;
+					margin-top: 10px;
+					margin-bottom: 120px;
 				}
 
 				.swiper-slide {
 					background-position: center;
 					background-size: cover;
 					width: 300px;
-					height: 300px;
+					height: 450px;
 				}
 
 				.swiper-slide img {
 					display: block;
 					width: 100%;
+					height: 100%;
+					object-fit: cover;
+					object-position: center;
 				}
 			</style>
 		</head>
@@ -84,22 +87,27 @@
 		<script>
 			var swiper = new Swiper(".mySwiper", {
 				effect: "coverflow",
-				grabCursor: true,
+				grabCursor: false,
 				centeredSlides: true,
 				slidesPerView: "3",
 				coverflowEffect: {
-					rotate: 50,
-					stretch: 0,
-					depth: 100,
+					rotate: 0,
+					stretch: -0,
+					depth: 200,
 					modifier: 1,
 					slideShadows: true,
-					loop: true,
-					mousewheel: true,
 				},
+				loop: true,
+				mousewheel: true,
 				pagination: {
 					el: ".swiper-pagination",
-					clickable: false,
+					clickable: true,
 				},
+				navigation: {
+					nextEl: ".swiper-button-next",
+					prevEl: ".swiper-button-prev",
+				},
+
 			});
 		</script>
 
@@ -132,7 +140,7 @@
 
 							<div class=row>
 								<div class="col-md-7"><h2>${dto.title}</h2></div>
-								<div class="col-md-4"><h4>${dto.id}</h4></div>
+								<div class="col-md-5"><h4>${dto.id}</h4></div>
 							</div>
 
 							<div id="emojiBox">
@@ -161,7 +169,7 @@
 				}
 
 				/* target의 gno / target의 imagepath 가져옴 / emoji 갯수 */
-				$("#galleryList").click(function () {
+				$(".swiper-slide").click(function () {
 					var targetGno = $(this).data("gno");
 					var targetFile = $(this).data("file");
 					showdetailsModal(targetGno, targetFile);
@@ -173,7 +181,7 @@
 					var displayUrl = [[@{/display}]];
 				+]*/
 
-				var searchResult = $(".md-serach-result");
+				var searchResult = $(".result-container");
 				var curatorBtn = $("#curatorBtn");
 				var searchBtn = $("#md-search-btn");
 				var searchForm = $("#modal-frm");
@@ -197,22 +205,30 @@
 					getCuratorList();
 				});
 
-				function getCuratorList() {
-					$.get(curatorUrl, function (result) {
+				$(".left").on("click", function () {
+					var url = $(this).data('leftUrl');
+					getCuratorList(url);
+				});
+				$(".right").on("click", function () {
+					var url = $(this).data('rightUrl');
+					getCuratorList(url);
+				});
+
+				function getCuratorList(url) {
+					$.get(url, function (result) {
+						$(".left").attr('data-left-url', curatorUrl + `?page=${result.page - 1}`);
+						$(".right").attr('data-right-url', curatorUrl + `?page=${result.page + 1}`);
 						var str = "";
 						$.each(result.dtoList, function (idx, dto) {
-							str += `<li class="search-result-Item" data-search-file="${dto.imageURL}" data-search-gno="${dto.gno}">
-										<div>
-											<p>
-												${dto.title}
-											</p>
-											<img src="${displayUrl}?fileName=${dto.thumbnailURL}">
-											${dto.content}
-										</div>
-									</li>`;
-						})
+							str += `<div class="search-result-Item item" data-search-file="${dto.imageURL}" data-search-gno="${dto.gno}">
+                              <img  class="md-conteainer-img" src="${displayUrl}?fileName=${dto.imageURL}">                              
+                              <br/>
+                              <p>${dto.title}</p>
+                           </div>`;
+						});
 						searchResult.html(str);
-					}).done(function () {
+					}).done(function (response) {
+						console.log(response);
 						console.log("get success curator");
 					}).fail(function (response) {
 						console.log("get curator fial...");
@@ -221,6 +237,8 @@
 				}
 
 				function getSearchList() {
+					$(".left").attr('data-left-url', curatorUrl + `?page=${result.page - 1}`);
+					$(".right").attr('data-right-url', curatorUrl + `?page=${result.page + 1}`);
 					$.ajax({
 						type: "GET",
 						url: curatorUrl,
@@ -229,15 +247,11 @@
 							console.log("get curator saerch success");
 							var str = "";
 							$.each(response.dtoList, function (idx, dto) {
-								str += `<li class="search-result-Item " data-search-file="${dto.imageURL}" data-search-gno="${dto.gno}">
-											<div>
-												<p>
-													${dto.title}
-												</p>
-												<img src="${displayUrl}?fileName=${dto.thumbnailURL}">
-												${dto.content}
-											</div>
-										</li>`;
+								str += `<div class="search-result-Item item" data-search-file="${dto.imageURL}" data-search-gno="${dto.gno}">
+                              <img  class="md-conteainer-img" src="${displayUrl}?fileName=${dto.imageURL}">                              
+                              <br/>
+                              <p>${dto.title}</p>
+                           </div>`;
 							})
 							searchResult.html(str);
 						},
@@ -246,8 +260,9 @@
 						}
 					});
 				}
-
 				function emojiBoxReload() {
+					$("#myModal").modal("show");
+				} function emojiBoxReload() {
 					$("#myModal").modal("show");
 
 				}
@@ -312,8 +327,8 @@
 		</script>
 
 		<!-- 큐레이터 모달창 -->
-		<div class="modal" tabindex="-1" id="curatorModal">
-			<div class="modal-dialog">
+		<div class="modal fade bd-example-modal-xl" tabindex="-1" id="curatorModal">
+			<div class="modal-dialog modal-xl">
 				<div class="modal-content">
 					<div class="modal-header">
 						<h5 class="modal-title">큐레이터</h5>
@@ -331,20 +346,30 @@
 							<input id="md-search-btn" type="button" value="검색">
 							<select name="sort">
 								<option value="d" disabled selected>정렬조건</option>
-								<option value="e">좋아요순</option>
-								<option value="d">가나다순</option>
+								<option value="a">오름차순</option>
+								<option value="d">내림차순</option>
 							</select>
 						</form>
 						<hr>
-						<div>
-							<ul class="md-serach-result">
-
-							</ul>
+						<div class="">
+							<div class="md-conteainer ">
+								<div class='md-btn-container'>
+									<div class='helper'></div>
+									<div class='md-item-btn left'>🎈</div>
+								</div>
+								<div class="md-serach-result result-container"></div>
+								<div class='md-btn-container'>
+									<div class='helper'></div>
+									<div class='md-item-btn right'>🎈</div>
+								</div>
+								<div>
+								</div>
+							</div>
 						</div>
-					</div>
-					<div class="modal-footer">
-						<!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-             		   <button type="button" class="btn btn-primary">Save changes</button> -->
+						<div class="modal-footer">
+							<!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					 <button type="button" class="btn btn-primary">Save changes</button> -->
+						</div>
 					</div>
 				</div>
 			</div>
@@ -353,7 +378,7 @@
 		<!-- Details 모달창 -->
 		<div class="modal" tabindex="-1" id="detailsModal">
 			<div class="container">
-				<div class="modal-dialog modal-xl">
+				<div class="modal-dialog modal-lg">
 					<div class="modal-content">
 						<div class="modal-header">
 							<h5 class="modal-title">작품 상세페이지</h5>

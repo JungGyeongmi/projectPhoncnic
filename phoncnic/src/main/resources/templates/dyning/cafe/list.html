@@ -1,56 +1,5 @@
 <!DOCTYPE html>
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
-
-<<<<<<< HEAD
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CAFE LIST</title>
-    <style>
-<<<<<<< HEAD
-        #dyningname {
-            cursor: pointer;
-        }
-
-        #roofdesign {
-            cursor: pointer;
-        }
-=======
-        #dyningname {cursor: pointer;}
-        #roofdesign {cursor: pointer;}
->>>>>>> T_gallery
-    </style>
-</head>
-
-<body>
-    <h1>cafe</h1>
-    <table border="1" >
-        <tr >
-            <th scope="col">dyningname</th>
-            <th scope="col">Roof Path</th>
-        </tr>
-        <tr  th:each="dto : ${result}"
-        th:onclick="'location.href=
-        \''+ @{/dyning/details(dno=${dto.dno})}
-             + '\''"
-              th:if="${dto.foodtype}==1">
-            <!-- <td >[[${dto.dno}]]</td> -->
-<<<<<<< HEAD
-            <td >[[${dto.dyningname}]]</td>
-            <!-- <td>[[${dto.foodtype}]]</td> -->
-            <td>[[${dto.roofpath}]]</td>
-=======
-            <td id="dyningname">[[${dto.dyningname}]]</td>
-            <!-- <td>[[${dto.foodtype}]]</td> -->
-            <td id="roofpath">[[${dto.roofpath}]]</td>
->>>>>>> T_gallery
-        </tr>
-    </table>
-</body>
-
-</html>
-=======
 <th:block th:replace="~{layout/dyninglayout :: setContent(~{::content})}">
     <th:block th:fragment="content">
         <style>
@@ -80,4 +29,4 @@
         </table>
     </th:block>
 </th:block>
->>>>>>> T_main
+
