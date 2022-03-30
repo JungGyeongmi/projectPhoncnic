@@ -2,11 +2,10 @@ package ds.com.phoncnic.repository.search;
 
 import java.util.List;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -21,17 +20,17 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
 import ds.com.phoncnic.entity.Dyning;
 import ds.com.phoncnic.entity.QDyning;
-import ds.com.phoncnic.entity.QFollow;
 import lombok.extern.log4j.Log4j2;
+
 @Log4j2
 public class SearchDyningRepositoryImpl extends QuerydslRepositorySupport implements SearchDyningRepository {
 
   /*
-    JpaRepository의 부족한 부분은 바로 각 항목에 대한 
-    max, min 값을 구하는 Predicate query와 
-    다양한 update,delete를 하는 query들을 만들어주는 것이 불가능
-    그래서 QuerydslRepositorySupport을 사용
-  */
+   * JpaRepository의 부족한 부분은 바로 각 항목에 대한
+   * max, min 값을 구하는 Predicate query와
+   * 다양한 update,delete를 하는 query들을 만들어주는 것이 불가능
+   * 그래서 QuerydslRepositorySupport을 사용
+   */
 
   public SearchDyningRepositoryImpl() {
     super(Dyning.class);
@@ -64,12 +63,11 @@ public class SearchDyningRepositoryImpl extends QuerydslRepositorySupport implem
     // 1. 사용하고자 하는 Q도메인을 선언(동적쿼리 호출을 위해 선언)
     QDyning dyning = QDyning.dyning;
 
-
     // 2. JPQLQuery을 이용해서 서로 연관(조인) 시킴
     JPQLQuery<Dyning> jpqlQuery = from(dyning);
 
     // 3. 쿼리 대상(내용)을 정한다. Tuple은 Object[]과 같은 기능
-    JPQLQuery<Dyning> tuple = jpqlQuery.select(dyning);
+    JPQLQuery<Dyning> obj = jpqlQuery.select(dyning);
 
     // 4. 검색 조건을 위한 객체 선언
     BooleanBuilder builder = new BooleanBuilder();
@@ -91,37 +89,37 @@ public class SearchDyningRepositoryImpl extends QuerydslRepositorySupport implem
       }
       builder.and(conditionBuilder);
     }
-    tuple.where(builder);
-    
+    obj.where(builder);
+
     Sort sort = pageable.getSort();
     sort.stream().forEach(new Consumer<Sort.Order>() {
       @Override
       public void accept(Sort.Order order) {
-        Order direction = order.isAscending()?Order.ASC:Order.DESC;
+        Order direction = order.isAscending() ? Order.ASC : Order.DESC;
         String prop = order.getProperty();
-        log.info("prop>>"+prop);
+        log.info("prop>>" + prop);
         PathBuilder orderByExpression = new PathBuilder<>(
-          Dyning.class,"dyning");
-        tuple.orderBy(new OrderSpecifier<>(direction, orderByExpression.get(prop)));
+            Dyning.class, "dyning");
+        obj.orderBy(new OrderSpecifier<>(direction, orderByExpression.get(prop)));
       }
     });
 
-    tuple.groupBy(dyning); //board의 목록에 따른 그룹
-    tuple.offset(pageable.getOffset());
-    tuple.limit(pageable.getPageSize());
+    obj.groupBy(dyning); // board의 목록에 따른 그룹
+    obj.offset(pageable.getOffset());
+    obj.limit(pageable.getPageSize());
 
-    List<Dyning> result = tuple.fetch();
+    List<Dyning> result = obj.fetch();
     log.info(result);
-    long count = tuple.fetchCount();
-    log.info("COUNT: "+count);
+    long count = obj.fetchCount();
+    log.info("COUNT: " + count);
 
-    return new PageImpl<Object[]>(result.stream().map(new Function<Dyning, Object[]>(){
+    return new PageImpl<Object[]>(result.stream().map(new Function<Dyning, Object[]>() {
 
       @Override
       public Object[] apply(Dyning t) {
-        return new Object[]{t};
+        return new Object[] { t };
       }
 
-    }).collect(Collectors.toList()),pageable,count);
+    }).collect(Collectors.toList()), pageable, count);
   }
 }
