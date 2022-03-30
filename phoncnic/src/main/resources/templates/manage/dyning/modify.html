@@ -4,7 +4,6 @@
     <th:block th:fragment="content">
         <h1>가게 수정</h1>
 
-    <h1>가게 등록</h1>
     <form th:action="@{/manage/dyning/modify}" th:method="post" id="form">
       <label for="">id
       <input type="hidden" name="dno" th:value="${result.dno}">
@@ -413,6 +412,6 @@
            </div>
        </div>
 
-</html>
-</th:block>
-</th:block>
+      </th:block>
+    </th:block>
+    </html>
