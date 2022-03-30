@@ -45,7 +45,6 @@ public class EmojiRepositoryTests {
         }
 
     }
-<<<<<<< HEAD
 
     @Test
     @Transactional
@@ -55,17 +54,6 @@ public class EmojiRepositoryTests {
     }
 
     @Test
-=======
-
-    @Test
-    @Transactional
-    public void test() {
-        List<EmojiDTO> emojiList = emojiService.getEmojiByGno("g", 3L);
-        emojiList.forEach(emoji -> System.out.println(emoji));
-    }
-
-    @Test
->>>>>>> T_gallery
     public void getEmojiCountgno() {
         List<Object[]> result = emojiRepository.getEmojiCountByGno(3L);
         Long[][] emojicntArr = new Long[5][2];
@@ -118,12 +106,6 @@ public class EmojiRepositoryTests {
         List<Object[]> emojiList = emojiRepository.getEmojiCountByGno(3L);
 
         emojiList.stream().forEach(cnt -> {
-<<<<<<< HEAD
-            System.out.println("count : " + cnt[1]);
-            System.out.println("type : " + cnt[0]);
-            System.out.println("count : " + cnt[1]);
-        });
-=======
             System.out.println("type : " + cnt[0]);
             System.out.println("count : " + cnt[1]);
         });
@@ -144,6 +126,5 @@ public class EmojiRepositoryTests {
         // emoji.stream().forEach(e -> {
         //     System.out.println("type : " + e.getEmojiInfo());
         // });
->>>>>>> T_gallery
     }
 }

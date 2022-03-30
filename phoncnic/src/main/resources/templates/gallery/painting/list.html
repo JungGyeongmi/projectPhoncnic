@@ -126,9 +126,6 @@
 		</div>
 		<button type="button" id="curatorBtn" data-bs-toggle="modal" data-bs-target="#curatorModal">큐레이터</button>
 
-
-
-		<button type="button" id="curatorBtn" data-bs-toggle="modal" data-bs-target="#curatorModal">큐레이터</button>
 		<!-- Swiper JS -->
 		<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 
@@ -161,22 +158,6 @@
 		</script>
 
 		</style>
-
-		<h1>그림전</h1>
-		<!-- data-bs-toggle="modal" data-bs-target="#detailsModal" -->
-		<ul style="list-style:none;padding-left:0px;">
-			<li style="margin-bottom:1%;" class="galleryList" th:each="dto : ${galleryDTOList}" th:data-gno="${dto.gno}"
-				th:data-file="${dto.getImageURL}">
-				<div style="border: 1px black solid;">
-					[[${dto.title}]]
-					<br><img style="cursor:pointer;" th:src="|@{'/display'}?fileName=${dto.getThumbnailURL()}|"
-						alt="이미지를 불러올 수 없습니다">
-					[[${dto.content}]]
-					<br>
-				</div>
-			</li>
-		</ul>
-
 		<script th:inline="javascript">
 			$(document).ready(function () {
 
@@ -462,7 +443,7 @@
 		<!-- Details 모달창 -->
 		<div class="modal" tabindex="-1" id="detailsModal">
 			<div class="container">
-				<div class="modal-dialog modal-xl">
+				<div class="modal-dialog modal-lg">
 					<div class="modal-content">
 						<div class="modal-header">
 							<h5 class="modal-title">작품 상세페이지</h5>
