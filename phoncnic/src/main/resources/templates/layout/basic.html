@@ -16,6 +16,11 @@
         <link th:href="@{/css/styles.css}" rel="stylesheet" />
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"
             integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        <style>
+            .list-group-item-hover:hover {
+                background-color: #dbe9b7 !important;
+            }
+        </style>
     </head>
 
     <body>
@@ -24,10 +29,10 @@
             <div class="border-end bg-white" id="sidebar-wrapper">
                 <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/}"><h2>Phoncnic</h2></a>
                 <!-- <a th:href="@{/}"><div class="sidebar-heading border-bottom bg-light">Start Bootstrap</div></a> -->
-                <div class="list-group list-group-flush">
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/main/mypage(id='user1@icloud.com')}">마이페이지</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/help/list/}">고객센터</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/main/companyinfo}">회사소개</a> 
+                <div class="list-group list-group-flush ">
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3 list-group-item-hover" th:href="@{/main/mypage(id='user1@icloud.com')}">마이페이지</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3 list-group-item-hover" th:href="@{/help/list/}">고객센터</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3 list-group-item-hover" th:href="@{/main/companyinfo}">회사소개</a> 
                 </div>
             </div>
             <!-- Page content wrapper-->
