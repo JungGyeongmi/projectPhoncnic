@@ -1,85 +1,163 @@
 <!DOCTYPE html>
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
+
 <th:block th:replace="~{layout/basic :: setContent(~{::content})}">
 	<th:block th:fragment="content">
-		<style>
-			input[name="emojitype"] {
-				opacity: 0;
-			}
 
-			input[name="emojitype"]+label {
-				padding: 20px 10px;
-			}
+		<head>
+			<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
+			<!-- Link Swiper's CSS -->
+			<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
 
-			input[name="emojitype"]:checked+label+span {
-				color: red;
+			<style>
+				input[name="emojitype"] {
+					opacity: 0;
+				}
 
-			}
+				input[name="emojitype"]+label {
+					padding: 20px 10px;
+				}
 
-			/* wrapper 사용 ??  */
-			.md-conteainer {
-				display: grid;
-				grid-template-columns: 10px 2fr 10px;
-			}
+				input[name="emojitype"]:checked+label+span {
+					color: red;
 
-			.result-container {
-				display: grid;
-				/* 최소 100px 확보 후 늘어나면 자동 */
-				grid-template-columns: repeat(auto-fit, minmax(300px, auto));
-				grid-template-rows: repeat(1, minmax(300px, auto));
-				row-gap: 3%;
-				column-gap: 3%;
-				/* items 세로 정렬 */
-				align-items: center;
-				/* items 가로 정렬 */
-				justify-items: center;
-				/* 두개를 동시에 사용 가능 place-items: center start; */
-			}
+				}
 
-			.md-conteainer img {
-				width: 300px;
-				height: 300px;
-				border-radius: 10%;
-			}
+				html,
+				body {
+					position: relative;
+					height: 100%;
+				}
 
-			.md-btn-container {
-				width: 20px;
-				/* background-color: bisque; */
-				height: 100%;
-			}
+				body {
+					background: #eee;
+					font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+					font-size: 14px;
+					color: #000;
+					margin: 0;
+					padding: 0;
+				}
 
-			.md-item-btn {
-				width: 0;
-				z-index: 3;
-				display: inline-block;
-				vertical-align: middle;
-				transform: scale(2);
-			}
+				.swiper {
+					width: 95%;
+					margin-top: 10px;
+					margin-bottom: 120px;
+				}
 
-			.helper {
-				width: 0;
-				/* background-color: red; */
-				display: inline-block;
-				vertical-align: middle;
-				height: inherit;
-			}
-		</style>
+				.swiper-slide {
+					background-position: center;
+					background-size: cover;
+					width: 300px;
+					height: 450px;
+				}
+
+				.swiper-slide img {
+					display: block;
+					width: 100%;
+					height: 100%;
+					object-fit: cover;
+					object-position: center;
+				}
+
+				/* wrapper 사용 ??  */
+				.md-conteainer {
+					display: grid;
+					grid-template-columns: 10px 2fr 10px;
+				}
+
+				.result-container {
+					display: grid;
+					/* 최소 100px 확보 후 늘어나면 자동 */
+					grid-template-columns: repeat(auto-fit, minmax(300px, auto));
+					grid-template-rows: repeat(1, minmax(300px, auto));
+					row-gap: 3%;
+					column-gap: 3%;
+					/* items 세로 정렬 */
+					align-items: center;
+					/* items 가로 정렬 */
+					justify-items: center;
+					/* 두개를 동시에 사용 가능 place-items: center start; */
+				}
+
+				.md-conteainer img {
+					width: 300px;
+					height: 300px;
+					border-radius: 10%;
+				}
+
+				.md-btn-container {
+					width: 20px;
+					/* background-color: bisque; */
+					height: 100%;
+				}
+
+				.md-item-btn {
+					width: 0;
+					z-index: 3;
+					display: inline-block;
+					vertical-align: middle;
+					transform: scale(2);
+				}
+
+				.helper {
+					width: 0;
+					/* background-color: red; */
+					display: inline-block;
+					vertical-align: middle;
+					height: inherit;
+				}
+			</style>
+		</head>
+
 
 		<h1>사진전</h1>
-		<ul style="list-style:none;padding-left:0px;">
-			<li style="margin-bottom:1%;" class="galleryList" th:each="dto : ${galleryDTOList}" th:data-gno="${dto.gno}"
-				th:data-file="${dto.getImageURL}" data-bs-toggle="modal" data-bs-target="#detailsModal">
-				<div style="border: 1px black solid;">
+		<div class="swiper mySwiper">
+			<div class="swiper-wrapper">
+				<div class="swiper-slide" id="galleryList" th:each="dto : ${galleryDTOList}" th:data-gno="${dto.gno}"
+					th:data-file="${dto.getImageURL}" data-bs-toggle="modal" data-bs-target="#detailsModal">
+					<img style="cursor:pointer;" th:src="|@{'/display'}?fileName=${dto.getImageURL()}|"
+						alt="이미지를 불러올 수 없습니다" />
 					[[${dto.title}]]
-					<br><img style="cursor:pointer;" th:src="|@{'/display'}?fileName=${dto.getThumbnailURL()}|"
-						alt="이미지를 불러올 수 없습니다">
-					[[${dto.content}]]
-					<br>
 				</div>
-			</li>
-		</ul>
+			</div>
+			<div class="swiper-pagination"></div>
+			<div class="swiper-button-prev"></div>
+			<div class="swiper-button-next"></div>
+		</div>
 		<button type="button" id="curatorBtn" data-bs-toggle="modal" data-bs-target="#curatorModal">큐레이터</button>
-		<button type="button" class="testBtn">test</button>
+
+		<!-- Swiper JS -->
+		<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+		<!-- Initialize Swiper -->
+		<script>
+			var swiper = new Swiper(".mySwiper", {
+				effect: "coverflow",
+				grabCursor: false,
+				centeredSlides: true,
+				slidesPerView: "3",
+				coverflowEffect: {
+					rotate: 0,
+					stretch: -0,
+					depth: 200,
+					modifier: 1,
+					slideShadows: true,
+				},
+				loop: true,
+				mousewheel: true,
+				pagination: {
+					el: ".swiper-pagination",
+					clickable: true,
+				},
+				navigation: {
+					nextEl: ".swiper-button-next",
+					prevEl: ".swiper-button-prev",
+				},
+
+			});
+		</script>
+
+		</style>
 		<script th:inline="javascript">
 			$(document).ready(function () {
 
@@ -87,7 +165,6 @@
 					var readUrl = [[@{/gallery/read}]];
 					var emojiUrl = [[@{/gallery/emoji}]];
 					var emojiaddUrl = [[@{/gallery/register}]];
-					var emojiRecountUrl = [[@{/gallery/recount}]];
 					var urlDisplay = [[@{/display}]];
 			    
 				+]*/
@@ -250,10 +327,13 @@
 					});
 				}
 
+
+
 				function emojiBoxReload() {
 					$("#myModal").modal("show");
-
 				}
+
+
 				//이모지 등록
 				$(document).on("click", ".emoji", function (event) {
 					var id = $(".inputId").val();

@@ -23,6 +23,7 @@ public class HelpController {
 
     @GetMapping({ "", "/","/list" })
     public String getHelpHome(PageRequestDTO pageRequestDTO, Model model) {
+
         model.addAttribute("result", helpService.getQnaList(pageRequestDTO));
         return "/help/list";
     }
