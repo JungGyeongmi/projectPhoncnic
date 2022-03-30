@@ -1,14 +1,11 @@
 <!DOCTYPE html>
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gallery crossroad</title>
-</head>
-<body>
-    <ul>
-        <li><a th:href="@{/gallery/crossgallery/photo}">/gallery/crossgallery/photo</a></li>
-        <li><a th:href="@{/gallery/crossgallery/painting}">/gallery/crossgallery/painting</a></li>
-    </ul>
-</body>
+<th:block th:replace="~{layout/basic :: setContent(~{::content})}">
+    <th:block th:fragment="content">
+        <h1>Gallery CROSSROAD</h1>
+        <ul>
+            <li><a th:href="@{/gallery/crossgallery/photo}">/gallery/crossgallery/photo</a></li>
+            <li><a th:href="@{/gallery/crossgallery/painting}">/gallery/crossgallery/painting</a></li>
+        </ul>
+    </th:block>
+</th:block>

@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
+<th:block th:replace="~{layout/basic :: setContent(~{::content})}">
+    <th:block th:fragment="content">
+        <h1>가게 수정</h1>
 
     <h1>가게 등록</h1>
     <form th:action="@{/manage/dyning/modify}" th:method="post" id="form">
@@ -44,7 +47,7 @@
                 </div>
               </div>
               <div class="menubox">
-               
+
               </div>
               <div class="menuuploadResult">
                 <ul >
@@ -54,7 +57,7 @@
                     <button th:if="${idto.menuimagename}" type='button' th:data-file="|@{'/display'}?fileName=${idto.getMenuImageURL()}|" class='btn-warning btn-sm'>X</button><br>
                     <img th:src="|@{'/display'}?fileName=${idto.getMenuThumbnailImageURL()}|" alt=""></div></li>
                   </th:block>
-                  
+
               </ul>
               </div>
         </label><br><br>
@@ -72,21 +75,21 @@
                 <ul>
                   <li th:if="${idto.backgroundpath}" style="list-style: none;" th:each="idto: ${imageresult}" th:data-name="${idto.backgroundname}"
                   th:data-uuid="${idto.backgrounduuid}" th:data-path="${idto.backgroundpath}"><div>
-                  <button  type='button' th:data-file="|@{'/display'}?fileName=${idto.getBackgoundImageURL()}|" 
+                  <button  type='button' th:data-file="|@{'/display'}?fileName=${idto.getBackgoundImageURL()}|"
                   class='btn-warning btn-sm'>X</button><br>
                   <img th:src="|@{'/display'}?fileName=${idto.getBackgoundThumbnailImageURL()}|" alt=""></div></li>
               </ul>
               </div>
-            
+
         </label><br><br>
         <label for="">roofdesign
-         
+
           <button type="button" id="roofChoice">roof disign 변경하기</button><br>
           <input type="hidden" name="oono" id="roofdisign" th:value="${result.oono}">
           현재 roof 디자인<img id="selectedroof"  th:src="${result.roofthumbnail}" alt="">
-        
+
         </label><br><br>
-        
+
     </form>
 
     <button type="button" class="btn-submit">등록하기</button>
@@ -113,7 +116,7 @@
         $("#roofChoice").on("click",function(e){
           $("#roofModal").show();
         });
-        
+
         $(".okBtn").on("click",function(e){
           var rooftype = $('input[name="oono"]:checked');
           var selectedroofimage = rooftype.next().attr("src");
@@ -128,18 +131,18 @@
          /*[+
            var roofpath=[[${result.roofpath}]];
            +]*/
-        
+
 
          //  upload url 선언 및 초기화
          /*[+
            var urlUpload = [[@{/uploadAjax/}]];
          +]*/
-   
+
          // 입력 파일 형식 및 크기 제한 : 여기서는 jpg만 받음
          // 이걸 함수에서만 쓰는거면 지역변수로 넣는게 좋은듯
          var regex = new RegExp("(.*?)\.(exe|sh|zip|alz|tiff|txt)$");
          var maxSize = 10485760;
-   
+
          // 이미지 파일 유효성 검사를 위한 함수 fileName과 fileSize를 파라미터로 받음
          function checkExtension(fileName, fileSize) {
            // 사이즈 유효성 검사
@@ -147,35 +150,35 @@
              alert("파일사이즈 초과");
              return false;
            }
-           // 파일 이름으로 유효성 검사 
+           // 파일 이름으로 유효성 검사
            // regex에 .이 포함되어있으니까 +1을 안해줘도 돼
            if (regex.test(fileName.substring(fileName.lastIndexOf(".")))) {
              // alert("해당파일은 업로드 될 수 없습니다!");
              return false;
            }
-   
+
            return true;
          }
-   
+
          // 해당 클래스에 변화가 있을 때 동작하는 이벤트
          $(".custom-file-input1").on("change", function () {
-   
+
            // this 즉 이벤트 타겟의 값을 불러와서 기준값에 따라서 배열로 나누고 배열에서 마지막 요소를 제거하고 그 요소를 반환(pop메소드)
            var fileName = $(this).val().split("/").pop();
-   
+
            // 테스트용 콘솔
            console.log("fileName >> "+fileName);
            console.log("확장자 인덱스 >> "+fileName.lastIndexOf("."));
            console.log("확장자 >> "+ fileName.substring(fileName.lastIndexOf(".")+1));
-           
+
            // 해당 클래스에 selected라는 클래스를 추가함
            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
-           
+
            var formData = new FormData(); //Form태그에 동적으로 데이터할당
            var inputFile = $(this); // 이벤트 대상
            var files = inputFile[0].files; // 해당 파일 객체
            var appended = false; // 추가가 정상적으로 이루어졌는지 확인하기 위한 boolean 변수
-           
+
            for (let i = 0; i < files.length; i++) {
              if (!checkExtension(files[i].name, files[i].size)) {
                // 여기서 유효성 검사 통과하지 못하면 파일선택에 들어가있는 값 털어버리는 것 추가 필요 서치 더 해보기
@@ -185,13 +188,13 @@
              formData.append("uploadFiles", files[i]); // if문을 통과하는경우에 Form태그에 데이터를 append시킴
              appended = true; // 제대로 추가돼었다는것을 알리기위해서 true값 재할당
            }
-   
-   
+
+
            if (!appended) { return; } // 어펜드가 제대로 되지 않은 경우에 리턴하는데 위에서 return false로 함수 나가게 했으니까 필요없지 않나?
-           
+
            // value라는 변수에 formData의 값들을 하나씩 넣음 forEach내지 향포 개념임 for of 반복문
            for(var value of formData.values()) console.log("formData >> "+value);
-   
+
            // 파일 업로드를 위한 ajax
            $.ajax({
              url: urlUpload, // 스크림트 도입부에 url 올려둠
@@ -211,7 +214,7 @@
          });
 
          $(".custom-file-input2").on("change", function () {
-   
+
    // this 즉 이벤트 타겟의 값을 불러와서 기준값에 따라서 배열로 나누고 배열에서 마지막 요소를 제거하고 그 요소를 반환(pop메소드)
    var fileName = $(this).val().split("/").pop();
 
@@ -219,15 +222,15 @@
    console.log("fileName >> "+fileName);
    console.log("확장자 인덱스 >> "+fileName.lastIndexOf("."));
    console.log("확장자 >> "+ fileName.substring(fileName.lastIndexOf(".")+1));
-   
+
    // 해당 클래스에 selected라는 클래스를 추가함
    $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
-   
+
    var formData = new FormData(); //Form태그에 동적으로 데이터할당
    var inputFile = $(this); // 이벤트 대상
    var files = inputFile[0].files; // 해당 파일 객체
    var appended = false; // 추가가 정상적으로 이루어졌는지 확인하기 위한 boolean 변수
-   
+
    for (let i = 0; i < files.length; i++) {
      if (!checkExtension(files[i].name, files[i].size)) {
        // 여기서 유효성 검사 통과하지 못하면 파일선택에 들어가있는 값 털어버리는 것 추가 필요 서치 더 해보기
@@ -240,7 +243,7 @@
 
 
    if (!appended) { return; } // 어펜드가 제대로 되지 않은 경우에 리턴하는데 위에서 return false로 함수 나가게 했으니까 필요없지 않나?
-   
+
    // value라는 변수에 formData의 값들을 하나씩 넣음 forEach내지 향포 개념임 for of 반복문
    for(var value of formData.values()) console.log("formData >> "+value);
 
@@ -261,7 +264,7 @@
      }
    });
  });
-     
+
          // showResult 함수 선언
          function menushowResult(uploadResultArr){
            var uploadUL=$(".menuuploadResult ul");
@@ -279,10 +282,10 @@
            });
            uploadUL.append(str); // ul에 전달쓰
          }
-       
-         
-         
-      
+
+
+
+
 
        function backgroundshowResult(uploadResultArr){
            var uploadUL=$(".backgroundshowResult ul");
@@ -301,8 +304,8 @@
            uploadUL.append(str); // ul에 전달쓰
          }
         });
-       
-   
+
+
        // submit 버튼
        $(".btn-submit").on("click", function (e) {
          e.preventDefault(); // 기본 이벤트 submit을 막음
@@ -316,7 +319,7 @@
            str += `<input type='hidden' name='dyningImageDTOList[${i}].menuimageuuid' value='${target.data('uuid')}'>`;
            str += `<input type='hidden' name='dyningImageDTOList[${i}].menuimagepath' value='${target.data('path')}'>`;
          });
-         
+
 
          $(".backgroundshowResult li").each(function (i, obj) {
            // each로 i idx값과 obj value값을 받아옴
@@ -326,28 +329,28 @@
            str2 += `<input type='hidden' name='dyningImageDTOList[${i}].backgrounduuid' value='${target.data('uuid')}'>`;
            str2 += `<input type='hidden' name='dyningImageDTOList[${i}].backgroundpath' value='${target.data('path')}'>`;
          });
-   
+
          $(".menubox").html(str); // 데이터 전달을 위해서
          $(".backgroundbox").html(str2); // 데이터 전달을 위해서
 
          $("form").submit(); // 전송쓰
-         
+
         //  var form = $("#form").html();
         //  console.log(form);
        });
-   
+
        // 사진 삭제
        // uploadResult 태그를 click 하는 경우에 li의 button에 이벤트를 적용하겠다라는 의미임
        $(".menuuploadResult ").on("click","li button",function(e){
            console.log("delete file...");
-           
+
            var targetFile = $(this).data("file");
            var targetLi = $(this).closest("li");
-   
+
            /*[+
              var urlRemove = [[@{/removeFile}]];
            +]*/
-   
+
            $.ajax({
              url: urlRemove,
              data: {fileName:targetFile},
@@ -361,14 +364,14 @@
 
          $(".backgroundshowResult").on("click","li button",function(e){
            console.log("delete file...");
-           
+
            var targetFile = $(this).data("file");
            var targetLi = $(this).closest("li");
-   
+
            /*[+
              var urlRemove = [[@{/removeFile}]];
            +]*/
-   
+
            $.ajax({
              url: urlRemove,
              data: {fileName:targetFile},
@@ -382,7 +385,7 @@
          $("#roofChoice").on("click",function(e){
            $("#roofModal").modal('show');
          });
-         
+
      </script>
      	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -399,9 +402,9 @@
                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     </span>
                    </div>
-                   
+
                    <div class="modal-footer">
-                       <button type="button" class="btn btn-info okBtn" 
+                       <button type="button" class="btn btn-info okBtn"
                            data-bs-dismiss="modal">Ok</button>
                            <button type="button" class="btn btn-secondary pictureClose close" name='btn-close'
                            data-bs-dismiss="modal">Close</button>

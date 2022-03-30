@@ -4,7 +4,6 @@ import java.util.Optional;
 import java.util.function.Function;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -23,14 +22,14 @@ public class HelpServiceImpl implements HelpService {
     private final HelpRepository helpRepository;
     
     @Override
-    public PageResultDTO<HelpDTO, Help> getQnaList(PageRequestDTO pageRequestDTO) {
-
-        Pageable pageable = pageRequestDTO.getPageable(Sort.by("regDate").descending());
-
-        Page<Help> result = helpRepository.getListPage(pageable);
+    public PageResultDTO<HelpDTO, Object[]> getQnaList(PageRequestDTO pageRequestDTO) {
         
-        Function<Help, HelpDTO> fn = (entity -> entityToDTO(entity));
-        
+        Function<Object[], HelpDTO> fn = (entity -> entityToDTO((Help)entity[0]));
+        Page<Object[]> result = helpRepository.searchPage(
+            pageRequestDTO.getType(), 
+            pageRequestDTO.getKeyword(),
+            pageRequestDTO.getPageable(Sort.by("qno").descending()) );
+            
         return new PageResultDTO<>(result, fn);
     }
 

@@ -2,7 +2,7 @@
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
 
     <h1>등록 가게 열람</h1>
-    
+
     <table border="1">
         <tr>
             <th scope="col">dyningname</th>
@@ -14,8 +14,8 @@
             <th scope="col">menu</th>
             <th scope="col">background</th>
             <th scope="col">emojicwt</th>
-    
-    
+
+
         </tr>
         <tr th:each="dto : ${result}" >
             <td >[[${dto.dyningname}]]</td>
@@ -27,13 +27,13 @@
 
             <td>
                 <th:block th:each="idto : ${imageresult}" >
-                    <img class="thumbimage" th:src="|@{'/display'}?fileName=${idto.getMenuThumbnailImageURL()}|" 
+                    <img class="thumbimage" th:src="|@{'/display'}?fileName=${idto.getMenuThumbnailImageURL()}|"
                     th:data-file="|@{'/display'}?fileName=${idto.getMenuImageURL()}|" alt="">
                 </th:block>
             </td>
             <td >
                 <th:block th:each="idto : ${imageresult}"  th:if="${idto.backgroundname}!=''">
-                    <img class="thumbimage" th:src="|@{'/display'}?fileName=${idto.getBackgoundThumbnailImageURL()}|" 
+                    <img class="thumbimage" th:src="|@{'/display'}?fileName=${idto.getBackgoundThumbnailImageURL()}|"
                     th:data-file="|@{'/display'}?fileName=${idto.getBackgoundImageURL()}|" alt="" >
                 </th:block>
             </td>
@@ -41,8 +41,8 @@
 
         </tr>
     </table>
-    
-   
+
+
 
 
         <table border="1">
@@ -57,7 +57,7 @@
                 <td><button class="up" value="2" name="emojitype" type="button">🥰[[${emojitype2}]]</button></td>
                 <td><button class="up" value="3" name="emojitype" type="button">😭[[${emojitype3}]]</button></td>
                 <td><button class="up" value="4" name="emojitype" type="button">😅[[${emojitype4}]]</button></td>
-                <td><button class="up" value="5" name="emojitype" type="button">🥵[[${emojitype5}]]</button></td>  
+                <td><button class="up" value="5" name="emojitype" type="button">🥵[[${emojitype5}]]</button></td>
                 <!--/* <td th:each="dto : ${emojilist}"><button type="button" th:value="${dto.eno}" class="emojiRemoveBtn">삭제</button></td> */-->
             </tr>
         </table>
@@ -69,13 +69,13 @@
         <button type="button" id="removeBtn">삭제</button>
         <a th:href="@{/manage/dyning/list(id=${result.id})}"><button type="button">목록</button></a>
 
-        
+
 
         <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
         <script th:inline="javascript">
 
                  $(document).ready(function (e) {
-                     
+
                     /*[+
           var urlRemove = [[@{/manage/dyning/remove}]];
           var urlModify = [[@{/manage/dyning/modify}]];
@@ -92,8 +92,8 @@
                             $("#frm").attr("method","get");
                             $("#frm").submit();
                     });
-                 
-                    
+
+
                     $(".thumbimage").on("click", function(e){
                         var filename = $(this).data('file');
                         console.log(filename);

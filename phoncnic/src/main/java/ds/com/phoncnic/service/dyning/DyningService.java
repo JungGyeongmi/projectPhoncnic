@@ -10,6 +10,7 @@ import ds.com.phoncnic.dto.DyningImageDTO;
 import ds.com.phoncnic.dto.RoofDesignDTO;
 import ds.com.phoncnic.dto.pageDTO.PageRequestDTO;
 import ds.com.phoncnic.dto.pageDTO.PageResultDTO;
+import ds.com.phoncnic.dto.pageDTO.SearchDyningPageRequestDTO;
 import ds.com.phoncnic.entity.Dyning;
 import ds.com.phoncnic.entity.DyningImage;
 import ds.com.phoncnic.entity.Member;
@@ -69,7 +70,7 @@ public interface DyningService {
 
     }
 
-    default DyningDTO entityToDTO(Dyning dyning,Long emojiCwt, List<DyningImage> dyningImages) {
+    default DyningDTO entityToDTO(Dyning dyning, Long emojiCwt, List<DyningImage> dyningImages) {
         DyningDTO dyningDTO = DyningDTO.builder()
                 .dno(dyning.getDno())
                 .dyningname(dyning.getDyningname())
@@ -136,17 +137,19 @@ public interface DyningService {
     // 가게 상세페이지
     DyningDTO getDyningDetails(Long dno);
 
-    // 검색용 페이징 처리
-    PageResultDTO<DyningDTO, Dyning> getList(PageRequestDTO pageRequestDTO);
+    // 토글에 띄울 dyning page
+    PageResultDTO<DyningDTO, Object[]> getDyningPage(SearchDyningPageRequestDTO searchPageRequestDTO);
 
-    default DyningDTO entitiesToDTO(Dyning dyning) {
+    default DyningDTO entitiesToDTO(Dyning dyning, Long emojiCwt) {
         DyningDTO dto = DyningDTO.builder()
                 .dno(dyning.getDno())
                 .dyningname(dyning.getDyningname())
                 .hashtag(dyning.getHashtag())
+                .emojicwt(emojiCwt)
                 .build();
         return dto;
 
+        // }
     }
 
     default List<DyningImage> imagesDTOToEntity(DyningDTO dyningDTO){
@@ -165,7 +168,7 @@ public interface DyningService {
 
                 return dyningImage;
             }).collect(Collectors.toList());
-        
+
         return dyningImageList;
     }
 

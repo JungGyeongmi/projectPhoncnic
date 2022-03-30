@@ -15,6 +15,7 @@ public class DyningServiceTest {
     @Autowired
     DyningService dyningService;
 
+    /*
     @Test
     void testEntitiesToDTO() {
         PageRequestDTO pageRequestDTO = PageRequestDTO.builder().page(1).size(10).build();
@@ -40,7 +41,7 @@ public class DyningServiceTest {
         PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
                 .page(1)
                 .size(10)
-                .type("h") // 검색 조건 t, c, w, tc, tcw ...
+                .type("h") // 검색 조건 name, hashtag
                 .keyword("1") // 검색 키워드
                 .build();
 
@@ -58,4 +59,5 @@ public class DyningServiceTest {
             resultDTO.getPageList().forEach(i -> System.out.println(i));
         }
     }
+    */
 }

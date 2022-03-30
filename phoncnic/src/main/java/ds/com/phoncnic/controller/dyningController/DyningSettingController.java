@@ -10,7 +10,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ds.com.phoncnic.dto.DyningDTO;
 import ds.com.phoncnic.service.dyning.DyningService;
-import ds.com.phoncnic.service.emoji.EmojiService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -19,6 +18,7 @@ import lombok.extern.log4j.Log4j2;
 @RequestMapping("/manage/dyning")
 @RequiredArgsConstructor
 public class DyningSettingController {
+
     private final DyningService dyningService;
     private final EmojiService emojiService;
     //등록가게 리스트
@@ -42,7 +42,7 @@ public class DyningSettingController {
         model.addAttribute("result", dyningService.getDyningDetails(dno));
         model.addAttribute("roofList",dyningService.roofimageList());
         model.addAttribute("imageresult", dyningService.getDyningDetails(dno).getDyningImageDTOList());
-        
+
         model.addAttribute("id",id);
         }
     }
@@ -69,7 +69,7 @@ public class DyningSettingController {
         model.addAttribute("emojitype4",emojiService.getEmojitypeCwt(dno, "4"));
         model.addAttribute("emojitype5",emojiService.getEmojitypeCwt(dno, "5"));
         }
-        
+
         return "/manage/dyning/read";
     }
     // 가게를 처음으로 등록시
@@ -78,7 +78,7 @@ public class DyningSettingController {
         log.info("dyning register....."+dyningDTO);
         Long dno = dyningService.register(dyningDTO);
         ra.addFlashAttribute("dno",dno+"번째 가게 등록 왼료");
-         
+
         // 가게를 등록하고 난 후 바로 아래로 이동
         return "redirect:/manage/dyning/list?id="+dyningDTO.getId();
     }
@@ -88,5 +88,5 @@ public class DyningSettingController {
         dyningService.removeWithImages(dno);
         return "redirect:/manage/dyning/list?id="+id;
     }
-    
+
 }

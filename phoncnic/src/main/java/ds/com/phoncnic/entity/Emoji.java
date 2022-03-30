@@ -34,7 +34,7 @@ public class Emoji extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Dyning dyning;
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Gallery gallery;
 
     @ManyToOne(fetch = FetchType.LAZY)

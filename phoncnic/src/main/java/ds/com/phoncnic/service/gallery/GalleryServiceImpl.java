@@ -54,12 +54,12 @@ public class GalleryServiceImpl implements GalleryService {
         // 임시로 3L로 고정
         Long[][] emojiArray = emojiService.getEmojiCountArrayByGno(3L);
         Function<Object[], GalleryDTO> fn = (entity -> entityToDTO((Gallery)entity[0], emojiArray));
-
+        Sort sort = getSort(pageRequestDTO.getSort());
         Page<Object[]> result = galleryRepository.searchPage(
             pageRequestDTO.getType(), 
             pageRequestDTO.getKeyword(),
-            pageRequestDTO.getPageable(Sort.by("gno").descending()) );
-
+            pageRequestDTO.getPageable(sort)
+        );
         return new PageResultDTO<>(result, fn);
     }
 
@@ -69,14 +69,9 @@ public class GalleryServiceImpl implements GalleryService {
     public GalleryDTO getGallery(long gno) {
         Gallery gallery = galleryRepository.getGalleryByGno(gno);
         Long[][] emojiCountArr = emojiService.getEmojiCountArrayByGno(gno);
-        // List<Object[]> emojiList = emojiRepository.getEmojiCountByGno(gno);
-
-        
         log.info("gno:"+gno);
         log.info("gallery"+gallery);
-    
         return entityToDTO(gallery, emojiCountArr);
-
     }
 
     // gallery List
@@ -87,7 +82,6 @@ public class GalleryServiceImpl implements GalleryService {
         List<GalleryDTO> galleryDTOList = galleryList.stream()
             .map(entity -> entityToDTO(entity,emojiService.getEmojiCountArrayByGno(entity.getGno())))
             .collect(Collectors.toList());
-
         return galleryDTOList;
     }
 
