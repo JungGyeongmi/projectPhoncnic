@@ -1,58 +1,54 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <form id="frm">
-    <div>
-        <input type="hidden" name="qno" th:value="${dto.qno}"> 
-    </div>
-    <div>
-        <label>문의 종류</label> <br>
-        <input type="text" name="qtype" th:value="${dto.qtype}" readonly>
-    </div>
-    <div>
-        <label>작성자</label> <br>
-        <input type="text" name="writer" th:value="${dto.writer}" readonly>
-    </div>
-    <div>
-        <label>제목</label> <br>
-        <input type="text" name="title" th:value="${dto.title}" readonly>
-    </div>
-    <div>
-        <label>내용</label> <br>
-        <input type="text" name="content"  th:value="${dto.content}" readonly>
-    </div>
-    <div>
-        <label>비밀번호</label> <br>
-        <input type="text" name="password" th:value="${dto.password}" readonly>
-    </div>
-    <div>
-        <a th:href="@{/help/modify(qno=${dto.qno}, page=${pageRequestDTO.page})}">
-            <button type="button">수정</button>
-        </a>
-        <button type="button" id="removeBtn" th:if="${dto.qno % 2 == 0}">삭제</button>
-        <a th:href="@{/help/list(page=${pageRequestDTO.page})}"><button type="button">목록</button></a>
-    </div>
-    </form>
-</body>
-<script th:inline="javascript">
-    
-    removeBtn = document.getElementById("removeBtn");
-    actionform = document.getElementById("frm")
-    /*[+var urlremove = [[@{/help/remove}]];+]*/
-    
-        removeBtn.onclick = function() {
-            if(confirm("삭제하시겠습니까?")){
-              actionform.setAttribute("action",urlremove);
-              actionform.setAttribute("method","post");
-              actionform.submit();
-        }
-    }
+<th:block th:replace="~{layout/basic :: setContent(~{::content})}">
+    <th:block th:fragment="content">
+        <form id="frm">
+            <div>
+                <input type="hidden" name="qno" th:value="${dto.qno}">
+            </div>
+            <div>
+                <label>문의 종류</label> <br>
+                <input type="text" name="qtype" th:value="${dto.qtype}" readonly>
+            </div>
+            <div>
+                <label>작성자</label> <br>
+                <input type="text" name="writer" th:value="${dto.writer}" readonly>
+            </div>
+            <div>
+                <label>제목</label> <br>
+                <input type="text" name="title" th:value="${dto.title}" readonly>
+            </div>
+            <div>
+                <label>내용</label> <br>
+                <input type="text" name="content" th:value="${dto.content}" readonly>
+            </div>
+            <div>
+                <label>비밀번호</label> <br>
+                <input type="text" name="password" th:value="${dto.password}" readonly>
+            </div>
+            <div>
+                <a th:href="@{/help/modify(qno=${dto.qno}, page=${pageRequestDTO.page})}">
+                    <button type="button">수정</button>
+                </a>
+                <button type="button" id="removeBtn" th:if="${dto.qno % 2 == 0}">삭제</button>
+                <a th:href="@{/help/list(page=${pageRequestDTO.page})}"><button type="button">목록</button></a>
+            </div>
+        </form>
+        </body>
+        <script th:inline="javascript">
 
-</script>
-</html>
+            removeBtn = document.getElementById("removeBtn");
+            actionform = document.getElementById("frm")
+            /*[+var urlremove = [[@{/help/remove}]];+]*/
+
+            removeBtn.onclick = function () {
+                if (confirm("삭제하시겠습니까?")) {
+                    actionform.setAttribute("action", urlremove);
+                    actionform.setAttribute("method", "post");
+                    actionform.submit();
+                }
+            }
+
+        </script>
+    </th:block>
+</th:block>

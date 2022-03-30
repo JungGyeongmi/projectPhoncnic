@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>dyning details</title>
-</head>
+<th:block th:replace="~{layout/dyninglayout :: setContent(~{::content})}">
+    <th:block th:fragment="content">
+        <h1>dyning details</h1>
+        <ul>
+            <li th:each="dto : ${result}">
+                [[${ dto }]]
+            </li>
+        </ul>
 
 <body>
     <h1>dyning details</h1>
@@ -52,20 +54,21 @@
     <form action="">
         <input type="hidden" name="id" value="user1@icloud.com"  readonly>
         <input type="hidden" name="dno" th:value="${result.dno}">
-<!--     
-        <select name="emojitype" id="">
-            <option value="1">😋</option>
-            <option value="2">🥰</option>
-            <option value="3">😭</option>
-            <option value="4">😅</option>
-            <option value="5">🥵</option>
 
-        </select>
-        <button type="button" id="emojisave">이모지 추가하기</button> -->
-
-</form>
+        <form action="">
+            <input type="hidden" name="id" value="user1@icloud.com" readonly>
+            <input type="hidden" name="dno" th:value="${result.dno}">
+            <select name="emojitype" id="">
+                <option value="1">😋</option>
+                <option value="2">🥰</option>
+                <option value="3">😭</option>
+                <option value="4">😅</option>
+                <option value="5">🥵</option>
+            </select>
+            <button type="button" id="emojisave">이모지 추가하기</button>
+        </form>
         <table border="1">
-            <tr >
+            <tr>
                 <th>이모지 갯수</th>
                 <th scope="col" colspan="5">이모지 타입</th>
                 <!--/* <th th:colspan="${result.emojicwt}">이모지 삭제</th> */-->
@@ -79,8 +82,6 @@
                 <td><button class="up" value="5" name="emojitype" type="button">🥵[[${emojitype5}]]</button></td>  
                 <!--/* <td th:each="dto : ${emojilist}"><button type="button" th:value="${dto.eno}" class="emojiRemoveBtn">삭제</button></td> */-->
             </tr>
-            
-            
         </table>
 
 

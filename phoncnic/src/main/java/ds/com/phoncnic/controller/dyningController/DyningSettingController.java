@@ -19,6 +19,7 @@ import lombok.extern.log4j.Log4j2;
 @RequestMapping("/manage/dyning")
 @RequiredArgsConstructor
 public class DyningSettingController {
+    
     private final DyningService dyningService;
     private final EmojiService emojiService;
     //등록가게 리스트
