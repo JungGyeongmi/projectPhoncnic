@@ -178,41 +178,54 @@
 
 				}
 				
-				// 추천 수 업데이트
-				function recCount() {
-					var gno = $(".inputGno").val();
-					$.ajax({
-						url: emojiRecountUrl + "/" + gno,
-						type: "POST",
-						data: {
-							no: gno
-						},
-						success: function (count) {
-							alert(count);
-						}
-					});
-				}
-
 				//이모지 등록
 				$(document).on("click", ".emoji", function (event) {
 					var id = $(".inputId").val();
 					var gno = $(".inputGno").val();
 					var emojitype = $(".emoji:checked").val();
 					var data = { id: id, gno: gno, emojitype: emojitype };
-					console.log("post emoji add ...");
+					
+					console.log("id:" + id);
+					console.log("gno:" + gno);
+					console.log("emojitype:" + emojitype);
 					console.log(data);
+					
 					$.ajax({
 						url: emojiaddUrl + "/" + gno,
 						method: "POST",
 						data: JSON.stringify(data),
 						contentType: "application/json; charset=utf-8",
 						dataType: "text",
-						success: function (response) {
-							alert("등록된 이모지 번호 "+response);
+						success: function (result) {
+							// location.reload();
+							// emojiBoxReload();
+							self.location.reload();
+							console.log(result.message);
 						}
 					});
 				});
-				
+
+				//이모지 삭제
+				$(document).on("click", ".emoji", function (event) {
+					var id = $(".inputId").val();
+					var gno = $(".inputGno").val();
+					var emojitype = $(".emoji:checked").val();
+					var data = { eno: eno };
+					$.ajax({
+						url: emojiRemoveUrl + "/" + eno,
+						method: "DELETE",
+						data: JSON.stringify(data),
+						contentType: "application/json; charset=utf-8",
+						dataType: "text",
+						success: function (result) {
+							alert(result.message);
+						}, error: function (request, status, error) {
+							console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+						}
+					});
+
+				});
+
 				// 모달 창 내 search result 클릭 시 이동 제어
 				$(document).on("click", ".search-result-Item", function (e) {
 					var targetGno = $(this).closest("li").data("searchGno");

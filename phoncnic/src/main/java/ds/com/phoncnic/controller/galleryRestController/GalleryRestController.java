@@ -64,15 +64,7 @@ public class GalleryRestController {
         Long eno = emojiService.galleryEmojiRegiter(dto);
         return new ResponseEntity<>(eno, HttpStatus.OK);
     }
-
-    //Emoji Recount
-    @PostMapping("/recount/{gno}")
-    public ResponseEntity <Long> emojiRecount (@RequestBody EmojiDTO dto){
-        log.info("emoji Register....................emojiDTO:"+dto);
-        Long eno = emojiService.galleryEmojiRegiter(dto);
-        return new ResponseEntity<>(eno, HttpStatus.OK);
-    }
-
+    
     //Emoji Remove
     @DeleteMapping("/remove/{eno}")
     public ResponseEntity <Long> emojiRemove (@PathVariable Long eno) {

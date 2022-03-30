@@ -96,7 +96,7 @@
 				var detailsModalbody = $(".details-modal-body");
 				var showdetailsModal = function (targetGno, targetFile) {
 					$.getJSON(readUrl + "/" + targetGno, function (dto) {
-						console.log("getList..........dto " + JSON.stringify(dto));
+						// console.log("getList..........dto " + JSON.stringify(dto));
 						var str = "";
 						str += `
 							<input type="hidden" name = "gno" value="${targetGno}" class="inputGno" data-gno="${targetGno}">
@@ -263,12 +263,10 @@
 					var gno = $(".inputGno").val();
 					var emojitype = $(".emoji:checked").val();
 					var data = { id: id, gno: gno, emojitype: emojitype };
-
 					console.log("id:" + id);
 					console.log("gno:" + gno);
 					console.log("emojitype:" + emojitype);
 					console.log(data);
-
 					$.ajax({
 						url: emojiaddUrl + "/" + gno,
 						method: "POST",
@@ -317,8 +315,6 @@
 				});
 			});
 		</script>
-
-
 
 		<!-- 큐레이터 모달창 -->
 		<div class="modal fade bd-example-modal-xl" tabindex="-1" id="curatorModal">
@@ -370,7 +366,7 @@
 		<!-- Details 모달창 -->
 		<div class="modal" tabindex="-1" id="detailsModal">
 			<div class="container">
-				<div class="modal-dialog">
+				<div class="modal-dialog modal-xl">
 					<div class="modal-content">
 						<div class="modal-header">
 							<h5 class="modal-title">작품 상세페이지</h5>

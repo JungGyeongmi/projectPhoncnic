@@ -37,12 +37,14 @@ public class CharacterLookServiceImpl implements CharacterLookService {
     
     @Override
     public void modify(CharacterLookDTO dto,String id) {
+        //findById는 바로 로딩을 해주고, getOne은 필요한 순간까지 로딩을 지연함
         Optional<CharacterLook> result = characterLookRepository.getLnoById(id);
-        if(result.isPresent()){
-            CharacterLook characterLook = result.get();
-            characterLook.changeHairname(dto.getHairname());
-            characterLook.changeClothesname(dto.getClothesname());
-            characterLookRepository.save(characterLook);
-        }
+
+      if(result.isPresent()){
+        CharacterLook characterLook = result.get();
+        characterLook.changeHairname(dto.getHairname());
+        characterLook.changeClothesname(dto.getClothesname());
+        
+        characterLookRepository.save(characterLook);
     }
 }

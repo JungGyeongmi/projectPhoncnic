@@ -25,9 +25,7 @@ import lombok.extern.log4j.Log4j2;
 
 
 @Log4j2
-public class SearchGalleryRepositoryImpl 
-    extends QuerydslRepositorySupport
-    implements SearchGalleryRepository {
+public class SearchGalleryRepositoryImpl  extends QuerydslRepositorySupport implements SearchGalleryRepository {
 
     /*
       JpaRepository의 부족한 부분은 바로 각 항목에 대한 

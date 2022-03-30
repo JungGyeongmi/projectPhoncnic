@@ -1,12 +1,15 @@
 package ds.com.phoncnic.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import ds.com.phoncnic.entity.Emoji;
+import ds.com.phoncnic.entity.Gallery;
+import ds.com.phoncnic.entity.Member;
 
 public interface EmojiRepository extends JpaRepository<Emoji, Long> {
     // 인자로 member id 를 받아서 emoji list를 출력하도록
