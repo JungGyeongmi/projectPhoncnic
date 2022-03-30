@@ -19,10 +19,10 @@
         function getSearchList() {
 					$.ajax({
 						type: "GET",
-						url: curatorUrl,
+						url: searchUrl,
 						data: searchForm.serialize(),
 						success: function (response) {
-							console.log("get saerch success");
+							console.log("get search success");
 							var str = "";
 							$.each(response.dtoList, function (idx, dto) {
 								str += `<li class="search-result-Item " data-search-dno="${dto.dno}">
