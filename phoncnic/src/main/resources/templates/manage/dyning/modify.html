@@ -47,9 +47,15 @@
                
               </div>
               <div class="menuuploadResult">
-                <ul>
-          
-                </ul>
+                <ul >
+                  <th:block >
+                    <li style="list-style: none;" th:each="idto: ${imageresult}" th:data-name="${idto.menuimagename}"
+                    th:data-uuid="${idto.menuimageuuid}" th:data-path="${idto.menuimagepath}"><div>
+                    <button th:if="${idto.menuimagename}" type='button' th:data-file="|@{'/display'}?fileName=${idto.getMenuImageURL()}|" class='btn-warning btn-sm'>X</button><br>
+                    <img th:src="|@{'/display'}?fileName=${idto.getMenuThumbnailImageURL()}|" alt=""></div></li>
+                  </th:block>
+                  
+              </ul>
               </div>
         </label><br><br>
         <label for="">backgroundimage (1장 선택 가능)
@@ -64,8 +70,12 @@
               </div>
               <div class="backgroundshowResult">
                 <ul>
-          
-                </ul>
+                  <li th:if="${idto.backgroundpath}" style="list-style: none;" th:each="idto: ${imageresult}" th:data-name="${idto.backgroundname}"
+                  th:data-uuid="${idto.backgrounduuid}" th:data-path="${idto.backgroundpath}"><div>
+                  <button  type='button' th:data-file="|@{'/display'}?fileName=${idto.getBackgoundImageURL()}|" 
+                  class='btn-warning btn-sm'>X</button><br>
+                  <img th:src="|@{'/display'}?fileName=${idto.getBackgoundThumbnailImageURL()}|" alt=""></div></li>
+              </ul>
               </div>
             
         </label><br><br>
@@ -102,7 +112,24 @@
 }
        $(document).ready(function (e) {
 
-        
+        //   if($(".menuimport").length!=0){
+        //   function menuImport(){
+        //     var uploadUL=$(".menuuploadResult ul");
+        //     var str = "";
+        //     /*[+ var urlDisplay=[[@{/display}]]; +]*/
+        //       for(i=0; i<$(".menuimport").children().length;i++){
+        //         var fileName = $('.menuimport ul li:nth-child('+i+')').data('name');
+        //         var fileUuid = $('.menuimport ul li:nth-child('+i+')').data('uuid');
+        //         var filePath = $('.menuimport ul li:nth-child('+i+')').data('path');
+        //         var fileFile = filePath.next().attr('src');
+        //           str+= `<li data-name='${fileName}' data-path='${filePath}' data-uuid='${fileUuid}'><div>`;
+        //           str+= `<button type='button' data-file='${fileFile}' class='btn-warning btn-sm'>X</button><br>`;
+        //           str+= `<img src='${urlDisplay}?fileName=${fileFile}'></div></li>`;
+        //       }
+        //       uploadUL.append(str); // ul에 전달쓰
+        //       }
+        //  }
+
          //  upload url 선언 및 초기화
          /*[+
            var urlUpload = [[@{/uploadAjax/}]];
@@ -246,12 +273,14 @@
              // test출력
              // console.log("uploadResultArr obj >> ");
              // console.log(obj);
-             str+= `<li data-name='${obj.fileName}' data-file='${obj.imageURL}\' data-path='${obj.folderPath}' data-uuid='${obj.uuid}'><div>`;
+             str+= `<li data-name='${obj.fileName}' data-path='${obj.folderPath}' data-uuid='${obj.uuid}'><div>`;
              str+= `<button type='button' data-file='${obj.imageURL}\' class='btn-warning btn-sm'>X</button><br>`;
              str+= `<img src='${urlDisplay}?fileName=${obj.thumbnailURL}'></div></li>`;
            });
            uploadUL.append(str); // ul에 전달쓰
          }
+       
+         
          
       
 
@@ -265,7 +294,7 @@
              // test출력
              // console.log("uploadResultArr obj >> ");
              // console.log(obj);
-             str+= `<li data-name='${obj.fileName}' data-file='${obj.imageURL}\' data-path='${obj.folderPath}' data-uuid='${obj.uuid}'><div>`;
+             str+= `<li data-name='${obj.fileName}' data-path='${obj.folderPath}' data-uuid='${obj.uuid}'><div>`;
              str+= `<button type='button' data-file='${obj.imageURL}\' class='btn-warning btn-sm'>X</button><br>`;
              str+= `<img src='${urlDisplay}?fileName=${obj.thumbnailURL}'></div></li>`;
            });
@@ -292,6 +321,7 @@
          $(".backgroundshowResult li").each(function (i, obj) {
            // each로 i idx값과 obj value값을 받아옴
            var target = $(obj);
+           var ii= $(".menuuploadResult li").children().length+i;
            str2 += `<input type='hidden' name='dyningImageDTOList[${i}].backgroundname' value='${target.data('name')}'>`;
            str2 += `<input type='hidden' name='dyningImageDTOList[${i}].backgrounduuid' value='${target.data('uuid')}'>`;
            str2 += `<input type='hidden' name='dyningImageDTOList[${i}].backgroundpath' value='${target.data('path')}'>`;
@@ -324,7 +354,6 @@
              dataType: 'text',
              type: 'POST',
              success: function(result){
-               alert(result?"Deleted!":"Error");
                targetLi.remove();
              }
            });
@@ -346,7 +375,6 @@
              dataType: 'text',
              type: 'POST',
              success: function(result){
-               alert(result?"Deleted!":"Error");
                targetLi.remove();
              }
            });

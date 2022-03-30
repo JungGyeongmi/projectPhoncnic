@@ -116,13 +116,13 @@ public class DyningServiceImpl implements DyningService {
     Dyning dyning = dyningRepository.findById(dyningDTO.getDno()).get();
     dyningImageRepository.deleteByDno(dyningDTO.getDno());
     List<DyningImage> dyningImageList = imagesDTOToEntity(dyningDTO) ;
-
+    if(!dyningImageList.isEmpty()){
     dyningImageList.forEach(dyningImage -> {
       dyningImageRepository.save(dyningImage);
-    });
+    });}
     RoofDesign roof = roofDesignRepository.findById(dyningDTO.getOono()).get();
     dyning.modifyDyning(dyningDTO.getDyningname(),dyningDTO.getComment(),dyningDTO.getLocation(),dyningDTO.getFoodtype(),
-    dyningDTO.getBusinesshours(),dyningDTO.getTel(),dyningDTO.getHashtag(),dyningImageList,roof);
+    dyningDTO.getBusinesshours(),dyningDTO.getTel(),dyningDTO.getHashtag(),roof);
     dyningRepository.save(dyning);
   }
 
