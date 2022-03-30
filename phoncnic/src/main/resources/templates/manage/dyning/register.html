@@ -1,79 +1,5 @@
 <!DOCTYPE html>
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
-
-    <h1>가게 등록</h1>
-    <form action="">
-        <label for="">dyningname
-            <input type="text" name="dyningname" id="">
-        </label><br><br>
-        <label for="">comment
-            <input type="text" name="comment" id="">
-        </label><br><br>
-        <label for="">location
-            <input type="text" name="location" id=""><button type="button">우편찾기</button>
-        </label><br><br>
-        <label for="">tel
-            <input type="text" name="tel" id="">
-        </label><br><br>
-        <label for="">foodtype
-            <select name="foodtype" id="">
-                <option value="">카페</option>
-                <option value="">한식</option>
-                <option value="">일식</option>
-                <option value="">중식</option>
-                <option value="">양식</option>
-            </select>
-        </label><br><br>
-        <label for="">businesshours
-            <input type="text" name="businesshours" id="">
-        </label><br><br>
-        <label for="">hastag
-            <input type="text" name="hastag" id="">
-        </label><br><br>
-        <label for="">menuimage (중복 선택 가능)
-            <div class="form-group fileForm">
-                <div class="custom-file">
-                  <input type="file" class="custom-file-input files form-control" id="fileInput" multiple>
-                  <label data-browse="Browse"></label>
-                </div>
-              </div>
-              <div class="box">
-              </div>
-              <div class="uploadResult">
-                <ul>
-          
-                </ul>
-              </div>
-        </label><br><br>
-        <label for="">backgroundimage (1장 선택 가능)
-            <div class="form-group fileForm">
-                <label>이미지 넣기</label>
-                <div class="custom-file">
-                  <input type="file" class="custom-file-input files form-control" id="fileInput" multiple>
-                  <label data-browse="Browse"></label>
-                </div>
-              </div>
-              <div class="box">
-              </div>
-              <div class="uploadResult">
-                <ul>
-          
-                </ul>
-              </div>
-        </label><br><br>
-        <label for="">roofdesign
-            <select name="roofdesign" id="">
-                <option value="">카페</option>
-                <option value="">한식</option>
-                <option value="">일식</option>
-                <option value="">중식</option>
-                <option value="">양식</option>
-            </select>
-        </label><br><br>
-        
-    </form>
-
-</html>
 <th:block th:replace="~{layout/basic :: setContent(~{::content})}">
   <th:block th:fragment="content">
     <h1>가게 등록</h1>
@@ -387,4 +313,3 @@
 
   </th:block>
 </th:block>
-

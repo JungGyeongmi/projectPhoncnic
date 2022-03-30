@@ -6,21 +6,18 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import ds.com.phoncnic.dto.EmojiDTO;
 import ds.com.phoncnic.entity.Emoji;
-import ds.com.phoncnic.entity.Gallery;
-import ds.com.phoncnic.entity.Member;
 import ds.com.phoncnic.repository.EmojiRepository;
 import lombok.extern.log4j.Log4j2;
+
 @Log4j2
 @Service
 public class EmojiServiceImpl implements EmojiService {
 
     @Autowired
     private EmojiRepository emojiRepository;
-
 
     @Override
     public Long dyningEmojiRegister(EmojiDTO emojiDTO) {
