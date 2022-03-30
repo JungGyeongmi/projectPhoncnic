@@ -174,7 +174,7 @@
 
 				$(".left").on("click", function () {
 					var url = $(".left").attr('data-left-url');
-					if(url == '') {
+					if (url == '') {
 						return;
 					}
 					getCuratorList(url);
@@ -182,7 +182,7 @@
 
 				$(".right").on("click", function () {
 					var url = $(".right").attr('data-right-url');
-					if(url == '') {
+					if (url == '') {
 						return;
 					}
 					getCuratorList(url);
@@ -200,10 +200,10 @@
 						});
 						searchResult.html(str);
 					}).done(function (response) {
-						if(response.end-response.page!=0) {
-							$(".left").attr('data-left-url', curatorUrl +`?page=${response.page-1}`);
-							$(".right").attr('data-right-url', curatorUrl+`?page=${response.page+1}`);
-						} else if (response.page==0) {
+						if (response.end - response.page != 0) {
+							$(".left").attr('data-left-url', curatorUrl + `?page=${response.page - 1}`);
+							$(".right").attr('data-right-url', curatorUrl + `?page=${response.page + 1}`);
+						} else if (response.page == 0) {
 							$(".left").attr('data-right-url', '');
 						} else {
 							$(".right").attr('data-right-url', '');
@@ -234,10 +234,10 @@
 										</div>`;
 							});
 							console.log(response);
-							if(response.end-response.page!=0) {
-								$(".left").attr('data-left-url', curatorUrl +`?page=${response.page-1}`);
-								$(".right").attr('data-right-url', curatorUrl+`?page=${response.page+1}`);
-							} else if (response.page==0) {
+							if (response.end - response.page != 0) {
+								$(".left").attr('data-left-url', curatorUrl + `?page=${response.page - 1}`);
+								$(".right").attr('data-right-url', curatorUrl + `?page=${response.page + 1}`);
+							} else if (response.page == 0) {
 								$(".left").attr('data-right-url', '');
 							} else {
 								$(".right").attr('data-right-url', '');
@@ -249,13 +249,13 @@
 						}
 					});
 				}
+
+
+
 				function emojiBoxReload() {
 					$("#myModal").modal("show");
 				}
 
-				$(document).on("mouseover", "md-conteainer-img", function () {
-					$(this).css("cursor", "pointer");
-				});
 
 				//이모지 등록
 				$(document).on("click", ".emoji", function (event) {
