@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import ds.com.phoncnic.dto.DyningDTO;
 import ds.com.phoncnic.dto.DyningImageDTO;
+import ds.com.phoncnic.dto.RoofDesignDTO;
 import ds.com.phoncnic.dto.pageDTO.PageRequestDTO;
 import ds.com.phoncnic.dto.pageDTO.PageResultDTO;
 import ds.com.phoncnic.entity.Dyning;
@@ -17,6 +18,7 @@ import ds.com.phoncnic.entity.RoofDesign;
 public interface DyningService {
     // PageResultDTO<DyningDTO, Object[]> getList(PageRequestDTO pageRequestDTO);
 
+    List<RoofDesign> roofimageList();
     Long register(DyningDTO dyningDTO);
     void removeWithImages(Long dno);
     void modify(DyningDTO dyningDTO);
@@ -82,6 +84,7 @@ public interface DyningService {
                 .foodtype(dyning.getFoodtype())
                 .emojicwt(emojiCwt)
                 .roofpath(dyning.getRoofdesign().getRoofpath())
+                .roofthumbnail(dyning.getRoofdesign().getRoofthumbnail())
                 .regdate(dyning.getRegDate())
                 .moddate(dyning.getModDate())
                 .build();
@@ -114,6 +117,7 @@ public interface DyningService {
                 .dno(dyning.getDno())
                 .dyningname(dyning.getDyningname())
                 .roofpath(dyning.getRoofdesign().getRoofpath())
+                .roofthumbnail(dyning.getRoofdesign().getRoofthumbnail())
                 .id(dyning.getCeoid().getId())
                 .foodtype(dyning.getFoodtype())
                 .build();

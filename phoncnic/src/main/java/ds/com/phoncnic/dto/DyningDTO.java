@@ -32,6 +32,7 @@ public class DyningDTO {
 
     private Long oono;
     private String roofpath;
+    private String roofthumbnail;
 
     @Builder.Default
     private List<DyningImageDTO> dyningImageDTOList = new ArrayList<>();

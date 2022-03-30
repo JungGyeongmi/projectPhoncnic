@@ -31,6 +31,7 @@ public class DyningSettingController {
     @GetMapping("/register")
     public String dyningRegister(String id, Model model) {
         model.addAttribute("id",id);
+        model.addAttribute("roofList",dyningService.roofimageList());
         return "/manage/dyning/register";
     }
     //가게 수정 폼
@@ -39,6 +40,7 @@ public class DyningSettingController {
         log.info("Modify................."+dno);
         if(dno!=0){
         model.addAttribute("result", dyningService.getDyningDetails(dno));
+        model.addAttribute("roofList",dyningService.roofimageList());
         model.addAttribute("imageresult", dyningService.getDyningDetails(dno).getDyningImageDTOList());
         
         model.addAttribute("id",id);

@@ -18,7 +18,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
 import ds.com.phoncnic.dto.DyningDTO;
-import ds.com.phoncnic.dto.DyningImageDTO;
+import ds.com.phoncnic.dto.RoofDesignDTO;
 import ds.com.phoncnic.dto.pageDTO.PageRequestDTO;
 import ds.com.phoncnic.dto.pageDTO.PageResultDTO;
 import ds.com.phoncnic.entity.Dyning;
@@ -59,6 +59,12 @@ public class DyningServiceImpl implements DyningService {
     log.info(dyning.getDno());
     return dyning.getDno();
   }
+
+  @Override
+  public List<RoofDesign> roofimageList(){
+    List<RoofDesign> dto = roofDesignRepository.findAll();
+    return dto;
+  };
 
   // @Override
   // public PageResultDTO<DyningDTO, Object[]> getList(PageRequestDTO
