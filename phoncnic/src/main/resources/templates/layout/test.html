@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<th:block th:fragment="setContent(content)">
+<th:block th:fragment="setContent(content, search)">
+
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -13,36 +14,14 @@
         <link th:href="@{/css/styles.css}" rel="stylesheet" />
 
     </head>
+
     <body>
         <div class="d-flex" id="wrapper">
             <!-- Sidebar-->
-            <div class="border-end bg-white" id="sidebar-wrapper">
-                <div class="sidebar-heading border-bottom bg-light">
-                    <form class="d-flex">
-                        <select class="form-select-sm" name="" id="">
-                            <option value="">가게명</option>
-                            <option value="">해쉬태그</option>
-                        </select>
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-success" type="submit">Search</button>
-                      </form>
-                </div>
-                <div class="list-group list-group-flush">                    
-                </div>
-            </div>
-            <!-- Page content wrapper-->
-            <div id="page-content-wrapper">
-                <!-- Top navigation-->
-                <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-                    <div class="container-fluid">
-                        <button class="btn btn-primary" id="sidebarToggle">검색하기</button>
-                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                            aria-expanded="false" aria-label="Toggle navigation"><span
-                                class="navbar-toggler-icon"></span></button>
-                        
-                    </div>
-                </nav>
+            <th:block th:replace="${search}">
+                
+            </th:block>
+            
                 <!-- Page content-->
                 <div class="container-fluid">
                     <th:block th:replace="${content}"></th:block>
@@ -55,4 +34,5 @@
         <script th:src="@{/js/scripts.js}"></script>
     </body>
 </th:block>
+
 </html>

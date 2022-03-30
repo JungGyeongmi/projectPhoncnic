@@ -37,27 +37,6 @@ public class SearchDyningRepositoryImpl extends QuerydslRepositorySupport implem
   }
 
   @Override
-  public Dyning search1() {
-    log.info("serch1...........");
-    // 1. 사용하고자 하는 Q도메인을 선언
-    QDyning dyning = QDyning.dyning;
-
-    // 2. JPQLQuery을 이용해서 서로 연관(조인) 시킴
-    JPQLQuery<Dyning> jpqlQuery = from(dyning);
-
-    // 3. 쿼리 대상(내용)을 정한다. Tuple은 Object[]과 같은 기능
-    JPQLQuery<Dyning> tuple = jpqlQuery.select(dyning);
-
-    log.info("----------------------------");
-    log.info(tuple);
-    log.info("----------------------------");
-
-    List<Dyning> result = jpqlQuery.fetch();
-    log.info(result);
-    return null;
-  }
-
-  @Override
   public Page<Object[]> searchPage(String type, String keyword, Pageable pageable) {
     log.info("searchPage.....");
     // 1. 사용하고자 하는 Q도메인을 선언(동적쿼리 호출을 위해 선언)

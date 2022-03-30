@@ -3,7 +3,7 @@
 <th:block th:replace="~{layout/dyninglayout :: setContent(~{::content})}">
     <th:block th:fragment="content">
         <h1>dyning details</h1>
-        <input type="hide" name="" id="detaillocation" th:value="${result.location}">
+        <input type="hidden" name="" id="detaillocation" th:value="${result.location}">
         <ul>
             <li th:each="dto : ${result}">
                 [[${ dto }]]

@@ -3,15 +3,18 @@ package ds.com.phoncnic.repository;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 
 import ds.com.phoncnic.entity.Dyning;
 import ds.com.phoncnic.entity.DyningImage;
+import ds.com.phoncnic.entity.Gallery;
+import ds.com.phoncnic.repository.search.SearchDyningRepository;
 
-public interface DyningRepository extends JpaRepository<Dyning, Long>, QuerydslPredicateExecutor<Dyning> {
+public interface DyningRepository extends JpaRepository<Dyning, Long>, SearchDyningRepository {
 
     // 거리에서 가게명/루프패스
     @Query("SELECT d, r FROM Dyning d LEFT JOIN RoofDesign r ON d.roofdesign = r.oono")
@@ -33,12 +36,16 @@ public interface DyningRepository extends JpaRepository<Dyning, Long>, QuerydslP
     @Query ("select d,count(e.eno) from Dyning d left join Emoji e on e.dyning.dno = dno where d.dno =:dno group by dno")
     List<Object[]> getDyningDetails(Long dno);
 
-    // @Query ("select d, count(f) from Dyning d left join Follow f on f.dyningname = dyningname where d.dno =:dno group by dno")
-    // Object getDetailsByFollowCount(Long dno);
+    // 페이징 처리
+    @Query("select d from Dyning d where foodtype != 1 ")
+    Page<Dyning> getRestayrantPage(Pageable pageable);
+
+    // 페이징 처리
+    @Query("select d from Dyning d where foodtype = 1 ")
+    Page<Dyning> getCafePage(Pageable pageable);   
 
 
-    // @Query("SELECT d, r FROM Dyning d LEFT JOIN RoofDesign r ON d.roofdesign = r.oono where d.foodtype != 1L")
-    // List<Object[]> getRestaurantList();
+    // @Query("")
 
     // 특정 가게 상세페이지(dyning-Details)
     // @Query("select d, di from Dyning d " +
