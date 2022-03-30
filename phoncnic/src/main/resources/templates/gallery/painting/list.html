@@ -113,7 +113,7 @@
 		<h1>그림전</h1>
 		<div class="swiper mySwiper">
 			<div class="swiper-wrapper">
-				<div class="swiper-slide" id="galleryList" th:each="dto : ${galleryDTOList}" th:data-gno="${dto.gno}"
+				<div class="swiper-slide" th:each="dto : ${galleryDTOList}" th:data-gno="${dto.gno}"
 					th:data-file="${dto.getImageURL}" data-bs-toggle="modal" data-bs-target="#detailsModal">
 					<img style="cursor:pointer;" th:src="|@{'/display'}?fileName=${dto.getImageURL()}|"
 						alt="이미지를 불러올 수 없습니다" />
@@ -212,7 +212,7 @@
 				}
 
 				/* target의 gno / target의 imagepath 가져옴 / emoji 갯수 */
-				$(".galleryList").click(function () {
+				$(".swiper-slide").click(function () {
 					var targetGno = $(this).data("gno");
 					var targetFile = $(this).data("file");
 					$("#detailsModal").modal('show');
@@ -395,7 +395,7 @@
 
 		<!-- 큐레이터 모달창 -->
 		<div class="modal fade bd-example-modal-xl" tabindex="-1" id="curatorModal">
-			<div class="modal-dialog modal-xl">
+			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
 					<div class="modal-header">
 						<h5 class="modal-title">큐레이터</h5>
