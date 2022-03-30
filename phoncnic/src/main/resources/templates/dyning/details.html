@@ -2,21 +2,10 @@
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
 <th:block th:replace="~{layout/dyninglayout :: setContent(~{::content})}">
     <th:block th:fragment="content">
-        <h1>dyning details</h1>
         <input type="hidden" name="" id="detaillocation" th:value="${result.location}">
-        <ul>
-            <li th:each="dto : ${result}">
-                [[${ dto }]]
-            </li>
-        </ul>
-
         <body>
             <h1>dyning details</h1>
-            <ul>
-                <li th:each="dto : ${result}">
-                    [[${ dto }]]
-                </li>
-            </ul>
+           
 
             <table border="1">
                 <tr>
@@ -40,11 +29,17 @@
                     <td>[[${dto.hashtag}]]</td>
                     <td>[[${dto.tel}]]</td>
 
-                    <td>
-                        <th:block th:each="idto : ${imageresult}">[[${idto.menuimagepath}]],</th:block>
+                    <td >
+                        <th:block th:each="idto : ${imageresult}">
+                            <img th:src="|@{'/display'}?fileName=${idto.getMenuThumbnailImageURL()}|" class="thumbimage" 
+                            th:data-file="|@{'/display'}?fileName=${idto.getMenuImageURL()}|"alt="">
+                        </th:block>
                     </td>
-                    <td>
-                        <th:block th:each="idto : ${imageresult}">[[${idto.backgroundpath}]],</th:block>
+                    <td >
+                        <th:block th:each="idto : ${imageresult}">
+                            <img th:src="|@{'/display'}?fileName=${idto.getBackgoundThumbnailImageURL()}|" class="thumbimage"
+                            th:data-file="|@{'/display'}?fileName=${idto.getBackgoundImageURL()}|" alt="">
+                        </th:block>
                     </td>
                     <td>[[${dto.emojicwt}]]</td>
 
@@ -134,16 +129,6 @@ var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
     <form action="">
         <input type="hidden" name="id" value="user1@icloud.com"  readonly>
         <input type="hidden" name="dno" th:value="${result.dno}">
-
-
-            <select name="emojitype" id="">
-                <option value="1">😋</option>
-                <option value="2">🥰</option>
-                <option value="3">😭</option>
-                <option value="4">😅</option>
-                <option value="5">🥵</option>
-            </select>
-            <button type="button" id="emojisave">이모지 추가하기</button>
         </form>
         <table border="1">
             <tr>

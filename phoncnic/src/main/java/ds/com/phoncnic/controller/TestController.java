@@ -18,11 +18,10 @@ public class TestController {
         return "test";
     }
 
-    // @GetMapping("/test2")
-    // public String test2 (String id, Model model) {
-    //     log.info("id: "+id);
-    //     MemberDTO
-    //     return "test2";
-    // }
+    @GetMapping("/test2")
+    public String test2 () {
+        
+        return "test2";
+    }
 
 }
