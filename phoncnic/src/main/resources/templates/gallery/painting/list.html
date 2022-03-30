@@ -98,7 +98,7 @@
 					var displayUrl = [[@{/display}]];
 				+]*/
 
-				var searchResult = $(".md-serach-result");
+				var searchResult = $(".result-container");
 				var curatorBtn = $("#curatorBtn");
 				var searchBtn = $("#md-search-btn");
 				var searchForm = $("#modal-frm");
@@ -122,22 +122,30 @@
 					getCuratorList();
 				});
 
-				function getCuratorList() {
-					$.get(curatorUrl, function (result) {
+				$(".left").on("click", function () {
+					var url = $(this).data('leftUrl');
+					getCuratorList(url);
+				});
+				$(".right").on("click", function () {
+					var url = $(this).data('rightUrl');
+					getCuratorList(url);
+				});
+
+				function getCuratorList(url) {
+					$.get(url, function (result) {
+						$(".left").attr('data-left-url', curatorUrl + `?page=${result.page - 1}`);
+						$(".right").attr('data-right-url', curatorUrl + `?page=${result.page + 1}`);
 						var str = "";
 						$.each(result.dtoList, function (idx, dto) {
-							str += `<li class="search-result-Item" data-search-file="${dto.imageURL}" data-search-gno="${dto.gno}">
-										<div>
-											<p>
-												${dto.title}
-											</p>
-											<img src="${displayUrl}?fileName=${dto.thumbnailURL}">
-											${dto.content}
-										</div>
-									</li>`;
-						})
+							str += `<div class="search-result-Item item" data-search-file="${dto.imageURL}" data-search-gno="${dto.gno}">
+                              <img  class="md-conteainer-img" src="${displayUrl}?fileName=${dto.imageURL}">                              
+                              <br/>
+                              <p>${dto.title}</p>
+                           </div>`;
+						});
 						searchResult.html(str);
-					}).done(function () {
+					}).done(function (response) {
+						console.log(response);
 						console.log("get success curator");
 					}).fail(function (response) {
 						console.log("get curator fial...");
