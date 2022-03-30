@@ -24,6 +24,7 @@ import ds.com.phoncnic.entity.QDyning;
 import ds.com.phoncnic.entity.RoofDesign;
 import ds.com.phoncnic.repository.DyningImageRepository;
 import ds.com.phoncnic.repository.DyningRepository;
+import ds.com.phoncnic.repository.RoofDesignRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -37,6 +38,9 @@ public class DyningServiceImpl implements DyningService {
 
   @Autowired
   private final DyningImageRepository dyningImageRepository;
+
+  @Autowired
+  private final RoofDesignRepository roofDesignRepository;
 
   @Transactional
   @Override
