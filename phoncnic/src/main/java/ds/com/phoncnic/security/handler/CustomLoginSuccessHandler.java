@@ -19,16 +19,16 @@ import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
+
   private RedirectStrategy redirect = new DefaultRedirectStrategy();
   private PasswordEncoder passwordEncoder;
+
   public CustomLoginSuccessHandler(PasswordEncoder passwordEncoder){
     this.passwordEncoder = passwordEncoder;
   }
 
   @Override
-  public void onAuthenticationSuccess(HttpServletRequest request, 
-      HttpServletResponse response, Authentication auth)
-      throws IOException, ServletException {
+  public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication auth) throws IOException, ServletException {
     log.warn("Login Success");
     AuthMemberDTO authMemberDTO = (AuthMemberDTO) auth.getPrincipal();
     boolean passwordResult = passwordEncoder.matches("1", authMemberDTO.getPassword());
@@ -55,5 +55,4 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
     // }
     response.sendRedirect(request.getContextPath()+"/");
   }
-
 }

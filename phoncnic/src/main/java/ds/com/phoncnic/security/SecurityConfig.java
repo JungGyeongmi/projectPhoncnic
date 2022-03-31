@@ -72,11 +72,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     log.info(">>>"+http.headers().getClass().getName());
-    // http.authorizeRequests()
-    // .antMatchers("/notes").permitAll()
+    
+    http.authorizeRequests()
+    // .antMatchers("/gallery/").permitAll();
+    
     // .antMatchers("/sample/all").permitAll()
-    // .antMatchers("/sample/member").hasRole("MEMBER")
+    .antMatchers("/manage/gallery/list").hasRole("USER");
     // .antMatchers("/sample/admin").hasRole("ADMIN");
+
     http.exceptionHandling().accessDeniedHandler(accessDeniedHandler());
     
     //1. Security login form 사용
@@ -99,11 +102,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     http.logout().logoutSuccessHandler(logoutSuccessHandler());
     //.logoutUrl("/member/logout").logoutSuccessUrl("/member/login")
     http.rememberMe().tokenValiditySeconds(60*60*24*7).userDetailsService((UserDetailsService) memberDetailsService);
-    // http.addFilterBefore(apiCheckFilter(), 
-    //           UsernamePasswordAuthenticationFilter.class);
-    http.addFilterBefore(apiLoginFilter(), 
-              UsernamePasswordAuthenticationFilter.class);
+    // http.addFilterBefore(apiCheckFilter(), UsernamePasswordAuthenticationFilter.class);
+    http.addFilterBefore(apiLoginFilter(), UsernamePasswordAuthenticationFilter.class);
 
   }
-
 }

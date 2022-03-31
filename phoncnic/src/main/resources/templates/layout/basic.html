@@ -31,6 +31,18 @@
                 <a class="list-group-item list-group-item-light p-3" th:href="@{/}">
                     <h2>Phoncnic</h2>
                 </a>
+                <div>
+                    <!-- 로그인 유무에 따라 둘 중 하나를 보여줌 -->
+                    <a class="list-group-item list-group-item-light p-3" th:href="@{/oauth2/authorization/google}">
+                        로그인
+                    </a>
+                    <div>
+                        로그인정보 보여짐 (카드형식)
+                    </div>
+                    <a class="list-group-item list-group-item-light p-3" th:href="@{/oauth2/authorization/google}">
+                        로그아웃
+                    </a>
+                </div>
                 <!-- <a th:href="@{/}"><div class="sidebar-heading border-bottom bg-light">Start Bootstrap</div></a> -->
                 <div class="list-group list-group-flush">
                     <a class="list-group-item list-group-item-action list-group-item-light p-3"
