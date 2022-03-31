@@ -21,7 +21,9 @@
 
             <label for="content">explain</label><br>
             <input type="text" name="content" placeholder="explain"><br>
-
+            <div class="box">
+            </div>
+        </form>
             <!-- 여기서 input 으로 전달해주는 값을 img 아래로 내리니까 전달자체가 되지 않았음 -->
             <label>Image & Frame</label>
             <div class="custom-file">
@@ -29,9 +31,7 @@
                 <label data-browse="Browse"></label>
             </div>
             </div>
-            <div class="box">
-            </div>
-        </form>
+
         <!-- upload된 이미지 파일을 보여주기 위한 list style 설정 -->
         <style>
             .uploadResult {
@@ -76,9 +76,7 @@
         <script th:inline="javascript">
 
             $(document).ready(function (e) {
-                /*[+
-                  var urlUpload = [[@{/uploadAjax/}]];
-                +]*/
+
                 var regex = new RegExp("(.*?)\.(exe|sh|zip|alz|tiff|txt)$");
                 var maxSize = 10485760;
 
@@ -124,6 +122,10 @@
 
                     for (var value of formData.values()) console.log("formData >> " + value);
 
+                    /*[+
+                        var urlUpload = [[@{/uploadAjax/}]];
+                     +]*/
+
                     // 파일 업로드를 위한 ajax
                     $.ajax({
                         url: urlUpload,
@@ -133,7 +135,7 @@
                         type: 'POST',
                         dataType: 'json',
                         success: function (result) {
-                            console.log(result);
+                            // alert(formData);
                             showResult(result);
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
@@ -152,17 +154,16 @@
                     +]*/
                     $(uploadResultArr).each(function (i, obj) {
                         str += `<li data-name='${obj.fileName}' data-path='${obj.folderPath}' data-uuid='${obj.uuid}'><div>`;
-                        str += `<button type='button' data-file='${obj.imageURL}\' class='btn-warning btn-sm'>X</button><br>`;
+                        str += `<button type='button' data-file='${obj.imageURL}' class='btn-warning btn-sm'>X</button><br>`;
                         str += `<img src='${urlDisplay}?fileName=${obj.thumbnailURL}'></div></li>`;
                     });
                     uploadUL.append(str);
 
                     $(".uploadResult li").each(function (i, obj) {
                         var target = $(obj);
-
                         str2 += `<input type='hidden' name='imagename' value='${target.data('name')}'>
-                            <input type='hidden' name='imagepath' value='${target.data('path')}'>
-                            <input type='hidden' name='uuid' value='${target.data('uuid')}'>`;
+                                    <input type='hidden' name='imagepath' value='${target.data('path')}'>
+                                    <input type='hidden' name='uuid' value='${target.data('uuid')}'>`;
                     });
 
                     $(".box").html(str2);
@@ -173,9 +174,8 @@
             // submit 버튼
             $("#register").on("click", function (e) {
                 e.preventDefault();
-
-
                 $("form").submit();
+                // console.log($("form").serialize());
             });
 
             // 사진 삭제
