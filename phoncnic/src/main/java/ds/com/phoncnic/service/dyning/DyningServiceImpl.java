@@ -13,7 +13,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import ds.com.phoncnic.dto.DyningDTO;
-import ds.com.phoncnic.dto.pageDTO.PageRequestDTO;
 import ds.com.phoncnic.dto.pageDTO.PageResultDTO;
 import ds.com.phoncnic.dto.pageDTO.SearchDyningPageRequestDTO;
 import ds.com.phoncnic.entity.Dyning;
@@ -68,11 +67,13 @@ public class DyningServiceImpl implements DyningService {
 
   @Override
   public PageResultDTO<DyningDTO, Object[]> getDyningPage(SearchDyningPageRequestDTO searchPageRequestDTO) {
-    log.info(searchPageRequestDTO);
+    log.info("searchRequestDTO ..."+searchPageRequestDTO);
+    
+    
     Function<Object[], DyningDTO> fn = new Function<Object[], DyningDTO>() {
       @Override
       public DyningDTO apply(Object[] en) {
-        return entitiesToDTO((Dyning) en[0], (Long) en[1]);
+        return entitiesToDTO((Dyning) en[0]);
       }
     };
 
@@ -80,6 +81,7 @@ public class DyningServiceImpl implements DyningService {
         searchPageRequestDTO.getType(),
         searchPageRequestDTO.getKeyword(),
         searchPageRequestDTO.getPageable(Sort.by("dno").descending()));
+
     return new PageResultDTO<>(result, fn);
   }
 

@@ -11,7 +11,6 @@ import org.springframework.data.jpa.repository.Query;
 
 import ds.com.phoncnic.entity.Dyning;
 import ds.com.phoncnic.entity.DyningImage;
-import ds.com.phoncnic.entity.Gallery;
 import ds.com.phoncnic.repository.search.SearchDyningRepository;
 
 public interface DyningRepository extends JpaRepository<Dyning, Long>, SearchDyningRepository {
@@ -42,7 +41,7 @@ public interface DyningRepository extends JpaRepository<Dyning, Long>, SearchDyn
 
     // 페이징 처리
     @Query("select d from Dyning d where foodtype = 1 ")
-    Page<Dyning> getCafePage(Pageable pageable);   
+    Page<Dyning> getCafePage(Pageable pageable);
 
 
     // @Query("")
