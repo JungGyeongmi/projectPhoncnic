@@ -43,23 +43,20 @@ public class DyningController {
     public void details(@RequestParam("dno") Long dno,String id, Model model) {
         log.info("Details.................");
         if(dno!=0){
-        DyningDTO dto = dyningService.getDyningDetails(dno);
-        model.addAttribute("result", dyningService.getDyningDetails(dno));
-        model.addAttribute("imageresult", dyningService.getDyningDetails(dno).getDyningImageDTOList());
-        model.addAttribute("emojilist", emojiService.dyningEmojiList(dno));
-        model.addAttribute("emojitype1",emojiService.getEmojitypeCwt(dno, "1"));
-        model.addAttribute("emojitype2",emojiService.getEmojitypeCwt(dno, "2"));
-        model.addAttribute("emojitype3",emojiService.getEmojitypeCwt(dno, "3"));
-        model.addAttribute("emojitype4",emojiService.getEmojitypeCwt(dno, "4"));
-        model.addAttribute("emojitype5",emojiService.getEmojitypeCwt(dno, "5"));
-        model.addAttribute("fno", followService.getFno(id,dto.getDyningname()));
-        log.info(id+"의 fno:"+followService.getFno(id,dto.getDyningname()));
-        model.addAttribute("id",id);
+            DyningDTO dto = dyningService.getDyningDetails(dno);
+            model.addAttribute("result", dyningService.getDyningDetails(dno));
+            model.addAttribute("imageresult", dyningService.getDyningDetails(dno).getDyningImageDTOList());
+            model.addAttribute("emojilist", emojiService.dyningEmojiList(dno));
+            model.addAttribute("emojitype1",emojiService.getEmojitypeCwt(dno, "1"));
+            model.addAttribute("emojitype2",emojiService.getEmojitypeCwt(dno, "2"));
+            model.addAttribute("emojitype3",emojiService.getEmojitypeCwt(dno, "3"));
+            model.addAttribute("emojitype4",emojiService.getEmojitypeCwt(dno, "4"));
+            model.addAttribute("emojitype5",emojiService.getEmojitypeCwt(dno, "5"));
+            model.addAttribute("fno", followService.getFno(id,dto.getDyningname()));
+            log.info(id+"의 fno:"+followService.getFno(id,dto.getDyningname()));
+            model.addAttribute("id",id);
 
-        // model.addAttribute("follow",followService.)
-
-        }else return;
-
+        } else return;
     }
 
 }

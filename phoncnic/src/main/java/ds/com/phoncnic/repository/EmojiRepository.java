@@ -42,22 +42,24 @@ public interface EmojiRepository extends JpaRepository<Emoji, Long> {
     @Query("select e, count(e) from Emoji e where e.emojiInfo.emojitype= :type group by e.eno ")
     List<Emoji> getCountEmoji(String type);
 
-    //타입별
-    @Query("SELECT e.emojiInfo.emojitype, COUNT(e) FROM Emoji e "+
-           "WHERE e.gallery.gno IS NOT NULL AND e.gallery.gno = :gno " +
-           "GROUP BY e.gallery.gno, e.emojiInfo.emojitype ORDER BY 1, 2 ")
+    // 타입별
+    @Query("SELECT e.emojiInfo.emojitype, COUNT(e) FROM Emoji e " +
+            "WHERE e.gallery.gno IS NOT NULL AND e.gallery.gno = :gno " +
+            "GROUP BY e.gallery.gno, e.emojiInfo.emojitype ORDER BY 1, 2 ")
     List<Object[]> getEmojiCountByGno(Long gno);
 
-
-
-    //다이닝 이모지 타입 갯수 카운트
+    // 다이닝 이모지 타입 갯수 카운트
     @Query("select count(e.emojiInfo.emojitype) from Emoji e where e.dyning.dno=:dno and e.emojiInfo.emojitype=:emojitype")
-    Long getEmojiCountByEmojitype(Long dno,String emojitype);
+    Long getEmojiCountByEmojitype(Long dno, String emojitype);
 
     @Query("select e.emojiInfo.emojitype,count(e.emojiInfo.emojitype) from Emoji e where e.dyning.dno=:dno and e.emojiInfo.emojitype=:emojitype")
-    List<Object[]> getEmojiCountByEmojitype2(Long dno,String emojitype);
+    List<Object[]> getEmojiCountByEmojitype2(Long dno, String emojitype);
 
-
-
-
+    /*
+     * update를 사용할때는 modifying annotation
+     * update 테이블 set 컬럼 = 변경된컬럼값 where 조건 = :조건 and 조건 = :조건
+     */
+    @Modifying
+    @Query("UPDATE Emoji e SET e.emojiInfo.emojitype = :type WHERE e.gallery.gno = :gno AND e.member.id = :id")
+    Integer updateEmojiTypeByGnoAndMemberId(String type, Long gno, String id);
 }

@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
 public class DyningImageDTO {
     
     private Long dno;
+    
     private String menuimagename;
     private String menuimageuuid;
     private String menuimagepath;

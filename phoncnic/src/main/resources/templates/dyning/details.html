@@ -28,8 +28,8 @@
                     <td>[[${dto.comment}]]</td>
                     <td>[[${dto.hashtag}]]</td>
                     <td>[[${dto.tel}]]</td>
-                    
-                    
+
+
 
                     <td>
                         <th:block th:each="idto : ${imageresult}">
@@ -49,7 +49,7 @@
                 </tr>
             </table>
 
-            
+
 
             <!-- 지도 API 버튼 -->
             <button type="button" id="btnlocation">지도 Api</button>
@@ -149,6 +149,8 @@
                 <td><button class="up" value="5" name="emojitype" type="button">🥵[[${emojitype5}]]</button></td>
                 <!--/* <td th:each="dto : ${emojilist}"><button type="button" th:value="${dto.eno}" class="emojiRemoveBtn">삭제</button></td> */-->
             </tr>
+
+
         </table>
         <button id="followBtn" type="button" th:value="${fno}">팔로우</button>
 
@@ -160,18 +162,18 @@
             $(document).ready(function (e) {
                 //팔로우 제어
                 var fno = $('#followBtn');
-                if(fno.val()!=""){
+                if (fno.val() != "") {
                     fno.html('언팔로우');
                 }
-                 $('#followBtn').on("click",function(){
-                     
-                     var id = $("#followerid").val();
+                $('#followBtn').on("click", function () {
+
+                    var id = $("#followerid").val();
                     var dyningname = $("#dyningname").val();
                     console.log(fno.val());
-                    
+
                     //언팔 상태
-                    if(fno.val()==""){
-                        var data = {followerid: id, dyningname:dyningname};
+                    if (fno.val() == "") {
+                        var data = { followerid: id, dyningname: dyningname };
                         var urladd = `[[@{/dyning/addfollow}]]`;
                         console.log(data);
                         $.ajax({
@@ -184,21 +186,21 @@
                                 self.location.reload();
                             }
                         });
-                    }else{
-                    var data = { id: id, dyningname: dyningname };
-                    var urlremove = `[[@{/main/mypage/dyningremove}]]`;
+                    } else {
+                        var data = { id: id, dyningname: dyningname };
+                        var urlremove = `[[@{/main/mypage/dyningremove}]]`;
 
-                    $.ajax({
-                    url: urlremove + "/" + id + "/" + dyningname,
-                    type: "DELETE",
-                    data: JSON.stringify(data),
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "text",
-                    success: function (result) {
-                        console.log("result: " + result);
-                        self.location.reload();
-                    }
-                })
+                        $.ajax({
+                            url: urlremove + "/" + id + "/" + dyningname,
+                            type: "DELETE",
+                            data: JSON.stringify(data),
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "text",
+                            success: function (result) {
+                                console.log("result: " + result);
+                                self.location.reload();
+                            }
+                        })
                     }
                 })
 
@@ -292,5 +294,3 @@
         </div>
     </th:block>
 </th:block>
-
-</html>

@@ -51,11 +51,11 @@ public class EmojiServiceImpl implements EmojiService {
         emojiList.stream().forEach(emoji -> {
             EmojiDTO emojiDTO = entityToEmojiDTO(emoji);
             emojiDTOList.add(emojiDTO);
-            
+
         });
         return emojiDTOList;
     }
-    
+
     @Override
     public List<EmojiDTO> getEmojiByGno(String info, Long no) {
         List<Emoji> emojiList = info.equals("g") ? emojiRepository.getEmojiByGno(no)
@@ -72,15 +72,14 @@ public class EmojiServiceImpl implements EmojiService {
         return emojiDTOList;
     }
 
-    
     @Override
     public Long[][] getEmojiCountArrayByGno(Long gno) {
         List<Object[]> result = emojiRepository.getEmojiCountByGno(gno);
         Long[][] emojiCntArr = new Long[5][2];
-        
-        for(int i = 0; i< emojiCntArr.length; i++) {
-            emojiCntArr[i][0]=Long.valueOf(i+1);
-            emojiCntArr[i][1]=Long.valueOf(0);
+
+        for (int i = 0; i < emojiCntArr.length; i++) {
+            emojiCntArr[i][0] = Long.valueOf(i + 1);
+            emojiCntArr[i][1] = Long.valueOf(0);
         }
 
         result.stream().forEach(obj -> {
@@ -100,13 +99,13 @@ public class EmojiServiceImpl implements EmojiService {
                     emojiCntArr[3][1] = count;
                     break;
                 case "5":
-                   emojiCntArr[4][1] = count;
+                    emojiCntArr[4][1] = count;
                     break;
             }
         });
         return emojiCntArr;
     }
-
+    
     @Override
     public void emojiRemove(Long eno) {
         Optional<Emoji> emoji = emojiRepository.findById(eno);

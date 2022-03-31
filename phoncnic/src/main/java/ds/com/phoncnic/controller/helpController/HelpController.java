@@ -27,7 +27,6 @@ public class HelpController {
         return "/help/list";
     }
 
-
     @GetMapping("register")
     public String Register() {
         return "/help/register";

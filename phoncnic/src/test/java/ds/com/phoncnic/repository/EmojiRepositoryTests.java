@@ -107,8 +107,16 @@ public class EmojiRepositoryTests {
 
         emojiList.stream().forEach(cnt -> {
             System.out.println("count : " + cnt[1]);
+
             System.out.println("type : " + cnt[0]);
             System.out.println("count : " + cnt[1]);
         });
+    }
+
+    @Test
+    @Transactional
+    public void testUpdateEmoji() {
+        Integer eno = emojiRepository.updateEmojiTypeByGnoAndMemberId("3", 28L, "user1@icloud.com");
+        System.out.println(eno);
     }
 }

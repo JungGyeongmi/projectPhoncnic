@@ -23,34 +23,36 @@ public class CharacterLookServiceImpl implements CharacterLookService {
     private CharacterLookInfoRepository repository;
     @Autowired
     private CharacterLookRepository characterLookRepository;
+
     @Autowired
     private CharacterLookInfoRepository characterLookInfoRepository;
-    
-     @Override
-    public CharacterLookDTO getCharacterHair(String id){
+
+    @Override
+    public CharacterLookDTO getCharacterHair(String id) {
         CharacterLookInfo characterLookinfo = repository.getHair(id);
         return entityToDTO(characterLookinfo);
     }
-    
+
     @Override
-    public CharacterLookDTO getCharacterClothes(String id){
+    public CharacterLookDTO getCharacterClothes(String id) {
         CharacterLookInfo characterLookinfo = repository.getClothes(id);
         return entityToDTO(characterLookinfo);
     }
-    
+
     @Override
-    public void modify(CharacterLookDTO dto,String id) {
+    public void modify(CharacterLookDTO dto, String id) {
         Optional<CharacterLook> result = characterLookRepository.getLnoById(id);
-        if(result.isPresent()){
+        if (result.isPresent()) {
             CharacterLook characterLook = result.get();
             characterLook.changeHairname(dto.getHairname());
             characterLook.changeClothesname(dto.getClothesname());
             characterLookRepository.save(characterLook);
         }
     }
+
     @Override
-    public List<CharacterLookInfo> lookimageList(){
-      List<CharacterLookInfo> dto = characterLookInfoRepository.findAll();
-      return dto;
-    };
+    public List<CharacterLookInfo> lookimageList() {
+        List<CharacterLookInfo> dto = characterLookInfoRepository.findAll();
+        return dto;
+    }
 }

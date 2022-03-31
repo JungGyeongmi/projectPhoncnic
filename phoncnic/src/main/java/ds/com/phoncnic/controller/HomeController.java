@@ -55,11 +55,6 @@ public class HomeController {
         return "/manage/rolechoice";
     }
 
-    @GetMapping("/test")
-    public String test () {
-        return "test";
-    }
-
     @GetMapping("/lookmodal")
     public String test2 (String id, Model model) {
         log.info("id:" + id);
@@ -69,6 +64,7 @@ public class HomeController {
         model.addAttribute("looklist", characterLookService.lookimageList());
         return "/lookmodal";
     }
+
 
     @PostMapping("/lookmodal/lookmodify")
     public String lookmodify(CharacterLookDTO characterLookDTO, String id) {

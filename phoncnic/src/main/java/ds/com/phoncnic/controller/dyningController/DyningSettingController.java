@@ -22,12 +22,14 @@ public class DyningSettingController {
 
     private final DyningService dyningService;
     private final EmojiService emojiService;
+
     //등록가게 리스트
     @GetMapping("/list")
-    public void dyningList(String id,Model model) {
+    public void dyningList(String id, Model model) {
         model.addAttribute("result", dyningService.getMyDyningList(id));
         model.addAttribute("id",id);
     }
+
     //가게 등록 폼
     @GetMapping("/register")
     public String dyningRegister(String id, Model model) {
@@ -35,6 +37,7 @@ public class DyningSettingController {
         model.addAttribute("roofList",dyningService.roofimageList());
         return "/manage/dyning/register";
     }
+
     //가게 수정 폼
     @GetMapping("/modify")
     public void getDyningModify(@RequestParam("dno") Long dno,String id, Model model) {
@@ -47,6 +50,7 @@ public class DyningSettingController {
         model.addAttribute("id",id);
         }
     }
+
     //가게 수정 폼
     @PostMapping("/modify")
     public String postDyningModify(DyningDTO dyningDTO) {
@@ -56,6 +60,7 @@ public class DyningSettingController {
 
         return "redirect:/manage/dyning/read?dno="+dyningDTO.getDno();
     }
+
     //등록 가게 열람 폼
     @GetMapping("/read")
     public String dyningRead(@RequestParam("dno") Long dno, Model model) {
@@ -70,14 +75,15 @@ public class DyningSettingController {
         model.addAttribute("emojitype4",emojiService.getEmojitypeCwt(dno, "4"));
         model.addAttribute("emojitype5",emojiService.getEmojitypeCwt(dno, "5"));
         }
-
         return "/manage/dyning/read";
     }
+
     // 가게를 처음으로 등록시
     @PostMapping("/register")
     public String register(DyningDTO dyningDTO, RedirectAttributes ra) {
         log.info("dyning register....."+dyningDTO);
         Long dno = dyningService.register(dyningDTO);
+
         ra.addFlashAttribute("dno",dno+"번째 가게 등록 왼료");
 
         // 가게를 등록하고 난 후 바로 아래로 이동

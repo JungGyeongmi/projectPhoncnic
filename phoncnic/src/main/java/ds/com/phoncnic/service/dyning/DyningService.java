@@ -21,6 +21,7 @@ public interface DyningService {
     void removeWithImages(Long dno);
     void modify(DyningDTO dyningDTO);
 
+
     default Map<String, Object> dtoToEntity(DyningDTO dto) {
         Map<String, Object> entityMap = new HashMap<>();
 
@@ -67,6 +68,7 @@ public interface DyningService {
     }
 
     default DyningDTO entityToDTO(Dyning dyning, Long emojiCwt, List<DyningImage> dyningImages, Long followerCwt) {
+
         DyningDTO dyningDTO = DyningDTO.builder()
                 .dno(dyning.getDno())
                 .dyningname(dyning.getDyningname())
@@ -104,6 +106,7 @@ public interface DyningService {
     }
 
     List<DyningDTO> getStreet();
+
     List<DyningDTO> getMyDyningList(String id);
 
     // DyningDTO getRoof();

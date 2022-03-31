@@ -117,7 +117,6 @@ public class DyningRepositoryTests {
                         .build();
                 emojiRepository.save(emoji);
             }
-
         });
     }
 
@@ -146,15 +145,9 @@ public class DyningRepositoryTests {
         });
     }
 
-    // @Test
-    // public void getdynig(){
-    //     List<Object[]> result = dyningRepository.getDyningDetails(11L);
-    //     for(Object[] arr :result)System.out.println(Arrays.toString(arr));
-    // }
-
     @Test
     public void testSearchPage() {
-        
+
         Pageable pageable = PageRequest.of(0, 10, Sort.by("dno").descending().and(Sort.by("dyningname").ascending()));
         Page<Object[]> result = dyningRepository.searchPage("n", "1", pageable);
     }
@@ -168,10 +161,6 @@ public class DyningRepositoryTests {
     @Test
     public void testt() {
         List<Object[]> result = dyningRepository.getDyningDetails(1L);
-        // System.out.println(result);
-        // result.stream().forEach( i -> {
-        //     System.out.println(Arrays.toString(i));
-        // });
         System.out.println(Arrays.toString(result.get(1)));
     }
 
@@ -182,7 +171,4 @@ public class DyningRepositoryTests {
         System.out.println(result);
         System.out.println();
     }
-
-
-
 }

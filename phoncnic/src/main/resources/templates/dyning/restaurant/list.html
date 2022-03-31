@@ -5,36 +5,39 @@
     <!-- navbar + 토글 버튼 -->
     <th:block th:fragment="navbar">
         <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-        <div class="container-fluid">
-            <button class="btn btn-primary" id="sidebarToggle" style="background-color: #DBE9B7;">검색</button>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-        </div>
+            <div class="container-fluid">
+                <button class="btn btn-primary" id="sidebarToggle" style="background-color: #DBE9B7;">검색</button>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
         </nav>
     </th:block>
 
     <!-- search toggle -->
     <th:block th:fragment="search">
         <style>
-            .search-result-Item {cursor: pointer;}
+            .search-result-Item {
+                cursor: pointer;
+            }
         </style>
         <div class="border-end bg-white" id="sidebar-wrapper">
             <div class="sidebar-heading border-bottom bg-light">
                 <form class="d-flex search-form" th:action="@{/restaurant/toggle}" method="get">
                     <select class="form-select-sm" name="type">
-                        <option value="n" >가게명</option>
-                        <option value="h" >해쉬태그</option>
+                        <option value="n">가게명</option>
+                        <option value="h">해쉬태그</option>
                     </select>
-                    <input class="form-control me-2" name="keyword" type="search" placeholder="Search" aria-label="Search">
+                    <input class="form-control me-2" name="keyword" type="search" placeholder="Search"
+                        aria-label="Search">
                     <button class="btn btn-outline-success" id="btnsearch" type="button">Search</button>
                 </form>
             </div>
             <div class="list-group list-group-flush">
                 <ul class="md-serach-result">
-                    
+
                 </ul>
             </div>
         </div>
@@ -45,27 +48,27 @@
                 /*[+
                     var searchUrl = [[@{/dyning/restaurant/toggle}]];
                 +]*/
-        
+
                 var btnsearch = $('#btnsearch');
                 var searchForm = $('.search-form');
                 var searchResult = $(".md-serach-result");
                 var keyword = $("input[name=keyword]");
-        
+
                 // 검색버튼 클릭시 search
-                btnsearch.on("click", function(e) {
+                btnsearch.on("click", function (e) {
                     console.log(searchForm.serialize());
                     getSearchList();
                 })
 
                 // 엔터 입력시 search
                 keyword.on("keydown", function (e) {
-					var keycode = e.keyCode;
-					if (keycode == "13") {
+                    var keycode = e.keyCode;
+                    if (keycode == "13") {
                         e.preventDefault();
-						getSearchList();
-					}
-				});
-        
+                        getSearchList();
+                    }
+                });
+
                 function getSearchList() {
                     $.ajax({
                         type: "GET",
@@ -91,15 +94,15 @@
                         }
                     });
                 }
-                
+
                 // 토글 창 내 search result 클릭 시 이동 제어
-				$(document).on("click", ".search-result-Item", function (e) {
+                $(document).on("click", ".search-result-Item", function (e) {
                     console.log("click");
                     var val = $(this).attr("value");
-                    location.href="/phoncnic/dyning/details?dno="+val;
-				});
+                    location.href = "/phoncnic/dyning/details?dno=" + val;
+                });
 
-                
+
 
             });
         </script>
@@ -110,9 +113,17 @@
     <!-- 내용부분(restaurant 거리) -->
     <th:block th:fragment="content">
         <style>
-            #dyningname{cursor: pointer;}
-            #roofpath{cursor: pointer;}
-            #roofdesign{cursor: pointer;}
+            #dyningname {
+                cursor: pointer;
+            }
+
+            #roofpath {
+                cursor: pointer;
+            }
+
+            #roofdesign {
+                cursor: pointer;
+            }
         </style>
         <h1>restaurant</h1>
         <table border="1">
@@ -127,6 +138,5 @@
                 <td id="roofpath"><img th:src="${dto.roofthumbnail}" alt=""></td>
             </tr>
         </table>
-    </th:block>    
-
+    </th:block>
 </th:block>
