@@ -28,9 +28,31 @@ public class EmojiServiceImpl implements EmojiService {
 
     @Override
     public Long galleryEmojiRegiter(EmojiDTO emojiDTO) {
-        Emoji galleryEmoji = dtoToEntity(emojiDTO);
-        emojiRepository.save(galleryEmoji);
-        return galleryEmoji.getEno();
+        
+        String id = emojiDTO.getId();
+        Long gno = emojiDTO.getGno();
+        String emojiType = emojiDTO.getEmojitype();
+
+        Emoji galleryEmoji = Emoji.builder().build();
+        
+        // 0 eno 1 type 2 boolean
+        Object[] checker = emojiRepository.existsByMemberIdANDGno(gno, id).get(0);
+
+        if(!(boolean) checker[2]) {
+            galleryEmoji = dtoToEntity(emojiDTO);
+            emojiRepository.save(galleryEmoji);
+            return galleryEmoji.getEno();
+        } else if(checker[1].equals(emojiType)){
+            emojiRepository.deleteByEno((Long)checker[0]);
+            return 0L;
+        } else if(!checker[1].equals(emojiType)) {
+            // update query 문으로 수정하고싶은데
+            emojiRepository.deleteByEno((Long)checker[0]);
+            galleryEmoji = dtoToEntity(emojiDTO);
+            emojiRepository.save(galleryEmoji);
+            return galleryEmoji.getEno();
+        }
+        return 0L;
     }
 
     @Override

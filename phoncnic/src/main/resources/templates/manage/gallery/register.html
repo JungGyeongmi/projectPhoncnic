@@ -81,7 +81,7 @@
                 function checkExtension(fileName, fileSize) {
                     // 사이즈 유효성 검사
                     if (fileSize >= maxSize) {
-                        alert("파일사이즈 초과");
+                        swal("파일사이즈 초과");
                         return false;
                     }
                     // 파일 이름으로 유효성 검사
@@ -212,7 +212,7 @@
                         dataType: 'text',
                         type: 'POST',
                         success: function (result) {
-                            alert(result ? "Deleted!" : "Error");
+                            swal(result ? "Deleted!" : "Error");
                             targetLi.remove();
                         }
                     });
