@@ -2,6 +2,8 @@ package ds.com.phoncnic.repository;
 
 import java.util.List;
 
+import com.querydsl.core.Tuple;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -48,6 +50,8 @@ public interface EmojiRepository extends JpaRepository<Emoji, Long> {
            "GROUP BY e.gallery.gno, e.emojiInfo.emojitype ORDER BY 1, 2 ")
     List<Object[]> getEmojiCountByGno(Long gno);
 
+    @Query("SELECT e FROM Emoji e WHERE e.member.id=:id AND e.dyning.dno=:dno")
+    Emoji getEnoAndType(String id, Long dno);
 
 
     //다이닝 이모지 타입 갯수 카운트

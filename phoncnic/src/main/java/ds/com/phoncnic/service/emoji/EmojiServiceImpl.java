@@ -121,4 +121,10 @@ public class EmojiServiceImpl implements EmojiService {
         Long emojicwt = emojiRepository.getEmojiCountByEmojitype(dno, emojitype);
         return emojicwt;
     }
+
+    @Override
+    public Emoji HaveEmoji(String id, Long dno) {
+        Emoji emoji = emojiRepository.getEnoAndType(id, dno);
+        return emoji;
+    }
 }

@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import com.querydsl.core.Tuple;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -30,6 +32,13 @@ public class EmojiRepositoryTests {
         emojiList.stream().forEach(emoji -> {
             System.out.println(emojiService.entityToEmojiDTO(emoji));
         });
+
+    }
+
+    @Test
+    public void testgetEnonType(){
+        Emoji result = emojiRepository.getEnoAndType("user1@icloud.com", 13L);
+        System.out.println(result);
 
     }
 

@@ -46,6 +46,13 @@ public class DyningController {
         DyningDTO dto = dyningService.getDyningDetails(dno);
         model.addAttribute("result", dyningService.getDyningDetails(dno));
         model.addAttribute("imageresult", dyningService.getDyningDetails(dno).getDyningImageDTOList());
+        try {
+            model.addAttribute("eno",emojiService.HaveEmoji(id, dno).getEno());
+            model.addAttribute("emojitype",emojiService.HaveEmoji(id, dno).getEmojiInfo().getEmojitype());
+        } catch (NullPointerException e) {
+            model.addAttribute("eno","");
+            model.addAttribute("emojitype","");
+        }
         model.addAttribute("emojilist", emojiService.dyningEmojiList(dno));
         model.addAttribute("emojitype1",emojiService.getEmojitypeCwt(dno, "1"));
         model.addAttribute("emojitype2",emojiService.getEmojitypeCwt(dno, "2"));
