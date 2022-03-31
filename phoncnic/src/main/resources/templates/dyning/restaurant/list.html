@@ -1,26 +1,19 @@
 <!DOCTYPE html>
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
-<th:block th:replace="~{layout/test :: setContent(~{::content}, ~{::search})}">
+<th:block th:replace="~{layout/test :: setContent(~{::content}, ~{::search}, ~{::navbar})}">
 
-    <th:block th:fragment="content">
-        <style>
-            #dyningname{cursor: pointer;}
-            #roofpath{cursor: pointer;}
-            #roofdesign{cursor: pointer;}
-        </style>
-        <h1>restaurant</h1>
-        <table border="1">
-            <tr>
-                <th scope="col">dyningname</th>
-                <th scope="col">Roof Path</th>
-            </tr>
-            <tr th:each="dto : ${result}" th:onclick="'location.href=
-                \''+ @{/dyning/details(dno=${dto.dno})}
-                + '\''" th:if="${dto.foodtype}!=1">
-                <td id="dyningname">[[${dto.dyningname}]]</td>
-                <td id="roofpath">[[${dto.roofpath}]]</td>
-            </tr>
-        </table>
+    <!-- navbar + 토글 버튼 -->
+    <th:block th:fragment="navbar">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+        <div class="container-fluid">
+            <button class="btn btn-primary" id="sidebarToggle" style="background-color: #DBE9B7;">검색</button>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+        </nav>
     </th:block>
 
     <!-- search toggle -->
@@ -41,21 +34,6 @@
 
                 </ul>
             </div>
-        </div>
-
-        <!-- Page content wrapper-->
-        <div id="page-content-wrapper">
-            <!-- Top navigation-->
-            <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-                <div class="container-fluid">
-                    <button class="btn btn-primary" id="sidebarToggle">검색</button>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                </div>
-            </nav>
         </div>
 
         <script th:inline="javascript">
@@ -101,4 +79,26 @@
             })
         </script>
     </th:block>
+
+    <!-- 내용부분(restaurant 거리) -->
+    <th:block th:fragment="content">
+        <style>
+            #dyningname{cursor: pointer;}
+            #roofpath{cursor: pointer;}
+            #roofdesign{cursor: pointer;}
+        </style>
+        <h1>restaurant</h1>
+        <table border="1">
+            <tr>
+                <th scope="col">dyningname</th>
+                <th scope="col">Roof Path</th>
+            </tr>
+            <tr th:each="dto : ${result}" th:onclick="'location.href=
+                \''+ @{/dyning/details(dno=${dto.dno})}
+                + '\''" th:if="${dto.foodtype}!=1">
+                <td id="dyningname">[[${dto.dyningname}]]</td>
+                <td id="roofpath">[[${dto.roofpath}]]</td>
+            </tr>
+        </table>
+    </th:block>    
 </th:block>
