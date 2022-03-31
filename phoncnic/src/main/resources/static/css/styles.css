@@ -11280,7 +11280,7 @@ textarea.form-control-lg {
 
 #sidebar-wrapper {
   min-height: 100vh;
-  margin-left: -27rem;
+  margin-left: -15rem;
   transition: margin 0.25s ease-out;
 }
 
@@ -11290,7 +11290,7 @@ textarea.form-control-lg {
 }
 
 #sidebar-wrapper .list-group {
-  width: 27rem;
+  width: 15rem;
 }
 
 #page-content-wrapper {
@@ -11302,16 +11302,16 @@ body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
 }
 
 @media (min-width: 768px) {
-  #sidebar-wrapper {
-    margin-left: 0;
-  }
+  /* #sidebar-wrapper { */
+    /* margin-left: 0; */
+  /* } */
 
   #page-content-wrapper {
     min-width: 0;
     width: 100%;
   }
 
-  body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
-    margin-left: -27rem;
-  }
+  /* body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
+    margin-left: -15rem;
+  } */
 }

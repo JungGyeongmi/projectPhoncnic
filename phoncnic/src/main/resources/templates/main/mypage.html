@@ -44,7 +44,7 @@
                         </select>
                         <input type="text" th:value=${hdto.hairname} readonly>
                     </td>
-                    <td><input type="text" th:value=${hdto.hairpath} name=hairpath></td>
+                    <td><img th:src="${hdto.hairpath}" alt=""></td>
 
                     <th:block th:each="cdto : ${clothesDTO}">
                         <td>
@@ -55,8 +55,8 @@
                                 <option th:value="clothes3">clothes3</option>
                             </select><input type="text" th:value=${cdto.clothesname} readonly>
                         </td>
-                        <td><input type="text" th:value=${cdto.clothespath} name=clothespath></td>
-                    <th:block />
+                        <td><img th:src="${cdto.clothespath}" alt=""></td>
+                        <th:block />
                     <td><button id="lookModifyBtn" type="button">수정</button></td>
                 </tr>
             </table>
