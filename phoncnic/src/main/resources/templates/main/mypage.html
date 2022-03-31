@@ -35,7 +35,9 @@
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               </span>
               <button id="lookModifyBtn" type="button" class="btn btn-primary">변경하기</button>
-              <div><img th:src="${hairDTO.hairpath}" alt=""><br><img th:src="${clothesDTO.clothespath}" alt=""></div>
+              <div><span th:each="hdto : ${hairDTO}"><img th:src="${hdto.hairpath}" alt=""></span><br>
+                <span th:each="cdto : ${clothesDTO}"><img th:src="${cdto.clothespath}" alt=""></span></div>
+            
     </form>
 
         <br>

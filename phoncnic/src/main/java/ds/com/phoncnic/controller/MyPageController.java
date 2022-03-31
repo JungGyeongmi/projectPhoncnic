@@ -30,6 +30,7 @@ public class MyPageController {
     public void mypage(String id, Model model) {
         log.info("id:" + id);
         MemberDTO memberDTO = memberService.getMember(id);
+        model.addAttribute("id",id);
         model.addAttribute("memberDTO", memberDTO);
         model.addAttribute("hairDTO", characterLookService.getCharacterHair(id));
         model.addAttribute("clothesDTO", characterLookService.getCharacterClothes(id));
