@@ -48,7 +48,6 @@ public class GalleryRepositoryTests {
     @Autowired
     EmojiInfoRepository emojiInfoRepository;
 
-
     @Transactional
     @Commit
     @Test
@@ -66,29 +65,29 @@ public class GalleryRepositoryTests {
                 }
             }
 
-            boolean rand = (int)(Math.random()*2)!=0;
+            boolean rand = (int) (Math.random() * 2) != 0;
             Gallery gallery = Gallery.builder()
-                .title("title"+i)
-                .content("content"+i)
-                .artistid(memberRepository.findById("user"+i+"@icloud.com").get())
-                .imagepath("2022\\03\\22")
-                .imagetype(rand)
-                .imagename("test" + i +".jpg")
-                .uuid(UUID.randomUUID().toString())
-                .build();
+                    .title("title" + i)
+                    .content("content" + i)
+                    .artistid(memberRepository.findById("user" + i + "@icloud.com").get())
+                    .imagepath("2022\\03\\22")
+                    .imagetype(rand)
+                    .imagename("test" + i + ".jpg")
+                    .uuid(UUID.randomUUID().toString())
+                    .build();
             galleryRepository.save(gallery);
 
             int ra = (int) (Math.random() * 5) + 1;
 
             for (int j = 0; j < ra; j++) {
-                Member member = memberRepository.findById("user"+randmember.get(j)+"@icloud.com").get();
+                Member member = memberRepository.findById("user" + randmember.get(j) + "@icloud.com").get();
 
                 String emojiType = (int) (Math.random() * 5) + 1 + "";
                 Emoji emoji = Emoji.builder()
-                    .gallery(gallery)
-                    .member(member)
-                    .emojiInfo(emojiInfoRepository.findById(emojiType).get())
-                    .build();
+                        .gallery(gallery)
+                        .member(member)
+                        .emojiInfo(emojiInfoRepository.findById(emojiType).get())
+                        .build();
                 emojiRepository.save(emoji);
             }
         });
@@ -103,7 +102,7 @@ public class GalleryRepositoryTests {
     }
 
     @Test
-    public void getGalleryList(){
+    public void getGalleryList() {
         List<GalleryDTO> galleryDTOList = galleryService.getGalleryList(false);
         galleryDTOList.forEach(System.out::println);
     }
@@ -130,8 +129,9 @@ public class GalleryRepositoryTests {
             .build();
 
         Pageable pageable = pageRequestDTO.getPageable(Sort.by("gno"));
-        
+
         Page<Gallery> result = galleryRepository.getGalleryPage(pageable);
+
         System.out.println(result.getSize());
         System.out.println(result.getTotalPages());
         System.out.println(result.hasNext());
@@ -148,7 +148,7 @@ public class GalleryRepositoryTests {
         Pageable pageable = PageRequest.of(0, 2, Sort.by("gno").descending());
 
         Page<Object[]> result = galleryRepository.searchPage("t", "title", pageable);
-        // System.out.println(result.getContet());
+        
         List<Object[]> galleryList = result.getContent();
         
         Object[] gallery = galleryList.stream().toArray();

@@ -19,6 +19,7 @@ public class DyningDTO {
 
     private String dyningname;
     private String location;
+    private String locationdetails;
     private Long foodtype;
     private String businesshours;
     private String comment;
@@ -28,12 +29,13 @@ public class DyningDTO {
 
     private String id;
     private Long emojicwt;
-
-
+    private Long followercwt;
     private Long oono;
     private String roofpath;
+    private String roofthumbnail;
 
     @Builder.Default
     private List<DyningImageDTO> dyningImageDTOList = new ArrayList<>();
+    
 
 }

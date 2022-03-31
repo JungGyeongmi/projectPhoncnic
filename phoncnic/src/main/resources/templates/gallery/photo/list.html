@@ -1,121 +1,130 @@
 <!DOCTYPE html>
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
-
 <th:block th:replace="~{layout/basic :: setContent(~{::content})}">
    <th:block th:fragment="content">
+      <!-- Link Swiper's CSS -->
+      <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+      <style>
+         input[name="emojitype"] {
+            opacity: 0;
+         }
 
-      <head>
-         <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
-         <!-- Link Swiper's CSS -->
-         <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
-         <style>
-            input[name="emojitype"] {
-               opacity: 0;
-            }
+         input[name="emojitype"]+label {
+            padding: 20px 10px;
+         }
 
-            input[name="emojitype"]+label {
-               padding: 20px 10px;
-            }
+         input[name="emojitype"]:checked+label+span {
+            color: red;
 
-            input[name="emojitype"]:checked+label+span {
-               color: red;
+         }
 
-            }
+         html,
+         body {
+            position: relative;
+            height: 100%;
+         }
 
-            html,
-            body {
-               position: relative;
-               height: 100%;
-            }
+         body {
+            background: #eee;
+            font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+            font-size: 14px;
+            color: #000;
+            margin: 0;
+            padding: 0;
+         }
 
-            body {
-               background: #eee;
-               font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
-               font-size: 14px;
-               color: #000;
-               margin: 0;
-               padding: 0;
-            }
+         #curatorModal .modal {
+            min-width: 400px;
+         }
 
-            .swiper {
-               width: 95%;
-               margin-top: 10px;
-               margin-bottom: 120px;
-            }
+         #curatorModal .modal-body {
+            max-height: 470px;
+            /* background-color: yellow; */
+            overflow-y: auto;
+            overflow-x: hidden;
+         }
 
-            .swiper-slide {
-               background-position: center;
-               background-size: cover;
-               width: 300px;
-               height: 450px;
-            }
+         #curatorModal .modal-body::-webkit-scrollbar {
+            /* Chrome, Safari, Opera*/
+            display: none;
+         }
 
-            .swiper-slide img {
-               display: block;
-               width: 100%;
-               height: 100%;
-               object-fit: cover;
-               object-position: center;
-            }
+         .swiper {
+            width: 95%;
+            margin-top: 10px;
+            margin-bottom: 120px;
+         }
 
-            .serach-form-container {
-               display: grid;
-               grid-template-columns: 1fr 3fr 1fr 1fr;
-               /* grid-template-columns: minmax(300px, auto); */
-               column-gap: 0.5%;
-               justify-content: center;
-            }
+         .swiper-slide {
+            background-position: center;
+            background-size: cover;
+            width: 300px;
+            height: 450px;
+         }
 
-            .md-conteainer {
-               display: grid;
-               grid-template-columns: 0.02fr 1fr 0.02fr;
-            }
+         .swiper-slide img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+         }
 
-            .result-container {
-               display: grid;
-               grid-template-columns: repeat(auto-fit, minmax(250px, auto));
-               grid-template-rows: repeat(1, minmax(300px, auto));
-               column-gap: 1%;
-               align-items: center;
-               justify-items: center;
-            }
+         .serach-form-container {
+            display: grid;
+            grid-template-columns: 1fr 3fr 1fr 1fr;
+            /* grid-template-columns: minmax(300px, auto); */
+            column-gap: 0.5%;
+            justify-content: center;
+         }
 
-            .md-conteainer img {
-               width: 250px;
-               height: 250px;
-               border-radius: 3%;
-            }
+         .md-conteainer {
+            display: grid;
+            grid-template-columns: 0.08fr 1fr 0.08fr;
+         }
 
-            .md-btn-container {
-               width: auto;
-               /* background-color: bisque; */
-               height: 100%;
-            }
+         .result-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, auto));
+            grid-template-rows: repeat(1, minmax(300px, auto));
+            column-gap: 1%;
+            align-items: center;
+            justify-items: center;
+         }
 
-            .md-item-btn {
-               width: 0;
-               display: inline-block;
-               vertical-align: middle;
-               z-index: 1;
-               transform: scale(2);
-            }
+         .md-conteainer img {
+            width: 250px;
+            height: 250px;
+            border-radius: 3%;
+         }
 
-            .helper {
-               width: 0;
-               /* background-color: red; */
-               display: inline-block;
-               vertical-align: middle;
-               height: inherit;
-            }
+         .md-btn-container {
+            width: 20px;
+            /* background-color: bisque; */
+            height: 100%;
+         }
 
-         </style>
-      </head>
-      <body>
+         .md-item-btn {
+            width: 0;
+            display: inline-block;
+            vertical-align: middle;
+            z-index: 1;
+            transform: scale(2);
+         }
+
+         .helper {
+            width: 0;
+            /* background-color: red; */
+            display: inline-block;
+            vertical-align: middle;
+            height: inherit;
+         }
+      </style>
 
       <h1>그림전</h1>
       <div class="swiper mySwiper">
          <div class="swiper-wrapper">
-            <div class="swiper-slide" th:each="dto : ${galleryDTOList}" th:data-gno="${dto.gno}"
+            <div class="swiper-slide galleryList" th:each="dto : ${galleryDTOList}" th:data-gno="${dto.gno}"
                th:data-file="${dto.getImageURL}" data-bs-toggle="modal" data-bs-target="#detailsModal">
                <img style="cursor:pointer;" th:src="|@{'/display'}?fileName=${dto.getImageURL()}|"
                   alt="이미지를 불러올 수 없습니다" />
@@ -127,11 +136,9 @@
          <div class="swiper-button-next"></div>
       </div>
       <button type="button" id="curatorBtn" data-bs-toggle="modal" data-bs-target="#curatorModal">큐레이터</button>
-      
-   </body>
+
       <!-- Swiper JS -->
       <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-
       <!-- Initialize Swiper -->
       <script>
          var swiper = new Swiper(".mySwiper", {
@@ -158,10 +165,9 @@
             },
 
          });
-         
       </script>
 
-      </style>
+      <!-- modal script -->
       <script th:inline="javascript">
          $(document).ready(function () {
 
@@ -216,7 +222,7 @@
             }
 
             /* target의 gno / target의 imagepath 가져옴 / emoji 갯수 */
-            $(".swiper-slide").click(function () {
+            $(".galleryList").click(function () {
                var targetGno = $(this).data("gno");
                var targetFile = $(this).data("file");
                $("#detailsModal").modal('show');
@@ -345,12 +351,9 @@
                });
             }
 
-
-
             function emojiBoxReload() {
                $("#myModal").modal("show");
             }
-
 
             //이모지 등록
             $(document).on("click", ".emoji", function (event) {
@@ -420,7 +423,8 @@
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                </div>
                <div class="modal-body">
-                  <form id="modal-frm" th:action="@{/gallery/curator}" method="get">
+                  <form class="serach-form-container" id="modal-frm" th:action="@{/gallery/curator}" method="get">
+
                      <select name="type">
                         <option value="t" disabled selected>검색조건</option>
                         <option value="t">작품명</option>
@@ -439,21 +443,21 @@
                   <div class="">
                      <div class="md-conteainer ">
                         <div class='md-btn-container'>
-                        <div class='helper'></div>
-                        <div class="md-item-btn left">
-                           <span style="cursor: pointer;">
-                              <i class="fa-solid fa-angle-left"></i>
-                           </span>
-                        </div>
+                           <div class='helper'></div>
+                           <div class="md-item-btn left">
+                              <span style="cursor: pointer;">
+                                 <i class="fa-solid fa-angle-left"></i>
+                              </span>
+                           </div>
                         </div>
                         <div class="md-serach-result result-container"></div>
                         <div class='md-btn-container'>
-                        <div class='helper'></div>
-                        <div class="md-item-btn right">
-                           <span style="cursor: pointer;">
-                              <i class="fa-solid fa-angle-right"></i>
-                           </span>
-                        </div>
+                           <div class='helper'></div>
+                           <div class="md-item-btn right">
+                              <span style="cursor: pointer;">
+                                 <i class="fa-solid fa-angle-right"></i>
+                              </span>
+                           </div>
                         </div>
                      </div>
                      <div class="modal-footer">

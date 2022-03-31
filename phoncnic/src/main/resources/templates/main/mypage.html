@@ -23,44 +23,28 @@
                 </tr>
             </table>
         </form>
-        <form id="lookfrm" action="">
-            <input type="hidden" th:value="${memberDTO.id}" name="id" id="">
-            </table> <br>
-            <table border="1">
-                <tr>
-                    <th scope="col">hairname</th>
-                    <th scope="col">hairpath</th>
-                    <th scope="col">clothesname</th>
-                    <th scope="col">clothespath</th>
-                    <th scope="col">look 수정</th>
-                </tr>
-                <tr th:each="hdto : ${hairDTO}">
-                    <td>
-                        <select name="hairname" id="">
-                            <option th:value="${hdto.hairname}">헤어 선택</option>
-                            <option th:value="hair1">hair1</option>
-                            <option th:value="hair2">hair2</option>
-                            <option th:value="hair3">hair3</option>
-                        </select>
-                        <input type="text" th:value=${hdto.hairname} readonly>
-                    </td>
-                    <td><input type="text" th:value=${hdto.hairpath} name=hairpath></td>
+        <form id="lookform" action="">
+            <input type="hidden" name="id" th:value="${id}">
+            <span th:each="hdto : ${looklist}">
+                <input type="radio" name="hairname" id="${hdto.hairname}" th:value="${hdto.hairname}"><img
+                    th:src="${hdto.hairpath}" alt="">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </span>
+            <br>
+            <span th:each="cdto : ${looklist}">
+                <input type="radio" name="clothesname" id="${cdto.clothesname}" th:value="${cdto.clothesname}"><img
+                    th:src="${cdto.clothespath}" alt="">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </span>
+            <button id="lookModifyBtn" type="button" class="btn btn-primary">변경하기</button>
+            <div><span th:each="hdto : ${hairDTO}"><img th:src="${hdto.hairpath}" alt="">
+                    <input type="hidden" id="radiohair" th:value="${hdto.hairname}"></span><br>
+                <span th:each="cdto : ${clothesDTO}"><img th:src="${cdto.clothespath}" alt="">
+                    <input type="hidden" id="radioclothes" th:value="${cdto.clothesname}"></span>
+            </div>
 
-                    <th:block th:each="cdto : ${clothesDTO}">
-                        <td>
-                            <select name="clothesname" id="">
-                                <option th:value="${cdto.clothesname}">옷 선택</option>
-                                <option th:value="clothes1">clothes1</option>
-                                <option th:value="clothes2">clothes2</option>
-                                <option th:value="clothes3">clothes3</option>
-                            </select><input type="text" th:value=${cdto.clothesname} readonly>
-                        </td>
-                        <td><input type="text" th:value=${cdto.clothespath} name=clothespath></td>
-                    <th:block />
-                    <td><button id="lookModifyBtn" type="button">수정</button></td>
-                </tr>
-            </table>
         </form>
+
         <br>
         <table border="1">
             <tr>
@@ -121,12 +105,17 @@
         <script th:inline="javascript">
 
             var memberform = document.querySelector("#memberfrm");
-            var lookform = document.querySelector("#lookfrm");
+            var lookform = document.querySelector("#lookform");
             var dyningfrm = document.querySelector("#dyningfrm");
             var memberModifyBtn = document.querySelector("#memberModifyBtn");
             var lookModifyBtn = document.querySelector("#lookModifyBtn");
             var artistRemoveBtn = document.querySelector("#artistRemoveBtn");
             var dyningRemoveBtn = document.querySelector("#dyningRemoveBtn");
+
+            var radiohair = $("#radiohair").val();
+            var radioclothes = $("#radioclothes").val();
+            $('input:radio[name=hairname]:input[value=' + radiohair + ']').attr("checked", true);
+            $('input:radio[name=clothesname]:input[value=' + radioclothes + ']').attr("checked", true);
 
             /*[+var urlmembermodify = [[@{/main/mypage/membermodify}]];+]*/
             /*[+var urllookmodify = [[@{/main/mypage/lookmodify}]];+]*/
@@ -170,7 +159,11 @@
 
                 }
             }
+            $("#hairchoice").on("change", function () {
+                var selectedpath = $("#hairchoice option:selected").next().val();
+                $("#selectedhair").val(selectedpath);
 
+            });
             $(".artistRemoveBtn").click(function () {
                 var id = $(this).val();
                 var artistname = $(this).prev().val();

@@ -33,7 +33,7 @@ public class GalleryRestController {
 
     @Autowired
     private EmojiService emojiService;
-    
+
     @Autowired
     private FollowService followService;
 
@@ -42,47 +42,48 @@ public class GalleryRestController {
         log.info("---------------get curator rest---------------");
         PageResultDTO<GalleryDTO, Object[]> result = galleryService.getGalleryPage(pageRequestDTO);
         return new ResponseEntity<>(result, HttpStatus.OK);
-    }
-    
-    //Gallery List
-    @GetMapping("/read/{gno}")
-    public ResponseEntity<GalleryDTO>getList(@PathVariable("gno") Long gno) {
-         log.info("getgalleryList........gno" + gno);
-         GalleryDTO galleryDTO = galleryService.getGallery(gno);
-         log.info("galleryDTO : " + galleryDTO);
-         return new ResponseEntity<>(galleryDTO, HttpStatus.OK);
+
     }
 
-    //Emoji getList
+    // Gallery List
+    @GetMapping("/read/{gno}")
+    public ResponseEntity<GalleryDTO> getList(@PathVariable("gno") Long gno) {
+        log.info("getgalleryList........gno" + gno);
+        GalleryDTO galleryDTO = galleryService.getGallery(gno);
+        log.info("galleryDTO : " + galleryDTO);
+        return new ResponseEntity<>(galleryDTO, HttpStatus.OK);
+    }
+
+    // Emoji getList
     @GetMapping("/emoji/{gno}")
-    public ResponseEntity<List<EmojiDTO>>getemojiList(@PathVariable("gno") Long gno) {
+    public ResponseEntity<List<EmojiDTO>> getemojiList(@PathVariable("gno") Long gno) {
         log.info("getemojiList........gno" + gno);
-        List<EmojiDTO> emojiDTO = emojiService.getEmojiByGno("g",gno);
+        List<EmojiDTO> emojiDTO = emojiService.getEmojiByGno("g", gno);
         log.info("emojiDTO : " + emojiDTO);
         return new ResponseEntity<>(emojiDTO, HttpStatus.OK);
     }
 
-    //Emoji Register
+    // Emoji Register
     @PostMapping("/register/{gno}")
-    public ResponseEntity <Long> emojiRegister (@RequestBody EmojiDTO dto){
-        log.info("emoji Register....................emojiDTO:"+dto);
+    public ResponseEntity<Long> emojiRegister(@RequestBody EmojiDTO dto) {
+        log.info("emoji Register....................emojiDTO:" + dto);
         Long eno = emojiService.galleryEmojiRegiter(dto);
         return new ResponseEntity<>(eno, HttpStatus.OK);
     }
-    
-    //Emoji Remove
+
+    // Emoji Remove
     @DeleteMapping("/remove/{eno}")
-    public ResponseEntity <Long> emojiRemove (@PathVariable Long eno) {
+    public ResponseEntity<Long> emojiRemove(@PathVariable Long eno) {
         emojiService.emojiRemove(eno);
         return new ResponseEntity<>(eno, HttpStatus.OK);
     }
 
     @PostMapping("/addfollow")
-     public ResponseEntity<Long> addFollow(@RequestBody FollowDTO followDTO) {
-         log.info("-----------------add Follow-----------------");
-         log.info("followDTO:" + followDTO);
- 
-         Long fno = followService.addDyningFollow(followDTO);
-         return new ResponseEntity<>(fno, HttpStatus.OK);
-     }
+    public ResponseEntity<Long> addFollow(@RequestBody FollowDTO followDTO) {
+        log.info("-----------------add Follow-----------------");
+        log.info("followDTO:" + followDTO);
+
+        Long fno = followService.addDyningFollow(followDTO);
+        return new ResponseEntity<>(fno, HttpStatus.OK);
+    }
 }

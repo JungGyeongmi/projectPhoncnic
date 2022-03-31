@@ -2,115 +2,291 @@
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
 <th:block th:replace="~{layout/dyninglayout :: setContent(~{::content})}">
     <th:block th:fragment="content">
-        <h1>dyning details</h1>
-        <ul>
-            <li th:each="dto : ${result}">
-                [[${ dto }]]
-            </li>
-        </ul>
+        <input type="hidden" name="" id="detaillocation" th:value="${result.location}">
 
-        <table border="1">
-            <tr>
-                <th scope="col">dyningname</th>
-                <th scope="col">businesshours</th>
-                <th scope="col">location</th>
-                <th scope="col">comment</th>
-                <th scope="col">hashtag</th>
-                <th scope="col">tel</th>
-                <th scope="col">menu</th>
-                <th scope="col">background</th>
-                <th scope="col">emojicwt</th>
-            </tr>
-            <tr th:each="dto : ${result}">
-                <td>[[${dto.dyningname}]]</td>
-                <td>[[${dto.businesshours}]]</td>
-                <td>[[${dto.location}]]</td>
-                <td>[[${dto.comment}]]</td>
-                <td>[[${dto.hashtag}]]</td>
-                <td>[[${dto.tel}]]</td>
-                <td>
-                    <th:block th:each="idto : ${imageresult}">[[${idto.menuimagepath}]],</th:block>
-                </td>
-                <td>
-                    <th:block th:each="idto : ${imageresult}">[[${idto.backgroundpath}]],</th:block>
-                </td>
-                <td>[[${dto.emojicwt}]]</td>
-            </tr>
-            
-            
+        <body>
+            <h1>dyning details</h1>
+
+
+            <table border="1">
+                <tr>
+                    <th scope="col">dyningname</th>
+                    <th scope="col">businesshours</th>
+                    <th scope="col">location</th>
+                    <th scope="col">comment</th>
+                    <th scope="col">hashtag</th>
+                    <th scope="col">tel</th>
+                    <th scope="col">menu</th>
+                    <th scope="col">background</th>
+                    <th scope="col">emojicwt</th>
+                    <th scope="col">followercwt</th>
+                </tr>
+                <tr th:each="dto : ${result}">
+                    <td><input type="text" name="" id="dyningname" th:value="${dto.dyningname}"></td>
+                    <td>[[${dto.businesshours}]]</td>
+                    <td>[[${dto.location}]],[[${dto.locationdetails}]]</td>
+                    <td>[[${dto.comment}]]</td>
+                    <td>[[${dto.hashtag}]]</td>
+                    <td>[[${dto.tel}]]</td>
+
+
+
+                    <td>
+                        <th:block th:each="idto : ${imageresult}">
+                            <img th:src="|@{'/display'}?fileName=${idto.getMenuThumbnailImageURL()}|" class="thumbimage"
+                                th:data-file="|@{'/display'}?fileName=${idto.getMenuImageURL()}|" alt="">
+                        </th:block>
+                    </td>
+                    <td>
+                        <th:block th:each="idto : ${imageresult}">
+                            <img th:src="|@{'/display'}?fileName=${idto.getBackgoundThumbnailImageURL()}|"
+                                class="thumbimage"
+                                th:data-file="|@{'/display'}?fileName=${idto.getBackgoundImageURL()}|" alt="">
+                        </th:block>
+                    </td>
+                    <td>[[${dto.emojicwt}]]</td>
+                    <td>[[${dto.followercwt}]]</td>
+                </tr>
+            </table>
+
+
+
+            <!-- 지도 API 버튼 -->
+            <button type="button" id="btnlocation">지도 Api</button>
+            <style>
+                #map {
+                    width: 40%;
+                    height: 500px;
+                    background-color: grey;
+                }
+            </style>
+            <div id="map" style="display: none;"></div>
+
+
+        </body>
+        <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+
+        <!-- 지도 -->
+        <script type="text/javascript"
+            src="//dapi.kakao.com/v2/maps/sdk.js?appkey=acf4120589cf996321f7660949777c8c&libraries=services"></script>
+        <script type="text/javascript"
+            src="//dapi.kakao.com/v2/maps/sdk.js?appkey=acf4120589cf996321f7660949777c8c"></script>
+        <script type="text/javascript">
+            var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+                mapOption = {
+                    center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+                    level: 3 // 지도의 확대 레벨
+                };
+
+            // 지도를 생성합니다    
+            var map = new kakao.maps.Map(mapContainer, mapOption);
+
+            // 주소-좌표 변환 객체를 생성합니다
+            var geocoder = new kakao.maps.services.Geocoder();
+
+            var detaillocation = $('#detaillocation').val();
+
+            var testbtn = document.querySelector('#btnlocation');
+
+            $('#btnlocation').on('click', function () {
+                console.log(detaillocation);
+            });
+
+
+            // 주소로 좌표를 검색합니다
+            geocoder.addressSearch(detaillocation, function (result, status) {
+
+                // 정상적으로 검색이 완료됐으면 
+                if (status === kakao.maps.services.Status.OK) {
+                    var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+                    // 결과값으로 받은 위치를 마커로 표시합니다
+                    var marker = new kakao.maps.Marker({
+                        map: map,
+                        position: coords
+                    });
+
+                    // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+                    map.setCenter(coords);
+                }
+            });    
+        </script>
+        <!-- map toggle 제어 -->
+        <script>
+            $(document).ready(function () {
+                $('#btnlocation').click(function () {
+                    // display: none -> block으로 변경시 지도가 깨지는 현상이 생김
+                    $('#map').toggle();
+                    // 중심의 좌표 가져오기
+                    var coords = map.getCenter();
+                    // 맵의 레이아웃 재조정                 
+                    map.relayout();
+                    // 센터 재조정                
+                    map.setCenter(coords);
+                });
+
+            });
+        </script>
+        </tr>
         </table>
 
         <form action="">
-            <input type="hidden" name="id" value="user1@icloud.com" readonly>
+            <input type="hidden" name="id" id="followerid" th:value="${id}" readonly>
             <input type="hidden" name="dno" th:value="${result.dno}">
-            <select name="emojitype" id="">
-                <option value="1">😋</option>
-                <option value="2">🥰</option>
-                <option value="3">😭</option>
-                <option value="4">😅</option>
-                <option value="5">🥵</option>
-            </select>
-            <button type="button" id="emojisave">이모지 추가하기</button>
         </form>
         <table border="1">
+            <input type="hidden" name="" id="eno" th:value="${eno}">
+            <input type="hidden" name="" id="etype" th:value="${emojitype}">
             <tr>
-                <th>이모지 갯수</th>
-                <th scope="col" colspan="5">이모지 타입</th>
-                <th th:colspan="${result.emojicwt}">이모지 삭제</th>
+                <th scope="col" colspan="5">이모지<span></span></th>
+                <!--/* <th th:colspan="${result.emojicwt}">이모지 삭제</th> */-->
             </tr>
             <tr>
-                <td>[[${result.emojicwt}]]</td>
-                <td>😋<span>[[${emojitype1}]]</span></td>
-                <td>🥰[[${emojitype2}]]</td>
-                <td>😭[[${emojitype3}]]</td>
-                <td>😅[[${emojitype4}]]</td>
-                <td>🥵[[${emojitype5}]]</td>
-                <td th:each="dto : ${emojilist}"><button type="button" th:value="${dto.eno}" class="emojiRemoveBtn">삭제</button></td>
+                <td></td>
+                <td><button class="up" id="emojiBtn1" value="1" name="emojitype" type="button">😋[[${emojitype1}]]</button></td>
+                <td><button class="up" id="emojiBtn2" value="2" name="emojitype" type="button">🥰[[${emojitype2}]]</button></td>
+                <td><button class="up" id="emojiBtn3" value="3" name="emojitype" type="button">😭[[${emojitype3}]]</button></td>
+                <td><button class="up" id="emojiBtn4" value="4" name="emojitype" type="button">😅[[${emojitype4}]]</button></td>
+                <td><button class="up" id="emojiBtn5" value="5" name="emojitype" type="button">🥵[[${emojitype5}]]</button></td>
+                <!--/* <td th:each="dto : ${emojilist}"><button type="button" th:value="${dto.eno}" class="emojiRemoveBtn">삭제</button></td> */-->
             </tr>
+
+
         </table>
-
-        <script th:inline="javascript">
-            $("#emojisave").click(function () {
-                var id = $("input[name='id']").val();
-                var dno = $("input[name='dno']").val();
-                var emojitype = $("select[name='emojitype']").val();
+        <button id="followBtn" type="button" th:value="${fno}">팔로우</button>
 
 
-                var data = { id: id, dno: dno, emojitype: emojitype };
-                var urlemojiregister = `[[@{/dyning/emojiregister}]]`;
-                console.log(data);
-                $.ajax({
-                    url: urlemojiregister + "/" + dno,
-                    type: "POST",
-                    data: JSON.stringify(data),
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "text",
-                    success: function (result) {
-                        console.log("result: " + result);
-                        self.location.reload();
+
+        </body>
+        <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+        <script>
+            $(document).ready(function (e) {
+                //팔로우 제어
+                var fno = $('#followBtn');
+                if (fno.val() != "") {
+                    fno.html('언팔로우');
+                }
+                $('#followBtn').on("click", function () {
+
+                    var id = $("#followerid").val();
+                    var dyningname = $("#dyningname").val();
+                    console.log(fno.val());
+
+                    //언팔 상태
+                    if (fno.val() == "") {
+                        var data = { followerid: id, dyningname: dyningname };
+                        var urladd = `[[@{/dyning/addfollow}]]`;
+                        console.log(data);
+                        $.ajax({
+                            url: urladd,
+                            type: "POST",
+                            data: JSON.stringify(data),
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "text",
+                            success: function (result) {
+                                self.location.reload();
+                            }
+                        });
+                    } else {
+                        var data = { id: id, dyningname: dyningname };
+                        var urlremove = `[[@{/main/mypage/dyningremove}]]`;
+
+                        $.ajax({
+                            url: urlremove + "/" + id + "/" + dyningname,
+                            type: "DELETE",
+                            data: JSON.stringify(data),
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "text",
+                            success: function (result) {
+                                console.log("result: " + result);
+                                self.location.reload();
+                            }
+                        })
                     }
                 })
+
+                //이모지 제어
+                var eno = $("#eno").val();
+                var etype = $("#etype").val();
+
+                if (eno=="") {
+                    $(".up").click(function () {
+                        var id = $("input[name='id']").val();
+                        var dno = $("input[name='dno']").val();
+                        var emojitype = $(this).val();
+                        var next = $(this).next();
+
+                        var data = { id: id, dno: dno, emojitype: emojitype };
+                        var urlemojiregister = `[[@{/dyning/emojiregister}]]`;
+                        console.log(data);
+                        $.ajax({
+                            url: urlemojiregister + "/" + dno,
+                            type: "POST",
+                            data: JSON.stringify(data),
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "text",
+                            success: function (result) {
+                                console.log("result: " + result);
+                                self.location.reload();
+                            }
+                        })
+
+                    });
+                } else {
+                    $("#emojiBtn"+etype).click(function () {
+                        var data = { eno: eno };
+                        console.log(data);
+                        var urlemojiremove = `[[@{/dyning/emojiremove}]]`;
+                        $.ajax({
+                            url: urlemojiremove + "/" + eno,
+                            type: "DELETE",
+                            data: JSON.stringify(data),
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "text",
+                            success: function (result) {
+                                console.log("result: " + result);
+                                self.location.reload();
+                            }
+                        })
+                    });
+                }
+                //모달제어
+                $(".btn-close").on("click", function (e) {
+                    $("#imageModal").hide();
+                });
+                $(".thumbimage").on("click", function (e) {
+                    var filename = $(this).data('file');
+                    console.log(filename);
+                    var OriginMenu = `<img style="width:100%" src="${filename}">`;
+                    $(".modal-body").html(OriginMenu);
+                    $("#imageModal").show();
+                });
+                $("button[name='btn-close']").on("click", function (e) {
+                    $("#imageModal").hide();
+                });
             });
 
-
-            $(".emojiRemoveBtn").click(function () {
-                var eno = $(this).val();
-                var data = { eno: eno };
-
-                console.log(data);
-                var urlemojiremove = `[[@{/dyning/emojiremove}]]`;
-                $.ajax({
-                    url: urlemojiremove + "/" + eno,
-                    type: "DELETE",
-                    data: JSON.stringify(data),
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "text",
-                    success: function (result) {
-                        console.log("result: " + result);
-                        self.location.reload();
-                    }
-                })
-            });
         </script>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+        <div id="imageModal" class="modal imageModal" tabindex="-2">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Picture</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                            name="btn-close"></button>
+                    </div>
+                    <div class="modal-body">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary pictureClose" name="btn-close"
+                            data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </th:block>
 </th:block>

@@ -24,28 +24,27 @@ public interface FollowService {
 
     default FollowDTO entityToDTO(List<Object> artistList, List<Object> dyningList) {
         FollowDTO followDTO = FollowDTO.builder()
-
                 .followartistlist(artistList)
                 .followdyninglist(dyningList)
                 .build();
         return followDTO;
     }
 
-    default Follow dtoToEntity(FollowDTO followDTO) {
-        if (followDTO.getArtistname() == null) {
+
+    default Follow dtoToEntity(FollowDTO followDTO){
+        if(followDTO.getArtistname()==null){
 
             Follow follow = Follow.builder()
-                    .follower(Member.builder().id(followDTO.getFollowerid()).build())
-                    .dyningname(followDTO.getDyningname())
-                    .build();
+            .follower(Member.builder().id(followDTO.getFollowerid()).build())
+            .dyningname(followDTO.getDyningname())
+            .build();
             return follow;
-        } else {
+        }else{
             Follow follow = Follow.builder()
-                    .follower(Member.builder().id(followDTO.getFollowerid()).build())
-                    .artistname(followDTO.getArtistname())
-                    .build();
+            .follower(Member.builder().id(followDTO.getFollowerid()).build())
+            .artistname(followDTO.getArtistname())
+            .build(); 
             return follow;
-
         }
     }
 }

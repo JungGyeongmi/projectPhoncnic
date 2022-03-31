@@ -23,12 +23,14 @@ public class ApiLoginFilter
   private JWTUtil jwtUtil;
 
   public ApiLoginFilter(String defaultFilterProcessesUrl, JWTUtil jwtUtil) {
+
     super(defaultFilterProcessesUrl);
     this.jwtUtil = jwtUtil;
   }
 
   @Override
   public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
+
     log.info("-----------------ApiLoginFilter------------------------");
     log.info("attemptAuthentication");
     String email = request.getParameter("email");

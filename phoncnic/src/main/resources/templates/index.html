@@ -2,6 +2,9 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <th:block th:replace="~{layout/basic :: setContent(~{::content})}">
     <th:block th:fragment="content">
+        <h3>로그인이여라</h3>
+        <a th:href="@{/oauth2/authorization/google}">Google</a>
+        <fieldset>
             <legend>
                 인덱스여라
             </legend>
@@ -12,6 +15,7 @@
                 테스트여라
             </legend>
             <a th:href="@{/test}">/test</a><br>
+            <a th:href="@{/lookmodal(id='user1@icloud.com')}">/lookmodal</a><br>
         </fieldset>
         <fieldset>
             <legend>
@@ -42,9 +46,9 @@
             </a>
         </fieldset>
         <fieldset>
-            <legend>다이닝이여라</legend>
-            <a th:href="@{/dyning/restaurant/list}">/dyning/restaurant/list</a> <br>
-            <a th:href="@{/dyning/cafe/list}">/dyning/cafe/list</a> <br>
+            <legend>다이닝이여라 - USER1@ICLOUD.COM</legend>
+            <a th:href="@{/dyning/restaurant/list(id='user1@icloud.com')}">/dyning/restaurant/list</a> <br>
+            <a th:href="@{/dyning/cafe/list(id='user1@icloud.com')}">/dyning/cafe/list</a> <br>
             <a th:href="@{/dyning/details(dno=1)}">/dyning/restaurant/details</a> <br>
         </fieldset>
         <fieldset>

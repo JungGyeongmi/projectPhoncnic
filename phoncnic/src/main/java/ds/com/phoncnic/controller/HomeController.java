@@ -1,9 +1,13 @@
 package ds.com.phoncnic.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
+import ds.com.phoncnic.dto.CharacterLookDTO;
+import ds.com.phoncnic.service.mypage.CharacterLookService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -11,6 +15,7 @@ import lombok.extern.log4j.Log4j2;
 @RequiredArgsConstructor
 @Log4j2
 public class HomeController {
+    private final CharacterLookService characterLookService;
 
     @GetMapping({ "", "/" })
     public String home() {
@@ -50,6 +55,24 @@ public class HomeController {
         return "/manage/rolechoice";
     }
 
-   
 
+    @GetMapping("/lookmodal")
+    public String test2 (String id, Model model) {
+        log.info("id:" + id);
+        model.addAttribute("id",id);
+        model.addAttribute("hairDTO", characterLookService.getCharacterHair(id));
+        model.addAttribute("clothesDTO", characterLookService.getCharacterClothes(id));
+        model.addAttribute("looklist", characterLookService.lookimageList());
+        return "/lookmodal";
+    }
+
+    @PostMapping("/lookmodal/lookmodify")
+    public String lookmodify(CharacterLookDTO characterLookDTO, String id) {
+        log.info("modify post.........:" + characterLookDTO.getHairname());
+        log.info("modify post.........:" + characterLookDTO.getClothesname());
+
+        characterLookService.modify(characterLookDTO, id);
+        return "redirect:/";
+
+    }
 }

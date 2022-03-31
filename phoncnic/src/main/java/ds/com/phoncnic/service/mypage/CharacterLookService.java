@@ -1,11 +1,14 @@
 package ds.com.phoncnic.service.mypage;
 
+import java.util.List;
+
 import ds.com.phoncnic.dto.CharacterLookDTO;
 import ds.com.phoncnic.entity.CharacterLookInfo;
 
 public interface CharacterLookService {
 
-      
+    List<CharacterLookInfo> lookimageList();
+  
     CharacterLookDTO getCharacterHair(String id);
     CharacterLookDTO getCharacterClothes(String id);
     void modify(CharacterLookDTO characterLookDTO,String id);

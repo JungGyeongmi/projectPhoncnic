@@ -24,13 +24,12 @@
             <div class="box">
             </div>
         </form>
-            <!-- 여기서 input 으로 전달해주는 값을 img 아래로 내리니까 전달자체가 되지 않았음 -->
-            <label>Image & Frame</label>
-            <div class="custom-file">
-                <input type="file" class="custom-file-input files form-control" id="fileInput" multiple>
-                <label data-browse="Browse"></label>
-            </div>
-            </div>
+        <!-- 여기서 input 으로 전달해주는 값을 img 아래로 내리니까 전달자체가 되지 않았음 -->
+        <label>Image & Frame</label>
+        <div class="custom-file">
+            <input type="file" class="custom-file-input files form-control" id="fileInput" multiple>
+            <label data-browse="Browse"></label>
+        </div>
 
         <!-- upload된 이미지 파일을 보여주기 위한 list style 설정 -->
         <style>
@@ -75,8 +74,7 @@
 
         <script th:inline="javascript">
 
-            $(document).ready(function (e) {
-
+            $(function (e) {
                 var regex = new RegExp("(.*?)\.(exe|sh|zip|alz|tiff|txt)$");
                 var maxSize = 10485760;
 
@@ -86,8 +84,9 @@
                         alert("파일사이즈 초과");
                         return false;
                     }
-                    // 파일 이름으로 유효성 검사 
+                    // 파일 이름으로 유효성 검사
                     if (regex.test(fileName.substring(fileName.lastIndexOf(".")))) {
+                        swal("jpg 형태의 파일을 추가해주세요");
                         return false;
                     }
                     return true;
@@ -98,9 +97,9 @@
                     var fileName = $(this).val().split("/").pop();
 
                     // 테스트용 콘솔
-                    console.log("fileName >> " + fileName);
-                    console.log("확장자 인덱스 >> " + fileName.lastIndexOf("."));
-                    console.log("확장자 >> " + fileName.substring(fileName.lastIndexOf(".") + 1));
+                    // console.log("fileName >> " + fileName);
+                    // console.log("확장자 인덱스 >> " + fileName.lastIndexOf("."));
+                    // console.log("확장자 >> " + fileName.substring(fileName.lastIndexOf(".") + 1));
 
                     $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
 
@@ -120,7 +119,8 @@
 
                     if (!appended) { return; }
 
-                    for (var value of formData.values()) console.log("formData >> " + value);
+                    // 테스트용 콘솔
+                    // for (var value of formData.values()) console.log("formData >> " + value);
 
                     /*[+
                         var urlUpload = [[@{/uploadAjax/}]];
@@ -135,7 +135,6 @@
                         type: 'POST',
                         dataType: 'json',
                         success: function (result) {
-                            // alert(formData);
                             showResult(result);
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
@@ -147,26 +146,26 @@
                 // showResult 함수 선언
                 function showResult(uploadResultArr) {
                     var uploadUL = $(".uploadResult ul");
-                    var str = "";
-                    var str2 = "";
+                    var showImageStr = "";
+                    var fileDataStr = "";
                     /*[+
                     var urlDisplay=[[@{/display}]];
                     +]*/
                     $(uploadResultArr).each(function (i, obj) {
-                        str += `<li data-name='${obj.fileName}' data-path='${obj.folderPath}' data-uuid='${obj.uuid}'><div>`;
-                        str += `<button type='button' data-file='${obj.imageURL}' class='btn-warning btn-sm'>X</button><br>`;
-                        str += `<img src='${urlDisplay}?fileName=${obj.thumbnailURL}'></div></li>`;
+                        showImageStr += `<li data-name='${obj.fileName}' data-path='${obj.folderPath}' data-uuid='${obj.uuid}'><div>
+                            <button type='button' data-file='${obj.imageURL}' class='btn-warning btn-sm'>X</button><br>
+                            <img src='${urlDisplay}?fileName=${obj.thumbnailURL}'></div></li>`;
                     });
-                    uploadUL.append(str);
+                    uploadUL.append(showImageStr);
 
                     $(".uploadResult li").each(function (i, obj) {
                         var target = $(obj);
-                        str2 += `<input type='hidden' name='imagename' value='${target.data('name')}'>
+                        fileDataStr += `<input type='hidden' name='imagename' value='${target.data('name')}'>
                                     <input type='hidden' name='imagepath' value='${target.data('path')}'>
                                     <input type='hidden' name='uuid' value='${target.data('uuid')}'>`;
                     });
 
-                    $(".box").html(str2);
+                    $(".box").html(fileDataStr);
                 }
 
             });
