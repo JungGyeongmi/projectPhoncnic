@@ -5,7 +5,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
-import com.querydsl.core.Tuple;
+
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -22,7 +22,7 @@ public class Follow {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int fno;
+    private Long fno;
 
     @ManyToOne
     private Member follower;
