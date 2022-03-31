@@ -70,10 +70,11 @@ public class GalleryRepositoryTests {
                     .title("title" + i)
                     .content("content" + i)
                     .artistid(memberRepository.findById("user" + i + "@icloud.com").get())
-                    .imagepath("2022\\03\\22")
+                    .imagepath("2022\\03\\31")
                     .imagetype(rand)
                     .imagename("test" + i + ".jpg")
-                    .uuid(UUID.randomUUID().toString())
+                    .uuid("946ed916-76d2-4039-b80d-97eb381866f6")
+                    // .uuid(UUID.randomUUID().toString())
                     .build();
             galleryRepository.save(gallery);
 

@@ -2,110 +2,112 @@
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
 <th:block th:replace="~{layout/basic :: setContent(~{::content})}">
 	<th:block th:fragment="content">
-		<head>
-			<!-- Link Swiper's CSS -->
-			<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
 
-			<style>
-				input[name="emojitype"] {
-					opacity: 0;
-				}
+		<!-- Link Swiper's CSS -->
+		<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
 
-				input[name="emojitype"]+label {
-					padding: 20px 10px;
-				}
+		<style>
+			input[name="emojitype"] {
+				opacity: 0;
+			}
 
-				input[name="emojitype"]:checked+label+span {
-					color: red;
+			input[name="emojitype"]+label {
+				padding: 20px 10px;
+			}
 
-				}
+			input[name="emojitype"]:checked+label+span {
+				color: red;
 
-				html,
-				body {
-					position: relative;
-					height: 100%;
-				}
+			}
 
-				body {
-					background: #eee;
-					font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
-					font-size: 14px;
-					color: #000;
-					margin: 0;
-					padding: 0;
-				}
+			html,
+			body {
+				position: relative;
+				height: 100%;
+			}
 
-				.swiper {
-					width: 95%;
-					margin-top: 10px;
-					margin-bottom: 120px;
-				}
+			body {
+				background: #eee;
+				font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+				font-size: 14px;
+				color: #000;
+				margin: 0;
+				padding: 0;
+			}
 
-				.swiper-slide {
-					background-position: center;
-					background-size: cover;
-					width: 300px;
-					height: 350px;
-				}
+			.swiper {
+				width: 95%;
+				margin-top: 10px;
+				margin-bottom: 120px;
+			}
 
-				.swiper-slide img {
-					display: block;
-					width: 100%;
-					height: 100%;
-					object-fit: cover;
-					object-position: center;
-				}
+			.swiper-slide {
+				background-position: center;
+				background-size: cover;
+				width: 300px;
+				height: 350px;
+			}
 
-				/* wrapper 사용 ??  */
-				.md-conteainer {
-					display: grid;
-					grid-template-columns: 10px 2fr 10px;
-				}
+			.swiper-slide img {
+				display: block;
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+				object-position: center;
+			}
 
-				.result-container {
-					display: grid;
-					/* 최소 100px 확보 후 늘어나면 자동 */
-					grid-template-columns: repeat(auto-fit, minmax(300px, auto));
-					grid-template-rows: repeat(1, minmax(300px, auto));
-					row-gap: 3%;
-					column-gap: 3%;
-					/* items 세로 정렬 */
-					align-items: center;
-					/* items 가로 정렬 */
-					justify-items: center;
-					/* 두개를 동시에 사용 가능 place-items: center start; */
-				}
 
-				.md-conteainer img {
-					width: 300px;
-					height: 300px;
-					border-radius: 10%;
-				}
+			.serach-form-container {
+				display: grid;
+				grid-template-columns: 0.5fr 1fr 0.3fr 0.5fr;
+				column-gap: 0.5%;
+			}
 
-				.md-btn-container {
-					width: 20px;
-					/* background-color: bisque; */
-					height: 100%;
-				}
+			.md-conteainer {
+				display: grid;
+				grid-template-columns: 0.02fr 10fr 0.02fr;
+			}
 
-				.md-item-btn {
-					width: 0;
-					z-index: 3;
-					display: inline-block;
-					vertical-align: middle;
-					transform: scale(2);
-				}
+			.result-container {
+				display: grid;
+				/* 최소 100px 확보 후 늘어나면 자동 */
+				grid-template-columns: repeat(auto-fit, minmax(300px, auto));
+				grid-template-rows: repeat(1, minmax(300px, auto));
+				row-gap: 1%;
+				column-gap: 1%;
+				/* items 세로 정렬 */
+				align-items: center;
+				/* items 가로 정렬 */
+				justify-items: center;
+				/* 두개를 동시에 사용 가능 place-items: center start; */
+			}
 
-				.helper {
-					width: 0;
-					/* background-color: red; */
-					display: inline-block;
-					vertical-align: middle;
-					height: inherit;
-				}
-			</style>
-		</head>
+			.md-conteainer img {
+				width: 300px;
+				height: 300px;
+				border-radius: 10%;
+			}
 
+			.md-btn-container {
+				width: 20px;
+				height: 100%;
+			}
+
+			.md-item-btn {
+				width: 0;
+				z-index: 3;
+				display: inline-block;
+				vertical-align: middle;
+				transform: scale(2);
+			}
+
+			.helper {
+				width: 0;
+				display: inline-block;
+				vertical-align: middle;
+				height: inherit;
+			}
+		</style>
 
 		<h1>그림전</h1>
 		<div class="swiper mySwiper">
@@ -295,6 +297,16 @@
 				}
 
 				function getSearchList() {
+					// 유효성 검사
+					var typeSelect = $("select[name=type]").val();
+					var searchKeywordInput = $("#md-search-keyword").val();
+					if (typeSelect == null) {
+						swal("검색조건을 설정해주세요");
+						return;
+					} else if (searchKeywordInput == '') {
+						swal("검색어를 입력해주세요");
+						return;
+					}
 					$.ajax({
 						type: "GET",
 						url: curatorUrl,
@@ -339,12 +351,9 @@
 					});
 				}
 
-
-
 				function emojiBoxReload() {
 					$("#myModal").modal("show");
 				}
-
 
 				//이모지 등록
 				$(document).on("click", ".emoji", function (event) {
@@ -363,8 +372,6 @@
 						contentType: "application/json; charset=utf-8",
 						dataType: "text",
 						success: function (result) {
-							// location.reload();
-							// emojiBoxReload();
 							self.location.reload();
 							console.log(result.message);
 						}
@@ -396,10 +403,10 @@
 				$(document).on("click", ".search-result-Item", function (e) {
 					var targetGno = $(this).closest("div").data("searchGno");
 					var targetFile = $(this).closest("div").data("searchFile");
-					// alert(targetGno);
-					// alert(targetFile);
+
 					$("#curatorModal").modal("hide");
 					$("#detailsModal").modal("show");
+
 					showdetailsModal(targetGno, targetFile);
 				});
 			});
@@ -407,14 +414,15 @@
 
 		<!-- 큐레이터 모달창 -->
 		<div class="modal fade bd-example-modal-xl" tabindex="-1" id="curatorModal">
-			<div class="modal-dialog modal-xl">
+			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
 					<div class="modal-header">
 						<h5 class="modal-title">큐레이터</h5>
 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body">
-						<form id="modal-frm" th:action="@{/gallery/curator}" method="get">
+						<form class="serach-form-container" id="modal-frm" th:action="@{/gallery/curator}" method="get">
+
 							<select name="type">
 								<option value="t" disabled selected>검색조건</option>
 								<option value="t">작품명</option>
@@ -432,20 +440,25 @@
 						<hr>
 						<div class="">
 							<div class="md-conteainer ">
+
 								<div class='md-btn-container'>
 									<div class='helper'></div>
-									<div class='md-item-btn left'>🎈</div>
+									<div class="md-item-btn left">
+										<span style="cursor: pointer;">
+											<i class="fa-solid fa-angle-left"></i>
+										</span>
+									</div>
 								</div>
+
 								<div class="md-serach-result result-container"></div>
+
 								<div class='md-btn-container'>
 									<div class='helper'></div>
-									<div class='md-item-btn right'>🎈</div>
+									<div class="md-item-btn right">
+										<span style="cursor: pointer;"><i class="fa-solid fa-angle-right"></i></span>
+									</div>
 								</div>
 							</div>
-						</div>
-						<div class="modal-footer">
-							<!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-             		  		 <button type="button" class="btn btn-primary">Save changes</button> -->
 						</div>
 					</div>
 				</div>
