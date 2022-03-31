@@ -60,7 +60,7 @@
                 \''+ @{/dyning/details(dno=${dto.dno})}
                 + '\''" th:if="${dto.foodtype}!=1">
                 <td id="dyningname">[[${dto.dyningname}]]</td>
-                <td id="roofpath">[[${dto.roofpath}]]</td>
+                <td id="roofpath"><img th:src="${dto.roofthumbnail}" alt=""></td>
             </tr>
         </table>
     </th:block>
