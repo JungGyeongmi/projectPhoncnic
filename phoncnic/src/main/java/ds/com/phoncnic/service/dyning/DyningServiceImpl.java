@@ -122,7 +122,7 @@ public class DyningServiceImpl implements DyningService {
       dyningImageRepository.save(dyningImage);
     });}
     RoofDesign roof = roofDesignRepository.findById(dyningDTO.getOono()).get();
-    dyning.modifyDyning(dyningDTO.getDyningname(),dyningDTO.getComment(),dyningDTO.getLocation(),dyningDTO.getFoodtype(),
+    dyning.modifyDyning(dyningDTO.getDyningname(),dyningDTO.getComment(),dyningDTO.getLocation(),dyningDTO.getLocationdetails(), dyningDTO.getFoodtype(),
     dyningDTO.getBusinesshours(),dyningDTO.getTel(),dyningDTO.getHashtag(),roof);
     dyningRepository.save(dyning);
   }

@@ -19,6 +19,7 @@ public class DyningDTO {
 
     private String dyningname;
     private String location;
+    private String locationdetails;
     private Long foodtype;
     private String businesshours;
     private String comment;
