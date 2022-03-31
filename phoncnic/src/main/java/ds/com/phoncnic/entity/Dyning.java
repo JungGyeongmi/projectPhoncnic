@@ -38,6 +38,7 @@ public class Dyning extends BaseEntity {
     private String comment;
 
     private String location;
+    private String locationdetails;
     private Long foodtype;
     private String businesshours;
     private String tel;
@@ -53,15 +54,15 @@ public class Dyning extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private RoofDesign roofdesign;
 
-    public void modifyDyning(String dyningname, String comment, String location,Long foodtype,
+    public void modifyDyning(String dyningname, String comment, String location,  String locationdetails, Long foodtype,
     String businesshours,String tel,String hashtag,RoofDesign roofdesign) {
         this.dyningname = dyningname;
         this.comment = comment;
         this.location = location;
+        this.locationdetails =locationdetails;
         this.foodtype = foodtype;
         this.businesshours = businesshours;
         this.tel = tel;
-        // this.image = image;
         this.hashtag = hashtag;
         this.roofdesign = roofdesign;
     }

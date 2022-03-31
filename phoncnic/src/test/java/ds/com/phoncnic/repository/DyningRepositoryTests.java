@@ -72,6 +72,7 @@ public class DyningRepositoryTests {
                     .dyningname("가게이름" + i)
                     .comment("사장님 한 마디" + i)
                     .location("실제가게위치" + i)
+                    .locationdetails("1층")
                     .foodtype(roof)
                     .tel("051-1234-1234")
                     .businesshours("영업시간" + i)
