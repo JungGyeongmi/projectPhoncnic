@@ -2,6 +2,49 @@
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
 <th:block th:replace="~{layout/test :: setContent(~{::content}, ~{::search}, ~{::navbar})}">
 
+    <script th:inline="javascript">
+        $(document).ready(function () {
+            /*[+
+                var searchUrl = [[@{/restaurant/toggle}]];
+            +]*/
+    
+            var btnsearch = $('#btnsearch');
+            var searchForm = $('.search-form');
+            var searchResult = $(".md-serach-result");
+    
+            btnsearch.on("click", function(e) {
+                console.log(searchForm.serialize());
+                getSearchList();
+            })
+    
+            function getSearchList() {
+                $.ajax({
+                    type: "GET",
+                    url: searchUrl,
+                    data: searchForm.serialize(),
+                    success: function (response) {
+                        console.log("get search success");
+                        var str = "";
+                        $.each(response.dtoList, function (idx, dto) {
+                            str += `<li class="search-result-Item " data-search-dno="${dto.dno}">
+                                        <div>
+                                            <p>
+                                                ${dto.dyningname}
+                                            </p>												
+                                            ${dto.hashtag}
+                                        </div>
+                                    </li>`;
+                        })
+                        searchResult.html(str);
+                    },
+                    error: function (response) {
+                        console.log(response);
+                    }
+                });
+            }
+        })
+    </script>
+
     <!-- navbar + 토글 버튼 -->
     <th:block th:fragment="navbar">
         <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
@@ -35,49 +78,6 @@
                 </ul>
             </div>
         </div>
-
-        <script th:inline="javascript">
-            $(document).ready(function () {
-                /*[+
-                    var searchUrl = [[@{/restaurant/toggle}]];
-                +]*/
-        
-                var btnsearch = $('#btnsearch');
-                var searchForm = $('.search-form');
-                var searchResult = $(".md-serach-result");
-        
-                btnsearch.on("click", function(e) {
-                    console.log(searchForm.serialize());
-                    getSearchList();
-                })
-        
-                function getSearchList() {
-                    $.ajax({
-                        type: "GET",
-                        url: searchUrl,
-                        data: searchForm.serialize(),
-                        success: function (response) {
-                            console.log("get search success");
-                            var str = "";
-                            $.each(response.dtoList, function (idx, dto) {
-                                str += `<li class="search-result-Item " data-search-dno="${dto.dno}">
-                                            <div>
-                                                <p>
-                                                    ${dto.dyningname}
-                                                </p>												
-                                                ${dto.hashtag}
-                                            </div>
-                                        </li>`;
-                            })
-                            searchResult.html(str);
-                        },
-                        error: function (response) {
-                            console.log(response);
-                        }
-                    });
-                }
-            })
-        </script>
     </th:block>
 
     <!-- 내용부분(restaurant 거리) -->
