@@ -135,18 +135,19 @@
             <input type="hidden" name="dno" th:value="${result.dno}">
         </form>
         <table border="1">
+            <input type="hidden" name="" id="eno" th:value="${eno}">
+            <input type="hidden" name="" id="etype" th:value="${emojitype}">
             <tr>
-                <th>이모지 갯수</th>
-                <th scope="col" colspan="5">이모지 타입</th>
+                <th scope="col" colspan="5">이모지<span></span></th>
                 <!--/* <th th:colspan="${result.emojicwt}">이모지 삭제</th> */-->
             </tr>
-            <tr id="ttt">
-                <td>[[${result.emojicwt}]]</td>
-                <td><button class="up" value="1" name="emojitype" type="button">😋[[${emojitype1}]]</button></td>
-                <td><button class="up" value="2" name="emojitype" type="button">🥰[[${emojitype2}]]</button></td>
-                <td><button class="up" value="3" name="emojitype" type="button">😭[[${emojitype3}]]</button></td>
-                <td><button class="up" value="4" name="emojitype" type="button">😅[[${emojitype4}]]</button></td>
-                <td><button class="up" value="5" name="emojitype" type="button">🥵[[${emojitype5}]]</button></td>
+            <tr>
+                <td></td>
+                <td><button class="up" id="emojiBtn1" value="1" name="emojitype" type="button">😋[[${emojitype1}]]</button></td>
+                <td><button class="up" id="emojiBtn2" value="2" name="emojitype" type="button">🥰[[${emojitype2}]]</button></td>
+                <td><button class="up" id="emojiBtn3" value="3" name="emojitype" type="button">😭[[${emojitype3}]]</button></td>
+                <td><button class="up" id="emojiBtn4" value="4" name="emojitype" type="button">😅[[${emojitype4}]]</button></td>
+                <td><button class="up" id="emojiBtn5" value="5" name="emojitype" type="button">🥵[[${emojitype5}]]</button></td>
                 <!--/* <td th:each="dto : ${emojilist}"><button type="button" th:value="${dto.eno}" class="emojiRemoveBtn">삭제</button></td> */-->
             </tr>
         </table>
@@ -203,9 +204,10 @@
                 })
 
                 //이모지 제어
-                var eno = localStorage.getItem("eno");
+                var eno = $("#eno").val();
+                var etype = $("#etype").val();
 
-                if (!eno) {
+                if (eno=="") {
                     $(".up").click(function () {
                         var id = $("input[name='id']").val();
                         var dno = $("input[name='dno']").val();
@@ -223,19 +225,14 @@
                             dataType: "text",
                             success: function (result) {
                                 console.log("result: " + result);
-                                localStorage.setItem("eno", result);
                                 self.location.reload();
                             }
                         })
 
                     });
                 } else {
-
-                    $(".up").click(function () {
-                        var eno = localStorage.getItem("eno");
+                    $("#emojiBtn"+etype).click(function () {
                         var data = { eno: eno };
-                        // $(this).toggleClass("down");
-                        // $("button[name='emojitype']").toggleClass("up");
                         console.log(data);
                         var urlemojiremove = `[[@{/dyning/emojiremove}]]`;
                         $.ajax({
@@ -247,7 +244,6 @@
                             success: function (result) {
                                 console.log("result: " + result);
                                 self.location.reload();
-                                localStorage.clear();
                             }
                         })
                     });
