@@ -34,4 +34,14 @@ public class FollowServiceImpl implements FollowService {
         Follow follow = followRepository.getFollownameDyning(id, name);
         followRepository.delete(follow);
     }
+
+    @Override
+    public void addArtistFollow(String id, String name) {
+        
+    }
+
+    @Override
+    public void addDyningFollow(String id, String name) {
+        
+    }
 }
