@@ -33,6 +33,7 @@ public class MyPageController {
         model.addAttribute("memberDTO", memberDTO);
         model.addAttribute("hairDTO", characterLookService.getCharacterHair(id));
         model.addAttribute("clothesDTO", characterLookService.getCharacterClothes(id));
+        model.addAttribute("looklist", characterLookService.lookimageList());
         model.addAttribute("emojiDTO", emojiService.getEmojiList(id));
         model.addAttribute("afollowDTO", followService.getFollow(id).getFollowartistlist());
         model.addAttribute("dfollowDTO", followService.getFollow(id).getFollowdyninglist());

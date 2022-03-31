@@ -1,5 +1,6 @@
 package ds.com.phoncnic.service.mypage;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,8 @@ public class CharacterLookServiceImpl implements CharacterLookService {
     private CharacterLookInfoRepository repository;
     @Autowired
     private CharacterLookRepository characterLookRepository;
+    @Autowired
+    private CharacterLookInfoRepository characterLookInfoRepository;
     
      @Override
     public CharacterLookDTO getCharacterHair(String id){
@@ -45,4 +48,9 @@ public class CharacterLookServiceImpl implements CharacterLookService {
             characterLookRepository.save(characterLook);
         }
     }
+    @Override
+    public List<CharacterLookInfo> lookimageList(){
+      List<CharacterLookInfo> dto = characterLookInfoRepository.findAll();
+      return dto;
+    };
 }
