@@ -31,7 +31,7 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
       throws IOException, ServletException {
     log.warn("Login Success");
     AuthMemberDTO authMemberDTO = (AuthMemberDTO) auth.getPrincipal();
-    boolean passwordResult = passwordEncoder.matches("1", authMemberDTO.getPassword());
+    // boolean passwordResult = passwordEncoder.matches("1", authMemberDTO.getPassword());
     log.info("DTO.getPassword : "+authMemberDTO.getPassword());
     
     List<String> roleNames = new ArrayList<>();

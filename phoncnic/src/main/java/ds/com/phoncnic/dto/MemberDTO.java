@@ -18,7 +18,6 @@ public class MemberDTO {
     private String nickname;
     private String password;
     
-    
     private LocalDateTime regdate, moddate;
     
     @Builder.Default
