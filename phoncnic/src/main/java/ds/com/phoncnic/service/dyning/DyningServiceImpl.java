@@ -7,18 +7,13 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
-import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.types.dsl.BooleanExpression;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
 import ds.com.phoncnic.dto.DyningDTO;
-import ds.com.phoncnic.dto.pageDTO.PageRequestDTO;
 import ds.com.phoncnic.dto.pageDTO.PageResultDTO;
 import ds.com.phoncnic.dto.pageDTO.SearchDyningPageRequestDTO;
 import ds.com.phoncnic.entity.Dyning;
@@ -26,6 +21,7 @@ import ds.com.phoncnic.entity.DyningImage;
 import ds.com.phoncnic.entity.RoofDesign;
 import ds.com.phoncnic.repository.DyningImageRepository;
 import ds.com.phoncnic.repository.DyningRepository;
+import ds.com.phoncnic.repository.RoofDesignRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -39,6 +35,9 @@ public class DyningServiceImpl implements DyningService {
 
   @Autowired
   private final DyningImageRepository dyningImageRepository;
+
+  @Autowired
+  private final RoofDesignRepository roofDesignRepository;
 
   @Transactional
   @Override
@@ -98,6 +97,7 @@ public class DyningServiceImpl implements DyningService {
         dyningImageRepository.save(dyningImage);
       });
     }
+
     RoofDesign roof = roofDesignRepository.findById(dyningDTO.getOono()).get();
     dyning.modifyDyning(dyningDTO.getDyningname(), dyningDTO.getComment(), dyningDTO.getLocation(),
         dyningDTO.getLocationdetails(), dyningDTO.getFoodtype(),
