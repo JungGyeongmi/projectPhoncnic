@@ -30,7 +30,6 @@
                 <input type="file" class="custom-file-input files form-control" id="fileInput" multiple>
                 <label data-browse="Browse"></label>
             </div>
-            </div>
 
         <!-- upload된 이미지 파일을 보여주기 위한 list style 설정 -->
         <style>
@@ -66,17 +65,16 @@
 
             </ul>
         </div>
-
-
         <button id="register">등록</button>
-        </form>
         <a th:href="@{/main/mypage(id='user1@icloud.com')}"><input type="button" value="돌아가기(마이페이지)"></a>
         <a th:href="@{/manage/gallery/list(id='user1@icloud.com')}"><input type="button" value="돌아가기(리스트)"></a>
 
         <script th:inline="javascript">
 
             $(document).ready(function (e) {
-
+                /*[+
+                  var urlUpload = [[@{/uploadAjax/}]];
+                +]*/
                 var regex = new RegExp("(.*?)\.(exe|sh|zip|alz|tiff|txt)$");
                 var maxSize = 10485760;
 
@@ -122,10 +120,6 @@
 
                     for (var value of formData.values()) console.log("formData >> " + value);
 
-                    /*[+
-                        var urlUpload = [[@{/uploadAjax/}]];
-                     +]*/
-
                     // 파일 업로드를 위한 ajax
                     $.ajax({
                         url: urlUpload,
@@ -135,7 +129,7 @@
                         type: 'POST',
                         dataType: 'json',
                         success: function (result) {
-                            // alert(formData);
+                            console.log(result);
                             showResult(result);
                         },
                         error: function (jqXHR, textStatus, errorThrown) {
@@ -154,28 +148,27 @@
                     +]*/
                     $(uploadResultArr).each(function (i, obj) {
                         str += `<li data-name='${obj.fileName}' data-path='${obj.folderPath}' data-uuid='${obj.uuid}'><div>`;
-                        str += `<button type='button' data-file='${obj.imageURL}' class='btn-warning btn-sm'>X</button><br>`;
+                        str += `<button type='button' data-file='${obj.imageURL}\' class='btn-warning btn-sm'>X</button><br>`;
                         str += `<img src='${urlDisplay}?fileName=${obj.thumbnailURL}'></div></li>`;
                     });
                     uploadUL.append(str);
 
                     $(".uploadResult li").each(function (i, obj) {
                         var target = $(obj);
-                        str2 += `<input type='hidden' name='imagename' value='${target.data('name')}'>
-                                    <input type='hidden' name='imagepath' value='${target.data('path')}'>
-                                    <input type='hidden' name='uuid' value='${target.data('uuid')}'>`;
-                    });
 
+                        str2 += `<input type='hidden' name='imagename' value='${target.data('name')}'>
+                            <input type='hidden' name='imagepath' value='${target.data('path')}'>
+                            <input type='hidden' name='uuid' value='${target.data('uuid')}'>`;
+                    });
                     $(".box").html(str2);
                 }
-
             });
 
             // submit 버튼
             $("#register").on("click", function (e) {
                 e.preventDefault();
-                $("form").submit();
                 // console.log($("form").serialize());
+                $("form").submit();
             });
 
             // 사진 삭제

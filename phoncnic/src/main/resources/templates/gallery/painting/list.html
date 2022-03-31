@@ -1,11 +1,8 @@
 <!DOCTYPE html>
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
-
 <th:block th:replace="~{layout/basic :: setContent(~{::content})}">
 	<th:block th:fragment="content">
-
 		<head>
-			<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
 			<!-- Link Swiper's CSS -->
 			<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
 
@@ -48,7 +45,7 @@
 					background-position: center;
 					background-size: cover;
 					width: 300px;
-					height: 450px;
+					height: 350px;
 				}
 
 				.swiper-slide img {
@@ -119,6 +116,9 @@
 						alt="이미지를 불러올 수 없습니다" />
 					[[${dto.title}]]
 				</div>
+				<div style="border: solid 1px black;">
+					여기가 마지막 입니다.
+				</div>
 			</div>
 			<div class="swiper-pagination"></div>
 			<div class="swiper-button-prev"></div>
@@ -135,7 +135,7 @@
 				effect: "coverflow",
 				grabCursor: false,
 				centeredSlides: true,
-				slidesPerView: "3",
+				slidesPerView: "2",
 				coverflowEffect: {
 					rotate: 0,
 					stretch: -0,
@@ -143,17 +143,15 @@
 					modifier: 1,
 					slideShadows: true,
 				},
-				loop: true,
 				mousewheel: true,
-				pagination: {
-					el: ".swiper-pagination",
-					clickable: true,
-				},
+				// pagination: {
+				// 	el: ".swiper-pagination",
+				// 	clickable: true,
+				// },
 				navigation: {
 					nextEl: ".swiper-button-next",
 					prevEl: ".swiper-button-prev",
-				},
-
+				}
 			});
 		</script>
 
@@ -409,7 +407,7 @@
 
 		<!-- 큐레이터 모달창 -->
 		<div class="modal fade bd-example-modal-xl" tabindex="-1" id="curatorModal">
-			<div class="modal-dialog modal-lg">
+			<div class="modal-dialog modal-xl">
 				<div class="modal-content">
 					<div class="modal-header">
 						<h5 class="modal-title">큐레이터</h5>
@@ -447,7 +445,7 @@
 						</div>
 						<div class="modal-footer">
 							<!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-             		   <button type="button" class="btn btn-primary">Save changes</button> -->
+             		  		 <button type="button" class="btn btn-primary">Save changes</button> -->
 						</div>
 					</div>
 				</div>

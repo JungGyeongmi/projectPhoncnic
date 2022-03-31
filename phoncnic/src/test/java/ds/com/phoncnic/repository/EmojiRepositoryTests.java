@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import com.querydsl.core.Tuple;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -30,6 +32,13 @@ public class EmojiRepositoryTests {
         emojiList.stream().forEach(emoji -> {
             System.out.println(emojiService.entityToEmojiDTO(emoji));
         });
+
+    }
+
+    @Test
+    public void testgetEnonType(){
+        Emoji result = emojiRepository.getEnoAndType("user1@icloud.com", 13L);
+        System.out.println(result);
 
     }
 
@@ -106,6 +115,8 @@ public class EmojiRepositoryTests {
         List<Object[]> emojiList = emojiRepository.getEmojiCountByGno(3L);
 
         emojiList.stream().forEach(cnt -> {
+            System.out.println("count : " + cnt[1]);
+
             System.out.println("type : " + cnt[0]);
             System.out.println("count : " + cnt[1]);
         });
@@ -114,17 +125,7 @@ public class EmojiRepositoryTests {
     @Test
     @Transactional
     public void testUpdateEmoji() {
-        // List<Emoji> emoji = emojiRepository.getEmojiByGno(28L);
-        // emoji.stream().forEach(e -> {
-        //     System.out.println("type : " + e.getEmojiInfo());
-        // });
-        // System.out.println("---변경 전--");
         Integer eno = emojiRepository.updateEmojiTypeByGnoAndMemberId("3", 28L, "user1@icloud.com");
         System.out.println(eno);
-        // emoji = emojiRepository.getEmojiByGno(28L);
-        // System.out.println("---변경 후--");
-        // emoji.stream().forEach(e -> {
-        //     System.out.println("type : " + e.getEmojiInfo());
-        // });
     }
 }

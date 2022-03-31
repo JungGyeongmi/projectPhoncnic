@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko" xmls:th="http://www.thymeleaf.org">
+    <h1>등록된 가게 목록</h1>
+    <a th:href="@{/manage/dyning/register(id=${id})}">
+        <button type="button"> 
+            <h2> [[${id}]]가게 등록하러 GO</h2>
+        </button>
+    </a>
+   
+
+    
+    <table border="1" >
+        <tr >
+            <th scope="col">dyningname</th>
+            <th scope="col">Roof Path</th>
+        </tr>
+        <tr  th:each="dto : ${result}"
+        th:onclick="'location.href=
+        \''+ @{/manage/dyning/read(dno=${dto.dno})}
+             + '\''">
+            <!-- <td >[[${dto.dno}]]</td> -->
+            <td id="dyningname">[[${dto.dyningname}]]</td>
+            <!-- <td>[[${dto.foodtype}]]</td> -->
+            <td id="roofpath">
+            <img th:src="${dto.roofthumbnail}" alt=""></td>
+
+        </tr>
+    </table>
+    
+</html>
