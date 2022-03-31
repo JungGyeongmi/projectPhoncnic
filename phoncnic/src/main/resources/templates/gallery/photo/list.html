@@ -55,7 +55,6 @@
             object-position: center;
          }
 
-
          .serach-form-container {
             display: grid;
             grid-template-columns: 0.5fr 1fr 0.3fr 0.5fr;
@@ -70,10 +69,10 @@
          .result-container {
             display: grid;
             /* 최소 100px 확보 후 늘어나면 자동 */
-            grid-template-columns: repeat(auto-fit, minmax(300px, auto));
+            /* grid-template-columns: repeat(auto-fit, minmax(300px, auto)); */
+            grid-template-columns: repeat(auto-fit, minmax(150px, auto));
             grid-template-rows: repeat(1, minmax(300px, auto));
             row-gap: 1%;
-            column-gap: 1%;
             /* items 세로 정렬 */
             align-items: center;
             /* items 가로 정렬 */
@@ -82,9 +81,9 @@
          }
 
          .md-conteainer img {
-            width: 300px;
-            height: 300px;
-            border-radius: 10%;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
          }
 
          .md-btn-container {
@@ -296,6 +295,7 @@
             }
 
             function getSearchList() {
+
                // 유효성 검사
                var typeSelect = $("select[name=type]").val();
                var searchKeywordInput = $("#md-search-keyword").val();
@@ -306,6 +306,7 @@
                   swal("검색어를 입력해주세요");
                   return;
                }
+
                $.ajax({
                   type: "GET",
                   url: curatorUrl,
@@ -323,10 +324,10 @@
                      if (response.totalPage != 0) {
                         $.each(response.dtoList, function (idx, dto) {
                            str += `<div class="search-result-Item item" data-search-file="${dto.imageURL}" data-search-gno="${dto.gno}">
-                                    <img class="md-conteainer-img" src="${displayUrl}?fileName=${dto.imageURL}">                              
-                                    <br/>
-                                    <p>${dto.title}</p>
-                                    </div>`;
+                                 <img class="md-conteainer-img" src="${displayUrl}?fileName=${dto.imageURL}">                              
+                                 <br/>
+                                 <p>${dto.title}</p>
+                              </div>`;
                         });
                         searchResult.html(str);
                      } else {
@@ -416,7 +417,7 @@
          <div class="modal-dialog modal-lg">
             <div class="modal-content">
                <div class="modal-header">
-                  <h5 class="modal-title">큐레이터</h5>
+                  <h5 class="modal-title">규레이터</h5>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                </div>
                <div class="modal-body">
@@ -436,7 +437,7 @@
                         <option value="a">과거순</option>
                      </select>
                   </form>
-                  <hr>
+                  <br/>
                   <div class="">
                      <div class="md-conteainer ">
 
