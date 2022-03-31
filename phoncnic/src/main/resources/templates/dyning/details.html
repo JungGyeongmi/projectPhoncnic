@@ -135,13 +135,14 @@
             <input type="hidden" name="dno" th:value="${result.dno}">
         </form>
         <table border="1">
+            <input type="hidden" name="" id="eno" th:value="${eno}">
+            <input type="hidden" name="" id="etype" th:value="${emojitype}">
             <tr>
-                <th>이모지 갯수</th>
-                <th scope="col" colspan="5">이모지 타입</th>
+                <th scope="col" colspan="5">이모지<span></span></th>
                 <!--/* <th th:colspan="${result.emojicwt}">이모지 삭제</th> */-->
             </tr>
-            <tr id="ttt">
-                <td><input type="text" name="" id="eno" th:value="${eno}"><input type="text" name="" id="etype" th:value="${emojitype}"></td>
+            <tr>
+                <td></td>
                 <td><button class="up" id="emojiBtn1" value="1" name="emojitype" type="button">😋[[${emojitype1}]]</button></td>
                 <td><button class="up" id="emojiBtn2" value="2" name="emojitype" type="button">🥰[[${emojitype2}]]</button></td>
                 <td><button class="up" id="emojiBtn3" value="3" name="emojitype" type="button">😭[[${emojitype3}]]</button></td>
