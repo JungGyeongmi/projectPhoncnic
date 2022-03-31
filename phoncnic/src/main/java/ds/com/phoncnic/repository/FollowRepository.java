@@ -26,6 +26,9 @@ public interface FollowRepository extends JpaRepository<Follow, Long> {
     @Query("SELECT fno FROM Follow f WHERE f.follower.id=:id and f.dyningname=:name")
     Long getFnoIfFollowed(String id, String name);
 
+    @Query ("SELECT fno FROM Follow f WHERE f.follower.id = :id and f.artistname= :name")
+    Long getFnoIfFollowedByGno(String id, String name);
+
      @Modifying
      @Query("delete from Follow f where f.follower.id=:id")
      void deleteByMemberId(String id);

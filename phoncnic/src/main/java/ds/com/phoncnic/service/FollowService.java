@@ -19,6 +19,8 @@ public interface FollowService {
     Long addDyningFollow(FollowDTO followDTO);
 
     Long getFno(String id, String dyningname);
+    
+    Long getFnoByGno(String id, String artistname);
 
     default FollowDTO entityToDTO(List<Object> artistList, List<Object> dyningList) {
         FollowDTO followDTO = FollowDTO.builder()

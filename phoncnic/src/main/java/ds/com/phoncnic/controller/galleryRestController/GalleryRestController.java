@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ds.com.phoncnic.dto.EmojiDTO;
+import ds.com.phoncnic.dto.FollowDTO;
 import ds.com.phoncnic.dto.GalleryDTO;
 import ds.com.phoncnic.dto.pageDTO.PageResultDTO;
 import ds.com.phoncnic.dto.pageDTO.SearchPageRequestDTO;
+import ds.com.phoncnic.service.FollowService;
 import ds.com.phoncnic.service.emoji.EmojiService;
 import ds.com.phoncnic.service.gallery.GalleryService;
 import lombok.extern.log4j.Log4j2;
@@ -31,6 +33,10 @@ public class GalleryRestController {
 
     @Autowired
     private EmojiService emojiService;
+
+    @Autowired
+    private FollowService followService;
+
     @GetMapping("/curator")
     public ResponseEntity<PageResultDTO<GalleryDTO, Object[]>> getCuratorModal(SearchPageRequestDTO pageRequestDTO) {
         log.info("---------------get curator rest---------------");
@@ -69,5 +75,24 @@ public class GalleryRestController {
     public ResponseEntity<Long> emojiRemove(@PathVariable Long eno) {
         emojiService.emojiRemove(eno);
         return new ResponseEntity<>(eno, HttpStatus.OK);
+    }
+
+    //follow 
+    @PostMapping("/addfollow")
+    public ResponseEntity<Long> addFollow(@RequestBody FollowDTO followDTO) {
+        log.info("-----------------add Follow-----------------");
+        log.info("followDTO:" + followDTO);
+
+        Long fno = followService.addArtistFollow(followDTO);
+        return new ResponseEntity<>(fno, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/removefollow/{id}/{artistname}")
+    public ResponseEntity<String> removeFollowDyning(@PathVariable String id, @PathVariable String artistname) {
+        log.info("artistname:" + artistname);
+
+        followService.removeArtistFollow(id, artistname);
+        return new ResponseEntity<>(id, HttpStatus.OK);
+
     }
 }

@@ -55,4 +55,9 @@ public class FollowServiceImpl implements FollowService {
         return fno;
     }
 
+    @Override
+    public Long getFnoByGno(String id, String artistname) {
+        Long fno = followRepository.getFnoIfFollowedByGno(id, artistname);
+        return fno;
+    }
 }

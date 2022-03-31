@@ -2,6 +2,7 @@
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
 <th:block th:replace="~{layout/basic :: setContent(~{::content})}">
 	<th:block th:fragment="content">
+
 		<head>
 			<!-- Link Swiper's CSS -->
 			<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
@@ -33,6 +34,10 @@
 					color: #000;
 					margin: 0;
 					padding: 0;
+				}
+
+				#emojiBox {
+					display: inline-block;
 				}
 
 				.swiper {
@@ -82,6 +87,13 @@
 					border-radius: 10%;
 				}
 
+				.lastimg {
+					width: 300px;
+					height: 300px;
+					background-color: aliceblue;
+
+				}
+
 				.md-btn-container {
 					width: 20px;
 					/* background-color: bisque; */
@@ -116,8 +128,9 @@
 						alt="이미지를 불러올 수 없습니다" />
 					[[${dto.title}]]
 				</div>
-				<div style="border: solid 1px black;">
-					여기가 마지막 입니다.
+				<div class="lastimg" style="border: solid 1px black;">
+					<button>관람끝내기</button>
+					<button>맨 앞장으로 </button>
 				</div>
 			</div>
 			<div class="swiper-pagination"></div>
@@ -163,10 +176,11 @@
 					var readUrl = [[@{/gallery/read}]];
 					var emojiUrl = [[@{/gallery/emoji}]];
 					var emojiaddUrl = [[@{/gallery/register}]];
+					var followaddUrl = [[@{gallery/addfollow}]];
+			    	var followremoveUrl = [[@{/gallery/removefollow/}]];
 					var urlDisplay = [[@{/display}]];
-			    
 				+]*/
-
+				
 				var uploadResult = $(".uploadResult");
 				var detailsModalbody = $(".details-modal-body");
 				var showdetailsModal = function (targetGno, targetFile) {
@@ -174,8 +188,10 @@
 						// console.log("getList..........dto " + JSON.stringify(dto));
 						var str = "";
 						str += `
+						
 							<input type="hidden" name = "gno" value="${targetGno}" class="inputGno" data-gno="${targetGno}">
 							<input type="hidden" name = "id" value="user1@icloud.com" class="inputId" data-id="${dto.id}">
+							<input type="hidden" name = "followerid"  data-followerid="${id}">
 
 							<img style='width:100%' src="${urlDisplay}?fileName=${targetFile}">
 
@@ -204,7 +220,10 @@
 							<input type="radio" id="5" value="5" name="emojitype" data-emojitype="${dto.emojicount[4]}" class="emoji">      
 							<label for="5" class="emojibtn">😝</label>
 							<span>${dto.emojicount[4][1]}</span>
-							</div>`;
+							</div>
+							<span>
+								&nbsp &nbsp &nbsp &nbsp &nbsp<button type="button" class="followBtn" data-fno="${fno}">팔로우</button>
+							</span>`;
 						detailsModalbody.html(str);
 					});
 				}
@@ -392,15 +411,62 @@
 
 				});
 
-				// 모달 창 내 search result 클릭 시 이동 제어
-				$(document).on("click", ".search-result-Item", function (e) {
-					var targetGno = $(this).closest("div").data("searchGno");
-					var targetFile = $(this).closest("div").data("searchFile");
-					// alert(targetGno);
-					// alert(targetFile);
-					$("#curatorModal").modal("hide");
-					$("#detailsModal").modal("show");
-					showdetailsModal(targetGno, targetFile);
+				//팔로우 
+				$(".followBtn").on("click", function () {
+					var fno = $('#followBtn').data("fno");
+					
+					
+					if (fno.val() != "") {
+						fno.html('언팔로우');
+					}
+					$('#followBtn').on("click", function () {
+						var id = $("#followerid").data("followerid");
+						var artistname = $(".inputId").val();
+						console.log(fno.val());
+
+						//언팔 상태
+						if (fno.val() == "") {
+							var data = { followerid: id, artistname: artistname };
+							console.log(data);
+							$.ajax({
+								url: followaddUrl,
+								type: "POST",
+								data: JSON.stringify(data),
+								contentType: "application/json; charset=utf-8",
+								dataType: "text",
+								success: function (result) {
+									self.location.reload();
+								}
+							});
+						} else {
+							var data = { id: id, artistname: artistname };
+
+							$.ajax({
+								url: followremoveUrl + "/" + id + "/" + artistname,
+								type: "DELETE",
+								data: JSON.stringify(data),
+								contentType: "application/json; charset=utf-8",
+								dataType: "text",
+								success: function (result) {
+									console.log("result: " + result);
+									self.location.reload();
+								}
+							})
+						}
+					})
+
+
+					// 모달 창 내 search result 클릭 시 이동 제어
+					$(document).on("click", ".search-result-Item", function (e) {
+						var targetGno = $(this).closest("div").data("searchGno");
+						var targetFile = $(this).closest("div").data("searchFile");
+						// alert(targetGno);
+						// alert(targetFile);
+						$("#curatorModal").modal("hide");
+						$("#detailsModal").modal("show");
+						showdetailsModal(targetGno, targetFile);
+					});
+
 				});
 			});
 		</script>
