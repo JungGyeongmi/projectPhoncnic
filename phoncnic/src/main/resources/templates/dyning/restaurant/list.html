@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
-<th:block th:replace="~{layout/test :: setContent(~{::content}, ~{::search}, ~{::navbar})}">
+<th:block th:replace="~{layout/dyninglist :: setContent(~{::content}, ~{::search}, ~{::navbar})}">
 
     <!-- navbar + 토글 버튼 -->
     <th:block th:fragment="navbar">
@@ -18,6 +18,9 @@
 
     <!-- search toggle -->
     <th:block th:fragment="search">
+        <style>
+            .search-result-Item {cursor: pointer;}
+        </style>
         <div class="border-end bg-white" id="sidebar-wrapper">
             <div class="sidebar-heading border-bottom bg-light">
                 <form class="d-flex search-form" th:action="@{/restaurant/toggle}" method="get">
@@ -31,7 +34,7 @@
             </div>
             <div class="list-group list-group-flush">
                 <ul class="md-serach-result">
-                    <li> test 중입니다 </li>
+                    
                 </ul>
             </div>
         </div>
@@ -61,14 +64,12 @@
                             console.log("get search success");
                             var str = "";
                             $.each(response.dtoList, function (idx, dto) {
-                                str += `<li class="search-result-Item " data-search-dno="${dto.dno} ">
-                                            <div th:onclick="'location.href=
-                \''+ @{/dyning/details(dno=${dto.dno})}
-                + '\''" th:if="${dto.foodtype}!=1">
-                                                <p>
-                                                    ${dto.dyningname}
-                                                </p>												
+                                str += `<li class="search-result-Item " data-search-dno="${dto.dno}" value="${dto.dno}">
+                                    <input class="input" type="hidden" value="${dto.dno}">                                     
+                                    <div  >
+                                                <p>${dto.dyningname}</p>												
                                                 ${dto.hashtag}
+                                                
                                             </div>
                                         </li>`;
                             })
@@ -79,18 +80,22 @@
                         }
                     });
                 }
-
-                // 토글 내 search result 클릭 시 이동 제어
+                // 모달 창 내 search result 클릭 시 이동 제어
 				$(document).on("click", ".search-result-Item", function (e) {
-					var targetDno = $(this).closest("li").data("searchGno");
-					var targetFile = $(this).closest("li").data("searchFile");
-					$("#curatorModal").modal("hide");
-					$("#detailsModal").modal("show");
-					showdetailsModal(targetGno, targetFile);
+                    console.log("click");
+					console.log($(this).attr("value"));
+                    
+                    var val = $(this).attr("value");
+
+
+                    location.href="/phoncnic/dyning/details?dno="+val;
 				});
-            })
+
+            });
         </script>
     </th:block>
+
+
 
     <!-- 내용부분(restaurant 거리) -->
     <th:block th:fragment="content">
@@ -113,4 +118,5 @@
             </tr>
         </table>
     </th:block>    
+
 </th:block>

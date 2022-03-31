@@ -35,6 +35,10 @@ public interface DyningRepository extends JpaRepository<Dyning, Long>, SearchDyn
     @Query ("select d,count(e.eno) from Dyning d left join Emoji e on e.dyning.dno = dno where d.dno =:dno group by dno")
     List<Object[]> getDyningDetails(Long dno);
 
+    @Modifying
+    @Query("delete from Dyning d where d.dno=:dno")
+    void deleteByDno(Long dno);
+
     // 페이징 처리
     @Query("select d from Dyning d where foodtype != 1 ")
     Page<Dyning> getRestayrantPage(Pageable pageable);
