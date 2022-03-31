@@ -41,8 +41,10 @@ public class EmojiServiceImpl implements EmojiService {
         if(!(boolean) checker[2]) {
             galleryEmoji = dtoToEntity(emojiDTO);
             emojiRepository.save(galleryEmoji);
+            log.info("insert eno...."+galleryEmoji.getEno());
             return galleryEmoji.getEno();
         } else if(checker[1].equals(emojiType)){
+            log.info("deleted eno...."+(Long)checker[0]);
             emojiRepository.deleteByEno((Long)checker[0]);
             return 0L;
         } else if(!checker[1].equals(emojiType)) {
@@ -50,6 +52,7 @@ public class EmojiServiceImpl implements EmojiService {
             emojiRepository.deleteByEno((Long)checker[0]);
             galleryEmoji = dtoToEntity(emojiDTO);
             emojiRepository.save(galleryEmoji);
+            log.info("update eno...."+galleryEmoji.getEno());
             return galleryEmoji.getEno();
         }
         return 0L;

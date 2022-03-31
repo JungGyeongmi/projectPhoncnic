@@ -162,16 +162,15 @@
             /*[+
                var readUrl = [[@{/gallery/read}]];
                var emojiUrl = [[@{/gallery/emoji}]];
-               var emojiaddUrl = [[@{/gallery/register}]];
+               var emojiaddUrl = [[@{/gallery/emoji/register}]];
                var urlDisplay = [[@{/display}]];
-             
             +]*/
 
             var uploadResult = $(".uploadResult");
             var detailsModalbody = $(".details-modal-body");
             var showdetailsModal = function (targetGno, targetFile) {
                $.getJSON(readUrl + "/" + targetGno, function (dto) {
-                  // console.log("getList..........dto " + JSON.stringify(dto));
+                  console.log("getList..........dto " + JSON.stringify(dto));
                   var str = "";
                   str += `
 							<input type="hidden" name = "gno" value="${targetGno}" class="inputGno" data-gno="${targetGno}">
@@ -184,27 +183,30 @@
 								<div class="col-md-4"><h4>${dto.id}</h4></div>
 							</div>
 
-							<div id="emojiBox">
-							<input type="radio" id="1" value="1" name="emojitype" data-emojitype="${dto.emojicount[0]}" class="emoji">      
-							<label for="1" class="emojibtn">🥰</label>
-							<span>${dto.emojicount[0][1]}</span>
-							
-							<input type="radio" id="2" value="2" name="emojitype" data-emojitype="${dto.emojicount[1]}" class="emoji">      
-							<label for="2" class="emojibtn">😊</label>
-							<span>${dto.emojicount[1][1]}</span>
-						
-							<input type="radio" id="3" value="3" name="emojitype" data-emojitype="${dto.emojicount[2]}" class="emoji">       
-							<label for="3" class="emojibtn">😥</label>
-							<span>${dto.emojicount[2][1]}</span>
-				
-							<input type="radio" id="4" value="4" name="emojitype" data-emojitype="${dto.emojicount[3]}" class="emoji">      
-							<label for="4" class="emojibtn">😂</label>
-							<span>${dto.emojicount[3][1]}</span>
-							
-							<input type="radio" id="5" value="5" name="emojitype" data-emojitype="${dto.emojicount[4]}" class="emoji">      
-							<label for="5" class="emojibtn">😝</label>
-							<span>${dto.emojicount[4][1]}</span>
-							</div>`;
+							<form id="emojiBox">
+                        <input type="text" name="gno" value="${dto.gno}">
+                        <input type="text" name="id" value="${dto.id}">
+                        <input type="radio" id="1" value="${dto.emojicount[4][0]}" name="emojitype" class="emoji">
+                        <label for="1" class="emojibtn">🥰</label>
+                        <span>${dto.emojicount[0][1]}</span>
+                        
+                        <input type="radio" id="2" value="${dto.emojicount[4][0]}" name="emojitype" class="emoji">      
+                        <label for="2" class="emojibtn">😊</label>
+                        <span>${dto.emojicount[1][1]}</span>
+                     
+                        <input type="radio" id="3" value="${dto.emojicount[4][0]}" name="emojitype" class="emoji">       
+                        <label for="3" class="emojibtn">😥</label>
+                        <span>${dto.emojicount[2][1]}</span>
+               
+                        <input type="radio" id="4"  value="${dto.emojicount[4][0]}" name="emojitype" class="emoji">      
+                        <label for="4" class="emojibtn">😂</label>
+                        <span>${dto.emojicount[3][1]}</span>
+                        
+                        <input type="radio" id="5"  value="${dto.emojicount[4][0]}" name="emojitype" class="emoji">      
+                        <label for="5" class="emojibtn">😝</label>
+                        <span>${dto.emojicount[4][1]}</span>
+							</form>`;
+
                   detailsModalbody.html(str);
                });
             }
@@ -325,9 +327,9 @@
                         $.each(response.dtoList, function (idx, dto) {
                            str += `<div class="search-result-Item item" data-search-file="${dto.imageURL}" data-search-gno="${dto.gno}">
                                  <img class="md-conteainer-img" src="${displayUrl}?fileName=${dto.imageURL}">                              
-                                 <br/>
-                                 <p>${dto.title}</p>
-                              </div>`;
+                                    <br/>
+                                    <p>${dto.title}</p>
+                                 </div>`;
                         });
                         searchResult.html(str);
                      } else {
@@ -357,46 +359,23 @@
 
             //이모지 등록
             $(document).on("click", ".emoji", function (event) {
-               var id = $(".inputId").val();
-               var gno = $(".inputGno").val();
-               var emojitype = $(".emoji:checked").val();
-               var data = { id: id, gno: gno, emojitype: emojitype };
-               console.log("id:" + id);
-               console.log("gno:" + gno);
-               console.log("emojitype:" + emojitype);
-               console.log(data);
+               var form = $("#emojiBox");
+               console.log(form.serialize());
+
                $.ajax({
-                  url: emojiaddUrl + "/" + gno,
-                  method: "POST",
-                  data: JSON.stringify(data),
+                  url: emojiaddUrl,
+                  method: "post",
+                  data: form.serialize(),
                   contentType: "application/json; charset=utf-8",
-                  dataType: "text",
-                  success: function (result) {
-                     self.location.reload();
-                     console.log(result.message);
+                  success: function (response) {
+                     console.log("update emoji success");
+                     console.log(response);
+                     var str = "";
+                  },
+                  fail : function (response) {
+                     console.log(response);
                   }
                });
-            });
-
-            //이모지 삭제
-            $(document).on("click", ".emoji", function (event) {
-               var id = $(".inputId").val();
-               var gno = $(".inputGno").val();
-               var emojitype = $(".emoji:checked").val();
-               var data = { eno: eno };
-               $.ajax({
-                  url: emojiRemoveUrl + "/" + eno,
-                  method: "DELETE",
-                  data: JSON.stringify(data),
-                  contentType: "application/json; charset=utf-8",
-                  dataType: "text",
-                  success: function (result) {
-                     alert(result.message);
-                  }, error: function (request, status, error) {
-                     console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
-                  }
-               });
-
             });
 
             // 모달 창 내 search result 클릭 시 이동 제어
