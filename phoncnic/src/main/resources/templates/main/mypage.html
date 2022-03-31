@@ -26,17 +26,20 @@
         <form id="lookform" action="">
             <input type="hidden" name="id" th:value="${id}">
             <span th:each="hdto : ${looklist}">
-                <input type="radio" name="hairname" id="" th:value="${hdto.hairname}"><img th:src="${hdto.hairpath}" alt="">
+                <input type="radio" name="hairname" id="${hdto.hairname}" th:value="${hdto.hairname}"><img th:src="${hdto.hairpath}" alt="">
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               </span> 
               <br>
               <span th:each="cdto : ${looklist}">
-                <input type="radio" name="clothesname" id="" th:value="${cdto.clothesname}"><img th:src="${cdto.clothespath}" alt="">
+                <input type="radio" name="clothesname" id="${cdto.clothesname}" th:value="${cdto.clothesname}"><img th:src="${cdto.clothespath}" alt="">
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               </span>
               <button id="lookModifyBtn" type="button" class="btn btn-primary">변경하기</button>
-              <div><span th:each="hdto : ${hairDTO}"><img th:src="${hdto.hairpath}" alt=""></span><br>
-                <span th:each="cdto : ${clothesDTO}"><img th:src="${cdto.clothespath}" alt=""></span></div>
+              <div><span th:each="hdto : ${hairDTO}"><img th:src="${hdto.hairpath}" alt="">
+                <input type="hidden" id="radiohair" th:value="${hdto.hairname}"></span><br>
+                <span th:each="cdto : ${clothesDTO}"><img th:src="${cdto.clothespath}" alt="">
+                    <input type="hidden" id="radioclothes" th:value="${cdto.clothesname}"></span>
+                </div>
             
     </form>
 
@@ -106,6 +109,11 @@
             var lookModifyBtn = document.querySelector("#lookModifyBtn");
             var artistRemoveBtn = document.querySelector("#artistRemoveBtn");
             var dyningRemoveBtn = document.querySelector("#dyningRemoveBtn");
+
+            var radiohair = $("#radiohair").val();
+            var radioclothes = $("#radioclothes").val();
+            $('input:radio[name=hairname]:input[value=' + radiohair + ']').attr("checked", true);
+            $('input:radio[name=clothesname]:input[value=' + radioclothes + ']').attr("checked", true);
 
             /*[+var urlmembermodify = [[@{/main/mypage/membermodify}]];+]*/
             /*[+var urllookmodify = [[@{/main/mypage/lookmodify}]];+]*/
