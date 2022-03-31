@@ -2,7 +2,7 @@
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
 <th:block th:replace="~{layout/dyninglayout :: setContent(~{::content})}">
     <th:block th:fragment="content">
-        <input type="" name="" id="detaillocation" th:value="${result.location}">
+        <input type="hidden" name="" id="detaillocation" th:value="${result.location}">
 
         <body>
             <h1>dyning details</h1>
