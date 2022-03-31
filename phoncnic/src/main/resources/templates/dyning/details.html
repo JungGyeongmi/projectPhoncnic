@@ -23,7 +23,7 @@
 
                 </tr>
                 <tr th:each="dto : ${result}">
-                    <td>[[${dto.dyningname}]]</td>
+                    <td><input type="text" name="" id="dyningname" th:value="${dto.dyningname}"></td>
                     <td>[[${dto.businesshours}]]</td>
                     <td >[[${dto.location}]],[[${dto.locationdetails}]]</td>
                     <td>[[${dto.comment}]]</td>
@@ -128,7 +128,7 @@
         </table>
 
         <form action="">
-            <input type="hidden" name="id" value="user1@icloud.com" readonly>
+            <input type="hidden" name="id" id="followerid" th:value="${id}" readonly>
             <input type="hidden" name="dno" th:value="${result.dno}">
         </form>
         <table border="1">
@@ -147,12 +147,58 @@
                 <!--/* <td th:each="dto : ${emojilist}"><button type="button" th:value="${dto.eno}" class="emojiRemoveBtn">삭제</button></td> */-->
             </tr>
         </table>
+        <button id="followBtn" type="button" th:value="${fno}">팔로우</button>
+
 
 
         </body>
         <script src="http://code.jquery.com/jquery-latest.min.js"></script>
         <script>
             $(document).ready(function (e) {
+                //팔로우 제어
+                var fno = $('#followBtn');
+                if(fno.val()!=""){
+                    fno.html('언팔로우');
+                }
+                 $('#followBtn').on("click",function(){
+                     
+                     var id = $("#followerid").val();
+                    var dyningname = $("#dyningname").val();
+                    console.log(fno.val());
+                    
+                    //언팔 상태
+                    if(fno.val()==""){
+                        var data = {followerid: id, dyningname:dyningname};
+                        var urladd = `[[@{/dyning/addfollow}]]`;
+                        console.log(data);
+                        $.ajax({
+                            url: urladd,
+                            type: "POST",
+                            data: JSON.stringify(data),
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "text",
+                            success: function (result) {
+                                self.location.reload();
+                            }
+                        });
+                    }else{
+                    var data = { id: id, dyningname: dyningname };
+                    var urlremove = `[[@{/main/mypage/dyningremove}]]`;
+
+                    $.ajax({
+                    url: urlremove + "/" + id + "/" + dyningname,
+                    type: "DELETE",
+                    data: JSON.stringify(data),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "text",
+                    success: function (result) {
+                        console.log("result: " + result);
+                        self.location.reload();
+                    }
+                })
+                    }
+                })
+
                 //이모지 제어
                 var eno = localStorage.getItem("eno");
 

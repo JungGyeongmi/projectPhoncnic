@@ -36,12 +36,23 @@ public class FollowServiceImpl implements FollowService {
     }
 
     @Override
-    public void addArtistFollow(String id, String name) {
-        
+    public Long addArtistFollow(FollowDTO followDTO) {
+        Follow follow = dtoToEntity(followDTO);
+        followRepository.save(follow);
+        return follow.getFno();
     }
 
     @Override
-    public void addDyningFollow(String id, String name) {
-        
+    public Long addDyningFollow(FollowDTO followDTO) {
+        Follow follow = dtoToEntity(followDTO);
+        followRepository.save(follow);
+        return follow.getFno();
     }
+
+    @Override
+    public Long getFno(String id, String dyningname) {
+        Long fno = followRepository.getFnoIfFollowed(id, dyningname);
+        return fno;
+    }
+
 }

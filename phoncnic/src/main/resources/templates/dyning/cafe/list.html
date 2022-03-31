@@ -131,7 +131,7 @@
                 <th scope="col">Roof Path</th>
             </tr>
             <tr th:each="dto : ${result}" th:onclick="'location.href=
-                \''+ @{/dyning/details(dno=${dto.dno})}
+                \''+ @{/dyning/details(dno=${dto.dno},id=${id})}
                 + '\''" th:if="${dto.foodtype}==1">
                 <!-- <td >[[${dto.dno}]]</td> -->
                 <td id="dyningname">[[${dto.dyningname}]]</td>
