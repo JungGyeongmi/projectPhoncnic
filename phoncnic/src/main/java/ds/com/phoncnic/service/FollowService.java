@@ -12,6 +12,10 @@ public interface FollowService {
 
     void removeDyningFollow(String id, String name);
 
+    void addArtistFollow(String id, String name);
+
+    void addDyningFollow(String id, String name);
+
     default FollowDTO entityToDTO(List<Object> artistList, List<Object> dyningList) {
         FollowDTO followDTO = FollowDTO.builder()
 
