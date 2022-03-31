@@ -11,7 +11,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import ds.com.phoncnic.security.filter.ApiCheckFilter;
 import ds.com.phoncnic.security.filter.ApiLoginFilter;
 import ds.com.phoncnic.security.handler.ApiLoginFailHandler;
 import ds.com.phoncnic.security.handler.CustomAccessDeniedHandler;
