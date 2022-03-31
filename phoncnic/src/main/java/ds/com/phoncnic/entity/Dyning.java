@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import ds.com.phoncnic.dto.DyningImageDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -52,4 +53,16 @@ public class Dyning extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private RoofDesign roofdesign;
 
+    public void modifyDyning(String dyningname, String comment, String location,Long foodtype,
+    String businesshours,String tel,String hashtag,RoofDesign roofdesign) {
+        this.dyningname = dyningname;
+        this.comment = comment;
+        this.location = location;
+        this.foodtype = foodtype;
+        this.businesshours = businesshours;
+        this.tel = tel;
+        // this.image = image;
+        this.hashtag = hashtag;
+        this.roofdesign = roofdesign;
+    }
 }

@@ -27,9 +27,13 @@ public class DyningImage {
     private Long dino;
     
     private String menuimagename;
+    private String menuimageuuid;
     private String menuimagepath;
+    
     private String backgroundname;
+    private String backgrounduuid;
     private String backgroundpath;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "dyning_dno")

@@ -16,7 +16,10 @@ import ds.com.phoncnic.entity.RoofDesign;
 
 public interface DyningService {
 
+    List<RoofDesign> roofimageList();
     Long register(DyningDTO dyningDTO);
+    void removeWithImages(Long dno);
+    void modify(DyningDTO dyningDTO);
 
     default Map<String, Object> dtoToEntity(DyningDTO dto) {
         Map<String, Object> entityMap = new HashMap<>();
@@ -46,8 +49,10 @@ public interface DyningService {
             List<DyningImage> dyningImageList = dyningImageDTOList.stream().map(DyningImageDTO -> {
                 DyningImage dyningImage = DyningImage.builder()
                         .menuimagename(DyningImageDTO.getMenuimagename())
+                        .menuimageuuid(DyningImageDTO.getMenuimageuuid())
                         .menuimagepath(DyningImageDTO.getMenuimagepath())
                         .backgroundname(DyningImageDTO.getBackgroundname())
+                        .backgrounduuid(DyningImageDTO.getBackgrounduuid())
                         .backgroundpath(DyningImageDTO.getBackgroundpath())
                         .dyning(dyning)
                         .build();
@@ -74,6 +79,8 @@ public interface DyningService {
                 .oono(dyning.getRoofdesign().getOono())
                 .foodtype(dyning.getFoodtype())
                 .emojicwt(emojiCwt)
+                .roofpath(dyning.getRoofdesign().getRoofpath())
+                .roofthumbnail(dyning.getRoofdesign().getRoofthumbnail())
                 .regdate(dyning.getRegDate())
                 .moddate(dyning.getModDate())
                 .build();
@@ -81,8 +88,10 @@ public interface DyningService {
         List<DyningImageDTO> dyningImageDTOList = dyningImages.stream().map(dyningImage -> {
             return DyningImageDTO.builder()
                     .backgroundname(dyningImage.getBackgroundname())
+                    .backgrounduuid(dyningImage.getBackgrounduuid())
                     .backgroundpath(dyningImage.getBackgroundpath())
                     .menuimagename(dyningImage.getMenuimagename())
+                    .menuimageuuid(dyningImage.getMenuimageuuid())
                     .menuimagepath(dyningImage.getMenuimagepath())
                     .dno(dyning.getDno())
                     .id(dyning.getCeoid().getId())
@@ -95,6 +104,7 @@ public interface DyningService {
     }
 
     List<DyningDTO> getStreet();
+    List<DyningDTO> getMyDyningList(String id);
 
     // DyningDTO getRoof();
     default DyningDTO roofEntityToDTO(Dyning dyning) {
@@ -102,6 +112,8 @@ public interface DyningService {
                 .dno(dyning.getDno())
                 .dyningname(dyning.getDyningname())
                 .roofpath(dyning.getRoofdesign().getRoofpath())
+                .roofthumbnail(dyning.getRoofdesign().getRoofthumbnail())
+                .id(dyning.getCeoid().getId())
                 .foodtype(dyning.getFoodtype())
                 .build();
 
@@ -130,4 +142,25 @@ public interface DyningService {
                 .build();
         return dto;
     }
+
+    default List<DyningImage> imagesDTOToEntity(DyningDTO dyningDTO){
+        List<DyningImageDTO> dyningImageDTOList = dyningDTO.getDyningImageDTOList();
+
+            List<DyningImage> dyningImageList = dyningImageDTOList.stream().map(DyningImageDTO -> {
+                DyningImage dyningImage = DyningImage.builder()
+                        .menuimagename(DyningImageDTO.getMenuimagename())
+                        .menuimageuuid(DyningImageDTO.getMenuimageuuid())
+                        .menuimagepath(DyningImageDTO.getMenuimagepath())
+                        .backgroundname(DyningImageDTO.getBackgroundname())
+                        .backgrounduuid(DyningImageDTO.getBackgrounduuid())
+                        .backgroundpath(DyningImageDTO.getBackgroundpath())
+                        .dyning(Dyning.builder().dno(dyningDTO.getDno()).build())
+                        .build();
+
+                return dyningImage;
+            }).collect(Collectors.toList());
+
+        return dyningImageList;
+    }
+
 }
