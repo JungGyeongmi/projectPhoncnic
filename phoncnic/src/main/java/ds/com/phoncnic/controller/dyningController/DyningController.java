@@ -45,7 +45,7 @@ public class DyningController {
         model.addAttribute("emojitype3",emojiService.getEmojitypeCwt(dno, "3"));
         model.addAttribute("emojitype4",emojiService.getEmojitypeCwt(dno, "4"));
         model.addAttribute("emojitype5",emojiService.getEmojitypeCwt(dno, "5"));
-
+        model.addAttribute("followercwt", dyningService.getDyningDetails(dno).getFollowercwt());
         }else return;
         
     }

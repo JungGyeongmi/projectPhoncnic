@@ -19,16 +19,17 @@
                     <th scope="col">menu</th>
                     <th scope="col">background</th>
                     <th scope="col">emojicwt</th>
-
-
+                    <th scope="col">followercwt</th>
                 </tr>
                 <tr th:each="dto : ${result}">
                     <td>[[${dto.dyningname}]]</td>
                     <td>[[${dto.businesshours}]]</td>
-                    <td >[[${dto.location}]],[[${dto.locationdetails}]]</td>
+                    <td>[[${dto.location}]],[[${dto.locationdetails}]]</td>
                     <td>[[${dto.comment}]]</td>
                     <td>[[${dto.hashtag}]]</td>
                     <td>[[${dto.tel}]]</td>
+                    
+                    
 
                     <td>
                         <th:block th:each="idto : ${imageresult}">
@@ -44,9 +45,11 @@
                         </th:block>
                     </td>
                     <td>[[${dto.emojicwt}]]</td>
-
+                    <td>[[${dto.followercwt}]]</td>
                 </tr>
             </table>
+
+            
 
             <!-- 지도 API 버튼 -->
             <button type="button" id="btnlocation">지도 Api</button>

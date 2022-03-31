@@ -66,7 +66,7 @@ public interface DyningService {
         return entityMap;
     }
 
-    default DyningDTO entityToDTO(Dyning dyning, Long emojiCwt, List<DyningImage> dyningImages) {
+    default DyningDTO entityToDTO(Dyning dyning, Long emojiCwt, List<DyningImage> dyningImages, Long followerCwt) {
         DyningDTO dyningDTO = DyningDTO.builder()
                 .dno(dyning.getDno())
                 .dyningname(dyning.getDyningname())
@@ -77,12 +77,10 @@ public interface DyningService {
                 .tel(dyning.getTel())
                 .hashtag(dyning.getHashtag())
                 .tel(dyning.getTel())
-                .id(dyning.getCeoid().getId())
-                .oono(dyning.getRoofdesign().getOono())
+                .id(dyning.getCeoid().getId())                
                 .foodtype(dyning.getFoodtype())
                 .emojicwt(emojiCwt)
-                .roofpath(dyning.getRoofdesign().getRoofpath())
-                .roofthumbnail(dyning.getRoofdesign().getRoofthumbnail())
+                .followercwt(followerCwt)
                 .regdate(dyning.getRegDate())
                 .moddate(dyning.getModDate())
                 .build();

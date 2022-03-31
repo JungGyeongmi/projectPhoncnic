@@ -1,6 +1,7 @@
 package ds.com.phoncnic.repository;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -17,11 +18,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Commit;
 
+import ds.com.phoncnic.dto.DyningDTO;
 import ds.com.phoncnic.entity.Dyning;
 import ds.com.phoncnic.entity.DyningImage;
 import ds.com.phoncnic.entity.Emoji;
 import ds.com.phoncnic.entity.Member;
 import ds.com.phoncnic.entity.RoofDesign;
+import ds.com.phoncnic.service.dyning.DyningService;
 
 @SpringBootTest
 public class DyningRepositoryTests {
@@ -40,6 +43,9 @@ public class DyningRepositoryTests {
 
     @Autowired
     EmojiInfoRepository emojiInfoRepository;
+
+    @Autowired
+    DyningService dyningService;
 
     @Transactional
     @Commit
@@ -153,7 +159,29 @@ public class DyningRepositoryTests {
         Page<Object[]> result = dyningRepository.searchPage("n", "1", pageable);
     }
 
+    @Test
+    public void testFollowereCount() {
+        Long followerCwt = dyningRepository.getDyningFollowerCount(1L);
+        System.out.println(followerCwt);
+    }
 
+    @Test
+    public void testt() {
+        List<Object[]> result = dyningRepository.getDyningDetails(1L);
+        // System.out.println(result);
+        // result.stream().forEach( i -> {
+        //     System.out.println(Arrays.toString(i));
+        // });
+        System.out.println(Arrays.toString(result.get(1)));
+    }
+
+    @Transaction
+    @Test
+    public void testttt() {
+        DyningDTO result = dyningService.getDyningDetails(1L);
+        System.out.println(result);
+        System.out.println();
+    }
 
 
 
