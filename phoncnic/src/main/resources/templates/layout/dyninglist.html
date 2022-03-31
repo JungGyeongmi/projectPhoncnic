@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<th:block th:fragment="setContent(content, search)">
+<th:block th:fragment="setContent(content, search, navbar)">
 
     <head>
         <meta charset="utf-8" />
@@ -11,17 +11,20 @@
         <!-- Favicon-->
         <link rel="icon" type="image/x-icon" th:href="@{/assets/favicon.ico}" />
         <!-- Core theme CSS (includes Bootstrap)-->
-        <link th:href="@{/css/styles.css}" rel="stylesheet" />
-
+        <link th:href="@{/css/dyningliststyles.css}" rel="stylesheet" />
+        <!-- jQuery cdn -->
+        <script src="http://code.jquery.com/jquery-latest.min.js"></script>
     </head>
 
     <body>
         <div class="d-flex" id="wrapper">
             <!-- Sidebar-->
             <th:block th:replace="${search}">
-                
             </th:block>
-            
+
+            <div id="page-content-wrapper">
+                <!-- Top navigation-->
+                    <th:block th:replace="${navbar}"></th:block>
                 <!-- Page content-->
                 <div class="container-fluid">
                     <th:block th:replace="${content}"></th:block>

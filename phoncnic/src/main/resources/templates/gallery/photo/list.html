@@ -105,6 +105,7 @@
 				var keyword = $("input[name=keyword]");
 
 				searchBtn.on("click", function (e) {
+					console.log(searchForm.serialize());
 					getSearchList();
 				});
 

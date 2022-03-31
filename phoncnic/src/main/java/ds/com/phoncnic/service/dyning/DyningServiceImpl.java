@@ -143,11 +143,13 @@ public class DyningServiceImpl implements DyningService {
 
   @Override
   public PageResultDTO<DyningDTO, Object[]> getDyningPage(SearchDyningPageRequestDTO searchPageRequestDTO) {
-    log.info(searchPageRequestDTO);
+    log.info("searchRequestDTO ..."+searchPageRequestDTO);
+
+
     Function<Object[], DyningDTO> fn = new Function<Object[], DyningDTO>() {
       @Override
       public DyningDTO apply(Object[] en) {
-        return entitiesToDTO((Dyning) en[0], (Long) en[1]);
+        return entitiesToDTO((Dyning) en[0]);
       }
     };
 
@@ -155,6 +157,7 @@ public class DyningServiceImpl implements DyningService {
         searchPageRequestDTO.getType(),
         searchPageRequestDTO.getKeyword(),
         searchPageRequestDTO.getPageable(Sort.by("dno").descending()));
+
     return new PageResultDTO<>(result, fn);
   }
 

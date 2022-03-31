@@ -1,16 +1,105 @@
 <!DOCTYPE html>
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
+<th:block th:replace="~{layout/dyninglist :: setContent(~{::content}, ~{::search}, ~{::navbar})}">
 
-<th:block th:replace="~{layout/dyninglayout :: setContent(~{::content})}">
-    <th:block th:fragment="content">
+<!-- navbar + 토글 버튼 -->
+<th:block th:fragment="navbar">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+    <div class="container-fluid">
+        <button class="btn btn-primary" id="sidebarToggle" style="background-color: #DBE9B7;">검색</button>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+    </nav>
+</th:block>
+
+<!-- search toggle -->
+<th:block th:fragment="search">
+    <style>
+        .search-result-Item {cursor: pointer;}
+    </style>
+    <div class="border-end bg-white" id="sidebar-wrapper">
+        <div class="sidebar-heading border-bottom bg-light">
+            <form class="d-flex search-form" th:action="@{/restaurant/toggle}" method="get">
+                <select class="form-select-sm" name="type">
+                    <option value="n" >가게명</option>
+                    <option value="h" >해쉬태그</option>
+                </select>
+                <input class="form-control me-2" name="keyword" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" id="btnsearch" type="button">Search</button>
+            </form>
+        </div>
+        <div class="list-group list-group-flush">
+            <ul class="md-serach-result">
+            </ul>
+        </div>
+    </div>
+
+
+    <script th:inline="javascript">
+        $(document).ready(function () {
+            /*[+
+                var searchUrl = [[@{/dyning/restaurant/toggle}]];
+            +]*/
+    
+            var btnsearch = $('#btnsearch');
+            var searchForm = $('.search-form');
+            var searchResult = $(".md-serach-result");
+    
+            btnsearch.on("click", function(e) {
+                console.log(searchForm.serialize());
+                getSearchList();
+            })
+    
+            function getSearchList() {
+                $.ajax({
+                    type: "GET",
+                    url: searchUrl,
+                    data: searchForm.serialize(),
+                    success: function (response) {
+                        console.log("get search success");
+                        var str = "";
+                        $.each(response.dtoList, function (idx, dto) {
+                            str += `<li class="search-result-Item " data-search-dno="${dto.dno} " value="${dto.dno}">
+                                        <div>
+                                            <p>
+                                                ${dto.dyningname}
+                                            </p>												
+                                            ${dto.hashtag}
+                                        </div>
+                                    </li>`;
+                        })
+                        searchResult.html(str);
+                    },
+                    error: function (response) {
+                        console.log(response);
+                    }
+                });
+            }
+
+            // 모달 창 내 search result 클릭 시 이동 제어
+				$(document).on("click", ".search-result-Item", function (e) {
+                    console.log("click");
+					console.log($(this).attr("value"));
+                    
+                    var val = $(this).attr("value");
+
+
+                    location.href="/phoncnic/dyning/details?dno="+val;
+				});
+        })
+    </script>
+</th:block>
+
+<!-- 내용부분(restaurant 거리) -->
+<th:block th:fragment="content">
         <style>
-            #dyningname {
-                cursor: pointer;
-            }
-
-            #roofdesign {
-                cursor: pointer;
-            }
+            #dyningname{cursor: pointer;}
+            #roofpath{cursor: pointer;}
+            #roofdesign{cursor: pointer;}
         </style>
 
         <h1>cafe</h1>

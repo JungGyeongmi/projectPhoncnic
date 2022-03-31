@@ -11,7 +11,6 @@ import org.springframework.data.jpa.repository.Query;
 
 import ds.com.phoncnic.entity.Dyning;
 import ds.com.phoncnic.entity.DyningImage;
-import ds.com.phoncnic.entity.Gallery;
 import ds.com.phoncnic.repository.search.SearchDyningRepository;
 
 public interface DyningRepository extends JpaRepository<Dyning, Long>, SearchDyningRepository {
@@ -39,6 +38,23 @@ public interface DyningRepository extends JpaRepository<Dyning, Long>, SearchDyn
     @Modifying
     @Query("delete from Dyning d where d.dno=:dno")
     void deleteByDno(Long dno);
+
+    // 페이징 처리
+    @Query("select d from Dyning d where foodtype != 1 ")
+    Page<Dyning> getRestayrantPage(Pageable pageable);
+
+    // 페이징 처리
+    @Query("select d from Dyning d where foodtype = 1 ")
+    Page<Dyning> getCafePage(Pageable pageable);
+
+
+    // @Query("")
+
+    // 특정 가게 상세페이지(dyning-Details)
+    // @Query("select d, di from Dyning d " +
+    // "LEFT OUTER JOIN DyningImage di ON d = di.dyning where d.dno =:dno group by
+    // d")
+    // List<Object[]> getDetailsPage(Long dno);
 
 
 }
