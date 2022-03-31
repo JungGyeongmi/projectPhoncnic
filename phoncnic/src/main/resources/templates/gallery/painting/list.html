@@ -45,7 +45,7 @@
 					background-position: center;
 					background-size: cover;
 					width: 300px;
-					height: 450px;
+					height: 350px;
 				}
 
 				.swiper-slide img {
@@ -116,6 +116,9 @@
 						alt="이미지를 불러올 수 없습니다" />
 					[[${dto.title}]]
 				</div>
+				<div style="border: solid 1px black;">
+					여기가 마지막 입니다.
+				</div>
 			</div>
 			<div class="swiper-pagination"></div>
 			<div class="swiper-button-prev"></div>
@@ -132,7 +135,7 @@
 				effect: "coverflow",
 				grabCursor: false,
 				centeredSlides: true,
-				slidesPerView: "3",
+				slidesPerView: "2",
 				coverflowEffect: {
 					rotate: 0,
 					stretch: -0,
@@ -140,17 +143,15 @@
 					modifier: 1,
 					slideShadows: true,
 				},
-				loop: true,
 				mousewheel: true,
-				pagination: {
-					el: ".swiper-pagination",
-					clickable: true,
-				},
+				// pagination: {
+				// 	el: ".swiper-pagination",
+				// 	clickable: true,
+				// },
 				navigation: {
 					nextEl: ".swiper-button-next",
 					prevEl: ".swiper-button-prev",
-				},
-
+				}
 			});
 		</script>
 

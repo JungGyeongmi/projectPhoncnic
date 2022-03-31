@@ -28,9 +28,7 @@
                 <input type="file" class="custom-file-input files form-control" id="fileInput" multiple>
                 <label data-browse="Browse"></label>
             </div>
-            </div>
-            <div class="box">
-            </div>
+            <div class="box"></div>
         </form>
         <!-- upload된 이미지 파일을 보여주기 위한 list style 설정 -->
         <style>
@@ -66,10 +64,7 @@
 
             </ul>
         </div>
-
-
         <button id="register">등록</button>
-        </form>
         <a th:href="@{/main/mypage(id='user1@icloud.com')}"><input type="button" value="돌아가기(마이페이지)"></a>
         <a th:href="@{/manage/gallery/list(id='user1@icloud.com')}"><input type="button" value="돌아가기(리스트)"></a>
 
@@ -164,17 +159,14 @@
                             <input type='hidden' name='imagepath' value='${target.data('path')}'>
                             <input type='hidden' name='uuid' value='${target.data('uuid')}'>`;
                     });
-
                     $(".box").html(str2);
                 }
-
             });
 
             // submit 버튼
             $("#register").on("click", function (e) {
                 e.preventDefault();
-
-
+                // console.log($("form").serialize());
                 $("form").submit();
             });
 
