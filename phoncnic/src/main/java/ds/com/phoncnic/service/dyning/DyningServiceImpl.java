@@ -14,13 +14,10 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
 import ds.com.phoncnic.dto.DyningDTO;
-import ds.com.phoncnic.dto.RoofDesignDTO;
-import ds.com.phoncnic.dto.pageDTO.PageRequestDTO;
 import ds.com.phoncnic.dto.pageDTO.PageResultDTO;
 import ds.com.phoncnic.dto.pageDTO.SearchDyningPageRequestDTO;
 import ds.com.phoncnic.entity.Dyning;
 import ds.com.phoncnic.entity.DyningImage;
-import ds.com.phoncnic.entity.QDyning;
 import ds.com.phoncnic.entity.RoofDesign;
 import ds.com.phoncnic.repository.DyningImageRepository;
 import ds.com.phoncnic.repository.DyningRepository;

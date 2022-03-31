@@ -49,11 +49,22 @@
                 var btnsearch = $('#btnsearch');
                 var searchForm = $('.search-form');
                 var searchResult = $(".md-serach-result");
+                var keyword = $("input[name=keyword]");
         
+                // 검색버튼 클릭시 search
                 btnsearch.on("click", function(e) {
                     console.log(searchForm.serialize());
                     getSearchList();
                 })
+
+                // 엔터 입력시 search
+                keyword.on("keydown", function (e) {
+					var keycode = e.keyCode;
+					if (keycode == "13") {
+                        e.preventDefault();
+						getSearchList();
+					}
+				});
         
                 function getSearchList() {
                     $.ajax({
@@ -80,16 +91,15 @@
                         }
                     });
                 }
-                // 모달 창 내 search result 클릭 시 이동 제어
+                
+                // 토글 창 내 search result 클릭 시 이동 제어
 				$(document).on("click", ".search-result-Item", function (e) {
                     console.log("click");
-					console.log($(this).attr("value"));
-                    
                     var val = $(this).attr("value");
-
-
                     location.href="/phoncnic/dyning/details?dno="+val;
 				});
+
+                
 
             });
         </script>

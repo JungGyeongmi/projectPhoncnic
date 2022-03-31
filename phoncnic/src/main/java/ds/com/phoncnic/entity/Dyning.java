@@ -11,7 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import ds.com.phoncnic.dto.DyningImageDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
