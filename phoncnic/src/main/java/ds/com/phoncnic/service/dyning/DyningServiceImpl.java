@@ -132,8 +132,9 @@ public class DyningServiceImpl implements DyningService {
     List<Object[]> result = dyningRepository.getDyningDetails(dno);
     Dyning dyninglist = (Dyning) result.get(0)[0];
     Long emojiCwt = (Long) result.get(0)[1];
+    Long followerCwt = dyningRepository.getDyningFollowerCount(dno);
     List<DyningImage> dyningImageList = dyningRepository.getImageDetailsPage(dno);
-    return entityToDTO(dyninglist, emojiCwt, dyningImageList);
+    return entityToDTO(dyninglist, emojiCwt, dyningImageList, followerCwt);
   }
 
 

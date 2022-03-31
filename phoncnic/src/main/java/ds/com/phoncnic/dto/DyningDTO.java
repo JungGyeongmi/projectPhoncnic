@@ -29,7 +29,7 @@ public class DyningDTO {
 
     private String id;
     private Long emojicwt;
-
+    private Long followercwt;
 
     private Long oono;
     private String roofpath;

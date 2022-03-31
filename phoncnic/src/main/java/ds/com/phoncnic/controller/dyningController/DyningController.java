@@ -59,7 +59,7 @@ public class DyningController {
         // model.addAttribute("follow",followService.)
 
         }else return;
-        
+
     }
 
 }
