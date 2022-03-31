@@ -1,26 +1,62 @@
 <!DOCTYPE html>
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
-<th:block th:replace="~{layout/test :: setContent(~{::content}, ~{::search})}">
+<th:block th:replace="~{layout/test :: setContent(~{::content}, ~{::search}, ~{::navbar})}">
 
-    <th:block th:fragment="content">
-        <style>
-            #dyningname{cursor: pointer;}
-            #roofpath{cursor: pointer;}
-            #roofdesign{cursor: pointer;}
-        </style>
-        <h1>restaurant</h1>
-        <table border="1">
-            <tr>
-                <th scope="col">dyningname</th>
-                <th scope="col">Roof Path</th>
-            </tr>
-            <tr th:each="dto : ${result}" th:onclick="'location.href=
-                \''+ @{/dyning/details(dno=${dto.dno})}
-                + '\''" th:if="${dto.foodtype}!=1">
-                <td id="dyningname">[[${dto.dyningname}]]</td>
-                <td id="roofpath">[[${dto.roofpath}]]</td>
-            </tr>
-        </table>
+    <script th:inline="javascript">
+        $(document).ready(function () {
+            /*[+
+                var searchUrl = [[@{/restaurant/toggle}]];
+            +]*/
+    
+            var btnsearch = $('#btnsearch');
+            var searchForm = $('.search-form');
+            var searchResult = $(".md-serach-result");
+    
+            btnsearch.on("click", function(e) {
+                console.log(searchForm.serialize());
+                getSearchList();
+            })
+    
+            function getSearchList() {
+                $.ajax({
+                    type: "GET",
+                    url: searchUrl,
+                    data: searchForm.serialize(),
+                    success: function (response) {
+                        console.log("get search success");
+                        var str = "";
+                        $.each(response.dtoList, function (idx, dto) {
+                            str += `<li class="search-result-Item " data-search-dno="${dto.dno}">
+                                        <div>
+                                            <p>
+                                                ${dto.dyningname}
+                                            </p>												
+                                            ${dto.hashtag}
+                                        </div>
+                                    </li>`;
+                        })
+                        searchResult.html(str);
+                    },
+                    error: function (response) {
+                        console.log(response);
+                    }
+                });
+            }
+        })
+    </script>
+
+    <!-- navbar + 토글 버튼 -->
+    <th:block th:fragment="navbar">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+        <div class="container-fluid">
+            <button class="btn btn-primary" id="sidebarToggle" style="background-color: #DBE9B7;">검색</button>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+        </nav>
     </th:block>
 
     <!-- search toggle -->
@@ -101,4 +137,26 @@
             })
         </script>
     </th:block>
+
+    <!-- 내용부분(restaurant 거리) -->
+    <th:block th:fragment="content">
+        <style>
+            #dyningname{cursor: pointer;}
+            #roofpath{cursor: pointer;}
+            #roofdesign{cursor: pointer;}
+        </style>
+        <h1>restaurant</h1>
+        <table border="1">
+            <tr>
+                <th scope="col">dyningname</th>
+                <th scope="col">Roof Path</th>
+            </tr>
+            <tr th:each="dto : ${result}" th:onclick="'location.href=
+                \''+ @{/dyning/details(dno=${dto.dno})}
+                + '\''" th:if="${dto.foodtype}!=1">
+                <td id="dyningname">[[${dto.dyningname}]]</td>
+                <td id="roofpath">[[${dto.roofpath}]]</td>
+            </tr>
+        </table>
+    </th:block>    
 </th:block>
