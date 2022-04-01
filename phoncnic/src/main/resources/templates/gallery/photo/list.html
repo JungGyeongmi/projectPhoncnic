@@ -139,6 +139,8 @@
 
       <img id="curatorBtn" data-bs-toggle="modal" data-bs-target="#curatorModal" th:src="@{/icon/gurator.png}">
 
+
+
       <!-- Swiper JS -->
       <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 
@@ -187,9 +189,10 @@
                $.getJSON(readUrl + "/" + targetGno, function (dto) {
                   // console.log("getList..........dto " + JSON.stringify(dto));
                   var str = "";
+                  // <input type="hidden" name = "id" value="user1@icloud.com" class="inputId" data-id="${dto.id}">
                   str = `
 							<input type="hidden" name = "gno" value="${targetGno}" class="inputGno" data-gno="${targetGno}">
-							<input type="hidden" name = "id" value="user1@icloud.com" class="inputId" data-id="${dto.id}">
+							
 
 							<img style='width:100%' src="${urlDisplay}?fileName=${targetFile}">
 
@@ -200,7 +203,7 @@
                   detailsModalbody.html(str);
 
                   str = `<div id="emojiBox">
-                        <input type="text" name="id" value="${dto.id}">
+                     <input type="text" name = "id" value="user1@icloud.com" class="inputId" data-id="${dto.id}">
                         <br/>
                         <input type="radio" id="1" value="${dto.emojicount[0][0]}" name="emojitype" class="emoji">
                         <label for="1" class="emojibtn">
