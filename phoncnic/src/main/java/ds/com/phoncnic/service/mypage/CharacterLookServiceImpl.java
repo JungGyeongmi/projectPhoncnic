@@ -46,7 +46,7 @@ public class CharacterLookServiceImpl implements CharacterLookService {
 
         if (result.isPresent()) {
             CharacterLook characterLook = result.get();
-            
+
             characterLook.changeHairname(dto.getHairname());
             characterLook.changeClothesname(dto.getClothesname());
 

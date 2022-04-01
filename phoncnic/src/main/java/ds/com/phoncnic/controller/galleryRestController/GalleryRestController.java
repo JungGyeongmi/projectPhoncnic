@@ -1,10 +1,8 @@
 package ds.com.phoncnic.controller.galleryRestController;
 
-import java.io.IOException;
+
 import java.util.Arrays;
 import java.util.List;
-
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -64,6 +62,15 @@ public class GalleryRestController {
         List<EmojiDTO> emojiDTO = emojiService.getEmojiByGno("g", gno);
         log.info("emojiDTO : " + emojiDTO);
         return new ResponseEntity<>(emojiDTO, HttpStatus.OK);
+    }
+    
+    //Gallery List
+    @GetMapping("/read/{gno}")
+    public ResponseEntity<GalleryDTO>getList(@PathVariable("gno") Long gno) {
+         log.info("getgalleryList........gno" + gno);
+         GalleryDTO galleryDTO = galleryService.getGallery(gno);
+         log.info("galleryDTO : " + galleryDTO);
+         return new ResponseEntity<>(galleryDTO, HttpStatus.OK);
     }
 
     // Emoji Register

@@ -135,6 +135,7 @@
                     alert("수정되었습니다")
                 }
             }
+
             document.querySelector("#lookModifyBtn").onclick = function () {
 
                 if (!confirm("캐릭터의 옷을 변경하시겠습니까?")) {
@@ -147,6 +148,7 @@
 
                 }
             }
+
             document.querySelector("#memberOutBtn").onclick = function () {
 
                 if (!confirm("정말 탈퇴하시겠습니까?(이 동작은 되돌릴 수 없습니다)")) {
@@ -159,11 +161,13 @@
 
                 }
             }
+
             $("#hairchoice").on("change", function () {
                 var selectedpath = $("#hairchoice option:selected").next().val();
                 $("#selectedhair").val(selectedpath);
 
             });
+
             $(".artistRemoveBtn").click(function () {
                 var id = $(this).val();
                 var artistname = $(this).prev().val();

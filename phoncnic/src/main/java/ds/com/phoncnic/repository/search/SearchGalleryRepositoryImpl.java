@@ -23,6 +23,7 @@ import ds.com.phoncnic.entity.QGallery;
 import ds.com.phoncnic.entity.QMember;
 import lombok.extern.log4j.Log4j2;
 
+
 @Log4j2
 public class SearchGalleryRepositoryImpl  extends QuerydslRepositorySupport implements SearchGalleryRepository {
 
@@ -32,7 +33,7 @@ public class SearchGalleryRepositoryImpl  extends QuerydslRepositorySupport impl
     다양한 update,delete를 하는 query들을 만들어주는 것이 불가능
     그래서 QuerydslRepositorySupport을 사용
   */
-
+  
   public SearchGalleryRepositoryImpl() {
     super(Gallery.class);
   }

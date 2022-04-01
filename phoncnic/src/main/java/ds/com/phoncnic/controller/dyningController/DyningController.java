@@ -43,7 +43,7 @@ public class DyningController {
     public void details(@RequestParam("dno") Long dno,String id, Model model) {
         
         log.info("Details.................");
-        
+
         if(dno != 0) {
 
             DyningDTO dto = dyningService.getDyningDetails(dno);

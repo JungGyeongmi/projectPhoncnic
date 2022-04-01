@@ -43,6 +43,9 @@ public class GalleryRepositoryTests {
 
     @Autowired
     EmojiRepository emojiRepository;
+    
+    @Autowired
+    EmojiService emojiService;
 
     @Autowired
     EmojiService emojiService;
@@ -120,12 +123,13 @@ public class GalleryRepositoryTests {
         System.out.println(resultHash.get("5"));
     }
 
+
     @Test
     public void modifyTest() {
         List<EmojiInfo> emojiInfoList = emojiInfoService.getEmojiInfoList();
         Gallery gallery = galleryRepository.findById(2L).get();
-        GalleryDTO dto = galleryService.entityToDTO(gallery, emojiService.getEmojiCountArrayByGno(gallery.getGno()),
-                emojiInfoList);
+
+        GalleryDTO dto = galleryService.entityToDTO(gallery, emojiService.getEmojiCountArrayByGno(gallery.getGno()), emojiInfoList);
         dto.setContent("content1004");
         dto.setTitle("title1004");
         System.out.println(dto.toString());

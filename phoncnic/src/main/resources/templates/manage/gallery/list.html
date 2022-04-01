@@ -2,15 +2,14 @@
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
 <th:block th:replace="~{layout/basic :: setContent(~{::content})}">
   <th:block th:fragment="content">
-
     <style>
       .container {
         display: grid;
         grid-template-rows: 0.3fr 1fr 0.05fr;
-        
+
         row-gap: 3%;
       }
-      
+
       .gallery-list-ul {
         display: grid;
         grid-template-rows: repeat(auto-fit, minmax(100px, auto));

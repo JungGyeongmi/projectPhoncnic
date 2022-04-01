@@ -116,7 +116,7 @@
           }).open();
         });
       }
-      
+
       $(document).ready(function (e) {
         $("#roofChoice").on("click", function (e) {
           $("#roofModal").show();
@@ -305,87 +305,87 @@
           uploadUL.append(str); // ul에 전달쓰
         }
 
-      // submit 버튼
-      $(".btn-submit").on("click", function (e) {
-        e.preventDefault(); // 기본 이벤트 submit을 막음
-        // 빈 문자열
-        var str = "";
-        var str2 = "";
-        $(".menuuploadResult li").each(function (i, obj) {
-          // each로 i idx값과 obj value값을 받아옴
-          var target = $(obj);
-          str += `<input type='hidden' name='dyningImageDTOList[${i}].menuimagename' value='${target.data('name')}'>`;
-          str += `<input type='hidden' name='dyningImageDTOList[${i}].menuimageuuid' value='${target.data('uuid')}'>`;
-          str += `<input type='hidden' name='dyningImageDTOList[${i}].menuimagepath' value='${target.data('path')}'>`;
+        // submit 버튼
+        $(".btn-submit").on("click", function (e) {
+          e.preventDefault(); // 기본 이벤트 submit을 막음
+          // 빈 문자열
+          var str = "";
+          var str2 = "";
+          $(".menuuploadResult li").each(function (i, obj) {
+            // each로 i idx값과 obj value값을 받아옴
+            var target = $(obj);
+            str += `<input type='hidden' name='dyningImageDTOList[${i}].menuimagename' value='${target.data('name')}'>`;
+            str += `<input type='hidden' name='dyningImageDTOList[${i}].menuimageuuid' value='${target.data('uuid')}'>`;
+            str += `<input type='hidden' name='dyningImageDTOList[${i}].menuimagepath' value='${target.data('path')}'>`;
+          });
+
+
+          $(".backgroundshowResult li").each(function (i, obj) {
+            // each로 i idx값과 obj value값을 받아옴
+            var target = $(obj);
+            var ii = $(".menuuploadResult li").children().length + i;
+            str2 += `<input type='hidden' name='dyningImageDTOList[${i}].backgroundname' value='${target.data('name')}'>`;
+            str2 += `<input type='hidden' name='dyningImageDTOList[${i}].backgrounduuid' value='${target.data('uuid')}'>`;
+            str2 += `<input type='hidden' name='dyningImageDTOList[${i}].backgroundpath' value='${target.data('path')}'>`;
+          });
+
+          $(".menubox").html(str); // 데이터 전달을 위해서
+          $(".backgroundbox").html(str2); // 데이터 전달을 위해서
+
+          $("form").submit(); // 전송쓰
+
+          //  var form = $("#form").html();
+          //  console.log(form);
         });
 
+        // 사진 삭제
+        // uploadResult 태그를 click 하는 경우에 li의 button에 이벤트를 적용하겠다라는 의미임
+        $(".menuuploadResult ").on("click", "li button", function (e) {
+          console.log("delete file...");
 
-        $(".backgroundshowResult li").each(function (i, obj) {
-          // each로 i idx값과 obj value값을 받아옴
-          var target = $(obj);
-          var ii = $(".menuuploadResult li").children().length + i;
-          str2 += `<input type='hidden' name='dyningImageDTOList[${i}].backgroundname' value='${target.data('name')}'>`;
-          str2 += `<input type='hidden' name='dyningImageDTOList[${i}].backgrounduuid' value='${target.data('uuid')}'>`;
-          str2 += `<input type='hidden' name='dyningImageDTOList[${i}].backgroundpath' value='${target.data('path')}'>`;
+          var targetFile = $(this).data("file");
+          var targetLi = $(this).closest("li");
+
+          /*[+
+            var urlRemove = [[@{/removeFile}]];
+          +]*/
+
+          $.ajax({
+            url: urlRemove,
+            data: { fileName: targetFile },
+            dataType: 'text',
+            type: 'POST',
+            success: function (result) {
+              targetLi.remove();
+            }
+          });
         });
 
-        $(".menubox").html(str); // 데이터 전달을 위해서
-        $(".backgroundbox").html(str2); // 데이터 전달을 위해서
+        $(".backgroundshowResult").on("click", "li button", function (e) {
+          console.log("delete file...");
 
-        $("form").submit(); // 전송쓰
+          var targetFile = $(this).data("file");
+          var targetLi = $(this).closest("li");
 
-        //  var form = $("#form").html();
-        //  console.log(form);
-      });
+          /*[+
+            var urlRemove = [[@{/removeFile}]];
+          +]*/
 
-      // 사진 삭제
-      // uploadResult 태그를 click 하는 경우에 li의 button에 이벤트를 적용하겠다라는 의미임
-      $(".menuuploadResult ").on("click", "li button", function (e) {
-        console.log("delete file...");
+          $.ajax({
+            url: urlRemove,
+            data: { fileName: targetFile },
+            dataType: 'text',
+            type: 'POST',
+            success: function (result) {
+              targetLi.remove();
+            }
+          });
+        });
 
-        var targetFile = $(this).data("file");
-        var targetLi = $(this).closest("li");
-
-        /*[+
-          var urlRemove = [[@{/removeFile}]];
-        +]*/
-
-        $.ajax({
-          url: urlRemove,
-          data: { fileName: targetFile },
-          dataType: 'text',
-          type: 'POST',
-          success: function (result) {
-            targetLi.remove();
-          }
+        $("#roofChoice").on("click", function (e) {
+          $("#roofModal").modal('show');
         });
       });
-
-      $(".backgroundshowResult").on("click", "li button", function (e) {
-        console.log("delete file...");
-
-        var targetFile = $(this).data("file");
-        var targetLi = $(this).closest("li");
-
-        /*[+
-          var urlRemove = [[@{/removeFile}]];
-        +]*/
-
-        $.ajax({
-          url: urlRemove,
-          data: { fileName: targetFile },
-          dataType: 'text',
-          type: 'POST',
-          success: function (result) {
-            targetLi.remove();
-          }
-        });
-      });
-     
-      $("#roofChoice").on("click", function (e) {
-        $("#roofModal").modal('show');
-      });
-    });
     </script>
 
     <div id="roofModal" class="modal roofModal" tabindex="-2">

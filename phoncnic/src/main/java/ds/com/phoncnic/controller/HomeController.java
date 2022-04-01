@@ -55,7 +55,6 @@ public class HomeController {
         return "/manage/rolechoice";
     }
 
-
     @GetMapping("/lookmodal")
     public String test2 (String id, Model model) {
         log.info("id:" + id);

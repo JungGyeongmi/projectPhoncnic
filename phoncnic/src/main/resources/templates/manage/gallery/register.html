@@ -38,25 +38,25 @@
                 background: gray;
                 margin-top: 10px;
             }
+        </style>
+        .uploadResult ul {
+        display: flex;
+        flex-flow: row;
+        justify-content: center;
+        align-items: center;
+        vertical-align: top;
+        overflow: auto;
+        }
 
-            .uploadResult ul {
-                display: flex;
-                flex-flow: row;
-                justify-content: center;
-                align-items: center;
-                vertical-align: top;
-                overflow: auto;
-            }
+        .uploadResult ul li {
+        list-style: none;
+        padding: 10px;
+        margin-left: 2em;
+        }
 
-            .uploadResult ul li {
-                list-style: none;
-                padding: 10px;
-                margin-left: 2em;
-            }
-
-            .uploadResult ul li img {
-                width: 100px;
-            }
+        .uploadResult ul li img {
+        width: 100px;
+        }
         </style>
 
         <!-- 업로드된 사진이 보여질 div안의 ul태그 -->
@@ -196,7 +196,7 @@
 
                 // 사진 삭제
                 $(".uploadResult ").on("click", "li button", function (e) {
-                
+
                     console.log("delete file...");
 
                     var targetFile = $(this).data("file");

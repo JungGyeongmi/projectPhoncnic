@@ -31,31 +31,38 @@ public class EmojiServiceImpl implements EmojiService {
     @Transactional
     @Override
     public Long[][] galleryEmojiRegiter(EmojiDTO emojiDTO) {
-        
+
         String id = emojiDTO.getId();
         Long gno = emojiDTO.getGno();
         String emojiType = emojiDTO.getEmojitype();
 
         Emoji galleryEmoji = Emoji.builder().build();
-        
+
         // 0 eno 1 type 2 boolean
         Object[] checker = emojiRepository.existsByMemberIdANDGno(gno, id).get(0);
 
-        if(!(boolean) checker[2]) {
+        if (!(boolean) checker[2]) {
             galleryEmoji = dtoToEntity(emojiDTO);
             emojiRepository.save(galleryEmoji);
-            log.info("insert eno...."+galleryEmoji.getEno());
-        } else if(checker[1].equals(emojiType)){
-            log.info("deleted eno...."+(Long)checker[0]);
-            emojiRepository.deleteByEno((Long)checker[0]);
-        } else if(!checker[1].equals(emojiType)) {
+            log.info("insert eno...." + galleryEmoji.getEno());
+        } else if (checker[1].equals(emojiType)) {
+            log.info("deleted eno...." + (Long) checker[0]);
+            emojiRepository.deleteByEno((Long) checker[0]);
+        } else if (!checker[1].equals(emojiType)) {
             // update query 문으로 수정하고싶은데
-            emojiRepository.deleteByEno((Long)checker[0]);
+            emojiRepository.deleteByEno((Long) checker[0]);
             galleryEmoji = dtoToEntity(emojiDTO);
             emojiRepository.save(galleryEmoji);
-            log.info("update eno...."+galleryEmoji.getEno());
+            log.info("update eno...." + galleryEmoji.getEno());
         }
         return getEmojiCountArrayByGno(gno);
+    }
+
+    @Override
+    public Long galleryEmojiRegiter(EmojiDTO emojiDTO) {
+        Emoji galleryEmoji = dtoToEntity(emojiDTO);
+        emojiRepository.save(galleryEmoji);
+        return galleryEmoji.getEno();
     }
 
     @Override
@@ -76,6 +83,7 @@ public class EmojiServiceImpl implements EmojiService {
         emojiList.stream().forEach(emoji -> {
             EmojiDTO emojiDTO = entityToEmojiDTO(emoji);
             emojiDTOList.add(emojiDTO);
+
         });
         return emojiDTOList;
     }
@@ -98,10 +106,9 @@ public class EmojiServiceImpl implements EmojiService {
 
     @Override
     public Long[][] getEmojiCountArrayByGno(Long gno) {
-        
         List<Object[]> result = emojiRepository.getEmojiCountByGno(gno);
         Long[][] emojiCntArr = new Long[5][2];
-       
+
         for (int i = 0; i < emojiCntArr.length; i++) {
             emojiCntArr[i][0] = Long.valueOf(i + 1);
             emojiCntArr[i][1] = Long.valueOf(0);

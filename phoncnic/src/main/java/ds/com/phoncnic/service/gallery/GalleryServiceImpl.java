@@ -32,6 +32,7 @@ public class GalleryServiceImpl implements GalleryService {
     private final GalleryRepository galleryRepository;
     private final EmojiRepository emojiRepository;
     private final EmojiService emojiService;
+
     private final EmojiInfoService emojiInfoService;
 
     @Override
@@ -39,6 +40,7 @@ public class GalleryServiceImpl implements GalleryService {
         Pageable pageable = PageRequestDTO.getPageable(Sort.by("gno").descending());
         List<EmojiInfo> emojiInfoList = emojiInfoService.getEmojiInfoList();
         Page<Gallery> result = galleryRepository.getPhotoPage(pageable);
+
         Function<Gallery, GalleryDTO> fn = (entity -> entityToDTO(entity,
                 emojiService.getEmojiCountArrayByGno(entity.getGno()), emojiInfoList ));
 
@@ -47,6 +49,7 @@ public class GalleryServiceImpl implements GalleryService {
 
     @Override
     public PageResultDTO<GalleryDTO, Gallery> getPaintingList(PageRequestDTO PageRequestDTO) {
+
         List<EmojiInfo> emojiInfoList = emojiInfoService.getEmojiInfoList();
         Pageable pageable = PageRequestDTO.getPageable(Sort.by("gno").descending());
         Page<Gallery> result = galleryRepository.getPaintingPage(pageable);
@@ -57,6 +60,7 @@ public class GalleryServiceImpl implements GalleryService {
 
     @Override
     public PageResultDTO<GalleryDTO, Object[]> getGalleryPage(SearchPageRequestDTO pageRequestDTO) {
+
 
         List<EmojiInfo> emojiInfoList = emojiInfoService.getEmojiInfoList();
         // 임시로 3L로 고정
@@ -74,6 +78,7 @@ public class GalleryServiceImpl implements GalleryService {
     @Override
     public GalleryDTO getGallery(long gno) {
         Gallery gallery = galleryRepository.getGalleryByGno(gno);
+
         List<EmojiInfo> emojiInfoList = emojiInfoService.getEmojiInfoList();
         Long[][] emojiCountArr = emojiService.getEmojiCountArrayByGno(gno);
         log.info("gno:" + gno);

@@ -30,6 +30,7 @@ public class DyningDTO {
 
     private String id;
     private Long emojicwt;
+
     private Long followercwt;
     private Long oono;
     private String roofpath;
@@ -39,6 +40,6 @@ public class DyningDTO {
 
     @Builder.Default
     private List<DyningImageDTO> dyningImageDTOList = new ArrayList<>();
-    
+
 
 }
