@@ -35,9 +35,9 @@
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               </span>
               <button id="lookModifyBtn" type="button" class="btn btn-primary">변경하기</button>
-              <div><div th:each="hdto : ${hairDTO}"><img class="look hairlook" th:src="${hdto.hairpath}" alt="">
+              <div><div th:each="hdto : ${hairDTO}"><img class="look hairlook" th:src="${hdto.hairpath}" alt="" id="checkedhair">
                 <input  type="hidden" id="radiohair" th:value="${hdto.hairname}"></div><br>
-                <div th:each="cdto : ${clothesDTO}"><img class="look clotheslook" th:src="${cdto.clothespath}" alt="">
+                <div th:each="cdto : ${clothesDTO}"><img class="look clotheslook" th:src="${cdto.clothespath}" alt="" id="checkedclothes">
                     <input  type="hidden" id="radioclothes" th:value="${cdto.clothesname}"></div>
                 </div>
                 
@@ -133,6 +133,15 @@
             var radioclothes = $("#radioclothes").val();
             $('input:radio[name=hairname]:input[value=' + radiohair + ']').attr("checked", true);
             $('input:radio[name=clothesname]:input[value=' + radioclothes + ']').attr("checked", true);
+
+                $("input[name=hairname]").on("change",function(){
+                var checkedhair = $(this).next().attr('src');
+                $("#checkedhair").attr("src",checkedhair);
+            });
+            $("input[name=clothesname]").on("change",function(){
+                var checkedclothes = $(this).next().attr('src');
+                $("#checkedclothes").attr("src",checkedclothes);
+            });
 
             /*[+var urlmembermodify = [[@{/main/mypage/membermodify}]];+]*/
             /*[+var urllookmodify = [[@{/main/mypage/lookmodify}]];+]*/
