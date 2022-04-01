@@ -1,19 +1,26 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<th:block th:fragment="setContent(content, search, navbar)">
+<th:block th:fragment="setContent(content, search)">
 
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Simple Sidebar - Start Bootstrap Template</title>
+        <title>dyning</title>
+        <style>
+            .list-group-flush .list-group-item-action:hover {
+                background-color: #DBE9B7 !important;
+            }
+            
+        </style>
         <!-- Favicon-->
         <link rel="icon" type="image/x-icon" th:href="@{/assets/favicon.ico}" />
         <!-- Core theme CSS (includes Bootstrap)-->
         <link th:href="@{/css/dyningliststyles.css}" rel="stylesheet" />
         <!-- jQuery cdn -->
-        <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>    
     </head>
 
     <body>
@@ -21,15 +28,47 @@
             <!-- Sidebar-->
             <th:block th:replace="${search}">
             </th:block>
-
             <div id="page-content-wrapper">
                 <!-- Top navigation-->
-                    <th:block th:replace="${navbar}"></th:block>
+                <nav class="navbar navbar-expand-lg ">
+                    <div class="container-fluid">
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <button class="btn btn-primary" id="sidebarToggle"
+                                style="background-color: #000;">검색</button>
+                            <!-- 로고 -->
+                            <a th:href="@{/}" style="display: block; margin: auto;">
+                                <img th:src="@{/button/Logo.png}" style="width:60px;">
+                            </a>
+                        </div>
+
+                    </div>
+                </nav>
                 <!-- Page content-->
                 <div class="container-fluid">
                     <th:block th:replace="${content}"></th:block>
                 </div>
             </div>
+            <!-- Sidebar-->
+
+            <div class="dropdown show">
+                <a class="btn btn-secondary dropdown-toggle"  href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Phoncnic
+                </a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <a class="dropdown-item"
+                        th:href="@{/}">Phoncnic</a>
+                    <a class="dropdown-item"
+                        th:href="@{/main/mypage(id='user1@icloud.com')}">마이페이지</a>
+                    <a class="dropdown-item"
+                        th:href="@{/help/list/}">고객센터</a>
+                    <a class="dropdown-item"
+                        th:href="@{/main/companyinfo}">회사소개</a>
+                  <a class="dropdown-item" href="#">Action</a>
+                  <a class="dropdown-item" href="#">Another action</a>
+                  <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+              </div>
+            
         </div>
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"></script>
@@ -37,5 +76,4 @@
         <script th:src="@{/js/scripts.js}"></script>
     </body>
 </th:block>
-
 </html>

@@ -76,17 +76,21 @@
                         success: function (response) {
                             console.log("get search success");
                             var str = "";
+
+                            if (response.totalPage != 0) {
                             $.each(response.dtoList, function (idx, dto) {
                                 str += `<li class="search-result-Item " data-search-dno="${dto.dno} " value="${dto.dno}">
-                                        <div>
-                                            <p>
-                                                ${dto.dyningname}
-                                            </p>												
+                                    <input class="input" type="hidden" value="${dto.dno}">                                         
+                                    <div id="search-result-div">
+                                            <p>${dto.dyningname}</p>												
                                             ${dto.hashtag}
                                         </div>
                                     </li>`;
                             })
                             searchResult.html(str);
+                        } else {
+                            searchResult.html('<div> 검색 결과가 없습니다. </div>');
+                        }
                         },
                         error: function (response) {
                             console.log(response);
@@ -97,47 +101,48 @@
                 // 모달 창 내 search result 클릭 시 이동 제어
                 $(document).on("click", ".search-result-Item", function (e) {
                     console.log("click");
-                    console.log($(this).attr("value"));
-
                     var val = $(this).attr("value");
-
-
                     location.href = "/phoncnic/dyning/details?dno=" + val;
                 });
             })
         </script>
     </th:block>
 
-    <!-- 내용부분(restaurant 거리) -->
+    <!-- 내용부분(cafe 거리) -->
     <th:block th:fragment="content">
         <style>
-            #dyningname {
-                cursor: pointer;
+            .dyning-list-ul {
+                max-width: 10000px;
+            }
+    
+            .dyning-list-ul li {
+                margin: 20px;
+                width: 100px;
+                height: 100px;
+                display: inline-block;
             }
 
-            #roofpath {
-                cursor: pointer;
-            }
-
-            #roofdesign {
-                cursor: pointer;
-            }
         </style>
 
+        <script th:inline="javascript">
+            $(document).ready(function () {
+                var numitems = $(".dyning-list-ul li").length;
+
+                console.log("numitems: "+numitems);
+
+                $(".dyning-list-ul").css("column-count", Math.round(numitems / 2));
+            });
+        </script>
+
         <h1>cafe</h1>
-        <table border="1">
-            <tr>
-                <th scope="col">dyningname</th>
-                <th scope="col">Roof Path</th>
-            </tr>
-            <tr th:each="dto : ${result}" th:onclick="'location.href=
-                \''+ @{/dyning/details(dno=${dto.dno},id=${id})}
-                + '\''" th:if="${dto.foodtype}==1">
-                <!-- <td >[[${dto.dno}]]</td> -->
-                <td id="dyningname">[[${dto.dyningname}]]</td>
-                <!-- <td>[[${dto.foodtype}]]</td> -->
-                <td id="roofpath"><img th:src="${dto.roofthumbnail}" alt=""></td>
-            </tr>
-        </table>
+        <ul class="dyning-list-ul">
+            <li th:each="dto : ${result}" th:if="${dto.foodtype}==1">
+                <a th:href="@{/dyning/details(dno=${dto.dno},id=${id}) }">
+                    <img th:src="${dto.roofthumbnail}">
+                </a>
+                [[${dto.dyningname}]]
+            </li>
+        </ul>
+        
     </th:block>
 </th:block>
