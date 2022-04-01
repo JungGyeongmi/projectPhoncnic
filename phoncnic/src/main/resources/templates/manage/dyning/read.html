@@ -52,11 +52,21 @@
             </tr>
             <tr readonly>
                 <td>[[${result.emojicwt}]]</td>
-                <td><button class="up" value="1" name="emojitype" type="button">😋[[${emojitype1}]]</button></td>
-                <td><button class="up" value="2" name="emojitype" type="button">🥰[[${emojitype2}]]</button></td>
-                <td><button class="up" value="3" name="emojitype" type="button">😭[[${emojitype3}]]</button></td>
-                <td><button class="up" value="4" name="emojitype" type="button">😅[[${emojitype4}]]</button></td>
-                <td><button class="up" value="5" name="emojitype" type="button">🥵[[${emojitype5}]]</button></td>
+                <td><button class="up" value="1" name="emojitype" type="button">
+                    <img th:src="${result.emojiinfo['1']}" alt="" style="width:30px;">
+                    [[${emojitype1}]]</button></td>
+                <td><button class="up" value="2" name="emojitype" type="button">
+                    <img th:src="${result.emojiinfo['2']}" alt="" style="width:30px;">
+                    [[${emojitype2}]]</button></td>
+                <td><button class="up" value="3" name="emojitype" type="button">
+                    <img th:src="${result.emojiinfo['3']}" alt="" style="width:30px;">
+                    [[${emojitype3}]]</button></td>
+                <td><button class="up" value="4" name="emojitype" type="button">
+                    <img th:src="${result.emojiinfo['4']}" alt="" style="width:30px;">
+                    [[${emojitype4}]]</button></td>
+                <td><button class="up" value="5" name="emojitype" type="button">
+                    <img th:src="${result.emojiinfo['5']}" alt="" style="width:30px;">
+                    [[${emojitype5}]]</button></td>
                 <!--/* <td th:each="dto : ${emojilist}"><button type="button" th:value="${dto.eno}" class="emojiRemoveBtn">삭제</button></td> */-->
             </tr>
         </table>

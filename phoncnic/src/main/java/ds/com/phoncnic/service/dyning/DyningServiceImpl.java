@@ -18,10 +18,12 @@ import ds.com.phoncnic.dto.pageDTO.PageResultDTO;
 import ds.com.phoncnic.dto.pageDTO.SearchDyningPageRequestDTO;
 import ds.com.phoncnic.entity.Dyning;
 import ds.com.phoncnic.entity.DyningImage;
+import ds.com.phoncnic.entity.EmojiInfo;
 import ds.com.phoncnic.entity.RoofDesign;
 import ds.com.phoncnic.repository.DyningImageRepository;
 import ds.com.phoncnic.repository.DyningRepository;
 import ds.com.phoncnic.repository.RoofDesignRepository;
+import ds.com.phoncnic.service.emoji.EmojiInfoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -38,6 +40,9 @@ public class DyningServiceImpl implements DyningService {
 
   @Autowired
   private final RoofDesignRepository roofDesignRepository;
+  
+  @Autowired
+  private final EmojiInfoService emojiInfoService;
 
   @Transactional
   @Override
@@ -126,7 +131,9 @@ public class DyningServiceImpl implements DyningService {
     Long followerCwt = dyningRepository.getDyningFollowerCount(dno);
     List<DyningImage> dyningImageList = dyningRepository.getImageDetailsPage(dno);
 
-    return entityToDTO(dyninglist, emojiCwt, dyningImageList, followerCwt);
+    List<EmojiInfo> emojiInfoList = emojiInfoService.getEmojiInfoList();
+
+    return entityToDTO(dyninglist, emojiCwt, dyningImageList, followerCwt, emojiInfoList);
   }
 
   @Override
