@@ -7,12 +7,14 @@
       .container {
         display: grid;
         grid-template-rows: 0.3fr 1fr 0.05fr;
+        
         row-gap: 3%;
       }
       
       .gallery-list-ul {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, auto));
+        grid-template-rows: repeat(auto-fit, minmax(100px, auto));
+        grid-template-columns: repeat(auto-fit, minmax(300px, auto));
         column-gap: 3%;
 
         list-style: none;
@@ -21,6 +23,7 @@
       }
 
       .gallery-list-ul li {
+        padding: 5%;
         margin-bottom: 3%;
       }
 
@@ -41,7 +44,7 @@
       <ul class="gallery-list-ul">
         <li th:each="dto : ${galleryDTOList}">
           <a th:href="@{/manage/gallery/read(gno=${dto.gno}) }">
-            <img th:src="|@{'/display'}?fileName=${dto.getThumbnailURL()}|" alt="">
+            <img th:src="|@{'/display'}?fileName=${dto.getImageURL()}|" alt="">
             <div style="display:inline-block;">
               [[${dto.title}]]
               <br>
