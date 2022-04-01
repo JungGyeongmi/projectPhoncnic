@@ -2,12 +2,26 @@
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
 <th:block th:replace="~{layout/basic :: setContent(~{::content})}">
   <th:block th:fragment="content">
+
+    <style>
+      .gallery-list-ul {
+        list-style: none;
+        padding-left: 0;
+      }
+
+      .gallery-list-ul li a {
+        text-decoration: none;
+      }
+    </style>
+
     <h1>유저 갤러리 리스트</h1>
     <a th:href="@{/}">index</a>
-    <ul>
+    <ul class="gallery-list-ul">
       <li th:each="dto : ${galleryDTOList}">
         <a th:href="@{/manage/gallery/read(gno=${dto.gno}) }">
-          [[${dto}]]
+          <img th:src="" alt="">
+          
+          [[${dto.title}]]
         </a>
       </li>
     </ul>

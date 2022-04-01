@@ -105,6 +105,17 @@
             vertical-align: middle;
             height: inherit;
          }
+
+         #curatorBtn{
+            z-index : 3;
+            position: absolute;
+            top: 0;
+            /* 사진 여백때문에  */
+            left:-280px;
+            transform: scaleX(-1);
+            width: 50%;
+         }
+
       </style>
 
       <h1>사진전</h1>
@@ -124,7 +135,13 @@
          <div class="swiper-button-prev"></div>
          <div class="swiper-button-next"></div>
       </div>
-      <button type="button" id="curatorBtn" data-bs-toggle="modal" data-bs-target="#curatorModal">큐레이터</button>
+      <!-- <button type="button" id="curatorBtn" data-bs-toggle="modal" data-bs-target="#curatorModal">
+         <img   th:src="@{/icon/gurator.png}" >
+      </button> -->
+      
+         <img id="curatorBtn" data-bs-toggle="modal" data-bs-target="#curatorModal"  th:src="@{/icon/gurator.png}" >
+     
+      
 
       <!-- Swiper JS -->
       <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
@@ -155,7 +172,6 @@
          });
       </script>
 
-      </style>
       <script th:inline="javascript">
          $(document).ready(function () {
 
