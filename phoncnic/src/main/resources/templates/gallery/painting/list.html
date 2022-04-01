@@ -185,6 +185,7 @@
                   // console.log("getList..........dto " + JSON.stringify(dto));
                   var str = "";
                   // <input type="hidden" name = "id" value="user1@icloud.com" class="inputId" data-id="${dto.id}">
+                  console.log($("#detailsModal .modal-title").html(`${dto.title}`));
                   str = `
 							<input type="hidden" name = "gno" value="${targetGno}" class="inputGno" data-gno="${targetGno}">
 							
@@ -192,7 +193,7 @@
 							<img style='width:100%' src="${urlDisplay}?fileName=${targetFile}">
 
 							<div class=row>
-								<div class="col-md-7"><h2>${dto.title}</h2></div>
+								<div class="col-md-7"><h2>${dto.content}</h2></div>
 								<div class="col-md-4"><h4>${dto.id}</h4></div>
 							</div>`
                   detailsModalbody.html(str);
@@ -415,10 +416,10 @@
                var targetGno = $(this).closest("div").data("searchGno");
                var targetFile = $(this).closest("div").data("searchFile");
 
+               showdetailsModal(targetGno, targetFile);
                $("#curatorModal").modal("hide");
                $("#detailsModal").modal("show");
 
-               showdetailsModal(targetGno, targetFile);
             });
          });
       </script>

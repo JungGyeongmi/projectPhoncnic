@@ -33,7 +33,7 @@
             <tr>
                 <th>작품 설명</th>
                 <td>
-                    [[${galleryDTO.content}]]
+                    [[${galleryDTO.content}]]`
                 </td>
             </tr>
             <tr>
@@ -48,19 +48,36 @@
                     [[${#temporals.format(galleryDTO.moddate,'yyyy/MM/dd')}]]
                 </td>
             </tr>
+            <tr>
+                <th>이모지</th>
+                <td>
+                    <img th:src="${galleryDTO.emojiinfo['1']}" alt="" style="width: 30px;">
+                    [[${galleryDTO.emojicount[0][1]}]]
+
+                    <img th:src="${galleryDTO.emojiinfo['2']}" alt="" style="width: 30px;">
+                    [[${galleryDTO.emojicount[1][1]}]]
+
+                    <img th:src="${galleryDTO.emojiinfo['3']}" alt="" style="width: 30px;">
+                    [[${galleryDTO.emojicount[2][1]}]]
+
+                    <img th:src="${galleryDTO.emojiinfo['4']}" alt="" style="width: 30px;">
+                    [[${galleryDTO.emojicount[3][1]}]]
+
+                    <img th:src="${galleryDTO.emojiinfo['5']}" alt="" style="width: 30px;">
+                    [[${galleryDTO.emojicount[4][1]}]]
+
+                </td>
+            </tr>
         </table>
+        <div>
+
+        </div>
         <a th:href="@{/manage/gallery/modify(gno=${galleryDTO.gno})}">
             <button type="button">수 정</button>
         </a>
         <a th:href="@{/manage/gallery/list(id=${galleryDTO.id})}">
             <button type="button">돌아가기</button>
         </a>
-
-        <ul>
-            <li th:each="emoji : ${emojiInfoList}">
-                [[${ emoji.emojipath }]]
-            </li>
-        </ul>
 
     </th:block>
 </th:block>
