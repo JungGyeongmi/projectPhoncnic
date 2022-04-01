@@ -11314,4 +11314,14 @@ body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
   /* body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
     margin-left: -27rem;
   } */
+
+  body {
+    background-image: url(back.png);
+    background-repeat: repeat-x;
+    background-size: cover;
+  }
+
+  body::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+}
 }
