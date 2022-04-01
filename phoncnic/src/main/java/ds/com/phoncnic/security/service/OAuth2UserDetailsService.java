@@ -69,6 +69,7 @@ public class OAuth2UserDetailsService extends DefaultOAuth2UserService{
     //없다면
     Member member = Member.builder()
       .id(email)
+      .nickname("간지짱")
       .password(passwordEncoder.encode("1"))
     .build();
 

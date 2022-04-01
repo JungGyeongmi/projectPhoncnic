@@ -45,8 +45,7 @@ public class MyPageController {
     @PostMapping("/membermodify")
     public String membermodify(MemberDTO memberDTO, RedirectAttributes ra) {
         log.info("modify post.........id:" + memberDTO.getId());
-
-        memberService.modify(memberDTO);
+        memberService.updateMemberDTO(memberDTO);
         ra.addAttribute("id", memberDTO.getId());
         return "redirect:/main/mypage";
 

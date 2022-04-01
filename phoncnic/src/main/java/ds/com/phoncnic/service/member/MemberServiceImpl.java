@@ -24,6 +24,7 @@ import ds.com.phoncnic.repository.FollowRepository;
 import ds.com.phoncnic.repository.GalleryRepository;
 import ds.com.phoncnic.repository.HelpRepository;
 import ds.com.phoncnic.repository.MemberRepository;
+import ds.com.phoncnic.security.dto.AuthMemberDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -50,6 +51,7 @@ public class MemberServiceImpl implements MemberService {
 
     private final DyningImageRepository dyningImageRepository;
 
+
     @Override
     public void updateMemberDTO(MemberDTO memberDTO) {
         log.info("update Member DTO ....." + memberDTO);
@@ -60,7 +62,7 @@ public class MemberServiceImpl implements MemberService {
 
         memberRepository.save(member);
         log.info("MemberComeOn ....." + member);
-        
+
         characterLookRepository.save(characterlook);
         log.info("Charactercomeon" + characterlook);
 
@@ -73,18 +75,33 @@ public class MemberServiceImpl implements MemberService {
         return entityToDTO(member);
     }
 
-    @Override
-    public void modify(MemberDTO memberDTO) {
+    // @Override
+    // public void modify(MemberDTO memberDTO) {
+    //     // findById는 바로 로딩을 해주고, getOne은 필요한 순간까지 로딩을 지연함
+    //     Optional<Member> result = memberRepository.findById(memberDTO.getId());
+
+    //     if (result.isPresent()) {
+    //         Member member = result.get();
+    //         member.changeNickname(memberDTO.getNickname());
+    //         member.changePassword(memberDTO.getPassword());
+    //         memberRepository.save(member);
+    //     }
+    // }
+
+    public void modify2(AuthMemberDTO dto) {
         // findById는 바로 로딩을 해주고, getOne은 필요한 순간까지 로딩을 지연함
-        Optional<Member> result = memberRepository.findById(memberDTO.getId());
+        Optional<Member> result = memberRepository.findById(dto.getId());
 
         if (result.isPresent()) {
             Member member = result.get();
-            member.changeNickname(memberDTO.getNickname());
-            member.changePassword(memberDTO.getPassword());
+            member.changeNickname(dto.getNickname());
+            member.changePassword(dto.getPassword());
+            log.info("Memberrrrr"+member);
             memberRepository.save(member);
         }
     }
+
+    
 
     @Override
     @Transactional
@@ -112,7 +129,6 @@ public class MemberServiceImpl implements MemberService {
             dyningRepository.deleteByMemberId(id);
             galleryRepository.deleteByMemberId(id);
             helpRepository.deleteByMemberId(id);
-
             memberRepository.deleteById(id);
             log.info(memberRepository.findById(id));
         }
