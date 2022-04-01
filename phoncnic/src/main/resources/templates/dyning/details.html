@@ -22,7 +22,7 @@
                     <th scope="col">followercwt</th>
                 </tr>
                 <tr th:each="dto : ${result}">
-                    <td><input type="text" name="" id="dyningname" th:value="${dto.dyningname}"></td>
+                    <td><input type="text" name="" id="dyningname" th:value="${dto.dyningname}" readonly></td>
                     <td>[[${dto.businesshours}]]</td>
                     <td>[[${dto.location}]],[[${dto.locationdetails}]]</td>
                     <td>[[${dto.comment}]]</td>
