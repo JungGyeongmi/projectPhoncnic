@@ -4,26 +4,59 @@
   <th:block th:fragment="content">
 
     <style>
+      .container {
+        display: grid;
+        grid-template-rows: 0.3fr 1fr 0.05fr;
+        row-gap: 3%;
+      }
+      
       .gallery-list-ul {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, auto));
+        column-gap: 3%;
+
         list-style: none;
         padding-left: 0;
+        /* column-count: 3; */
+      }
+
+      .gallery-list-ul li {
+        margin-bottom: 3%;
       }
 
       .gallery-list-ul li a {
         text-decoration: none;
+        color: grey;
+      }
+
+      .gallery-list-ul li img {
+        border-radius: 50%;
+        height: 100px;
+        width: 100px;
       }
     </style>
 
-    <h1>유저 갤러리 리스트</h1>
-    <a th:href="@{/}">index</a>
-    <ul class="gallery-list-ul">
-      <li th:each="dto : ${galleryDTOList}">
-        <a th:href="@{/manage/gallery/read(gno=${dto.gno}) }">
-          <img th:src="" alt="">
-          
-          [[${dto.title}]]
-        </a>
-      </li>
-    </ul>
+    <div class="container">
+      <h1>유저 갤러리 리스트</h1>
+      <ul class="gallery-list-ul">
+        <li th:each="dto : ${galleryDTOList}">
+          <a th:href="@{/manage/gallery/read(gno=${dto.gno}) }">
+            <img th:src="|@{'/display'}?fileName=${dto.getThumbnailURL()}|" alt="">
+            <div style="display:inline-block;">
+              [[${dto.title}]]
+              <br>
+              [[${dto.content}]]
+            </div>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <script th:inline="javascript">
+
+      $(function () {
+      });
+
+    </script>
   </th:block>
 </th:block>

@@ -20,7 +20,7 @@ public interface GalleryService {
     void modify(GalleryDTO dto);
     
     // manage 페이지 list
-    List<Gallery> getUserGallery(String id);
+    List<GalleryDTO> getUserGallery(String id);
     
     // 상세페이지
     GalleryDTO getGallery(long gno);
