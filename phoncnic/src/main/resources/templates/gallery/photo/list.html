@@ -112,7 +112,38 @@
             bottom: 0;
             left: 0;
             transform: scaleX(-1);
-            width: 20%;
+            width: 15rem;
+         }
+
+         #curatorBtn:hover{
+            cursor: help;
+         }
+         #curatorBtn:hover {
+            cursor: help;
+         }
+
+         .showup-curator {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+         }
+
+         .gurator-text-box {
+            position: absolute;
+            bottom: 331px;
+            left: 132px;
+
+            padding: 1rem;
+            max-width: max-content;
+
+
+            border: solid 3px pink;
+            background-color: pink;
+            border-radius: 10% 10% 3%;
+         }
+
+         .show-gurator-script {
+            visibility: hidden;
          }
       </style>
 
@@ -134,8 +165,43 @@
          <div class="swiper-button-next"></div>
       </div>
 
-      <img id="curatorBtn" data-bs-toggle="modal" data-bs-target="#curatorModal" th:src="@{/icon/gurator.png}">
+      <div class="showup-curator">
+         <span id="showup-text" class="gurator-text-box show-gurator-script">
 
+         </span>
+         <img id="curatorBtn" data-bs-toggle="modal" data-bs-target="#curatorModal" th:src="@{/icon/gurator.png}">
+      </div>
+
+
+      <!-- 규레이터 제어 스크립트 -->
+      <script>
+         $(function () {
+
+            var guratorScript = {
+               0: "촤하하하하하하!",
+               1: "좋은 아침!",
+               2: "뭐 맛있는거 먹었습니까",
+               3: "지원씨! 지원씨!",
+               4: "에잇 너는 그만해",
+               5: "그냥 외우세요",
+               6: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur porro rem, numquam voluptatum commodi architecto maiores cum, voluptatem deserunt laborum quisquam tempora nulla quis suscipit officiis autem repellendus possimus ex?"
+            }
+
+            $(".showup-curator").mouseover(function () {
+               var randomIdx = Math.floor(Math.random() * 5);
+
+               $("#showup-text").toggleClass('show-gurator-script');
+               $("#showup-text").html(guratorScript[randomIdx]);
+            });
+
+            $(".showup-curator").mouseleave(function () {
+               $("#showup-text").addClass('show-gurator-script');
+               $("#showup-text").html("");
+            });
+
+         });
+
+      </script>
       <!-- Swiper JS -->
       <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 
@@ -182,15 +248,10 @@
             var detailsModalbodyEmoji = $(".detail-modal-body2");
             var showdetailsModal = function (targetGno, targetFile) {
                $.getJSON(readUrl + "/" + targetGno, function (dto) {
-                  // console.log("getList..........dto " + JSON.stringify(dto));
                   var str = "";
-                  // <input type="hidden" name = "id" value="user1@icloud.com" class="inputId" data-id="${dto.id}">
                   str = `
 							<input type="hidden" name = "gno" value="${targetGno}" class="inputGno" data-gno="${targetGno}">
-							
-
 							<img style='width:100%' src="${urlDisplay}?fileName=${targetFile}">
-
 							<div class=row>
 								<div class="col-md-7"><h2>${dto.title}</h2></div>
 								<div class="col-md-4"><h4>${dto.id}</h4></div>
@@ -395,12 +456,10 @@
                   contentType: "application/json",
                   dataType: "json",
                   success: function (response) {
+                     for(idx in response) {
+                        $(".emoji-cnt").eq(idx).text(`${response[idx][1]}`);
+                     }
                      console.log("update emoji success");
-                     $(".emoji-cnt").eq(0).text(`${response[0][1]}`);
-                     $(".emoji-cnt").eq(1).text(`${response[1][1]}`);
-                     $(".emoji-cnt").eq(2).text(`${response[2][1]}`);
-                     $(".emoji-cnt").eq(3).text(`${response[3][1]}`);
-                     $(".emoji-cnt").eq(4).text(`${response[4][1]}`);
                   },
                   fail: function (response) {
                      console.log(response);

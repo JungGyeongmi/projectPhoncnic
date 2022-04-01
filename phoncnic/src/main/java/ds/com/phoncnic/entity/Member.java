@@ -36,10 +36,6 @@ public class Member extends BaseEntity {
         this.nickname = nickname;
     }
 
-    public void changePassword(String password) {
-        this.password = password;
-    }
-
     public void addMemberRole(AuthorityRole authorityRole){
         roleSet.add(authorityRole);
     }

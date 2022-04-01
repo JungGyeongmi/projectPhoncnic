@@ -24,13 +24,12 @@ public class AuthMemberDTO extends User implements OAuth2User {
   // Social에서 오는 OAuth정보
 
   // DB로부터 사용자를 초기화하는 생성자1
-  public AuthMemberDTO(String id, String password, String nickname,
-      Collection<? extends GrantedAuthority> authorities) {
+  public AuthMemberDTO(String id, String password, String nickname, Collection<? extends GrantedAuthority> authorities) {
     super(id, password, authorities);
     this.id = id;
     this.nickname = nickname;
     this.password = password;
-    log.info("ClubAuthMemberDTO 생성자 실행");
+    log.info("AuthMemberDTO 생성자 실행");
   }
 
   // OAuth로부터 사용자를 초기화하는 생성자2
