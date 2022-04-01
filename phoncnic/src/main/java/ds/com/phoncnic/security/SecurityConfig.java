@@ -78,6 +78,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     // .antMatchers("/sample/member").hasRole("MEMBER")
     // .antMatchers("/sample/admin").hasRole("ADMIN");
     http.exceptionHandling().accessDeniedHandler(accessDeniedHandler());
+
+    http.authorizeRequests()
+    .antMatchers("/main/mypage").hasRole("USER");
     
     //1. Security login form 사용
     // http.formLogin();

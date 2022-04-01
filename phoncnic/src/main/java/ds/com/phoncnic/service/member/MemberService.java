@@ -1,10 +1,13 @@
 package ds.com.phoncnic.service.member;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import ds.com.phoncnic.dto.MemberDTO;
 import ds.com.phoncnic.entity.AuthorityRole;
+import ds.com.phoncnic.entity.CharacterLook;
 import ds.com.phoncnic.entity.Member;
 
 public interface MemberService {
@@ -13,7 +16,9 @@ public interface MemberService {
   void remove(String id);
   MemberDTO getMember(String id);
 
-  default Member dtoToEntity(MemberDTO memberDTO) {
+  default Map<String, Object> dtoToEntity(MemberDTO memberDTO) {
+    Map<String, Object> entityMap = new HashMap<>();
+
     Member member = Member.builder()
         .id(memberDTO.getId())
         .password(memberDTO.getPassword())
@@ -36,7 +41,18 @@ public interface MemberService {
             }).collect(Collectors.toSet()))
         .build();
 
-    return member;
+        entityMap.put("member", member);
+
+          String id = memberDTO.getId();
+          CharacterLook characterLook = CharacterLook.builder()
+          .hairname("hair1")
+          .clothesname("clothes1")
+          .member(Member.builder().id(id).build())
+          .build();
+
+          entityMap.put("characterLook", characterLook);
+      
+    return entityMap;
   }
 
   default MemberDTO entityToDTO(Member member) {

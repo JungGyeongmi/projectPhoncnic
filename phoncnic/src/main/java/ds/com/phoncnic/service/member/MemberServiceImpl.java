@@ -1,6 +1,7 @@
 package ds.com.phoncnic.service.member;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -10,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import ds.com.phoncnic.dto.MemberDTO;
+import ds.com.phoncnic.entity.CharacterLook;
 import ds.com.phoncnic.entity.Dyning;
 import ds.com.phoncnic.entity.Emoji;
 import ds.com.phoncnic.entity.Gallery;
@@ -52,9 +54,16 @@ public class MemberServiceImpl implements MemberService {
     public void updateMemberDTO(MemberDTO memberDTO) {
         log.info("update Member DTO ....." + memberDTO);
         memberDTO.setPassword(passwordEncoder.encode(memberDTO.getPassword()));
-        Member member = dtoToEntity(memberDTO);
+        Map<String, Object> entityMap = dtoToEntity(memberDTO);
+        Member member = (Member)entityMap.get("member");
+        CharacterLook characterlook = (CharacterLook)entityMap.get("characterLook");
+
         memberRepository.save(member);
-        log.info("Member ....." + member);
+        log.info("MemberComeOn ....." + member);
+        
+        characterLookRepository.save(characterlook);
+        log.info("Charactercomeon" + characterlook);
+
     }
 
     @Override

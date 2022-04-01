@@ -1,5 +1,6 @@
 package ds.com.phoncnic.controller;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,6 +10,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ds.com.phoncnic.dto.CharacterLookDTO;
 import ds.com.phoncnic.dto.MemberDTO;
+import ds.com.phoncnic.security.dto.AuthMemberDTO;
 import ds.com.phoncnic.service.FollowService;
 import ds.com.phoncnic.service.emoji.EmojiService;
 import ds.com.phoncnic.service.member.MemberService;
@@ -27,17 +29,17 @@ public class MyPageController {
     private final EmojiService emojiService;
 
     @GetMapping({ "/", "" })
-    public void mypage(String id, Model model) {
-        log.info("id:" + id);
-        MemberDTO memberDTO = memberService.getMember(id);
-        model.addAttribute("id",id);
+    public void mypage( Model model,@AuthenticationPrincipal AuthMemberDTO dto) {
+        log.info("id:" + dto.getId());
+        MemberDTO memberDTO = memberService.getMember(dto.getId());
+        model.addAttribute("id",dto.getId());
         model.addAttribute("memberDTO", memberDTO);
-        model.addAttribute("hairDTO", characterLookService.getCharacterHair(id));
-        model.addAttribute("clothesDTO", characterLookService.getCharacterClothes(id));
+        model.addAttribute("hairDTO", characterLookService.getCharacterHair(dto.getId()));
+        model.addAttribute("clothesDTO", characterLookService.getCharacterClothes(dto.getId()));
         model.addAttribute("looklist", characterLookService.lookimageList());
-        model.addAttribute("emojiDTO", emojiService.getEmojiList(id));
-        model.addAttribute("afollowDTO", followService.getFollow(id).getFollowartistlist());
-        model.addAttribute("dfollowDTO", followService.getFollow(id).getFollowdyninglist());
+        model.addAttribute("emojiDTO", emojiService.getEmojiList(dto.getId()));
+        model.addAttribute("afollowDTO", followService.getFollow(dto.getId()).getFollowartistlist());
+        model.addAttribute("dfollowDTO", followService.getFollow(dto.getId()).getFollowdyninglist());
     }
 
     @PostMapping("/membermodify")
@@ -51,12 +53,12 @@ public class MyPageController {
     }
 
     @PostMapping("/lookmodify")
-    public String lookmodify(CharacterLookDTO characterLookDTO, String id, RedirectAttributes ra) {
+    public String lookmodify(CharacterLookDTO characterLookDTO, @AuthenticationPrincipal AuthMemberDTO dto, RedirectAttributes ra) {
         log.info("modify post.........:" + characterLookDTO.getHairname());
         log.info("modify post.........:" + characterLookDTO.getClothesname());
 
-        characterLookService.modify(characterLookDTO, id);
-        ra.addAttribute("id", id);
+        characterLookService.modify(characterLookDTO, dto.getId());
+        ra.addAttribute("id", dto.getId());
         return "redirect:/main/mypage";
 
     }
