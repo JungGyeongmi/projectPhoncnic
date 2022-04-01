@@ -30,6 +30,10 @@ public class DyningController {
         model.addAttribute("result", dyningService.getStreet());
         model.addAttribute("id",id);
     }
+    @GetMapping("/movingtest")
+    public String movingtest() {
+        return "/dyning/movingtest";
+    }
 
     @GetMapping("/restaurant/list")
     public void restaurant(Model model,String id) {
