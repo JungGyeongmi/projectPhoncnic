@@ -209,14 +209,59 @@
                 var eno = $("#eno").val();
                 var etype = $("#etype").val();
 
-                if (eno=="") {
+                
                     $(".up").click(function () {
                         var id = $("input[name='id']").val();
                         var dno = $("input[name='dno']").val();
                         var emojitype = $(this).val();
                         var next = $(this).next();
+                        if(eno!=""&&$(this).val()==etype){
+                            var data = { eno: eno };
+                            console.log(data);
+                            var urlemojiremove = `[[@{/dyning/emojiremove}]]`;
+                        $.ajax({
+                            url: urlemojiremove + "/" + eno,
+                            type: "DELETE",
+                            data: JSON.stringify(data),
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "text",
+                            success: function (result) {
+                                console.log("result: " + result);
+                                self.location.reload();
 
+                            }
+                        });
+                        }else if(eno!=""&&$(this).val()!=etype){
+                            var data = { eno: eno };
+                            console.log(data);
+                            var urlemojiremove = `[[@{/dyning/emojiremove}]]`;
+                        $.ajax({
+                            url: urlemojiremove + "/" + eno,
+                            type: "DELETE",
+                            data: JSON.stringify(data),
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "text",
+                            success: function (result) {
+                                console.log("result: " + result);
+                            }
+                        });
                         var data = { id: id, dno: dno, emojitype: emojitype };
+                        var urlemojiregister = `[[@{/dyning/emojiregister}]]`;
+                        console.log(data);
+
+                        $.ajax({
+                            url: urlemojiregister + "/" + dno,
+                            type: "POST",
+                            data: JSON.stringify(data),
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "text",
+                            success: function (result) {
+                                console.log("result: " + result);
+                                self.location.reload();
+                            }
+                        });
+                        }else if(eno==""){
+                            var data = { id: id, dno: dno, emojitype: emojitype };
                         var urlemojiregister = `[[@{/dyning/emojiregister}]]`;
                         console.log(data);
                         $.ajax({
@@ -230,26 +275,10 @@
                                 self.location.reload();
                             }
                         })
-
+                        }
                     });
-                } else {
-                    $("#emojiBtn"+etype).click(function () {
-                        var data = { eno: eno };
-                        console.log(data);
-                        var urlemojiremove = `[[@{/dyning/emojiremove}]]`;
-                        $.ajax({
-                            url: urlemojiremove + "/" + eno,
-                            type: "DELETE",
-                            data: JSON.stringify(data),
-                            contentType: "application/json; charset=utf-8",
-                            dataType: "text",
-                            success: function (result) {
-                                console.log("result: " + result);
-                                self.location.reload();
-                            }
-                        })
-                    });
-                }
+               
+                   
                 //모달제어
                 $(".btn-close").on("click", function (e) {
                     $("#imageModal").hide();
