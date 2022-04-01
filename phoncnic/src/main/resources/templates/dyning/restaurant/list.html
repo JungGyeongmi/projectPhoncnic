@@ -40,6 +40,7 @@
 
                 </ul>
             </div>
+            
         </div>
 
 
@@ -80,12 +81,11 @@
                             $.each(response.dtoList, function (idx, dto) {
                                 str += `<li class="search-result-Item " data-search-dno="${dto.dno}" value="${dto.dno}">
                                     <input class="input" type="hidden" value="${dto.dno}">                                     
-                                    <div  >
-                                                <p>${dto.dyningname}</p>												
-                                                ${dto.hashtag}
-                                                
-                                            </div>
-                                        </li>`;
+                                    <div>
+                                         <p>${dto.dyningname}</p>												
+                                         ${dto.hashtag}            
+                                    </div>
+                                    </li>`;
                             })
                             searchResult.html(str);
                         },
