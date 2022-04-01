@@ -1,8 +1,10 @@
 package ds.com.phoncnic.repository;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.IntStream;
 
 import javax.transaction.Transactional;
@@ -12,11 +14,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Commit;
 
+import ds.com.phoncnic.dto.DyningDTO;
 import ds.com.phoncnic.entity.Dyning;
 import ds.com.phoncnic.entity.DyningImage;
 import ds.com.phoncnic.entity.Emoji;
 import ds.com.phoncnic.entity.Member;
 import ds.com.phoncnic.entity.RoofDesign;
+import ds.com.phoncnic.service.dyning.DyningService;
 
 @SpringBootTest
 public class DyningRepositoryTests {
@@ -35,6 +39,9 @@ public class DyningRepositoryTests {
 
     @Autowired
     EmojiInfoRepository emojiInfoRepository;
+
+    @Autowired
+    DyningService dyningService;
 
     @Transactional
     @Commit
@@ -67,6 +74,7 @@ public class DyningRepositoryTests {
                     .dyningname("가게이름" + i)
                     .comment("사장님 한 마디" + i)
                     .location("실제가게위치" + i)
+                    .locationdetails("1층")
                     .foodtype(roof)
                     .tel("051-1234-1234")
                     .businesshours("영업시간" + i)
@@ -80,8 +88,10 @@ public class DyningRepositoryTests {
             for (int j = 0; j < Math.random() * 3; j++) {
                 DyningImage dyningImage = DyningImage.builder()
                         .menuimagename(j + "menuimagename.jpg")
+                        .menuimageuuid(UUID.randomUUID().toString())
                         .menuimagepath("menuimagepath" + j)
                         .backgroundname(j + "backgroundname.jpg")
+                        .backgrounduuid(UUID.randomUUID().toString())
                         .backgroundpath("backgroundpath" + j)
                         .dyning(dyning)
                         .build();
@@ -103,7 +113,6 @@ public class DyningRepositoryTests {
                         .build();
                 emojiRepository.save(emoji);
             }
-
         });
     }
 
@@ -132,14 +141,29 @@ public class DyningRepositoryTests {
         });
     }
 
-    // @Test
-    // public void getdynig(){
-    //     List<Object[]> result = dyningRepository.getDyningDetails(11L);
-    //     for(Object[] arr :result)System.out.println(Arrays.toString(arr));
-    // }
+    @Test
+    public void testSearchPage() {
+        // Pageable pageable = PageRequest.of(0, 10, Sort.by("dno").descending().and(Sort.by("dyningname").ascending()));
+        // Page<Object[]> result = dyningRepository.searchPage("n", "1", pageable);
+    }
 
+    @Test
+    public void testFollowereCount() {
+        Long followerCwt = dyningRepository.getDyningFollowerCount(1L);
+        System.out.println(followerCwt);
+    }
 
+    @Test
+    public void testt() {
+        List<Object[]> result = dyningRepository.getDyningDetails(1L);
+        System.out.println(Arrays.toString(result.get(1)));
+    }
 
-
-
+    @Transaction
+    @Test
+    public void testttt() {
+        DyningDTO result = dyningService.getDyningDetails(1L);
+        System.out.println(result);
+        System.out.println();
+    }
 }

@@ -19,19 +19,21 @@ import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
+
   private RedirectStrategy redirect = new DefaultRedirectStrategy();
   private PasswordEncoder passwordEncoder;
+
   public CustomLoginSuccessHandler(PasswordEncoder passwordEncoder){
     this.passwordEncoder = passwordEncoder;
   }
 
   @Override
-  public void onAuthenticationSuccess(HttpServletRequest request, 
-      HttpServletResponse response, Authentication auth)
-      throws IOException, ServletException {
-    log.warn("Login Success");
+  public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication auth) throws IOException, ServletException {
+    
     AuthMemberDTO authMemberDTO = (AuthMemberDTO) auth.getPrincipal();
     // boolean passwordResult = passwordEncoder.matches("1", authMemberDTO.getPassword());
+    
+    log.warn("Login Success");
     log.info("DTO.getPassword : "+authMemberDTO.getPassword());
     
     List<String> roleNames = new ArrayList<>();
@@ -41,19 +43,7 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
     });
 
     log.warn("ROLE NAMES : "+roleNames);
-    // if(roleNames.contains("ROLE_ADMIN")){
-    //   response.sendRedirect(request.getContextPath()+"/sample/admin");
-    //   return;
-    // }
-    // if(roleNames.contains("ROLE_MEMBER")){
-    //   response.sendRedirect(request.getContextPath()+"/sample/member");
-    //   return;
-    // }
-    // if(roleNames.contains("ROLE_USER")){
-    //   response.sendRedirect(request.getContextPath()+"/sample/all");
-    //   return;
-    // }
+
     response.sendRedirect(request.getContextPath()+"/");
   }
-
 }

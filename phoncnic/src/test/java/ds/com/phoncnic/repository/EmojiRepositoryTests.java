@@ -34,6 +34,13 @@ public class EmojiRepositoryTests {
     }
 
     @Test
+    public void testgetEnonType() {
+        Emoji result = emojiRepository.getEnoAndType("user1@icloud.com", 13L);
+        System.out.println(result);
+
+    }
+
+    @Test
     public void getEmojiCountgno1() {
         List<Object[]> result = emojiRepository.getEmojiCountByGno(30L);
 
@@ -43,7 +50,6 @@ public class EmojiRepositoryTests {
             System.out.println("==========count");
             System.out.println(arr[1]);
         }
-
     }
 
     @Test
@@ -106,6 +112,7 @@ public class EmojiRepositoryTests {
         List<Object[]> emojiList = emojiRepository.getEmojiCountByGno(3L);
 
         emojiList.stream().forEach(cnt -> {
+            System.out.println("count : " + cnt[1]);
             System.out.println("type : " + cnt[0]);
             System.out.println("count : " + cnt[1]);
         });
@@ -114,17 +121,31 @@ public class EmojiRepositoryTests {
     @Test
     @Transactional
     public void testUpdateEmoji() {
-        // List<Emoji> emoji = emojiRepository.getEmojiByGno(28L);
-        // emoji.stream().forEach(e -> {
-        //     System.out.println("type : " + e.getEmojiInfo());
-        // });
-        // System.out.println("---변경 전--");
         Integer eno = emojiRepository.updateEmojiTypeByGnoAndMemberId("3", 28L, "user1@icloud.com");
         System.out.println(eno);
-        // emoji = emojiRepository.getEmojiByGno(28L);
-        // System.out.println("---변경 후--");
-        // emoji.stream().forEach(e -> {
-        //     System.out.println("type : " + e.getEmojiInfo());
-        // });
+    }
+
+    @Test
+    public void testExistsEmojiByMemberId() {
+        List<Object[]> result = emojiRepository.existsByMemberIdANDGno(10L, "user7@icloud.com");
+        System.out.println(Arrays.toString(result.get(0)));
+    }
+
+    @Test
+    @Transactional
+    public void emojiServiceRegisterTest() {
+        
+        EmojiDTO emojiDTO = EmojiDTO.builder()
+        .id("user1@icloud.com")
+        .gno(44L)
+        .emojitype("3")
+        .build();
+
+        Long[][] emojicout1 = emojiService.getEmojiCountArrayByGno(emojiDTO.getGno());
+
+        Long[][] emojicout2 = emojiService.galleryEmojiRegiter(emojiDTO);
+        System.out.println(Arrays.deepToString(emojicout1));
+        System.out.println("_-------------------_");
+        System.out.println(Arrays.deepToString(emojicout2));
     }
 }

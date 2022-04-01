@@ -1,10 +1,137 @@
 <!DOCTYPE html>
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
-
-</html>
 <th:block th:replace="~{layout/basic :: setContent(~{::content})}">
     <th:block th:fragment="content">
+
         <h1>등록 가게 열람</h1>
-        [[${dno}]]번째 가게가 등록되었습니다.
+
+        <table border="1">
+            <tr>
+                <th scope="col">dyningname</th>
+                <th scope="col">businesshours</th>
+                <th scope="col">location</th>
+                <th scope="col">comment</th>
+                <th scope="col">hashtag</th>
+                <th scope="col">tel</th>
+                <th scope="col">menu</th>
+                <th scope="col">background</th>
+                <th scope="col">emojicwt</th>
+
+
+            </tr>
+            <tr th:each="dto : ${result}">
+                <td>[[${dto.dyningname}]]</td>
+                <td>[[${dto.businesshours}]]</td>
+                <td>[[${dto.location}]],[[${dto.locationdetails}]]</td>
+                <td>[[${dto.comment}]]</td>
+                <td>[[${dto.hashtag}]]</td>
+                <td>[[${dto.tel}]]</td>
+
+                <td>
+                    <th:block th:each="idto : ${imageresult}">
+                        <img class="thumbimage" th:src="|@{'/display'}?fileName=${idto.getMenuThumbnailImageURL()}|"
+                            th:data-file="|@{'/display'}?fileName=${idto.getMenuImageURL()}|" alt="">
+                    </th:block>
+                </td>
+                <td>
+                    <th:block th:each="idto : ${imageresult}" th:if="${idto.backgroundname}!=''">
+                        <img class="thumbimage"
+                            th:src="|@{'/display'}?fileName=${idto.getBackgoundThumbnailImageURL()}|"
+                            th:data-file="|@{'/display'}?fileName=${idto.getBackgoundImageURL()}|" alt="">
+                    </th:block>
+                </td>
+                <td>[[${dto.emojicwt}]]</td>
+            </tr>
+        </table>
+
+        <table border="1">
+            <tr>
+                <th>이모지 갯수</th>
+                <th scope="col" colspan="5">이모지 타입</th>
+                <!--/* <th th:colspan="${result.emojicwt}">이모지 삭제</th> */-->
+            </tr>
+            <tr readonly>
+                <td>[[${result.emojicwt}]]</td>
+                <td><button class="up" value="1" name="emojitype" type="button">
+                    <img th:src="${result.emojiinfo['1']}" alt="" style="width:30px;">
+                    [[${emojitype1}]]</button></td>
+                <td><button class="up" value="2" name="emojitype" type="button">
+                    <img th:src="${result.emojiinfo['2']}" alt="" style="width:30px;">
+                    [[${emojitype2}]]</button></td>
+                <td><button class="up" value="3" name="emojitype" type="button">
+                    <img th:src="${result.emojiinfo['3']}" alt="" style="width:30px;">
+                    [[${emojitype3}]]</button></td>
+                <td><button class="up" value="4" name="emojitype" type="button">
+                    <img th:src="${result.emojiinfo['4']}" alt="" style="width:30px;">
+                    [[${emojitype4}]]</button></td>
+                <td><button class="up" value="5" name="emojitype" type="button">
+                    <img th:src="${result.emojiinfo['5']}" alt="" style="width:30px;">
+                    [[${emojitype5}]]</button></td>
+                <!--/* <td th:each="dto : ${emojilist}"><button type="button" th:value="${dto.eno}" class="emojiRemoveBtn">삭제</button></td> */-->
+            </tr>
+        </table>
+
+        <form action="" id="frm">
+            <input type="hidden" name="id" th:value="${result.id}">
+            <input type="hidden" name="dno" th:value="${result.dno}">
+        </form>
+
+        <button type="button" id="modifyBtn">수정</button>
+        <button type="button" id="removeBtn">삭제</button>
+        <a th:href="@{/manage/dyning/list(id=${result.id})}"><button type="button">목록</button></a>
+
+        <script th:inline="javascript">
+            $(document).ready(function (e) {
+
+                /*[+
+                    var urlRemove = [[@{/manage/dyning/remove}]];
+                    var urlModify = [[@{/manage/dyning/modify}]];
+                +]*/
+
+                $("#removeBtn").on("click", function (e) {
+                    if (confirm("삭제하시겠습니까?")) {
+                        $("#frm").attr("action", urlRemove);
+                        $("#frm").attr("method", "post");
+                        $("#frm").submit();
+                    } else { return }
+                });
+
+                $("#modifyBtn").on("click", function (e) {
+                    $("#frm").attr("action", urlModify);
+                    $("#frm").attr("method", "get");
+                    $("#frm").submit();
+                });
+
+                $(".thumbimage").on("click", function (e) {
+                    var filename = $(this).data('file');
+                    console.log(filename);
+                    var OriginMenu = `<img style="width:100%" src="${filename}">`;
+                    $(".modal-body").html(OriginMenu);
+                    $("#imageModal").show();
+                });
+                
+                $("button[name='btn-close']").on("click", function (e) {
+                    $("#imageModal").hide();
+                });
+            });
+        </script>
+
+        <div id="imageModal" class="modal imageModal" tabindex="-2">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Picture</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                            name="btn-close"></button>
+                    </div>
+                    <div class="modal-body">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary pictureClose" name="btn-close"
+                            data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </th:block>
 </th:block>
