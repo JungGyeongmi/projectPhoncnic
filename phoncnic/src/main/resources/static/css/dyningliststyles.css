@@ -11314,4 +11314,33 @@ body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
   /* body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
     margin-left: -27rem;
   } */
+
+  #right-sidebar {
+    min-height: 100vh;
+    margin-right: -15rem;
+    transition: margin 0.25s ease-out;
+  }
+  
+  #right-sidebar .sidebar-heading {
+    padding: 0.875rem 1.25rem;
+    font-size: 1.2rem;
+  }
+  
+  #right-sidebar .list-group {
+    width: 15rem;
+  }
+
+  body.sb-sidenav-toggled #wrapper #right-sidebar {
+    margin-right: 0;
+  }
+  
+  body {
+    background-image: url(back.png);
+    background-repeat: repeat-x;
+    background-size: cover;
+  }
+
+  body::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+  }
 }

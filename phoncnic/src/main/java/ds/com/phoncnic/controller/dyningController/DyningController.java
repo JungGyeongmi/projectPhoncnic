@@ -10,6 +10,7 @@ import ds.com.phoncnic.dto.DyningDTO;
 import ds.com.phoncnic.service.FollowService;
 import ds.com.phoncnic.service.dyning.DyningService;
 import ds.com.phoncnic.service.emoji.EmojiService;
+import ds.com.phoncnic.service.mypage.CharacterLookService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -22,6 +23,8 @@ public class DyningController {
     private final DyningService dyningService;
     private final EmojiService emojiService;
     private final FollowService followService;
+    private final CharacterLookService characterLookService;
+
 
     // 카페 거리 페이지
     @GetMapping("/cafe/list")
@@ -30,7 +33,7 @@ public class DyningController {
         model.addAttribute("result", dyningService.getStreet());
         model.addAttribute("id",id);
     }
-
+   
     @GetMapping("/restaurant/list")
     public void restaurant(Model model,String id) {
         log.info("restaurant list.................");
@@ -70,5 +73,23 @@ public class DyningController {
 
 
     }
+
+    @GetMapping("/movingtest")
+    public String movingtest(Model model,String id) {
+
+        model.addAttribute("hairDTO", characterLookService.getCharacterHair(id));
+
+        return "/dyning/movingtest";
+    }
+
+    
+    @GetMapping("/movingtest2")
+    public String movingtest2(Model model,String id) {
+
+        model.addAttribute("hairDTO", characterLookService.getCharacterHair(id));
+
+        return "/dyning/movingtest2";
+    }
+
 
 }
