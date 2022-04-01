@@ -1,6 +1,10 @@
 package ds.com.phoncnic.controller.galleryRestController;
 
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -63,14 +67,15 @@ public class GalleryRestController {
     }
 
     // Emoji Register
-    @PostMapping("/emoji/register")
-    public ResponseEntity<Long> emojiRegister(@RequestBody EmojiDTO emojiDTO) {
+    @PostMapping("/emoji/register/{gno}")
+    public ResponseEntity<Long[][]> emojiRegister(@RequestBody EmojiDTO emojiDTO, @PathVariable("gno") Long gno) {
+        emojiDTO.setGno(gno);
         log.info("emoji Register....................emojiDTO:" + emojiDTO);
-        Long eno = emojiService.galleryEmojiRegiter(emojiDTO);
-        return new ResponseEntity<>(eno, HttpStatus.OK);
+        Long[][] newEmojiCount = emojiService.galleryEmojiRegiter(emojiDTO);
+        log.info(Arrays.deepToString(newEmojiCount));
+        return new ResponseEntity<>(newEmojiCount, HttpStatus.OK);
     }
-
-
+    
     @PostMapping("/addfollow")
     public ResponseEntity<Long> addFollow(@RequestBody FollowDTO followDTO) {
         log.info("-----------------add Follow-----------------");

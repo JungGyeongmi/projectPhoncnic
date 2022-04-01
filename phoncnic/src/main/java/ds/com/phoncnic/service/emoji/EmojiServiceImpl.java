@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,8 +28,9 @@ public class EmojiServiceImpl implements EmojiService {
         return dyningemoji.getEno();
     }
 
+    @Transactional
     @Override
-    public Long galleryEmojiRegiter(EmojiDTO emojiDTO) {
+    public Long[][] galleryEmojiRegiter(EmojiDTO emojiDTO) {
         
         String id = emojiDTO.getId();
         Long gno = emojiDTO.getGno();
@@ -42,20 +45,17 @@ public class EmojiServiceImpl implements EmojiService {
             galleryEmoji = dtoToEntity(emojiDTO);
             emojiRepository.save(galleryEmoji);
             log.info("insert eno...."+galleryEmoji.getEno());
-            return galleryEmoji.getEno();
         } else if(checker[1].equals(emojiType)){
             log.info("deleted eno...."+(Long)checker[0]);
             emojiRepository.deleteByEno((Long)checker[0]);
-            return 0L;
         } else if(!checker[1].equals(emojiType)) {
             // update query 문으로 수정하고싶은데
             emojiRepository.deleteByEno((Long)checker[0]);
             galleryEmoji = dtoToEntity(emojiDTO);
             emojiRepository.save(galleryEmoji);
             log.info("update eno...."+galleryEmoji.getEno());
-            return galleryEmoji.getEno();
         }
-        return 0L;
+        return getEmojiCountArrayByGno(gno);
     }
 
     @Override

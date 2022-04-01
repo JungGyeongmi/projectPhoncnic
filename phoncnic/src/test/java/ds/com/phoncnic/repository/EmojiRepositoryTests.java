@@ -134,14 +134,18 @@ public class EmojiRepositoryTests {
     @Test
     @Transactional
     public void emojiServiceRegisterTest() {
-
+        
         EmojiDTO emojiDTO = EmojiDTO.builder()
-            .id("user1@icloud.com")
-            .gno(10L)
-            .emojitype("5")
+        .id("user1@icloud.com")
+        .gno(44L)
+        .emojitype("3")
         .build();
 
-        Long eno = emojiService.galleryEmojiRegiter(emojiDTO);
-        System.out.println(eno);
+        Long[][] emojicout1 = emojiService.getEmojiCountArrayByGno(emojiDTO.getGno());
+
+        Long[][] emojicout2 = emojiService.galleryEmojiRegiter(emojiDTO);
+        System.out.println(Arrays.deepToString(emojicout1));
+        System.out.println("_-------------------_");
+        System.out.println(Arrays.deepToString(emojicout2));
     }
 }
