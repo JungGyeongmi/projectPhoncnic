@@ -11,12 +11,15 @@ canvas {
 </style>
 
 <body onload="startGame()">
- 
+    <div th:each="hdto : ${hairDTO}"><img id="radiohair" class="look hairlook" th:src="${hdto.hairpath}" alt="">
+        <input  type="hidden" id="radiohair" th:value="${hdto.hairname}"></div>
 <script>
 var myGamePiece;
  
 function startGame() {
-    myGamePiece = new component(30, 30, "red", 225, 225);
+    // myGamePiece = document.getElementById('radiohair');
+    myGamePiece = new Image();
+    myGamePiece.src="hair1.png";
     myGameArea.start();
 }
  
@@ -28,7 +31,7 @@ var myGameArea = {
         this.context = this.canvas.getContext("2d");
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
         this.frameNo = 0;
-        this.interval = setInterval(updateGameArea, 7);
+        this.interval = setInterval(updateGameArea, 5);
         window.addEventListener('keydown', function (e) {
             e.preventDefault();
             myGameArea.keys = (myGameArea.keys || []);
