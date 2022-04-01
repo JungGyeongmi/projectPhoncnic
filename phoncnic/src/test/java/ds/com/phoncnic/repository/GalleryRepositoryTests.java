@@ -43,10 +43,10 @@ public class GalleryRepositoryTests {
 
     @Autowired
     EmojiRepository emojiRepository;
-    
+
     @Autowired
     EmojiService emojiService;
-    
+
     @Autowired
     EmojiInfoService emojiInfoService;
 
@@ -101,10 +101,10 @@ public class GalleryRepositoryTests {
     }
 
     @Test
-    public void getGalleryTest(){
+    public void getGalleryTest() {
         GalleryDTO galleryDTO = galleryService.getGallery(3L);
-        System.out.println("galleryDTO : "+galleryDTO);
-        System.out.println("emojiCount : "+Arrays.deepToString(galleryDTO.getEmojicount()));
+        System.out.println("galleryDTO : " + galleryDTO);
+        System.out.println("emojiCount : " + Arrays.deepToString(galleryDTO.getEmojicount()));
     }
 
     @Test
@@ -112,21 +112,20 @@ public class GalleryRepositoryTests {
         List<GalleryDTO> galleryDTOList = galleryService.getGalleryList(false);
         // galleryDTOList.forEach(System.out::println);
         GalleryDTO galleryDTO = galleryDTOList.get(0);
-            HashMap<String, String> resultHash = galleryDTO.getEmojiinfo();
-            System.out.println(resultHash.get("1"));
-            System.out.println(resultHash.get("2"));
-            System.out.println(resultHash.get("3"));
-            System.out.println(resultHash.get("4"));
-            System.out.println(resultHash.get("5"));
-        
+        HashMap<String, String> resultHash = galleryDTO.getEmojiinfo();
+        System.out.println(resultHash.get("1"));
+        System.out.println(resultHash.get("2"));
+        System.out.println(resultHash.get("3"));
+        System.out.println(resultHash.get("4"));
+        System.out.println(resultHash.get("5"));
     }
-
 
     @Test
     public void modifyTest() {
         List<EmojiInfo> emojiInfoList = emojiInfoService.getEmojiInfoList();
         Gallery gallery = galleryRepository.findById(2L).get();
-        GalleryDTO dto = galleryService.entityToDTO(gallery, emojiService.getEmojiCountArrayByGno(gallery.getGno()), emojiInfoList);
+        GalleryDTO dto = galleryService.entityToDTO(gallery, emojiService.getEmojiCountArrayByGno(gallery.getGno()),
+                emojiInfoList);
         dto.setContent("content1004");
         dto.setTitle("title1004");
         System.out.println(dto.toString());
@@ -137,11 +136,11 @@ public class GalleryRepositoryTests {
     @Test
     public void getPageByMemberId() {
         PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
-            .page(1)
-            .size(3)
-            .type("t")
-            .keyword("3")
-            .build();
+                .page(1)
+                .size(3)
+                .type("t")
+                .keyword("3")
+                .build();
 
         Pageable pageable = pageRequestDTO.getPageable(Sort.by("gno"));
 
@@ -163,26 +162,26 @@ public class GalleryRepositoryTests {
         Pageable pageable = PageRequest.of(0, 2, Sort.by("gno").descending());
 
         Page<Object[]> result = galleryRepository.searchPage("t", "title", pageable);
-        
+
         List<Object[]> galleryList = result.getContent();
-        
+
         Object[] gallery = galleryList.stream().toArray();
-        
+
         System.out.println(Arrays.deepToString(gallery));
     }
 
-    @Test 
+    @Test
     public void getGalleryPageInModal() {
         SearchPageRequestDTO requestDTO = SearchPageRequestDTO.builder()
-            .page(1)
-            .size(3)
-            .type("t")
-            .keyword("title")
-            .sort("gno")
-        .build();
+                .page(1)
+                .size(3)
+                .type("t")
+                .keyword("title")
+                .sort("gno")
+                .build();
 
         PageResultDTO<GalleryDTO, Object[]> pageResult = galleryService.getGalleryPage(requestDTO);
-   
+
         System.out.println(pageResult.getPage());
         System.out.println(pageResult.getSize());
         System.out.println(pageResult.getStart());
@@ -190,8 +189,7 @@ public class GalleryRepositoryTests {
     }
 
     @Test
-    public void getGalleryDTOWithEmojiInfo () {
-
+    public void getGalleryDTOWithEmojiInfo() {
 
     }
 
