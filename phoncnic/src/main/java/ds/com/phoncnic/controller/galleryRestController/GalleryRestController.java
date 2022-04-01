@@ -42,8 +42,8 @@ public class GalleryRestController {
     public ResponseEntity<PageResultDTO<GalleryDTO, Object[]>> getCuratorModal(SearchPageRequestDTO pageRequestDTO) {
         log.info("get curator rest........");
         PageResultDTO<GalleryDTO, Object[]> result = galleryService.getGalleryPage(pageRequestDTO);
+        
         return new ResponseEntity<>(result, HttpStatus.OK);
-
     }
 
     // Gallery List
@@ -63,17 +63,8 @@ public class GalleryRestController {
         log.info("emojiDTO : " + emojiDTO);
         return new ResponseEntity<>(emojiDTO, HttpStatus.OK);
     }
-    
-    //Gallery List
-    @GetMapping("/read/{gno}")
-    public ResponseEntity<GalleryDTO>getList(@PathVariable("gno") Long gno) {
-         log.info("getgalleryList........gno" + gno);
-         GalleryDTO galleryDTO = galleryService.getGallery(gno);
-         log.info("galleryDTO : " + galleryDTO);
-         return new ResponseEntity<>(galleryDTO, HttpStatus.OK);
-    }
 
-    // Emoji Register
+    // Emoji insert/update/remove
     @PostMapping("/emoji/register/{gno}")
     public ResponseEntity<Long[][]> emojiRegister(@RequestBody EmojiDTO emojiDTO, @PathVariable("gno") Long gno) {
         emojiDTO.setGno(gno);
