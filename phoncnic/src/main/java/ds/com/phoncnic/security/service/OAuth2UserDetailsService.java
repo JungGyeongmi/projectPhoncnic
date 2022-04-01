@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import ds.com.phoncnic.entity.AuthorityRole;
 import ds.com.phoncnic.entity.CharacterLook;
+import ds.com.phoncnic.entity.CharacterLookInfo;
 import ds.com.phoncnic.entity.Member;
 import ds.com.phoncnic.repository.CharacterLookRepository;
 import ds.com.phoncnic.repository.MemberRepository;
@@ -77,6 +78,7 @@ public class OAuth2UserDetailsService extends DefaultOAuth2UserService{
     CharacterLook characterLook = CharacterLook.builder()
     .hairname("hair1")
     .clothesname("clothes1")
+    .characterLookinfo(CharacterLookInfo.builder().chno(1L).build())
     .member(Member.builder().id(email).build())
     .build();
     characterLookRepository.save(characterLook);
