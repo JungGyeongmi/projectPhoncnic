@@ -48,9 +48,6 @@ public class GalleryRepositoryTests {
     EmojiService emojiService;
 
     @Autowired
-    EmojiService emojiService;
-
-    @Autowired
     EmojiInfoService emojiInfoService;
 
     @Autowired
