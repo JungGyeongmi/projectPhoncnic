@@ -49,13 +49,15 @@ public class GalleryController {
     
     //그림전 상세페이지
     @GetMapping("/painting")
-    public String painting( PageRequestDTO pageRequestDTO, Model model, @RequestParam("gno") Long gno, String id){
-        GalleryDTO dto = galleryService.getGallery(gno);
+    public String painting( PageRequestDTO pageRequestDTO, Model model, Long gno){
+        // GalleryDTO dto = galleryService.getGallery(gno);
         model.addAttribute("galleryDTOList", galleryService.getGalleryList(true));
         model.addAttribute("emojiInfoList", emojiInfoService.getEmojiInfoList());
         model.addAttribute("list", galleryService.getPaintingList(pageRequestDTO));
-        model.addAttribute("fno", followService.getFnoByGno(id, dto.getId()));
-        model.addAttribute("id",id);
+        model.addAttribute("id", "user1@icloud.com");
+        // model.addAttribute("fno", followService.getFnoByGno(id, dto.getId()));
+        // log.info("fno:"+followService.getFnoByGno(id, dto.getId()));
+        // model.addAttribute("id",id);
         return "gallery/painting/list";
     }
 }

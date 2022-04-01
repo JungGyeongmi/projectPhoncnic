@@ -122,7 +122,7 @@
 		<h1>그림전</h1>
 		<div class="swiper mySwiper">
 			<div class="swiper-wrapper">
-				<div class="swiper-slide" th:each="dto : ${galleryDTOList}" th:data-gno="${dto.gno}"
+				<div class="swiper-slide" th:each="dto : ${galleryDTOList}" th:data-gno="${dto.gno}" th:data-id="${id}"
 					th:data-file="${dto.getImageURL}" data-bs-toggle="modal" data-bs-target="#detailsModal">
 					<img style="cursor:pointer;" th:src="|@{'/display'}?fileName=${dto.getImageURL()}|"
 						alt="이미지를 불러올 수 없습니다" />
@@ -138,6 +138,7 @@
 			<div class="swiper-button-next"></div>
 		</div>
 		<button type="button" id="curatorBtn" data-bs-toggle="modal" data-bs-target="#curatorModal">큐레이터</button>
+		<input type="text" id="selectedgno" value="user1@icloud.com">
 
 		<!-- Swiper JS -->
 		<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
@@ -176,64 +177,129 @@
 					var readUrl = [[@{/gallery/read}]];
 					var emojiUrl = [[@{/gallery/emoji}]];
 					var emojiaddUrl = [[@{/gallery/register}]];
-					var followaddUrl = [[@{gallery/addfollow}]];
-			    	var followremoveUrl = [[@{/gallery/removefollow/}]];
+					var followaddUrl = [[@{/gallery/addfollow}]];
+			    	var followremoveUrl = [[@{/gallery/removefollow}]];
+					var followGetUrl = [[@{/gallery/fno}]];
 					var urlDisplay = [[@{/display}]];
 				+]*/
 				
 				var uploadResult = $(".uploadResult");
 				var detailsModalbody = $(".details-modal-body");
-				var showdetailsModal = function (targetGno, targetFile) {
-					$.getJSON(readUrl + "/" + targetGno, function (dto) {
+				var ffff= $("#selectedgno").val();
+				var showdetailsModal = function (targetGno,ffff, targetFile) {
+					$.getJSON(readUrl + "/" + targetGno + "/" + ffff, function (dto) {
 						// console.log("getList..........dto " + JSON.stringify(dto));
 						var str = "";
 						str += `
 						
-							<input type="hidden" name = "gno" value="${targetGno}" class="inputGno" data-gno="${targetGno}">
-							<input type="hidden" name = "id" value="user1@icloud.com" class="inputId" data-id="${dto.id}">
-							<input type="hidden" name = "followerid"  data-followerid="${id}">
+						<input type="hidden" name = "gno" value="${targetGno}" class="inputGno" data-gno="${targetGno}">
+						<input type="text" id="id" name="id" value="user1@icloud.com"></input>
+							<input type="hidden"  class="inputId" data-id="${dto[0].id}">
+							
 
-							<img style='width:100%' src="${urlDisplay}?fileName=${targetFile}">
+							<img id="targetimg" style='width:100%' src="${urlDisplay}?fileName=${targetFile}">
 
 							<div class=row>
-								<div class="col-md-7"><h2>${dto.title}</h2></div>
-								<div class="col-md-4"><h4>${dto.id}</h4></div>
+								<div class="col-md-7"><h2>${dto[0].title}</h2></div>
+								<div class="col-md-4"><h4>${dto[0].id}</h4></div>
 							</div>
 
 							<div id="emojiBox">
-							<input type="radio" id="1" value="1" name="emojitype" data-emojitype="${dto.emojicount[0]}" class="emoji">      
+							<input type="radio" id="1" value="1" name="emojitype" data-emojitype="${dto[0].emojicount[0]}" class="emoji">      
 							<label for="1" class="emojibtn">🥰</label>
-							<span>${dto.emojicount[0][1]}</span>
+							<span>${dto[0].emojicount[0][1]}</span>
 							
-							<input type="radio" id="2" value="2" name="emojitype" data-emojitype="${dto.emojicount[1]}" class="emoji">      
+							<input type="radio" id="2" value="2" name="emojitype" data-emojitype="${dto[0].emojicount[1]}" class="emoji">      
 							<label for="2" class="emojibtn">😊</label>
-							<span>${dto.emojicount[1][1]}</span>
+							<span>${dto[0].emojicount[1][1]}</span>
 						
-							<input type="radio" id="3" value="3" name="emojitype" data-emojitype="${dto.emojicount[2]}" class="emoji">       
+							<input type="radio" id="3" value="3" name="emojitype" data-emojitype="${dto[0].emojicount[2]}" class="emoji">       
 							<label for="3" class="emojibtn">😥</label>
-							<span>${dto.emojicount[2][1]}</span>
+							<span>${dto[0].emojicount[2][1]}</span>
 				
-							<input type="radio" id="4" value="4" name="emojitype" data-emojitype="${dto.emojicount[3]}" class="emoji">      
+							<input type="radio" id="4" value="4" name="emojitype" data-emojitype="${dto[0].emojicount[3]}" class="emoji">      
 							<label for="4" class="emojibtn">😂</label>
-							<span>${dto.emojicount[3][1]}</span>
+							<span>${dto[0].emojicount[3][1]}</span>
 							
-							<input type="radio" id="5" value="5" name="emojitype" data-emojitype="${dto.emojicount[4]}" class="emoji">      
+							<input type="radio" id="5" value="5" name="emojitype" data-emojitype="${dto[0].emojicount[4]}" class="emoji">      
 							<label for="5" class="emojibtn">😝</label>
-							<span>${dto.emojicount[4][1]}</span>
+							<span>${dto[0].emojicount[4][1]}</span>
 							</div>
-							<span>
-								&nbsp &nbsp &nbsp &nbsp &nbsp<button type="button" class="followBtn" data-fno="${fno}">팔로우</button>
-							</span>`;
+							
+							<input type="text"  id="artname" value="${dto[0].id}">
+							<input type ="button" id="followBtn" value="${dto[1]}">
+							`;
+							
 						detailsModalbody.html(str);
+						
 					});
 				}
 
+					//팔로우 
+				
+
+					$(this).css("background","red");
+					var fno = $("#followBtn");
+					if (fno.val() != "null") {
+						fno.html('언팔로우');
+					}
+					$(document).on( "click","#followBtn", function () {
+						var fno = $("#followBtn");
+						var gno = $('.inputGno').data('gno');
+						var id = $("#id").val();
+						var targetFile=$("#targetimg").attr('src'); 
+						var artistname = $("#artname").val().substr(0,5);
+						// 언팔 상태
+						if (fno.val() == "null") {
+							var data = { followerid: id, artistname: artistname };	
+							console.log(data);
+							$.ajax({
+								url: followaddUrl,
+								type: "POST",
+								data: JSON.stringify(data),
+								contentType: "application/json; charset=utf-8",
+								dataType: "text",
+								success  : function(result){
+									alert("");
+                 //location.href="/phoncnic/gallery/read/" +gno + "/" + id;
+				 showdetailsModal(gno,id, targetFile);
+
+             }
+          ,  error:function(request,status,error){
+             alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+          }
+         });
+
+						} else {
+							var data = { id: id, artistname: artistname };
+
+							$.ajax({
+								url: followremoveUrl +"/" + id +"/" +artistname ,
+								type: "DELETE",
+								data: JSON.stringify(data),
+								contentType: "application/json; charset=utf-8",
+								dataType: "text",
+								success  : function(result){
+                 alert(result.message);
+             }
+          ,  error:function(request,status,error){
+             alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+          }
+         });
+						}
+					});
+
+
+				
+
+// $(this).data('fno', value);
 				/* target의 gno / target의 imagepath 가져옴 / emoji 갯수 */
 				$(".swiper-slide").click(function () {
 					var targetGno = $(this).data("gno");
+					var targetId = $(this).data("id")
 					var targetFile = $(this).data("file");
 					$("#detailsModal").modal('show');
-					showdetailsModal(targetGno, targetFile);
+					showdetailsModal(targetGno,targetId, targetFile);
 				});
 
 				// 큐레이터 모달 제어
@@ -247,7 +313,6 @@
 				var searchBtn = $("#md-search-btn");
 				var searchForm = $("#modal-frm");
 				var keyword = $("input[name=keyword]");
-
 				searchBtn.on("click", function (e) {
 					getSearchList();
 				});
@@ -281,6 +346,7 @@
 					}
 					getCuratorList(url);
 				});
+
 
 				function getCuratorList(url) {
 					$.get(url, function (result) {
@@ -411,50 +477,6 @@
 
 				});
 
-				//팔로우 
-				$(".followBtn").on("click", function () {
-					var fno = $('#followBtn').data("fno");
-					
-					
-					if (fno.val() != "") {
-						fno.html('언팔로우');
-					}
-					$('#followBtn').on("click", function () {
-						var id = $("#followerid").data("followerid");
-						var artistname = $(".inputId").val();
-						console.log(fno.val());
-
-						//언팔 상태
-						if (fno.val() == "") {
-							var data = { followerid: id, artistname: artistname };
-							console.log(data);
-							$.ajax({
-								url: followaddUrl,
-								type: "POST",
-								data: JSON.stringify(data),
-								contentType: "application/json; charset=utf-8",
-								dataType: "text",
-								success: function (result) {
-									self.location.reload();
-								}
-							});
-						} else {
-							var data = { id: id, artistname: artistname };
-
-							$.ajax({
-								url: followremoveUrl + "/" + id + "/" + artistname,
-								type: "DELETE",
-								data: JSON.stringify(data),
-								contentType: "application/json; charset=utf-8",
-								dataType: "text",
-								success: function (result) {
-									console.log("result: " + result);
-									self.location.reload();
-								}
-							})
-						}
-					})
-
 
 					// 모달 창 내 search result 클릭 시 이동 제어
 					$(document).on("click", ".search-result-Item", function (e) {
@@ -468,7 +490,6 @@
 					});
 
 				});
-			});
 		</script>
 
 		<!-- 큐레이터 모달창 -->
@@ -529,6 +550,7 @@
 						</div>
 						<div class="modal-body">
 							<div class="details-modal-body">
+								
 							</div>
 							<div class="detail-modal-body2">
 							</div>

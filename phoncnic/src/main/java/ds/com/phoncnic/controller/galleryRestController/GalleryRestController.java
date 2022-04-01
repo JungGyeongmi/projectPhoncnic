@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,12 +46,16 @@ public class GalleryRestController {
     }
 
     // Gallery List
-    @GetMapping("/read/{gno}")
-    public ResponseEntity<GalleryDTO> getList(@PathVariable("gno") Long gno) {
+    @GetMapping("/read/{gno}/{id}")
+    public ResponseEntity<Object[]> getList(@PathVariable("gno") Long gno, @PathVariable("id") String id) {
         log.info("getgalleryList........gno" + gno);
         GalleryDTO galleryDTO = galleryService.getGallery(gno);
+        log.info("------------------readFno----------------- " + id+galleryDTO.getId().substring(0, 5));
+        Long fno =  followService.getFnoByGno(id, galleryDTO.getArtistname());
+        Object[] array = {galleryDTO , fno};
         log.info("galleryDTO : " + galleryDTO);
-        return new ResponseEntity<>(galleryDTO, HttpStatus.OK);
+        log.info("------------------readFno----------------- " + fno);
+        return new ResponseEntity<>(array, HttpStatus.OK);
     }
 
     // Emoji getList
@@ -84,6 +89,7 @@ public class GalleryRestController {
         log.info("followDTO:" + followDTO);
 
         Long fno = followService.addArtistFollow(followDTO);
+        log.info("add--------fno:"+fno);
         return new ResponseEntity<>(fno, HttpStatus.OK);
     }
 
@@ -95,4 +101,14 @@ public class GalleryRestController {
         return new ResponseEntity<>(id, HttpStatus.OK);
 
     }
+
+    // @PostMapping("/fno/{id}/{artistname}")
+    // public ResponseEntity<Long> fno (@PathVariable String id, @PathVariable String artistname) {
+    //     log.info("id............:"+id);
+    //     log.info("artistname............:"+artistname);
+    //     Long fno =  followService.getFnoByGno(id, artistname);
+    //     log.info("fno:"+fno);
+    //     return new ResponseEntity<>(fno, HttpStatus.OK);
+    // }
+
 }

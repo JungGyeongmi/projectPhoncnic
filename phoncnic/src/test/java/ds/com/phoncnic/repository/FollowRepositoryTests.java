@@ -75,6 +75,10 @@ public class FollowRepositoryTests {
         });
     }
 
-   
+   @Test
+   public void testFno(){
+       Long fno = followRepository.getFnoIfFollowedByGno("user1@icloud.com", "user1");
+       System.out.println(fno);
+   }
 
 }

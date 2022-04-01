@@ -18,12 +18,12 @@ public class GalleryDTO {
     private Long gno;
     private String title;
     private String  content;
+    private String artistname;
     
     private String imagename;
     private boolean imagetype;
     private String imagepath;
     private String uuid;
-
     private Long[][] emojicount;
 
 
