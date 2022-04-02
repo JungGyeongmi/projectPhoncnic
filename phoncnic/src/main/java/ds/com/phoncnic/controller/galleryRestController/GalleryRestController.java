@@ -1,17 +1,18 @@
 package ds.com.phoncnic.controller.galleryRestController;
 
 import java.util.Arrays;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import ds.com.phoncnic.dto.EmojiDTO;
@@ -19,6 +20,7 @@ import ds.com.phoncnic.dto.FollowDTO;
 import ds.com.phoncnic.dto.GalleryDTO;
 import ds.com.phoncnic.dto.pageDTO.PageResultDTO;
 import ds.com.phoncnic.dto.pageDTO.SearchPageRequestDTO;
+import ds.com.phoncnic.security.dto.AuthMemberDTO;
 import ds.com.phoncnic.service.FollowService;
 import ds.com.phoncnic.service.emoji.EmojiService;
 import ds.com.phoncnic.service.gallery.GalleryService;
@@ -47,14 +49,14 @@ public class GalleryRestController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
     
-    // Gallery List
+    // session에서 id값 받아서 fno를 처리해줌
+    // Gallery Detail
     @GetMapping("/read/{gno}/{id}")
     public ResponseEntity<Object[]> getList(@PathVariable("gno") Long gno, @PathVariable("id") String id) {
-        log.info("getgalleryList........gno" + gno);
-
+        // log.info("getgalleryList........gno" + gno);
         GalleryDTO galleryDTO = galleryService.getGallery(gno);
 
-        log.info("------------------readFno----------------- " + id+galleryDTO.getArtistname());
+        // log.info("artistName"+galleryDTO.getArtistname());
 
         Long fno =  followService.getFnoByGno(id, galleryDTO.getArtistname());
         Object[] array = {galleryDTO , fno};
@@ -66,9 +68,10 @@ public class GalleryRestController {
     
 
     // Emoji insert/update/remove
+    @ResponseBody
     @PostMapping("/emoji/register/{gno}")
-    public ResponseEntity<Long[][]> emojiRegister(@RequestBody EmojiDTO emojiDTO, @PathVariable("gno") Long gno) {
-        emojiDTO.setGno(gno);
+    public  ResponseEntity<Long[][]> emojiRegister(@RequestBody EmojiDTO emojiDTO, @PathVariable("gno") Long gno) {
+        emojiDTO.setGno(53L);
         Long[][] newEmojiCount = emojiService.galleryEmojiRegiter(emojiDTO);
         
         log.info("emoji Register....................emojiDTO:" + emojiDTO);

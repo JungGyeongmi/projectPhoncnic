@@ -172,7 +172,7 @@
          }
       </style>
 
-
+      <p sec:authentication="principal.username"></p>
       <h1>그림전</h1>
       <div class="swiper mySwiper">
          <div class="swiper-wrapper">
@@ -272,7 +272,7 @@
 
             /*[+
                var readUrl = [[@{/gallery/read}]];
-               var emojiaddUrl = [[@{/gallery/register}]];
+               var emojiaddUrl = [[@{/gallery/emoji/register}]];
                var followaddUrl = [[@{/gallery/addfollow}]];
                var followremoveUrl = [[@{/gallery/removefollow}]];
                var urlDisplay = [[@{/display}]];
@@ -286,8 +286,8 @@
                $.getJSON(readUrl + "/" + targetGno + "/" + userid, function (dto) {
                   var str = "";
                   str = `
-							<input type="hidden" name="gno" value="${targetGno}" class="inputGno" data-gno="${targetGno}">
-							<input type="hidden" name="artistname" class="inputId" value="${dto[0].artistname}" data-id="${dto[0].artistname}">
+							<input type="text" name="gno" value="${targetGno}" class="inputGno" data-gno="${targetGno}">
+							<input type="text" name="artistname" class="inputId" value="${dto[0].artistname}" data-id="${dto[0].artistname}">
 							
 							<img id="targetFile" style='width:100%' src="${urlDisplay}?fileName=${targetFile}" data-fileName="${targetFile}">
 							
@@ -298,40 +298,39 @@
                      detailsModalbody.html(str);
                       
                      str= `<div id="emojiBox">
-							<input type="radio" id="1" value="1" name="emojitype" data-emojitype="${dto[0].emojicount[0]}" class="emoji">      
-							<label for="1" class="emojibtn">
-                        <img src='${dto[0].emojiinfo["1"]}' alt="이미지를 불러올 수 없습니다" style="width: 30px;">
-                     </label>
-							<span>${dto[0].emojicount[0][1]}</span>
-							
-							<input type="radio" id="2" value="2" name="emojitype" data-emojitype="${dto[0].emojicount[1]}" class="emoji">      
-							<label for="2" class="emojibtn">
-                        <img src='${dto[0].emojiinfo["2"]}' alt="이미지를 불러올 수 없습니다" style="width: 30px;">
-                     </label>
-							<span>${dto[0].emojicount[1][1]}</span>
-							
-							<input type="radio" id="3" value="3" name="emojitype" data-emojitype="${dto[0].emojicount[2]}" class="emoji">       
-							<label for="3" class="emojibtn">
-                        <img src='${dto[0].emojiinfo["3"]}' alt="이미지를 불러올 수 없습니다" style="width: 30px;">
-                     </label>
-							<span>${dto[0].emojicount[2][1]}</span>
-							
-							<input type="radio" id="4" value="4" name="emojitype" data-emojitype="${dto[0].emojicount[3]}" class="emoji">      
-							<label for="4" class="emojibtn">
-                        <img src='${dto[0].emojiinfo["4"]}' alt="이미지를 불러올 수 없습니다" style="width: 30px;">
-                     </label>
-							<span>${dto[0].emojicount[3][1]}</span>
-							
-							<input type="radio" id="5" value="5" name="emojitype" data-emojitype="${dto[0].emojicount[4]}" class="emoji">      
-							<label for="5" class="emojibtn">
-                        <img src='${dto[0].emojiinfo["5"]}' alt="이미지를 불러올 수 없습니다" style="width: 30px;">
-                     </label>
-							<span>${dto[0].emojicount[4][1]}</span>
-							</div>
-							
-							<input type="text" id="id" name="id" value="user1@icloud.com"></input>	
-							<input type ="button" id="followBtn" value="${dto[1]}">
-							`;
+                        <input type="radio" id="1" value="1" name="emojitype" data-emojitype="${dto[0].emojicount[0]}" class="emoji">      
+                        <label for="1" class="emojibtn">
+                           <img src='${dto[0].emojiinfo["1"]}' alt="이미지를 불러올 수 없습니다" style="width: 30px;">
+                        </label>
+                        <span class="emoji-cnt">${dto[0].emojicount[0][1]}</span>
+                        
+                        <input type="radio" id="2" value="2" name="emojitype" data-emojitype="${dto[0].emojicount[1]}" class="emoji">      
+                        <label for="2" class="emojibtn">
+                           <img src='${dto[0].emojiinfo["2"]}' alt="이미지를 불러올 수 없습니다" style="width: 30px;">
+                        </label>
+                        <span class="emoji-cnt">${dto[0].emojicount[1][1]}</span>
+                        
+                        <input type="radio" id="3" value="3" name="emojitype" data-emojitype="${dto[0].emojicount[2]}" class="emoji">       
+                        <label for="3" class="emojibtn">
+                           <img src='${dto[0].emojiinfo["3"]}' alt="이미지를 불러올 수 없습니다" style="width: 30px;">
+                        </label>
+                        <span class="emoji-cnt">${dto[0].emojicount[2][1]}</span>
+                        
+                        <input type="radio" id="4" value="4" name="emojitype" data-emojitype="${dto[0].emojicount[3]}" class="emoji">      
+                        <label for="4" class="emojibtn">
+                           <img src='${dto[0].emojiinfo["4"]}' alt="이미지를 불러올 수 없습니다" style="width: 30px;">
+                        </label>
+                        <span class="emoji-cnt">${dto[0].emojicount[3][1]}</span>
+                        
+                        <input type="radio" id="5" value="5" name="emojitype" data-emojitype="${dto[0].emojicount[4]}" class="emoji">      
+                        <label for="5" class="emojibtn">
+                           <img src='${dto[0].emojiinfo["5"]}' alt="이미지를 불러올 수 없습니다" style="width: 30px;">
+                        </label>
+                        <span class="emoji-cnt">${dto[0].emojicount[4][1]}</span>
+                        </div>
+                        
+                        <input type="text" id="id" name="id" value="user1@icloud.com"></input>	
+                        <input type ="button" id="followBtn" value="${dto[1]}">`;
 
                      detailsModalbodyEmoji.html(str);
 
@@ -484,7 +483,7 @@
 
             //이모지 등록/수정/삭제
             $(document).on("click", ".emoji", function () {
-               var testtype = $(this).val();
+               // var testtype = $(this).val();
                var id = $("input[name=id]").val();
                var gno = $("input[name=gno]").val();
                var emojitype = $(".emoji:checked").val();
@@ -492,8 +491,8 @@
                var data = { id: id, gno: gno, emojitype: emojitype };
                console.log(data);
                $.ajax({
-                  type: "POST",
-                  url: emojiaddUrl + '/' + gno ,
+                  type: "post",
+                  url: emojiaddUrl+ "/" + gno ,
                   data: JSON.stringify(data),
                   contentType: "application/json",
                   dataType: "json",
@@ -529,6 +528,7 @@
                      contentType: "application/json; charset=utf-8",
                      dataType: "text",
                      success: function (result) {
+                        // $("followBtn").val("언팔로우")
                         self.location.href;
                         showdetailsModal(gno, id, targetFile);
                      }
@@ -547,10 +547,12 @@
                      contentType: "application/json; charset=utf-8",
                      dataType: "text",
                      success: function (result) {
+                        // $("#followBtn").val("팔로우")
                         self.location.href;
                         showdetailsModal(gno, id, targetFile);
                      }
                      , error: function (request, status, error) {
+
                         alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                      }
                   });
