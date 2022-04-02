@@ -64,17 +64,6 @@ public class GalleryRestController {
         return new ResponseEntity<>(array, HttpStatus.OK);
     }
     
-    // Emoji getList
-    @GetMapping("/emoji/{gno}")
-    public ResponseEntity<List<EmojiDTO>> getemojiList(@PathVariable("gno") Long gno) {
-        log.info("getemojiList........gno" + gno);
-
-        List<EmojiDTO> emojiDTO = emojiService.getEmojiByGno("g", gno);
-        
-        log.info("emojiDTO : " + emojiDTO);
-        
-        return new ResponseEntity<>(emojiDTO, HttpStatus.OK);
-    }
 
     // Emoji insert/update/remove
     @PostMapping("/emoji/register/{gno}")

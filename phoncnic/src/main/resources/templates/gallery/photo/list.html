@@ -68,16 +68,11 @@
 
          .result-container {
             display: grid;
-            /* 최소 100px 확보 후 늘어나면 자동 */
-            /* grid-template-columns: repeat(auto-fit, minmax(300px, auto)); */
             grid-template-columns: repeat(auto-fit, minmax(150px, auto));
             grid-template-rows: repeat(1, minmax(300px, auto));
             row-gap: 1%;
-            /* items 세로 정렬 */
             align-items: center;
-            /* items 가로 정렬 */
             justify-items: center;
-            /* 두개를 동시에 사용 가능 place-items: center start; */
          }
 
          .md-container img {
@@ -268,8 +263,9 @@
 
             /*[+
                var readUrl = [[@{/gallery/read}]];
-               var emojiUrl = [[@{/gallery/emoji}]];
-               var emojiaddUrl = [[@{/gallery/emoji/register}]];
+               var emojiaddUrl = [[@{/gallery/register}]];
+               var followaddUrl = [[@{/gallery/addfollow}]];
+               var followremoveUrl = [[@{/gallery/removefollow}]];
                var urlDisplay = [[@{/display}]];
             +]*/
 
@@ -279,7 +275,7 @@
             var detailsModalbody = $(".details-modal-body");
             var detailsModalbodyEmoji = $(".detail-modal-body2");
             var showdetailsModal = function (targetGno, targetFile) {
-               $.getJSON(readUrl + "/" + targetGno, function (dto) {
+               $.getJSON(readUrl + "/" + targetGno + "/" + userid, function (dto) {
                   var str = "";
                   str = `
                <input type="hidden" name = "gno" value="${targetGno}" class="inputGno" data-gno="${targetGno}">
@@ -328,12 +324,14 @@
                });
             }
 
+            // <button type ="button" id="followBtn" value="${dto[1]}">팔로우</button>
             /* target의 gno / target의 imagepath 가져옴 / emoji 갯수 */
             $(".swiper-slide").click(function () {
                var targetGno = $(this).data("gno");
+               var targetId = $(this).data("id")
                var targetFile = $(this).data("file");
                $("#detailsModal").modal('show');
-               showdetailsModal(targetGno, targetFile);
+               showdetailsModal(targetGno, targetId, targetFile);
             });
 
             // 큐레이터 모달 제어
@@ -470,14 +468,10 @@
                });
             }
 
-            function emojiBoxReload() {
-               $("#myModal").modal("show");
-            }
-
             //이모지 등록/수정/삭제
             $(document).on("click", ".emoji", function () {
                var testtype = $(this).val();
-               var id = $(".inputId").val();
+               var id = $("input[name=id]").val();
                var gno = $(".inputGno").val();
                var emojitype = $(".emoji:checked").val();
                var data = { id: id, gno: gno, emojitype: emojitype };
