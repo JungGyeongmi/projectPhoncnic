@@ -3,7 +3,6 @@ package ds.com.phoncnic.service.gallery;
 import java.util.HashMap;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 
 import ds.com.phoncnic.dto.GalleryDTO;
@@ -13,7 +12,7 @@ import ds.com.phoncnic.dto.pageDTO.SearchPageRequestDTO;
 import ds.com.phoncnic.entity.EmojiInfo;
 import ds.com.phoncnic.entity.Gallery;
 import ds.com.phoncnic.entity.Member;
-import ds.com.phoncnic.service.emoji.EmojiInfoService;
+
 
 
 public interface GalleryService {
