@@ -75,7 +75,7 @@ public class OAuth2UserDetailsService extends DefaultOAuth2UserService{
 
     member.addMemberRole(AuthorityRole.USER);
     memberRepository.save(member);
-    
+    log.info("returnfire");
     CharacterLook characterLook = CharacterLook.builder()
     .hairname("hair1")
     .clothesname("clothes1")

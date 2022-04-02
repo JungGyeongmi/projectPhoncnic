@@ -56,15 +56,10 @@ public class MemberServiceImpl implements MemberService {
     public void updateMemberDTO(MemberDTO memberDTO) {
         log.info("update Member DTO ....." + memberDTO);
         memberDTO.setPassword(passwordEncoder.encode(memberDTO.getPassword()));
-        Map<String, Object> entityMap = dtoToEntity(memberDTO);
-        Member member = (Member)entityMap.get("member");
-        CharacterLook characterlook = (CharacterLook)entityMap.get("characterLook");
+        Member member = dtoToEntity(memberDTO);
 
         memberRepository.save(member);
         log.info("MemberComeOn ....." + member);
-
-        characterLookRepository.save(characterlook);
-        log.info("Charactercomeon" + characterlook);
 
     }
 

@@ -1,5 +1,6 @@
 package ds.com.phoncnic.controller.dyningController;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ds.com.phoncnic.dto.DyningDTO;
+import ds.com.phoncnic.security.dto.AuthMemberDTO;
 import ds.com.phoncnic.service.dyning.DyningService;
 import ds.com.phoncnic.service.emoji.EmojiService;
 import lombok.RequiredArgsConstructor;
@@ -25,29 +27,29 @@ public class DyningSettingController {
 
     //등록가게 리스트
     @GetMapping("/list")
-    public void dyningList(String id, Model model) {
-        model.addAttribute("result", dyningService.getMyDyningList(id));
-        model.addAttribute("id",id);
+    public void dyningList(@AuthenticationPrincipal AuthMemberDTO dto, Model model) {
+        model.addAttribute("result", dyningService.getMyDyningList(dto.getId()));
+        model.addAttribute("id",dto.getId());
     }
 
     //가게 등록 폼
     @GetMapping("/register")
-    public String dyningRegister(String id, Model model) {
-        model.addAttribute("id",id);
+    public String dyningRegister(@AuthenticationPrincipal AuthMemberDTO dto, Model model) {
+        model.addAttribute("id",dto.getId());
         model.addAttribute("roofList",dyningService.roofimageList());
         return "/manage/dyning/register";
     }
 
     //가게 수정 폼
     @GetMapping("/modify")
-    public void getDyningModify(@RequestParam("dno") Long dno,String id, Model model) {
+    public void getDyningModify(@RequestParam("dno") Long dno,@AuthenticationPrincipal AuthMemberDTO dto, Model model) {
         log.info("Modify................."+dno);
         if(dno!=0){
         model.addAttribute("result", dyningService.getDyningDetails(dno));
         model.addAttribute("roofList",dyningService.roofimageList());
         model.addAttribute("imageresult", dyningService.getDyningDetails(dno).getDyningImageDTOList());
 
-        model.addAttribute("id",id);
+        model.addAttribute("id",dto.getId());
         }
     }
 
@@ -91,9 +93,9 @@ public class DyningSettingController {
     }
 
     @PostMapping("/remove")
-    public String remove(String id, Long dno) {
+    public String remove(@AuthenticationPrincipal AuthMemberDTO dto, Long dno) {
         dyningService.removeWithImages(dno);
-        return "redirect:/manage/dyning/list?id="+id;
+        return "redirect:/manage/dyning/list?id="+dto.getId();
     }
 
 }

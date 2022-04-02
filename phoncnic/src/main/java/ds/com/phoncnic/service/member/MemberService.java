@@ -17,9 +17,7 @@ public interface MemberService {
   void remove(String id);
   MemberDTO getMember(String id);
 
-  default Map<String, Object> dtoToEntity(MemberDTO memberDTO) {
-    Map<String, Object> entityMap = new HashMap<>();
-
+  default Member dtoToEntity(MemberDTO memberDTO) {
     Member member = Member.builder()
         .id(memberDTO.getId())
         .password(memberDTO.getPassword())
@@ -42,18 +40,8 @@ public interface MemberService {
             }).collect(Collectors.toSet()))
         .build();
 
-        entityMap.put("member", member);
-
-          String id = memberDTO.getId();
-          CharacterLook characterLook = CharacterLook.builder()
-          .hairname("hair1")
-          .clothesname("clothes1")
-          .member(Member.builder().id(id).build())
-          .build();
-
-          entityMap.put("characterLook", characterLook);
       
-    return entityMap;
+    return member;
   }
 
   default MemberDTO entityToDTO(Member member) {

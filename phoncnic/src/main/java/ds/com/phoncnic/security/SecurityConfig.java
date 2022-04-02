@@ -81,6 +81,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
     http.authorizeRequests()
     .antMatchers("/main/mypage").hasRole("USER");
+
+    http.authorizeRequests()
+    .antMatchers("/manage/dyning/list").hasRole("USER");
+
     
     //1. Security login form 사용
     // http.formLogin();
