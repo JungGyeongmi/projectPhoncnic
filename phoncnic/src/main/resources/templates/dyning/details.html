@@ -161,6 +161,9 @@
         <script src="http://code.jquery.com/jquery-latest.min.js"></script>
         <script>
             $(document).ready(function (e) {
+
+                var hasid = $("#followerid").val();
+                
                 //팔로우 제어
                 var fno = $('#followBtn');
                 if (fno.val() != "") {
@@ -168,7 +171,8 @@
                     fno.css("color","red")
                 }
                 $('#followBtn').on("click", function () {
-
+                    if (hasid=="") {alert("로그인 후 이용할 수 있습니다.");return;}
+                    
                     var id = $("#followerid").val();
                     var dyningname = $("#dyningname").val();
                     console.log(fno.val());
@@ -204,8 +208,9 @@
                             }
                         })
                     }
-                })
-
+                
+                
+                });
                 //이모지 제어
                 var eno = $("#eno").val();
                 var etype = $("#etype").val();
@@ -213,7 +218,10 @@
                     $("button[name ='emojitype']:button[value="+etype+"]").css("color","red");
                 }
                 
+                
                     $(".up").click(function () {
+                        if (hasid=="") {alert("로그인 후 이용할 수 있습니다.");return;}
+
                         var id = $("input[name='id']").val();
                         var dno = $("input[name='dno']").val();
                         var emojitype = $(this).val();
@@ -280,6 +288,7 @@
                         })
                         }
                     });
+                
                
                    
                 //모달제어
