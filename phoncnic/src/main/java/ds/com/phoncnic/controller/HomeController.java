@@ -1,5 +1,6 @@
 package ds.com.phoncnic.controller;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import ds.com.phoncnic.dto.CharacterLookDTO;
+import ds.com.phoncnic.security.dto.AuthMemberDTO;
 import ds.com.phoncnic.service.mypage.CharacterLookService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -56,23 +58,28 @@ public class HomeController {
     }
 
     @GetMapping("/lookmodal")
-    public String test2 (String id, Model model) {
-        log.info("id:" + id);
-        model.addAttribute("id",id);
-        model.addAttribute("hairDTO", characterLookService.getCharacterHair(id));
-        model.addAttribute("clothesDTO", characterLookService.getCharacterClothes(id));
+    public String test2 (@AuthenticationPrincipal AuthMemberDTO dto, Model model) {
+        if(dto!=null){
+            log.info("id:" + dto.getId());
+            model.addAttribute("id",dto.getId());
+            model.addAttribute("hairDTO", characterLookService.getCharacterHair(dto.getId()));
+            model.addAttribute("clothesDTO", characterLookService.getCharacterClothes(dto.getId()));
+        } else{
+            model.addAttribute("id","");
+            model.addAttribute("hairDTO", characterLookService.getCharacterHair("user10@icloud.com"));
+            model.addAttribute("clothesDTO", characterLookService.getCharacterClothes("user10@icloud.com"));
+        }
         model.addAttribute("looklist", characterLookService.lookimageList());
-        return "/lookmodal";
+        return "lookmodal";
     }
 
 
     @PostMapping("/lookmodal/lookmodify")
-    public String lookmodify(CharacterLookDTO characterLookDTO, String id) {
-        log.info("modify post.........:" + characterLookDTO.getHairname());
-        log.info("modify post.........:" + characterLookDTO.getClothesname());
-
-        characterLookService.modify(characterLookDTO, id);
-        return "redirect:/";
+    public String lookmodify(CharacterLookDTO characterLookDTO, @AuthenticationPrincipal AuthMemberDTO dto) {
+        if(dto!=null){
+            characterLookService.modify(characterLookDTO, dto.getId());
+        }
+        return "redirect:";
 
     }
 

@@ -91,6 +91,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     http.authorizeRequests()
     .antMatchers("/dyning/details").permitAll();
 
+    http.authorizeRequests()
+    .antMatchers("/lookmodal/lookmodify").hasRole("USER");
+
     
 
     

@@ -52,18 +52,19 @@ public class DyningController {
         DyningDTO dyningDTO = dyningService.getDyningDetails(dno);
         model.addAttribute("result", dyningService.getDyningDetails(dno));
         model.addAttribute("imageresult", dyningService.getDyningDetails(dno).getDyningImageDTOList());
+        if(dto!=null){model.addAttribute("id",dto.getId());}else{
+            model.addAttribute("id","");
+        }
         try {
             model.addAttribute("eno",emojiService.HaveEmoji(dto.getId(), dno).getEno());
             model.addAttribute("emojitype",emojiService.HaveEmoji(dto.getId(), dno).getEmojiInfo().getEmojitype());
             model.addAttribute("fno", followService.getFno(dto.getId(),dyningDTO.getDyningname()));
             log.info(dto.getId()+"의 fno:"+followService.getFno(dto.getId(),dyningDTO.getDyningname()));
-            model.addAttribute("id",dto.getId());
 
         } catch (NullPointerException e) {
             model.addAttribute("eno","");
             model.addAttribute("emojitype","");
             model.addAttribute("fno", "");
-            model.addAttribute("id","");
 
         }
         
