@@ -1,503 +1,516 @@
 <!DOCTYPE html>
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
 <th:block th:replace="~{layout/basic :: setContent(~{::content})}">
-   <th:block th:fragment="content">
-      <!-- Link Swiper's CSS -->
-      <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+	<th:block th:fragment="content">
 
-      <style>
-         input[name="emojitype"] {
-            opacity: 0;
-         }
+		<head>
+			<!-- Link Swiper's CSS -->
+			<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
 
-         input[name="emojitype"]+label {
-            padding: 20px 10px;
-         }
+			<style>
+				input[name="emojitype"] {
+					opacity: 0;
+				}
 
-         input[name="emojitype"]:checked+label+span {
-            color: red;
+				input[name="emojitype"]+label {
+					padding: 20px 10px;
+				}
 
-         }
+				input[name="emojitype"]:checked+label+span {
+					color: red;
 
-         html,
-         body {
-            position: relative;
-            height: 100%;
-         }
+				}
 
-         body {
-            background: #eee;
-            font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
-            font-size: 14px;
-            color: #000;
-            margin: 0;
-            padding: 0;
-         }
+				html,
+				body {
+					position: relative;
+					height: 100%;
+				}
 
-         .swiper {
-            width: 95%;
-            margin-top: 10px;
-            margin-bottom: 120px;
-         }
+				body {
+					background: #eee;
+					font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+					font-size: 14px;
+					color: #000;
+					margin: 0;
+					padding: 0;
+				}
 
-         .swiper-slide {
-            background-position: center;
-            background-size: cover;
-            width: 300px;
-            height: 350px;
-         }
+				#emojiBox {
+					display: inline-block;
+				}
 
-         .swiper-slide img {
-            display: block;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center;
-         }
+				.swiper {
+					width: 95%;
+					margin-top: 10px;
+					margin-bottom: 120px;
+				}
 
-         .serach-form-container {
-            display: grid;
-            grid-template-columns: 0.5fr 1fr 0.3fr 0.5fr;
-            column-gap: 0.5%;
-         }
+				.swiper-slide {
+					background-position: center;
+					background-size: cover;
+					width: 300px;
+					height: 350px;
+				}
 
-         .md-conteainer {
-            display: grid;
-            grid-template-columns: 0.02fr 10fr 0.02fr;
-         }
+				.swiper-slide img {
+					display: block;
+					width: 100%;
+					height: 100%;
+					object-fit: cover;
+					object-position: center;
+				}
 
-         .result-container {
-            display: grid;
-            /* 최소 100px 확보 후 늘어나면 자동 */
-            /* grid-template-columns: repeat(auto-fit, minmax(300px, auto)); */
-            grid-template-columns: repeat(auto-fit, minmax(150px, auto));
-            grid-template-rows: repeat(1, minmax(300px, auto));
-            row-gap: 1%;
-            /* items 세로 정렬 */
-            align-items: center;
-            /* items 가로 정렬 */
-            justify-items: center;
-            /* 두개를 동시에 사용 가능 place-items: center start; */
-         }
+				/* wrapper 사용 ??  */
+				.md-conteainer {
+					display: grid;
+					grid-template-columns: 10px 2fr 10px;
+				}
 
-         .md-conteainer img {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-         }
+				.result-container {
+					display: grid;
+					/* 최소 100px 확보 후 늘어나면 자동 */
+					grid-template-columns: repeat(auto-fit, minmax(300px, auto));
+					grid-template-rows: repeat(1, minmax(300px, auto));
+					row-gap: 3%;
+					column-gap: 3%;
+					/* items 세로 정렬 */
+					align-items: center;
+					/* items 가로 정렬 */
+					justify-items: center;
+					/* 두개를 동시에 사용 가능 place-items: center start; */
+				}
 
-         .md-btn-container {
-            width: 20px;
-            height: 100%;
-         }
+				.md-conteainer img {
+					width: 300px;
+					height: 300px;
+					border-radius: 10%;
+				}
 
-         .md-item-btn {
-            width: 0;
-            z-index: 3;
-            display: inline-block;
-            vertical-align: middle;
-            transform: scale(2);
-         }
+				.lastimg {
+					width: 300px;
+					height: 300px;
+					background-color: aliceblue;
 
-         .helper {
-            width: 0;
-            display: inline-block;
-            vertical-align: middle;
-            height: inherit;
-         }
+				}
 
-         #curatorBtn {
-            z-index: 3;
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            transform: scaleX(-1);
-            width: 20%;
-         }
-      </style>
+				.md-btn-container {
+					width: 20px;
+					/* background-color: bisque; */
+					height: 100%;
+				}
 
-      <h1>그림전</h1>
-      <div class="swiper mySwiper">
-         <div class="swiper-wrapper">
-            <div class="swiper-slide" th:each="dto : ${galleryDTOList}" th:data-gno="${dto.gno}"
-               th:data-file="${dto.getImageURL}" data-bs-toggle="modal" data-bs-target="#detailsModal">
-               <img style="cursor:pointer;" th:src="|@{'/display'}?fileName=${dto.getImageURL()}|"
-                  alt="이미지를 불러올 수 없습니다" />
-               [[${dto.title}]]
-            </div>
-            <div style="border: solid 1px black;">
-               여기가 마지막 입니다.
-            </div>
-         </div>
-         <div class="swiper-pagination"></div>
-         <div class="swiper-button-prev"></div>
-         <div class="swiper-button-next"></div>
-      </div>
+				.md-item-btn {
+					width: 0;
+					z-index: 3;
+					display: inline-block;
+					vertical-align: middle;
+					transform: scale(2);
+				}
 
-      <img id="curatorBtn" data-bs-toggle="modal" data-bs-target="#curatorModal" th:src="@{/icon/gurator.png}">
+				.helper {
+					width: 0;
+					/* background-color: red; */
+					display: inline-block;
+					vertical-align: middle;
+					height: inherit;
+				}
+			</style>
+		</head>
 
-      <!-- Swiper JS -->
-      <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 
-      <!-- Initialize Swiper -->
-      <script>
-         var swiper = new Swiper(".mySwiper", {
-            effect: "coverflow",
-            grabCursor: false,
-            centeredSlides: true,
-            slidesPerView: "2",
-            coverflowEffect: {
-               rotate: 0,
-               stretch: -0,
-               depth: 200,
-               modifier: 1,
-               slideShadows: true,
-            },
-            mousewheel: true,
-            // pagination: {
-            // 	el: ".swiper-pagination",
-            // 	clickable: true,
-            // },
-            navigation: {
-               nextEl: ".swiper-button-next",
-               prevEl: ".swiper-button-prev",
-            }
-         });
-      </script>
+		<h1>그림전</h1>
+		<div class="swiper mySwiper">
+			<div class="swiper-wrapper">
+				<div class="swiper-slide" th:each="dto : ${galleryDTOList}" th:data-gno="${dto.gno}" th:data-id="${id}"
+					th:data-file="${dto.getImageURL}" data-bs-toggle="modal" data-bs-target="#detailsModal">
+					<img style="cursor:pointer;" th:src="|@{'/display'}?fileName=${dto.getImageURL()}|"
+						alt="이미지를 불러올 수 없습니다" />
+					[[${dto.title}]]
+				</div>
+				<div class="lastimg" style="border: solid 1px black;">
+					<button>관람끝내기</button>
+					<button>맨 앞장으로 </button>
+				</div>
+			</div>
+			<div class="swiper-pagination"></div>
+			<div class="swiper-button-prev"></div>
+			<div class="swiper-button-next"></div>
+		</div>
+		<button type="button" id="curatorBtn" data-bs-toggle="modal" data-bs-target="#curatorModal">큐레이터</button>
+		<input type="text" id="selectedgno" value="user1@icloud.com">
 
-      <script th:inline="javascript">
-         $(document).ready(function () {
+		<!-- Swiper JS -->
+		<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 
-            /*[+
-               var readUrl = [[@{/gallery/read}]];
-               var emojiUrl = [[@{/gallery/emoji}]];
-               var emojiaddUrl = [[@{/gallery/emoji/register}]];
-               var urlDisplay = [[@{/display}]];
-            +]*/
+		<!-- Initialize Swiper -->
+		<script>
+			var swiper = new Swiper(".mySwiper", {
+				effect: "coverflow",
+				grabCursor: false,
+				centeredSlides: true,
+				slidesPerView: "2",
+				coverflowEffect: {
+					rotate: 0,
+					stretch: -0,
+					depth: 200,
+					modifier: 1,
+					slideShadows: true,
+				},
+				mousewheel: true,
+				// pagination: {
+				// 	el: ".swiper-pagination",
+				// 	clickable: true,
+				// },
+				navigation: {
+					nextEl: ".swiper-button-next",
+					prevEl: ".swiper-button-prev",
+				}
+			});
+		</script>
 
-            var EmojiStringArray = "";
+		</style>
+		<script th:inline="javascript">
+			$(document).ready(function () {
 
-            var uploadResult = $(".uploadResult");
-            var detailsModalbody = $(".details-modal-body");
-            var detailsModalbodyEmoji = $(".detail-modal-body2");
-            var showdetailsModal = function (targetGno, targetFile) {
-               $.getJSON(readUrl + "/" + targetGno, function (dto) {
-                  // console.log("getList..........dto " + JSON.stringify(dto));
-                  var str = "";
-                  // <input type="hidden" name = "id" value="user1@icloud.com" class="inputId" data-id="${dto.id}">
-                  str = `
-							<input type="hidden" name = "gno" value="${targetGno}" class="inputGno" data-gno="${targetGno}">
+				/*[+
+					var readUrl = [[@{/gallery/read}]];
+					var emojiUrl = [[@{/gallery/emoji}]];
+					var emojiaddUrl = [[@{/gallery/register}]];
+					var followaddUrl = [[@{/gallery/addfollow}]];
+					var followremoveUrl = [[@{/gallery/removefollow}]];
+					var urlDisplay = [[@{/display}]];
+				+]*/
+
+				var uploadResult = $(".uploadResult");
+				var detailsModalbody = $(".details-modal-body");
+				var userid = $("#selectedgno").val();
+				var showdetailsModal = function (targetGno, userid, targetFile) {
+					$.getJSON(readUrl + "/" + targetGno + "/" + userid, function (dto) {
+						// console.log("getList..........dto " + JSON.stringify(dto));
+						var str = "";
+						str += `
+						
+							<input type="text" name = "gno" value="${targetGno}" class="inputGno" data-gno="${targetGno}">
+							<input type="text" name="artistname" class="inputId" value="${dto[0].artistname}" data-id="${dto[0].artistname}">
 							
-
-							<img style='width:100%' src="${urlDisplay}?fileName=${targetFile}">
-
+							<img id="targetFile" style='width:100%' src="${urlDisplay}?fileName=${targetFile}" data-fileName="${targetFile}">
+							
 							<div class=row>
-								<div class="col-md-7"><h2>${dto.title}</h2></div>
-								<div class="col-md-4"><h4>${dto.id}</h4></div>
-							</div>`
-                  detailsModalbody.html(str);
+								<div class="col-md-7"><h2>${dto[0].title}</h2></div>
+								<div class="col-md-4"><h4>${dto[0].id}</h4></div>
+								</div>
+								
+								<div id="emojiBox">
+							<input type="radio" id="1" value="1" name="emojitype" data-emojitype="${dto[0].emojicount[0]}" class="emoji">      
+							<label for="1" class="emojibtn">🥰</label>
+							<span>${dto[0].emojicount[0][1]}</span>
+							
+							<input type="radio" id="2" value="2" name="emojitype" data-emojitype="${dto[0].emojicount[1]}" class="emoji">      
+							<label for="2" class="emojibtn">😊</label>
+							<span>${dto[0].emojicount[1][1]}</span>
+							
+							<input type="radio" id="3" value="3" name="emojitype" data-emojitype="${dto[0].emojicount[2]}" class="emoji">       
+							<label for="3" class="emojibtn">😥</label>
+							<span>${dto[0].emojicount[2][1]}</span>
+							
+							<input type="radio" id="4" value="4" name="emojitype" data-emojitype="${dto[0].emojicount[3]}" class="emoji">      
+							<label for="4" class="emojibtn">😂</label>
+							<span>${dto[0].emojicount[3][1]}</span>
+							
+							<input type="radio" id="5" value="5" name="emojitype" data-emojitype="${dto[0].emojicount[4]}" class="emoji">      
+							<label for="5" class="emojibtn">😝</label>
+							<span>${dto[0].emojicount[4][1]}</span>
+							</div>
+							
+							
+							
+							<input type="text" id="id" name="id" value="user1@icloud.com"></input>	
+							<input type ="button" id="followBtn" value="${dto[1]}">
+							`;
+							
+							detailsModalbody.html(str);
+							
+						});
+					}
+					// <button type ="button" id="followBtn" value="${dto[1]}">팔로우</button>
+				/* target의 gno / target의 imagepath 가져옴 / emoji 갯수 */
+				$(".swiper-slide").click(function () {
+					var targetGno = $(this).data("gno");
+					var targetId = $(this).data("id")
+					var targetFile = $(this).data("file");
+					$("#detailsModal").modal('show');
+					showdetailsModal(targetGno, targetId, targetFile);
+				});
 
-                  str = `<div id="emojiBox">
-                     <input type="text" name = "id" value="user1@icloud.com" class="inputId" data-id="${dto.id}">
-                        <br/>
-                        <input type="radio" id="1" value="${dto.emojicount[0][0]}" name="emojitype" class="emoji">
-                        <label for="1" class="emojibtn">
-                           <img src='${dto.emojiinfo["1"]}' alt="이미지를 불러올 수 없습니다" style="width: 30px;">   
-                        </label>
-                        <span class="emoji-cnt">${dto.emojicount[0][1]}</span>
-                        
-                        <input type="radio" id="2" value="${dto.emojicount[1][0]}" name="emojitype" class="emoji">      
-                        <label for="2" class="emojibtn">
-                           <img src='${dto.emojiinfo["2"]}' alt="이미지를 불러올 수 없습니다" style="width: 30px;">
-                        </label>
-                        <span class="emoji-cnt">${dto.emojicount[1][1]}</span>
-                     
-                        <input type="radio" id="3" value="${dto.emojicount[2][0]}" name="emojitype" class="emoji">       
-                        <label for="3" class="emojibtn">
-                           <img src='${dto.emojiinfo["3"]}' alt="이미지를 불러올 수 없습니다" style="width: 30px;">   
-                        </label>
-                        <span class="emoji-cnt">${dto.emojicount[2][1]}</span>
-               
-                        <input type="radio" id="4"  value="${dto.emojicount[3][0]}" name="emojitype" class="emoji">      
-                        <label for="4" class="emojibtn">
-                           <img src='${dto.emojiinfo["4"]}' alt="이미지를 불러올 수 없습니다" style="width: 30px;">   
-                        </label>
-                        <span class="emoji-cnt">${dto.emojicount[3][1]}</span>
-                        
-                        <input type="radio" id="5"  value="${dto.emojicount[4][0]}" name="emojitype" class="emoji">      
-                        <label for="5" class="emojibtn">
-                           <img src='${dto.emojiinfo["5"]}' alt="이미지를 불러올 수 없습니다" style="width: 30px;">   
-                        </label>
-                        <span class="emoji-cnt">${dto.emojicount[4][1]}</span>
-							</div>`;
+				// 큐레이터 모달 제어
+				/*[+
+					var curatorUrl = [[@{/gallery/curator}]];
+					var displayUrl = [[@{/display}]];
+				+]*/
 
-                  detailsModalbodyEmoji.html(str);
-               });
-            }
+				var searchResult = $(".md-serach-result");
+				var curatorBtn = $("#curatorBtn");
+				var searchBtn = $("#md-search-btn");
+				var searchForm = $("#modal-frm");
+				var keyword = $("input[name=keyword]");
+				searchBtn.on("click", function (e) {
+					getSearchList();
+				});
 
-            /* target의 gno / target의 imagepath 가져옴 / emoji 갯수 */
-            $(".swiper-slide").click(function () {
-               var targetGno = $(this).data("gno");
-               var targetFile = $(this).data("file");
-               $("#detailsModal").modal('show');
-               showdetailsModal(targetGno, targetFile);
-            });
+				keyword.on("keydown", function (e) {
+					var keycode = e.keyCode;
+					if (keycode == "13") {
+						e.preventDefault();
+						getSearchList();
+					}
+				});
 
-            // 큐레이터 모달 제어
-            /*[+
-               var curatorUrl = [[@{/gallery/curator}]];
-               var displayUrl = [[@{/display}]];
-            +]*/
+				curatorBtn.on("click", function (e) {
+					console.log("curator button clicked");
+					e.preventDefault();
+					getCuratorList(curatorUrl);
+				});
 
-            var searchResult = $(".md-serach-result");
-            var curatorBtn = $("#curatorBtn");
-            var searchBtn = $("#md-search-btn");
-            var searchForm = $("#modal-frm");
-            var keyword = $("input[name=keyword]");
+				$(".left").on("click", function () {
+					var url = $(".left").attr('data-left-url');
+					if (url == '') {
+						return;
+					}
+					getCuratorList(url);
+				});
 
-            searchBtn.on("click", function (e) {
-               getSearchList();
-            });
+				$(".right").on("click", function () {
+					var url = $(".right").attr('data-right-url');
+					if (url == '') {
+						return;
+					}
+					getCuratorList(url);
+				});
 
-            keyword.on("keydown", function (e) {
-               var keycode = e.keyCode;
-               if (keycode == "13") {
-                  e.preventDefault();
-                  getSearchList();
-               }
-            });
 
-            curatorBtn.on("click", function (e) {
-               console.log("curator button clicked");
-               e.preventDefault();
-               getCuratorList(curatorUrl);
-            });
-
-            $(".left").on("click", function () {
-               var url = $(".left").attr('data-left-url');
-               if (url == '') {
-                  return;
-               }
-               getCuratorList(url);
-            });
-
-            $(".right").on("click", function () {
-               var url = $(".right").attr('data-right-url');
-               if (url == '') {
-                  return;
-               }
-               getCuratorList(url);
-            });
-
-            function getCuratorList(url) {
-               $.get(url, function (result) {
-                  var str = "";
-                  $.each(result.dtoList, function (idx, dto) {
-                     str += `<div class="search-result-Item item" data-search-file="${dto.imageURL}" data-search-gno="${dto.gno}">
+				function getCuratorList(url) {
+					$.get(url, function (result) {
+						var str = "";
+						$.each(result.dtoList, function (idx, dto) {
+							str += `<div class="search-result-Item item" data-search-file="${dto.imageURL}" data-search-gno="${dto.gno}">
                               <img  class="md-conteainer-img" src="${displayUrl}?fileName=${dto.imageURL}">                              
                               <br/>
                               <p>${dto.title}</p>
                            </div>`;
-                  });
-                  searchResult.html(str);
+						});
+						searchResult.html(str);
 
-               }).done(function (response) {
-                  if (response.page == 1) {
-                     $(".left").attr('data-left-url', '');
-                     $(".right").attr('data-right-url', curatorUrl + `?page=${response.page + 1}`);
-                  } else if (response.page == response.end) {
-                     $(".left").attr('data-left-url', curatorUrl + `?page=${response.page - 1}`);
-                     $(".right").attr('data-right-url', '');
-                  } else {
-                     $(".left").attr('data-left-url', curatorUrl + `?page=${response.page - 1}`);
-                     $(".right").attr('data-right-url', curatorUrl + `?page=${response.page + 1}`);
-                  }
-                  console.log(response);
-                  console.log("get success curator");
-               }).fail(function (response) {
-                  console.log("get curator fial...");
-                  console.log(response);
-               });
-            }
+					}).done(function (response) {
+						if (response.page == 1) {
+							$(".left").attr('data-left-url', '');
+							$(".right").attr('data-right-url', curatorUrl + `?page=${response.page + 1}`);
+						} else if (response.page == response.end) {
+							$(".left").attr('data-left-url', curatorUrl + `?page=${response.page - 1}`);
+							$(".right").attr('data-right-url', '');
+						} else {
+							$(".left").attr('data-left-url', curatorUrl + `?page=${response.page - 1}`);
+							$(".right").attr('data-right-url', curatorUrl + `?page=${response.page + 1}`);
+						}
+						console.log(response);
+						console.log("get success curator");
+					}).fail(function (response) {
+						console.log("get curator fial...");
+						console.log(response);
+					});
+				}
 
-            function getSearchList() {
+				function getSearchList() {
+					$.ajax({
+						type: "GET",
+						url: curatorUrl,
+						data: searchForm.serialize(),
+						success: function (response) {
 
-               // 유효성 검사
-               var typeSelect = $("select[name=type]").val();
-               var searchKeywordInput = $("#md-search-keyword").val();
-               if (typeSelect == null) {
-                  swal("검색조건을 설정해주세요");
-                  return;
-               } else if (searchKeywordInput == '') {
-                  swal("검색어를 입력해주세요");
-                  return;
-               }
+							console.log("get curator saerch success");
+							console.log(response);
 
-               $.ajax({
-                  type: "GET",
-                  url: curatorUrl,
-                  data: searchForm.serialize(),
-                  success: function (response) {
+							var str = "";
 
-                     console.log("get curator saerch success");
-                     console.log(response);
+							$(".left").attr('data-left-url', curatorUrl + `?page=${response.page - 1}`);
+							$(".right").attr('data-right-url', curatorUrl + `?page=${response.page + 1}`);
 
-                     var str = "";
-
-                     $(".left").attr('data-left-url', curatorUrl + `?page=${response.page - 1}`);
-                     $(".right").attr('data-right-url', curatorUrl + `?page=${response.page + 1}`);
-
-                     if (response.totalPage != 0) {
-                        $.each(response.dtoList, function (idx, dto) {
-                           str += `<div class="search-result-Item item" data-search-file="${dto.imageURL}" data-search-gno="${dto.gno}">
-                                 <img class="md-conteainer-img" src="${displayUrl}?fileName=${dto.imageURL}">                              
+							if (response.totalPage != 0) {
+								$.each(response.dtoList, function (idx, dto) {
+									str += `<div class="search-result-Item item" data-search-file="${dto.imageURL}" data-search-gno="${dto.gno}">
+                                    <img class="md-conteainer-img" src="${displayUrl}?fileName=${dto.imageURL}">                              
                                     <br/>
                                     <p>${dto.title}</p>
-                                 </div>`;
-                        });
-                        searchResult.html(str);
-                     } else {
-                        searchResult.html('<div> 검색 결과가 없습니다. </div>');
-                     }
+                                    </div>`;
+								});
+								searchResult.html(str);
+							} else {
+								searchResult.html('<div> 검색 결과가 없습니다. </div>');
+							}
 
-                     if (response.page == 1) {
-                        $(".left").attr('data-left-url', '');
-                        $(".right").attr('data-right-url', curatorUrl + `?page=${response.page + 1}`);
-                     } else if (response.page == response.end) {
-                        $(".left").attr('data-left-url', curatorUrl + `?page=${response.page - 1}`);
-                        $(".right").attr('data-right-url', '');
-                     } else {
-                        $(".left").attr('data-left-url', curatorUrl + `?page=${response.page - 1}`);
-                        $(".right").attr('data-right-url', curatorUrl + `?page=${response.page + 1}`);
-                     }
-                  },
-                  error: function () {
-                     alert('Error');
-                  }
-               });
-            }
+							if (response.page == 1) {
+								$(".left").attr('data-left-url', '');
+								$(".right").attr('data-right-url', curatorUrl + `?page=${response.page + 1}`);
+							} else if (response.page == response.end) {
+								$(".left").attr('data-left-url', curatorUrl + `?page=${response.page - 1}`);
+								$(".right").attr('data-right-url', '');
+							} else {
+								$(".left").attr('data-left-url', curatorUrl + `?page=${response.page - 1}`);
+								$(".right").attr('data-right-url', curatorUrl + `?page=${response.page + 1}`);
+							}
+						},
+						error: function () {
+							alert('Error');
+						}
+					});
+				}
 
-            function emojiBoxReload() {
-               $("#myModal").modal("show");
-            }
 
-            //이모지 등록/수정/삭제
-            $(document).on("click", ".emoji", function () {
-               var testtype = $(this).val();
-               var id = $(".inputId").val();
-               var gno = $(".inputGno").val();
-               var emojitype = $(".emoji:checked").val();
-               var data = { id: id, gno: gno, emojitype: emojitype };
-               $.ajax({
-                  type: "POST",
-                  url: emojiaddUrl + '/' + gno,
-                  data: JSON.stringify(data),
-                  contentType: "application/json",
-                  dataType: "json",
-                  success: function (response) {
-                     console.log("update emoji success");
-                     $(".emoji-cnt").eq(0).text(`${response[0][1]}`);
-                     $(".emoji-cnt").eq(1).text(`${response[1][1]}`);
-                     $(".emoji-cnt").eq(2).text(`${response[2][1]}`);
-                     $(".emoji-cnt").eq(3).text(`${response[3][1]}`);
-                     $(".emoji-cnt").eq(4).text(`${response[4][1]}`);
-                  },
-                  fail: function (response) {
-                     console.log(response);
-                  }, error: function (request, status, error) {
-                     alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
-                  }
-               });
-            });
+				//팔로우 
+			// 	$(document).on("click","#followBtn", function(){
+				
+			// 	if ($("#followBtn").val() != null) {
+			// 		$("#followBtn").html('언팔로우');
+			// 	} else {
+			// 		$("#followBtn").html("팔로우");
+			// 	}
+			// });
 
-            // 모달 창 내 search result 클릭 시 이동 제어
-            $(document).on("click", ".search-result-Item", function (e) {
-               var targetGno = $(this).closest("div").data("searchGno");
-               var targetFile = $(this).closest("div").data("searchFile");
+				$(document).on("click", "#followBtn", function () {
+					var fno = $("#followBtn");
+					var gno = $('.inputGno').data('gno');
+					var id = $("#id").val();
+					var targetFile=$("#targetFile").attr('src').substring(27); 
+					var artistname = $(".inputId").data("id");
 
-               $("#curatorModal").modal("hide");
-               $("#detailsModal").modal("show");
+					// 언팔 상태
+					if (fno.val() == "null") {
+						var data = { followerid: id, artistname: artistname ,fileName:targetFile};
+						console.log(data);
+						$.ajax({
+							url: followaddUrl,
+							type: "POST",
+							data: JSON.stringify(data),
+							contentType: "application/json; charset=utf-8",
+							dataType: "text",
+							success: function (result) {
+								self.location.href;
+								showdetailsModal(gno, id, targetFile);
+								
 
-               showdetailsModal(targetGno, targetFile);
-            });
-         });
-      </script>
+							}
+							, error: function (request, status, error) {
+								alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+							}
+						});
 
-      <!-- 큐레이터 모달창 -->
-      <div class="modal fade bd-example-modal-xl" tabindex="-1" id="curatorModal">
-         <div class="modal-dialog modal-lg modal-dialog-centered">
-            <div class="modal-content">
-               <div class="modal-header">
-                  <h5 class="modal-title">규레이터</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-               </div>
-               <div class="modal-body">
-                  <form class="serach-form-container" id="modal-frm" th:action="@{/gallery/curator}" method="get">
+					} else {
+						var data = { id: id, artistname: artistname };
 
-                     <select name="type">
-                        <option value="t" disabled selected>검색조건</option>
-                        <option value="t">작품명</option>
-                        <option value="c">내용</option>
-                        <option value="w">작가</option>
-                     </select>
-                     <input id="md-search-keyword" type="text" name="keyword" value="">
-                     <input id="md-search-btn" type="button" value="검색">
-                     <select name="sort">
-                        <option value="d" disabled selected>정렬조건</option>
-                        <option value="d">최신순</option>
-                        <option value="a">과거순</option>
-                     </select>
-                  </form>
-                  <br />
-                  <div class="">
-                     <div class="md-conteainer ">
+						$.ajax({
+							url: followremoveUrl + "/" + id + "/" + artistname,
+							type: "DELETE",
+							data: JSON.stringify(data),
+							contentType: "application/json; charset=utf-8",
+							dataType: "text",
+							success: function (result) {
+								self.location.href;
+								showdetailsModal(gno, id, targetFile);
+							}
+							, error: function (request, status, error) {
+								alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+							}
+						});
+					}
+				});
 
-                        <div class='md-btn-container'>
-                           <div class='helper'></div>
-                           <div class="md-item-btn left">
-                              <span style="cursor: pointer;">
-                                 <i class="fa-solid fa-angle-left"></i>
-                              </span>
-                           </div>
-                        </div>
 
-                        <div class="md-serach-result result-container"></div>
 
-                        <div class='md-btn-container'>
-                           <div class='helper'></div>
-                           <div class="md-item-btn right">
-                              <span style="cursor: pointer;"><i class="fa-solid fa-angle-right"></i></span>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-            </div>
-         </div>
-      </div>
 
-      <!-- Details 모달창 -->
-      <div class="modal" tabindex="-1" id="detailsModal">
-         <div class="container">
-            <div class="modal-dialog modal-lg">
-               <div class="modal-content">
-                  <div class="modal-header">
-                     <h5 class="modal-title">작품 상세페이지</h5>
-                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body">
-                     <div class="details-modal-body">
-                     </div>
-                     <div class="detail-modal-body2">
-                     </div>
-                  </div>
-                  <div class="modal-footer">
-                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                     <button type="button" class="btn btn-primary">Save changes</button>
-                  </div>
-               </div>
-            </div>
-         </div>
-      </div>
-   </th:block>
+				// 모달 창 내 search result 클릭 시 이동 제어
+				$(document).on("click", ".search-result-Item", function (e) {
+					var targetGno = $(this).closest("div").data("searchGno");
+					var targetFile = $(this).closest("div").data("searchFile");
+					// alert(targetGno);
+					// alert(targetFile);
+					$("#curatorModal").modal("hide");
+					$("#detailsModal").modal("show");
+					showdetailsModal(targetGno, targetFile);
+				});
+
+			});
+		</script>
+
+		<!-- 큐레이터 모달창 -->
+		<div class="modal fade bd-example-modal-xl" tabindex="-1" id="curatorModal">
+			<div class="modal-dialog modal-xl">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">큐레이터</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<form id="modal-frm" th:action="@{/gallery/curator}" method="get">
+							<select name="type">
+								<option value="t" disabled selected>검색조건</option>
+								<option value="t">작품명</option>
+								<option value="c">내용</option>
+								<option value="w">작가</option>
+							</select>
+							<input id="md-search-keyword" type="text" name="keyword" value="">
+							<input id="md-search-btn" type="button" value="검색">
+							<select name="sort">
+								<option value="d" disabled selected>정렬조건</option>
+								<option value="d">최신순</option>
+								<option value="a">과거순</option>
+							</select>
+						</form>
+						<hr>
+						<div class="">
+							<div class="md-conteainer ">
+								<div class='md-btn-container'>
+									<div class='helper'></div>
+									<div class='md-item-btn left'>🎈</div>
+								</div>
+								<div class="md-serach-result result-container"></div>
+								<div class='md-btn-container'>
+									<div class='helper'></div>
+									<div class='md-item-btn right'>🎈</div>
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+             		  		 <button type="button" class="btn btn-primary">Save changes</button> -->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Details 모달창 -->
+		<div class="modal" tabindex="-1" id="detailsModal">
+			<div class="container">
+				<div class="modal-dialog modal-lg">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title">작품 상세페이지</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							<div class="details-modal-body">
+
+							</div>
+							<div class="detail-modal-body2">
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+							<button type="button" class="btn btn-primary">Save changes</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</th:block>
 </th:block>

@@ -74,6 +74,7 @@ public class GalleryServiceImpl implements GalleryService {
         return new PageResultDTO<>(result, fn);
     }
 
+
     // 상세 페이지
     @Override
     public GalleryDTO getGallery(long gno) {

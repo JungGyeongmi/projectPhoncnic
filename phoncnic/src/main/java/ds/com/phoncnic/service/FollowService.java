@@ -19,8 +19,10 @@ public interface FollowService {
     Long addDyningFollow(FollowDTO followDTO);
 
     Long getFno(String id, String dyningname);
-
-    Long getFnoInGallery(String id, String artistname);
+    
+    // Follow getFnoByGno(String id, String artistname);
+    
+    Long getFnoByGno(String id, String artistname);
 
     default FollowDTO entityToDTO(List<Object> artistList, List<Object> dyningList) {
         FollowDTO followDTO = FollowDTO.builder()
@@ -29,7 +31,6 @@ public interface FollowService {
                 .build();
         return followDTO;
     }
-
 
     default Follow dtoToEntity(FollowDTO followDTO){
         if(followDTO.getArtistname()==null){
@@ -45,6 +46,4 @@ public interface FollowService {
             .artistname(followDTO.getArtistname())
             .build(); 
             return follow;
-        }
-    }
 }

@@ -70,6 +70,7 @@ public interface GalleryService {
         .gno(gallery.getGno())
         .title(gallery.getTitle())
         .content(gallery.getContent())
+        .artistname(gallery.getArtistid().getNickname())
         .imagename(gallery.getImagename())
         .emojicount(emojiArr)
         .imagetype(gallery.isImagetype())

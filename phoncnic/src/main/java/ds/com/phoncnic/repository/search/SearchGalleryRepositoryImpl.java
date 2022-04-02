@@ -23,7 +23,6 @@ import ds.com.phoncnic.entity.QGallery;
 import ds.com.phoncnic.entity.QMember;
 import lombok.extern.log4j.Log4j2;
 
-
 @Log4j2
 public class SearchGalleryRepositoryImpl  extends QuerydslRepositorySupport implements SearchGalleryRepository {
 

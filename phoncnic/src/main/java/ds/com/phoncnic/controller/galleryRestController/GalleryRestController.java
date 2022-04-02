@@ -1,12 +1,12 @@
 package ds.com.phoncnic.controller.galleryRestController;
 
-
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,19 +40,22 @@ public class GalleryRestController {
 
     @GetMapping("/curator")
     public ResponseEntity<PageResultDTO<GalleryDTO, Object[]>> getCuratorModal(SearchPageRequestDTO pageRequestDTO) {
-        log.info("get curator rest........");
+        log.info("---------------get curator rest---------------");
         PageResultDTO<GalleryDTO, Object[]> result = galleryService.getGalleryPage(pageRequestDTO);
         return new ResponseEntity<>(result, HttpStatus.OK);
-
     }
 
     // Gallery List
-    @GetMapping("/read/{gno}")
-    public ResponseEntity<GalleryDTO> getList(@PathVariable("gno") Long gno) {
+    @GetMapping("/read/{gno}/{id}")
+    public ResponseEntity<Object[]> getList(@PathVariable("gno") Long gno, @PathVariable("id") String id) {
         log.info("getgalleryList........gno" + gno);
         GalleryDTO galleryDTO = galleryService.getGallery(gno);
+        log.info("------------------readFno----------------- " + id+galleryDTO.getArtistname());
+        Long fno =  followService.getFnoByGno(id, galleryDTO.getArtistname());
+        Object[] array = {galleryDTO , fno};
         log.info("galleryDTO : " + galleryDTO);
-        return new ResponseEntity<>(galleryDTO, HttpStatus.OK);
+        log.info("------------------readFno----------------- " + fno);
+        return new ResponseEntity<>(array, HttpStatus.OK);
     }
 
     // Emoji getList
@@ -63,17 +66,8 @@ public class GalleryRestController {
         log.info("emojiDTO : " + emojiDTO);
         return new ResponseEntity<>(emojiDTO, HttpStatus.OK);
     }
-    
-    //Gallery List
-    @GetMapping("/read/{gno}")
-    public ResponseEntity<GalleryDTO>getList(@PathVariable("gno") Long gno) {
-         log.info("getgalleryList........gno" + gno);
-         GalleryDTO galleryDTO = galleryService.getGallery(gno);
-         log.info("galleryDTO : " + galleryDTO);
-         return new ResponseEntity<>(galleryDTO, HttpStatus.OK);
-    }
 
-    // Emoji Register
+    // Emoji insert/update/remove
     @PostMapping("/emoji/register/{gno}")
     public ResponseEntity<Long[][]> emojiRegister(@RequestBody EmojiDTO emojiDTO, @PathVariable("gno") Long gno) {
         emojiDTO.setGno(gno);
@@ -83,12 +77,25 @@ public class GalleryRestController {
         return new ResponseEntity<>(newEmojiCount, HttpStatus.OK);
     }
     
+
+    //follow 
     @PostMapping("/addfollow")
     public ResponseEntity<Long> addFollow(@RequestBody FollowDTO followDTO) {
         log.info("-----------------add Follow-----------------");
         log.info("followDTO:" + followDTO);
 
-        Long fno = followService.addDyningFollow(followDTO);
+        Long fno = followService.addArtistFollow(followDTO);
+        log.info("add--------fno:"+fno);
         return new ResponseEntity<>(fno, HttpStatus.OK);
     }
+
+    @DeleteMapping("/removefollow/{id}/{artistname}")
+    public ResponseEntity<String> removeFollowDyning(@PathVariable String id, @PathVariable String artistname) {
+        log.info("artistname:" + artistname);
+
+        followService.removeArtistFollow(id, artistname);
+        return new ResponseEntity<>(artistname, HttpStatus.OK);
+
+    }
+
 }

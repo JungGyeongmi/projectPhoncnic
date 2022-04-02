@@ -9,9 +9,11 @@ import ds.com.phoncnic.dto.FollowDTO;
 import ds.com.phoncnic.entity.Follow;
 import ds.com.phoncnic.repository.FollowRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 
 @Service
 @RequiredArgsConstructor
+@Log4j2
 public class FollowServiceImpl implements FollowService {
     
     @Autowired
@@ -29,6 +31,14 @@ public class FollowServiceImpl implements FollowService {
         Follow follow = followRepository.getFollownameArtist(id, name);
         followRepository.delete(follow);
     }
+
+    // @Override
+    // public Follow getFnoByGno (String id, String name){
+    //     Follow follow = followRepository.getFollownameArtist(id, name);
+    //     return follow;
+    // }
+
+
     @Override
     public void removeDyningFollow(String id, String name){
         Follow follow = followRepository.getFollownameDyning(id, name);
@@ -39,6 +49,7 @@ public class FollowServiceImpl implements FollowService {
     public Long addArtistFollow(FollowDTO followDTO) {
         Follow follow = dtoToEntity(followDTO);
         followRepository.save(follow);
+        log.info("-------------------------fno:"+follow.getFno());
         return follow.getFno();
     }
 
@@ -56,8 +67,12 @@ public class FollowServiceImpl implements FollowService {
     }
 
     @Override
-    public Long getFnoInGallery(String id, String artistname) {
-        Long fno = followRepository.getFnoIfFollowed(id, artistname);
+    public Long getFnoByGno(String id, String artistname) {
+        log.info("serviceImplid:-------------------"+id+artistname);
+        Long fno = followRepository.getFnoIfFollowedByGno(id, artistname);
+        log.info("serviceImplfno:-------------------"+fno);
         return fno;
     }
+        
+
 }
