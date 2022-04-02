@@ -50,7 +50,7 @@ public class GalleryRestController {
     public ResponseEntity<Object[]> getList(@PathVariable("gno") Long gno, @PathVariable("id") String id) {
         log.info("getgalleryList........gno" + gno);
         GalleryDTO galleryDTO = galleryService.getGallery(gno);
-        log.info("------------------readFno----------------- " + id+galleryDTO.getId().substring(0, 5));
+        log.info("------------------readFno----------------- " + id+galleryDTO.getArtistname());
         Long fno =  followService.getFnoByGno(id, galleryDTO.getArtistname());
         Object[] array = {galleryDTO , fno};
         log.info("galleryDTO : " + galleryDTO);
@@ -98,7 +98,7 @@ public class GalleryRestController {
         log.info("artistname:" + artistname);
 
         followService.removeArtistFollow(id, artistname);
-        return new ResponseEntity<>(id, HttpStatus.OK);
+        return new ResponseEntity<>(artistname, HttpStatus.OK);
 
     }
 
