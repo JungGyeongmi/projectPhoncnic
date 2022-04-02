@@ -1,13 +1,13 @@
 package ds.com.phoncnic.controller.dyningRestController;
 
 
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/dyning")
+@RequiredArgsConstructor
 public class DyningRestController {
-        
+
 }
 

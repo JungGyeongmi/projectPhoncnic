@@ -24,7 +24,6 @@ public class Help extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long qno;
-    // private String id;
     private String title;
     private String content;
     private String password;

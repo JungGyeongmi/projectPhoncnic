@@ -72,11 +72,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     log.info(">>>"+http.headers().getClass().getName());
+
     http.authorizeRequests()
     .antMatchers("/manage/gallery/list").hasRole("USER");
     // .antMatchers("/sample/all").permitAll()
     // .antMatchers("/sample/member").hasRole("MEMBER")
     // .antMatchers("/sample/admin").hasRole("ADMIN");
+
     http.exceptionHandling().accessDeniedHandler(accessDeniedHandler());
     
     //1. Security login form 사용
@@ -87,7 +89,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     // .loginProcessingUrl("/member/login");
     
     //3.UserDetailsService 로그인 handler :: security의 '/login'
+
     http.formLogin().loginPage("https://accounts.google.com/o/oauth2/v2/auth/identifier?response_type=code&client_id=301468225398-heanhhm34h7tttd2vrd1002iku8jtnr7.apps.googleusercontent.com&scope=email&state=e_nayzmX5_Uu6KiIVYtv6ZlRX7UilF7svDh5OWGqs2c%3D&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fphoncnic%2Flogin%2Foauth2%2Fcode%2Fgoogle&flowName=GeneralOAuthFlow")
+
     .loginProcessingUrl("/login")
     .failureUrl("/member/login?error")
     .successHandler(loginSuccessHandler());
@@ -99,11 +103,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     http.logout().logoutSuccessHandler(logoutSuccessHandler());
     //.logoutUrl("/member/logout").logoutSuccessUrl("/member/login")
     http.rememberMe().tokenValiditySeconds(60*60*24*7).userDetailsService((UserDetailsService) memberDetailsService);
+
+
     // http.addFilterBefore(apiCheckFilter(), 
     //           UsernamePasswordAuthenticationFilter.class);
-    http.addFilterBefore(apiLoginFilter(), 
-              UsernamePasswordAuthenticationFilter.class);
-
+    http.addFilterBefore(apiLoginFilter(), UsernamePasswordAuthenticationFilter.class);
   }
 
 }

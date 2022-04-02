@@ -28,22 +28,33 @@ public class OAuth2UserDetailsService extends DefaultOAuth2UserService{
 
   @Override
   public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
+    
     log.info("CommonOAuth2UserDetailsService..userRequest:"+userRequest);
+    
     String clientName = userRequest.getClientRegistration().getClientName();
+    
+
     log.info("clientName:"+clientName);
     log.info("getParameters:"+userRequest.getAdditionalParameters());
 
     OAuth2User oAuth2User = super.loadUser(userRequest);
+    
     log.info("===========================");
+   
     oAuth2User.getAttributes().forEach((k,v)->{
       log.info(k+":"+v);
     });
+
     String email = null;
+    
     if(clientName.equals("Google"))
       email = oAuth2User.getAttribute("email");
-    log.info("email:"+email);
-    Member member = saveSocialMember(email);
+                                                                        
+      log.info("email:"+email);
+    
+      Member member = saveSocialMember(email);
     // return oAuth2User;
+    
     AuthMemberDTO authMemberDTO = new AuthMemberDTO(
       member.getId(), 
       member.getPassword(), 
@@ -55,22 +66,25 @@ public class OAuth2UserDetailsService extends DefaultOAuth2UserService{
       oAuth2User.getAttributes()
     );
 
-    authMemberDTO.setId(member.getId());
     return authMemberDTO;
   }
   
   private Member saveSocialMember(String email){
+    
     Optional<Member> result = memberRepository.findByEmail(email);
+
     if(result.isPresent()) return result.get();
 
-    //없다면
+    // 여기서 random 
     Member member = Member.builder()
       .id(email)
+      .nickname("빵형")
       .password(passwordEncoder.encode("1"))
     .build();
 
     member.addMemberRole(AuthorityRole.USER);
     memberRepository.save(member);
+    
     return member;
   }
 }

@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
 <th:block th:replace="~{layout/dyninglist :: setContent(~{::content}, ~{::search}, ~{::navbar})}">
-
     <!-- navbar + 토글 버튼 -->
     <th:block th:fragment="navbar">
         <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
@@ -40,7 +39,6 @@
                 </ul>
             </div>
         </div>
-
 
         <script th:inline="javascript">
             $(document).ready(function () {

@@ -6,12 +6,13 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 
 import ds.com.phoncnic.entity.Dyning;
 import ds.com.phoncnic.entity.DyningImage;
 import ds.com.phoncnic.repository.search.SearchDyningRepository;
 
-public interface DyningRepository extends JpaRepository<Dyning, Long>, SearchDyningRepository {
+public interface DyningRepository extends JpaRepository<Dyning, Long>, QuerydslPredicateExecutor<Dyning>, SearchDyningRepository {
 
     // 거리에서 가게명/루프패스
     @Query("SELECT d, r FROM Dyning d LEFT JOIN RoofDesign r ON d.roofdesign = r.oono")
@@ -40,5 +41,4 @@ public interface DyningRepository extends JpaRepository<Dyning, Long>, SearchDyn
     // dyning 팔로워 count
     @Query("select count(f.dyningname) from Dyning d left join Follow f on f.dyningname = d.dyningname where d.dno =:dno group by dno")
     Long getDyningFollowerCount(Long dno);
-
 }

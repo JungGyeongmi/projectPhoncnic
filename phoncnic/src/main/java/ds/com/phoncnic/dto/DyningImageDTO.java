@@ -19,7 +19,6 @@ public class DyningImageDTO {
     private String menuimagename;
     private String menuimageuuid;
     private String menuimagepath;
-
     private String backgroundname;
     private String backgrounduuid;
     private String backgroundpath;

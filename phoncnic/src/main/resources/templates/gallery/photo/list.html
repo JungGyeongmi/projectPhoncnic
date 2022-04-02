@@ -2,143 +2,237 @@
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
 <th:block th:replace="~{layout/basic :: setContent(~{::content})}">
    <th:block th:fragment="content">
-         <!-- Link Swiper's CSS -->
-         <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+      <!-- Link Swiper's CSS -->
+      <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
 
-         <style>
-            input[name="emojitype"] {
-               opacity: 0;
-            }
+      <style>
+         input[name="emojitype"] {
+            opacity: 0;
+         }
 
-            input[name="emojitype"]+label {
-               padding: 20px 10px;
-            }
+         input[name="emojitype"]+label {
+            padding: 20px 10px;
+         }
 
-            input[name="emojitype"]:checked+label+span {
-               color: red;
+         input[name="emojitype"]:checked+label+span {
+            color: red;
 
-            }
+         }
 
-            html,
-            body {
-               position: relative;
-               height: 100%;
-            }
+         html,
+         body {
+            position: relative;
+            height: 100%;
+         }
 
-            body {
-               background: #eee;
-               font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
-               font-size: 14px;
-               color: #000;
-               margin: 0;
-               padding: 0;
-            }
+         body {
+            background: #eee;
+            font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+            font-size: 14px;
+            color: #000;
+            margin: 0;
+            padding: 0;
+         }
 
-            #curatorModal .modal {
-               min-width: 400px;
-            }
-            
-            #curatorModal .modal-body {
-               max-height : 470px;
-               /* background-color: yellow; */
-               overflow-y: auto;
-               overflow-x: hidden;
-            }
+         .swiper {
+            width: 95%;
+            margin-top: 10px;
+            margin-bottom: 120px;
+         }
 
-            #curatorModal .modal-body::-webkit-scrollbar {
-               /* Chrome, Safari, Opera*/
-               display: none; 
-            }
+         .swiper-slide {
+            background-position: center;
+            background-size: cover;
+            width: 300px;
+            height: 350px;
+         }
 
-            .swiper {
-               width: 95%;
-               margin-top: 10px;
-               margin-bottom: 120px;
-            }
+         .swiper-slide img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+         }
 
-            .swiper-slide {
-               background-position: center;
-               background-size: cover;
-               width: 300px;
-               height: 450px;
-            }
+         .serach-form-container {
+            display: grid;
+            grid-template-columns: 0.5fr 1fr 0.3fr 0.5fr;
+            column-gap: 0.5%;
+         }
 
-            .swiper-slide img {
-               display: block;
-               width: 100%;
-               height: 100%;
-               object-fit: cover;
-               object-position: center;
-            }
+         .md-container {
+            display: grid;
+            grid-template-columns: 0.02fr 10fr 0.02fr;
+         }
 
-            .serach-form-container {
-               display: grid;
-               grid-template-columns: 1fr 3fr 1fr 1fr;
-               /* grid-template-columns: minmax(300px, auto); */
-               column-gap: 0.5%;
-               justify-content: center;
-            }
+         .result-container {
+            display: grid;
+            /* 최소 100px 확보 후 늘어나면 자동 */
+            /* grid-template-columns: repeat(auto-fit, minmax(300px, auto)); */
+            grid-template-columns: repeat(auto-fit, minmax(150px, auto));
+            grid-template-rows: repeat(1, minmax(300px, auto));
+            row-gap: 1%;
+            /* items 세로 정렬 */
+            align-items: center;
+            /* items 가로 정렬 */
+            justify-items: center;
+            /* 두개를 동시에 사용 가능 place-items: center start; */
+         }
 
-            .md-conteainer {
-               display: grid;
-               grid-template-columns: 0.08fr 1fr 0.08fr;
-            }
+         .md-container img {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+         }
 
-            .result-container {
-               display: grid;
-               grid-template-columns: repeat(auto-fit, minmax(250px, auto));
-               grid-template-rows: repeat(1, minmax(300px, auto));
-               column-gap: 1%;
-               align-items: center;
-               justify-items: center;
-            }
+         .md-btn-container {
+            width: 20px;
+            height: 100%;
+         }
 
-            .md-conteainer img {
-               width: 250px;
-               height: 250px;
-               border-radius: 3%;
-            }
+         .md-item-btn {
+            width: 0;
+            z-index: 3;
+            display: inline-block;
+            vertical-align: middle;
+            transform: scale(2);
+         }
 
-            .md-btn-container {
-               width: 20px;
-               /* background-color: bisque; */
-               height: 100%;
-            }
+         .helper {
+            width: 0;
+            display: inline-block;
+            vertical-align: middle;
+            height: inherit;
+         }
 
-            .md-item-btn {
-               width: 0;
-               display: inline-block;
-               vertical-align: middle;
-               z-index: 1;
-	            transform: scale(2);
-            }
+         #curatorBtn {
+            z-index: 1;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            transform: scaleX(-1);
+            width: 15rem;
+         }
 
-            .helper {
-               width: 0;
-               /* background-color: red; */
-               display: inline-block;
-               vertical-align: middle;
-               height: inherit;
-            }
-         </style>
-      </head>
+         #curatorBtn:hover {
+            cursor: help;
+         }
 
+         .show-gurator-script {
+            visibility: hidden;
+         }
 
-      <h1>그림전</h1>
+         ul,
+         li {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+         }
+
+         .speech-bubble {
+            position: absolute;
+            position: absolute;
+            bottom: 270px;
+            left: 132px;
+         }
+
+         .drop_left {
+            -moz-border-radius: 10px;
+            -webkit-border-radius: 10px;
+            border-radius: 10px;
+            margin-left: 20px;
+            position: absolute;
+            z-index: 1;
+            max-width: 250px;
+            background: -moz-linear-gradient(bottom, #58abff 20%, #2484e7);
+            background: -webkit-gradient(linear, 0 0, 0 20%, from(#58abff), to(#2484e7));
+         }
+
+         .drop_left li {
+            text-overflow: ellipsis;
+            overflow: hidden;
+            font-size: 12px;
+            color: #FFF;
+            display: block;
+            padding: 5px;
+            margin: 10px;
+            z-index: 2;
+         }
+
+         .tangel_left {
+            width: 10px;
+            height: 10px;
+            left: -3px;
+            top: 13px;
+            position: absolute;
+            -webkit-transform: rotate(45deg);
+            background-color: #2484e7;
+            z-index: 1;
+         }
+      </style>
+
+      <h1>사진전</h1>
       <div class="swiper mySwiper">
          <div class="swiper-wrapper">
-            <div class="swiper-slide galleryList" th:each="dto : ${galleryDTOList}" th:data-gno="${dto.gno}"
+            <div class="swiper-slide" th:each="dto : ${galleryDTOList}" th:data-gno="${dto.gno}"
                th:data-file="${dto.getImageURL}" data-bs-toggle="modal" data-bs-target="#detailsModal">
-               <img style="cursor:pointer;" th:src="|@{'/display'}?fileName=${dto.getImageURL()}|"
-                  alt="이미지를 불러올 수 없습니다" />
+               <img style="cursor:pointer;" th:src="|@{'/display'}?fileName=${dto.getImageURL()}|" alt="🎨" />
                [[${dto.title}]]
+            </div>
+            <div style="border: solid 1px black;">
+               여기가 마지막 입니다.
             </div>
          </div>
          <div class="swiper-pagination"></div>
          <div class="swiper-button-prev"></div>
          <div class="swiper-button-next"></div>
       </div>
-      <button type="button" id="curatorBtn" data-bs-toggle="modal" data-bs-target="#curatorModal">큐레이터</button>
+
+      <div class="showup-curator">
+         <div class="drop_left speech-bubble show-gurator-script">
+            <ul>
+               <li>
+                  <div id="showup-text"></div>
+                  <div>
+                     <hr>
+                     규레이터 클릭시 Gallery 내 모든 작품을 검색해볼 수 있습니다.
+                  </div>
+               </li>
+            </ul>
+            <div class="tangel_left"></div>
+         </div>
+         <img id="curatorBtn" data-bs-toggle="modal" data-bs-target="#curatorModal" th:src="@{/icon/gurator.png}">
+      </div>
+
+      <!-- 규레이터 제어 스크립트 -->
+      <script>
+         $(function () {
+
+            var guratorScript = {
+               0: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur porro rem, numquam voluptatum commodi architecto maiores cum, voluptatem deserunt laborum quisquam tempora nulla quis suscipit officiis autem repellendus possimus ex?",
+               1: "좋은 아침!",
+               2: "뭐 맛있는거 먹었습니까",
+               3: "지원씨! 지원씨!",
+               4: "에잇 너는 그만해",
+               5: "그냥 외우세요",
+               6: "촤하하하하하하!",
+               7: "해창아~",
+            }
+
+            $(".showup-curator").mouseover(function () {
+               var randomIdx = Math.floor(Math.random() * 7 + 1);
+               $(".drop_left").toggleClass('show-gurator-script');
+               $("#showup-text").html(guratorScript[randomIdx]);
+            });
+
+            $(".showup-curator").mouseleave(function () {
+               $(".drop_left").addClass('show-gurator-script');
+               $("#showup-text").html("");
+            });
+
+         });
+      </script>
 
       <!-- Swiper JS -->
       <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
@@ -149,7 +243,7 @@
             effect: "coverflow",
             grabCursor: false,
             centeredSlides: true,
-            slidesPerView: "3",
+            slidesPerView: "2",
             coverflowEffect: {
                rotate: 0,
                stretch: -0,
@@ -157,76 +251,85 @@
                modifier: 1,
                slideShadows: true,
             },
-            loop: true,
             mousewheel: true,
-            pagination: {
-               el: ".swiper-pagination",
-               clickable: true,
-            },
+            // pagination: {
+            // 	el: ".swiper-pagination",
+            // 	clickable: true,
+            // },
             navigation: {
                nextEl: ".swiper-button-next",
                prevEl: ".swiper-button-prev",
-            },
-
+            }
          });
       </script>
 
-      </style>
       <script th:inline="javascript">
          $(document).ready(function () {
 
             /*[+
                var readUrl = [[@{/gallery/read}]];
                var emojiUrl = [[@{/gallery/emoji}]];
-               var emojiaddUrl = [[@{/gallery/register}]];
+               var emojiaddUrl = [[@{/gallery/emoji/register}]];
                var urlDisplay = [[@{/display}]];
-             
             +]*/
+
+            var EmojiStringArray = "";
 
             var uploadResult = $(".uploadResult");
             var detailsModalbody = $(".details-modal-body");
+            var detailsModalbodyEmoji = $(".detail-modal-body2");
             var showdetailsModal = function (targetGno, targetFile) {
                $.getJSON(readUrl + "/" + targetGno, function (dto) {
-                  // console.log("getList..........dto " + JSON.stringify(dto));
                   var str = "";
-                  str += `
-                     <input type="hidden" name = "gno" value="${targetGno}" class="inputGno" data-gno="${targetGno}">
-                     <input type="hidden" name = "id" value="user1@icloud.com" class="inputId" data-id="${dto.id}">
-
-                     <img style='width:100%' src="${urlDisplay}?fileName=${targetFile}">
-
-                     <div class=row>
-                        <div class="col-md-7"><h2>${dto.title}</h2></div>
-                        <div class="col-md-4"><h4>${dto.id}</h4></div>
-                     </div>
-
-                     <div id="emojiBox">
-                     <input type="radio" id="1" value="1" name="emojitype" data-emojitype="${dto.emojicount[0]}" class="emoji">      
-                     <label for="1" class="emojibtn">🥰</label>
-                     <span>${dto.emojicount[0][1]}</span>
-                     
-                     <input type="radio" id="2" value="2" name="emojitype" data-emojitype="${dto.emojicount[1]}" class="emoji">      
-                     <label for="2" class="emojibtn">😊</label>
-                     <span>${dto.emojicount[1][1]}</span>
-                  
-                     <input type="radio" id="3" value="3" name="emojitype" data-emojitype="${dto.emojicount[2]}" class="emoji">       
-                     <label for="3" class="emojibtn">😥</label>
-                     <span>${dto.emojicount[2][1]}</span>
-            
-                     <input type="radio" id="4" value="4" name="emojitype" data-emojitype="${dto.emojicount[3]}" class="emoji">      
-                     <label for="4" class="emojibtn">😂</label>
-                     <span>${dto.emojicount[3][1]}</span>
-                     
-                     <input type="radio" id="5" value="5" name="emojitype" data-emojitype="${dto.emojicount[4]}" class="emoji">      
-                     <label for="5" class="emojibtn">😝</label>
-                     <span>${dto.emojicount[4][1]}</span>
-                     </div>`;
+                  str = `
+               <input type="hidden" name = "gno" value="${targetGno}" class="inputGno" data-gno="${targetGno}">
+               <img style='width:100%' src="${urlDisplay}?fileName=${targetFile}">
+               <div class=row>
+                  <div class="col-md-7"><h2>${dto.title}</h2></div>
+                  <div class="col-md-4"><h4>${dto.id}</h4></div>
+               </div>`
                   detailsModalbody.html(str);
+
+                  str = `<div id="emojiBox">
+               <input type="text" name = "id" value="user1@icloud.com" class="inputId" data-id="${dto.id}">
+                  <br/>
+                  <input type="radio" id="1" value="${dto.emojicount[0][0]}" name="emojitype" class="emoji">
+                  <label for="1" class="emojibtn">
+                     <img src='${dto.emojiinfo["1"]}' alt="이미지를 불러올 수 없습니다" style="width: 30px;">   
+                  </label>
+                  <span class="emoji-cnt">${dto.emojicount[0][1]}</span>
+                  
+                  <input type="radio" id="2" value="${dto.emojicount[1][0]}" name="emojitype" class="emoji">      
+                  <label for="2" class="emojibtn">
+                     <img src='${dto.emojiinfo["2"]}' alt="이미지를 불러올 수 없습니다" style="width: 30px;">
+                  </label>
+                  <span class="emoji-cnt">${dto.emojicount[1][1]}</span>
+               
+                  <input type="radio" id="3" value="${dto.emojicount[2][0]}" name="emojitype" class="emoji">       
+                  <label for="3" class="emojibtn">
+                     <img src='${dto.emojiinfo["3"]}' alt="이미지를 불러올 수 없습니다" style="width: 30px;">   
+                  </label>
+                  <span class="emoji-cnt">${dto.emojicount[2][1]}</span>
+         
+                  <input type="radio" id="4"  value="${dto.emojicount[3][0]}" name="emojitype" class="emoji">      
+                  <label for="4" class="emojibtn">
+                     <img src='${dto.emojiinfo["4"]}' alt="이미지를 불러올 수 없습니다" style="width: 30px;">   
+                  </label>
+                  <span class="emoji-cnt">${dto.emojicount[3][1]}</span>
+                  
+                  <input type="radio" id="5"  value="${dto.emojicount[4][0]}" name="emojitype" class="emoji">      
+                  <label for="5" class="emojibtn">
+                     <img src='${dto.emojiinfo["5"]}' alt="이미지를 불러올 수 없습니다" style="width: 30px;">   
+                  </label>
+                  <span class="emoji-cnt">${dto.emojicount[4][1]}</span>
+               </div>`;
+
+                  detailsModalbodyEmoji.html(str);
                });
             }
 
             /* target의 gno / target의 imagepath 가져옴 / emoji 갯수 */
-            $(".galleryList").click(function () {
+            $(".swiper-slide").click(function () {
                var targetGno = $(this).data("gno");
                var targetFile = $(this).data("file");
                $("#detailsModal").modal('show');
@@ -284,10 +387,10 @@
                   var str = "";
                   $.each(result.dtoList, function (idx, dto) {
                      str += `<div class="search-result-Item item" data-search-file="${dto.imageURL}" data-search-gno="${dto.gno}">
-                              <img  class="md-conteainer-img" src="${displayUrl}?fileName=${dto.imageURL}">                              
-                              <br/>
-                              <p>${dto.title}</p>
-                           </div>`;
+                        <img  class="md-container-img" src="${displayUrl}?fileName=${dto.imageURL}">                              
+                        <br/>
+                        <p>${dto.title}</p>
+                     </div>`;
                   });
                   searchResult.html(str);
 
@@ -311,6 +414,18 @@
             }
 
             function getSearchList() {
+
+               // 유효성 검사
+               var typeSelect = $("select[name=type]").val();
+               var searchKeywordInput = $("#md-search-keyword").val();
+               if (typeSelect == null) {
+                  swal("검색조건을 설정해주세요");
+                  return;
+               } else if (searchKeywordInput == '') {
+                  swal("검색어를 입력해주세요");
+                  return;
+               }
+
                $.ajax({
                   type: "GET",
                   url: curatorUrl,
@@ -328,10 +443,10 @@
                      if (response.totalPage != 0) {
                         $.each(response.dtoList, function (idx, dto) {
                            str += `<div class="search-result-Item item" data-search-file="${dto.imageURL}" data-search-gno="${dto.gno}">
-                                    <img class="md-conteainer-img" src="${displayUrl}?fileName=${dto.imageURL}">                              
-                                    <br/>
-                                    <p>${dto.title}</p>
-                                    </div>`;
+                           <img class="md-container-img" src="${displayUrl}?fileName=${dto.imageURL}">                              
+                              <br/>
+                              <p>${dto.title}</p>
+                           </div>`;
                         });
                         searchResult.html(str);
                      } else {
@@ -359,60 +474,41 @@
                $("#myModal").modal("show");
             }
 
-            //이모지 등록
-            $(document).on("click", ".emoji", function (event) {
+            //이모지 등록/수정/삭제
+            $(document).on("click", ".emoji", function () {
+               var testtype = $(this).val();
                var id = $(".inputId").val();
                var gno = $(".inputGno").val();
                var emojitype = $(".emoji:checked").val();
                var data = { id: id, gno: gno, emojitype: emojitype };
-               console.log("id:" + id);
-               console.log("gno:" + gno);
-               console.log("emojitype:" + emojitype);
-               console.log(data);
                $.ajax({
-                  url: emojiaddUrl + "/" + gno,
-                  method: "POST",
+                  type: "POST",
+                  url: emojiaddUrl + '/' + gno,
                   data: JSON.stringify(data),
-                  contentType: "application/json; charset=utf-8",
-                  dataType: "text",
-                  success: function (result) {
-                     // location.reload();
-                     // emojiBoxReload();
-                     self.location.reload();
-                     console.log(result.message);
-                  }
-               });
-            });
-
-            //이모지 삭제
-            $(document).on("click", ".emoji", function (event) {
-               var id = $(".inputId").val();
-               var gno = $(".inputGno").val();
-               var emojitype = $(".emoji:checked").val();
-               var data = { eno: eno };
-               $.ajax({
-                  url: emojiRemoveUrl + "/" + eno,
-                  method: "DELETE",
-                  data: JSON.stringify(data),
-                  contentType: "application/json; charset=utf-8",
-                  dataType: "text",
-                  success: function (result) {
-                     alert(result.message);
+                  contentType: "application/json",
+                  dataType: "json",
+                  success: function (response) {
+                     for (idx in response) {
+                        $(".emoji-cnt").eq(idx).text(`${response[idx][1]}`);
+                     }
+                     console.log("update emoji success");
+                  },
+                  fail: function (response) {
+                     console.log(response);
                   }, error: function (request, status, error) {
-                     console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                     alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                   }
                });
-
             });
 
             // 모달 창 내 search result 클릭 시 이동 제어
             $(document).on("click", ".search-result-Item", function (e) {
                var targetGno = $(this).closest("div").data("searchGno");
                var targetFile = $(this).closest("div").data("searchFile");
-               // alert(targetGno);
-               // alert(targetFile);
+
                $("#curatorModal").modal("hide");
                $("#detailsModal").modal("show");
+
                showdetailsModal(targetGno, targetFile);
             });
          });
@@ -420,10 +516,10 @@
 
       <!-- 큐레이터 모달창 -->
       <div class="modal fade bd-example-modal-xl" tabindex="-1" id="curatorModal">
-         <div class="modal-dialog modal-xl">
+         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
                <div class="modal-header">
-                  <h5 class="modal-title">큐레이터</h5>
+                  <h5 class="modal-title">규레이터</h5>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                </div>
                <div class="modal-body">
@@ -435,28 +531,37 @@
                         <option value="c">내용</option>
                         <option value="w">작가</option>
                      </select>
-
                      <input id="md-search-keyword" type="text" name="keyword" value="">
                      <input id="md-search-btn" type="button" value="검색">
-
                      <select name="sort">
-
                         <option value="d" disabled selected>정렬조건</option>
                         <option value="d">최신순</option>
                         <option value="a">과거순</option>
                      </select>
                   </form>
-                  <br/><br/>
-                  <div class="md-conteainer ">
-                     <div class='md-btn-container'><div class='helper'></div><div class="md-item-btn left"><img th:src="@{/icon/play-icon.png}" style="height:50px; width:50px"></div></div>
-                     <div class="md-serach-result result-container"></div>
-                     <div class='md-btn-container'><div class='helper'></div><div class="md-item-btn right" style=" padding-right:10%;"><img th:src="@{/icon/play-icon.png}" style="height:50px; width:50px;"></div>
+                  <br />
+                  <div class="">
+                     <div class="md-container ">
+
+                        <div class='md-btn-container'>
+                           <div class='helper'></div>
+                           <div class="md-item-btn left">
+                              <span style="cursor: pointer;">
+                                 <i class="fa-solid fa-angle-left"></i>
+                              </span>
+                           </div>
+                        </div>
+
+                        <div class="md-serach-result result-container"></div>
+
+                        <div class='md-btn-container'>
+                           <div class='helper'></div>
+                           <div class="md-item-btn right">
+                              <span style="cursor: pointer;"><i class="fa-solid fa-angle-right"></i></span>
+                           </div>
+                        </div>
                      </div>
                   </div>
-                  <!-- <div class="modal-footer">
-                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                      <button type="button" class="btn btn-primary">Save changes</button>
-                  </div> -->
                </div>
             </div>
          </div>

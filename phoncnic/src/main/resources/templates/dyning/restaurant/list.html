@@ -108,8 +108,6 @@
         </script>
     </th:block>
 
-
-
     <!-- 내용부분(restaurant 거리) -->
     <th:block th:fragment="content">
         <style>
@@ -132,10 +130,16 @@
                 <th scope="col">Roof Path</th>
             </tr>
             <tr th:each="dto : ${result}" th:onclick="'location.href=
+                \''+ @{/dyning/details(dno=${dto.dno})}
+                + '\''" th:if="${dto.foodtype}!=1">
+                <td id="dyningname">[[${dto.dyningname}]]</td>
+                <td id="roofpath">[[${dto.roofpath}]]</td>
+                =======
                 \''+ @{/dyning/details(dno=${dto.dno},id=${id})}
                 + '\''" th:if="${dto.foodtype}!=1">
                 <td id="dyningname">[[${dto.dyningname}]]</td>
                 <td id="roofpath"><img th:src="${dto.roofthumbnail}" alt=""></td>
+                >>>>>>> gallery_gm
             </tr>
         </table>
     </th:block>

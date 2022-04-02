@@ -3,6 +3,7 @@ package ds.com.phoncnic.dto;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,14 +19,16 @@ public class GalleryDTO {
     private Long gno;
     private String title;
     private String  content;
+
     private String artistname;
-    
     private String imagename;
     private boolean imagetype;
     private String imagepath;
     private String uuid;
+
     private Long[][] emojicount;
 
+    private HashMap<String, String> emojiinfo;
 
     //Member id
     private String id;
