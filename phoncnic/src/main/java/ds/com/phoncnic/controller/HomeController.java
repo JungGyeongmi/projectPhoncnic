@@ -34,6 +34,7 @@ public class HomeController {
     @GetMapping("/crossroad/gallery")
     public String crossRoadToGallery() {
         log.info("get gallery.......");
+        
         return "redirect:/gallery";
     }
 
@@ -42,6 +43,7 @@ public class HomeController {
     @GetMapping("/crossroad/dyning/{choice}")
     public String crossRoadToDyning(@PathVariable("choice") String choice) {
         log.info("get" + choice + ".......");
+       
         return "redirect:/dyning/" + choice + "/list";
     }
 
@@ -62,6 +64,7 @@ public class HomeController {
         model.addAttribute("hairDTO", characterLookService.getCharacterHair(id));
         model.addAttribute("clothesDTO", characterLookService.getCharacterClothes(id));
         model.addAttribute("looklist", characterLookService.lookimageList());
+
         return "/lookmodal";
     }
 
@@ -71,10 +74,7 @@ public class HomeController {
         log.info("modify post.........:" + characterLookDTO.getClothesname());
 
         characterLookService.modify(characterLookDTO, id);
+
         return "redirect:/";
-
     }
-
-   
-
 }

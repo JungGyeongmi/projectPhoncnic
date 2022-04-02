@@ -57,14 +57,7 @@ public class EmojiServiceImpl implements EmojiService {
         }
         return getEmojiCountArrayByGno(gno);
     }
-
-    @Override
-    public Long galleryEmojiRegiter(EmojiDTO emojiDTO) {
-        Emoji galleryEmoji = dtoToEntity(emojiDTO);
-        emojiRepository.save(galleryEmoji);
-        return galleryEmoji.getEno();
-    }
-
+    
     @Override
     public List<EmojiDTO> dyningEmojiList(Long dno) {
         List<Emoji> emojilist = emojiRepository.findByDno(dno);
