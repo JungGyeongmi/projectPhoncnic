@@ -119,48 +119,58 @@
             cursor: help;
          }
 
-         .showup-curator {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-         }
-
-         .gurator-text-box {
-            box-shadow: -3px 3px 9px 0px rgb(212, 192, 255) inset;
-            
-            z-index: 2;
-            position: absolute;
-            bottom: 331px;
-            left: 132px;
-
-            padding: 1rem;
-            min-width: max-content;
-
-            background-color: rgb(195, 192, 255);
-            border-radius: 10px 10px 10px 10px
-
-            
-         }
-
          .show-gurator-script {
             visibility: hidden;
          }
 
-         .triangle {
-            z-index: 1;
-            border-color: rgb(195, 192, 255) transparent transparent transparent;
-            border-style: solid;
-            border-width: 30px 28px 49px 3px;
-            width: 0;
-            height: 0;
-            position: absolute;
-            bottom: 267px;
-            left: 134px;
+         ul,
+         li {
+            margin: 0;
+            padding: 0;
+            list-style: none;
          }
 
+         .speech-bubble {
+            position: absolute;
+            position: absolute;
+            bottom: 270px;
+            left: 132px;
+         }
 
+         .drop_left {
+            -moz-border-radius: 10px;
+            -webkit-border-radius: 10px;
+            border-radius: 10px;
+            margin-left: 20px;
+            position: absolute;
+            z-index: 1;
+            max-width: 250px;
+            background: -moz-linear-gradient(bottom, #58abff 20%, #2484e7);
+            background: -webkit-gradient(linear, 0 0, 0 20%, from(#58abff), to(#2484e7));
+         }
+
+         .drop_left li {
+            text-overflow: ellipsis;
+            overflow: hidden;
+            font-size: 12px;
+            color: #FFF;
+            display: block;
+            padding: 5px;
+            margin: 10px;
+            z-index: 2;
+         }
+
+         .tangel_left {
+            width: 10px;
+            height: 10px;
+            left: -3px;
+            top: 13px;
+            position: absolute;
+            -webkit-transform: rotate(45deg);
+            background-color: #2484e7;
+            z-index: 1;
+         }
       </style>
-
       <h1>그림전</h1>
       <div class="swiper mySwiper">
          <div class="swiper-wrapper">
@@ -178,11 +188,21 @@
          <div class="swiper-button-next"></div>
       </div>
 
+      <!-- class="show-gurator-script" -->
 
       <div class="showup-curator">
-        
-         <div id="showup-text" class="gurator-text-box show-gurator-script speech-bubble"></div>
-         <div class="triangle  show-gurator-script "></div>
+         <div class="drop_left speech-bubble show-gurator-script">
+            <ul>
+               <li>
+                  <div id="showup-text"></div>
+                  <hr>
+                  <div>
+                     규레이터 클릭시 Gallery 내 모든 작품을 검색해볼 수 있습니다.
+                  </div>
+               </li>
+            </ul>
+            <div class="tangel_left"></div>
+         </div>
          <img id="curatorBtn" data-bs-toggle="modal" data-bs-target="#curatorModal" th:src="@{/icon/gurator.png}">
       </div>
 
@@ -203,16 +223,13 @@
             }
 
             $(".showup-curator").mouseover(function () {
-               var randomIdx = Math.floor(Math.random() * 7+1);
-
-               $("#showup-text").toggleClass('show-gurator-script');
-               $(".triangle").toggleClass('show-gurator-script');
+               var randomIdx = Math.floor(Math.random() * 7 + 1);
+               $(".drop_left").toggleClass('show-gurator-script');
                $("#showup-text").html(guratorScript[randomIdx]);
             });
 
             $(".showup-curator").mouseleave(function () {
-               $("#showup-text").addClass('show-gurator-script');
-               $(".triangle").addClass('show-gurator-script');
+               $(".drop_left").addClass('show-gurator-script');
                $("#showup-text").html("");
             });
 

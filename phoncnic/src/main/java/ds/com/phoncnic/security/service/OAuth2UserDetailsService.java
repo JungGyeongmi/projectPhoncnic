@@ -48,7 +48,7 @@ public class OAuth2UserDetailsService extends DefaultOAuth2UserService{
     
     if(clientName.equals("Google"))
       email = oAuth2User.getAttribute("email");
-    
+                                                                        
       log.info("email:"+email);
     
       Member member = saveSocialMember(email);
