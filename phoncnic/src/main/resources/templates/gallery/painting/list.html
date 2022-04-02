@@ -55,6 +55,7 @@
             object-position: center;
          }
 
+         /* search modal */
          .serach-form-container {
             display: grid;
             grid-template-columns: 0.5fr 1fr 0.3fr 0.5fr;
@@ -68,16 +69,11 @@
 
          .result-container {
             display: grid;
-            /* 최소 100px 확보 후 늘어나면 자동 */
-            /* grid-template-columns: repeat(auto-fit, minmax(300px, auto)); */
             grid-template-columns: repeat(auto-fit, minmax(150px, auto));
             grid-template-rows: repeat(1, minmax(300px, auto));
             row-gap: 1%;
-            /* items 세로 정렬 */
             align-items: center;
-            /* items 가로 정렬 */
             justify-items: center;
-            /* 두개를 동시에 사용 가능 place-items: center start; */
          }
 
          .md-conteainer img {
@@ -105,6 +101,8 @@
             vertical-align: middle;
             height: inherit;
          }
+
+         /* gurator */
 
          #curatorBtn {
             z-index: 1;
@@ -170,6 +168,8 @@
             background-color: #2484e7;
             z-index: 1;
          }
+
+
       </style>
       <h1>그림전</h1>
       <div class="swiper mySwiper">
