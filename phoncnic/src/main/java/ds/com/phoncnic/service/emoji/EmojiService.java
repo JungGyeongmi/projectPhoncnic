@@ -10,7 +10,6 @@ import ds.com.phoncnic.entity.Gallery;
 import ds.com.phoncnic.entity.Member;
 
 public interface EmojiService {
-
     Long[][] getEmojiCountArrayByGno(Long gno);
 
     List<EmojiDTO> dyningEmojiList(Long dno);

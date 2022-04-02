@@ -14,6 +14,7 @@ import ds.com.phoncnic.entity.Gallery;
 import ds.com.phoncnic.entity.Member;
 
 
+
 public interface GalleryService {
 
   void register(GalleryDTO galleryDTO);
@@ -68,6 +69,7 @@ public interface GalleryService {
         .gno(gallery.getGno())
         .title(gallery.getTitle())
         .content(gallery.getContent())
+        .artistname(gallery.getArtistid().getNickname())
         .imagename(gallery.getImagename())
         .emojicount(emojiArr)
         .imagetype(gallery.isImagetype())

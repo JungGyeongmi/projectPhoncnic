@@ -61,7 +61,7 @@
             column-gap: 0.5%;
          }
 
-         .md-conteainer {
+         .md-container {
             display: grid;
             grid-template-columns: 0.02fr 10fr 0.02fr;
          }
@@ -80,7 +80,7 @@
             /* 두개를 동시에 사용 가능 place-items: center start; */
          }
 
-         .md-conteainer img {
+         .md-container img {
             width: 200px;
             height: 200px;
             border-radius: 50%;
@@ -387,7 +387,7 @@
                   var str = "";
                   $.each(result.dtoList, function (idx, dto) {
                      str += `<div class="search-result-Item item" data-search-file="${dto.imageURL}" data-search-gno="${dto.gno}">
-                        <img  class="md-conteainer-img" src="${displayUrl}?fileName=${dto.imageURL}">                              
+                        <img  class="md-container-img" src="${displayUrl}?fileName=${dto.imageURL}">                              
                         <br/>
                         <p>${dto.title}</p>
                      </div>`;
@@ -443,7 +443,7 @@
                      if (response.totalPage != 0) {
                         $.each(response.dtoList, function (idx, dto) {
                            str += `<div class="search-result-Item item" data-search-file="${dto.imageURL}" data-search-gno="${dto.gno}">
-                           <img class="md-conteainer-img" src="${displayUrl}?fileName=${dto.imageURL}">                              
+                           <img class="md-container-img" src="${displayUrl}?fileName=${dto.imageURL}">                              
                               <br/>
                               <p>${dto.title}</p>
                            </div>`;
@@ -541,7 +541,7 @@
                   </form>
                   <br />
                   <div class="">
-                     <div class="md-conteainer ">
+                     <div class="md-container ">
 
                         <div class='md-btn-container'>
                            <div class='helper'></div>

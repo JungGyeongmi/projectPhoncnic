@@ -33,6 +33,7 @@ public class OAuth2UserDetailsService extends DefaultOAuth2UserService{
     
     String clientName = userRequest.getClientRegistration().getClientName();
     
+
     log.info("clientName:"+clientName);
     log.info("getParameters:"+userRequest.getAdditionalParameters());
 
@@ -74,7 +75,7 @@ public class OAuth2UserDetailsService extends DefaultOAuth2UserService{
 
     if(result.isPresent()) return result.get();
 
-    //없다면
+    // 여기서 random 
     Member member = Member.builder()
       .id(email)
       .nickname("빵형")
@@ -83,7 +84,7 @@ public class OAuth2UserDetailsService extends DefaultOAuth2UserService{
 
     member.addMemberRole(AuthorityRole.USER);
     memberRepository.save(member);
-
+    
     return member;
   }
 }

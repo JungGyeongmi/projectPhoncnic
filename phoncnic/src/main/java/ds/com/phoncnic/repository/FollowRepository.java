@@ -20,16 +20,16 @@ public interface FollowRepository extends JpaRepository<Follow, Long> {
     @Query("select f from Follow f where f.follower.id=:id and artistname = :name")
     Follow getFollownameArtist(String id, String name);
 
-    @Query("select f from Follow f where f.follower.id=:id and dyningname = :name")
-    Follow getFollownameDyning(String id, String name);
-
+     @Query("select f from Follow f where f.follower.id=:id and dyningname = :name")
+     Follow getFollownameDyning(String id, String name);
+     
     @Query("SELECT fno FROM Follow f WHERE f.follower.id=:id and f.dyningname=:name")
     Long getFnoIfFollowed(String id, String name);
 
-    @Query("SELECT fno FROM Follow f WHERE f.follower.id=:id and f.artistname=:name")
-    Long getFollowByArtistName(String id, String name);
+    @Query ("SELECT fno FROM Follow f WHERE f.follower.id = :id and f.artistname= :name")
+    Long getFnoIfFollowedByGno(String id, String name);
 
-    @Modifying
-    @Query("delete from Follow f where f.follower.id=:id")
-    void deleteByMemberId(String id);
+     @Modifying
+     @Query("delete from Follow f where f.follower.id=:id")
+     void deleteByMemberId(String id);
 }
