@@ -33,7 +33,6 @@ public class OAuth2UserDetailsService extends DefaultOAuth2UserService{
     
     String clientName = userRequest.getClientRegistration().getClientName();
     
-
     log.info("clientName:"+clientName);
     log.info("getParameters:"+userRequest.getAdditionalParameters());
 
@@ -53,7 +52,6 @@ public class OAuth2UserDetailsService extends DefaultOAuth2UserService{
       log.info("email:"+email);
     
       Member member = saveSocialMember(email);
-    // return oAuth2User;
     
     AuthMemberDTO authMemberDTO = new AuthMemberDTO(
       member.getId(), 
@@ -84,7 +82,7 @@ public class OAuth2UserDetailsService extends DefaultOAuth2UserService{
 
     member.addMemberRole(AuthorityRole.USER);
     memberRepository.save(member);
-    
+
     return member;
   }
 }

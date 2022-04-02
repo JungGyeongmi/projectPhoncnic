@@ -46,4 +46,3 @@ public interface FollowService {
             return follow;
         }
     }
-}

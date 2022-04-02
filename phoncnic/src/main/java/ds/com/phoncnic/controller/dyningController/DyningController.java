@@ -58,7 +58,7 @@ public class DyningController {
                 model.addAttribute("eno","");
                 model.addAttribute("emojitype","");
             }
-
+            
             model.addAttribute("emojilist", emojiService.dyningEmojiList(dno));
             
             model.addAttribute("emojitype1",emojiService.getEmojitypeCwt(dno, "1"));

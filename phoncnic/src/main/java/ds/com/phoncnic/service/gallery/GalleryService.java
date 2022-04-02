@@ -28,7 +28,7 @@ public interface GalleryService {
 
   // 상세페이지
   GalleryDTO getGallery(long gno);
-
+  
   // List
   List<GalleryDTO> getGalleryList(Boolean type);
 

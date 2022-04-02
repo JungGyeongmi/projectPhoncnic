@@ -1,7 +1,6 @@
 package ds.com.phoncnic.controller.galleryRestController;
 
 import java.util.Arrays;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import ds.com.phoncnic.dto.EmojiDTO;
@@ -46,8 +46,9 @@ public class GalleryRestController {
         
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
-
-    // Gallery List
+    
+    // session에서 id값 받아서 fno를 처리해줌
+    // Gallery Detail
     @GetMapping("/read/{gno}/{id}")
     public ResponseEntity<Object[]> getList(@PathVariable("gno") Long gno, @PathVariable("id") String id) {
         log.info("getgalleryList........gno" + gno);
@@ -56,6 +57,7 @@ public class GalleryRestController {
 
         log.info("------------------readFno----------------- " + id+galleryDTO.getArtistname());
 
+
         Long fno =  followService.getFnoByGno(id, galleryDTO.getArtistname());
         Object[] array = {galleryDTO , fno};
 
@@ -63,23 +65,13 @@ public class GalleryRestController {
         log.info("------------------readFno----------------- " + fno);
         return new ResponseEntity<>(array, HttpStatus.OK);
     }
-    
-    // Emoji getList
-    @GetMapping("/emoji/{gno}")
-    public ResponseEntity<List<EmojiDTO>> getemojiList(@PathVariable("gno") Long gno) {
-        log.info("getemojiList........gno" + gno);
-
-        List<EmojiDTO> emojiDTO = emojiService.getEmojiByGno("g", gno);
-        
-        log.info("emojiDTO : " + emojiDTO);
-        
-        return new ResponseEntity<>(emojiDTO, HttpStatus.OK);
-    }
 
     // Emoji insert/update/remove
+    @ResponseBody
     @PostMapping("/emoji/register/{gno}")
     public ResponseEntity<Long[][]> emojiRegister(@RequestBody EmojiDTO emojiDTO, @PathVariable("gno") Long gno) {
         emojiDTO.setGno(gno);
+
         Long[][] newEmojiCount = emojiService.galleryEmojiRegiter(emojiDTO);
         
         log.info("emoji Register....................emojiDTO:" + emojiDTO);
