@@ -65,6 +65,7 @@ public class OAuth2UserDetailsService extends DefaultOAuth2UserService{
   private Member saveSocialMember(String email){
     Optional<Member> result = memberRepository.findByEmail(email);
     if(result.isPresent()) return result.get();
+    log.info("returnfire");
 
     //없다면
     Member member = Member.builder()
@@ -75,7 +76,6 @@ public class OAuth2UserDetailsService extends DefaultOAuth2UserService{
 
     member.addMemberRole(AuthorityRole.USER);
     memberRepository.save(member);
-    log.info("returnfire");
     CharacterLook characterLook = CharacterLook.builder()
     .hairname("hair1")
     .clothesname("clothes1")

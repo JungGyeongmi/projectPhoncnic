@@ -63,9 +63,9 @@ public class MyPageController {
     }
 
     @PostMapping("/memberremove")
-    public String memberRemove(String id) {
-        log.info("member removing....." + id);
-        memberService.remove(id);
+    public String memberRemove(@AuthenticationPrincipal AuthMemberDTO dto) {
+        log.info("member removing....." + dto.getId());
+        memberService.remove(dto.getId());
         return "redirect:/";
     }
 
