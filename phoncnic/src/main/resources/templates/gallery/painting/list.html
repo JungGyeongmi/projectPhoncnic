@@ -171,11 +171,11 @@
             z-index: 1;
          }
       </style>
-
+<!--  th:data-id="${loginUserId} -->
       <h1>그림전</h1>
       <div class="swiper mySwiper">
          <div class="swiper-wrapper">
-            <div class="swiper-slide" th:each="dto : ${galleryDTOList}" th:data-gno="${dto.gno}" th:data-id="${id}"
+            <div class="swiper-slide" th:each="dto : ${galleryDTOList}" th:data-gno="${dto.gno}" th:data-id="${loginUserId}"
                th:data-file="${dto.getImageURL}" data-bs-toggle="modal" data-bs-target="#detailsModal">
                <img style="cursor:pointer;" th:src="|@{'/display'}?fileName=${dto.getImageURL()}|"
                   alt="이미지를 불러올 수 없습니다" />
@@ -282,7 +282,7 @@
             var detailsModalbodyEmoji = $(".detail-modal-body2");
             var userid = $("#selectedgno").val();
             var showdetailsModal = function (targetGno, userid, targetFile) {
-               $.getJSON(readUrl + "/" + targetGno + "/" + userid, function (dto) {
+               $.getJSON(readUrl + "/" + targetGno, function (dto) {
                   var str = "";
                   str = `
 							<input type="text" name="gno" value="${targetGno}" class="inputGno" data-gno="${targetGno}">
@@ -335,11 +335,12 @@
 
                });
             }
+
             // <button type ="button" id="followBtn" value="${dto[1]}">팔로우</button>
             /* target의 gno / target의 imagepath 가져옴 / emoji 갯수 */
             $(".swiper-slide").click(function () {
                var targetGno = $(this).data("gno");
-               var targetId = $(this).data("id")
+               var targetId = $(this).data("loginUserId")
                var targetFile = $(this).data("file");
                $("#detailsModal").modal('show');
                showdetailsModal(targetGno, targetId, targetFile);
@@ -509,6 +510,7 @@
                });
             });
 
+            // follow
             $(document).on("click", "#followBtn", function () {
                var fno = $("#followBtn");
                var gno = $('.inputGno').data('gno');

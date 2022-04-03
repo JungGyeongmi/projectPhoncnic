@@ -51,22 +51,22 @@ public class GalleryRestController {
     
     // session에서 id값 받아서 fno를 처리해줌
     // Gallery Detail
-    @GetMapping("/read/{gno}/{id}")
-    public ResponseEntity<Object[]> getList(@PathVariable("gno") Long gno, @PathVariable("id") String id) {
+    @GetMapping("/read/{gno}")
+    public ResponseEntity<Object[]> getList(@PathVariable("gno") Long gno, @AuthenticationPrincipal AuthMemberDTO authMember) {
         // log.info("getgalleryList........gno" + gno);
         GalleryDTO galleryDTO = galleryService.getGallery(gno);
-
-        // log.info("artistName"+galleryDTO.getArtistname());
-
+        
+        String id = authMember!=null?authMember.getId():"user1@icloud.com";
+        
         Long fno =  followService.getFnoByGno(id, galleryDTO.getArtistname());
         Object[] array = {galleryDTO , fno};
-
+        
         log.info("galleryDTO : " + galleryDTO);
+        log.info("authMember....."+authMember);
         log.info("------------------readFno----------------- " + fno);
         return new ResponseEntity<>(array, HttpStatus.OK);
     }
     
-
     // Emoji insert/update/remove
     @ResponseBody
     @PostMapping("/emoji/register/{gno}")
