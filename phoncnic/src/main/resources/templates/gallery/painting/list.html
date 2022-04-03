@@ -279,6 +279,7 @@
 					var emojiaddUrl = [[@{/gallery/register}]];
 					var followaddUrl = [[@{/gallery/addfollow}]];
 					var followremoveUrl = [[@{/gallery/removefollow}]];
+					var followRegister = [[@{/gallery/follow}]]
 					var urlDisplay = [[@{/display}]];
 				+]*/
 				var EmojiStringArray = "";
@@ -287,70 +288,70 @@
 				var detailsModalbody = $(".details-modal-body");
 				var detailsModalbodyEmoji = $(".detail-modal-body2");
 				var userid = $("#selectedgno").val();
-				var showdetailsModal = function (targetGno, userid, targetFile) {
-					$.getJSON(readUrl + "/" + targetGno + "/" + userid, function (dto) {
+				var showdetailsModal = function (targetGno, targetFile) {
+					$.getJSON(readUrl + "/" + targetGno , function (dto) {
 						var str = "";
 						str += `
 						
 							<input type="text" name = "gno" value="${targetGno}" class="inputGno" data-gno="${targetGno}">
-							<input type="text" name="artistname" class="inputId" value="${dto[0].artistname}" data-id="${dto[0].artistname}">
 							
-							<img id="targetFile" style='width:100%' src="${urlDisplay}?fileName=${targetFile}" data-fileName="${targetFile}">
+							<img id="targetFile" style='width:100%' src="${urlDisplay}?fileName=${targetFile}">
 							
 							<div class=row>
-								<div class="col-md-7"><h2>${dto[0].title}</h2></div>
-								<div class="col-md-4"><h4>${dto[0].id}</h4></div>
+								<div class="col-md-7"><h2>${dto.title}</h2></div>
+								<div class="col-md-4"><h4>${dto.id}</h4></div>
 								</div>
 								
 								<div id="emojiBox">
-									<input type="text" name = "id" value="user1@icloud.com" class="inputId" data-id="${dto[0].id}">
-						<br/>
-						<input type="radio" id="1" value="${dto[0].emojicount[0][0]}" name="emojitype" class="emoji">
+									<input type="text" name = "id" value="user1@icloud.com" class="inputId" data-id="${dto.id}">
+									<br/>
+									<input type="radio" id="1" value="${dto.emojicount[0][0]}" name="emojitype" class="emoji">
 						<label for="1" class="emojibtn">
-							<img src='${dto[0].emojiinfo["1"]}' alt="이미지를 불러올 수 없습니다" style="width: 30px;">   
-						</label>
-						<span class="emoji-cnt">${dto[0].emojicount[0][1]}</span>
-						
-						<input type="radio" id="2" value="${dto[0].emojicount[1][0]}" name="emojitype" class="emoji">      
+							<img src='${dto.emojiinfo["1"]}' alt="이미지를 불러올 수 없습니다" style="width: 30px;">   
+							</label>
+							<span class="emoji-cnt">${dto.emojicount[0][1]}</span>
+							
+						<input type="radio" id="2" value="${dto.emojicount[1][0]}" name="emojitype" class="emoji">      
 						<label for="2" class="emojibtn">
-							<img src='${dto[0].emojiinfo["2"]}' alt="이미지를 불러올 수 없습니다" style="width: 30px;">
+							<img src='${dto.emojiinfo["2"]}' alt="이미지를 불러올 수 없습니다" style="width: 30px;">
 						</label>
-						<span class="emoji-cnt">${dto[0].emojicount[1][1]}</span>
+						<span class="emoji-cnt">${dto.emojicount[1][1]}</span>
 					
-						<input type="radio" id="3" value="${dto[0].emojicount[2][0]}" name="emojitype" class="emoji">       
+						<input type="radio" id="3" value="${dto.emojicount[2][0]}" name="emojitype" class="emoji">       
 						<label for="3" class="emojibtn">
-							<img src='${dto[0].emojiinfo["3"]}' alt="이미지를 불러올 수 없습니다" style="width: 30px;">   
+							<img src='${dto.emojiinfo["3"]}' alt="이미지를 불러올 수 없습니다" style="width: 30px;">   
+							</label>
+							<span class="emoji-cnt">${dto.emojicount[2][1]}</span>
+							
+							<input type="radio" id="4"  value="${dto.emojicount[3][0]}" name="emojitype" class="emoji">      
+							<label for="4" class="emojibtn">
+							<img src='${dto.emojiinfo["4"]}' alt="이미지를 불러올 수 없습니다" style="width: 30px;">   
 						</label>
-						<span class="emoji-cnt">${dto[0].emojicount[2][1]}</span>
-				
-						<input type="radio" id="4"  value="${dto[0].emojicount[3][0]}" name="emojitype" class="emoji">      
-						<label for="4" class="emojibtn">
-							<img src='${dto[0].emojiinfo["4"]}' alt="이미지를 불러올 수 없습니다" style="width: 30px;">   
-						</label>
-						<span class="emoji-cnt">${dto[0].emojicount[3][1]}</span>
+						<span class="emoji-cnt">${dto.emojicount[3][1]}</span>
 						
-						<input type="radio" id="5"  value="${dto[0].emojicount[4][0]}" name="emojitype" class="emoji">      
+						<input type="radio" id="5"  value="${dto.emojicount[4][0]}" name="emojitype" class="emoji">      
 						<label for="5" class="emojibtn">
-							<img src='${dto[0].emojiinfo["5"]}' alt="이미지를 불러올 수 없습니다" style="width: 30px;">   
-						</label>
-						<span class="emoji-cnt">${dto[0].emojicount[4][1]}</span>
-					</div>
-									
-									
-						<input type="text" id="id" name="id" value="user1@icloud.com"></input>	
-						<input type ="button" id="followBtn" value="${dto[1]}">
-						`;
-
-								detailsModalbody.html(str);
-
-					});
-				}
-
-				// <button type ="button" id="followBtn" value="${dto[1]}">팔로우</button>
-
-				/* target의 gno / target의 imagepath 가져옴 / emoji 갯수 */
-				$(".swiper-slide").click(function () {
-					var targetGno = $(this).data("gno");
+							<img src='${dto.emojiinfo["5"]}' alt="이미지를 불러올 수 없습니다" style="width: 30px;">   
+							</label>
+							<span class="emoji-cnt">${dto.emojicount[4][1]}</span>
+							</div>
+							
+							
+							<input type="text" id="id" name="id" value="user1@icloud.com"></input>	
+							`;
+							
+							detailsModalbody.html(str);
+							
+						});
+					}
+					
+					// <input type="text" name="artistname" class="inputArtist" value="${dto.artistname}" data-id="${dto.artistname}">
+					// <input type ="button" id="followBtn" value="${dto[1]}">
+					// <button type ="button" id="followBtn" value="${dto[1]}">팔로우</button>
+					
+					/* target의 gno / target의 imagepath 가져옴 / emoji 갯수 */
+					$(".swiper-slide").click(function () {
+						var targetGno = $(this).data("gno");
 					var targetId = $(this).data("id")
 					var targetFile = $(this).data("file");
 					$("#detailsModal").modal('show');
@@ -518,7 +519,30 @@
 						}
 					});
 				});
+				//팔로우 등록/ 삭제
+				 	$(document).on("click","#followBtn", function(){
+						var id = $(".inputId").val();
+						// var gno = $(".inputGno").val();
+						var artistname = $(".inputArtist").val();
+						var data = {id:id, artistname:artistname}
+						$.ajax({
+						type: "POST",
+						url: followRegister + '/' + artistname ,
+						data: JSON.stringify(data),
+						contentType: "application/json",
+						dataType: "json",
+						success: function (response) {
+							
+							console.log("update follow success");
+						},
+						fail: function (response) {
+							console.log(response);
+						}, error: function (request, status, error) {
+							alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+						}
+					});						
 
+				});
 
 				//팔로우 
 				// 	$(document).on("click","#followBtn", function(){
@@ -530,53 +554,53 @@
 				// 	}
 				// });
 
-				$(document).on("click", "#followBtn", function () {
-					var fno = $("#followBtn");
-					var gno = $('.inputGno').data('gno');
-					var id = $("#id").val();
-					var targetFile = $("#targetFile").attr('src').substring(27);
-					var artistname = $(".inputId").data("id");
+				// $(document).on("click", "#followBtn", function () {
+				// 	var fno = $("#followBtn");
+				// 	var gno = $('.inputGno').data('gno');
+				// 	var id = $("#id").val();
+				// 	var targetFile = $("#targetFile").attr('src').substring(27);
+				// 	var artistname = $(".inputId").data("id");
 
-					// 언팔 상태
-					if (fno.val() == "null") {
-						var data = { followerid: id, artistname: artistname, fileName: targetFile };
-						console.log(data);
-						$.ajax({
-							url: followaddUrl,
-							type: "POST",
-							data: JSON.stringify(data),
-							contentType: "application/json; charset=utf-8",
-							dataType: "text",
-							success: function (result) {
-								self.location.href;
-								showdetailsModal(gno, id, targetFile);
+				// 	// 언팔 상태
+				// 	if (fno.val() == "null") {
+				// 		var data = { followerid: id, artistname: artistname, fileName: targetFile };
+				// 		console.log(data);
+				// 		$.ajax({
+				// 			url: followaddUrl,
+				// 			type: "POST",
+				// 			data: JSON.stringify(data),
+				// 			contentType: "application/json; charset=utf-8",
+				// 			dataType: "text",
+				// 			success: function (result) {
+				// 				self.location.href;
+				// 				showdetailsModal(gno, id, targetFile);
 
 
-							}
-							, error: function (request, status, error) {
-								alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
-							}
-						});
+				// 			}
+				// 			, error: function (request, status, error) {
+				// 				alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+				// 			}
+				// 		});
 
-					} else {
-						var data = { id: id, artistname: artistname };
+				// 	} else {
+				// 		var data = { id: id, artistname: artistname };
 
-						$.ajax({
-							url: followremoveUrl + "/" + id + "/" + artistname,
-							type: "DELETE",
-							data: JSON.stringify(data),
-							contentType: "application/json; charset=utf-8",
-							dataType: "text",
-							success: function (result) {
-								self.location.href;
-								showdetailsModal(gno, id, targetFile);
-							}
-							, error: function (request, status, error) {
-								alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
-							}
-						});
-					}
-				});
+				// 		$.ajax({
+				// 			url: followremoveUrl + "/" + id + "/" + artistname,
+				// 			type: "DELETE",
+				// 			data: JSON.stringify(data),
+				// 			contentType: "application/json; charset=utf-8",
+				// 			dataType: "text",
+				// 			success: function (result) {
+				// 				self.location.href;
+				// 				showdetailsModal(gno, id, targetFile);
+				// 			}
+				// 			, error: function (request, status, error) {
+				// 				alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+				// 			}
+				// 		});
+				// 	}
+				// });
 
 
 

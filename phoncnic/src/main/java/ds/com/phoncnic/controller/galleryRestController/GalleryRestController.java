@@ -48,20 +48,12 @@ public class GalleryRestController {
     }
 
     // Gallery List
-    @GetMapping("/read/{gno}/{id}")
-    public ResponseEntity<Object[]> getList(@PathVariable("gno") Long gno, @PathVariable("id") String id) {
+    @GetMapping("/read/{gno}")
+    public ResponseEntity<GalleryDTO> getList(@PathVariable("gno") Long gno) {
         log.info("getgalleryList........gno" + gno);
-
         GalleryDTO galleryDTO = galleryService.getGallery(gno);
-
-        log.info("------------------readFno----------------- " + id+galleryDTO.getArtistname());
-
-        Long fno =  followService.getFnoByGno(id, galleryDTO.getArtistname());
-        Object[] array = {galleryDTO , fno};
-
         log.info("galleryDTO : " + galleryDTO);
-        log.info("------------------readFno----------------- " + fno);
-        return new ResponseEntity<>(array, HttpStatus.OK);
+        return new ResponseEntity<>(galleryDTO, HttpStatus.OK);
     }
     
     // Emoji getList
@@ -88,25 +80,18 @@ public class GalleryRestController {
         return new ResponseEntity<>(newEmojiCount, HttpStatus.OK);
     }
     
-    //follow 
-    @PostMapping("/addfollow")
-    public ResponseEntity<Long> addFollow(@RequestBody FollowDTO followDTO) {
-        log.info("-----------------add Follow-----------------");
-        log.info("followDTO:" + followDTO);
-
-        Long fno = followService.addArtistFollow(followDTO);
-        
-        log.info("add--------fno:"+fno);
-        
+    @GetMapping("follow/{id}/{artistname}")
+    public ResponseEntity<Long> follow(@PathVariable String id, @PathVariable String artistname) {
+        Long fno = followService.getGalleryFno(id, artistname);
         return new ResponseEntity<>(fno, HttpStatus.OK);
     }
 
-    @DeleteMapping("/removefollow/{id}/{artistname}")
-    public ResponseEntity<String> removeFollowDyning(@PathVariable String id, @PathVariable String artistname) {
-        log.info("artistname:" + artistname);
+    @PostMapping("followRegister/{id}/{artistname}")
+    public ResponseEntity<Object[]> followRegister(@RequestBody FollowDTO followDTO, @PathVariable String artistname, @PathVariable String id) {
+        Object[] follow = followService.galleryfollowRegister(followDTO);
+        log.info("follow Register followDTO:" +followDTO);
+        return new ResponseEntity<>(follow, HttpStatus.OK);
 
-        followService.removeArtistFollow(id, artistname);
-        
-        return new ResponseEntity<>(artistname, HttpStatus.OK);
+
     }
 }

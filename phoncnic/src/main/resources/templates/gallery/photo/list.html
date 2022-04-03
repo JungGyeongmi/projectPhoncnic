@@ -170,6 +170,15 @@
             background-color: #2484e7;
             z-index: 1;
          }
+
+         .detail-modal-body3{
+            display: inline-block;
+         }
+
+         .detail-modal-body2{
+            display: inline-block;
+         }
+         
       </style>
 
       <h1>사진전</h1>
@@ -270,6 +279,8 @@
                var readUrl = [[@{/gallery/read}]];
                var emojiUrl = [[@{/gallery/emoji}]];
                var emojiaddUrl = [[@{/gallery/emoji/register}]];
+               var follow = [[@{/gallery/follow}]]
+					var followRegister = [[@{/gallery/followRegister}]]               
                var urlDisplay = [[@{/display}]];
             +]*/
 
@@ -286,7 +297,7 @@
                <img style='width:100%' src="${urlDisplay}?fileName=${targetFile}">
                <div class=row>
                   <div class="col-md-7"><h2>${dto.title}</h2></div>
-                  <div class="col-md-4"><h4>${dto.id}</h4></div>
+                  <div class="col-md-4" id="inputArtist"><h4>${dto.id}</h4></div>
                </div>`
                   detailsModalbody.html(str);
 
@@ -322,11 +333,13 @@
                      <img src='${dto.emojiinfo["5"]}' alt="이미지를 불러올 수 없습니다" style="width: 30px;">   
                   </label>
                   <span class="emoji-cnt">${dto.emojicount[4][1]}</span>
-               </div>`;
+                  <input type="button" value="팔로우" id="followBtn">
+                  </div>`;
 
                   detailsModalbodyEmoji.html(str);
                });
             }
+
 
             /* target의 gno / target의 imagepath 가져옴 / emoji 갯수 */
             $(".swiper-slide").click(function () {
@@ -348,6 +361,49 @@
             var searchForm = $("#modal-frm");
             var keyword = $("input[name=keyword]");
 
+            //팔로우 get
+            detailsModalbodyFollow = $(".detail-modal-body3");
+
+            var id = "user1@icloud.com";
+            var artistname = "user1";
+
+           $.getJSON(follow + "/" + id + "/" + artistname, function(follow) {
+                  var str="";
+                  str = `
+                  <input type="text" value="${follow}">
+                  <input type="button" value="${follow.fno}" id="followBtn">
+                  `;
+                  detailsModalbodyFollow.append(str);
+               });
+
+            
+				//팔로우 등록/ 삭제
+            $(document).on("click","#followBtn", function(){
+						var id = $(".inputId").val();
+						var artistname = $("#inputArtist").text().substr(0,5);
+                  console.log("follow id, artistaname:"+id+artistname);
+						var data = {followerid:id, artistname:artistname}
+						$.ajax({
+						type: "POST",
+						url: followRegister + '/' + id + '/' + artistname ,
+						data: JSON.stringify(data),
+						contentType: "application/json",
+						dataType: "json",
+						success: function (response) {
+							
+							console.log("update follow success");
+						},
+						fail: function (response) {
+							console.log(response);
+						}, error: function (request, status, error) {
+							console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+						}
+					});						
+
+				});
+
+
+            
             searchBtn.on("click", function (e) {
                getSearchList();
             });
@@ -580,6 +636,8 @@
                      <div class="details-modal-body">
                      </div>
                      <div class="detail-modal-body2">
+                     </div>
+                     <div class="detail-modal-body3">
                      </div>
                   </div>
                   <div class="modal-footer">
