@@ -2,7 +2,6 @@
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
 <th:block th:replace="~{layout/basic :: setContent(~{::content})}">
    <th:block th:fragment="content">
-
       <!-- Link Swiper's CSS -->
       <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
 
@@ -33,10 +32,6 @@
             color: #000;
             margin: 0;
             padding: 0;
-         }
-
-         #emojiBox {
-            display: inline-block;
          }
 
          .swiper {
@@ -170,6 +165,15 @@
             background-color: #2484e7;
             z-index: 1;
          }
+
+         .detail-modal-body3{
+            display: inline-block;
+         }
+
+         .detail-modal-body2{
+            display: inline-block;
+         }
+         
       </style>
 
       <h1>사진전</h1>
@@ -263,85 +267,81 @@
          });
       </script>
 
-
-
       <script th:inline="javascript">
          $(document).ready(function () {
 
             /*[+
                var readUrl = [[@{/gallery/read}]];
+               var emojiUrl = [[@{/gallery/emoji}]];
                var emojiaddUrl = [[@{/gallery/emoji/register}]];
-               var followaddUrl = [[@{/gallery/addfollow}]];
-               var followremoveUrl = [[@{/gallery/removefollow}]];
+               var follow = [[@{/gallery/follow}]]
+					var followRegister = [[@{/gallery/followRegister}]]               
                var urlDisplay = [[@{/display}]];
             +]*/
+
+            var EmojiStringArray = "";
 
             var uploadResult = $(".uploadResult");
             var detailsModalbody = $(".details-modal-body");
             var detailsModalbodyEmoji = $(".detail-modal-body2");
-            var userid = $("#selectedgno").val();
-            var showdetailsModal = function (targetGno, userid, targetFile) {
-               $.getJSON(readUrl + "/" + targetGno + "/" + userid, function (dto) {
+            var showdetailsModal = function (targetGno, targetFile) {
+               $.getJSON(readUrl + "/" + targetGno, function (dto) {
                   var str = "";
                   str = `
-							<input type="text" name="gno" value="${targetGno}" class="inputGno" data-gno="${targetGno}">
-							<input type="text" name="artistname" class="inputId" value="${dto[0].artistname}" data-id="${dto[0].artistname}">
-							
-							<img id="targetFile" style='width:100%' src="${urlDisplay}?fileName=${targetFile}" data-fileName="${targetFile}">
-							
-							<div class=row>
-								<div class="col-md-7"><h2>${dto[0].title}</h2></div>
-								<div class="col-md-4"><h4>${dto[0].id}</h4></div>
-							</div>`;
-                     detailsModalbody.html(str);
-                      
-                     str= `<div id="emojiBox">
-                        <input type="radio" id="1" value="1" name="emojitype" data-emojitype="${dto[0].emojicount[0]}" class="emoji">      
-                        <label for="1" class="emojibtn">
-                           <img src='${dto[0].emojiinfo["1"]}' alt="이미지를 불러올 수 없습니다" style="width: 30px;">
-                        </label>
-                        <span class="emoji-cnt">${dto[0].emojicount[0][1]}</span>
-                        
-                        <input type="radio" id="2" value="2" name="emojitype" data-emojitype="${dto[0].emojicount[1]}" class="emoji">      
-                        <label for="2" class="emojibtn">
-                           <img src='${dto[0].emojiinfo["2"]}' alt="이미지를 불러올 수 없습니다" style="width: 30px;">
-                        </label>
-                        <span class="emoji-cnt">${dto[0].emojicount[1][1]}</span>
-                        
-                        <input type="radio" id="3" value="3" name="emojitype" data-emojitype="${dto[0].emojicount[2]}" class="emoji">       
-                        <label for="3" class="emojibtn">
-                           <img src='${dto[0].emojiinfo["3"]}' alt="이미지를 불러올 수 없습니다" style="width: 30px;">
-                        </label>
-                        <span class="emoji-cnt">${dto[0].emojicount[2][1]}</span>
-                        
-                        <input type="radio" id="4" value="4" name="emojitype" data-emojitype="${dto[0].emojicount[3]}" class="emoji">      
-                        <label for="4" class="emojibtn">
-                           <img src='${dto[0].emojiinfo["4"]}' alt="이미지를 불러올 수 없습니다" style="width: 30px;">
-                        </label>
-                        <span class="emoji-cnt">${dto[0].emojicount[3][1]}</span>
-                        
-                        <input type="radio" id="5" value="5" name="emojitype" data-emojitype="${dto[0].emojicount[4]}" class="emoji">      
-                        <label for="5" class="emojibtn">
-                           <img src='${dto[0].emojiinfo["5"]}' alt="이미지를 불러올 수 없습니다" style="width: 30px;">
-                        </label>
-                        <span class="emoji-cnt">${dto[0].emojicount[4][1]}</span>
-                        </div>
-                        
-                        <input type="text" id="id" name="id" value="user1@icloud.com"></input>	
-                        <input type ="button" id="followBtn" value="${dto[1]}">`;
+               <input type="hidden" name = "gno" value="${targetGno}" class="inputGno" data-gno="${targetGno}">
+               <img style='width:100%' src="${urlDisplay}?fileName=${targetFile}">
+               <div class=row>
+                  <div class="col-md-7"><h2>${dto.title}</h2></div>
+                  <div class="col-md-4" id="inputArtist"><h4>${dto.id}</h4></div>
+               </div>`
+                  detailsModalbody.html(str);
 
-                     detailsModalbodyEmoji.html(str);
+                  str = `<div id="emojiBox">
+               <input type="text" name = "id" value="user1@icloud.com" class="inputId" data-id="${dto.id}">
+                  <br/>
+                  <input type="radio" id="1" value="${dto.emojicount[0][0]}" name="emojitype" class="emoji">
+                  <label for="1" class="emojibtn">
+                     <img src='${dto.emojiinfo["1"]}' alt="이미지를 불러올 수 없습니다" style="width: 30px;">   
+                  </label>
+                  <span class="emoji-cnt">${dto.emojicount[0][1]}</span>
+                  
+                  <input type="radio" id="2" value="${dto.emojicount[1][0]}" name="emojitype" class="emoji">      
+                  <label for="2" class="emojibtn">
+                     <img src='${dto.emojiinfo["2"]}' alt="이미지를 불러올 수 없습니다" style="width: 30px;">
+                  </label>
+                  <span class="emoji-cnt">${dto.emojicount[1][1]}</span>
+               
+                  <input type="radio" id="3" value="${dto.emojicount[2][0]}" name="emojitype" class="emoji">       
+                  <label for="3" class="emojibtn">
+                     <img src='${dto.emojiinfo["3"]}' alt="이미지를 불러올 수 없습니다" style="width: 30px;">   
+                  </label>
+                  <span class="emoji-cnt">${dto.emojicount[2][1]}</span>
+         
+                  <input type="radio" id="4"  value="${dto.emojicount[3][0]}" name="emojitype" class="emoji">      
+                  <label for="4" class="emojibtn">
+                     <img src='${dto.emojiinfo["4"]}' alt="이미지를 불러올 수 없습니다" style="width: 30px;">   
+                  </label>
+                  <span class="emoji-cnt">${dto.emojicount[3][1]}</span>
+                  
+                  <input type="radio" id="5"  value="${dto.emojicount[4][0]}" name="emojitype" class="emoji">      
+                  <label for="5" class="emojibtn">
+                     <img src='${dto.emojiinfo["5"]}' alt="이미지를 불러올 수 없습니다" style="width: 30px;">   
+                  </label>
+                  <span class="emoji-cnt">${dto.emojicount[4][1]}</span>
+                  <input type="button" value="팔로우" id="followBtn">
+                  </div>`;
 
+                  detailsModalbodyEmoji.html(str);
                });
             }
-            // <button type ="button" id="followBtn" value="${dto[1]}">팔로우</button>
+
+
             /* target의 gno / target의 imagepath 가져옴 / emoji 갯수 */
             $(".swiper-slide").click(function () {
                var targetGno = $(this).data("gno");
-               var targetId = $(this).data("id")
                var targetFile = $(this).data("file");
                $("#detailsModal").modal('show');
-               showdetailsModal(targetGno, targetId, targetFile);
+               showdetailsModal(targetGno, targetFile);
             });
 
             // 큐레이터 모달 제어
@@ -356,6 +356,49 @@
             var searchForm = $("#modal-frm");
             var keyword = $("input[name=keyword]");
 
+            //팔로우 get
+            detailsModalbodyFollow = $(".detail-modal-body3");
+
+            var id = "user1@icloud.com";
+            var artistname = "user1";
+
+           $.getJSON(follow + "/" + id + "/" + artistname, function(follow) {
+                  var str="";
+                  str = `
+                  <input type="text" value="${follow}">
+                  <input type="button" value="${follow.fno}" id="followBtn">
+                  `;
+                  detailsModalbodyFollow.append(str);
+               });
+
+            
+				//팔로우 등록/ 삭제
+            $(document).on("click","#followBtn", function(){
+						var id = $(".inputId").val();
+						var artistname = $("#inputArtist").text().substr(0,5);
+                  console.log("follow id, artistaname:"+id+artistname);
+						var data = {followerid:id, artistname:artistname}
+						$.ajax({
+						type: "POST",
+						url: followRegister + '/' + id + '/' + artistname ,
+						data: JSON.stringify(data),
+						contentType: "application/json",
+						dataType: "json",
+						success: function (response) {
+							
+							console.log("update follow success");
+						},
+						fail: function (response) {
+							console.log(response);
+						}, error: function (request, status, error) {
+							console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+						}
+					});						
+
+				});
+
+
+            
             searchBtn.on("click", function (e) {
                getSearchList();
             });
@@ -390,7 +433,6 @@
                getCuratorList(url);
             });
 
-
             function getCuratorList(url) {
                $.get(url, function (result) {
                   var str = "";
@@ -422,7 +464,7 @@
                });
             }
 
-           function getSearchList() {
+            function getSearchList() {
 
                // 유효성 검사
                var typeSelect = $("select[name=type]").val();
@@ -508,55 +550,6 @@
                });
             });
 
-            $(document).on("click", "#followBtn", function () {
-               var fno = $("#followBtn");
-               var gno = $('.inputGno').data('gno');
-               var id = $("#id").val();
-               var targetFile = $("#targetFile").attr('src').substring(27);
-               var artistname = $(".inputId").data("id");
-
-               // 언팔 상태
-               if (fno.val() == "null") {
-                  var data = { followerid: id, artistname: artistname, fileName: targetFile };
-                  console.log(data);
-                  $.ajax({
-                     url: followaddUrl,
-                     type: "POST",
-                     data: JSON.stringify(data),
-                     contentType: "application/json; charset=utf-8",
-                     dataType: "text",
-                     success: function (result) {
-                        // $("followBtn").val("언팔로우")
-                        self.location.href;
-                        showdetailsModal(gno, id, targetFile);
-                     }
-                     , error: function (request, status, error) {
-                        alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
-                     }
-                  });
-
-               } else {
-                  var data = { id: id, artistname: artistname };
-
-                  $.ajax({
-                     url: followremoveUrl + "/" + id + "/" + artistname,
-                     type: "DELETE",
-                     data: JSON.stringify(data),
-                     contentType: "application/json; charset=utf-8",
-                     dataType: "text",
-                     success: function (result) {
-                        // $("#followBtn").val("팔로우")
-                        self.location.href;
-                        showdetailsModal(gno, id, targetFile);
-                     }
-                     , error: function (request, status, error) {
-
-                        alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
-                     }
-                  });
-               }
-            });
-
             // 모달 창 내 search result 클릭 시 이동 제어
             $(document).on("click", ".search-result-Item", function (e) {
                var targetGno = $(this).closest("div").data("searchGno");
@@ -635,9 +628,10 @@
                   </div>
                   <div class="modal-body">
                      <div class="details-modal-body">
-
                      </div>
                      <div class="detail-modal-body2">
+                     </div>
+                     <div class="detail-modal-body3">
                      </div>
                   </div>
                   <div class="modal-footer">

@@ -66,6 +66,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public void modify(MemberDTO memberDTO) {
+        // findById는 바로 로딩을 해주고, getOne은 필요한 순간까지 로딩을 지연함
         Optional<Member> result = memberRepository.findById(memberDTO.getId());
 
         if (result.isPresent()) {
