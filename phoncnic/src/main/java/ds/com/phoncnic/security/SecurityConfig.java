@@ -83,13 +83,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     .antMatchers("/main/mypage").hasRole("USER");
 
     http.authorizeRequests()
-    .antMatchers("/manage/dyning/list").hasRole("USER");
+    .antMatchers("/manage/**").hasRole("USER");
 
     http.authorizeRequests()
-    .antMatchers("/dyning/restaurant/list").permitAll();
-
-    http.authorizeRequests()
-    .antMatchers("/dyning/details").permitAll();
+    .antMatchers("/dyning/**").permitAll();
 
     http.authorizeRequests()
     .antMatchers("/lookmodal/lookmodify").hasRole("USER");
