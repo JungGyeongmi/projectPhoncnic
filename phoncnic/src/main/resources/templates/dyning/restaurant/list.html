@@ -22,12 +22,7 @@
                 </form>
             </div>
             <div class="list-group list-group-flush">
-                <ul class="md-serach-result">
-
-                </ul>
-            </div>
-            <div>
-                <button id="addBtn">더보기</button>
+                <ul class="md-serach-result"></ul>
             </div>
         </div>
 
@@ -42,7 +37,7 @@
                 var searchForm = $('.search-form');
                 var searchResult = $(".md-serach-result");
                 var keyword = $("input[name=keyword]");
-                                
+
                 // 검색버튼 클릭시 search
                 btnsearch.on("click", function (e) {
                     console.log(searchForm.serialize());
@@ -81,8 +76,6 @@
                             } else {
                                 searchResult.html('<div> 검색 결과가 없습니다. </div>');
                             }
-
-                            
                         },
                         error: function (response) {
                             console.log(response);
@@ -101,29 +94,26 @@
         </script>
     </th:block>
 
-
-
     <!-- 내용부분(restaurant 거리) -->
     <th:block th:fragment="content">
         <style>
             .dyning-list-ul {
                 max-width: 10000px;
             }
-    
+
             .dyning-list-ul li {
                 margin: 20px;
                 width: 100px;
                 height: 100px;
                 display: inline-block;
             }
-
         </style>
 
         <script th:inline="javascript">
             $(document).ready(function () {
                 var numitems = $(".dyning-list-ul li").length;
 
-                console.log("numitems: "+numitems);
+                console.log("numitems: " + numitems);
 
                 $(".dyning-list-ul").css("column-count", Math.round(numitems / 2));
             });
@@ -138,6 +128,6 @@
                 [[${dto.dyningname}]]
             </li>
         </ul>
-        
+
     </th:block>
 </th:block>

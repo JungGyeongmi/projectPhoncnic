@@ -1,20 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
-<th:block th:replace="~{layout/dyninglist :: setContent(~{::content}, ~{::search}, ~{::navbar})}">
-
-    <!-- navbar + 토글 버튼 -->
-    <th:block th:fragment="navbar">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-            <div class="container-fluid">
-                <button class="btn btn-primary" id="sidebarToggle" style="background-color: #DBE9B7;">검색</button>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-            </div>
-        </nav>
-    </th:block>
+<th:block th:replace="~{layout/dyninglist :: setContent(~{::content}, ~{::search})}">
 
     <!-- search toggle -->
     <th:block th:fragment="search">
@@ -36,8 +22,7 @@
                 </form>
             </div>
             <div class="list-group list-group-flush">
-                <ul class="md-serach-result">
-                </ul>
+                <ul class="md-serach-result"></ul>
             </div>
         </div>
 
@@ -78,19 +63,19 @@
                             var str = "";
 
                             if (response.totalPage != 0) {
-                            $.each(response.dtoList, function (idx, dto) {
-                                str += `<li class="search-result-Item " data-search-dno="${dto.dno} " value="${dto.dno}">
+                                $.each(response.dtoList, function (idx, dto) {
+                                    str += `<li class="search-result-Item " data-search-dno="${dto.dno} " value="${dto.dno}">
                                     <input class="input" type="hidden" value="${dto.dno}">                                         
                                     <div id="search-result-div">
                                             <p>${dto.dyningname}</p>												
                                             ${dto.hashtag}
                                         </div>
                                     </li>`;
-                            })
-                            searchResult.html(str);
-                        } else {
-                            searchResult.html('<div> 검색 결과가 없습니다. </div>');
-                        }
+                                })
+                                searchResult.html(str);
+                            } else {
+                                searchResult.html('<div> 검색 결과가 없습니다. </div>');
+                            }
                         },
                         error: function (response) {
                             console.log(response);
@@ -98,7 +83,7 @@
                     });
                 }
 
-                // 모달 창 내 search result 클릭 시 이동 제어
+                // 토글 창 내 search result 클릭 시 이동 제어
                 $(document).on("click", ".search-result-Item", function (e) {
                     console.log("click");
                     var val = $(this).attr("value");
@@ -114,21 +99,20 @@
             .dyning-list-ul {
                 max-width: 10000px;
             }
-    
+
             .dyning-list-ul li {
                 margin: 20px;
                 width: 100px;
                 height: 100px;
                 display: inline-block;
             }
-
         </style>
 
         <script th:inline="javascript">
             $(document).ready(function () {
                 var numitems = $(".dyning-list-ul li").length;
 
-                console.log("numitems: "+numitems);
+                console.log("numitems: " + numitems);
 
                 $(".dyning-list-ul").css("column-count", Math.round(numitems / 2));
             });
@@ -143,6 +127,6 @@
                 [[${dto.dyningname}]]
             </li>
         </ul>
-        
+
     </th:block>
 </th:block>
