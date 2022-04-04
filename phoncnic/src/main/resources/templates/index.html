@@ -15,7 +15,7 @@
                 테스트여라
             </legend>
             <a th:href="@{/test}">/test</a><br>
-            <a th:href="@{/lookmodal(id='user1@icloud.com')}">/lookmodal</a><br>
+            <a th:href="@{/lookmodal}">/lookmodal</a><br>
         </fieldset>
         <fieldset>
             <legend>
@@ -41,13 +41,13 @@
             <legend>메인이여라</legend>
             <a th:href="@{/main/companyinfo}">/main/companyinfo</a><br>
             <a th:href="@{/help/list}">/help/list</a><br>
-            <a th:href="@{/main/mypage(id='user1@icloud.com')}">
-                <button>user1@icloud.com님의 마이페이지로 이동</button>
+            <a th:href="@{/main/mypage}">
+                <button>마이페이지로 이동</button>
             </a>
         </fieldset>
         <fieldset>
             <legend>다이닝이여라 - USER1@ICLOUD.COM</legend>
-            <a th:href="@{/dyning/restaurant/list(id='user1@icloud.com')}">/dyning/restaurant/list</a> <br>
+            <a th:href="@{/dyning/restaurant/list}">/dyning/restaurant/list</a> <br>
             <a th:href="@{/dyning/cafe/list(id='user1@icloud.com')}">/dyning/cafe/list</a> <br>
             <a th:href="@{/dyning/details(dno=1)}">/dyning/restaurant/details</a> <br>
             <a th:href="@{/dyning/movingtest(id='user1@icloud.com')}">/dyning/movingtest</a> <br>

@@ -24,7 +24,7 @@
  
     
     $(document).ready(function (e) {
-            
+        
         var radiohair = $("#radiohair").val();
         var radioclothes = $("#radioclothes").val();
         console.log(radiohair);
@@ -54,7 +54,6 @@
 
 
         document.querySelector("#lookModifyBtn").onclick = function () {
-            
             var lookform = document.querySelector("#lookfrm");
             
             if (!confirm("캐릭터의 옷을 변경하시겠습니까?")) {
@@ -64,7 +63,6 @@
             lookform.setAttribute("action", modifyUrl);
             lookform.setAttribute("method", "post");
             lookform.submit();
-            alert("수정되었습니다")
             $("#modalcharacterlook").hide();
 
         }
@@ -95,7 +93,7 @@
             </div>
             <div class="modal-body">
                 <form id="lookfrm" action="">
-                    <input type="hidden" name="id" th:value="${id}">
+                    <input type="hidden" id="ids" name="id" th:value="${id}">
                     <span th:each="hdto : ${looklist}">
                         <input type="radio" name="hairname" th:value="${hdto.hairname}"><img th:src="${hdto.hairpath}" alt="">
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

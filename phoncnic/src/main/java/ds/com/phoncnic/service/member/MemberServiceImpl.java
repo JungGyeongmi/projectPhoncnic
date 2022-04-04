@@ -6,6 +6,7 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,7 @@ import ds.com.phoncnic.repository.FollowRepository;
 import ds.com.phoncnic.repository.GalleryRepository;
 import ds.com.phoncnic.repository.HelpRepository;
 import ds.com.phoncnic.repository.MemberRepository;
+import ds.com.phoncnic.security.dto.AuthMemberDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -48,13 +50,16 @@ public class MemberServiceImpl implements MemberService {
 
     private final DyningImageRepository dyningImageRepository;
 
+
     @Override
     public void updateMemberDTO(MemberDTO memberDTO) {
         log.info("update Member DTO ....." + memberDTO);
         memberDTO.setPassword(passwordEncoder.encode(memberDTO.getPassword()));
         Member member = dtoToEntity(memberDTO);
+
         memberRepository.save(member);
-        log.info("Member ....." + member);
+        log.info("MemberComeOn ....." + member);
+
     }
 
     @Override
@@ -64,48 +69,67 @@ public class MemberServiceImpl implements MemberService {
         return entityToDTO(member);
     }
 
-    @Override
-    public void modify(MemberDTO memberDTO) {
+    // @Override
+    // public void modify(MemberDTO memberDTO) {
+    //     // findById는 바로 로딩을 해주고, getOne은 필요한 순간까지 로딩을 지연함
+    //     Optional<Member> result = memberRepository.findById(memberDTO.getId());
+
+    //     if (result.isPresent()) {
+    //         Member member = result.get();
+    //         member.changeNickname(memberDTO.getNickname());
+    //         member.changePassword(memberDTO.getPassword());
+    //         memberRepository.save(member);
+    //     }
+    // }
+
+    public void modify2(AuthMemberDTO dto) {
         // findById는 바로 로딩을 해주고, getOne은 필요한 순간까지 로딩을 지연함
-        Optional<Member> result = memberRepository.findById(memberDTO.getId());
+        Optional<Member> result = memberRepository.findById(dto.getId());
 
         if (result.isPresent()) {
             Member member = result.get();
-            member.changeNickname(memberDTO.getNickname());
-            member.changePassword(memberDTO.getPassword());
+            member.changeNickname(dto.getNickname());
+            member.changePassword(dto.getPassword());
+            log.info("Memberrrrr"+member);
             memberRepository.save(member);
         }
     }
+
+    
 
     @Override
     @Transactional
     @Modifying
     public void remove(String id) {
         Optional<Member> result = memberRepository.findById(id);
+        log.info("dtoResult"+result);
         if (result.isPresent()) {
             characterLookRepository.deleteByMemberId(id);
             followRepository.deleteByMemberId(id);
-
             List<Dyning> dyninglist = dyningRepository.findByMemberId(id);
             for (Dyning dno : dyninglist)
-                emojiRepository.deleteByDno(dno.getDno());
-
+            emojiRepository.deleteByDno(dno.getDno());
+            
             List<Gallery> gallerylist = galleryRepository.findByMemberId(id);
             for (Gallery gno : gallerylist)
                 emojiRepository.deleteByGno(gno.getGno());
 
-            List<Emoji> emojilist = emojiRepository.findByMemberId(id);
-            for (Emoji eno : emojilist)
+                List<Emoji> emojilist = emojiRepository.findByMemberId(id);
+                for (Emoji eno : emojilist)
                 emojiRepository.deleteByEno(eno.getEno());
-
-            Long dno = dyningRepository.findDyningByMemberId(id).get().getDno();
-            dyningImageRepository.deleteByDno(dno);
+                log.info("dyninglist"+dyninglist);
+                log.info("gallerylist"+gallerylist);
+                log.info("emojilist"+emojilist);
+                Optional<Dyning> haveDyning = dyningRepository.findDyningByMemberId(id);
+                if (haveDyning.isPresent()) { 
+            dyningImageRepository.deleteByDno(haveDyning.get().getDno());
+            log.info("---------dno deleted--------------");
+        }
             dyningRepository.deleteByMemberId(id);
             galleryRepository.deleteByMemberId(id);
             helpRepository.deleteByMemberId(id);
-
-            memberRepository.deleteById(id);
             log.info(memberRepository.findById(id));
+            memberRepository.deleteById(id);
         }
     }
 }
