@@ -20,11 +20,7 @@ public class TestRestController {
     @Autowired
     private GalleryService galleryService;
 
-    @GetMapping("/member/login")
-    public String login() {
-        log.info("login page.....");
-        return "/member/login";
-    }
+   
 
     @GetMapping("/api/test")
     public ResponseEntity<PageResultDTO<GalleryDTO, Object[]>> getSearchData(SearchPageRequestDTO pageRequestDTO,
