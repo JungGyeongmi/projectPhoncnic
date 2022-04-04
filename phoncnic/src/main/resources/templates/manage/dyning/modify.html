@@ -7,7 +7,7 @@
     <form th:action="@{/manage/dyning/modify}" th:method="post" id="form">
       <label for="">id
       <input type="hidden" name="dno" th:value="${result.dno}">
-      <input type="hidden" name="id" th:value="${id}">
+      <input type="text" name="id" th:value="${id}">
     </label><br><br>
         <label for="">dyningname
             <input type="text" name="dyningname" th:value="${result.dyningname}" id="">
