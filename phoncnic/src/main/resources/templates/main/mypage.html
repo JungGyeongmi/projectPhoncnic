@@ -6,7 +6,6 @@
             <table border="1">
                 <tr>
                     <th scope="col">아이디</th>
-                    <th scope="col">비밀번호</th>
                     <th scope="col">닉네임</th>
                     <th scope="col">가입일</th>
                     <th scope="col">수정</th>
@@ -15,7 +14,6 @@
                 </tr>
                 <tr th:each="dto : ${memberDTO}">
                     <td><input type="text" th:value=${dto.id} name=id readonly></td>
-                    <td><input type="text" th:value=${dto.password} name=password></td>
                     <td><input type="text" th:value=${dto.nickname} name=nickname></td>
                     <td><input type="text" th:value=${dto.regdate} readonly></td>
                     <td><button id="memberModifyBtn" type="button">수정</button></td>
