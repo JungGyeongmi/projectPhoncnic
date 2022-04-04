@@ -21,6 +21,7 @@
             <button type="button">
                 문의하기
             </button>
+            <input type="text" id="userid" th:value="${userid}">
         </a>
         <table border="1">
             <thead>
@@ -81,10 +82,18 @@
             }
 
             /*[+ var msg=[[${msg}]]; +]*/
-            console.log(msg);
+            /*[+ var id=[[${id}]]; +]*/
 
-            if (msg != null) {
-                swal("성공!", "문의글이 등록되었습니다.", "success");
+            var userid = document.querySelector("#userid").getAttribute('value');
+            console.log(msg);
+            console.log(userid);
+
+            if (msg != null && id != null) {
+                swal("성공!", "답변은 " + id + " 로 발송해드립니다.", "success");
+            } else if  (msg != null && userid != null) {
+                swal("성공!", "답변은 " + userid + " 로 발송해드립니다.", "success");
+            } else if(msg != null && userid == null) {
+                swal("성공!", "답변은 이메일로 발송해드립니다.", "success");
             }
 
             /*[+ var msg2=[[${msg2}]]; +]*/
