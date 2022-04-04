@@ -1,6 +1,6 @@
-<!DOCTYPE html>
++<!DOCTYPE html>
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
-<th:block th:replace="~{layout/basic :: setContent(~{::content})}">
+<th:block th:replace="~{layout/dyninglayout :: setContent(~{::content})}">
     <th:block th:fragment="content">
 
 <head>
@@ -24,7 +24,8 @@
         // 전역변수로서 이미지 객체 생성
         var imgChar= new Image();
         imgChar.src = headimg;
-     
+        var imgBg= new Image();
+        imgBg.src=headimg;
  
         // 플레이어 캐릭터의 중심좌표
         var x=200, y=250; //정 가운데로 위치
@@ -51,7 +52,7 @@
  
         }
         function drawAll(){
-            // 배경 그리기
+            //배경 그리기
             context.drawImage(imgBg,0,0,400,500);
             //플레이어 그리기
             context.drawImage(imgChar,x-w,y-h,w*2,h*2);
