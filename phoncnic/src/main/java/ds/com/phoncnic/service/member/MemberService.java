@@ -1,13 +1,12 @@
 package ds.com.phoncnic.service.member;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+
 import ds.com.phoncnic.dto.MemberDTO;
 import ds.com.phoncnic.entity.AuthorityRole;
-import ds.com.phoncnic.entity.CharacterLook;
 import ds.com.phoncnic.entity.Member;
 import ds.com.phoncnic.security.dto.AuthMemberDTO;
 

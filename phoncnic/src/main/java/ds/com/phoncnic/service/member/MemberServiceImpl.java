@@ -1,17 +1,16 @@
 package ds.com.phoncnic.service.member;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
 
 import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import ds.com.phoncnic.dto.MemberDTO;
-import ds.com.phoncnic.entity.CharacterLook;
 import ds.com.phoncnic.entity.Dyning;
 import ds.com.phoncnic.entity.Emoji;
 import ds.com.phoncnic.entity.Gallery;
@@ -103,29 +102,34 @@ public class MemberServiceImpl implements MemberService {
     @Modifying
     public void remove(String id) {
         Optional<Member> result = memberRepository.findById(id);
+        log.info("dtoResult"+result);
         if (result.isPresent()) {
             characterLookRepository.deleteByMemberId(id);
             followRepository.deleteByMemberId(id);
-
             List<Dyning> dyninglist = dyningRepository.findByMemberId(id);
             for (Dyning dno : dyninglist)
-                emojiRepository.deleteByDno(dno.getDno());
-
+            emojiRepository.deleteByDno(dno.getDno());
+            
             List<Gallery> gallerylist = galleryRepository.findByMemberId(id);
             for (Gallery gno : gallerylist)
                 emojiRepository.deleteByGno(gno.getGno());
 
-            List<Emoji> emojilist = emojiRepository.findByMemberId(id);
-            for (Emoji eno : emojilist)
+                List<Emoji> emojilist = emojiRepository.findByMemberId(id);
+                for (Emoji eno : emojilist)
                 emojiRepository.deleteByEno(eno.getEno());
-
-            Long dno = dyningRepository.findDyningByMemberId(id).get().getDno();
-            dyningImageRepository.deleteByDno(dno);
+                log.info("dyninglist"+dyninglist);
+                log.info("gallerylist"+gallerylist);
+                log.info("emojilist"+emojilist);
+                Optional<Dyning> haveDyning = dyningRepository.findDyningByMemberId(id);
+                if (haveDyning.isPresent()) { 
+            dyningImageRepository.deleteByDno(haveDyning.get().getDno());
+            log.info("---------dno deleted--------------");
+        }
             dyningRepository.deleteByMemberId(id);
             galleryRepository.deleteByMemberId(id);
             helpRepository.deleteByMemberId(id);
-            memberRepository.deleteById(id);
             log.info(memberRepository.findById(id));
+            memberRepository.deleteById(id);
         }
     }
 }
