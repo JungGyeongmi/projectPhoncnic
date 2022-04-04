@@ -60,8 +60,9 @@ public class GalleryRestController {
     // Emoji insert/update/remove
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/emoji/register/{gno}")
-    public ResponseEntity<Long[][]> emojiRegister(@RequestBody EmojiDTO emojiDTO, @PathVariable("gno") Long gno) {
+    public ResponseEntity<Long[][]> emojiRegister(@RequestBody EmojiDTO emojiDTO, @PathVariable("gno") Long gno, @AuthenticationPrincipal AuthMemberDTO authMemberDTO) {
         emojiDTO.setGno(gno);
+        emojiDTO.setId(authMemberDTO.getId());
         Long[][] newEmojiCount = emojiService.galleryEmojiRegiter(emojiDTO);
         
         log.info("emoji Register....................emojiDTO:" + emojiDTO);
