@@ -56,7 +56,7 @@ public class GalleryRestController {
         log.info("galleryDTO : " + galleryDTO);
         return new ResponseEntity<>(galleryDTO, HttpStatus.OK);
     }
-    
+
     // Emoji insert/update/remove
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/emoji/register/{gno}")
@@ -71,7 +71,6 @@ public class GalleryRestController {
     }
     
     // 조회
-    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("follow/{id}/{artistname}")
     public ResponseEntity<Long> follow(@PathVariable String id, @PathVariable String artistname) {
         Long fno = followService.getGalleryFno(id, artistname);
