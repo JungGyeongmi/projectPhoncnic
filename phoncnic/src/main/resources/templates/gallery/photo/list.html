@@ -179,8 +179,8 @@
       <h1>사진전</h1>
       <div class="swiper mySwiper">
          <div class="swiper-wrapper">
-            <div class="swiper-slide" th:each="dto : ${galleryDTOList}" th:data-gno="${dto.gno}" th:data-id="${id}"
-               th:data-file="${dto.getImageURL}" data-bs-toggle="modal" data-bs-target="#detailsModal">
+            <div class="swiper-slide dtoData" th:each="dto : ${galleryDTOList}" th:data-gno="${dto.gno}" th:data-id="${id}"
+               th:data-file="${dto.getImageURL}" th:data-user-name="${dto.getArtistname}" data-bs-toggle="modal" data-bs-target="#detailsModal">
                <img style="cursor:pointer;" th:src="|@{'/display'}?fileName=${dto.getImageURL()}|" alt="🎨" />
                [[${dto.title}]]
             </div>
@@ -335,7 +335,6 @@
                });
             }
 
-
             /* target의 gno / target의 imagepath 가져옴 / emoji 갯수 */
             $(".swiper-slide").click(function () {
                var targetGno = $(this).data("gno");
@@ -360,16 +359,15 @@
             detailsModalbodyFollow = $(".detail-modal-body3");
 
             var id = "user1@icloud.com";
-            var artistname = "user1";
+            var artistname = $(".dtoData").data("userName");
 
            $.getJSON(follow + "/" + id + "/" + artistname, function(follow) {
-                  var str="";
-                  str = `
+               var str="";
+               str = `
                   <input type="text" value="${follow}">
-                  <input type="button" value="${follow}" id="followBtn">
-                  `;
-                  detailsModalbodyFollow.append(str);
-               });
+                  <input type="button" value="${follow}" id="followBtn">`;
+               detailsModalbodyFollow.html(str);
+            });
 
             
 				//팔로우 등록/ 삭제
@@ -385,7 +383,7 @@
 						contentType: "application/json",
 						dataType: "json",
 						success: function (response) {
-							
+                     console.log(response);
 							console.log("update follow success");
 						},
 						fail: function (response) {
@@ -396,8 +394,6 @@
 					});						
 
 				});
-
-
             
             searchBtn.on("click", function (e) {
                getSearchList();
@@ -494,10 +490,10 @@
                      if (response.totalPage != 0) {
                         $.each(response.dtoList, function (idx, dto) {
                            str += `<div class="search-result-Item item" data-search-file="${dto.imageURL}" data-search-gno="${dto.gno}">
-                           <img class="md-container-img" src="${displayUrl}?fileName=${dto.imageURL}">                              
-                              <br/>
-                              <p>${dto.title}</p>
-                           </div>`;
+                                 <img class="md-container-img" src="${displayUrl}?fileName=${dto.imageURL}">                              
+                                    <br/>
+                                    <p>${dto.title}</p>
+                                 </div>`;
                         });
                         searchResult.html(str);
                      } else {

@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -56,19 +57,8 @@ public class GalleryRestController {
         return new ResponseEntity<>(galleryDTO, HttpStatus.OK);
     }
     
-    // Emoji getList
-    @GetMapping("/emoji/{gno}")
-    public ResponseEntity<List<EmojiDTO>> getemojiList(@PathVariable("gno") Long gno) {
-        log.info("getemojiList........gno" + gno);
-
-        List<EmojiDTO> emojiDTO = emojiService.getEmojiByGno("g", gno);
-        
-        log.info("emojiDTO : " + emojiDTO);
-        
-        return new ResponseEntity<>(emojiDTO, HttpStatus.OK);
-    }
-
     // Emoji insert/update/remove
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/emoji/register/{gno}")
     public ResponseEntity<Long[][]> emojiRegister(@RequestBody EmojiDTO emojiDTO, @PathVariable("gno") Long gno) {
         emojiDTO.setGno(gno);
@@ -80,18 +70,20 @@ public class GalleryRestController {
         return new ResponseEntity<>(newEmojiCount, HttpStatus.OK);
     }
     
+    // 조회
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("follow/{id}/{artistname}")
     public ResponseEntity<Long> follow(@PathVariable String id, @PathVariable String artistname) {
         Long fno = followService.getGalleryFno(id, artistname);
         return new ResponseEntity<>(fno, HttpStatus.OK);
     }
 
+    // 등록 삭제
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("followRegister/{id}/{artistname}")
     public ResponseEntity<Object[]> followRegister(@RequestBody FollowDTO followDTO, @PathVariable String artistname, @PathVariable String id) {
         Object[] follow = followService.galleryfollowRegister(followDTO);
         log.info("follow Register followDTO:" +followDTO);
         return new ResponseEntity<>(follow, HttpStatus.OK);
-
-
     }
 }
