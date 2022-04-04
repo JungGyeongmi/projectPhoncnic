@@ -58,6 +58,7 @@ public class EmojiServiceImpl implements EmojiService {
         return getEmojiCountArrayByGno(gno);
     }
     
+
     @Override
     public List<EmojiDTO> dyningEmojiList(Long dno) {
         List<Emoji> emojilist = emojiRepository.findByDno(dno);
@@ -130,7 +131,7 @@ public class EmojiServiceImpl implements EmojiService {
         });
         return emojiCntArr;
     }
-
+    
     @Override
     public void emojiRemove(Long eno) {
         Optional<Emoji> emoji = emojiRepository.findById(eno);

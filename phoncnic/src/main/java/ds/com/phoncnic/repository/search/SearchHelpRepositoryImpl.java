@@ -23,9 +23,8 @@ import ds.com.phoncnic.entity.QHelp;
 import ds.com.phoncnic.entity.QMember;
 import lombok.extern.log4j.Log4j2;
 
-
 @Log4j2
-public class SearchHelpRepositoryImpl 
+public class SearchHelpRepositoryImpl
     extends QuerydslRepositorySupport
     implements SearchHelpRepository {
 
@@ -41,7 +40,7 @@ public class SearchHelpRepositoryImpl
     JPQLQuery<Help> jpqlQuery = from(help);
     jpqlQuery.leftJoin(member).on(help.writer.eq(member));
     JPQLQuery<Tuple> tuple = jpqlQuery.select(
-      help, member.id);
+        help, member.id);
     tuple.groupBy(help);
 
     log.info("----------------------------");
@@ -63,7 +62,7 @@ public class SearchHelpRepositoryImpl
     jpqlQuery.leftJoin(member).on(help.writer.eq(member));
 
     JPQLQuery<Tuple> tuple = jpqlQuery.select(
-      help, member);
+        help, member);
 
     BooleanBuilder builder = new BooleanBuilder();
     BooleanExpression expression = help.qno.gt(0L);
@@ -88,16 +87,16 @@ public class SearchHelpRepositoryImpl
       builder.and(conditionBuilder);
     }
     tuple.where(builder);
-    
+
     Sort sort = pageable.getSort();
     sort.stream().forEach(new Consumer<Sort.Order>() {
       @Override
       public void accept(Sort.Order order) {
-        Order direction = order.isAscending()?Order.ASC:Order.DESC;
+        Order direction = order.isAscending() ? Order.ASC : Order.DESC;
         String prop = order.getProperty();
-        log.info("prop>>"+prop);
+        log.info("prop>>" + prop);
         PathBuilder orderByExpression = new PathBuilder<>(
-          Help.class,"help");
+            Help.class, "help");
         tuple.orderBy(new OrderSpecifier<>(direction, orderByExpression.get(prop)));
       }
     });
@@ -109,8 +108,8 @@ public class SearchHelpRepositoryImpl
     List<Tuple> result = tuple.fetch();
     log.info(result);
     long count = tuple.fetchCount();
-    log.info("COUNT: "+count);
+    log.info("COUNT: " + count);
 
-    return new PageImpl<Object[]>(result.stream().map(t->t.toArray()).collect(Collectors.toList()),pageable,count);
+    return new PageImpl<Object[]>(result.stream().map(t -> t.toArray()).collect(Collectors.toList()), pageable, count);
   }
 }

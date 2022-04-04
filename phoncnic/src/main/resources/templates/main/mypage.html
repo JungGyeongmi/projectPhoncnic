@@ -35,15 +35,16 @@
                 <input type="radio" name="clothesname" id="${cdto.clothesname}" th:value="${cdto.clothesname}"><img
                     th:src="${cdto.clothespath}" alt="">
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            </span>
-            <button id="lookModifyBtn" type="button" class="btn btn-primary">변경하기</button>
-            <div><span th:each="hdto : ${hairDTO}"><img th:src="${hdto.hairpath}" alt="">
-                    <input type="hidden" id="radiohair" th:value="${hdto.hairname}"></span><br>
-                <span th:each="cdto : ${clothesDTO}"><img th:src="${cdto.clothespath}" alt="">
-                    <input type="hidden" id="radioclothes" th:value="${cdto.clothesname}"></span>
-            </div>
-
-        </form>
+              </span>
+              <button id="lookModifyBtn" type="button" class="btn btn-primary">변경하기</button>
+              <div><div th:each="hdto : ${hairDTO}"><img class="look hairlook" th:src="${hdto.hairpath}" alt="" id="checkedhair">
+                <input  type="hidden" id="radiohair" th:value="${hdto.hairname}"></div><br>
+                <div th:each="cdto : ${clothesDTO}"><img class="look clotheslook" th:src="${cdto.clothespath}" alt="" id="checkedclothes">
+                    <input  type="hidden" id="radioclothes" th:value="${cdto.clothesname}"></div>
+                </div>
+                
+            
+    </form>
 
         <br>
         <table border="1">
@@ -101,7 +102,25 @@
                 <td><button class="emojiRemoveBtn" th:value="${edto.eno}" type="button">삭제</button></td>
             </tr>
         </table>
+        <style>
+            .look{
+                display: inline-block;
+                position: absolute;
+                margin-left: 60%;
+            }
+            .hairlook{
+                margin-bottom: -50px;
+                z-index: 10;
+            }
+            .clotheslook{
+                z-index: 1;
+                margin-top: 15px;
 
+            }
+        
+            
+
+        </style>
         <script th:inline="javascript">
 
             var memberform = document.querySelector("#memberfrm");
@@ -116,6 +135,15 @@
             var radioclothes = $("#radioclothes").val();
             $('input:radio[name=hairname]:input[value=' + radiohair + ']').attr("checked", true);
             $('input:radio[name=clothesname]:input[value=' + radioclothes + ']').attr("checked", true);
+
+                $("input[name=hairname]").on("change",function(){
+                var checkedhair = $(this).next().attr('src');
+                $("#checkedhair").attr("src",checkedhair);
+            });
+            $("input[name=clothesname]").on("change",function(){
+                var checkedclothes = $(this).next().attr('src');
+                $("#checkedclothes").attr("src",checkedclothes);
+            });
 
             /*[+var urlmembermodify = [[@{/main/mypage/membermodify}]];+]*/
             /*[+var urllookmodify = [[@{/main/mypage/lookmodify}]];+]*/
@@ -135,7 +163,6 @@
                     alert("수정되었습니다")
                 }
             }
-
             document.querySelector("#lookModifyBtn").onclick = function () {
 
                 if (!confirm("캐릭터의 옷을 변경하시겠습니까?")) {
@@ -148,7 +175,6 @@
 
                 }
             }
-
             document.querySelector("#memberOutBtn").onclick = function () {
 
                 if (!confirm("정말 탈퇴하시겠습니까?(이 동작은 되돌릴 수 없습니다)")) {

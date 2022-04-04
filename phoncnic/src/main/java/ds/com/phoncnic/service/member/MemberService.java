@@ -3,13 +3,16 @@ package ds.com.phoncnic.service.member;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+
 import ds.com.phoncnic.dto.MemberDTO;
 import ds.com.phoncnic.entity.AuthorityRole;
 import ds.com.phoncnic.entity.Member;
+import ds.com.phoncnic.security.dto.AuthMemberDTO;
 
 public interface MemberService {
   void updateMemberDTO(MemberDTO memberDTO);
-  void modify(MemberDTO memberDTO);
+  void modify2(AuthMemberDTO dto);
   void remove(String id);
   MemberDTO getMember(String id);
 
@@ -36,6 +39,7 @@ public interface MemberService {
             }).collect(Collectors.toSet()))
         .build();
 
+      
     return member;
   }
 

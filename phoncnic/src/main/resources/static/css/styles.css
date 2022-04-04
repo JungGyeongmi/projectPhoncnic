@@ -11281,7 +11281,7 @@ textarea.form-control-lg {
 
 #sidebar-wrapper {
   min-height: 100vh;
-  margin-left: -15rem;
+  margin-right: -15rem;
   transition: margin 0.25s ease-out;
 }
 
@@ -11299,12 +11299,12 @@ textarea.form-control-lg {
 }
 
 body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
-  margin-left: 0;
+  margin-right: 0;
 }
 
 @media (min-width: 768px) {
   /* #sidebar-wrapper {
-    margin-left: 0;
+    margin-right: 0;
   } */
 
   #page-content-wrapper {
@@ -11313,6 +11313,6 @@ body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
   }
 
   /* body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
-    margin-left: -15rem;
+    margin-right: -15rem;
   } */
 }

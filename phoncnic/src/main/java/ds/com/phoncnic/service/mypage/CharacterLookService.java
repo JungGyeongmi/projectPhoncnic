@@ -8,7 +8,7 @@ import ds.com.phoncnic.entity.CharacterLookInfo;
 public interface CharacterLookService {
 
     List<CharacterLookInfo> lookimageList();
-
+    
     CharacterLookDTO getCharacterHair(String id);
 
     CharacterLookDTO getCharacterClothes(String id);
