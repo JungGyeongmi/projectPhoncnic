@@ -44,13 +44,18 @@ public class DyningController {
         log.info("restaurant list.................");
         model.addAttribute("result", dyningService.getStreet());
         if(dto!=null){model.addAttribute("id",dto.getId());}
+        if(dto!=null){
+            model.addAttribute("hairDTO", characterLookService.getCharacterHair(dto.getId()));
+        }else{
+            model.addAttribute("hairDTO", characterLookService.getCharacterHair("user10@icloud.com"));
+        }
 
     }
 
     @GetMapping("/details")
     public void details(@RequestParam("dno") Long dno, Model model,@AuthenticationPrincipal AuthMemberDTO dto) {
         log.info("Details.................");
-
+        
         if(dno!=0){
         model.addAttribute("emojiInfo", emojiInfoService.getEmojiInfoList());
 
