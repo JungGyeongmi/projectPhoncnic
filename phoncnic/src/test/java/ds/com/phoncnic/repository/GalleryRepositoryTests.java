@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.IntStream;
 
 import javax.transaction.Transactional;
 
@@ -20,7 +21,10 @@ import ds.com.phoncnic.dto.GalleryDTO;
 import ds.com.phoncnic.dto.pageDTO.PageRequestDTO;
 import ds.com.phoncnic.dto.pageDTO.PageResultDTO;
 import ds.com.phoncnic.dto.pageDTO.SearchPageRequestDTO;
+import ds.com.phoncnic.entity.Emoji;
+import ds.com.phoncnic.entity.EmojiInfo;
 import ds.com.phoncnic.entity.Gallery;
+import ds.com.phoncnic.entity.Member;
 import ds.com.phoncnic.service.emoji.EmojiInfoService;
 import ds.com.phoncnic.service.emoji.EmojiService;
 import ds.com.phoncnic.service.gallery.GalleryService;

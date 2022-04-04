@@ -19,11 +19,7 @@ public interface DyningService {
 
     List<RoofDesign> roofimageList();
 
-    List<RoofDesign> roofimageList();
-    Long register(DyningDTO dyningDTO);
-    void removeWithImages(Long dno);
-    void modify(DyningDTO dyningDTO);
-
+    Long register(DyningDTO dyningDTO);;
 
     void removeWithImages(Long dno);
 
