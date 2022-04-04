@@ -182,7 +182,6 @@
             <div class="swiper-slide dtoData" th:each="dto : ${galleryDTOList}" th:data-gno="${dto.gno}" th:data-id="${id}"
             th:data-file="${dto.getImageURL}" th:data-user-name="${dto.getArtistname}" data-bs-toggle="modal" data-bs-target="#detailsModal" >
             <img style="cursor:pointer;" th:src="|@{'/display'}?fileName=${dto.getImageURL()}|" alt="🎨" />
-
                [[${dto.title}]]
             </div>
             <div class="lastimg" style="border: solid 1px black;">
@@ -287,19 +286,20 @@
             var detailsModalbodyEmoji = $(".detail-modal-body2");
             var showdetailsModal = function (targetGno, targetFile) {
                $.getJSON(readUrl + "/" + targetGno, function (dto) {
+                  
+                  $("#detailsModal .modal-title").html(`${dto.title}`);
+                  
                   var str = "";
                   str = `
                <input type="hidden" name = "gno" value="${targetGno}" class="inputGno" data-gno="${targetGno}">
                <img style='width:100%' src="${urlDisplay}?fileName=${targetFile}">
                <div class=row>
-                  <div class="col-md-7"><h2>${dto.title}</h2></div>
-                  <div class="col-md-4" id="inputArtist"><h4>${dto.id}</h4></div>
+                  <div class="col-md-7"><h2>${dto.content}</h2></div>
+                  <div class="col-md-4" id="inputArtist"><h4>${dto.artistname}</h4></div>
                </div>`
                   detailsModalbody.html(str);
 
                   str = `<div id="emojiBox">
-               <input type="text" name = "id" value="user1@icloud.com" class="inputId" data-id="${dto.id}">
-                  <br/>
                   <input type="radio" id="1" value="${dto.emojicount[0][0]}" name="emojitype" class="emoji">
                   <label for="1" class="emojibtn">
                      <img src='${dto.emojiinfo["1"]}' alt="이미지를 불러올 수 없습니다" style="width: 30px;">   
@@ -329,10 +329,13 @@
                      <img src='${dto.emojiinfo["5"]}' alt="이미지를 불러올 수 없습니다" style="width: 30px;">   
                   </label>
                   <span class="emoji-cnt">${dto.emojicount[4][1]}</span>
-                  &nbsp; &nbsp; <input type="button" value="팔로우" id="followBtn">
+                  <br/>
+                  <input type="button" value="팔로우" id="followBtn">
                   </div>`;
 
                   detailsModalbodyEmoji.html(str);
+
+                  
                });
             }
 
@@ -526,12 +529,11 @@
 
             //이모지 등록/수정/삭제
             $(document).on("click", ".emoji", function () {
-               // var testtype = $(this).val();
-               var id = $("input[name=id]").val();
+
                var gno = $("input[name=gno]").val();
                var emojitype = $(".emoji:checked").val();
 
-               var data = { id: id, gno: gno, emojitype: emojitype };
+               var data = { emojitype: emojitype };
                console.log(data);
                $.ajax({
                   type: "post",
