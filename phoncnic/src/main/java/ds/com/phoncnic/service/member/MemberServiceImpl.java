@@ -89,7 +89,6 @@ public class MemberServiceImpl implements MemberService {
         if (result.isPresent()) {
             Member member = result.get();
             member.changeNickname(dto.getNickname());
-            member.changePassword(dto.getPassword());
             log.info("Memberrrrr"+member);
             memberRepository.save(member);
         }

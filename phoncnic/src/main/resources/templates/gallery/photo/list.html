@@ -369,25 +369,13 @@
                   detailsModalbodyFollow.html(str);
                });
 
-               if($("#fno").val() != "null"){
-                     $("#followBtn").val("언팔로우");
-                  } else if($("#fno").val() == "null" || $("#fno").val() == ""){
-                     $("#followBtn").val("팔로우");
-                  }
-               
                //팔로우 등록/ 삭제
                $(document).on("click","#followBtn", function(){
 
-                  if($("#fno").val() != "null"){
-                     $("#followBtn").val("언팔로우");
-                  } else if($("#fno").val() == "null" || $("#fno").val("")){
-                     $("#followBtn").val("팔로우");
-                  }
-
-						var id = $(".inputId").val();
 						var artistname = $("#inputArtist").text().substr(0,5);
-                  console.log("follow id, artistaname:"+id+artistname);
-						var data = {followerid:id, artistname:artistname}
+
+                  console.log("artistaname : "+artistname);
+						var data = {artistname:artistname}
 						$.ajax({
 						type: "POST",
 						url: followRegister + '/' + artistname ,
@@ -404,10 +392,11 @@
 							console.log("update follow success");
 						},
 						fail: function (response) {
-                     
+                     console.log("fail");
 							console.log(response);
 						}, error: function (request, status, error) {
-							console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+							swal("로그인 이후 이용해주세요");
+                     console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
 						}
 					});						
 
@@ -559,7 +548,8 @@
                   fail: function (response) {
                      console.log(response);
                   }, error: function (request, status, error) {
-                     alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                     swal("로그인 이후 이용해주세요");
+                     // alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                   }
                });
             });
