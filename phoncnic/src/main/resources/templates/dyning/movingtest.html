@@ -7,13 +7,6 @@
     <title></title>
     <div th:each="hdto : ${hairDTO}"><img id="radiohair" class="look hairlook" th:src="${hdto.hairpath}" alt="">
         <input  type="hidden" id="radiohair" th:value="${hdto.hairname}"></div>
-<<<<<<< Updated upstream
-=======
-<<<<<<< Updated upstream
-<script>
-var myGamePiece;
-=======
->>>>>>> Stashed changes
 
         
     <script>
@@ -31,14 +24,7 @@ var myGamePiece;
         // 전역변수로서 이미지 객체 생성
         var imgChar= new Image();
         imgChar.src = headimg;
-<<<<<<< Updated upstream
-        // var imgBg= new Image();
-        // imgBg.src="./morning.jpg";
-=======
-        var imgBg= new Image();
-        imgBg.src= headimg;
->>>>>>> Stashed changes
->>>>>>> Stashed changes
+     
  
         // 플레이어 캐릭터의 중심좌표
         var x=200, y=250; //정 가운데로 위치
@@ -63,24 +49,12 @@ var myGamePiece;
             x+=dx;
             y+=dy;
  
-<<<<<<< Updated upstream
-        }
-        function drawAll(){
-            //배경 그리기
-            // context.drawImage(imgBg,0,0,400,500);
-            //플레이어 그리기
-            context.drawImage(imgChar,x-w,y-h,w*2,h*2);
-=======
-<<<<<<< Updated upstream
-=======
         }
         function drawAll(){
             // 배경 그리기
             context.drawImage(imgBg,0,0,400,500);
             //플레이어 그리기
             context.drawImage(imgChar,x-w,y-h,w*2,h*2);
->>>>>>> Stashed changes
->>>>>>> Stashed changes
  
             // 키 코드값 글씨 그리기
             context.fillStyle="white";
