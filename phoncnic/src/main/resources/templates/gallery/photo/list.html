@@ -68,16 +68,11 @@
 
          .result-container {
             display: grid;
-            /* 최소 100px 확보 후 늘어나면 자동 */
-            /* grid-template-columns: repeat(auto-fit, minmax(300px, auto)); */
             grid-template-columns: repeat(auto-fit, minmax(150px, auto));
             grid-template-rows: repeat(1, minmax(300px, auto));
             row-gap: 1%;
-            /* items 세로 정렬 */
             align-items: center;
-            /* items 가로 정렬 */
             justify-items: center;
-            /* 두개를 동시에 사용 가능 place-items: center start; */
          }
 
          .md-container img {
@@ -184,20 +179,20 @@
       <h1>사진전</h1>
       <div class="swiper mySwiper">
          <div class="swiper-wrapper">
-            <div class="swiper-slide" th:each="dto : ${galleryDTOList}" th:data-gno="${dto.gno}"
+            <div class="swiper-slide" th:each="dto : ${galleryDTOList}" th:data-gno="${dto.gno}" th:data-id="${id}"
                th:data-file="${dto.getImageURL}" data-bs-toggle="modal" data-bs-target="#detailsModal">
                <img style="cursor:pointer;" th:src="|@{'/display'}?fileName=${dto.getImageURL()}|" alt="🎨" />
                [[${dto.title}]]
             </div>
-            <div style="border: solid 1px black;">
-               여기가 마지막 입니다.
+            <div class="lastimg" style="border: solid 1px black;">
+               <button>관람끝내기</button>
+               <button>맨 앞장으로 </button>
             </div>
          </div>
          <div class="swiper-pagination"></div>
          <div class="swiper-button-prev"></div>
          <div class="swiper-button-next"></div>
       </div>
-
       <div class="showup-curator">
          <div class="drop_left speech-bubble show-gurator-script">
             <ul>
@@ -213,36 +208,36 @@
          </div>
          <img id="curatorBtn" data-bs-toggle="modal" data-bs-target="#curatorModal" th:src="@{/icon/gurator.png}">
       </div>
+      
+      
+    <!-- 규레이터 제어 스크립트 -->
+    <script>
+      $(function () {
 
-      <!-- 규레이터 제어 스크립트 -->
-      <script>
-         $(function () {
+         var guratorScript = {
+            0: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur porro rem, numquam voluptatum commodi architecto maiores cum, voluptatem deserunt laborum quisquam tempora nulla quis suscipit officiis autem repellendus possimus ex?",
+            1: "좋은 아침!",
+            2: "뭐 맛있는거 먹었습니까",
+            3: "지원씨! 지원씨!",
+            4: "에잇 너는 그만해",
+            5: "그냥 외우세요",
+            6: "촤하하하하하하!",
+            7: "해창아~",
+         }
 
-            var guratorScript = {
-               0: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur porro rem, numquam voluptatum commodi architecto maiores cum, voluptatem deserunt laborum quisquam tempora nulla quis suscipit officiis autem repellendus possimus ex?",
-               1: "좋은 아침!",
-               2: "뭐 맛있는거 먹었습니까",
-               3: "지원씨! 지원씨!",
-               4: "에잇 너는 그만해",
-               5: "그냥 외우세요",
-               6: "촤하하하하하하!",
-               7: "해창아~",
-            }
-
-            $(".showup-curator").mouseover(function () {
-               var randomIdx = Math.floor(Math.random() * 7 + 1);
-               $(".drop_left").toggleClass('show-gurator-script');
-               $("#showup-text").html(guratorScript[randomIdx]);
-            });
-
-            $(".showup-curator").mouseleave(function () {
-               $(".drop_left").addClass('show-gurator-script');
-               $("#showup-text").html("");
-            });
-
+         $(".showup-curator").mouseover(function () {
+            var randomIdx = Math.floor(Math.random() * 7 + 1);
+            $(".drop_left").toggleClass('show-gurator-script');
+            $("#showup-text").html(guratorScript[randomIdx]);
          });
-      </script>
 
+         $(".showup-curator").mouseleave(function () {
+            $(".drop_left").addClass('show-gurator-script');
+            $("#showup-text").html("");
+         });
+
+      });
+   </script>
       <!-- Swiper JS -->
       <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 
@@ -361,7 +356,7 @@
             var searchForm = $("#modal-frm");
             var keyword = $("input[name=keyword]");
 
-            //팔로우 get
+            //팔로우 get (fno가  null 값이면 통째로 없어짐)
             detailsModalbodyFollow = $(".detail-modal-body3");
 
             var id = "user1@icloud.com";
@@ -371,7 +366,7 @@
                   var str="";
                   str = `
                   <input type="text" value="${follow}">
-                  <input type="button" value="${follow.fno}" id="followBtn">
+                  <input type="button" value="${follow}" id="followBtn">
                   `;
                   detailsModalbodyFollow.append(str);
                });
@@ -526,20 +521,18 @@
                });
             }
 
-            function emojiBoxReload() {
-               $("#myModal").modal("show");
-            }
-
             //이모지 등록/수정/삭제
             $(document).on("click", ".emoji", function () {
-               var testtype = $(this).val();
-               var id = $(".inputId").val();
-               var gno = $(".inputGno").val();
+               // var testtype = $(this).val();
+               var id = $("input[name=id]").val();
+               var gno = $("input[name=gno]").val();
                var emojitype = $(".emoji:checked").val();
+
                var data = { id: id, gno: gno, emojitype: emojitype };
+               console.log(data);
                $.ajax({
-                  type: "POST",
-                  url: emojiaddUrl + '/' + gno,
+                  type: "post",
+                  url: emojiaddUrl+ "/" + gno ,
                   data: JSON.stringify(data),
                   contentType: "application/json",
                   dataType: "json",
@@ -561,12 +554,13 @@
             $(document).on("click", ".search-result-Item", function (e) {
                var targetGno = $(this).closest("div").data("searchGno");
                var targetFile = $(this).closest("div").data("searchFile");
-
+               // alert(targetGno);
+               // alert(targetFile);
                $("#curatorModal").modal("hide");
                $("#detailsModal").modal("show");
-
                showdetailsModal(targetGno, targetFile);
             });
+
          });
       </script>
 

@@ -65,7 +65,7 @@ public class HomeController {
         model.addAttribute("hairDTO", characterLookService.getCharacterHair(id));
         model.addAttribute("clothesDTO", characterLookService.getCharacterClothes(id));
         model.addAttribute("looklist", characterLookService.lookimageList());
-        
+
         return "/lookmodal";
     }
 

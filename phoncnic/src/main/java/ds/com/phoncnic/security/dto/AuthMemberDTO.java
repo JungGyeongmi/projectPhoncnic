@@ -7,14 +7,12 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import lombok.ToString;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
-@Getter
-@Setter
+@Data
 @ToString
 public class AuthMemberDTO extends User implements OAuth2User {
   String id;
@@ -30,6 +28,7 @@ public class AuthMemberDTO extends User implements OAuth2User {
     this.id = id;
     this.nickname = nickname;
     this.password = password;
+
     log.info("AuthMemberDTO 생성자 실행");
   }
 
@@ -48,5 +47,4 @@ public class AuthMemberDTO extends User implements OAuth2User {
   public String getName() {
     return null;
   }
-  
 }

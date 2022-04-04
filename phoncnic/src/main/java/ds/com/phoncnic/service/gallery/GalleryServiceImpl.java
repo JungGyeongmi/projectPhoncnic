@@ -19,7 +19,6 @@ import ds.com.phoncnic.entity.EmojiInfo;
 import ds.com.phoncnic.entity.Gallery;
 import ds.com.phoncnic.repository.EmojiRepository;
 import ds.com.phoncnic.repository.GalleryRepository;
-import ds.com.phoncnic.service.FollowService;
 import ds.com.phoncnic.service.emoji.EmojiInfoService;
 import ds.com.phoncnic.service.emoji.EmojiService;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +32,6 @@ public class GalleryServiceImpl implements GalleryService {
     private final GalleryRepository galleryRepository;
     private final EmojiRepository emojiRepository;
     private final EmojiService emojiService;
-    private final FollowService followService;
 
     private final EmojiInfoService emojiInfoService;
 
