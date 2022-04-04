@@ -80,6 +80,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     // .antMatchers("/sample/admin").hasRole("ADMIN");
 
     http.exceptionHandling().accessDeniedHandler(accessDeniedHandler());
+
+    http.authorizeRequests()
+    .antMatchers("/main/mypage").hasRole("USER");
+
+    http.authorizeRequests()
+    .antMatchers("/manage/dyning/list").hasRole("USER");
+
+    http.authorizeRequests()
+    .antMatchers("/dyning/restaurant/list").permitAll();
+
+    http.authorizeRequests()
+    .antMatchers("/dyning/details").permitAll();
+
+    http.authorizeRequests()
+    .antMatchers("/lookmodal/lookmodify").hasRole("USER");
+
+    
+
     
     //1. Security login form 사용
     // http.formLogin();

@@ -12,7 +12,10 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import ds.com.phoncnic.entity.AuthorityRole;
+import ds.com.phoncnic.entity.CharacterLook;
+import ds.com.phoncnic.entity.CharacterLookInfo;
 import ds.com.phoncnic.entity.Member;
+import ds.com.phoncnic.repository.CharacterLookRepository;
 import ds.com.phoncnic.repository.MemberRepository;
 import ds.com.phoncnic.security.dto.AuthMemberDTO;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +27,7 @@ import lombok.extern.log4j.Log4j2;
 public class OAuth2UserDetailsService extends DefaultOAuth2UserService{
   
   private final MemberRepository memberRepository;
+  private final CharacterLookRepository characterLookRepository;
   private final PasswordEncoder passwordEncoder;
 
   @Override
@@ -72,17 +76,29 @@ public class OAuth2UserDetailsService extends DefaultOAuth2UserService{
     Optional<Member> result = memberRepository.findByEmail(email);
 
     if(result.isPresent()) return result.get();
+    log.info("returnfire");
 
     // 여기서 random 
     Member member = Member.builder()
       .id(email)
-      .nickname("빵형")
+      .nickname("간지짱")
       .password(passwordEncoder.encode("1"))
     .build();
 
     member.addMemberRole(AuthorityRole.USER);
     memberRepository.save(member);
+    CharacterLook characterLook = CharacterLook.builder()
+    .hairname("hair1")
+    .clothesname("clothes1")
+    .characterLookinfo(CharacterLookInfo.builder().chno(1L).build())
+    .member(Member.builder().id(email).build())
+    .build();
+    characterLookRepository.save(characterLook);
 
+
+    
     return member;
   }
+
+
 }
