@@ -179,9 +179,10 @@
       <h1>사진전</h1>
       <div class="swiper mySwiper">
          <div class="swiper-wrapper">
-            <div class="swiper-slide" th:each="dto : ${galleryDTOList}" th:data-gno="${dto.gno}" th:data-id="${id}"
-               th:data-file="${dto.getImageURL}" data-bs-toggle="modal" data-bs-target="#detailsModal">
-               <img style="cursor:pointer;" th:src="|@{'/display'}?fileName=${dto.getImageURL()}|" alt="🎨" />
+            <div class="swiper-slide dtoData" th:each="dto : ${galleryDTOList}" th:data-gno="${dto.gno}" th:data-id="${id}"
+            th:data-file="${dto.getImageURL}" th:data-user-name="${dto.getArtistname}" data-bs-toggle="modal" data-bs-target="#detailsModal" >
+            <img style="cursor:pointer;" th:src="|@{'/display'}?fileName=${dto.getImageURL()}|" alt="🎨" />
+
                [[${dto.title}]]
             </div>
             <div class="lastimg" style="border: solid 1px black;">
@@ -328,7 +329,7 @@
                      <img src='${dto.emojiinfo["5"]}' alt="이미지를 불러올 수 없습니다" style="width: 30px;">   
                   </label>
                   <span class="emoji-cnt">${dto.emojicount[4][1]}</span>
-                  <input type="button" value="팔로우" id="followBtn">
+                  &nbsp; &nbsp; <input type="button" value="팔로우" id="followBtn">
                   </div>`;
 
                   detailsModalbodyEmoji.html(str);
@@ -356,24 +357,35 @@
             var searchForm = $("#modal-frm");
             var keyword = $("input[name=keyword]");
 
-            //팔로우 get (fno가  null 값이면 통째로 없어짐)
+            //팔로우 get 
             detailsModalbodyFollow = $(".detail-modal-body3");
 
             var id = "user1@icloud.com";
-            var artistname = "user1";
+            var artistname = $(".dtoData").data("userName");
 
            $.getJSON(follow + "/" + id + "/" + artistname, function(follow) {
                   var str="";
                   str = `
-                  <input type="text" value="${follow}">
-                  <input type="button" value="${follow}" id="followBtn">
+                  <input type="text" id="fno" value="${follow}">
                   `;
-                  detailsModalbodyFollow.append(str);
+                  detailsModalbodyFollow.html(str);
                });
 
-            
-				//팔로우 등록/ 삭제
-            $(document).on("click","#followBtn", function(){
+               if($("#fno").val() != "null"){
+                     $("#followBtn").val("언팔로우");
+                  } else if($("#fno").val() == "null" || $("#fno").val() == ""){
+                     $("#followBtn").val("팔로우");
+                  }
+               
+               //팔로우 등록/ 삭제
+               $(document).on("click","#followBtn", function(){
+
+                  if($("#fno").val() != "null"){
+                     $("#followBtn").val("언팔로우");
+                  } else if($("#fno").val() == "null" || $("#fno").val("")){
+                     $("#followBtn").val("팔로우");
+                  }
+
 						var id = $(".inputId").val();
 						var artistname = $("#inputArtist").text().substr(0,5);
                   console.log("follow id, artistaname:"+id+artistname);
@@ -385,7 +397,6 @@
 						contentType: "application/json",
 						dataType: "json",
 						success: function (response) {
-							
 							console.log("update follow success");
 						},
 						fail: function (response) {
