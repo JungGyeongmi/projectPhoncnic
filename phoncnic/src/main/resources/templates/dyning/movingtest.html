@@ -1,95 +1,101 @@
 <!DOCTYPE html>
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
-<th:block th:replace="~{layout/dyninglayout :: setContent(~{::content})}">
+<th:block th:replace="~{layout/basic :: setContent(~{::content})}">
     <th:block th:fragment="content">
 
-<style>
-canvas {
-    border:1px solid #d3d3d3;
-    background-color: #f1f1f1;
-}
-</style>
-
-<body onload="startGame()">
+<head>
+    <title></title>
     <div th:each="hdto : ${hairDTO}"><img id="radiohair" class="look hairlook" th:src="${hdto.hairpath}" alt="">
         <input  type="hidden" id="radiohair" th:value="${hdto.hairname}"></div>
-<script>
-var myGamePiece;
+
+        
+    <script>
  
-function startGame() {
-    // myGamePiece = document.getElementById('radiohair');
-    myGamePiece = new Image();
-    myGamePiece.src="hair1.png";
-    myGameArea.start();
-}
+        var canvas; //도화지 객체
+        var context; //화가 객체
  
-var myGameArea = {
-    canvas : document.createElement("canvas"),
-    start : function() {
-        this.canvas.width = 480;
-        this.canvas.height = 270;
-        this.context = this.canvas.getContext("2d");
-        document.body.insertBefore(this.canvas, document.body.childNodes[0]);
-        this.frameNo = 0;
-        this.interval = setInterval(updateGameArea, 5);
-        window.addEventListener('keydown', function (e) {
-            e.preventDefault();
-            myGameArea.keys = (myGameArea.keys || []);
-            myGameArea.keys[e.keyCode] = (e.type == "keydown");
-        })
-        window.addEventListener('keyup', function (e) {
-            myGameArea.keys[e.keyCode] = (e.type == "keydown");
-        })
-    },
-    stop : function() {
-        clearInterval(this.interval);
-    },    
-    clear : function() {
-        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    }
-}
+        // 플레이어 이동 방향과 속도
+        var dx=0;
+        var dy=0;
  
-function component(width, height, color, x, y, type) {
+        // 키 이벤트로 인해 인식된 keycode변수
+        var keycode;
+        var headimg = document.getElementById("radiohair").getAttribute("src");
+        // 전역변수로서 이미지 객체 생성
+        var imgChar= new Image();
+        imgChar.src = headimg;
+        // var imgBg= new Image();
+        // imgBg.src="./morning.jpg";
  
-    this.type = type;
-    this.width = width;
-    this.height = height;
-    this.speed = 0;
-    this.angle = 0;
-    this.moveAngle = 0;
-    this.x = x;
-    this.y = y;    
-    this.update = function() {
-        ctx = myGameArea.context;
-        ctx.save();
-        ctx.translate(this.x, this.y);
-        ctx.rotate(this.angle);
-        ctx.fillStyle = color;
-        ctx.fillRect(this.width / -2, this.height / -2, this.width, this.height);
-        ctx.restore();    
-    }
-    this.newPos = function() {
-        this.angle += this.moveAngle * Math.PI / 180;
-        this.x += this.speed * Math.sin(this.angle);
-        this.y -= this.speed * Math.cos(this.angle);
-    }
-}
+        // 플레이어 캐릭터의 중심좌표
+        var x=200, y=250; //정 가운데로 위치
+        var w=40, h=40; //플레이어 이미지의 절반 사이즈
  
-function updateGameArea() {
-    myGameArea.clear();
-    myGamePiece.moveAngle = 0;
-    myGamePiece.speed = 0;
-    if (myGameArea.keys && myGameArea.keys[37]) {myGamePiece.moveAngle = -1; }
-    if (myGameArea.keys && myGameArea.keys[39]) {myGamePiece.moveAngle = 1; }
-    if (myGameArea.keys && myGameArea.keys[38]) {myGamePiece.speed= 1; }
-    if (myGameArea.keys && myGameArea.keys[40]) {myGamePiece.speed= -1; }
-    myGamePiece.newPos();
-    myGamePiece.update();
-}
-</script>
+        function loaded(){
+            canvas= document.getElementById('c1');
+            context= canvas.getContext('2d');
  
+            runGame(); //게임을 진행하는 함수
+            //10ms 마다 runGame()를 다시 호출
+            setInterval(runGame,10); //1초에 100번 호출
+        }
  
+        function runGame(){
+            moveAll(); //캐릭터 움직이기
+            drawAll(); // 이미지들 그리기
+        }
+ 
+        function moveAll(){
+            //플레이어의 좌표 변경
+            x+=dx;
+            y+=dy;
+ 
+        }
+        function drawAll(){
+            //배경 그리기
+            // context.drawImage(imgBg,0,0,400,500);
+            //플레이어 그리기
+            context.drawImage(imgChar,x-w,y-h,w*2,h*2);
+ 
+            // 키 코드값 글씨 그리기
+            context.fillStyle="white";
+            context.font="30px sans-serif";
+            context.fillText(keycode, 10, 40);
+        }
+ 
+        function keydown(){
+            //눌러진 key의 코드값
+            keycode=event.keyCode;
+            switch(keycode){
+                case 37: dx=-1; break; //left
+                case 38: dy=-1; break; //up
+                case 39: dx=1; break; //right
+                case 40: dy=1; break; //down
+            }
+        }
+        function keyup(){
+            //떨어진 key의 코드값
+            keycode=event.keyCode;
+            switch(keycode){
+                case 37: 
+                case 39: dx=0; break;
+                case 38:
+                case 40: dy=0; break;
+            }
+        }
+ 
+        // 사운드 작업 : 크롬은 자동 재생을 막은 듯 함. Edge는 될 것임
+        // var sd= new Audio('./dragon_flight.mp3');
+        // sd.volume= 1.0; //0.0 ~ 1.0
+        // sd.loof= true; //반복재생여부
+        // sd.play();
+ 
+    </script>
+</head>
+<body onload="loaded()" onkeydown="keydown()" onkeyup="keyup()">
+    <canvas width="400" height="500" style="border: 2px solid black;" id="c1"></canvas>
 </body>
+</th:block>
+
+</th:block>
 </html>
-</th:block>
-</th:block>
