@@ -18,17 +18,15 @@ public interface EmojiService {
 
     Long dyningEmojiRegister(EmojiDTO emojiDTO);
 
-    Long galleryEmojiRegiter(EmojiDTO emojiDTO);
+    Long[][] galleryEmojiRegiter(EmojiDTO emojiDTO);
 
     List<EmojiDTO> getEmojiByGno(String type, Long no);
-
 
     Long getEmojitypeCwt(Long dno, String emojitype);
 
     void emojiRemove(Long eno);
 
     Emoji HaveEmoji(String id, Long dno);
-
 
     /* DTO -> Entity */
     // gno 나 dno 가 null 값이 들어왔을뗀 전환을 제외하도록 if 문을 써 줌.(안 나누면 Pk가 자동생성됨)

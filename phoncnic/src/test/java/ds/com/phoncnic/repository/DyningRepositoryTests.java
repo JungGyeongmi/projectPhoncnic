@@ -147,9 +147,8 @@ public class DyningRepositoryTests {
 
     @Test
     public void testSearchPage() {
-
-        Pageable pageable = PageRequest.of(0, 10, Sort.by("dno").descending().and(Sort.by("dyningname").ascending()));
-        Page<Object[]> result = dyningRepository.searchPage("n", "1", pageable);
+        // Pageable pageable = PageRequest.of(0, 10, Sort.by("dno").descending().and(Sort.by("dyningname").ascending()));
+        // Page<Object[]> result = dyningRepository.searchPage("n", "1", pageable);
     }
 
     @Test

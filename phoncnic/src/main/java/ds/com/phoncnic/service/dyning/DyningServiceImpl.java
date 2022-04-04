@@ -18,10 +18,12 @@ import ds.com.phoncnic.dto.pageDTO.PageResultDTO;
 import ds.com.phoncnic.dto.pageDTO.SearchDyningPageRequestDTO;
 import ds.com.phoncnic.entity.Dyning;
 import ds.com.phoncnic.entity.DyningImage;
+import ds.com.phoncnic.entity.EmojiInfo;
 import ds.com.phoncnic.entity.RoofDesign;
 import ds.com.phoncnic.repository.DyningImageRepository;
 import ds.com.phoncnic.repository.DyningRepository;
 import ds.com.phoncnic.repository.RoofDesignRepository;
+import ds.com.phoncnic.service.emoji.EmojiInfoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -38,20 +40,29 @@ public class DyningServiceImpl implements DyningService {
 
   @Autowired
   private final RoofDesignRepository roofDesignRepository;
+  
+  @Autowired
+  private final EmojiInfoService emojiInfoService;
 
   @Transactional
   @Override
   public Long register(DyningDTO dyningdDTO) {
 
     log.info("dyning/setting/register....");
+
     Map<String, Object> entityMap = dtoToEntity(dyningdDTO);
     Dyning dyning = (Dyning) entityMap.get("dyning");
+
     dyningRepository.save(dyning);
+    
     List<DyningImage> dyningImageList = (List<DyningImage>) entityMap.get("dyningImageList");
+   
     dyningImageList.forEach(dyningImage -> {
       dyningImageRepository.save(dyningImage);
     });
+
     log.info(dyning.getDno());
+
     return dyning.getDno();
   }
 
@@ -90,8 +101,10 @@ public class DyningServiceImpl implements DyningService {
     log.info(dyningDTO.getDyningImageDTOList());
 
     Dyning dyning = dyningRepository.findById(dyningDTO.getDno()).get();
+
     dyningImageRepository.deleteByDno(dyningDTO.getDno());
     List<DyningImage> dyningImageList = imagesDTOToEntity(dyningDTO);
+
     if (!dyningImageList.isEmpty()) {
       dyningImageList.forEach(dyningImage -> {
         dyningImageRepository.save(dyningImage);
@@ -99,20 +112,28 @@ public class DyningServiceImpl implements DyningService {
     }
 
     RoofDesign roof = roofDesignRepository.findById(dyningDTO.getOono()).get();
+
     dyning.modifyDyning(dyningDTO.getDyningname(), dyningDTO.getComment(), dyningDTO.getLocation(),
         dyningDTO.getLocationdetails(), dyningDTO.getFoodtype(),
         dyningDTO.getBusinesshours(), dyningDTO.getTel(), dyningDTO.getHashtag(), roof);
+
     dyningRepository.save(dyning);
   }
 
   @Override
   public DyningDTO getDyningDetails(Long dno) {
+
     List<Object[]> result = dyningRepository.getDyningDetails(dno);
+
     Dyning dyninglist = (Dyning) result.get(0)[0];
     Long emojiCwt = (Long) result.get(0)[1];
+    
     Long followerCwt = dyningRepository.getDyningFollowerCount(dno);
     List<DyningImage> dyningImageList = dyningRepository.getImageDetailsPage(dno);
-    return entityToDTO(dyninglist, emojiCwt, dyningImageList, followerCwt);
+
+    List<EmojiInfo> emojiInfoList = emojiInfoService.getEmojiInfoList();
+
+    return entityToDTO(dyninglist, emojiCwt, dyningImageList, followerCwt, emojiInfoList);
   }
 
   @Override

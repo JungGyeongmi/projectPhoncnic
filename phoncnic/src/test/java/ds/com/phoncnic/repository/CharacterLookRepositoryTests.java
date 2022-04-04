@@ -1,6 +1,5 @@
 package ds.com.phoncnic.repository;
 
-import java.util.UUID;
 import java.util.stream.IntStream;
 
 import org.junit.jupiter.api.Test;
@@ -54,12 +53,12 @@ public class CharacterLookRepositoryTests {
 
             CharacterLook characterLook = CharacterLook.builder()
             .member(member)
-            .characterLookinfo(characterLookinfo)
+            .characterLookinfo(characterLookinfo)                                                                 
             .hairname("hair"+1)
             .clothesname("clothes"+1)
             .build();
-            repository.save(characterLook);
 
+            repository.save(characterLook);
         });
     }
 

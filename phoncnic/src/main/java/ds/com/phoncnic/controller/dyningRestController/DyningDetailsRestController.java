@@ -32,48 +32,38 @@ public class DyningDetailsRestController {
     @PostMapping("/details")
     public String restaurantDetails(@RequestParam("dno") Long dno, Model model) {
         log.info("restaurantDetails.................");
+       
         model.addAttribute("result", dyningService.getDyningDetails(dno));
         model.addAttribute("imageresult", dyningService.getDyningDetails(dno).getDyningImageDTOList());
+        
         return "redirect:/dyning/details";
     }
 
-     //이모지 추가
-     @PostMapping("/emojiregister/{dno}")
-     public ResponseEntity<Long> addEmoji(@RequestBody EmojiDTO EmojiDTO) {
-         log.info("-----------------add Emoji-----------------");
-         log.info("EmojiDTO:" + EmojiDTO);
- 
-         Long eno = emojiService.dyningEmojiRegister(EmojiDTO);
-         return new ResponseEntity<>(eno, HttpStatus.OK);
-         
-     }
+    // 이모지 추가
+    @PostMapping("/emojiregister/{dno}")
+    public ResponseEntity<Long> addEmoji(@RequestBody EmojiDTO EmojiDTO) {
+        log.info("-----------------add Emoji-----------------");
+        log.info("EmojiDTO:" + EmojiDTO);
 
-     @PostMapping("/addfollow")
-     public ResponseEntity<Long> addFollow(@RequestBody FollowDTO followDTO) {
-         log.info("-----------------add Follow-----------------");
-         log.info("followDTO:" + followDTO);
- 
-         Long fno = followService.addDyningFollow(followDTO);
-         return new ResponseEntity<>(fno, HttpStatus.OK);
-     }
+        Long eno = emojiService.dyningEmojiRegister(EmojiDTO);
+        return new ResponseEntity<>(eno, HttpStatus.OK);
+    }
 
-   
+    @PostMapping("/addfollow")
+    public ResponseEntity<Long> addFollow(@RequestBody FollowDTO followDTO) {
+        log.info("-----------------add Follow-----------------");
+        log.info("followDTO:" + followDTO);
 
-     
-     //이모지 삭제
-     @DeleteMapping("/emojiremove/{eno}")
-     public ResponseEntity<Long> removeEmoji(@PathVariable Long eno) {
-         log.info("eno:" + eno);
- 
-         emojiService.emojiRemove(eno);
-         return new ResponseEntity<>(eno, HttpStatus.OK);
- 
-     }
+        Long fno = followService.addDyningFollow(followDTO);
+        return new ResponseEntity<>(fno, HttpStatus.OK);
+    }
 
-    // 팔로우 추가
+    // 이모지 삭제
+    @DeleteMapping("/emojiremove/{eno}")
+    public ResponseEntity<Long> removeEmoji(@PathVariable Long eno) {
+        log.info("eno:" + eno);
 
-    // 팔로우 삭제
-    // @DeleteMapping("/details")
-
-   
+        emojiService.emojiRemove(eno);
+        return new ResponseEntity<>(eno, HttpStatus.OK);
+    }
 }
