@@ -397,9 +397,15 @@
 						dataType: "json",
 						success: function (response) {
                      console.log(response);
+                     if(response[3]){
+                        $("#followBtn").val("언팔로우");
+                     } else {
+                        $("#followBtn").val("팔로우");
+                     }
 							console.log("update follow success");
 						},
 						fail: function (response) {
+                     
 							console.log(response);
 						}, error: function (request, status, error) {
 							console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
