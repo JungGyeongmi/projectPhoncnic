@@ -83,21 +83,19 @@ public class DyningController {
         }else {return;}
     }
 
-    @GetMapping("/movingtest")
-    public String movingtest(Model model,String id) {
-
-        model.addAttribute("hairDTO", characterLookService.getCharacterHair(id));
-
-        return "/dyning/movingtest";
-    }
+ 
 
     
-    @GetMapping("/movingtest2")
-    public String movingtest2(Model model,String id) {
+    @GetMapping("/movingtest")
+    public String movingtest2(Model model,@AuthenticationPrincipal AuthMemberDTO dto) {
+        if(dto!=null){
+            model.addAttribute("hairDTO", characterLookService.getCharacterHair(dto.getId()));
+        }else{
+            model.addAttribute("hairDTO", characterLookService.getCharacterHair("user10@icloud.com"));
+        }
+        
 
-        model.addAttribute("hairDTO", characterLookService.getCharacterHair(id));
-
-        return "/dyning/movingtest2";
+        return "/dyning/movingtest";
     }
 
 

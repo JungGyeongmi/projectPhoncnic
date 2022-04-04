@@ -31,7 +31,6 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
   public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication auth) throws IOException, ServletException {
     
     AuthMemberDTO authMemberDTO = (AuthMemberDTO) auth.getPrincipal();
-    // boolean passwordResult = passwordEncoder.matches("1", authMemberDTO.getPassword());
     
     log.warn("Login Success");
     log.info("DTO.getPassword : "+authMemberDTO.getPassword());

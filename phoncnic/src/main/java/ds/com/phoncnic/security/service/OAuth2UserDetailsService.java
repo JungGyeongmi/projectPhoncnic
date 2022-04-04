@@ -93,4 +93,12 @@ public class OAuth2UserDetailsService extends DefaultOAuth2UserService{
 
     return member;
   }
+
+
+  private String randomNick ( ) {
+
+    Math.random();      
+
+    return "";
+  }
 }

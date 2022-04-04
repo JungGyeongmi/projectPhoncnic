@@ -19,7 +19,7 @@ public class TestRestController {
     @Autowired
     private GalleryService galleryService;
 
-
+  
     @GetMapping("/api/test")
     public ResponseEntity<PageResultDTO<GalleryDTO, Object[]>> getSearchData(SearchPageRequestDTO pageRequestDTO,
             String type, String sort, String keyword) {
