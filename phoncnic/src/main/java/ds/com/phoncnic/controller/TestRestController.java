@@ -15,19 +15,19 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 @RestController
 public class TestRestController {
-    
-    
+
     @Autowired
     private GalleryService galleryService;
 
+
     @GetMapping("/api/test")
     public ResponseEntity<PageResultDTO<GalleryDTO, Object[]>> getSearchData(SearchPageRequestDTO pageRequestDTO,
-        String type, String sort, String keyword) {
+            String type, String sort, String keyword) {
 
         pageRequestDTO.setType(type);
         pageRequestDTO.setSort(sort);
         pageRequestDTO.setKeyword(keyword);
-        
+
         PageResultDTO<GalleryDTO, Object[]> result = galleryService.getGalleryPage(pageRequestDTO);
 
         log.info("gallery rest controller ... curator ...");
@@ -35,5 +35,4 @@ public class TestRestController {
         log.info(result.getDtoList());
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
-
 }

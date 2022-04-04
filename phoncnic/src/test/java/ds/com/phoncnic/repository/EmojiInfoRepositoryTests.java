@@ -33,7 +33,7 @@ public class EmojiInfoRepositoryTests {
             };
             EmojiInfo emojiInfo = EmojiInfo.builder()
                 .emojitype(i+"")
-                .emojipath(emojiInfoUrlArrays[i])
+                .emojipath(emojiInfoUrlArrays[i-1])
                 .kindofemoji("이모지"+i+"이여라")
             .build();
 

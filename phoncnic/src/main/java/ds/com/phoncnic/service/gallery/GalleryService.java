@@ -14,6 +14,7 @@ import ds.com.phoncnic.entity.Gallery;
 import ds.com.phoncnic.entity.Member;
 
 
+
 public interface GalleryService {
 
   void register(GalleryDTO galleryDTO);
@@ -27,7 +28,7 @@ public interface GalleryService {
 
   // 상세페이지
   GalleryDTO getGallery(long gno);
-  
+
   // List
   List<GalleryDTO> getGalleryList(Boolean type);
 

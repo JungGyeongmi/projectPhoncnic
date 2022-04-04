@@ -80,6 +80,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     // .antMatchers("/sample/admin").hasRole("ADMIN");
 
     http.exceptionHandling().accessDeniedHandler(accessDeniedHandler());
+
+    http.authorizeRequests()
+    .antMatchers("/main/mypage").hasRole("USER");
+
+    http.authorizeRequests()
+    .antMatchers("/manage/dyning/list").hasRole("USER");
+
+    http.authorizeRequests()
+    .antMatchers("/dyning/restaurant/list").permitAll();
+
+    http.authorizeRequests()
+    .antMatchers("/dyning/details").permitAll();
+
+    http.authorizeRequests()
+    .antMatchers("/lookmodal/lookmodify").hasRole("USER");
+
+    
+
     
     //1. Security login form 사용
     // http.formLogin();
@@ -103,7 +121,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     http.logout().logoutSuccessHandler(logoutSuccessHandler());
     //.logoutUrl("/member/logout").logoutSuccessUrl("/member/login")
     http.rememberMe().tokenValiditySeconds(60*60*24*7).userDetailsService((UserDetailsService) memberDetailsService);
-
 
     // http.addFilterBefore(apiCheckFilter(), 
     //           UsernamePasswordAuthenticationFilter.class);

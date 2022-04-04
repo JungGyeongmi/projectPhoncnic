@@ -5,14 +5,13 @@ import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import ds.com.phoncnic.dto.EmojiDTO;
@@ -48,30 +47,21 @@ public class GalleryRestController {
         
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
-    
-    // session에서 id값 받아서 fno를 처리해줌
-    // Gallery Detail
+
+    // Gallery List
     @GetMapping("/read/{gno}")
-    public ResponseEntity<Object[]> getList(@PathVariable("gno") Long gno, @AuthenticationPrincipal AuthMemberDTO authMember) {
-        // log.info("getgalleryList........gno" + gno);
+    public ResponseEntity<GalleryDTO> getList(@PathVariable("gno") Long gno) {
+        log.info("getgalleryList........gno" + gno);
         GalleryDTO galleryDTO = galleryService.getGallery(gno);
-        
-        String id = authMember!=null?authMember.getId():"user1@icloud.com";
-        
-        Long fno =  followService.getFnoByGno(id, galleryDTO.getArtistname());
-        Object[] array = {galleryDTO , fno};
-        
         log.info("galleryDTO : " + galleryDTO);
-        log.info("authMember....."+authMember);
-        log.info("------------------readFno----------------- " + fno);
-        return new ResponseEntity<>(array, HttpStatus.OK);
+        return new ResponseEntity<>(galleryDTO, HttpStatus.OK);
     }
-    
+
     // Emoji insert/update/remove
-    @ResponseBody
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/emoji/register/{gno}")
-    public  ResponseEntity<Long[][]> emojiRegister(@RequestBody EmojiDTO emojiDTO, @PathVariable("gno") Long gno) {
-        emojiDTO.setGno(53L);
+    public ResponseEntity<Long[][]> emojiRegister(@RequestBody EmojiDTO emojiDTO, @PathVariable("gno") Long gno) {
+        emojiDTO.setGno(gno);
         Long[][] newEmojiCount = emojiService.galleryEmojiRegiter(emojiDTO);
         
         log.info("emoji Register....................emojiDTO:" + emojiDTO);
@@ -80,26 +70,24 @@ public class GalleryRestController {
         return new ResponseEntity<>(newEmojiCount, HttpStatus.OK);
     }
     
-    //follow 
-    @PostMapping("/addfollow")
-    public ResponseEntity<Long> addFollow(@RequestBody FollowDTO followDTO) {
-        log.info("-----------------add Follow-----------------");
-        log.info("followDTO:" + followDTO);
-
-        Long fno = followService.addArtistFollow(followDTO);
+    // 조회
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("follow/{artistname}")
+    public ResponseEntity<Long> follow(@PathVariable String artistname,  @AuthenticationPrincipal AuthMemberDTO authMemberDTO) {
         
-        log.info("add--------fno:"+fno);
-        
+        log.info("authMemberDTO"+authMemberDTO);
+        Long fno = followService.getGalleryFno(authMemberDTO.getId(), artistname);
         return new ResponseEntity<>(fno, HttpStatus.OK);
     }
-
-    @DeleteMapping("/removefollow/{id}/{artistname}")
-    public ResponseEntity<String> removeFollowDyning(@PathVariable String id, @PathVariable String artistname) {
-        log.info("artistname:" + artistname);
-
-        followService.removeArtistFollow(id, artistname);
-        
-        return new ResponseEntity<>(artistname, HttpStatus.OK);
+    
+    // 등록 삭제
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @PostMapping("followRegister/{artistname}")
+    public ResponseEntity<Object[]> followRegister(@RequestBody FollowDTO followDTO, @PathVariable String artistname, @AuthenticationPrincipal AuthMemberDTO authMemberDTO) {
+        followDTO.setFollowerid(authMemberDTO.getId());
+        Object[] follow = followService.galleryfollowRegister(followDTO);
+        log.info("follow Register followDTO:" +followDTO);
+        log.info("authMemberDTO"+authMemberDTO);
+        return new ResponseEntity<>(follow, HttpStatus.OK);
     }
-
 }

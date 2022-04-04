@@ -2,6 +2,8 @@ package ds.com.phoncnic.service;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -62,14 +64,37 @@ public class FollowServiceImpl implements FollowService {
     }
 
     @Override
-    public Long getFnoByGno(String id, String artistname) {
+    public Long getGalleryFno(String id, String artistname) {
         log.info("serviceImplid:-------------------"+id+artistname);
-
         
-        Long fno = followRepository.getFnoIfFollowedByGno(id, artistname);
+        Long fno = followRepository.getGalleryFno(id, artistname);
 
         log.info("serviceImplfno:-------------------"+fno);
 
         return fno;
+    }
+
+    @Transactional
+    @Override
+    public Object[] galleryfollowRegister(FollowDTO followDTO) {
+
+        String id = followDTO.getFollowerid();
+        String artistname = followDTO.getArtistname();
+        Long fno = followDTO.getFno();
+
+        Follow galleryFollow = Follow.builder().build();
+
+        //0 fno 1 artistname 2 followerid 3 boolean
+        Object[] follow = followRepository.getFollowArtist(id, artistname).get(0);
+
+        if(!(boolean) follow[3]) {
+            galleryFollow = dtoToEntity(followDTO);
+            followRepository.save(galleryFollow);
+            log.info("isnert follow....."+galleryFollow.getFno());
+        } else if(follow[2].equals(id) && follow[1].equals(artistname)) {
+            log.info("delete fno....."+(Long)follow[0]);
+            followRepository.deleteByFno((Long) follow[0]);
+        }
+        return follow;
     }
 }

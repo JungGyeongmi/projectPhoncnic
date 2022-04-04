@@ -12,6 +12,8 @@ public interface FollowService {
 
     void removeArtistFollow(String id, String name);
 
+    Object[] galleryfollowRegister(FollowDTO followDTO);
+
     void removeDyningFollow(String id, String name);
 
     Long addArtistFollow(FollowDTO followDTO);
@@ -20,8 +22,8 @@ public interface FollowService {
 
     Long getFno(String id, String dyningname);
 
-    Long getFnoByGno(String id, String artistname);
-
+    Long getGalleryFno(String id, String artistname);
+    
     default FollowDTO entityToDTO(List<Object> artistList, List<Object> dyningList) {
         FollowDTO followDTO = FollowDTO.builder()
                 .followartistlist(artistList)
@@ -44,6 +46,7 @@ public interface FollowService {
             .artistname(followDTO.getArtistname())
             .build(); 
             return follow;
+
         }
     }
 }
