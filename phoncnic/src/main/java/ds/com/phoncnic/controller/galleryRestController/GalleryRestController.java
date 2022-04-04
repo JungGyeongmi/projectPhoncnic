@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +19,7 @@ import ds.com.phoncnic.dto.FollowDTO;
 import ds.com.phoncnic.dto.GalleryDTO;
 import ds.com.phoncnic.dto.pageDTO.PageResultDTO;
 import ds.com.phoncnic.dto.pageDTO.SearchPageRequestDTO;
+import ds.com.phoncnic.security.dto.AuthMemberDTO;
 import ds.com.phoncnic.service.FollowService;
 import ds.com.phoncnic.service.emoji.EmojiService;
 import ds.com.phoncnic.service.gallery.GalleryService;
@@ -69,18 +71,23 @@ public class GalleryRestController {
     }
     
     // 조회
-    @GetMapping("follow/{id}/{artistname}")
-    public ResponseEntity<Long> follow(@PathVariable String id, @PathVariable String artistname) {
-        Long fno = followService.getGalleryFno(id, artistname);
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("follow/{artistname}")
+    public ResponseEntity<Long> follow(@PathVariable String artistname,  @AuthenticationPrincipal AuthMemberDTO authMemberDTO) {
+        
+        log.info("authMemberDTO"+authMemberDTO);
+        Long fno = followService.getGalleryFno(authMemberDTO.getId(), artistname);
         return new ResponseEntity<>(fno, HttpStatus.OK);
     }
-
+    
     // 등록 삭제
     @PreAuthorize("hasRole('ROLE_USER')")
-    @PostMapping("followRegister/{id}/{artistname}")
-    public ResponseEntity<Object[]> followRegister(@RequestBody FollowDTO followDTO, @PathVariable String artistname, @PathVariable String id) {
+    @PostMapping("followRegister/{artistname}")
+    public ResponseEntity<Object[]> followRegister(@RequestBody FollowDTO followDTO, @PathVariable String artistname, @AuthenticationPrincipal AuthMemberDTO authMemberDTO) {
+        followDTO.setFollowerid(authMemberDTO.getId());
         Object[] follow = followService.galleryfollowRegister(followDTO);
         log.info("follow Register followDTO:" +followDTO);
+        log.info("authMemberDTO"+authMemberDTO);
         return new ResponseEntity<>(follow, HttpStatus.OK);
     }
 }

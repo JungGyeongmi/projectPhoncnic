@@ -359,10 +359,9 @@
             //팔로우 get 
             detailsModalbodyFollow = $(".detail-modal-body3");
 
-            var id = "user1@icloud.com";
             var artistname = $(".dtoData").data("userName");
 
-           $.getJSON(follow + "/" + id + "/" + artistname, function(follow) {
+           $.getJSON(follow + "/" + artistname, function(follow) {
                   var str="";
                   str = `
                   <input type="text" id="fno" value="${follow}">
@@ -391,7 +390,7 @@
 						var data = {followerid:id, artistname:artistname}
 						$.ajax({
 						type: "POST",
-						url: followRegister + '/' + id + '/' + artistname ,
+						url: followRegister + '/' + artistname ,
 						data: JSON.stringify(data),
 						contentType: "application/json",
 						dataType: "json",
@@ -649,8 +648,8 @@
                      </div>
                   </div>
                   <div class="modal-footer">
-                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                     <button type="button" class="btn btn-primary">Save changes</button>
+                     <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                     <button type="button" class="btn btn-primary">Save changes</button> -->
                   </div>
                </div>
             </div>
