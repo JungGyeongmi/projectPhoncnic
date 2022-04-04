@@ -310,6 +310,58 @@
        // submit 버튼
        $(".btn-submit").on("click", function (e) {
          e.preventDefault(); // 기본 이벤트 submit을 막음
+
+         if ($("input[name=id]").val()=="") {
+            alert("id를 입력해주세요");
+            $("input[name=id]").val().focus();
+            return;
+          }else if($("input[name=dyningname]").val()==""){
+            alert("가게이름을 입력해주세요");
+            $("input[name=dyningname]").focus();
+            return;
+          }else if($("input[name=comment]").val()==""){
+            alert("comment 입력해주세요");
+            $("input[name=comment]").focus();
+            return;
+          }else if($("input[name=location]").val()==""){
+            alert("location 입력해주세요");
+            $("input[name=location]").focus();
+            return;
+          }else if($("input[name=locationdetails]").val()==""){
+            alert("locationdetails 입력해주세요");
+            $("input[name=locationdetails]").focus();
+            return;
+          }else if($("input[name=tel]").val()==""){
+            alert("tel 입력해주세요");
+            $("input[name=tel]").focus();
+            return;
+          }else if($("input[name=foodtype]").val()==""){
+            alert("foodtype 입력해주세요");
+            $("input[name=foodtype]").focus();
+            return;
+          }else if($("input[name=businesshours]").val()==""){
+            alert("businesshours 입력해주세요");
+            $("input[name=businesshours]").focus();
+            return;
+          }else if($("input[name=hashtag]").val()==""){
+            alert("hashtag 입력해주세요");
+            $("input[name=hashtag]").focus();
+            return;
+          }else if($("input[name=businesshours]").val()==""){
+            alert("businesshours 입력해주세요");
+            $("input[name=businesshours]").focus();
+            return;
+          }else if($(".menuuploadResult ul").children('li').length==0){
+            alert("메뉴 사진을 선택해주세요");
+            return;
+          }else if($(".backgroundshowResult ul").children('li').length==0){
+            alert("배경 사진을 선택해주세요 입력해주세요");
+            return;
+          }else if($("input[name=oono]").val()==""){
+            alert("rooftype 입력해주세요");
+            $("input[name=oono]").focus();
+            return;
+          }
          // 빈 문자열
          var str = "";
          var str2 = "";
