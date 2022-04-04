@@ -25,7 +25,6 @@ public class MemberRepositoryTests {
                     Member member = Member.builder()
                             .id("user" + i + "@icloud.com")
                             .nickname("user" + i)
-                            .password("1234")
                             .build();
 
                     memberRepository.save(member);

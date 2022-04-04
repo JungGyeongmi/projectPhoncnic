@@ -4,7 +4,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
@@ -28,7 +27,6 @@ public class OAuth2UserDetailsService extends DefaultOAuth2UserService{
   
   private final MemberRepository memberRepository;
   private final CharacterLookRepository characterLookRepository;
-  private final PasswordEncoder passwordEncoder;
 
   @Override
   public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -58,8 +56,7 @@ public class OAuth2UserDetailsService extends DefaultOAuth2UserService{
       Member member = saveSocialMember(email);
     
     AuthMemberDTO authMemberDTO = new AuthMemberDTO(
-      member.getId(), 
-      member.getPassword(), 
+      member.getId(),
       member.getNickname(), 
       member
          .getRoleSet().stream()
@@ -82,7 +79,6 @@ public class OAuth2UserDetailsService extends DefaultOAuth2UserService{
     Member member = Member.builder()
       .id(email)
       .nickname("간지짱")
-      .password(passwordEncoder.encode("1"))
     .build();
 
     member.addMemberRole(AuthorityRole.USER);
@@ -95,10 +91,6 @@ public class OAuth2UserDetailsService extends DefaultOAuth2UserService{
     .build();
     characterLookRepository.save(characterLook);
 
-
-    
     return member;
   }
-
-
 }
