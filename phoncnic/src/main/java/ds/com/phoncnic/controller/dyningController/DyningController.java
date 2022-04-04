@@ -8,9 +8,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import ds.com.phoncnic.dto.DyningDTO;
+import ds.com.phoncnic.repository.EmojiInfoRepository;
 import ds.com.phoncnic.security.dto.AuthMemberDTO;
 import ds.com.phoncnic.service.FollowService;
 import ds.com.phoncnic.service.dyning.DyningService;
+import ds.com.phoncnic.service.emoji.EmojiInfoService;
 import ds.com.phoncnic.service.emoji.EmojiService;
 import ds.com.phoncnic.service.mypage.CharacterLookService;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +26,7 @@ public class DyningController {
 
     private final DyningService dyningService;
     private final EmojiService emojiService;
+    private final EmojiInfoService emojiInfoService;
     private final FollowService followService;
     private final CharacterLookService characterLookService;
 
@@ -47,7 +50,9 @@ public class DyningController {
     @GetMapping("/details")
     public void details(@RequestParam("dno") Long dno, Model model,@AuthenticationPrincipal AuthMemberDTO dto) {
         log.info("Details.................");
+
         if(dno!=0){
+        model.addAttribute("emojiInfo", emojiInfoService.getEmojiInfoList());
 
         DyningDTO dyningDTO = dyningService.getDyningDetails(dno);
         model.addAttribute("result", dyningService.getDyningDetails(dno));
