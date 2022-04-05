@@ -272,8 +272,8 @@
             },
             mousewheel: true,
             // pagination: {
-            // 	el: ".swiper-pagination",
-            // 	clickable: true,
+            //    el: ".swiper-pagination",
+            //    clickable: true,
             // },
             navigation: {
                nextEl: ".swiper-button-next",
@@ -308,7 +308,7 @@
                var emojiUrl = [[@{/gallery/emoji}]];
                var emojiaddUrl = [[@{/gallery/emoji/register}]];
                var follow = [[@{/gallery/follow}]]
-					var followRegister = [[@{/gallery/followRegister}]]               
+               var followRegister = [[@{/gallery/followRegister}]]               
                var urlDisplay = [[@{/display}]];
             +]*/
 
@@ -408,35 +408,35 @@
                //팔로우 등록/ 삭제
                $(document).on("click","#followBtn", function(){
 
-						var artistname = $("#inputArtist").text().substr(0,5);
+                  var artistname = $("#inputArtist").text().substr(0,5);
 
                   console.log("artistaname : "+artistname);
-						var data = {artistname:artistname}
-						$.ajax({
-						type: "POST",
-						url: followRegister + '/' + artistname ,
-						data: JSON.stringify(data),
-						contentType: "application/json",
-						dataType: "json",
-						success: function (response) {
+                  var data = {artistname:artistname}
+                  $.ajax({
+                  type: "POST",
+                  url: followRegister + '/' + artistname ,
+                  data: JSON.stringify(data),
+                  contentType: "application/json",
+                  dataType: "json",
+                  success: function (response) {
                      console.log(response);
                      if(response[3]){
                         $("#followBtn").val("언팔로우");
                      } else {
                         $("#followBtn").val("팔로우");
                      }
-							console.log("update follow success");
-						},
-						fail: function (response) {
+                     console.log("update follow success");
+                  },
+                  fail: function (response) {
                      console.log("fail");
-							console.log(response);
-						}, error: function (request, status, error) {
-							swal("로그인 이후 이용해주세요");
+                     console.log(response);
+                  }, error: function (request, status, error) {
+                     swal("로그인 이후 이용해주세요");
                      console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
-						}
-					});						
+                  }
+               });                  
 
-				});
+            });
             
             searchBtn.on("click", function (e) {
                getSearchList();
