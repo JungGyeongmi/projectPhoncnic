@@ -85,7 +85,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     .antMatchers("/main/mypage").hasRole("USER");
 
     http.authorizeRequests()
-    .antMatchers("/manage/**").hasRole("USER");
+    .antMatchers("/manage/**/**").hasRole("USER");
 
     http.authorizeRequests()
     .antMatchers("/dyning/**").permitAll();
@@ -93,9 +93,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     http.authorizeRequests()
     .antMatchers("/lookmodal/lookmodify").hasRole("USER");
 
-    
-
-    
     //1. Security login form 사용
     // http.formLogin();
     
@@ -105,16 +102,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     
     //3.UserDetailsService 로그인 handler :: security의 '/login'
 
-    http.formLogin().loginPage("https://accounts.google.com/o/oauth2/v2/auth/identifier?response_type=code&client_id=301468225398-heanhhm34h7tttd2vrd1002iku8jtnr7.apps.googleusercontent.com&scope=email&state=e_nayzmX5_Uu6KiIVYtv6ZlRX7UilF7svDh5OWGqs2c%3D&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fphoncnic%2Flogin%2Foauth2%2Fcode%2Fgoogle&flowName=GeneralOAuthFlow")
-
-    .loginProcessingUrl("/login")
-    .failureUrl("/member/login?error")
+    http.formLogin().loginPage("/member/login")
+    .loginProcessingUrl("https://accounts.google.com/o/oauth2/v2/auth/identifier?response_type=code&client_id=301468225398-heanhhm34h7tttd2vrd1002iku8jtnr7.apps.googleusercontent.com&scope=email&state=e_nayzmX5_Uu6KiIVYtv6ZlRX7UilF7svDh5OWGqs2c%3D&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fphoncnic%2Flogin%2Foauth2%2Fcode%2Fgoogle&flowName=GeneralOAuthFlow")
+    .failureUrl("/member/loginRequest")
     .successHandler(loginSuccessHandler());
     
     //4.OAuth2UserDetailsService 로그인 handler :: social의 login
     http.oauth2Login().successHandler(loginSuccessHandler());
     
     http.csrf().disable();
+
     http.logout().logoutSuccessHandler(logoutSuccessHandler());
     //.logoutUrl("/member/logout").logoutSuccessUrl("/member/login")
     http.rememberMe().tokenValiditySeconds(60*60*24*7).userDetailsService((UserDetailsService) memberDetailsService);
