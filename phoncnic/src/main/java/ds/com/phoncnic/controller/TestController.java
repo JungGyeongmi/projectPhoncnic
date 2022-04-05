@@ -12,7 +12,7 @@ public class TestController {
     @GetMapping("/test")
     public String test () {
         log.info("test....");
-        return "test";
+        return "modaltest";
     }
 
 }
