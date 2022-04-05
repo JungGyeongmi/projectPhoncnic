@@ -4,6 +4,7 @@
 
     <!-- search toggle -->
     <th:block th:fragment="search">
+    
         <style>
             .search-result-Item {
                 cursor: pointer;
@@ -25,6 +26,7 @@
                 <ul class="md-serach-result"></ul>
             </div>
         </div>
+       
 
 
         <script th:inline="javascript">
@@ -65,10 +67,10 @@
                             if (response.totalPage != 0) {
                                 $.each(response.dtoList, function (idx, dto) {
                                     str += `<li class="search-result-Item " data-search-dno="${dto.dno}" value="${dto.dno}">
-                                    <input class="input" type="hidden" value="${dto.dno}">                                     
+                                    <input class="input" type="hidden" value="${dto.dno}">
                                     <div id="search-result-div">
-                                         <p>${dto.dyningname}</p>												
-                                         ${dto.hashtag}            
+                                         <p>${dto.dyningname}</p>
+                                         ${dto.hashtag}
                                     </div>
                                     </li>`;
                                 });

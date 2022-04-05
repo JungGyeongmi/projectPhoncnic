@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
-<th:block th:replace="~{layout/dyninglayout :: setContent(~{::content})}">
+<th:block th:replace="~{layout/basic :: setContent(~{::content})}">
     <th:block th:fragment="content">
         <input type="hidden" name="" id="detaillocation" th:value="${result.location}">
 
-        <body>
+        
+       
             <h1>dyning details</h1>
 
-
+            
             <table border="1">
                 <tr>
                     <th scope="col">dyningname</th>
@@ -131,7 +132,7 @@
         </table>
 
         <form action="">
-            <input type="hidden" name="id" id="followerid" th:value="${id}" readonly>
+            <input type="text" name="id" id="followerid" th:value="${id}" readonly>
             <input type="hidden" name="dno" th:value="${result.dno}">
         </form>
         <table border="1">
@@ -142,32 +143,52 @@
                 <!--/* <th th:colspan="${result.emojicwt}">이모지 삭제</th> */-->
             </tr>
             <tr>
-                <td></td>
-                <td><button class="up" id="emojiBtn1" value="1" name="emojitype" type="button">😋[[${emojitype1}]]</button></td>
-                <td><button class="up" id="emojiBtn2" value="2" name="emojitype" type="button">🥰[[${emojitype2}]]</button></td>
-                <td><button class="up" id="emojiBtn3" value="3" name="emojitype" type="button">😭[[${emojitype3}]]</button></td>
-                <td><button class="up" id="emojiBtn4" value="4" name="emojitype" type="button">😅[[${emojitype4}]]</button></td>
-                <td><button class="up" id="emojiBtn5" value="5" name="emojitype" type="button">🥵[[${emojitype5}]]</button></td>
+                <span th:each="eInfo : ${emojiInfo}">
+                    <input type="hidden" th:value="${eInfo.emojipath}" th:id="${eInfo.kindofemoji}">
+                </span>
+                   
+                <td><button class="up" id="emojiBtn1" value="1" name="emojitype" type="button">
+                        <img id="emojiimg1" src="" alt="" style="width: 30px;">[[${emojitype1}]]
+                    </button></td>
+                <td><button class="up" id="emojiBtn2" value="2" name="emojitype" type="button">
+                        <img id="emojiimg2" src="" alt="" style="width: 30px;">[[${emojitype2}]]
+                    </button></td>
+                <td><button class="up" id="emojiBtn3" value="3" name="emojitype" type="button">
+                        <img id="emojiimg3" src="" alt="" style="width: 30px;">[[${emojitype3}]]
+                    </button></td>
+                <td><button class="up" id="emojiBtn4" value="4" name="emojitype" type="button">
+                       <img id="emojiimg4" src="" alt="" style="width: 30px;"> [[${emojitype4}]]
+                    </button></td>
+                <td><button class="up" id="emojiBtn5" value="5" name="emojitype" type="button">
+                        <img id="emojiimg5" src="" alt="" style="width: 30px;">[[${emojitype5}]]
+                    </button></td>
                 <!--/* <td th:each="dto : ${emojilist}"><button type="button" th:value="${dto.eno}" class="emojiRemoveBtn">삭제</button></td> */-->
             </tr>
 
 
         </table>
-        <button id="followBtn" type="button" th:value="${fno}">팔로우</button>
+        <button id="followBtn" type="button" th:value="${fno}">팔로우[[${fno}]]</button>
 
 
 
-        </body>
         <script src="http://code.jquery.com/jquery-latest.min.js"></script>
         <script>
             $(document).ready(function (e) {
+                for(i=1; i<6; i++){
+                    var imgsrc = $("#emoji"+i).val();
+                    $("#emojiimg"+i).attr("src",imgsrc);
+                }
+                var hasid = $("#followerid").val();
+                
                 //팔로우 제어
                 var fno = $('#followBtn');
-                if (fno.val() != "") {
+                if (fno.val() != "" && hasid!="") {
                     fno.html('언팔로우');
+                    fno.css("color","red");
                 }
                 $('#followBtn').on("click", function () {
-
+                    if (hasid=="") {alert("로그인 후 이용할 수 있습니다.");return;}
+                    
                     var id = $("#followerid").val();
                     var dyningname = $("#dyningname").val();
                     console.log(fno.val());
@@ -187,7 +208,9 @@
                                 self.location.reload();
                             }
                         });
-                    } else {
+                    } else if(fno.val() != ""){
+                        if (hasid=="") {alert("로그인 후 이용할 수 있습니다.");return;}
+
                         var data = { id: id, dyningname: dyningname };
                         var urlremove = `[[@{/main/mypage/dyningremove}]]`;
 
@@ -203,20 +226,71 @@
                             }
                         })
                     }
-                })
-
+                
+                
+                });
                 //이모지 제어
                 var eno = $("#eno").val();
                 var etype = $("#etype").val();
-
-                if (eno=="") {
+                if(eno!=""){
+                    $("button[name ='emojitype']:button[value="+etype+"]").css("color","red");
+                }
+                
+                
                     $(".up").click(function () {
+                        if (hasid=="") {alert("로그인 후 이용할 수 있습니다.");return;}
+
                         var id = $("input[name='id']").val();
                         var dno = $("input[name='dno']").val();
                         var emojitype = $(this).val();
                         var next = $(this).next();
+                        if(eno!=""&&$(this).val()==etype){
+                            var data = { eno: eno };
+                            console.log(data);
+                            var urlemojiremove = `[[@{/dyning/emojiremove}]]`;
+                        $.ajax({
+                            url: urlemojiremove + "/" + eno,
+                            type: "DELETE",
+                            data: JSON.stringify(data),
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "text",
+                            success: function (result) {
+                                console.log("result: " + result);
+                                self.location.reload();
 
+                            }
+                        });
+                        }else if(eno!=""&&$(this).val()!=etype){
+                            var data = { eno: eno };
+                            console.log(data);
+                            var urlemojiremove = `[[@{/dyning/emojiremove}]]`;
+                        $.ajax({
+                            url: urlemojiremove + "/" + eno,
+                            type: "DELETE",
+                            data: JSON.stringify(data),
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "text",
+                            success: function (result) {
+                                console.log("result: " + result);
+                            }
+                        });
                         var data = { id: id, dno: dno, emojitype: emojitype };
+                        var urlemojiregister = `[[@{/dyning/emojiregister}]]`;
+                        console.log(data);
+
+                        $.ajax({
+                            url: urlemojiregister + "/" + dno,
+                            type: "POST",
+                            data: JSON.stringify(data),
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "text",
+                            success: function (result) {
+                                console.log("result: " + result);
+                                self.location.reload();
+                            }
+                        });
+                        }else if(eno==""){
+                            var data = { id: id, dno: dno, emojitype: emojitype };
                         var urlemojiregister = `[[@{/dyning/emojiregister}]]`;
                         console.log(data);
                         $.ajax({
@@ -230,26 +304,11 @@
                                 self.location.reload();
                             }
                         })
-
+                        }
                     });
-                } else {
-                    $("#emojiBtn"+etype).click(function () {
-                        var data = { eno: eno };
-                        console.log(data);
-                        var urlemojiremove = `[[@{/dyning/emojiremove}]]`;
-                        $.ajax({
-                            url: urlemojiremove + "/" + eno,
-                            type: "DELETE",
-                            data: JSON.stringify(data),
-                            contentType: "application/json; charset=utf-8",
-                            dataType: "text",
-                            success: function (result) {
-                                console.log("result: " + result);
-                                self.location.reload();
-                            }
-                        })
-                    });
-                }
+                
+               
+                   
                 //모달제어
                 $(".btn-close").on("click", function (e) {
                     $("#imageModal").hide();
@@ -267,7 +326,9 @@
             });
 
         </script>
-
+        
+    </head>
+   
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 

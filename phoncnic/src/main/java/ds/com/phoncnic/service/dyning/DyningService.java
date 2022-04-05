@@ -83,6 +83,8 @@ public interface DyningService {
                 .tel(dyning.getTel())
                 .id(dyning.getCeoid().getId())
                 .foodtype(dyning.getFoodtype())
+                .roofthumbnail(dyning.getRoofdesign().getRoofthumbnail())
+                .oono(dyning.getRoofdesign().getOono())
                 .emojicwt(emojiCwt)
                 .followercwt(followerCwt)
                 .regdate(dyning.getRegDate())

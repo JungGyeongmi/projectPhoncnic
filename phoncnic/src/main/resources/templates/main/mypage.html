@@ -6,7 +6,6 @@
             <table border="1">
                 <tr>
                     <th scope="col">아이디</th>
-                    <th scope="col">비밀번호</th>
                     <th scope="col">닉네임</th>
                     <th scope="col">가입일</th>
                     <th scope="col">수정</th>
@@ -15,7 +14,6 @@
                 </tr>
                 <tr th:each="dto : ${memberDTO}">
                     <td><input type="text" th:value=${dto.id} name=id readonly></td>
-                    <td><input type="text" th:value=${dto.password} name=password></td>
                     <td><input type="text" th:value=${dto.nickname} name=nickname></td>
                     <td><input type="text" th:value=${dto.regdate} readonly></td>
                     <td><button id="memberModifyBtn" type="button">수정</button></td>
@@ -35,9 +33,9 @@
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               </span>
               <button id="lookModifyBtn" type="button" class="btn btn-primary">변경하기</button>
-              <div><div th:each="hdto : ${hairDTO}"><img class="look hairlook" th:src="${hdto.hairpath}" alt="">
+              <div><div th:each="hdto : ${hairDTO}"><img class="look hairlook" th:src="${hdto.hairpath}" alt="" id="checkedhair">
                 <input  type="hidden" id="radiohair" th:value="${hdto.hairname}"></div><br>
-                <div th:each="cdto : ${clothesDTO}"><img class="look clotheslook" th:src="${cdto.clothespath}" alt="">
+                <div th:each="cdto : ${clothesDTO}"><img class="look clotheslook" th:src="${cdto.clothespath}" alt="" id="checkedclothes">
                     <input  type="hidden" id="radioclothes" th:value="${cdto.clothesname}"></div>
                 </div>
                 
@@ -133,6 +131,15 @@
             var radioclothes = $("#radioclothes").val();
             $('input:radio[name=hairname]:input[value=' + radiohair + ']').attr("checked", true);
             $('input:radio[name=clothesname]:input[value=' + radioclothes + ']').attr("checked", true);
+
+                $("input[name=hairname]").on("change",function(){
+                var checkedhair = $(this).next().attr('src');
+                $("#checkedhair").attr("src",checkedhair);
+            });
+            $("input[name=clothesname]").on("change",function(){
+                var checkedclothes = $(this).next().attr('src');
+                $("#checkedclothes").attr("src",checkedclothes);
+            });
 
             /*[+var urlmembermodify = [[@{/main/mypage/membermodify}]];+]*/
             /*[+var urllookmodify = [[@{/main/mypage/lookmodify}]];+]*/
