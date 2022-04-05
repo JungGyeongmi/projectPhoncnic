@@ -11,6 +11,7 @@ import ds.com.phoncnic.dto.pageDTO.PageResultDTO;
 import ds.com.phoncnic.dto.pageDTO.SearchPageRequestDTO;
 import ds.com.phoncnic.service.gallery.GalleryService;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Log4j2
 @RestController
