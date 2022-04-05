@@ -24,12 +24,14 @@
         <form id="lookform" action="">
             <input type="hidden" name="id" th:value="${id}">
             <span th:each="hdto : ${looklist}">
-                <input type="radio" name="hairname" id="${hdto.hairname}" th:value="${hdto.hairname}"><img th:src="${hdto.hairpath}" alt="">
+                <input type="radio" name="hairname" id="${hdto.hairname}" th:value="${hdto.hairname}"><img
+                    th:src="${hdto.hairpath}" alt="">
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              </span> 
-              <br>
-              <span th:each="cdto : ${looklist}">
-                <input type="radio" name="clothesname" id="${cdto.clothesname}" th:value="${cdto.clothesname}"><img th:src="${cdto.clothespath}" alt="">
+            </span>
+            <br>
+            <span th:each="cdto : ${looklist}">
+                <input type="radio" name="clothesname" id="${cdto.clothesname}" th:value="${cdto.clothesname}"><img
+                    th:src="${cdto.clothespath}" alt="">
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               </span>
               <button id="lookModifyBtn" type="button" class="btn btn-primary">변경하기</button>
@@ -183,11 +185,13 @@
 
                 }
             }
-            $("#hairchoice").on("change",function(){
+
+            $("#hairchoice").on("change", function () {
                 var selectedpath = $("#hairchoice option:selected").next().val();
                 $("#selectedhair").val(selectedpath);
-                
+
             });
+
             $(".artistRemoveBtn").click(function () {
                 var id = $(this).val();
                 var artistname = $(this).prev().val();

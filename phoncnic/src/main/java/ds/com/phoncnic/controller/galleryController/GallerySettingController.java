@@ -42,7 +42,7 @@ public class GallerySettingController {
 
     @PostMapping("/register") 
     public String getRegisetr(String id, GalleryDTO galleryDTO) {
-        log.info("register...."+galleryDTO.getGno());
+        log.info("register...."+galleryDTO);
         galleryService.register(galleryDTO);
         return "redirect:/manage/gallery/list?id="+id;
     }

@@ -23,5 +23,7 @@ public class FollowDTO {
     private List<Object> followartistlist = new ArrayList<>();
     @Builder.Default
     private List<Object> followdyninglist = new ArrayList<>();
+    public void setfollower() {
+    }
 
 }

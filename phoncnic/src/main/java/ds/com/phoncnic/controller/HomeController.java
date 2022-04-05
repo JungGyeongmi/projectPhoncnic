@@ -36,6 +36,7 @@ public class HomeController {
     @GetMapping("/crossroad/gallery")
     public String crossRoadToGallery() {
         log.info("get gallery.......");
+        
         return "redirect:/gallery";
     }
 
@@ -44,6 +45,7 @@ public class HomeController {
     @GetMapping("/crossroad/dyning/{choice}")
     public String crossRoadToDyning(@PathVariable("choice") String choice) {
         log.info("get" + choice + ".......");
+       
         return "redirect:/dyning/" + choice + "/list";
     }
 
@@ -73,16 +75,12 @@ public class HomeController {
         return "lookmodal";
     }
 
-
     @PostMapping("/lookmodal/lookmodify")
     public String lookmodify(CharacterLookDTO characterLookDTO, @AuthenticationPrincipal AuthMemberDTO dto) {
         if(dto!=null){
             characterLookService.modify(characterLookDTO, dto.getId());
         }
-        return "redirect:";
 
+        return "redirect:/";
     }
-
-   
-
 }

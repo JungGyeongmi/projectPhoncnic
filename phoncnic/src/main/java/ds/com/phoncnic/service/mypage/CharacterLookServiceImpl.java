@@ -41,11 +41,15 @@ public class CharacterLookServiceImpl implements CharacterLookService {
 
     @Override
     public void modify(CharacterLookDTO dto, String id) {
+
         Optional<CharacterLook> result = characterLookRepository.getLnoById(id);
+
         if (result.isPresent()) {
             CharacterLook characterLook = result.get();
+
             characterLook.changeHairname(dto.getHairname());
             characterLook.changeClothesname(dto.getClothesname());
+
             characterLookRepository.save(characterLook);
         }
     }

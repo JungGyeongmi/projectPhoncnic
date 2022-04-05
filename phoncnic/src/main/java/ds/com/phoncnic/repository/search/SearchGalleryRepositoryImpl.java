@@ -32,7 +32,7 @@ public class SearchGalleryRepositoryImpl  extends QuerydslRepositorySupport impl
     다양한 update,delete를 하는 query들을 만들어주는 것이 불가능
     그래서 QuerydslRepositorySupport을 사용
   */
-
+  
   public SearchGalleryRepositoryImpl() {
     super(Gallery.class);
   }

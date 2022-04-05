@@ -53,13 +53,13 @@ public class CharacterLookRepositoryTests {
             CharacterLookInfo characterLookinfo = CharacterLookInfo.builder().chno(1L).build();
 
             CharacterLook characterLook = CharacterLook.builder()
-                    .member(member)
-                    .characterLookinfo(characterLookinfo)
-                    .hairname("hair" + 1)
-                    .clothesname("clothes" + 1)
-                    .build();
-            repository.save(characterLook);
+            .member(member)
+            .characterLookinfo(characterLookinfo)
+            .hairname("hair"+1)
+            .clothesname("clothes"+1)
+            .build();
 
+            repository.save(characterLook);
         });
     }
 

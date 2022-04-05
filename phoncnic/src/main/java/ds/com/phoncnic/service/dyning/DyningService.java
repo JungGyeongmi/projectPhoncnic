@@ -11,6 +11,7 @@ import ds.com.phoncnic.dto.pageDTO.PageResultDTO;
 import ds.com.phoncnic.dto.pageDTO.SearchDyningPageRequestDTO;
 import ds.com.phoncnic.entity.Dyning;
 import ds.com.phoncnic.entity.DyningImage;
+import ds.com.phoncnic.entity.EmojiInfo;
 import ds.com.phoncnic.entity.Member;
 import ds.com.phoncnic.entity.RoofDesign;
 
@@ -69,7 +70,13 @@ public interface DyningService {
         return entityMap;
     }
 
-    default DyningDTO entityToDTO(Dyning dyning, Long emojiCwt, List<DyningImage> dyningImages, Long followerCwt) {
+    default DyningDTO entityToDTO(Dyning dyning, Long emojiCwt, List<DyningImage> dyningImages, Long followerCwt,
+            List<EmojiInfo> emojiList) {
+
+        HashMap<String, String> emojiinfo = new HashMap<>();
+        emojiList.stream().forEach(emoji -> {
+            emojiinfo.put(emoji.getEmojitype(), emoji.getEmojipath());
+        });
 
         DyningDTO dyningDTO = DyningDTO.builder()
                 .dno(dyning.getDno())
@@ -86,6 +93,7 @@ public interface DyningService {
                 .roofthumbnail(dyning.getRoofdesign().getRoofthumbnail())
                 .oono(dyning.getRoofdesign().getOono())
                 .emojicwt(emojiCwt)
+                .emojiinfo(emojiinfo)
                 .followercwt(followerCwt)
                 .regdate(dyning.getRegDate())
                 .moddate(dyning.getModDate())
@@ -132,14 +140,6 @@ public interface DyningService {
         return dyningDTO;
     }
 
-    // default DyningDTO JustRoofEntityToDTO(RoofDesign roofDesign) {
-    // DyningDTO dyningDTO = DyningDTO.builder()
-    // .roofpath(dyning.getRoofdesign().getRoofpath())
-    // .build();
-
-    // return dyningDTO;
-    // }
-
     // 가게 상세페이지
     DyningDTO getDyningDetails(Long dno);
 
@@ -174,5 +174,4 @@ public interface DyningService {
 
         return dyningImageList;
     }
-
 }

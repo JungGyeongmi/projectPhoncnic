@@ -1,5 +1,6 @@
 package ds.com.phoncnic.repository;
 
+import java.util.List;
 import java.util.stream.IntStream;
 
 import org.junit.jupiter.api.Test;
@@ -20,7 +21,7 @@ public class EmojiInfoRepositoryTests {
 
     @Test
     public void insertDummise() {
-        
+
         IntStream.rangeClosed(1, 5).forEach(i -> {
             String[] emojiInfoUrlArrays = {
                 "/phoncnic/display?fileName=2022%5C04%5C01%2Fd2343817-9931-440f-abbd-765f2f55ca4c_shock.png",
@@ -43,7 +44,8 @@ public class EmojiInfoRepositoryTests {
     @Test
     public void getEmojiInfoListTest() {
 
-        emojiInfoService.getEmojiInfoList();
+        List<EmojiInfo> emojiInfoList = emojiInfoService.getEmojiInfoList();
+        emojiInfoList.stream().forEach(System.out::println);
 
     }
 }

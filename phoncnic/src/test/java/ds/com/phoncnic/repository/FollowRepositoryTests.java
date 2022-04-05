@@ -1,8 +1,11 @@
 package ds.com.phoncnic.repository;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
+
+import javax.transaction.Transactional;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,6 +78,9 @@ public class FollowRepositoryTests {
         });
     }
 
-   
-
+   @Test
+   @Transactional
+   public void testFno(){
+       List<Object[]> fno = followRepository.getFollowArtist("user2@icloud.com", "user2");
+       System.out.println(Arrays.toString(fno.get(0)));   }
 }
