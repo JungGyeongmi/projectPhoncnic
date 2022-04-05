@@ -27,13 +27,15 @@ public class ApiLoginFailHandler implements
 
       response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
       response.setContentType("application/json;charset=utf-8");
-      // response.setContentType("text/html;charset=utf-8");
+
       JSONObject json = new JSONObject();
       String message = exception.getMessage();
+
       json.put("code", "401");
       json.put("message", message);
+
       PrintWriter out = response.getWriter();
+      
       out.print(json);
-      // out.print("<script>alert('Login Failed');</script>");
   }
 }
