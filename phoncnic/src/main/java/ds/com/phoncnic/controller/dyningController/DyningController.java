@@ -25,71 +25,73 @@ public class DyningController {
     private final FollowService followService;
     private final CharacterLookService characterLookService;
 
-
     // 카페 거리 페이지
     @GetMapping("/cafe/list")
-    public void cafeList(Model model,String id) {
+    public void cafeList(Model model, String id) {
         log.info("cafe list.................");
-        model.addAttribute("result", dyningService.getStreet());
-        model.addAttribute("id",id);
+        model.addAttribute("result", dyningService.getCafeStreet());
+        model.addAttribute("id", id);
     }
-   
+
     @GetMapping("/restaurant/list")
-    public void restaurant(Model model,String id) {
+    public void restaurant(Model model, String id) {
         log.info("restaurant list.................");
-        model.addAttribute("result", dyningService.getStreet());
-        model.addAttribute("id",id);
+        model.addAttribute("result", dyningService.getRestaurantStreet());
+        model.addAttribute("id", id);
 
     }
 
     @GetMapping("/details")
-    public void details(@RequestParam("dno") Long dno,String id, Model model) {
+    public void details(@RequestParam("dno") Long dno, String id, Model model) {
         log.info("Details.................");
-        if(dno!=0){
+        if (dno != 0) {
 
-        DyningDTO dto = dyningService.getDyningDetails(dno);
-        model.addAttribute("result", dyningService.getDyningDetails(dno));
-        model.addAttribute("imageresult", dyningService.getDyningDetails(dno).getDyningImageDTOList());
-        try {
-            model.addAttribute("eno",emojiService.HaveEmoji(id, dno).getEno());
-            model.addAttribute("emojitype",emojiService.HaveEmoji(id, dno).getEmojiInfo().getEmojitype());
-        } catch (NullPointerException e) {
-            model.addAttribute("eno","");
-            model.addAttribute("emojitype","");
-        }
-        model.addAttribute("emojilist", emojiService.dyningEmojiList(dno));
-        model.addAttribute("emojitype1",emojiService.getEmojitypeCwt(dno, "1"));
-        model.addAttribute("emojitype2",emojiService.getEmojitypeCwt(dno, "2"));
-        model.addAttribute("emojitype3",emojiService.getEmojitypeCwt(dno, "3"));
-        model.addAttribute("emojitype4",emojiService.getEmojitypeCwt(dno, "4"));
-        model.addAttribute("emojitype5",emojiService.getEmojitypeCwt(dno, "5"));
-        model.addAttribute("fno", followService.getFno(id,dto.getDyningname()));
-        log.info(id+"의 fno:"+followService.getFno(id,dto.getDyningname()));
-        model.addAttribute("id",id);
+            DyningDTO dto = dyningService.getDyningDetails(dno);
+            model.addAttribute("result", dyningService.getDyningDetails(dno));
+            model.addAttribute("imageresult", dyningService.getDyningDetails(dno).getDyningImageDTOList());
+            try {
+                model.addAttribute("eno", emojiService.HaveEmoji(id, dno).getEno());
+                model.addAttribute("emojitype", emojiService.HaveEmoji(id, dno).getEmojiInfo().getEmojitype());
+            } catch (NullPointerException e) {
+                model.addAttribute("eno", "");
+                model.addAttribute("emojitype", "");
+            }
+            model.addAttribute("emojilist", emojiService.dyningEmojiList(dno));
+            model.addAttribute("emojitype1", emojiService.getEmojitypeCwt(dno, "1"));
+            model.addAttribute("emojitype2", emojiService.getEmojitypeCwt(dno, "2"));
+            model.addAttribute("emojitype3", emojiService.getEmojitypeCwt(dno, "3"));
+            model.addAttribute("emojitype4", emojiService.getEmojitypeCwt(dno, "4"));
+            model.addAttribute("emojitype5", emojiService.getEmojitypeCwt(dno, "5"));
+            model.addAttribute("fno", followService.getFno(id, dto.getDyningname()));
+            log.info(id + "의 fno:" + followService.getFno(id, dto.getDyningname()));
+            model.addAttribute("id", id);
 
-        // model.addAttribute("follow",followService.)
+            // model.addAttribute("follow",followService.)
 
-        }else return;
-
+        } else
+            return;
 
     }
 
     @GetMapping("/movingtest")
-    public String movingtest(Model model,String id) {
+    public String movingtest(Model model, String id) {
 
         model.addAttribute("hairDTO", characterLookService.getCharacterHair(id));
 
         return "/dyning/movingtest";
     }
 
-    
     @GetMapping("/movingtest2")
-    public String movingtest2(Model model,String id) {
+    public String movingtest2(Model model, String id) {
 
         model.addAttribute("hairDTO", characterLookService.getCharacterHair(id));
 
         return "/dyning/movingtest2";
     }
 
+    @GetMapping("/restaurant/test")
+    public String test() {
+        return "dyning/restaurant/test";
+    }
 
 }

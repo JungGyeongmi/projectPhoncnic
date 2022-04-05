@@ -40,7 +40,7 @@ public class Member extends BaseEntity {
         this.password = password;
     }
 
-    public void addMemberRole(AuthorityRole authorityRole){
+    public void addMemberRole(AuthorityRole authorityRole) {
         roleSet.add(authorityRole);
     }
 
