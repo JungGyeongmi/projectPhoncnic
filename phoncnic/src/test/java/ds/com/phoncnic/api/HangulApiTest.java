@@ -13,12 +13,18 @@ import lombok.extern.log4j.Log4j2;
 @SpringBootTest
 public class HangulApiTest {
 
+    
     @Test
     void testAPI() {
+        String test = "";
         try {
+            List<String> list = HangulApi.hangul("1", 17L);
             log.info(HangulApi.hangul("1", 17L));
+            test = list.get(0);
         } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
+        log.info(test);
     }
+
 }

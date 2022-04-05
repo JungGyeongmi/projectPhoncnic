@@ -49,9 +49,9 @@ public class HangulApi {
         // 8. 전달받은 데이터를 BufferedReader 객체로 저장.
         BufferedReader rd;
         if (conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
-            rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            rd = new BufferedReader(new InputStreamReader(conn.getInputStream(),"UTF-8"));
         } else {
-            rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+            rd = new BufferedReader(new InputStreamReader(conn.getErrorStream(),"UTF-8"));
         }
 
         // 9. 저장된 데이터를 라인별로 읽어 StringBuilder 객체로 저장.
@@ -80,6 +80,7 @@ public class HangulApi {
             obj =  (JSONObject) jsonarr.get(i);
             String newWord = (String)obj.get("word");
             newWord = newWord.replace("^", "").replace(" ", "");
+            // log.info("new word "+newWord);
             resultList.add(newWord);
         }
 

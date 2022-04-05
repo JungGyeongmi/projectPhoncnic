@@ -15,6 +15,9 @@ public interface MemberRepository extends JpaRepository<Member, String> {
     @Query("select m from Member m where m.id = :id")
     Member getMemberByMemberId(String id);
 
+    @Query("select COUNT(m) > 0 from Member m where m.nickname = :nickname")
+    Boolean findByMemberNickName(String nickname);
+
     /*
      EntityGraph
      LOAD: entity graph에 명시한 attribute는 EAGER로 패치하고, 

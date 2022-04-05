@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import ds.com.phoncnic.entity.Member;
+import lombok.extern.log4j.Log4j2;
 
 @SpringBootTest
+@Log4j2
 public class MemberRepositoryTests {
 
     @Autowired
@@ -32,6 +34,12 @@ public class MemberRepositoryTests {
 
         );
 
+    }
+
+    @Test
+    public void findByUserNickName() {
+        Boolean test = memberRepository.findByMemberNickName("간지짱");
+        log.info(test);
     }
 
   
