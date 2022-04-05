@@ -79,7 +79,6 @@ public class GalleryRepositoryTests {
                     .imagetype(rand)
                     .imagename("test" + i + ".jpg")
                     .uuid("946ed916-76d2-4039-b80d-97eb381866f6")
-                    // .uuid(UUID.randomUUID().toString())
                     .build();
             galleryRepository.save(gallery);
 
@@ -187,6 +186,11 @@ public class GalleryRepositoryTests {
         System.out.println(pageResult.getSize());
         System.out.println(pageResult.getStart());
         System.out.println(pageResult.getDtoList());
+    }
+
+    @Test
+    public void getGalleryDTOWithEmojiInfo() {
+
     }
 
 }

@@ -6,7 +6,6 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -34,8 +33,6 @@ public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
 
-    private final PasswordEncoder passwordEncoder;
-
     private final CharacterLookRepository characterLookRepository;
 
     private final EmojiRepository emojiRepository;
@@ -53,8 +50,6 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public void updateMemberDTO(MemberDTO memberDTO) {
-        log.info("update Member DTO ....." + memberDTO);
-        memberDTO.setPassword(passwordEncoder.encode(memberDTO.getPassword()));
         Member member = dtoToEntity(memberDTO);
 
         memberRepository.save(member);

@@ -12,10 +12,12 @@
             height: 100px;
             right: 0px ;}
     </style>
+
 <div th:each="hdto : ${hairDTO}">
     <img type="hidden" id="img" class="look hairlook" th:src="${hdto.hairpath}" alt="">
     <input  type="hidden" id="radiohair" th:value="${hdto.hairname}"></div>
-
+    
+    <input type="text" value="naver.com">
     <img id="charimg" src="" alt="">
 
   
@@ -41,13 +43,11 @@
     if (key === 40 /* BOTTOM */) {
         charimg.style.top = y + 50 + "px";
     }
-    console.log(charimg.offsetLeft, charimg.offsetTop);
+    console.log(charimg.closest('input').value);
   }
   );
 
-  document.addEventListener("keyup",function(e){
-
-  })
+ 
 })();
                 
           </script>

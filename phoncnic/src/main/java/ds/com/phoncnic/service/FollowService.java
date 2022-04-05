@@ -46,7 +46,6 @@ public interface FollowService {
             .artistname(followDTO.getArtistname())
             .build(); 
             return follow;
-
         }
     }
 }

@@ -40,7 +40,7 @@
 
     <div class="container">
       <h1>유저 갤러리 리스트</h1>
-      <ul class="gallery-list-ul">
+      <ul th:if="${galleryDTOList.size()}!=0" class="gallery-list-ul">
         <li th:each="dto : ${galleryDTOList}">
           <a th:href="@{/manage/gallery/read(gno=${dto.gno}) }">
             <img th:src="|@{'/display'}?fileName=${dto.getImageURL()}|" alt="">
@@ -52,6 +52,12 @@
           </a>
         </li>
       </ul>
+      <div th:if="${galleryDTOList.size()}==0">
+        등록된 작품이 없습니다.
+        작품을 등록하시겠습니까?
+        <br/>
+        <a th:href="@{/manage/gallery/register}">작품 등록</a>
+      </div>
     </div>
 
     <script th:inline="javascript">

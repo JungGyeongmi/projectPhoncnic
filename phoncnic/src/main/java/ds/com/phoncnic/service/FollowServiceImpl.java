@@ -80,7 +80,6 @@ public class FollowServiceImpl implements FollowService {
 
         String id = followDTO.getFollowerid();
         String artistname = followDTO.getArtistname();
-        Long fno = followDTO.getFno();
 
         Follow galleryFollow = Follow.builder().build();
 

@@ -16,6 +16,9 @@ public class CharacterLookRepositoryTests {
     CharacterLookRepository repository;
 
     @Autowired
+    MemberRepository memberRepository;
+
+    @Autowired
     private CharacterLookInfoRepository characterLookInforepository;
 
     // ChracterLookInfo 더미
@@ -45,7 +48,7 @@ public class CharacterLookRepositoryTests {
 
     // ChracterLook 더미
     @Test
-    public void insertDummies() {
+     public void insertDummies() {
 
         IntStream.rangeClosed(1, 10).forEach(i -> {
 
@@ -53,11 +56,11 @@ public class CharacterLookRepositoryTests {
             CharacterLookInfo characterLookinfo = CharacterLookInfo.builder().chno(1L).build();
 
             CharacterLook characterLook = CharacterLook.builder()
-            .member(member)
-            .characterLookinfo(characterLookinfo)
-            .hairname("hair"+1)
-            .clothesname("clothes"+1)
-            .build();
+                    .member(member)
+                    .characterLookinfo(characterLookinfo)
+                    .hairname("hair" + 1)
+                    .clothesname("clothes" + 1)
+                    .build();
 
             repository.save(characterLook);
         });
