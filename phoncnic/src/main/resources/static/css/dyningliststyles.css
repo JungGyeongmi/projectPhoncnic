@@ -101,7 +101,7 @@ hr:not([size]) {
   height: 1px;
 }
 
-h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1 {
+/* h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1 {
   margin-top: 0;
   margin-bottom: 0.5rem;
   font-weight: 500;
@@ -115,7 +115,7 @@ h1, .h1 {
   h1, .h1 {
     font-size: 2.5rem;
   }
-}
+} */
 
 h2, .h2 {
   font-size: calc(1.325rem + 0.9vw);
@@ -3586,7 +3586,7 @@ textarea.form-control-lg {
   left: auto;
 }
 
-@media (min-width: 576px) {
+/* @media (min-width: 576px) {
   .dropdown-menu-sm-start {
     --bs-position: start;
   }
@@ -3670,7 +3670,7 @@ textarea.form-control-lg {
     right: 0;
     left: auto;
   }
-}
+} */
 .dropup .dropdown-menu[data-bs-popper] {
   top: auto;
   bottom: 100%;
@@ -4115,7 +4115,6 @@ textarea.form-control-lg {
   overflow-y: auto;
 }
 
-@media (min-width: 576px) {
   .navbar-expand-sm {
     flex-wrap: nowrap;
     justify-content: flex-start;
@@ -4167,8 +4166,7 @@ textarea.form-control-lg {
     padding: 0;
     overflow-y: visible;
   }
-}
-@media (min-width: 768px) {
+
   .navbar-expand-md {
     flex-wrap: nowrap;
     justify-content: flex-start;
@@ -4220,8 +4218,7 @@ textarea.form-control-lg {
     padding: 0;
     overflow-y: visible;
   }
-}
-@media (min-width: 992px) {
+
   .navbar-expand-lg {
     flex-wrap: nowrap;
     justify-content: flex-start;
@@ -4273,8 +4270,7 @@ textarea.form-control-lg {
     padding: 0;
     overflow-y: visible;
   }
-}
-@media (min-width: 1200px) {
+
   .navbar-expand-xl {
     flex-wrap: nowrap;
     justify-content: flex-start;
@@ -4326,8 +4322,7 @@ textarea.form-control-lg {
     padding: 0;
     overflow-y: visible;
   }
-}
-@media (min-width: 1400px) {
+
   .navbar-expand-xxl {
     flex-wrap: nowrap;
     justify-content: flex-start;
@@ -4379,7 +4374,7 @@ textarea.form-control-lg {
     padding: 0;
     overflow-y: visible;
   }
-}
+
 .navbar-expand {
   flex-wrap: nowrap;
   justify-content: flex-start;
@@ -11334,11 +11329,11 @@ body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
     margin-right: 0;
   }
   
-  body {
+  /* body {
     background-image: url(back.png);
     background-repeat: repeat-x;
     background-size: cover;
-  }
+  } */
 
   body::-webkit-scrollbar {
     display: none; /* Chrome, Safari, Opera*/

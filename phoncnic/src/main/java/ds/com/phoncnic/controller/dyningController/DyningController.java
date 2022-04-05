@@ -50,7 +50,7 @@ public class DyningController {
 
     }
 
-    
+
     @GetMapping("/details")
     public void details(@RequestParam("dno") Long dno,@AuthenticationPrincipal AuthMemberDTO dto, Model model) {
         log.info("Details.................");
@@ -88,7 +88,7 @@ public class DyningController {
             model.addAttribute("emojitype3", emojiService.getEmojitypeCwt(dno, "3"));
             model.addAttribute("emojitype4", emojiService.getEmojitypeCwt(dno, "4"));
             model.addAttribute("emojitype5", emojiService.getEmojitypeCwt(dno, "5"));
-           
+
 
             // model.addAttribute("follow",followService.)
 
