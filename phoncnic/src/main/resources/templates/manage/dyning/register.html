@@ -465,19 +465,18 @@
             var urlRemove = [[@{/removeFile}]];
           +]*/
 
-          $.ajax({
-            url: urlRemove,
-            data: { fileName: targetFile },
-            dataType: 'text',
-            type: 'POST',
-            success: function (result) {
-              alert(result ? "Deleted!" : "Error");
-              targetLi.remove();
-            }
-          });
+        $.ajax({
+          url: urlRemove,
+          data: { fileName: targetFile },
+          dataType: 'text',
+          type: 'POST',
+          success: function (result) {
+            targetLi.remove();
+          }
         });
 
       });
+    });
     </script>
 
     <div id="roofModal" class="modal roofModal" tabindex="-2">
@@ -504,5 +503,6 @@
         </div>
       </div>
     </div>
+
   </th:block>
 </th:block>

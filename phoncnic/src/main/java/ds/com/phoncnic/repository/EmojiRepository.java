@@ -51,7 +51,8 @@ public interface EmojiRepository extends JpaRepository<Emoji, Long> {
     @Query("SELECT e FROM Emoji e WHERE e.member.id=:id AND e.dyning.dno=:dno")
     Emoji getEnoAndType(String id, Long dno);
 
-    //다이닝 이모지 타입 갯수 카운트
+    // 다이닝 이모지 타입 갯수 카운트
+
     @Query("select count(e.emojiInfo.emojitype) from Emoji e where e.dyning.dno=:dno and e.emojiInfo.emojitype=:emojitype")
     Long getEmojiCountByEmojitype(Long dno, String emojitype);
 

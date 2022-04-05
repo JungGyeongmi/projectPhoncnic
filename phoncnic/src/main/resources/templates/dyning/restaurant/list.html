@@ -4,6 +4,7 @@
 
     <!-- search toggle -->
     <th:block th:fragment="search">
+    
         <style>
             .search-result-Item {
                 cursor: pointer;
@@ -24,10 +25,8 @@
             <div class="list-group list-group-flush">
                 <ul class="md-serach-result"></ul>
             </div>
-            <div>
-                <button id="addBtn">더보기</button>
-            </div>
         </div>
+       
 
 
         <script th:inline="javascript">
@@ -100,19 +99,47 @@
     <!-- 내용부분(restaurant 거리) -->
     <th:block th:fragment="content">
         <style>
+            body {
+                -ms-overflow-style: none;
+            }
+
+            ::-webkit-scrollbar {
+                display: none;
+            }
+
+            .wrap {
+                -ms-overflow-style: auto;
+                overflow-x: auto;
+                /* 단이 나뉘지않고 스크롤이 생김  */
+                white-space: nowrap;
+                margin: 0 auto;
+            }
+
+            /* .wrap::-webkit-scrollbar {
+                display: none;
+            } */
+
             .dyning-list-ul {
                 max-width: 10000px;
             }
 
-            .dyning-list-ul li {
+            #list1 {
                 margin: 20px;
+                width: 100px;
+                height: 100px;
+                display: inline-block;
+            }
+
+            #list2 {
+                margin: 20px;
+                padding-top: 250px;
                 width: 100px;
                 height: 100px;
                 display: inline-block;
             }
         </style>
 
-        <script th:inline="javascript">
+        <!-- <script th:inline="javascript">
             $(document).ready(function () {
                 var numitems = $(".dyning-list-ul li").length;
 
@@ -120,17 +147,32 @@
 
                 $(".dyning-list-ul").css("column-count", Math.round(numitems / 2));
             });
-        </script>
+        </script> -->
 
         <h1>restaurant</h1>
-        <ul class="dyning-list-ul">
-            <li th:each="dto : ${result}" th:if="${dto.foodtype}!=1">
-                <a th:href="@{/dyning/details(dno=${dto.dno},id=${id}) }">
-                    <img th:src="${dto.roofthumbnail}">
-                </a>
-                [[${dto.dyningname}]]
-            </li>
-        </ul>
+        <div class="wrap">
+            <ul class="dyning-list-ul">
+                <li id="list1" th:each="dto : ${result}" th:if="${dtoStat.count} <= ${dtoStat.size}/2">
+                    <div>
+                        <a th:href="@{/dyning/details(dno=${dto.dno},id=${id}) }">
+                            <img th:src="${dto.roofthumbnail}">
+                        </a>
+                    </div>
+                    [[${dto.dyningname}]]
+                </li>
+            </ul>
+            <ul class="dyning-list-ul">
+                <li id="list2" th:each="dto : ${result}" th:if="${dtoStat.count} > ${dtoStat.size}/2">
+                    <div>
+                        <a th:href="@{/dyning/details(dno=${dto.dno},id=${id}) }">
+                            <img th:src="${dto.roofthumbnail}">
+                        </a>
+                    </div>
+                    [[${dto.dyningname}]]
+
+                </li>
+            </ul>
+        </div>
 
     </th:block>
 </th:block>

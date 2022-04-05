@@ -75,7 +75,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
     http.authorizeRequests()
     .antMatchers("/manage/**/**").hasRole("USER");
-
     http.authorizeRequests()
     .antMatchers("/dyning/**").permitAll();
 

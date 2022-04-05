@@ -19,7 +19,6 @@ public class EmojiInfoRepositoryTests {
     @Autowired
     EmojiInfoService emojiInfoService;
 
-
     @Test
     public void insertDummise() {
         
@@ -34,11 +33,11 @@ public class EmojiInfoRepositoryTests {
             EmojiInfo emojiInfo = EmojiInfo.builder()
                 .emojitype(i+"")
                 .emojipath(emojiInfoUrlArrays[i-1])
-                .kindofemoji("이모지"+i+"이여라")
+                .kindofemoji("emoji"+i)
             .build();
 
             emojiInfoRepository.save(emojiInfo);
-        
+
         });
     }
 

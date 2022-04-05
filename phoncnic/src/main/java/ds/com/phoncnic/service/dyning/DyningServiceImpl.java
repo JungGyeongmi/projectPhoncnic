@@ -76,9 +76,24 @@ public class DyningServiceImpl implements DyningService {
     return dto;
   }
 
+  // @Override
+  // public List<DyningDTO> getStreet() {
+  // List<Dyning> result = dyningRepository.getStreetList();
+  // List<DyningDTO> DyningList = result.stream().map(entity ->
+  // roofEntityToDTO(entity)).collect(Collectors.toList());
+  // return DyningList;
+  // }
+
   @Override
-  public List<DyningDTO> getStreet() {
-    List<Dyning> result = dyningRepository.getStreetList();
+  public List<DyningDTO> getCafeStreet() {
+    List<Dyning> result = dyningRepository.getCafeStreetList();
+    List<DyningDTO> DyningList = result.stream().map(entity -> roofEntityToDTO(entity)).collect(Collectors.toList());
+    return DyningList;
+  }
+
+  @Override
+  public List<DyningDTO> getRestaurantStreet() {
+    List<Dyning> result = dyningRepository.getRestaurantStreetList();
     List<DyningDTO> DyningList = result.stream().map(entity -> roofEntityToDTO(entity)).collect(Collectors.toList());
     return DyningList;
   }
