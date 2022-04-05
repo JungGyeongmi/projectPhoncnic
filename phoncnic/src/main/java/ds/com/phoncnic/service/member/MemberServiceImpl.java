@@ -33,8 +33,6 @@ public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
 
-    private final PasswordEncoder passwordEncoder;
-
     private final CharacterLookRepository characterLookRepository;
 
     private final EmojiRepository emojiRepository;
@@ -52,8 +50,8 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public void updateMemberDTO(MemberDTO memberDTO) {
-        log.info("update Member DTO ....." + memberDTO);
-        memberDTO.setPassword(passwordEncoder.encode(memberDTO.getPassword()));
+        // log.info("update Member DTO ....." + memberDTO);
+        // memberDTO.setPassword(passwordEncoder.encode(memberDTO.getPassword()));
         Member member = dtoToEntity(memberDTO);
 
         memberRepository.save(member);

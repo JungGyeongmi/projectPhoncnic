@@ -7,8 +7,6 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import ds.com.phoncnic.security.filter.ApiLoginFilter;
@@ -30,18 +28,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
   private MemberDetailsService memberDetailsService;
   
   @Bean
-  PasswordEncoder passwordEncoder(){
-    return new BCryptPasswordEncoder();
-  }
-
-  @Bean
   CustomAccessDeniedHandler accessDeniedHandler(){
     return new CustomAccessDeniedHandler();
   }
 
   @Bean
   CustomLoginSuccessHandler loginSuccessHandler(){
-    return new CustomLoginSuccessHandler(passwordEncoder());
+    return new CustomLoginSuccessHandler();
   }
 
   @Bean
@@ -49,10 +42,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     return new CustomLogoutSuccessHandler();
   }
 
-  // @Bean
-  // public ApiCheckFilter apiCheckFilter() {
-  //   return new ApiCheckFilter("/phoncnic/manage/**/*", jwtUtil());
-  // }
 
   @Bean
   public ApiLoginFilter apiLoginFilter() throws Exception {
@@ -116,8 +105,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     //.logoutUrl("/member/logout").logoutSuccessUrl("/member/login")
     http.rememberMe().tokenValiditySeconds(60*60*24*7).userDetailsService((UserDetailsService) memberDetailsService);
 
-    // http.addFilterBefore(apiCheckFilter(), 
-    //           UsernamePasswordAuthenticationFilter.class);
     http.addFilterBefore(apiLoginFilter(), UsernamePasswordAuthenticationFilter.class);
   }
 

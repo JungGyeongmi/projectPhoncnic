@@ -20,12 +20,12 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 
-  private RedirectStrategy redirect = new DefaultRedirectStrategy();
-  private PasswordEncoder passwordEncoder;
+  // private RedirectStrategy redirect = new DefaultRedirectStrategy();
+  // private PasswordEncoder passwordEncoder;
 
-  public CustomLoginSuccessHandler(PasswordEncoder passwordEncoder){
-    this.passwordEncoder = passwordEncoder;
-  }
+  // public CustomLoginSuccessHandler(PasswordEncoder passwordEncoder){
+  //   this.passwordEncoder = passwordEncoder;
+  // }
 
   @Override
   public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication auth) throws IOException, ServletException {
@@ -33,7 +33,7 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
     AuthMemberDTO authMemberDTO = (AuthMemberDTO) auth.getPrincipal();
     
     log.warn("Login Success");
-    log.info("DTO.getPassword : "+authMemberDTO.getPassword());
+    // log.info("DTO.getPassword : "+authMemberDTO.getPassword());
     
     List<String> roleNames = new ArrayList<>();
 

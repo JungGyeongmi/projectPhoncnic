@@ -6,13 +6,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <!-- <link th:href="@{/css/styles.css}" rel="stylesheet" /> -->
     <script src="https://kit.fontawesome.com/f145f2fd92.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         body{
             padding: 0;
             margin: 0;
             box-sizing: border-box;
+            /* background: red; */
         }
 
         .container {
@@ -21,7 +22,7 @@
         }
         
         .card {
-            border: solid 1px black;
+            border: solid 1px #FDFDF6;
             border-radius: 3rem;
 
             min-width: max-content;
@@ -36,6 +37,10 @@
             display: grid;
             align-items: center;
             justify-items: center;
+
+            background-color: beige;
+
+            box-shadow: 5px 5px 0px 0px grey;
         }
         
         .card-body {
@@ -48,6 +53,35 @@
 
         .login-btn {
             padding: 1rem;
+        }
+
+        .slider:focus {
+            outline:none;
+        }
+
+        .slider {
+            -webkit-appearance: none;
+            background: transparent;
+            
+            width:100%;
+            height: 10px;
+
+            cursor: pointer;
+            /* overflow: hidden; */
+        
+            background: #FDFDF6;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+           
+            height: 3rem;
+            width: 3rem;
+           
+            background-image: url("../../static/icon/flower.png");
+            background-position: center;
+            background-repeat: none;
+            background-size: 3rem;
         }
 
     </style>
@@ -71,20 +105,39 @@
                 <p class="card-text" style="display:inline-block;">
                     로그인이 필요한 페이지 입니다.
                     <br>
-                    로그인 후 이용해주세요
+                    밀어서 로그인하기
                 </p>
             </div>
             <div class="card-footer">
-                <a th:href="@{/oauth2/authorization/google}">
+                <div class="silidecontainer">
+                    <input type="range" min="0" max="10" value="5" step="1" class="slider" id="loginRange">
+                    <div id="test"></div>
+                </div>
+                <!-- <a th:href="@{/oauth2/authorization/google}">
                     <button class="login-btn">GOOGLE</button>
-                </a>
+                </a> -->
             </div>
         </div>
 
 
     </div>
+    <script th:inline="javascript">
+        
+        $(function() {
+            var slider = $("#loginRange");
 
-    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script> -->
+            slider.on("change", function() {
+                if($(this).val()<10) {
+                    // $(this).val("0");
+                }
+                $("#test").html($(this).val());
+                if($(this).val()==10){
+                    // location.href = "http://localhost:8080/phoncnic/oauth2/authorization/google";
+                }
+            });
+        });
+
+    </script>
 </body>
 
 </html>
