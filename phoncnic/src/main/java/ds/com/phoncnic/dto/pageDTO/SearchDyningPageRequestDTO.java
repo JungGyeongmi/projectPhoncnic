@@ -20,7 +20,7 @@ public class SearchDyningPageRequestDTO {
 
     public SearchDyningPageRequestDTO() {
         this.page = 1;
-        this.size = 10;
+        this.size = 30;
     }
 
     public Pageable getPageable(Sort sort) {

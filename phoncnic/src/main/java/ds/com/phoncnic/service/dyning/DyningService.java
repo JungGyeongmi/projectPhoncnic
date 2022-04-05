@@ -17,10 +17,12 @@ import ds.com.phoncnic.entity.RoofDesign;
 public interface DyningService {
 
     List<RoofDesign> roofimageList();
-    Long register(DyningDTO dyningDTO);
-    void removeWithImages(Long dno);
-    void modify(DyningDTO dyningDTO);
 
+    Long register(DyningDTO dyningDTO);
+
+    void removeWithImages(Long dno);
+
+    void modify(DyningDTO dyningDTO);
 
     default Map<String, Object> dtoToEntity(DyningDTO dto) {
         Map<String, Object> entityMap = new HashMap<>();
@@ -79,7 +81,7 @@ public interface DyningService {
                 .tel(dyning.getTel())
                 .hashtag(dyning.getHashtag())
                 .tel(dyning.getTel())
-                .id(dyning.getCeoid().getId())                
+                .id(dyning.getCeoid().getId())
                 .foodtype(dyning.getFoodtype())
                 .roofthumbnail(dyning.getRoofdesign().getRoofthumbnail())
                 .oono(dyning.getRoofdesign().getOono())
@@ -107,7 +109,12 @@ public interface DyningService {
         return dyningDTO;
     }
 
-    List<DyningDTO> getStreet();
+    // List<DyningDTO> getStreet();
+    // 카페 거리
+    List<DyningDTO> getCafeStreet();
+
+    // 레스토랑 거리
+    List<DyningDTO> getRestaurantStreet();
 
     List<DyningDTO> getMyDyningList(String id);
 
@@ -148,22 +155,22 @@ public interface DyningService {
         return dto;
     }
 
-    default List<DyningImage> imagesDTOToEntity(DyningDTO dyningDTO){
+    default List<DyningImage> imagesDTOToEntity(DyningDTO dyningDTO) {
         List<DyningImageDTO> dyningImageDTOList = dyningDTO.getDyningImageDTOList();
 
-            List<DyningImage> dyningImageList = dyningImageDTOList.stream().map(DyningImageDTO -> {
-                DyningImage dyningImage = DyningImage.builder()
-                        .menuimagename(DyningImageDTO.getMenuimagename())
-                        .menuimageuuid(DyningImageDTO.getMenuimageuuid())
-                        .menuimagepath(DyningImageDTO.getMenuimagepath())
-                        .backgroundname(DyningImageDTO.getBackgroundname())
-                        .backgrounduuid(DyningImageDTO.getBackgrounduuid())
-                        .backgroundpath(DyningImageDTO.getBackgroundpath())
-                        .dyning(Dyning.builder().dno(dyningDTO.getDno()).build())
-                        .build();
+        List<DyningImage> dyningImageList = dyningImageDTOList.stream().map(DyningImageDTO -> {
+            DyningImage dyningImage = DyningImage.builder()
+                    .menuimagename(DyningImageDTO.getMenuimagename())
+                    .menuimageuuid(DyningImageDTO.getMenuimageuuid())
+                    .menuimagepath(DyningImageDTO.getMenuimagepath())
+                    .backgroundname(DyningImageDTO.getBackgroundname())
+                    .backgrounduuid(DyningImageDTO.getBackgrounduuid())
+                    .backgroundpath(DyningImageDTO.getBackgroundpath())
+                    .dyning(Dyning.builder().dno(dyningDTO.getDno()).build())
+                    .build();
 
-                return dyningImage;
-            }).collect(Collectors.toList());
+            return dyningImage;
+        }).collect(Collectors.toList());
 
         return dyningImageList;
     }

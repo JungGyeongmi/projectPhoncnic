@@ -30,21 +30,19 @@ public class DyningController {
     private final FollowService followService;
     private final CharacterLookService characterLookService;
 
-
     // 카페 거리 페이지
     @GetMapping("/cafe/list")
     public void cafeList(Model model,@AuthenticationPrincipal AuthMemberDTO dto) {
         log.info("cafe list.................");
-        model.addAttribute("result", dyningService.getStreet());
+        model.addAttribute("result", dyningService.getCafeStreet());
         if(dto!=null){model.addAttribute("id",dto.getId());}
     }
-   
+
     @GetMapping("/restaurant/list")
     public void restaurant(Model model,@AuthenticationPrincipal AuthMemberDTO dto) {
         log.info("restaurant list.................");
-        model.addAttribute("result", dyningService.getStreet());
+        model.addAttribute("result", dyningService.getRestaurantStreet());
         if(dto!=null){model.addAttribute("id",dto.getId());}
-
     }
 
     @GetMapping("/details")
@@ -72,7 +70,7 @@ public class DyningController {
             model.addAttribute("fno", "");
 
         }
-        
+
         model.addAttribute("emojilist", emojiService.dyningEmojiList(dno));
         model.addAttribute("emojitype1",emojiService.getEmojitypeCwt(dno, "1"));
         model.addAttribute("emojitype2",emojiService.getEmojitypeCwt(dno, "2"));
@@ -88,9 +86,9 @@ public class DyningController {
 
     }
 
- 
 
-    
+
+
     @GetMapping("/movingtest")
     public String movingtest2(Model model,@AuthenticationPrincipal AuthMemberDTO dto) {
         if(dto!=null){
@@ -98,10 +96,14 @@ public class DyningController {
         }else{
             model.addAttribute("hairDTO", characterLookService.getCharacterHair("user10@icloud.com"));
         }
-        
+
 
         return "/dyning/movingtest";
     }
 
+    @GetMapping("/restaurant/test")
+    public String test() {
+        return "dyning/restaurant/test";
+    }
 
 }

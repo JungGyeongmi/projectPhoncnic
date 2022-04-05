@@ -60,7 +60,7 @@ public class EmojiRepositoryTests {
     }
 
     @Test
-    public void testgetEnonType(){
+    public void testgetEnonType() {
         Emoji result = emojiRepository.getEnoAndType("user1@icloud.com", 13L);
         System.out.println(result);
 
