@@ -36,16 +36,7 @@ public class HelpServiceImpl implements HelpService {
     @Override
     public Long register(HelpDTO helpDTO) {
         Help entity = dtoToEntity(helpDTO);
-        Help helpEntity = Help.builder()
-            .title("답변")
-            .content("답변내용")
-            .password(helpDTO.getPassword())
-            .qtype(helpDTO.getQtype()+"answer")
-            .answerstatus(false)
-            .writer(Member.builder().id("user10@icloud.com").build())
-            .build();
         helpRepository.save(entity);
-        helpRepository.save(helpEntity);
         return entity.getQno();
     }
 

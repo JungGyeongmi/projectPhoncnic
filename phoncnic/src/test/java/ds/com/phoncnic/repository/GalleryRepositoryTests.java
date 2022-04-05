@@ -188,4 +188,9 @@ public class GalleryRepositoryTests {
         System.out.println(pageResult.getDtoList());
     }
 
+    @Test
+    public void getGalleryDTOWithEmojiInfo() {
+
+    }
+
 }
