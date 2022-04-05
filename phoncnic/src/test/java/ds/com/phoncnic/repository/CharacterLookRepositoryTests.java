@@ -14,7 +14,7 @@ import ds.com.phoncnic.entity.Member;
 public class CharacterLookRepositoryTests {
     @Autowired
     CharacterLookRepository repository;
- 
+
     @Autowired
     MemberRepository memberRepository;
 
@@ -54,7 +54,7 @@ public class CharacterLookRepositoryTests {
 
             Member member = Member.builder().id("user" + i + "@icloud.com").build();
             CharacterLookInfo characterLookinfo = CharacterLookInfo.builder().chno(1L).build();
-    
+
             CharacterLook characterLook = CharacterLook.builder()
                     .member(member)
                     .characterLookinfo(characterLookinfo)

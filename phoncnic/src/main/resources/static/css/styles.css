@@ -4115,7 +4115,6 @@ textarea.form-control-lg {
   overflow-y: auto;
 }
 
-@media (min-width: 576px) {
   .navbar-expand-sm {
     flex-wrap: nowrap;
     justify-content: flex-start;
@@ -4167,8 +4166,7 @@ textarea.form-control-lg {
     padding: 0;
     overflow-y: visible;
   }
-}
-@media (min-width: 768px) {
+
   .navbar-expand-md {
     flex-wrap: nowrap;
     justify-content: flex-start;
@@ -4220,8 +4218,7 @@ textarea.form-control-lg {
     padding: 0;
     overflow-y: visible;
   }
-}
-@media (min-width: 992px) {
+
   .navbar-expand-lg {
     flex-wrap: nowrap;
     justify-content: flex-start;
@@ -4273,8 +4270,7 @@ textarea.form-control-lg {
     padding: 0;
     overflow-y: visible;
   }
-}
-@media (min-width: 1200px) {
+
   .navbar-expand-xl {
     flex-wrap: nowrap;
     justify-content: flex-start;
@@ -4326,8 +4322,7 @@ textarea.form-control-lg {
     padding: 0;
     overflow-y: visible;
   }
-}
-@media (min-width: 1400px) {
+
   .navbar-expand-xxl {
     flex-wrap: nowrap;
     justify-content: flex-start;
@@ -4379,7 +4374,7 @@ textarea.form-control-lg {
     padding: 0;
     overflow-y: visible;
   }
-}
+
 .navbar-expand {
   flex-wrap: nowrap;
   justify-content: flex-start;
@@ -11302,7 +11297,6 @@ body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
   margin-right: 0;
 }
 
-@media (min-width: 768px) {
   /* #sidebar-wrapper {
     margin-right: 0;
   } */
@@ -11315,4 +11309,3 @@ body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
   /* body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
     margin-right: -15rem;
   } */
-}
