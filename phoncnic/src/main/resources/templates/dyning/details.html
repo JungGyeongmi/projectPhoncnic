@@ -132,7 +132,7 @@
         </table>
 
         <form action="">
-            <input type="hidden" name="id" id="followerid" th:value="${id}" readonly>
+            <input type="text" name="id" id="followerid" th:value="${id}" readonly>
             <input type="hidden" name="dno" th:value="${result.dno}">
         </form>
         <table border="1">
@@ -182,7 +182,7 @@
                 
                 //팔로우 제어
                 var fno = $('#followBtn');
-                if (fno.val() != "") {
+                if (fno.val() != "" && hasid!="") {
                     fno.html('언팔로우');
                     fno.css("color","red");
                 }

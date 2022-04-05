@@ -1,0 +1,60 @@
++<!DOCTYPE html>
+<html lang="ko" xmls:th="http://www.thymeleaf.org">
+<th:block th:replace="~{layout/basic :: setContent(~{::content})}">
+    <th:block th:fragment="content">
+
+<head>
+    <title></title>
+    <style>
+        #charimg {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            right: 0px ;}
+    </style>
+<div th:each="hdto : ${hairDTO}">
+    <img type="hidden" id="img" class="look hairlook" th:src="${hdto.hairpath}" alt="">
+    <input  type="hidden" id="radiohair" th:value="${hdto.hairname}"></div>
+
+    <img id="charimg" src="" alt="">
+
+  
+         <script>
+
+         (function () {
+             var charimg= $("#img").attr('src');
+             $("#charimg").attr('src',charimg);
+  document.addEventListener("keydown", function (e) {
+      let charimg = document.getElementById("charimg");
+      let key = e.keyCode;
+    let y = parseInt(charimg.style.top || 0, 10);
+    let x = parseInt(charimg.style.left || 0, 10);
+    if (key === 37 /* LEFT */) {
+        charimg.style.left = x - 50 + "px";
+    }
+    if (key === 38 /* TOP */) {
+        charimg.style.top = y - 50 + "px";
+    }
+    if (key === 39 /* RIGHT */) {
+        charimg.style.left = x + 50 + "px";
+    }
+    if (key === 40 /* BOTTOM */) {
+        charimg.style.top = y + 50 + "px";
+    }
+    console.log(charimg.offsetLeft, charimg.offsetTop);
+  }
+  );
+
+  document.addEventListener("keyup",function(e){
+
+  })
+})();
+                
+          </script>
+      
+
+   
+</th:block>
+
+</th:block>
+</html>
