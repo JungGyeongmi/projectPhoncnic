@@ -137,23 +137,13 @@
             }
         </style>
 
-        <!-- <script th:inline="javascript">
-            $(document).ready(function () {
-                var numitems = $(".dyning-list-ul li").length;
-
-                console.log("numitems: " + numitems);
-
-                $(".dyning-list-ul").css("column-count", Math.round(numitems / 2));
-            });
-        </script> -->
-
         <h1>restaurant</h1>
         <div class="wrap">
             <ul class="dyning-list-ul">
                 <li id="list1" th:each="dto : ${result}" th:if="${dtoStat.count} <= ${dtoStat.size}/2">
                     <div>
                         <a th:href="@{/dyning/details(dno=${dto.dno},id=${id}) }">
-                            <img th:src="${dto.roofthumbnail}">
+                            <img class="dyningimg" th:src="${dto.roofthumbnail}">
                         </a>
                     </div>
                     [[${dto.dyningname}]]
@@ -161,16 +151,37 @@
             </ul>
             <ul class="dyning-list-ul">
                 <li id="list2" th:each="dto : ${result}" th:if="${dtoStat.count} > ${dtoStat.size}/2">
-                    <div>
-                        <a th:href="@{/dyning/details(dno=${dto.dno},id=${id}) }">
-                            <img th:src="${dto.roofthumbnail}">
+                    <div id="dyningdiv">
+                        <a id="dyninga" th:href="@{/dyning/details(dno=${dto.dno},id=${id}) }">
+                            <img class="dyningimg" th:src="${dto.roofthumbnail}">
                         </a>
                     </div>
                     [[${dto.dyningname}]]
-
                 </li>
             </ul>
         </div>
 
+        <script th:inline="javascript">
+            
+                window.addEventListener("keydown", function (e) {
+                    // space and arrow keys
+                    if ([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+                        e.preventDefault();
+                    }
+                }, false);
+
+                // var Img = document.getElementsByClassName("dyningimg");
+                // var divv = document.querySelectorAll("#dyninga.dyningimg");
+                // for(i=1; i<=8; i++){
+                //     console.log(divv[i].offsetTop);
+                // }
+                // document.getElementsByClassName("dyningimg").offsetTop;
+                // console.log(Img.offsetTop);
+                window.addEventListener("mouseover", function(e) {
+                    console.log(e.target.offsetTop, e.target.offsetLeft);
+                }); 
+                
+            
+        </script>
     </th:block>
 </th:block>
