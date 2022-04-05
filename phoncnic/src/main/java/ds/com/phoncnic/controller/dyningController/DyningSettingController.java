@@ -88,7 +88,6 @@ public class DyningSettingController {
 
         ra.addFlashAttribute("dno",dno+"번째 가게 등록 왼료");
 
-        // 가게를 등록하고 난 후 바로 아래로 이동
         return "redirect:/manage/dyning/list?id="+dyningDTO.getId();
     }
 
@@ -97,5 +96,4 @@ public class DyningSettingController {
         dyningService.removeWithImages(dno);
         return "redirect:/manage/dyning/list?id="+dto.getId();
     }
-
 }

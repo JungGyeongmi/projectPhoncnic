@@ -1,16 +1,12 @@
 package ds.com.phoncnic.entity;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,7 +26,6 @@ public class Member extends BaseEntity {
     private String id;
 
     private String nickname;
-    private String password;
     
     @ElementCollection(fetch = FetchType.LAZY)
     @Builder.Default
@@ -40,12 +35,7 @@ public class Member extends BaseEntity {
         this.nickname = nickname;
     }
 
-    public void changePassword(String password) {
-        this.password = password;
-    }
-
-    public void addMemberRole(AuthorityRole authorityRole) {
+    public void addMemberRole(AuthorityRole authorityRole){
         roleSet.add(authorityRole);
     }
-
 }

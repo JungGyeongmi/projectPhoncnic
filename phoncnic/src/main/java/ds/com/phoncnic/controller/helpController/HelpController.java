@@ -1,5 +1,6 @@
 package ds.com.phoncnic.controller.helpController;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,6 +10,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ds.com.phoncnic.dto.HelpDTO;
 import ds.com.phoncnic.dto.pageDTO.PageRequestDTO;
+import ds.com.phoncnic.security.dto.AuthMemberDTO;
 import ds.com.phoncnic.service.help.HelpService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -23,21 +25,31 @@ public class HelpController {
 
     @GetMapping({ "", "/","/list" })
     public String getHelpHome(PageRequestDTO pageRequestDTO, Model model) {
-        model.addAttribute("result", helpService.getQnaList(pageRequestDTO));
+         model.addAttribute("result", helpService.getQnaList(pageRequestDTO));
         return "/help/list";
     }
-
+    
     @GetMapping("register")
-    public String Register() {
+    public String Register(@AuthenticationPrincipal AuthMemberDTO authMemberDTO, Model model) {
+         try {
+            model.addAttribute("id", authMemberDTO.getId());    
+        } catch (Exception e) {
+            model.addAttribute("id", "");    
+        }
         return "/help/register";
     }
 
     @PostMapping("/register")
-    public String RegisterPost(HelpDTO helpDTO, RedirectAttributes ra) {
+    public String RegisterPost(HelpDTO helpDTO, RedirectAttributes ra,@AuthenticationPrincipal AuthMemberDTO authMemberDTO) {
         log.info("help resister.................:" + helpDTO);
         Long qno = helpService.register(helpDTO);
         ra.addFlashAttribute("msg", qno);
-        return "redirect:/help/list";
+        try {
+         ra.addFlashAttribute("id", authMemberDTO.getId());
+        } catch (NullPointerException  e) {
+            ra.addFlashAttribute("userid", helpDTO.getWriter()); 
+            log.info("userid:"+helpDTO.getWriter());
+        }  return "redirect:/help/list";
     }
 
     @GetMapping({ "/read", "/modify" })

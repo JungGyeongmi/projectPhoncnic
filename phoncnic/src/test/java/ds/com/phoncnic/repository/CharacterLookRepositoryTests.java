@@ -14,6 +14,9 @@ import ds.com.phoncnic.entity.Member;
 public class CharacterLookRepositoryTests {
     @Autowired
     CharacterLookRepository repository;
+ 
+    @Autowired
+    MemberRepository memberRepository;
 
     @Autowired
     private CharacterLookInfoRepository characterLookInforepository;
@@ -45,21 +48,21 @@ public class CharacterLookRepositoryTests {
 
     // ChracterLook 더미
     @Test
-    public void insertDummies() {
+     public void insertDummies() {
 
         IntStream.rangeClosed(1, 10).forEach(i -> {
 
             Member member = Member.builder().id("user" + i + "@icloud.com").build();
             CharacterLookInfo characterLookinfo = CharacterLookInfo.builder().chno(1L).build();
-
+    
             CharacterLook characterLook = CharacterLook.builder()
                     .member(member)
                     .characterLookinfo(characterLookinfo)
                     .hairname("hair" + 1)
                     .clothesname("clothes" + 1)
                     .build();
-            repository.save(characterLook);
 
+            repository.save(characterLook);
         });
     }
 

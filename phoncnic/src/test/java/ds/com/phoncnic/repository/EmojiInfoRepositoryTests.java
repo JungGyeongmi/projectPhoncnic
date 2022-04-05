@@ -1,5 +1,6 @@
 package ds.com.phoncnic.repository;
 
+import java.util.List;
 import java.util.stream.IntStream;
 
 import org.junit.jupiter.api.Test;
@@ -42,8 +43,9 @@ public class EmojiInfoRepositoryTests {
 
     @Test
     public void getEmojiInfoListTest() {
-
-        emojiInfoService.getEmojiInfoList();
+        
+        List<EmojiInfo> emojiInfoList = emojiInfoService.getEmojiInfoList();
+        emojiInfoList.stream().forEach(System.out::println);
 
     }
 }

@@ -15,10 +15,21 @@
                         <option value="type4">type4</option>
                     </select>
                 </div>
-                <div>
-                    <label>작성자</label> <br>
-                    <input type="text" name="writer">
-                </div>
+                <th:block th:if="${id} != ''">
+                    <div>
+                        <label>작성자</label> <br>
+                        <input type="text" name="writer" id="inputId" th:value="${id}">
+                        <span>답변 받으실 이메일이 맞는지 확인해주세요</span>
+                    </div>
+                </th:block>
+                <th:block th:if="${id} == ''">
+                    <div>
+                        <label>작성자</label> <br>
+                        <input type="text" name="writer" id="inputId"> 
+                        <span>답변 받으실 이메일을 입력해주세요</span>
+                    </div>
+                </th:block>
+
                 <div>
                     <label>제목</label> <br>
                     <input type="text" name="title">

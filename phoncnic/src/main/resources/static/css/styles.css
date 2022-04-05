@@ -5091,7 +5091,8 @@ textarea.form-control-lg {
   color: #212529;
   text-decoration: none;
   background-color: #fff;
-  border: 1px solid rgba(0, 0, 0, 0.125);
+  /* 여기주석 */
+  /* border: 1px solid rgba(0, 0, 0, 0.125); */
 }
 .list-group-item:first-child {
   border-top-left-radius: inherit;
