@@ -33,16 +33,19 @@
                 <input type="radio" name="clothesname" id="${cdto.clothesname}" th:value="${cdto.clothesname}"><img
                     th:src="${cdto.clothespath}" alt="">
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              </span>
-              <button id="lookModifyBtn" type="button" class="btn btn-primary">변경하기</button>
-              <div><div th:each="hdto : ${hairDTO}"><img class="look hairlook" th:src="${hdto.hairpath}" alt="" id="checkedhair">
-                <input  type="hidden" id="radiohair" th:value="${hdto.hairname}"></div><br>
-                <div th:each="cdto : ${clothesDTO}"><img class="look clotheslook" th:src="${cdto.clothespath}" alt="" id="checkedclothes">
-                    <input  type="hidden" id="radioclothes" th:value="${cdto.clothesname}"></div>
+            </span>
+            <button id="lookModifyBtn" type="button" class="btn btn-primary">변경하기</button>
+            <div>
+                <div th:each="hdto : ${hairDTO}"><img class="look hairlook" th:src="${hdto.hairpath}" alt=""
+                        id="checkedhair">
+                    <input type="hidden" id="radiohair" th:value="${hdto.hairname}">
+                </div><br>
+                <div th:each="cdto : ${clothesDTO}"><img class="look clotheslook" th:src="${cdto.clothespath}" alt=""
+                        id="checkedclothes">
+                    <input type="hidden" id="radioclothes" th:value="${cdto.clothesname}">
                 </div>
-                
-            
-    </form>
+            </div>
+        </form>
 
         <br>
         <table border="1">
@@ -78,7 +81,7 @@
             <tr th:each="edto : ${emojiDTO}" th:if="${edto.dno}!=0">
                 <td>[[${edto.dno}]]</td>
                 <td>[[${edto.emojitype}]]</td>
-                <td>[[${edto.emojipath}]]</td>
+                <td><img th:src="${edto.emojipath}" alt="" / width="30px"></td>
                 <td>[[${edto.regdate}]]</td>
                 <td><button class="emojiRemoveBtn" th:value="${edto.eno}" type="button">삭제</button></td>
             </tr>
@@ -95,29 +98,28 @@
             <tr th:each="edto : ${emojiDTO}" th:if="${edto.gno}!=0">
                 <td>[[${edto.gno}]]</td>
                 <td>[[${edto.emojitype}]]</td>
-                <td>[[${edto.emojipath}]]</td>
+                <td><img th:src="${edto.emojipath}" alt="" width="30px"></td>
                 <td>[[${edto.regdate}]]</td>
                 <td><button class="emojiRemoveBtn" th:value="${edto.eno}" type="button">삭제</button></td>
             </tr>
         </table>
         <style>
-            .look{
+            .look {
                 display: inline-block;
                 position: absolute;
                 margin-left: 60%;
             }
-            .hairlook{
+
+            .hairlook {
                 margin-bottom: -50px;
                 z-index: 10;
             }
-            .clotheslook{
+
+            .clotheslook {
                 z-index: 1;
                 margin-top: 15px;
 
             }
-        
-            
-
         </style>
         <script th:inline="javascript">
 
@@ -134,13 +136,13 @@
             $('input:radio[name=hairname]:input[value=' + radiohair + ']').attr("checked", true);
             $('input:radio[name=clothesname]:input[value=' + radioclothes + ']').attr("checked", true);
 
-                $("input[name=hairname]").on("change",function(){
+            $("input[name=hairname]").on("change", function () {
                 var checkedhair = $(this).next().attr('src');
-                $("#checkedhair").attr("src",checkedhair);
+                $("#checkedhair").attr("src", checkedhair);
             });
-            $("input[name=clothesname]").on("change",function(){
+            $("input[name=clothesname]").on("change", function () {
                 var checkedclothes = $(this).next().attr('src');
-                $("#checkedclothes").attr("src",checkedclothes);
+                $("#checkedclothes").attr("src", checkedclothes);
             });
 
             /*[+var urlmembermodify = [[@{/main/mypage/membermodify}]];+]*/

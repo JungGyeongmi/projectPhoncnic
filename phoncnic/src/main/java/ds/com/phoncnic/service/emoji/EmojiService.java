@@ -53,7 +53,6 @@ public interface EmojiService {
     /* Entity -> DTO */
     default EmojiDTO entityToEmojiDTO(Emoji emoji) {
         if (emoji.getDyning() == null) {
-
             EmojiDTO emojiDTO = EmojiDTO.builder()
                     .eno(emoji.getEno())
                     .id(emoji.getMember().getId())

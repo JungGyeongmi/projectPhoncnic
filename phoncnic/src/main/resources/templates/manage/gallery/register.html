@@ -6,8 +6,8 @@
         <h1>전시회 등록페이지</h1>
 
         <form th:action="@{/manage/gallery/register}" th:method="POST" id="frm">
-            <label for="userid"> user id 추후 hidden으로 변경 </label><br>
-            <input type="text" name="id" value="user1@icloud.com"><br>
+            <input type="hidden" name="id" th:value="${authDTO.id}"><br>
+            <input type="text" name="artistname" th:value="${authDTO.nickname}" readonly><br>
 
             <label>출품 유형</label> <br>
             <select name="imagetype" id="imagetype">

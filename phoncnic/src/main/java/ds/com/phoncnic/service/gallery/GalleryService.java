@@ -41,6 +41,7 @@ public interface GalleryService {
   PageResultDTO<GalleryDTO, Gallery> getPaintingList(PageRequestDTO PageRequestDTO);
 
   default Gallery dtoToEntity(GalleryDTO galleryDTO) {
+    Member member = Member.builder().id(galleryDTO.getId()).build();
     Gallery gallery = Gallery.builder()
         .gno(galleryDTO.getGno())
         .title(galleryDTO.getTitle())
@@ -49,7 +50,7 @@ public interface GalleryService {
         .imagepath(galleryDTO.getImagepath() == null ? "D:/temp" : galleryDTO.getImagepath())
         .imagetype(galleryDTO.isImagetype())
         .uuid(galleryDTO.getUuid())
-        .artistid(Member.builder().id(galleryDTO.getId()).build())
+        .artistid(member)
         .build();
 
     return gallery;
