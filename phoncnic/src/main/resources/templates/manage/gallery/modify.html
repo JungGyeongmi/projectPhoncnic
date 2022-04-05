@@ -65,8 +65,8 @@
                 /*[+ var urlremove = [[@{/manage/gallery/remove}]] +]*/
                 actionForm.setAttribute("action", urlremove);
                 actionForm.setAttribute("method", "post");
+                swal("삭제되었습니다");
                 actionForm.submit();
-                alert("삭제되었습니다");
             }
 
             var modifyBtn = document.querySelector("#modifyBtn");
@@ -74,14 +74,14 @@
                 /*[+ var modifyUrl = [[@{/manage/gallery/modify}]] +]*/
                 actionForm.setAttribute("action", modifyUrl);
                 actionForm.setAttribute("method", "post");
+                swal("수정되었습니다");
                 actionForm.submit();
-                alert("수정되었습니다");
             }
 
             var listBtn = document.querySelector("#listBtn");
             listBtn.onclick = function () {
                 /*[+ var listUrl = 
-                    [[@{/manage/gallery/list(id=${galleryDTO.id})}]]
+                    [[@{/manage/gallery/list)}]]
                 +]*/
                 location.href = listUrl;
             }

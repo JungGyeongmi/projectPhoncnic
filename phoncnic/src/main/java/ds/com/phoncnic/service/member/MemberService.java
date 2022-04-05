@@ -3,8 +3,6 @@ package ds.com.phoncnic.service.member;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-
 import ds.com.phoncnic.dto.MemberDTO;
 import ds.com.phoncnic.entity.AuthorityRole;
 import ds.com.phoncnic.entity.Member;
@@ -19,7 +17,6 @@ public interface MemberService {
   default Member dtoToEntity(MemberDTO memberDTO) {
     Member member = Member.builder()
         .id(memberDTO.getId())
-        .password(memberDTO.getPassword())
         .nickname(memberDTO.getNickname())
         .roleSet(memberDTO.getRoleSet().stream().map(
             new Function<String, AuthorityRole>() {
@@ -46,7 +43,6 @@ public interface MemberService {
   default MemberDTO entityToDTO(Member member) {
     MemberDTO memberDTO = MemberDTO.builder()
         .id(member.getId())
-        .password(member.getPassword())
         .nickname(member.getNickname())
         .roleSet(member.getRoleSet().stream().map(
             role -> new String("ROLE_" + role.name()))

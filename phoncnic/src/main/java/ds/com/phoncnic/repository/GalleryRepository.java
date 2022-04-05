@@ -30,7 +30,7 @@ public interface GalleryRepository extends JpaRepository<Gallery, Long>, SearchG
     Page<Gallery> getPaintingPage(Pageable pageable);
     
     // galleryList
-    @Query("select g from Gallery g where imagetype = :type")
+    @Query("select g from Gallery g where imagetype = :type order by g.gno desc")
     List<Gallery> getGalleryList(Boolean type);
 
     // deledt gallery

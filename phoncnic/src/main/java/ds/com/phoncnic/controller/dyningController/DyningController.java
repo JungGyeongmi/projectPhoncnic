@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import ds.com.phoncnic.dto.DyningDTO;
-import ds.com.phoncnic.repository.EmojiInfoRepository;
 import ds.com.phoncnic.security.dto.AuthMemberDTO;
 import ds.com.phoncnic.service.FollowService;
 import ds.com.phoncnic.service.dyning.DyningService;
@@ -42,6 +41,7 @@ public class DyningController {
     @GetMapping("/restaurant/list")
     public void restaurant(Model model,@AuthenticationPrincipal AuthMemberDTO dto) {
         log.info("restaurant list.................");
+
         model.addAttribute("result", dyningService.getStreet());
         if(dto!=null){
             model.addAttribute("id",dto.getId());
