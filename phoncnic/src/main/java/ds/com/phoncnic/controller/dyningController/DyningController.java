@@ -62,21 +62,21 @@ public class DyningController {
         DyningDTO dyningDTO = dyningService.getDyningDetails(dno);
         model.addAttribute("result", dyningService.getDyningDetails(dno));
         model.addAttribute("imageresult", dyningService.getDyningDetails(dno).getDyningImageDTOList());
-        if(dto!=null){model.addAttribute("id",dto.getId());}else{
-            model.addAttribute("id","");
-        }
-        try {
-            model.addAttribute("eno",emojiService.HaveEmoji(dto.getId(), dno).getEno());
-            model.addAttribute("emojitype",emojiService.HaveEmoji(dto.getId(), dno).getEmojiInfo().getEmojitype());
-            model.addAttribute("fno", followService.getFno(dto.getId(),dyningDTO.getDyningname()));
-            log.info(dto.getId()+"의 fno:"+followService.getFno(dto.getId(),dyningDTO.getDyningname()));
+        if(dto!=null){model.addAttribute("id",dto.getId());
+        model.addAttribute("eno",emojiService.HaveEmoji(dto.getId(), dno).getEno());
+        model.addAttribute("emojitype",emojiService.HaveEmoji(dto.getId(), dno).getEmojiInfo().getEmojitype());
+        model.addAttribute("fno", followService.getFno(dto.getId(),dyningDTO.getDyningname()));
+        log.info(dto.getId()+"의 fno:"+followService.getFno(dto.getId(),dyningDTO.getDyningname()));
+        }else{
 
-        } catch (NullPointerException e) {
+            model.addAttribute("id","");
             model.addAttribute("eno","");
             model.addAttribute("emojitype","");
-            model.addAttribute("fno", "");
+            log.info("ffffno---nologin");
 
+            model.addAttribute("fno", "");
         }
+        
         
         model.addAttribute("emojilist", emojiService.dyningEmojiList(dno));
         model.addAttribute("emojitype1",emojiService.getEmojitypeCwt(dno, "1"));
