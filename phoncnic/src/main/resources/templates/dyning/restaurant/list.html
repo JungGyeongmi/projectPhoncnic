@@ -139,7 +139,7 @@
         <h1>restaurant</h1>
         <div class="wrap">
             <ul class="dyning-list-ul">
-                <li id="list1" th:each="dto : ${result}" th:if="${dtoStat.count} <= ${dtoStat.size}/2 + 1">
+                <li id="list1" th:each="dto : ${result}" th:if="${dtoStat.count} <= ${dtoStat.size}/2 + 0.5">
                     <div>
                         <a th:href="@{/dyning/details(dno=${dto.dno},id=${id}) }">
                             <img class="dyningimg" th:src="${dto.roofthumbnail}">
@@ -149,7 +149,7 @@
                 </li>
             </ul>
             <ul class="dyning-list-ul">
-                <li id="list2" th:each="dto : ${result}" th:if="${dtoStat.count} > ${dtoStat.size}/2 + 1">
+                <li id="list2" th:each="dto : ${result}" th:if="${dtoStat.count} > ${dtoStat.size}/2">
                     <div id="dyningdiv">
                         <a id="dyninga" th:href="@{/dyning/details(dno=${dto.dno},id=${id}) }">
                             <img class="dyningimg" th:src="${dto.roofthumbnail}">
