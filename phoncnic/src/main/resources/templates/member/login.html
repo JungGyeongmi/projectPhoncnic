@@ -42,14 +42,6 @@
 
             box-shadow: 5px 5px 0px 0px grey;
         }
-        
-        .card-body {
-            
-        }
-
-        .footer {
-
-        }
 
         .login-btn {
             padding: 1rem;
@@ -68,15 +60,15 @@
             background: #FDFDF6;
             box-shadow: inset -2px 4px 7px rgb(0 0 0 / 10%);
         }
-
-
+        
+        
         .slider::-webkit-slider-thumb {
             -webkit-appearance: none;
-           
+            
             height: 3rem;
             width: 3rem;
-           
-            background-image: url("../../static/icon/flower.png");
+            
+            background-image: url("[[ @{/icon/flower.png} ]]");
             background-position: right;
             background-repeat: none;
             background-size: 3rem;
@@ -102,9 +94,7 @@
             </div>
             <div class="card-body">
                 <p class="card-text" style="display:inline-block;">
-                    로그인이 필요한 페이지 입니다.
-                    <br>
-                    밀어서 로그인하기
+                    밀어서 산책 시작하기
                 </p>
             </div>
             <div class="card-footer">
@@ -123,6 +113,7 @@
     <script th:inline="javascript">
         
         $(function() {
+
             var slider = $("#loginRange");
 
             slider.on("change", function() {

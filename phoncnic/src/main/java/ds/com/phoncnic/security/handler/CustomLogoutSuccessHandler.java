@@ -19,7 +19,7 @@ public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
       throws IOException, ServletException {
 
     log.warn("logoutsuccess...");
-    log.info("auth.getDetails:"+auth.getDetails());
+    log.info("auth.getDetails : "+auth.getDetails());
 
     if(auth != null && auth.getDetails() != null){
       try {

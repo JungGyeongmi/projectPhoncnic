@@ -17,7 +17,8 @@ import lombok.extern.log4j.Log4j2;
 @RequiredArgsConstructor
 @Log4j2
 public class HomeController {
-    private final CharacterLookService characterLookService;
+    
+    private CharacterLookService characterLookService;
 
     @GetMapping({ "", "/" })
     public String home() {

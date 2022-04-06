@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -16,22 +17,31 @@ import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
-
+  
   @Override
-  public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication auth) throws IOException, ServletException {
-    
+  public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication auth)
+  throws IOException, ServletException {
+
     AuthMemberDTO authMemberDTO = (AuthMemberDTO) auth.getPrincipal();
-    
+
     log.warn("Login Success");
-    
+
     List<String> roleNames = new ArrayList<>();
 
-    authMemberDTO.getAuthorities().forEach(authority ->{
-      roleNames.add(authority.getAuthority());
-    });
+    authMemberDTO.getAuthorities().forEach(authority -> { roleNames.add(authority.getAuthority()); });
 
-    log.warn("ROLE NAMES : "+roleNames);
+    log.warn("ROLE NAMES : " + roleNames);
 
-    response.sendRedirect(request.getContextPath()+"/");
+    HttpSession session = request.getSession();
+    if (session != null) {
+      String redirectUrl = (String) session.getAttribute("prevPage");
+      log.info("redirect url "+redirectUrl);
+      if (redirectUrl != null) {
+        response.sendRedirect(redirectUrl);
+        session.removeAttribute("prevPage");
+      } else {
+        response.sendRedirect(request.getContextPath()+"/");
+      }
+    }
   }
 }

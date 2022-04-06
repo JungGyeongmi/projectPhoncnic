@@ -37,7 +37,7 @@ public class OAuth2UserDetailsService extends DefaultOAuth2UserService {
   @Override
   public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
 
-    log.info("CommonOAuth2UserDetailsService..userRequest:" + userRequest);
+    log.info("OAuth2UserDetailsService..userRequest:" + userRequest);
 
     String clientName = userRequest.getClientRegistration().getClientName();
 
@@ -82,8 +82,6 @@ public class OAuth2UserDetailsService extends DefaultOAuth2UserService {
     log.info("returnfire");
 
     String nickName = randomNick() == null || randomNick() == "" ? UUID.randomUUID().toString() : randomNick();
-    log.info(nickName);
-    // 여기서 random
     Member member = Member.builder()
         .id(email)
         .nickname(nickName)
@@ -110,7 +108,7 @@ public class OAuth2UserDetailsService extends DefaultOAuth2UserService {
       try {
         // "keyword" , 17L 명사검색
         List<String> nickNameList = HangulApi.hangul(Integer.toString(random), 17L);
-        log.info(nickNameList);
+        // log.info(nickNameList);
         nickName = nickNameList.get(idx);
       } catch (IOException | ParseException e) {
         e.printStackTrace();

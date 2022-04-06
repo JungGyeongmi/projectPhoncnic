@@ -20,4 +20,9 @@ public class LoginController {
     public void getLoginRequestPage() {
         log.info("login request......");
     }
+
+    @GetMapping("/logout")
+    public void getLogOutPage() {
+        log.info("logout request.....");
+    }
 }

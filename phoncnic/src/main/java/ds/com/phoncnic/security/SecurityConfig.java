@@ -64,9 +64,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
     http.authorizeRequests()
     .antMatchers("/manage/gallery/list").hasRole("USER");
-    // .antMatchers("/sample/all").permitAll()
-    // .antMatchers("/sample/member").hasRole("MEMBER")
-    // .antMatchers("/sample/admin").hasRole("ADMIN");
 
     http.exceptionHandling().accessDeniedHandler(accessDeniedHandler());
 
@@ -80,19 +77,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
     http.authorizeRequests()
     .antMatchers("/lookmodal/lookmodify").hasRole("USER");
-
-    //1. Security login form 사용
-    // http.formLogin();
-    
-    //2. 사용자 정의에 의한 loginProcessingUrl 사용
-    // http.formLogin().loginPage("/member/login")
-    // .loginProcessingUrl("/member/login");
     
     //3.UserDetailsService 로그인 handler :: security의 '/login'
-
     http.formLogin().loginPage("/member/login")
     .loginProcessingUrl("https://accounts.google.com/o/oauth2/v2/auth/identifier?response_type=code&client_id=301468225398-heanhhm34h7tttd2vrd1002iku8jtnr7.apps.googleusercontent.com&scope=email&state=e_nayzmX5_Uu6KiIVYtv6ZlRX7UilF7svDh5OWGqs2c%3D&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fphoncnic%2Flogin%2Foauth2%2Fcode%2Fgoogle&flowName=GeneralOAuthFlow")
-    .failureUrl("/member/loginRequest")
+    .failureUrl("/member/login")
     .successHandler(loginSuccessHandler());
     
     //4.OAuth2UserDetailsService 로그인 handler :: social의 login
@@ -100,8 +89,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     
     http.csrf().disable();
 
-    http.logout().logoutSuccessHandler(logoutSuccessHandler());
-    //.logoutUrl("/member/logout").logoutSuccessUrl("/member/login")
+    http.logout().logoutUrl("/member/logout").logoutSuccessHandler(logoutSuccessHandler()).logoutSuccessUrl("/");
     http.rememberMe().tokenValiditySeconds(60*60*24*7).userDetailsService((UserDetailsService) memberDetailsService);
 
     http.addFilterBefore(apiLoginFilter(), UsernamePasswordAuthenticationFilter.class);
