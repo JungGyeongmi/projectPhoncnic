@@ -125,13 +125,13 @@ public class DyningRepositoryTests {
 
     }
 
-    @Test
-    public void Test2() {
-        List<Dyning> result = dyningRepository.getStreetList();
-        result.forEach(i -> {
-            System.out.println(i);
-        });
-    }
+    // @Test
+    // public void Test2() {
+    // List<Dyning> result = dyningRepository.getStreetList();
+    // result.forEach(i -> {
+    // System.out.println(i);
+    // });
+    // }
 
     @Test
     public void Test4() {

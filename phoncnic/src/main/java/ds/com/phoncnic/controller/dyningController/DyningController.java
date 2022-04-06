@@ -29,73 +29,97 @@ public class DyningController {
     private final FollowService followService;
     private final CharacterLookService characterLookService;
 
-
     // 카페 거리 페이지
     @GetMapping("/cafe/list")
     public void cafeList(Model model,@AuthenticationPrincipal AuthMemberDTO dto) {
         log.info("cafe list.................");
-        model.addAttribute("result", dyningService.getStreet());
+        model.addAttribute("result", dyningService.getCafeStreet());
         if(dto!=null){model.addAttribute("id",dto.getId());}
     }
-   
+
     @GetMapping("/restaurant/list")
     public void restaurant(Model model,@AuthenticationPrincipal AuthMemberDTO dto) {
         log.info("restaurant list.................");
-
-        model.addAttribute("result", dyningService.getStreet());
-        if(dto!=null){model.addAttribute("id",dto.getId());}
+        model.addAttribute("result", dyningService.getRestaurantStreet());
+        if(dto!=null){
+            model.addAttribute("id",dto.getId());
+            model.addAttribute("hairDTO", characterLookService.getCharacterHair(dto.getId()));
+        }else{
+            model.addAttribute("hairDTO", characterLookService.getCharacterHair("user10@icloud.com"));
+        }
 
     }
+
 
     @GetMapping("/details")
-    public void details(@RequestParam("dno") Long dno, Model model,@AuthenticationPrincipal AuthMemberDTO dto) {
+    public void details(@RequestParam("dno") Long dno,@AuthenticationPrincipal AuthMemberDTO dto, Model model) {
         log.info("Details.................");
+        if (dno != 0) {
+	        model.addAttribute("emojiInfo", emojiInfoService.getEmojiInfoList());
+            DyningDTO dyningDTO = dyningService.getDyningDetails(dno);
+            model.addAttribute("result", dyningService.getDyningDetails(dno));
+            model.addAttribute("imageresult", dyningService.getDyningDetails(dno).getDyningImageDTOList());
+            if(dto!=null){
+                model.addAttribute("id", dto.getId());
+                try {
+                    model.addAttribute("fno", followService.getFno(dto.getId(), dyningDTO.getDyningname()));
+                } catch (NullPointerException e) {
+                    model.addAttribute("fno", "");
+                }
+                try {
+                    model.addAttribute("eno", emojiService.HaveEmoji(dto.getId(), dno).getEno());
+                    model.addAttribute("emojitype", emojiService.HaveEmoji(dto.getId(), dno).getEmojiInfo().getEmojitype());
+                } catch (NullPointerException e) {
+                    model.addAttribute("eno", "");
+                    model.addAttribute("emojitype", "");
+                }
 
-        if(dno!=0){
-        model.addAttribute("emojiInfo", emojiInfoService.getEmojiInfoList());
+            } else{
+                model.addAttribute("eno", "");
+                model.addAttribute("emojitype", "");
+                model.addAttribute("id", "");
+                model.addAttribute("fno", "");
 
-        DyningDTO dyningDTO = dyningService.getDyningDetails(dno);
-        model.addAttribute("result", dyningService.getDyningDetails(dno));
-        model.addAttribute("imageresult", dyningService.getDyningDetails(dno).getDyningImageDTOList());
-        if(dto!=null){model.addAttribute("id",dto.getId());}else{
-            model.addAttribute("id","");
-        }
-        try {
-            model.addAttribute("eno",emojiService.HaveEmoji(dto.getId(), dno).getEno());
-            model.addAttribute("emojitype",emojiService.HaveEmoji(dto.getId(), dno).getEmojiInfo().getEmojitype());
-            model.addAttribute("fno", followService.getFno(dto.getId(),dyningDTO.getDyningname()));
-            log.info(dto.getId()+"의 fno:"+followService.getFno(dto.getId(),dyningDTO.getDyningname()));
 
-        } catch (NullPointerException e) {
-            model.addAttribute("eno","");
-            model.addAttribute("emojitype","");
-            model.addAttribute("fno", "");
+            }
+            model.addAttribute("emojilist", emojiService.dyningEmojiList(dno));
+            model.addAttribute("emojitype1", emojiService.getEmojitypeCwt(dno, "1"));
+            model.addAttribute("emojitype2", emojiService.getEmojitypeCwt(dno, "2"));
+            model.addAttribute("emojitype3", emojiService.getEmojitypeCwt(dno, "3"));
+            model.addAttribute("emojitype4", emojiService.getEmojitypeCwt(dno, "4"));
+            model.addAttribute("emojitype5", emojiService.getEmojitypeCwt(dno, "5"));
 
-        }
-        
-        model.addAttribute("emojilist", emojiService.dyningEmojiList(dno));
-        model.addAttribute("emojitype1",emojiService.getEmojitypeCwt(dno, "1"));
-        model.addAttribute("emojitype2",emojiService.getEmojitypeCwt(dno, "2"));
-        model.addAttribute("emojitype3",emojiService.getEmojitypeCwt(dno, "3"));
-        model.addAttribute("emojitype4",emojiService.getEmojitypeCwt(dno, "4"));
-        model.addAttribute("emojitype5",emojiService.getEmojitypeCwt(dno, "5"));
 
-        }else {return;}
+            // model.addAttribute("follow",followService.)
+
+        } else
+            return;
+
     }
 
- 
 
-    
+
+
     @GetMapping("/movingtest")
+    public String movingtest(Model model,@AuthenticationPrincipal AuthMemberDTO dto) {
+        if(dto!=null){
+            model.addAttribute("hairDTO", characterLookService.getCharacterHair(dto.getId()));
+        }else{
+            model.addAttribute("hairDTO", characterLookService.getCharacterHair("user10@icloud.com"));
+        }
+
+
+        return "/dyning/movingtest";
+    }
+
+    @GetMapping("/movingtest2")
     public String movingtest2(Model model,@AuthenticationPrincipal AuthMemberDTO dto) {
         if(dto!=null){
             model.addAttribute("hairDTO", characterLookService.getCharacterHair(dto.getId()));
         }else{
             model.addAttribute("hairDTO", characterLookService.getCharacterHair("user10@icloud.com"));
         }
-        
-
-        return "/dyning/movingtest";
+        return "/dyning/movingtest2";
     }
 
 

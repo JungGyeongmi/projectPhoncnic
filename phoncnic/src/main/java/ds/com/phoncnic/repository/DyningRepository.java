@@ -16,8 +16,17 @@ import ds.com.phoncnic.repository.search.SearchDyningRepository;
 public interface DyningRepository extends JpaRepository<Dyning, Long>, QuerydslPredicateExecutor<Dyning>, SearchDyningRepository {
 
     // 거리에서 가게명/루프패스
-    @Query("SELECT d, r FROM Dyning d LEFT JOIN RoofDesign r ON d.roofdesign = r.oono")
-    List<Dyning> getStreetList();
+    // @Query("SELECT d, r FROM Dyning d LEFT JOIN RoofDesign r ON d.roofdesign =
+    // r.oono")
+    // List<Dyning> getStreetList();
+
+    // 카페거리 리스트
+    @Query("SELECT d, r FROM Dyning d LEFT JOIN RoofDesign r ON d.roofdesign = r.oono where d.foodtype = 1")
+    List<Dyning> getCafeStreetList();
+
+    // 음식점거리 리스트
+    @Query("SELECT d, r FROM Dyning d LEFT JOIN RoofDesign r ON d.roofdesign = r.oono where d.foodtype != 1")
+    List<Dyning> getRestaurantStreetList();
 
     @Modifying
     @Query("delete from Dyning d where d.ceoid.id=:id")
@@ -32,7 +41,7 @@ public interface DyningRepository extends JpaRepository<Dyning, Long>, QuerydslP
     @Query("select di from DyningImage di where di.dyning.id =:dno")
     List<DyningImage> getImageDetailsPage(Long dno);
 
-    @Query ("select d,count(e.eno) from Dyning d left join Emoji e on e.dyning.dno = dno where d.dno =:dno group by dno")
+    @Query("select d,count(e.eno) from Dyning d left join Emoji e on e.dyning.dno = dno where d.dno =:dno group by dno")
     List<Object[]> getDyningDetails(Long dno);
 
 

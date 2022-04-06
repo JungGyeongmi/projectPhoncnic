@@ -21,6 +21,7 @@
                 </tr>
             </table>
         </form>
+
         <form id="lookform" action="">
             <input type="hidden" name="id" th:value="${id}">
             <span th:each="hdto : ${looklist}">
@@ -35,17 +36,19 @@
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             </span>
             <button id="lookModifyBtn" type="button" class="btn btn-primary">변경하기</button>
-            <div>
-                <div th:each="hdto : ${hairDTO}"><img class="look hairlook" th:src="${hdto.hairpath}" alt=""
-                        id="checkedhair">
+            <br><br>
+            <span>
+                <div th:each="hdto : ${hairDTO}">
+                    <img class="look hairlook" th:src="${hdto.hairpath}" alt="" id="checkedhair">
                     <input type="hidden" id="radiohair" th:value="${hdto.hairname}">
                 </div><br>
-                <div th:each="cdto : ${clothesDTO}"><img class="look clotheslook" th:src="${cdto.clothespath}" alt=""
-                        id="checkedclothes">
+                <div th:each="cdto : ${clothesDTO}">
+                    <img class="look clotheslook" th:src="${cdto.clothespath}" alt="" id="checkedclothes">
                     <input type="hidden" id="radioclothes" th:value="${cdto.clothesname}">
                 </div>
-            </div>
+            </span>
         </form>
+
 
         <br>
         <table border="1">
@@ -105,20 +108,18 @@
         </table>
         <style>
             .look {
-                display: inline-block;
-                position: absolute;
-                margin-left: 60%;
+                display: inline-block;                
             }
 
             .hairlook {
+                position: relative;
                 margin-bottom: -50px;
                 z-index: 10;
             }
 
             .clotheslook {
+                margin-top: -30px;
                 z-index: 1;
-                margin-top: 15px;
-
             }
         </style>
         <script th:inline="javascript">

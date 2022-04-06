@@ -19,10 +19,9 @@ public class EmojiInfoRepositoryTests {
     @Autowired
     EmojiInfoService emojiInfoService;
 
-
     @Test
     public void insertDummise() {
-        
+
         IntStream.rangeClosed(1, 5).forEach(i -> {
             String[] emojiInfoUrlArrays = {
                 "/phoncnic/display?fileName=2022%5C04%5C01%2Fd2343817-9931-440f-abbd-765f2f55ca4c_shock.png",
@@ -34,17 +33,17 @@ public class EmojiInfoRepositoryTests {
             EmojiInfo emojiInfo = EmojiInfo.builder()
                 .emojitype(i+"")
                 .emojipath(emojiInfoUrlArrays[i-1])
-                .kindofemoji("이모지"+i+"이여라")
+                .kindofemoji("emoji"+i)
             .build();
 
             emojiInfoRepository.save(emojiInfo);
-        
+
         });
     }
 
     @Test
     public void getEmojiInfoListTest() {
-        
+
         List<EmojiInfo> emojiInfoList = emojiInfoService.getEmojiInfoList();
         emojiInfoList.stream().forEach(System.out::println);
 

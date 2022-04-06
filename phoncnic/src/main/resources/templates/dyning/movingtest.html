@@ -1,18 +1,26 @@
-<!DOCTYPE html>
++<!DOCTYPE html>
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
 <th:block th:replace="~{layout/basic :: setContent(~{::content})}">
     <th:block th:fragment="content">
 
 <head>
+    <style>
+        *{
+            overflow: hidden;
+        }
+    </style>
     <title></title>
-    <div th:each="hdto : ${hairDTO}"><img id="radiohair" class="look hairlook" th:src="${hdto.hairpath}" alt="">
+    <div th:each="hdto : ${hairDTO}">
+        <input type="hidden" id="radiohair" class="look hairlook" th:src="${hdto.hairpath}" alt="">
         <input  type="hidden" id="radiohair" th:value="${hdto.hairname}"></div>
-
-        
+        <body onload="loaded()" onkeydown="keydown()" onkeyup="keyup()">
+            <canvas width="10000" height="5000" style="border: 2px solid black;" id="c1"></canvas>
+        </body>
     <script>
  
         var canvas; //도화지 객체
         var context; //화가 객체
+        // var context2; //화가 객체
  
         // 플레이어 이동 방향과 속도
         var dx=0;
@@ -24,7 +32,8 @@
         // 전역변수로서 이미지 객체 생성
         var imgChar= new Image();
         imgChar.src = headimg;
-     
+        // var imgBg= new Image();
+        // imgBg.src=headimg;
  
         // 플레이어 캐릭터의 중심좌표
         var x=200, y=250; //정 가운데로 위치
@@ -33,11 +42,22 @@
         function loaded(){
             canvas= document.getElementById('c1');
             context= canvas.getContext('2d');
+            // context2 = canvas.getContext('2d');
  
             runGame(); //게임을 진행하는 함수
             //10ms 마다 runGame()를 다시 호출
-            setInterval(runGame,10); //1초에 100번 호출
+            setInterval(runGame,1); //1초에 100번 호출
         }
+
+        canvas.onclick = function(event){
+
+const x = event.clientX - ctx.canvas.offsetLeft; 
+
+ const y = event.clientY - ctx.canvas.offsetTop;  
+console.log(x,y);}
+
+
+
  
         function runGame(){
             moveAll(); //캐릭터 움직이기
@@ -52,9 +72,10 @@
         }
         function drawAll(){
             // 배경 그리기
-            context.drawImage(imgBg,0,0,400,500);
+            // context.drawImage(imgBg,0,0,400,500);
             //플레이어 그리기
             context.drawImage(imgChar,x-w,y-h,w*2,h*2);
+            
  
             // 키 코드값 글씨 그리기
             context.fillStyle="white";
@@ -82,6 +103,7 @@
                 case 40: dy=0; break;
             }
         }
+     
  
         // 사운드 작업 : 크롬은 자동 재생을 막은 듯 함. Edge는 될 것임
         // var sd= new Audio('./dragon_flight.mp3');
@@ -91,9 +113,7 @@
  
     </script>
 </head>
-<body onload="loaded()" onkeydown="keydown()" onkeyup="keyup()">
-    <canvas width="400" height="500" style="border: 2px solid black;" id="c1"></canvas>
-</body>
+
 </th:block>
 
 </th:block>

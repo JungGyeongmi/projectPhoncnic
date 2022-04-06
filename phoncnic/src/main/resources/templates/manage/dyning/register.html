@@ -131,7 +131,7 @@
             alert("파일사이즈 초과");
             return false;
           }
-          // 파일 이름으로 유효성 검사 
+          // 파일 이름으로 유효성 검사
           // regex에 .이 포함되어있으니까 +1을 안해줘도 돼
           if (regex.test(fileName.substring(fileName.lastIndexOf(".")))) {
             // alert("해당파일은 업로드 될 수 없습니다!");
@@ -465,19 +465,18 @@
             var urlRemove = [[@{/removeFile}]];
           +]*/
 
-          $.ajax({
-            url: urlRemove,
-            data: { fileName: targetFile },
-            dataType: 'text',
-            type: 'POST',
-            success: function (result) {
-              alert(result ? "Deleted!" : "Error");
-              targetLi.remove();
-            }
-          });
+        $.ajax({
+          url: urlRemove,
+          data: { fileName: targetFile },
+          dataType: 'text',
+          type: 'POST',
+          success: function (result) {
+            targetLi.remove();
+          }
         });
 
       });
+    });
     </script>
 
     <div id="roofModal" class="modal roofModal" tabindex="-2">
@@ -504,5 +503,6 @@
         </div>
       </div>
     </div>
+
   </th:block>
 </th:block>

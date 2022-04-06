@@ -19,7 +19,7 @@ public interface DyningService {
 
     List<RoofDesign> roofimageList();
 
-    Long register(DyningDTO dyningDTO);;
+    Long register(DyningDTO dyningDTO);
 
     void removeWithImages(Long dno);
 
@@ -117,7 +117,12 @@ public interface DyningService {
         return dyningDTO;
     }
 
-    List<DyningDTO> getStreet();
+    // List<DyningDTO> getStreet();
+    // 카페 거리
+    List<DyningDTO> getCafeStreet();
+
+    // 레스토랑 거리
+    List<DyningDTO> getRestaurantStreet();
 
     List<DyningDTO> getMyDyningList(String id);
 

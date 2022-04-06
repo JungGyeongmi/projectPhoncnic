@@ -41,19 +41,27 @@ public class ApiCheckFilter extends OncePerRequestFilter {
       log.info("ApiCheckFilter..................................");
       log.info("ApiCheckFilter..................................");
       log.info("ApiCheckFilter..................................");
+
       boolean checkHeader = checkAuthHeader(request);
+
       if (checkHeader) {
         filterChain.doFilter(request, response);
         return;
       } else {
         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         response.setContentType("application/json;charset=utf-8");
+        
         JSONObject json = new JSONObject();
+
         String message = "FAILE CHECK API TOKEN";
+
         json.put("code", "403");
         json.put("message", message);
+
         PrintWriter out = response.getWriter();
+
         out.print(json);
+
         return;
       }
     }
@@ -64,13 +72,13 @@ public class ApiCheckFilter extends OncePerRequestFilter {
     boolean checkResult = false;
     String authHeader = request.getHeader("Authorization");
 
-    if (StringUtils.hasText(authHeader) &&
-        authHeader.startsWith("Bearer ")) {
+    if (StringUtils.hasText(authHeader) && authHeader.startsWith("Bearer ")) {
       log.info("Authorization exist: " + authHeader);
       try {
-        String email = jwtUtil.validateAndExtract(
-            authHeader.substring(7));
+        String email = jwtUtil.validateAndExtract(authHeader.substring(7));
+       
         log.info("validate Result: " + email);
+        
         checkResult = email.length() > 0;
       } catch (Exception e) {
         e.printStackTrace();

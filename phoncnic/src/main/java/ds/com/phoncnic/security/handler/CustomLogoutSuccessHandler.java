@@ -17,15 +17,18 @@ public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
   public void onLogoutSuccess(HttpServletRequest request, 
   HttpServletResponse response, Authentication auth)
       throws IOException, ServletException {
+
     log.warn("logoutsuccess...");
     log.info("auth.getDetails:"+auth.getDetails());
+
     if(auth != null && auth.getDetails() != null){
       try {
         request.getSession().invalidate();
         log.info("logout invalidate....");
       } catch (Exception e) {e.printStackTrace();}
+
       response.setStatus(HttpServletResponse.SC_OK);
-      response.sendRedirect(request.getContextPath()+"/member/login");
+      response.sendRedirect(request.getContextPath()+"/index");
     }
   }
 }
