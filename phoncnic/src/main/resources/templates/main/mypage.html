@@ -6,7 +6,6 @@
             <table border="1">
                 <tr>
                     <th scope="col">아이디</th>
-                    <th scope="col">비밀번호</th>
                     <th scope="col">닉네임</th>
                     <th scope="col">가입일</th>
                     <th scope="col">수정</th>
@@ -15,7 +14,6 @@
                 </tr>
                 <tr th:each="dto : ${memberDTO}">
                     <td><input type="text" th:value=${dto.id} name=id readonly></td>
-                    <td><input type="text" th:value=${dto.password} name=password readonly></td>
                     <td><input type="text" th:value=${dto.nickname} name=nickname></td>
                     <td><input type="text" th:value=${dto.regdate} readonly></td>
                     <td><button id="memberModifyBtn" type="button">수정</button></td>
@@ -38,18 +36,18 @@
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             </span>
             <button id="lookModifyBtn" type="button" class="btn btn-primary">변경하기</button>
-            <br><br>
-            <span>
-                <div th:each="hdto : ${hairDTO}">
-                    <img class="look hairlook" th:src="${hdto.hairpath}" alt="" id="checkedhair">
-                    <input type="hidden" id="radiohair" th:value="${hdto.hairname}">
-                </div><br>
-                <div th:each="cdto : ${clothesDTO}">
-                    <img class="look clotheslook" th:src="${cdto.clothespath}" alt="" id="checkedclothes">
-                    <input type="hidden" id="radioclothes" th:value="${cdto.clothesname}">
-                </div>
-            </span>
+            <br>
         </form>
+        <div class="character-container">
+            <div th:each="hdto : ${hairDTO}">
+                <img class="look hairlook" th:src="${hdto.hairpath}" alt="" id="checkedhair">
+                <input type="hidden" id="radiohair" th:value="${hdto.hairname}">
+            </div><br>
+            <div th:each="cdto : ${clothesDTO}">
+                <img class="look clotheslook" th:src="${cdto.clothespath}" alt="" id="checkedclothes">
+                <input type="hidden" id="radioclothes" th:value="${cdto.clothesname}">
+            </div>
+        </div>
 
 
         <br>
@@ -109,22 +107,31 @@
             </tr>
         </table>
         <style>
+            .character-container {
+                position: absolute;
+            }
+
             .look {
                 display: inline-block;
-                position: absolute;
-                margin-left: 60%;
             }
 
             .hairlook {
+                /* position: absolute; */
                 position: relative;
                 margin-bottom: -50px;
                 z-index: 10;
             }
 
             .clotheslook {
+                /* position: absolute; */
                 margin-top: -30px;
                 z-index: 1;
             }
+
+            .character-container {
+                position: relative;
+            }
+
         </style>
         <script th:inline="javascript">
 

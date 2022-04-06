@@ -4,7 +4,6 @@
 
     <!-- search toggle -->
     <th:block th:fragment="search">
-    
         <style>
             .search-result-Item {
                 cursor: pointer;
@@ -26,8 +25,6 @@
                 <ul class="md-serach-result"></ul>
             </div>
         </div>
-       
-
 
         <script th:inline="javascript">
             $(document).ready(function () {
@@ -124,15 +121,15 @@
             }
 
             #list1 {
-                margin: 20px;
+                margin: 50px;
                 width: 100px;
                 height: 100px;
                 display: inline-block;
             }
 
             #list2 {
-                margin: 20px;
-                padding-top: 250px;
+                margin: 50px;
+                padding-top: 170px;
                 width: 100px;
                 height: 100px;
                 display: inline-block;
@@ -142,7 +139,7 @@
         <h1>restaurant</h1>
         <div class="wrap">
             <ul class="dyning-list-ul">
-                <li id="list1" th:each="dto : ${result}" th:if="${dtoStat.count} <= ${dtoStat.size}/2">
+                <li id="list1" th:each="dto : ${result}" th:if="${dtoStat.count} <= ${dtoStat.size}/2 + 1">
                     <div>
                         <a th:href="@{/dyning/details(dno=${dto.dno},id=${id}) }">
                             <img class="dyningimg" th:src="${dto.roofthumbnail}">
@@ -152,7 +149,7 @@
                 </li>
             </ul>
             <ul class="dyning-list-ul">
-                <li id="list2" th:each="dto : ${result}" th:if="${dtoStat.count} > ${dtoStat.size}/2">
+                <li id="list2" th:each="dto : ${result}" th:if="${dtoStat.count} > ${dtoStat.size}/2 + 1">
                     <div id="dyningdiv">
                         <a id="dyninga" th:href="@{/dyning/details(dno=${dto.dno},id=${id}) }">
                             <img class="dyningimg" th:src="${dto.roofthumbnail}">
@@ -164,26 +161,24 @@
         </div>
 
         <script th:inline="javascript">
-            
-                window.addEventListener("keydown", function (e) {
-                    // space and arrow keys
-                    if ([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
-                        e.preventDefault();
-                    }
-                }, false);
+            // 방향키(37~40), space바(32)로 스크롤 이동 막기
+            window.addEventListener("keydown", function (e) {
+                if ([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+                    e.preventDefault();
+                }
+            }, false);
 
-                // var Img = document.getElementsByClassName("dyningimg");
-                // var divv = document.querySelectorAll("#dyninga.dyningimg");
-                // for(i=1; i<=8; i++){
-                //     console.log(divv[i].offsetTop);
-                // }
-                // document.getElementsByClassName("dyningimg").offsetTop;
-                // console.log(Img.offsetTop);
-                window.addEventListener("mouseover", function(e) {
-                    console.log(e.target.offsetTop, e.target.offsetLeft);
-                }); 
-                
-            
+            // var Img = document.getElementsByClassName("dyningimg");
+            // var divv = document.querySelectorAll("#dyninga.dyningimg");
+            // for(i=1; i<=8; i++){
+            //     console.log(divv[i].offsetTop);
+            // }
+            // document.getElementsByClassName("dyningimg").offsetTop;
+            // console.log(Img.offsetTop);
+            window.addEventListener("mouseover", function (e) {
+                console.log(e.target.offsetTop, e.target.offsetLeft);
+            });
         </script>
+
     </th:block>
 </th:block>
