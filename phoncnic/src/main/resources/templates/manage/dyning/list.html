@@ -1,39 +1,29 @@
-<!DOCTYPE html>
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
-    <h1>등록된 가게 목록</h1>
-    <a th:href="@{/manage/dyning/register(id=${id})}">
-        <button type="button"> 
-            <h2> [[${id}]]가게 등록하러 GO</h2>
-        </button>
-    </a>
-   
+<th:block th:replace="~{layout/basic :: setContent(~{::content})}">
+    <th:block th:fragment="content">
 
-    
-    <table border="1" >
-        <tr >
-            <th scope="col">dyningname</th>
-            <th scope="col">Roof Path</th>
-        </tr>
-        <tr  th:each="dto : ${result}"
-        th:onclick="'location.href=
+        <h1>등록된 가게 목록</h1>
+        <a th:href="@{/manage/dyning/register(id=${id})}">
+            <button type="button">
+                <h2> [[${id}]]가게 등록하러 GO</h2>
+            </button>
+        </a>
+
+        <table border="1">
+            <tr>
+                <th scope="col">dyningname</th>
+                <th scope="col">Roof Path</th>
+            </tr>
+            <tr th:each="dto : ${result}" th:onclick="'location.href=
         \''+ @{/manage/dyning/read(dno=${dto.dno},id=${id})}
              + '\''">
-            <!-- <td >[[${dto.dno}]]</td> -->
-            <td id="dyningname">[[${dto.dyningname}]]</td>
-            <!-- <td>[[${dto.foodtype}]]</td> -->
-            <td id="roofpath">
-            <img th:src="${dto.roofthumbnail}" alt=""></td>
-
-        </tr>
-    </table>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <script>
-     window.onload = function(){
-            /*[+var dno = [[${dno}]];+]*/
-            if(ceoid==""){
-             swal(dno+"번째 가게가 삭제되었습니다.");
-         }
-     }
-    </script>
-    
-</html>
+                <!-- <td >[[${dto.dno}]]</td> -->
+                <td id="dyningname">[[${dto.dyningname}]]</td>
+                <!-- <td>[[${dto.foodtype}]]</td> -->
+                <td id="roofpath">
+                    <img th:src="${dto.roofthumbnail}" alt="">
+                </td>
+            </tr>
+        </table>
+    </th:block>
+</th:block>
