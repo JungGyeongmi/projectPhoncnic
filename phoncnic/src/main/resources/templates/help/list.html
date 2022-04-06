@@ -4,23 +4,57 @@
     .form-select {
         width: 100px;
     }
-</style>
-<style>
+
     .table-hover tbody tr:hover td {
         background-color: #DBE9B7;
+    }
+    tr, th, td {
+        text-align: center;
     }
 
     .custom {
         width: 200px !important;
     }
     .containerBox{
-        width: 80vw;
-        margin-left: auto;
-        margin-right: auto;
+        width: 70vw;
+        margin: 0 auto;
     }
 
     #searchBox {
-        margin-bottom: 40px;
+        margin-top: 78px;
+        margin-bottom: 30px;
+    }
+
+    button {
+        font-family: "GmarketSansLight" !important;
+    }
+
+    .container-fluid{
+        height: 84% !important;
+    }
+
+    .my.pagination > .active > a ,
+    .my.pagination > .active > span, 
+    .my.pagination > .active > a:hover, 
+    .my.pagination > .active > span:hover, 
+    .my.pagination > .active > span:focus {
+        background: #DBE9B7;
+        border-color: #DBE9B7;
+    }    
+    
+    .my.pagination > li > a {
+        color: gray;
+    } 
+    .my.pagination >  .active > a {
+        color: black;
+    }
+
+    .pagination {
+        margin-top: 95px;
+    }
+
+    .my.col-3 {
+        padding: 0;
     }
 </style>
 <th:block th:replace="~{layout/basic :: setContent(~{::content})}">
@@ -29,7 +63,7 @@
         <form th:action="@{/help/list}" method="get" id="searchForm">
             <input type="hidden" name="page" value="1">
             <div class="row" id="searchBox">
-                <div class="col-md-2">
+                <div class="col-md-2" style="width:10%"> 
                     <select class="form-select" name="type">
                         <option th:selected="${pageRequestDTO.type == null}">선택</option>
                         <option value="t" th:selected="${pageRequestDTO.type == 't'}">제목</option>
@@ -38,15 +72,15 @@
                         <option value="tc" th:selected="${pageRequestDTO.type == 'tc'}">제목+내용</option>
                     </select>
                 </div>
-                <div class="col-3">
+                <div class="col-3 my ">
                     <input id="srch" name="keyword" th:value="${pageRequestDTO.keyword}" class="form-control">
                 </div>
-                <div class="col">
+                <div class="col-6">
                     <button id="searchBtn" type="button" class="btn btn-light">검색</button>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-1">
                     <a th:href="@{/help/register}">
-                        <button type="button" class="btn btn-light custom">
+                        <button type="button" class="btn btn-secondary custom">
                             문의하기
                         </button>
                     </a>
@@ -61,11 +95,12 @@
                     <th scope="col">제목</th>
                     <th scope="col">내용</th>
                     <th scope="col">작성자</th>
-                    <th scope="col">등록일</th>
+                    <th scope="col" style="width:22%">등록일</th>
+                    <th scope="col" style="width:0%"></th>
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="dto : ${result.dtoList}" class="dto"
+                <tr th:each="dto : ${result.dtoList}" class="dto" 
                     th:onclick="|javascript:pwcheck([[${dto.qno}]],[[${result.page}]])|">
                     <td>[[${dto.qtype}]]</td>
                     <td>[[${ dto.title }]]</td>
@@ -78,12 +113,12 @@
         </table>
         <!-- pagination -->
         <nav>
-            <ul class="pagination justify-content-center">
+            <ul class="pagination justify-content-center my">
               <li class="page-item" th:if="${result.prev}">
                 <a th:href="@{/help/list(page=${result.start-1}, type=${pageRequestDTO.type},
                 keyword=${pageRequestDTO.keyword})}" class="page-link" tabindex="-1" >&laquo;</a>
               </li>
-              <li th:class=" 'page-item ' + ${result.page==page?'info':''} " th:each="page : ${result.pageList}">
+              <li th:class=" 'page-item ' + ${result.page==page?'active':''} " th:each="page : ${result.pageList}">
                   <a th:href="@{/help/list(page=${page}, type=${pageRequestDTO.type},
                     keyword=${pageRequestDTO.keyword})}" class="page-link" >[[${page}]]</a>
                 </li>
@@ -114,7 +149,7 @@
             </li>
         </ul> -->
     </div>
-    </th:block>
+    
 
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script th:inline="javascript">
@@ -171,5 +206,5 @@
             });
         }
     </script>
-</th:block>
+    </th:block>
 </th:block>
