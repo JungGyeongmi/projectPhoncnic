@@ -11,25 +11,24 @@ import ds.com.phoncnic.dto.HelpDTO;
 import ds.com.phoncnic.dto.pageDTO.PageRequestDTO;
 import ds.com.phoncnic.dto.pageDTO.PageResultDTO;
 import ds.com.phoncnic.entity.Help;
-import ds.com.phoncnic.entity.Member;
 import ds.com.phoncnic.repository.HelpRepository;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class HelpServiceImpl implements HelpService { 
-    
+public class HelpServiceImpl implements HelpService {
+
     private final HelpRepository helpRepository;
-    
+
     @Override
     public PageResultDTO<HelpDTO, Object[]> getQnaList(PageRequestDTO pageRequestDTO) {
-        
-        Function<Object[], HelpDTO> fn = (entity -> entityToDTO((Help)entity[0]));
+
+        Function<Object[], HelpDTO> fn = (entity -> entityToDTO((Help) entity[0]));
         Page<Object[]> result = helpRepository.searchPage(
-            pageRequestDTO.getType(), 
-            pageRequestDTO.getKeyword(),
-            pageRequestDTO.getPageable(Sort.by("qno").descending()) );
-            
+                pageRequestDTO.getType(),
+                pageRequestDTO.getKeyword(),
+                pageRequestDTO.getPageable(Sort.by("qno").descending()));
+
         return new PageResultDTO<>(result, fn);
     }
 
@@ -44,8 +43,8 @@ public class HelpServiceImpl implements HelpService {
     public HelpDTO get(Long qno) {
         Optional<Help> result = helpRepository.findById(qno);
 
-        if(result.isPresent()) {
-            return entityToDTO(result.get());        
+        if (result.isPresent()) {
+            return entityToDTO(result.get());
         }
         return null;
     }
@@ -53,7 +52,7 @@ public class HelpServiceImpl implements HelpService {
     @Override
     public void modify(HelpDTO helpDTO) {
         Optional<Help> result = helpRepository.findById(helpDTO.getQno());
-        if(result.isPresent()){
+        if (result.isPresent()) {
             Help help = result.get();
 
             help.changeTitle(helpDTO.getTitle());
@@ -67,6 +66,6 @@ public class HelpServiceImpl implements HelpService {
     @Override
     public void remove(Long qno) {
         helpRepository.deleteById(qno);
-        helpRepository.deleteById(qno-1);
+        helpRepository.deleteById(qno - 1);
     }
 }
