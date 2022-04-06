@@ -32,7 +32,7 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 
     log.warn("ROLE NAMES : " + roleNames);
 
-    HttpSession session = request.getSession();
+    HttpSession session = request.getSession(false);
     if (session != null) {
       String redirectUrl = (String) session.getAttribute("prevPage");
       log.info("redirect url "+redirectUrl);

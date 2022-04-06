@@ -22,7 +22,9 @@ public class LoginController {
     }
 
     @GetMapping("/logout")
-    public void getLogOutPage() {
+    public String getLogOutPage() {
         log.info("logout request.....");
+        
+        return "rediect:/member/login";
     }
 }
