@@ -34,12 +34,14 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 
     HttpSession session = request.getSession(false);
     if (session != null) {
+      log.info( request.getPathInfo());
       String redirectUrl = (String) session.getAttribute("prevPage");
       log.info("redirect url "+redirectUrl);
       if (redirectUrl != null) {
         response.sendRedirect(redirectUrl);
         session.removeAttribute("prevPage");
       } else {
+        log.info("boboobobobo");
         response.sendRedirect(request.getContextPath()+"/");
       }
     }

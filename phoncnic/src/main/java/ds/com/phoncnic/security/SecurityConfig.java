@@ -6,6 +6,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -22,7 +24,7 @@ import lombok.extern.log4j.Log4j2;
 @Configuration
 @Log4j2
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
-public class SecurityConfig extends WebSecurityConfigurerAdapter{
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
   
   @Autowired
   private MemberDetailsService memberDetailsService;
@@ -42,7 +44,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     return new CustomLogoutSuccessHandler();
   }
 
-
   @Bean
   public ApiLoginFilter apiLoginFilter() throws Exception {
     ApiLoginFilter apiLoginFilter = new ApiLoginFilter("/api/login", jwtUtil());
@@ -56,10 +57,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
   public JWTUtil jwtUtil() {
     return new JWTUtil();
   }
+
+  @Bean
+  public SessionRegistry sessionResistry() {
+    return new SessionRegistryImpl();
+  }
   
   //시큐리티를 적용하기 위한 url에 대한 설정과 로그인과 access 거부일때
   @Override
   protected void configure(HttpSecurity http) throws Exception {
+
+    http.sessionManagement().maximumSessions(1).maxSessionsPreventsLogin(false).expiredUrl("/member/login").sessionRegistry(sessionResistry());
+
     log.info(">>>"+http.headers().getClass().getName());
 
     http.authorizeRequests()
@@ -80,7 +89,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     
     //3.UserDetailsService 로그인 handler :: security의 '/login'
     http.formLogin().loginPage("/member/login")
-    .loginProcessingUrl("https://accounts.google.com/o/oauth2/v2/auth/identifier?response_type=code&client_id=301468225398-heanhhm34h7tttd2vrd1002iku8jtnr7.apps.googleusercontent.com&scope=email&state=e_nayzmX5_Uu6KiIVYtv6ZlRX7UilF7svDh5OWGqs2c%3D&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fphoncnic%2Flogin%2Foauth2%2Fcode%2Fgoogle&flowName=GeneralOAuthFlow")
+    // .loginProcessingUrl("https://accounts.google.com/o/oauth2/v2/auth/identifier?response_type=code&client_id=301468225398-heanhhm34h7tttd2vrd1002iku8jtnr7.apps.googleusercontent.com&scope=email&state=e_nayzmX5_Uu6KiIVYtv6ZlRX7UilF7svDh5OWGqs2c%3D&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fphoncnic%2Flogin%2Foauth2%2Fcode%2Fgoogle&flowName=GeneralOAuthFlow")
     .failureUrl("/member/login")
     .successHandler(loginSuccessHandler());
     
@@ -94,5 +103,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
     http.addFilterBefore(apiLoginFilter(), UsernamePasswordAuthenticationFilter.class);
   }
+
 
 }
