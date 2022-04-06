@@ -34,7 +34,13 @@ public class DyningController {
     public void cafeList(Model model,@AuthenticationPrincipal AuthMemberDTO dto) {
         log.info("cafe list.................");
         model.addAttribute("result", dyningService.getCafeStreet());
-        if(dto!=null){model.addAttribute("id",dto.getId());}
+        if(dto!=null){
+            model.addAttribute("id",dto.getId());
+            model.addAttribute("hairDTO", characterLookService.getCharacterHair(dto.getId()));
+        }else{
+            model.addAttribute("hairDTO", characterLookService.getCharacterHair("user10@icloud.com"));
+        }
+
     }
 
     @GetMapping("/restaurant/list")

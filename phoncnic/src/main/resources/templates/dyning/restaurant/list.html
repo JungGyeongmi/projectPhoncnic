@@ -145,7 +145,7 @@
             <ul class="dyning-list-ul">
                 <li id="list1" th:each="dto : ${result}" th:if="${dtoStat.count} <= ${dtoStat.size}/2">
                     <div class="dyningdiv">
-                        <div th:class="@{/dyning/details(dno=${dto.dno},id=${id}) }" >
+                        <div th:class="@{/dyning/details(dno=${dto.dno},id=${id}) }">
                             <img class="dyningimg" th:src="${dto.roofthumbnail}" th:id="${dtoStat.count}">
                         </div>
                     </div>
@@ -163,8 +163,7 @@
                 </li>
             </ul>
         </div>
-<input type="text" name="" id="idv11" value="123">
-<input type="text" name="" id="10" value="123">
+
 <div id="saveTop"></div>
         <script th:inline="javascript">
             
@@ -243,36 +242,35 @@
                 // console.log($("#saveTop").html);
 
                 
-                document.addEventListener("keyup", function () {
+                document.addEventListener("keyup", function (e) {
+                    let key = e.keyCode;
+
+                    if (key === 13 /* BOTTOM */) {
                     var imgLength = $(".dyningimg").length;
                     var chartop =charimg.offsetTop;
                     var charleft =charimg.offsetLeft;
                     console.log("캐릭터좌표"+chartop,charleft);
 
-                    if($("#5").offset().top-50<chartop&&chartop<$("#5").offset().top+50){
-                          alert();
-                      }
+                  
                     // console.log(chartop, charleft);
                     
                     // var off = $("#9").offset().top;
                     // console.log(off);
 
                    for(i=1; i<=imgLength; i++){
-                      var targetTop = $("#"+i).offset();
-                      var targetLeft = $("#"+i).offset();
-                      var targetHref = $("#"+i).attr('src');
-                      console.log("타겟좌표"+targetTop,targetLeft,targetHref);
+                      var targetTop = $("#"+i).offset().top;
+                      var targetLeft = $("#"+i).offset().left;
+                      var targetHref = $("#"+i).parent().attr('class');
+                    // console.log("캐릭터좌표"+chartop,charleft);
+                    console.log("타겟좌표"+targetTop,targetLeft,targetHref);
 
-                    //   if(targetTop-50<chartop&&chartop<targetTop+50){
-                    //       alert();
-                    //   }
-                    //   if (targetLeft-20<charleft&&charleft<targetLeft+20)  {
-                    //       alert("일치");
-                    //       location.href = targetHref;
-                    //   }
+                      if(targetTop-30<chartop&&chartop<targetTop+30&&targetLeft-30<charleft&&charleft<targetLeft+30){
+                        location.href=targetHref;
+                      };
+                     
                    }
                
-                    
+                }
 
               
                 
