@@ -1,11 +1,10 @@
-@@ -1,416 +1,417 @@
+
 <!DOCTYPE html>
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
 <th:block th:replace="~{layout/basic :: setContent(~{::content})}">
     <th:block th:fragment="content">
         <h1>가게 수정</h1>
 
-    <h1>가게 등록</h1>
     <form th:action="@{/manage/dyning/modify}" th:method="post" id="form">
       <label for="">id
       <input type="hidden" name="dno" th:value="${result.dno}">
@@ -93,7 +92,7 @@
 
     </form>
 
-    <button type="button" class="btn-submit">등록하기</button>
+    <button type="button" class="btn-submit">수정하기</button>
     <a th:href="@{/manage/dyning/list(id=${result.id})}"><button type="button">목록</button></a>
 
 

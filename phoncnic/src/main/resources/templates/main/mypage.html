@@ -155,38 +155,70 @@
 
             document.querySelector("#memberModifyBtn").onclick = function () {
 
-                if (!confirm("계정 정보를 수정하시겠습니까?")) {
-                    return;
-                } else {
-                    memberform.setAttribute("action", urlmembermodify);
-                    memberform.setAttribute("method", "post");
-                    memberform.submit();
-                    alert("수정되었습니다")
-                }
+                swal({
+                        title: "닉네임을 수정하시겠습니까?",
+                        text: "OK를 누르면 닉네임이 수정됩니다",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                        })
+                        .then((willDelete) => {
+                        if (willDelete) {
+                            swal("닉네임이 변경되었습니다", {
+                            icon: "success",
+                            });
+                            memberform.setAttribute("action", urlmembermodify);
+                            memberform.setAttribute("method", "post");
+                            memberform.submit();
+                        } else {
+                            swal("닉네임 수정이 취소되었습니다.");
+                        }
+                        });
+             
             }
             document.querySelector("#lookModifyBtn").onclick = function () {
-
-                if (!confirm("캐릭터의 옷을 변경하시겠습니까?")) {
-                    return;
-                } else {
-                    lookform.setAttribute("action", urllookmodify);
-                    lookform.setAttribute("method", "post");
-                    lookform.submit();
-                    alert("수정되었습니다")
-
-                }
+                swal({
+                        title: "캐릭터 옷을 변경하시겠습니까?",
+                        text: "OK를 누르면 캐릭터 옷이 변경됩니다",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                        })
+                        .then((willDelete) => {
+                        if (willDelete) {
+                            swal("캐릭터 옷이 변경되었습니다", {
+                            icon: "success",
+                            });
+                            lookform.setAttribute("action", urllookmodify);
+                            lookform.setAttribute("method", "post");
+                            lookform.submit();
+                        } else {
+                            swal("캐릭터 옷 변경이 취소되었습니다.");
+                        }
+                        });
+            
             }
             document.querySelector("#memberOutBtn").onclick = function () {
-
-                if (!confirm("정말 탈퇴하시겠습니까?(이 동작은 되돌릴 수 없습니다)")) {
-                    return;
-                } else {
-                    memberform.setAttribute("action", urlmemberout);
-                    memberform.setAttribute("method", "post");
-                    memberform.submit();
-                    alert("다음에 또 만나요!")
-
-                }
+                swal({
+                        title: "폰크닉 회원을 탈퇴하시겠습니까?",
+                        text: "OK를 누르면 회원님의 모든 데이터가 삭제되며, 이 동작은 되돌릴 수 없습니다.",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                        })
+                        .then((willDelete) => {
+                        if (willDelete) {
+                            swal("다음에 또 만나요", {
+                            icon: "success",
+                            });
+                            memberform.setAttribute("action", urlmemberout);
+                            memberform.setAttribute("method", "post");
+                            memberform.submit();
+                        } else {
+                            swal("회원탈퇴가 취소되었습니다.");
+                        }
+                        });
+                
             }
 
             $("#hairchoice").on("change", function () {

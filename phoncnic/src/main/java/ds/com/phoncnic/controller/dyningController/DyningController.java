@@ -34,12 +34,15 @@ public class DyningController {
     public void cafeList(Model model,@AuthenticationPrincipal AuthMemberDTO dto) {
         log.info("cafe list.................");
         model.addAttribute("result", dyningService.getCafeStreet());
-        if(dto!=null){
+
+        try {
             model.addAttribute("id",dto.getId());
             model.addAttribute("hairDTO", characterLookService.getCharacterHair(dto.getId()));
-        }else{
+        } catch (NullPointerException e) {
+            model.addAttribute("id","");
             model.addAttribute("hairDTO", characterLookService.getCharacterHair("user10@icloud.com"));
         }
+   
 
     }
 
