@@ -144,7 +144,7 @@
                 </li>
             </ul>
             <ul class="dyning-list-ul">
-                <li id="list2" th:each="dto : ${result}" th:if="${dtoStat.count} > ${dtoStat.size}/2">
+                <li id="list2" th:each="dto : ${result}" th:if="${dtoStat.count} > ${dtoStat.size}/2 + 0.5">
                     <div>
                         <a th:href="@{/dyning/details(dno=${dto.dno},id=${id}) }">
                             <img th:src="${dto.roofthumbnail}">
