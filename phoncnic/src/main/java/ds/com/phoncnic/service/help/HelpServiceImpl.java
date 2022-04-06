@@ -11,7 +11,6 @@ import ds.com.phoncnic.dto.HelpDTO;
 import ds.com.phoncnic.dto.pageDTO.PageRequestDTO;
 import ds.com.phoncnic.dto.pageDTO.PageResultDTO;
 import ds.com.phoncnic.entity.Help;
-import ds.com.phoncnic.entity.Member;
 import ds.com.phoncnic.repository.HelpRepository;
 import lombok.RequiredArgsConstructor;
 
