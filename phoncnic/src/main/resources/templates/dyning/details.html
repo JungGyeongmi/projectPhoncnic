@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
-<th:block th:replace="~{layout/basic :: setContent(~{::content})}">
+<th:block th:replace="~{layout/dyningDetails :: setContent(~{::content})}">
     <th:block th:fragment="content">
         <input type="hidden" name="" id="detaillocation" th:value="${result.location}">
 

@@ -36,17 +36,6 @@ public class HelpRepositoryTests {
             int randomMember = (int)(Math.random()*10)+1;  
             int type = (int)(Math.random()*4)+1;
             boolean rand =((int)(Math.random()*2)) !=0;
-            // 답변용 빈깡통
-            Help rehelp = Help.builder()
-                .title("답변"+i)
-                .content("답변내용"+i)
-                .password("1234")
-                .qtype("답변용"+type)
-                .answerstatus(rand)
-                // 임의로 10 잡았는데 master user가 필요한건가?
-                .writer(memberRepository.findById("user10@icloud.com").get())
-            .build();
-            helpRepository.save(rehelp);
             Help help = Help.builder()
                 .title("질문"+i)
                 .content("질문내용"+i)

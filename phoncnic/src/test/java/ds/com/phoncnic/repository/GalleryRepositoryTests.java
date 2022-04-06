@@ -2,8 +2,8 @@ package ds.com.phoncnic.repository;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.IntStream;
 
 import javax.transaction.Transactional;
@@ -22,10 +22,8 @@ import ds.com.phoncnic.dto.pageDTO.PageRequestDTO;
 import ds.com.phoncnic.dto.pageDTO.PageResultDTO;
 import ds.com.phoncnic.dto.pageDTO.SearchPageRequestDTO;
 import ds.com.phoncnic.entity.Emoji;
-import ds.com.phoncnic.entity.EmojiInfo;
 import ds.com.phoncnic.entity.Gallery;
 import ds.com.phoncnic.entity.Member;
-import ds.com.phoncnic.service.emoji.EmojiInfoService;
 import ds.com.phoncnic.service.emoji.EmojiService;
 import ds.com.phoncnic.service.gallery.GalleryService;
 
@@ -43,12 +41,9 @@ public class GalleryRepositoryTests {
 
     @Autowired
     EmojiRepository emojiRepository;
-    
-    @Autowired
-    EmojiService emojiService;
 
     @Autowired
-    EmojiInfoService emojiInfoService;
+    EmojiService emojiService;
 
     @Autowired
     EmojiInfoRepository emojiInfoRepository;
@@ -75,10 +70,10 @@ public class GalleryRepositoryTests {
                     .title("title" + i)
                     .content("content" + i)
                     .artistid(memberRepository.findById("user" + i + "@icloud.com").get())
-                    .imagepath("2022\\03\\31")
+                    .imagepath("2022\\03\\22")
                     .imagetype(rand)
                     .imagename("test" + i + ".jpg")
-                    .uuid("946ed916-76d2-4039-b80d-97eb381866f6")
+                    .uuid(UUID.randomUUID().toString())
                     .build();
             galleryRepository.save(gallery);
 
@@ -109,29 +104,19 @@ public class GalleryRepositoryTests {
     @Test
     public void getGalleryList() {
         List<GalleryDTO> galleryDTOList = galleryService.getGalleryList(false);
-        // galleryDTOList.forEach(System.out::println);
-        GalleryDTO galleryDTO = galleryDTOList.get(0);
-        HashMap<String, String> resultHash = galleryDTO.getEmojiinfo();
-        System.out.println(resultHash.get("1"));
-        System.out.println(resultHash.get("2"));
-        System.out.println(resultHash.get("3"));
-        System.out.println(resultHash.get("4"));
-        System.out.println(resultHash.get("5"));
+        galleryDTOList.forEach(System.out::println);
     }
 
-
-    @Test
-    public void modifyTest() {
-        List<EmojiInfo> emojiInfoList = emojiInfoService.getEmojiInfoList();
-        Gallery gallery = galleryRepository.findById(2L).get();
-
-        GalleryDTO dto = galleryService.entityToDTO(gallery, emojiService.getEmojiCountArrayByGno(gallery.getGno()), emojiInfoList);
-        dto.setContent("content1004");
-        dto.setTitle("title1004");
-        System.out.println(dto.toString());
-        galleryService.modify(dto);
-        System.out.println(gallery.toString());
-    }
+    // @Test
+    // public void modifyTest() {
+    //     Gallery gallery = galleryRepository.findById(2L).get();
+    //     GalleryDTO dto = galleryService.entityToDTO(gallery, emojiService.getEmojiCountArrayByGno(gallery.getGno()));
+    //     dto.setContent("content1004");
+    //     dto.setTitle("title1004");
+    //     System.out.println(dto.toString());
+    //     galleryService.modify(dto);
+    //     System.out.println(gallery.toString());
+    // }
 
     @Test
     public void getPageByMemberId() {
@@ -186,11 +171,6 @@ public class GalleryRepositoryTests {
         System.out.println(pageResult.getSize());
         System.out.println(pageResult.getStart());
         System.out.println(pageResult.getDtoList());
-    }
-
-    @Test
-    public void getGalleryDTOWithEmojiInfo() {
-
     }
 
 }
