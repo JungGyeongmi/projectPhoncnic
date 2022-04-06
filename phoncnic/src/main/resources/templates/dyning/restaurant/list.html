@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
-<th:block th:replace="~{layout/dyninglist :: setContent(~{::content}, ~{::search})}">
+    
+    <th:block th:replace="~{layout/dyninglist :: setContent(~{::content}, ~{::search})}">
 
     <!-- search toggle -->
     <th:block th:fragment="search">
-    
+
         <style>
             .search-result-Item {
                 cursor: pointer;
@@ -143,26 +144,28 @@
         <div class="wrap">
             <ul class="dyning-list-ul">
                 <li id="list1" th:each="dto : ${result}" th:if="${dtoStat.count} <= ${dtoStat.size}/2">
-                    <div>
-                        <a th:href="@{/dyning/details(dno=${dto.dno},id=${id}) }">
+                    <div class="dyningdiv">
+                        <div th:class="@{/dyning/details(dno=${dto.dno},id=${id}) }" >
                             <img class="dyningimg" th:src="${dto.roofthumbnail}">
-                        </a>
+                        </div>
                     </div>
                     [[${dto.dyningname}]]
                 </li>
             </ul>
             <ul class="dyning-list-ul">
                 <li id="list2" th:each="dto : ${result}" th:if="${dtoStat.count} > ${dtoStat.size}/2">
-                    <div id="dyningdiv">
-                        <a id="dyninga" th:href="@{/dyning/details(dno=${dto.dno},id=${id}) }">
-                            <img class="dyningimg" th:src="${dto.roofthumbnail}">
-                        </a>
+                    <div class="dyningdiv">
+                        <div th:class="@{/dyning/details(dno=${dto.dno},id=${id}) }" >
+                            <img class="dyningimg" th:src="${dto.roofthumbnail}" th:id="${dtoStat.count}">
+                        </div>
                     </div>
                     [[${dto.dyningname}]]
                 </li>
             </ul>
         </div>
-
+<input type="text" name="" id="idv11" value="123">
+<input type="text" name="" id="10" value="123">
+<div id="saveTop"></div>
         <script th:inline="javascript">
             
                 window.addEventListener("keydown", function (e) {
@@ -179,11 +182,99 @@
                 // }
                 // document.getElementsByClassName("dyningimg").offsetTop;
                 // console.log(Img.offsetTop);
-                window.addEventListener("mouseover", function(e) {
-                    console.log(e.target.offsetTop, e.target.offsetLeft);
-                }); 
+                // window.addEventListener("mouseover", function(e) {
+                //     console.log(e.target.offsetTop, e.target.offsetLeft);
+                // }); 
                 
             
+        </script>
+        <!-- 가게 건물 좌표를 얻는 js -->
+        <style>
+            #charimg {
+                position: relative;
+                width: 100px;
+                height: 100px;
+                right: 0px ;}
+        </style>
+    <div th:each="hdto : ${hairDTO}">
+        <img type="hidden" id="charimg" class="look hairlook" th:src="${hdto.hairpath}" alt="">
+        </div>
+        
+        <script>
+                // var locationTop = $(".dyningdiv").children("a").offsetTop;
+                // var locationeft = $(".dyningdiv").children("a").offsetLeft;
+                $(".dyningimg").on("click", function(e){
+                    var src = $(this).parent().attr("class");
+                    var src = $(this).parent().attr("id");
+                    var top =e.target.offsetTop;
+                    var left =e.target.offsetLeft;
+                    console.log(src);
+                    console.log(top,left);
+                    // location.href=src;
+                });
+
+                (function () {
+                  
+                document.addEventListener("keydown", function (e) {
+                let charimg = document.getElementById("charimg");
+                let key = e.keyCode;
+                let y = parseInt(charimg.style.top || 0, 10);
+                let x = parseInt(charimg.style.left || 0, 10);
+                if (key === 37 /* LEFT */) {
+                    charimg.style.left = x - 20 + "px";
+                }
+                if (key === 38 /* TOP */) {
+                    charimg.style.top = y - 20 + "px";
+                }
+                if (key === 39 /* RIGHT */) {
+                    charimg.style.left = x + 20 + "px";
+                }
+                if (key === 40 /* BOTTOM */) {
+                    charimg.style.top = y + 20 + "px";
+                }
+            });
+            
+            // for(i=1; i<=imgLength; i++){
+                //     var  Left = $(".dyningimg").eq(i).offset().top;
+                //         console.log(Left);
+                
+                // }
+                var imgLength = $(".dyningimg").length;
+               var str = "";
+                // for(i=1; i<=imgLength; i++){
+                //     var off = $("#"+i).offset();
+                //     // console.log($("#"+i).offset());
+                //     str =+ `<input type="text" data-="${off}">`;
+                //     $("#saveTop").html(str);
+                // }
+                // console.log($("#saveTop").html);
+            //     document.addEventListener("keyup", function () {
+            //     var chartop =charimg.offsetTop;
+            //     var charleft =charimg.offsetLeft;
+            //     console.log(chartop, charleft);
+              
+                
+            //     // var targetTop = $("#6").offset().top;
+            //     // var targetLeft = $("#6").offset().left;
+            //     // console.log(targetTop,targetLeft);
+            //     // var top ="";
+            //     // var left ="";
+               
+                    
+            //         if (targetLeft-10<charleft&&charleft<targetLeft+10&&targetTop-10<chartop&&chartop<targetTop+10)  {
+            //             console.log("일치");
+            //             // location.href = targetHref;
+            //         }else return;
+
+              
+                
+                
+            // });
+
+            
+        
+ 
+})();
         </script>
     </th:block>
 </th:block>
