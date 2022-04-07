@@ -7,6 +7,7 @@
         <style>
             .search-result-Item {
                 cursor: pointer;
+                list-style: none;
             }
         </style>
         <div class="border-end bg-white" id="sidebar-wrapper">
@@ -22,6 +23,7 @@
                 </form>
             </div>
             <div class="list-group list-group-flush">
+                <br>
                 <ul class="md-serach-result"></ul>
             </div>
         </div>
@@ -69,7 +71,7 @@
                                             <p>${dto.dyningname}</p>
                                             ${dto.hashtag}
                                         </div>
-                                    </li>`;
+                                    </li><hr>`;
                                 })
                                 searchResult.html(str);
                             } else {
@@ -124,14 +126,14 @@
 
             #list2 {
                 margin: 50px;
-                padding-top: 170px;
+                padding-top: 100px;
                 width: 100px;
                 height: 100px;
                 display: inline-block;
             }
         </style>
 
-        <h1>cafe</h1>
+        <h3>cafe</h3>
         <div class="wrap">
             <ul class="dyning-list-ul">
                 <li id="list1" th:each="dto : ${result}" th:if="${dtoStat.count} <= ${dtoStat.size}/2 + 0.5">

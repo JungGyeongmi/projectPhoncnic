@@ -101,11 +101,11 @@
             body {
                 -ms-overflow-style: none;
             }
-
+            
             ::-webkit-scrollbar {
                 display: none;
             }
-
+            
             .wrap {
                 -ms-overflow-style: auto;
                 overflow-x: auto;
@@ -131,14 +131,14 @@
 
             #list2 {
                 margin: 50px;
-                padding-top: 170px;
+                padding-top: 100px;
                 width: 100px;
                 height: 100px;
                 display: inline-block;
             }
         </style>
 
-        <h1>restaurant</h1>
+        <h3>restaurant</h3>
         <div class="wrap">
             <ul class="dyning-list-ul">
                 <li id="list1" th:each="dto : ${result}" th:if="${dtoStat.count} <= ${dtoStat.size}/2 + 0.5">
