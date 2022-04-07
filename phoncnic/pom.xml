@@ -10,7 +10,7 @@
    <groupId>ds.com</groupId>
    <artifactId>phoncnic</artifactId>
    <version>0.0.1-SNAPSHOT</version>
-   <packaging>jar</packaging>
+   <packaging>war</packaging>
    <name>phoncnic</name>
    <description>Demo project for Spring Boot</description>
    <properties>
