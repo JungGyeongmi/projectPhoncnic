@@ -70,9 +70,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     http.sessionManagement().maximumSessions(1).maxSessionsPreventsLogin(false).expiredUrl("/member/login").sessionRegistry(sessionResistry());
     // access 거부 handler
     http.exceptionHandling().accessDeniedHandler(accessDeniedHandler());
-    // user role
+    // 권한이 있다면 모두 접근 가능
     http.authorizeRequests()
-    .antMatchers("/main/mypage", "/manage/gallery/list", "/manage/**/**", "/lookmodal/lookmodify").hasRole("USER");
+    .antMatchers("/main/mypage", "/lookmodal/lookmodify").authenticated();
+    // user만 접근 가능
+    http.authorizeHttpRequests()
+    .antMatchers("/manage/dyning/**").hasRole("CEO");
+    http.authorizeHttpRequests()
+    .antMatchers("/manage/gallery/**").hasRole("ARTIST");
     // permit all
     http.authorizeRequests()
     .antMatchers("/dyning/**").permitAll();
@@ -84,7 +89,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     http.rememberMe().tokenValiditySeconds(60*60*24*7).userDetailsService((UserDetailsService) memberDetailsService);
     // csrf 
     http.csrf().disable();
-
+    // login filter
     http.addFilterBefore(apiLoginFilter(), UsernamePasswordAuthenticationFilter.class);
   }
 
