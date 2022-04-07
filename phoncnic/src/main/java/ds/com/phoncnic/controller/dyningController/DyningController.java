@@ -1,10 +1,13 @@
 package ds.com.phoncnic.controller.dyningController;
 
+import java.util.Locale;
+
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import ds.com.phoncnic.dto.DyningDTO;
@@ -31,44 +34,42 @@ public class DyningController {
 
     // 카페 거리 페이지
     @GetMapping("/cafe/list")
-    public void cafeList(Model model,@AuthenticationPrincipal AuthMemberDTO dto) {
+    public void cafeList(Model model, @AuthenticationPrincipal AuthMemberDTO dto) {
         log.info("cafe list.................");
         model.addAttribute("result", dyningService.getCafeStreet());
 
         try {
-            model.addAttribute("id",dto.getId());
+            model.addAttribute("id", dto.getId());
             model.addAttribute("hairDTO", characterLookService.getCharacterHair(dto.getId()));
         } catch (NullPointerException e) {
-            model.addAttribute("id","");
+            model.addAttribute("id", "");
             model.addAttribute("hairDTO", characterLookService.getCharacterHair("user10@icloud.com"));
         }
-   
 
     }
 
     @GetMapping("/restaurant/list")
-    public void restaurant(Model model,@AuthenticationPrincipal AuthMemberDTO dto) {
+    public void restaurant(Model model, @AuthenticationPrincipal AuthMemberDTO dto) {
         log.info("restaurant list.................");
         model.addAttribute("result", dyningService.getRestaurantStreet());
-        if(dto!=null){
-            model.addAttribute("id",dto.getId());
+        if (dto != null) {
+            model.addAttribute("id", dto.getId());
             model.addAttribute("hairDTO", characterLookService.getCharacterHair(dto.getId()));
-        }else{
+        } else {
             model.addAttribute("hairDTO", characterLookService.getCharacterHair("user10@icloud.com"));
         }
 
     }
 
-
     @GetMapping("/details")
-    public void details(@RequestParam("dno") Long dno,@AuthenticationPrincipal AuthMemberDTO dto, Model model) {
+    public void details(@RequestParam("dno") Long dno, @AuthenticationPrincipal AuthMemberDTO dto, Model model) {
         log.info("Details.................");
         if (dno != 0) {
-	        model.addAttribute("emojiInfo", emojiInfoService.getEmojiInfoList());
+            model.addAttribute("emojiInfo", emojiInfoService.getEmojiInfoList());
             DyningDTO dyningDTO = dyningService.getDyningDetails(dno);
             model.addAttribute("result", dyningService.getDyningDetails(dno));
             model.addAttribute("imageresult", dyningService.getDyningDetails(dno).getDyningImageDTOList());
-            if(dto!=null){
+            if (dto != null) {
                 model.addAttribute("id", dto.getId());
                 try {
                     model.addAttribute("fno", followService.getFno(dto.getId(), dyningDTO.getDyningname()));
@@ -77,18 +78,18 @@ public class DyningController {
                 }
                 try {
                     model.addAttribute("eno", emojiService.HaveEmoji(dto.getId(), dno).getEno());
-                    model.addAttribute("emojitype", emojiService.HaveEmoji(dto.getId(), dno).getEmojiInfo().getEmojitype());
+                    model.addAttribute("emojitype",
+                            emojiService.HaveEmoji(dto.getId(), dno).getEmojiInfo().getEmojitype());
                 } catch (NullPointerException e) {
                     model.addAttribute("eno", "");
                     model.addAttribute("emojitype", "");
                 }
 
-            } else{
+            } else {
                 model.addAttribute("eno", "");
                 model.addAttribute("emojitype", "");
                 model.addAttribute("id", "");
                 model.addAttribute("fno", "");
-
 
             }
             model.addAttribute("emojilist", emojiService.dyningEmojiList(dno));
@@ -98,7 +99,6 @@ public class DyningController {
             model.addAttribute("emojitype4", emojiService.getEmojitypeCwt(dno, "4"));
             model.addAttribute("emojitype5", emojiService.getEmojitypeCwt(dno, "5"));
 
-
             // model.addAttribute("follow",followService.)
 
         } else
@@ -106,30 +106,29 @@ public class DyningController {
 
     }
 
-
-
-
     @GetMapping("/movingtest")
-    public String movingtest(Model model,@AuthenticationPrincipal AuthMemberDTO dto) {
-        if(dto!=null){
+    public String movingtest(Model model, @AuthenticationPrincipal AuthMemberDTO dto) {
+        if (dto != null) {
             model.addAttribute("hairDTO", characterLookService.getCharacterHair(dto.getId()));
-        }else{
+        } else {
             model.addAttribute("hairDTO", characterLookService.getCharacterHair("user10@icloud.com"));
         }
-
 
         return "/dyning/movingtest";
     }
 
     @GetMapping("/movingtest2")
-    public String movingtest2(Model model,@AuthenticationPrincipal AuthMemberDTO dto) {
-        if(dto!=null){
+    public String movingtest2(Model model, @AuthenticationPrincipal AuthMemberDTO dto) {
+        if (dto != null) {
             model.addAttribute("hairDTO", characterLookService.getCharacterHair(dto.getId()));
-        }else{
+        } else {
             model.addAttribute("hairDTO", characterLookService.getCharacterHair("user10@icloud.com"));
         }
         return "/dyning/movingtest2";
     }
 
-
+    @RequestMapping(value = "/chat", method = RequestMethod.GET)
+    public String chat(Locale locale, Model model) {
+        return "chat";
+    }
 }
