@@ -78,9 +78,5 @@ public class FollowRepositoryTests {
         });
     }
 
-   @Test
-   @Transactional
-   public void testFno(){
-       List<Object[]> fno = followRepository.getFollowArtist("user2@icloud.com", "user2");
-       System.out.println(Arrays.toString(fno.get(0)));   }
+  
 }

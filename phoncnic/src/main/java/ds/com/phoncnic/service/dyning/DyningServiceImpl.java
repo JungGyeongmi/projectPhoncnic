@@ -40,7 +40,7 @@ public class DyningServiceImpl implements DyningService {
 
   @Autowired
   private final RoofDesignRepository roofDesignRepository;
-  
+
   @Autowired
   private final EmojiInfoService emojiInfoService;
 
@@ -54,9 +54,9 @@ public class DyningServiceImpl implements DyningService {
     Dyning dyning = (Dyning) entityMap.get("dyning");
 
     dyningRepository.save(dyning);
-    
+
     List<DyningImage> dyningImageList = (List<DyningImage>) entityMap.get("dyningImageList");
-   
+
     dyningImageList.forEach(dyningImage -> {
       dyningImageRepository.save(dyningImage);
     });
@@ -134,7 +134,7 @@ public class DyningServiceImpl implements DyningService {
 
     Dyning dyninglist = (Dyning) result.get(0)[0];
     Long emojiCwt = (Long) result.get(0)[1];
-    
+
     Long followerCwt = dyningRepository.getDyningFollowerCount(dno);
     List<DyningImage> dyningImageList = dyningRepository.getImageDetailsPage(dno);
 

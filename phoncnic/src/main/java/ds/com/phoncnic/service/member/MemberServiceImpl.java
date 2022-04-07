@@ -72,9 +72,13 @@ public class MemberServiceImpl implements MemberService {
         if (result.isPresent()) {
             Member member = result.get();
             member.changeNickname(dto.getNickname());
+<<<<<<< HEAD
 
             log.info("modify member by authMememberDTO ... " + member);
 
+=======
+            log.info("Memberrrrr" + member);
+>>>>>>> c81e1b3e14d316ab07dedd484e2fcd5921ae02a6
             memberRepository.save(member);
         }
     }
@@ -84,16 +88,23 @@ public class MemberServiceImpl implements MemberService {
     @Modifying
     public void remove(String id) {
         Optional<Member> result = memberRepository.findById(id);
+<<<<<<< HEAD
 
         log.info("get member by id for remove ..." + result);
 
+=======
+        log.info("dtoResult" + result);
+>>>>>>> c81e1b3e14d316ab07dedd484e2fcd5921ae02a6
         if (result.isPresent()) {
             
             characterLookRepository.deleteByMemberId(id);
             followRepository.deleteByMemberId(id);
             
             List<Dyning> dyninglist = dyningRepository.findByMemberId(id);
+<<<<<<< HEAD
             
+=======
+>>>>>>> c81e1b3e14d316ab07dedd484e2fcd5921ae02a6
             for (Dyning dno : dyninglist)
                 emojiRepository.deleteByDno(dno.getDno());
 
@@ -103,6 +114,7 @@ public class MemberServiceImpl implements MemberService {
                 emojiRepository.deleteByGno(gno.getGno());
 
             List<Emoji> emojilist = emojiRepository.findByMemberId(id);
+<<<<<<< HEAD
            
             for (Emoji eno : emojilist)
                 emojiRepository.deleteByEno(eno.getEno());
@@ -113,11 +125,22 @@ public class MemberServiceImpl implements MemberService {
            
             Optional<Dyning> haveDyning = dyningRepository.findDyningByMemberId(id);
            
+=======
+            for (Emoji eno : emojilist)
+                emojiRepository.deleteByEno(eno.getEno());
+            log.info("dyninglist" + dyninglist);
+            log.info("gallerylist" + gallerylist);
+            log.info("emojilist" + emojilist);
+            Optional<Dyning> haveDyning = dyningRepository.findDyningByMemberId(id);
+>>>>>>> c81e1b3e14d316ab07dedd484e2fcd5921ae02a6
             if (haveDyning.isPresent()) {
                 dyningImageRepository.deleteByDno(haveDyning.get().getDno());
                 log.info("---------dno deleted--------------");
             }
+<<<<<<< HEAD
            
+=======
+>>>>>>> c81e1b3e14d316ab07dedd484e2fcd5921ae02a6
             dyningRepository.deleteByMemberId(id);
             galleryRepository.deleteByMemberId(id);
             helpRepository.deleteByMemberId(id);

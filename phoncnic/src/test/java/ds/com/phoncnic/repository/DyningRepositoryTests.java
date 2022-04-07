@@ -73,8 +73,8 @@ public class DyningRepositoryTests {
             Dyning dyning = Dyning.builder()
                     .dyningname("가게이름" + i)
                     .comment("사장님 한 마디" + i)
-                    .location("실제가게위치" + i)
-                    .locationdetails("1층")
+                    .location("부산 부산진구 중앙대로 668")
+                    .locationdetails("6층")
                     .foodtype(roof)
                     .tel("051-1234-1234")
                     .businesshours("영업시간" + i)
@@ -143,7 +143,8 @@ public class DyningRepositoryTests {
 
     @Test
     public void testSearchPage() {
-        // Pageable pageable = PageRequest.of(0, 10, Sort.by("dno").descending().and(Sort.by("dyningname").ascending()));
+        // Pageable pageable = PageRequest.of(0, 10,
+        // Sort.by("dno").descending().and(Sort.by("dyningname").ascending()));
         // Page<Object[]> result = dyningRepository.searchPage("n", "1", pageable);
     }
 
@@ -153,17 +154,4 @@ public class DyningRepositoryTests {
         System.out.println(followerCwt);
     }
 
-    @Test
-    public void testt() {
-        List<Object[]> result = dyningRepository.getDyningDetails(1L);
-        System.out.println(Arrays.toString(result.get(1)));
-    }
-
-    @Transaction
-    @Test
-    public void testttt() {
-        DyningDTO result = dyningService.getDyningDetails(1L);
-        System.out.println(result);
-        System.out.println();
-    }
 }

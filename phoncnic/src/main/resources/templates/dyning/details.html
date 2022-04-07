@@ -130,7 +130,7 @@
         </table>
 
         <form action="">
-            <input type="text" name="id" id="followerid" th:value="${id}" readonly>
+            <input type="hidden" name="id" id="followerid" th:value="${id}" readonly>
             <input type="hidden" name="dno" th:value="${result.dno}">
         </form>
         <table border="1">
@@ -185,7 +185,7 @@
                     fno.css("color","red");
                 }
                 $('#followBtn').on("click", function () {
-                    if (hasid=="") {alert("로그인 후 이용할 수 있습니다.");return;}
+                    if (hasid=="") {swal("ERROR", "로그인 후 이용할 수 있습니다.", "error");return;}
                     
                     var id = $("#followerid").val();
                     var dyningname = $("#dyningname").val();
@@ -207,7 +207,7 @@
                             }
                         });
                     } else if(fno.val() != ""){
-                        if (hasid=="") {alert("로그인 후 이용할 수 있습니다.");return;}
+                        if (hasid=="") {swal("ERROR", "로그인 후 이용할 수 있습니다.", "error");return;}
 
                         var data = { id: id, dyningname: dyningname };
                         var urlremove = `[[@{/main/mypage/dyningremove}]]`;
@@ -236,7 +236,7 @@
                 
                 
                     $(".up").click(function () {
-                        if (hasid=="") {alert("로그인 후 이용할 수 있습니다.");return;}
+                        if (hasid=="") {swal("ERROR", "로그인 후 이용할 수 있습니다.", "error");return;}
 
                         var id = $("input[name='id']").val();
                         var dno = $("input[name='dno']").val();
