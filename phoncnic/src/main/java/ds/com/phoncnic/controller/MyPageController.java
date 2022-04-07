@@ -23,10 +23,11 @@ import lombok.extern.log4j.Log4j2;
 @RequestMapping("/main/mypage")
 @RequiredArgsConstructor
 public class MyPageController {
-    private final MemberService memberService;
-    private final CharacterLookService characterLookService;
-    private final FollowService followService;
-    private final EmojiService emojiService;
+
+    private MemberService memberService;
+    private CharacterLookService characterLookService;
+    private FollowService followService;
+    private EmojiService emojiService;
 
     @GetMapping({ "/", "" })
     public void mypage( Model model,@AuthenticationPrincipal AuthMemberDTO dto) {

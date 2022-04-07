@@ -3,6 +3,7 @@ package ds.com.phoncnic.security.handler;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -23,6 +24,11 @@ public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
 
     if(auth != null && auth.getDetails() != null){
       try {
+        log.info(getCookie(request, "JSESSIONID").getName());
+        log.info(getCookie(request, "JSESSIONID").getValue());
+        log.info(getCookie(request, "JSESSIONID").getPath());
+        getCookie(request, "JSESSIONID").setMaxAge(0);
+        
         request.getSession().invalidate();
         log.info("logout invalidate....");
       } catch (Exception e) {e.printStackTrace();}
@@ -30,5 +36,17 @@ public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
       response.setStatus(HttpServletResponse.SC_OK);
       response.sendRedirect(request.getContextPath()+"/");
     }
+  }
+
+  public static Cookie getCookie(HttpServletRequest request,String name) {
+    Cookie[] cookies = request.getCookies();
+    if(cookies!=null) {
+      for (Cookie cookie : cookies) {
+        if(cookie.getName().equals(name)) {
+          return cookie;
+        }
+      }
+    }
+    return null;
   }
 }
