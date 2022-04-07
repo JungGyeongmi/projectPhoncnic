@@ -43,115 +43,118 @@ public class DyningRepositoryTests {
     @Autowired
     DyningService dyningService;
 
-    @Transactional
-    @Commit
-    @Test
-    public void insertDyning() {
-
-        IntStream.rangeClosed(1, 10).forEach(i -> {
-
-            List<Integer> randmember = new ArrayList<>();
-
-            while (randmember.size() != 10) {
-                int inputrandomNumber = (int) (Math.random() * 10) + 1;
-                for (int k = 0; k < 10; k++) {
-                    if (!randmember.contains(inputrandomNumber)) {
-                        randmember.add(inputrandomNumber);
-                        break;
-                    }
-
-                }
-            }
-
-            Member member = Member.builder().id("user" + i + "@icloud.com").build();
-
-            long roof = (long) (Math.random() * 5 + 1);
-
-            RoofDesign roofDesign = RoofDesign.builder()
-                    .oono(roof).build();
-
-            Dyning dyning = Dyning.builder()
-                    .dyningname("가게이름" + i)
-                    .comment("사장님 한 마디" + i)
-                    .location("부산 부산진구 중앙대로 668")
-                    .locationdetails("6층")
-                    .foodtype(roof)
-                    .tel("051-1234-1234")
-                    .businesshours("영업시간" + i)
-                    .hashtag("해쉬태그" + i)
-                    .ceoid(member)
-                    .roofdesign(roofDesign)
-                    .build();
-
-            dyningRepository.save(dyning);
-
-            for (int j = 0; j < Math.random() * 3; j++) {
-                DyningImage dyningImage = DyningImage.builder()
-                        .menuimagename(j + "menuimagename.jpg")
-                        .menuimageuuid(UUID.randomUUID().toString())
-                        .menuimagepath("menuimagepath" + j)
-                        .backgroundname(j + "backgroundname.jpg")
-                        .backgrounduuid(UUID.randomUUID().toString())
-                        .backgroundpath("backgroundpath" + j)
-                        .dyning(dyning)
-                        .build();
-
-                dyningImageRepository.save(dyningImage);
-            }
-
-            int ra = (int) (Math.random() * 5) + 1;
-
-            for (int j = 0; j < ra; j++) {
-                member = Member.builder().id("user" + randmember.get(j) + "@icloud.com")
-                        .build();
-
-                String emojiType = (int) (Math.random() * 4) + 1 + "";
-                Emoji emoji = Emoji.builder()
-                        .dyning(dyning)
-                        .member(member)
-                        .emojiInfo(emojiInfoRepository.findById(emojiType).get())
-                        .build();
-                emojiRepository.save(emoji);
-            }
-        });
-    }
-
-    @Transactional
-    @Test
-    public void Test() {
-        Optional<Dyning> result = dyningRepository.findById(1L);
-        Object roof = result.get().getRoofdesign();
-        System.out.println(roof);
-
-    }
-
+    // @Transactional
+    // @Commit
     // @Test
-    // public void Test2() {
-    // List<Dyning> result = dyningRepository.getStreetList();
-    // result.forEach(i -> {
-    // System.out.println(i);
-    // });
+    // public void insertDyning() {
+
+    //     IntStream.rangeClosed(1, 10).forEach(i -> {
+
+    //         List<Integer> randmember = new ArrayList<>();
+
+    //         while (randmember.size() != 10) {
+    //             int inputrandomNumber = (int) (Math.random() * 10) + 1;
+    //             for (int k = 0; k < 10; k++) {
+    //                 if (!randmember.contains(inputrandomNumber)) {
+    //                     randmember.add(inputrandomNumber);
+    //                     break;
+    //                 }
+
+    //             }
+    //         }
+
+    //         Member member = Member.builder().id("user" + i + "@icloud.com").build();
+
+    //         long roof = (long) (Math.random() * 5 + 1);
+
+    //         RoofDesign roofDesign = RoofDesign.builder()
+    //                 .oono(roof).build();
+
+    //         Dyning dyning = Dyning.builder()
+    //                 .dyningname("가게이름" + i)
+    //                 .comment("사장님 한 마디" + i)
+    //                 .location("부산 부산진구 중앙대로 668")
+    //                 .locationdetails("6층")
+    //                 .foodtype(roof)
+    //                 .tel("051-1234-1234")
+    //                 .businesshours("영업시간" + i)
+    //                 .hashtag("해쉬태그" + i)
+    //                 .ceoid(member)
+    //                 .roofdesign(roofDesign)
+    //                 .build();
+
+    //         dyningRepository.save(dyning);
+
+    //         for (int j = 0; j < Math.random() * 3; j++) {
+    //             DyningImage dyningImage = DyningImage.builder()
+    //                     .menuimagename(j + "menuimagename.jpg")
+    //                     .menuimageuuid(UUID.randomUUID().toString())
+    //                     .menuimagepath("menuimagepath" + j)
+    //                     .backgroundname(j + "backgroundname.jpg")
+    //                     .backgrounduuid(UUID.randomUUID().toString())
+    //                     .backgroundpath("backgroundpath" + j)
+    //                     .dyning(dyning)
+    //                     .build();
+
+    //             dyningImageRepository.save(dyningImage);
+    //         }
+
+    //         int ra = (int) (Math.random() * 5) + 1;
+
+    //         for (int j = 0; j < ra; j++) {
+    //             member = Member.builder().id("user" + randmember.get(j) + "@icloud.com")
+    //                     .build();
+
+    //             String emojiType = (int) (Math.random() * 4) + 1 + "";
+    //             Emoji emoji = Emoji.builder()
+    //                     .dyning(dyning)
+    //                     .member(member)
+    //                     .emojiInfo(emojiInfoRepository.findById(emojiType).get())
+    //                     .build();
+    //             emojiRepository.save(emoji);
+    //         }
+    //     });
     // }
 
-    @Test
-    public void Test4() {
-        List<DyningImage> result = dyningRepository.getImageDetailsPage(1L);
-        result.forEach(i -> {
-            System.out.println(i);
-        });
-    }
 
-    @Test
-    public void testSearchPage() {
-        // Pageable pageable = PageRequest.of(0, 10,
-        // Sort.by("dno").descending().and(Sort.by("dyningname").ascending()));
-        // Page<Object[]> result = dyningRepository.searchPage("n", "1", pageable);
-    }
+    // @Transactional
+    // @Test
+    // public void Test() {
+    //     Optional<Dyning> result = dyningRepository.findById(1L);
+    //     Object roof = result.get().getRoofdesign();
+    //     System.out.println(roof);
 
-    @Test
-    public void testFollowereCount() {
-        Long followerCwt = dyningRepository.getDyningFollowerCount(1L);
-        System.out.println(followerCwt);
-    }
+    // }
 
-}
+//     @Test
+//     public void Test2() {
+//     List<Dyning> result = dyningRepository.getStreetList();
+//     result.forEach(i -> {
+//     System.out.println(i);
+//     });
+// }
+
+
+    // @Test
+    // public void Test4() {
+    //     List<DyningImage> result = dyningRepository.getImageDetailsPage(1L);
+    //     result.forEach(i -> {
+    //         System.out.println(i);
+    //     });
+    // }
+
+    // @Test
+    // public void testSearchPage() {
+    //     Pageable pageable = PageRequest.of(0, 10,
+    //     Sort.by("dno").descending().and(Sort.by("dyningname").ascending()));
+    //     Page<Object[]> result = dyningRepository.searchPage("n", "1", pageable);
+    // }
+
+    // @Test
+    // public void testFollowereCount() {
+    //     Long fCwt = dyningRepository.getDyningFollowerCount(1L);
+    //     System.out.println(followerCwt);
+    // }
+
+
+    }

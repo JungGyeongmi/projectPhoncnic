@@ -37,22 +37,23 @@ public class DyningServiceTest {
         System.out.println(pageResult);
     }
 
-    @Test
-    public void serchPage() {
-        SearchDyningPageRequestDTO requestDTO = SearchDyningPageRequestDTO.builder()
-            .page(1)
-            .size(3)
-            .type("n")
-            .keyword("1")
-            .build();
+//     @Test
+//     public void serchPage() {
+//         SearchDyningPageRequestDTO requestDTO = SearchDyningPageRequestDTO.builder()
+//             .page(1)
+//             .size(3)
+//             .type("n")
+//             .keyword("1")
+//             .build();
 
-        Page<Object[]> result = dyningRepository.searchPage(
-            requestDTO.getType(),
-            requestDTO.getKeyword(),
-            requestDTO.getPageable(Sort.by("dno").descending())
-        );
+//         Page<Object[]> result = dyningRepository.searchPage(
+//             requestDTO.getType(),
+//             requestDTO.getKeyword(),
+//             requestDTO.getPageable(Sort.by("dno").descending())
+//         );
 
-        System.out.println(((Dyning) result.getContent().get(0)[0]).getDno());
-        System.out.println(result.getContent().get(1)[0]);
-    }
+//         System.out.println(((Dyning) result.getContent().get(0)[0]).getDno());
+//         System.out.println(result.getContent().get(1)[0]);
+//     }
+// }
 }
