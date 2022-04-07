@@ -6,9 +6,24 @@
     <th:block th:fragment="search">
 
         <style>
+            .md-serach-result {
+                padding: 0 !important;
+            }
             .search-result-Item {
                 cursor: pointer;
                 list-style: none;
+                padding-left: 20px;
+                padding-top: 20px;
+                padding-bottom: 20px;
+            }
+            .search-result-Item:hover {
+                background-color: #DBE9B7;
+            }
+            #search-result-div {
+                padding: 0 !important;       
+            }
+            hr {
+                margin: 0;
             }
         </style>
         <div class="border-end bg-white" id="sidebar-wrapper">
@@ -24,7 +39,6 @@
                 </form>
             </div>
             <div class="list-group list-group-flush">
-                <br>
                 <ul class="md-serach-result"></ul>
             </div>
         </div>
