@@ -1,8 +1,6 @@
 package ds.com.phoncnic.repository;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -11,18 +9,9 @@ import javax.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Commit;
 
-import ds.com.phoncnic.dto.GalleryDTO;
-import ds.com.phoncnic.dto.pageDTO.PageRequestDTO;
-import ds.com.phoncnic.dto.pageDTO.PageResultDTO;
-import ds.com.phoncnic.dto.pageDTO.SearchPageRequestDTO;
 import ds.com.phoncnic.entity.Emoji;
-import ds.com.phoncnic.entity.EmojiInfo;
 import ds.com.phoncnic.entity.Gallery;
 import ds.com.phoncnic.entity.Member;
 import ds.com.phoncnic.service.emoji.EmojiInfoService;
