@@ -48,8 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   public ApiLoginFilter apiLoginFilter() throws Exception {
     ApiLoginFilter apiLoginFilter = new ApiLoginFilter("/api/login", jwtUtil());
     apiLoginFilter.setAuthenticationManager(authenticationManager());
-    apiLoginFilter.setAuthenticationFailureHandler(
-      new ApiLoginFailHandler());
+    apiLoginFilter.setAuthenticationFailureHandler(new ApiLoginFailHandler());
     return apiLoginFilter;
   }
 
@@ -66,40 +65,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   //시큐리티를 적용하기 위한 url에 대한 설정과 로그인과 access 거부일때
   @Override
   protected void configure(HttpSecurity http) throws Exception {
-
-    http.sessionManagement().maximumSessions(1).maxSessionsPreventsLogin(false).expiredUrl("/member/login").sessionRegistry(sessionResistry());
-
     log.info(">>>"+http.headers().getClass().getName());
-
-    http.authorizeRequests()
-    .antMatchers("/manage/gallery/list").hasRole("USER");
-
+    // session 당 로그인 인원 제한
+    http.sessionManagement().maximumSessions(1).maxSessionsPreventsLogin(false).expiredUrl("/member/login").sessionRegistry(sessionResistry());
+    // access 거부 handler
     http.exceptionHandling().accessDeniedHandler(accessDeniedHandler());
-
+    // user role
     http.authorizeRequests()
-    .antMatchers("/main/mypage").hasRole("USER");
-
-    http.authorizeRequests()
-    .antMatchers("/manage/**/**").hasRole("USER");
+    .antMatchers("/main/mypage", "/manage/gallery/list", "/manage/**/**", "/lookmodal/lookmodify").hasRole("USER");
+    // permit all
     http.authorizeRequests()
     .antMatchers("/dyning/**").permitAll();
-
-    http.authorizeRequests()
-    .antMatchers("/lookmodal/lookmodify").hasRole("USER");
-    
-    //3.UserDetailsService 로그인 handler :: security의 '/login'
-    http.formLogin().loginPage("/member/login")
-    // .loginProcessingUrl("https://accounts.google.com/o/oauth2/v2/auth/identifier?response_type=code&client_id=301468225398-heanhhm34h7tttd2vrd1002iku8jtnr7.apps.googleusercontent.com&scope=email&state=e_nayzmX5_Uu6KiIVYtv6ZlRX7UilF7svDh5OWGqs2c%3D&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fphoncnic%2Flogin%2Foauth2%2Fcode%2Fgoogle&flowName=GeneralOAuthFlow")
-    .failureUrl("/member/login")
-    .successHandler(loginSuccessHandler());
-    
-    //4.OAuth2UserDetailsService 로그인 handler :: social의 login
+    // OAuth2UserDetailsService 로그인 handler :: social의 login
     http.oauth2Login().successHandler(loginSuccessHandler());
-    
-    http.csrf().disable();
-
+    // logout
     http.logout().logoutUrl("/member/logout").logoutSuccessHandler(logoutSuccessHandler()).logoutSuccessUrl("/");
+    // remember 
     http.rememberMe().tokenValiditySeconds(60*60*24*7).userDetailsService((UserDetailsService) memberDetailsService);
+    // csrf 
+    http.csrf().disable();
 
     http.addFilterBefore(apiLoginFilter(), UsernamePasswordAuthenticationFilter.class);
   }
