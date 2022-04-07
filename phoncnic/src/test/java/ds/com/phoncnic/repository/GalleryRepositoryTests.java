@@ -99,12 +99,6 @@ public class GalleryRepositoryTests {
 
     }
 
-    @Test
-    public void getGalleryTest() {
-        GalleryDTO galleryDTO = galleryService.getGallery(3L);
-        System.out.println("galleryDTO : " + galleryDTO);
-        System.out.println("emojiCount : " + Arrays.deepToString(galleryDTO.getEmojicount()));
-    }
 
    
 

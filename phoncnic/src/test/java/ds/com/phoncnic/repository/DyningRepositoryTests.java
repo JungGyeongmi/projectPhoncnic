@@ -154,17 +154,4 @@ public class DyningRepositoryTests {
         System.out.println(followerCwt);
     }
 
-    @Test
-    public void testt() {
-        List<Object[]> result = dyningRepository.getDyningDetails(1L);
-        System.out.println(Arrays.toString(result.get(1)));
-    }
-
-    @Transaction
-    @Test
-    public void testttt() {
-        DyningDTO result = dyningService.getDyningDetails(1L);
-        System.out.println(result);
-        System.out.println();
-    }
 }
