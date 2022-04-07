@@ -17,8 +17,7 @@ import lombok.extern.log4j.Log4j2;
 public class CustomAccessDeniedHandler implements
  AccessDeniedHandler, AuthenticationFailureHandler{
   @Override
-  public void handle(HttpServletRequest request, HttpServletResponse response,
-      AccessDeniedException accessDeniedException) throws IOException, ServletException {
+  public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
     log.error("Access Denied Handler");
     log.error("Redirect............");
     log.error("request.getContextPath():"+request.getContextPath());
@@ -26,8 +25,7 @@ public class CustomAccessDeniedHandler implements
   }
 
   @Override
-  public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
-    AuthenticationException exception) throws IOException, ServletException {
+  public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
       log.error("Authentication Failure Handler");
       log.error("Redirect............");
       log.error("request.getContextPath():"+request.getContextPath());
