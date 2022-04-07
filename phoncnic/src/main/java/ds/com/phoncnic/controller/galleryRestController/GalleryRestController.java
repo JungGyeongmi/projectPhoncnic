@@ -73,11 +73,13 @@ public class GalleryRestController {
     
     // 조회
     @PreAuthorize("isAuthenticated()")
-    @GetMapping("follow/{artistname}")
-    public ResponseEntity<Long> follow(@PathVariable String artistname,  @AuthenticationPrincipal AuthMemberDTO authMemberDTO) {
+    @GetMapping("follow/{artistname}/{loginUserId}")
+    public ResponseEntity<Long> follow(@PathVariable String artistname,  @PathVariable String loginUserId) {
         log.info("gallery follow check ......");
-        log.info("authMemberDTO id "+authMemberDTO.getId());
-        Long fno = followService.getGalleryFno(authMemberDTO.getId(), artistname);
+        Long fno = 0L;
+        if(loginUserId !=null) {
+            fno = followService.getGalleryFno(loginUserId, artistname);
+        }
         log.info("checked fno ..."+fno);
         return new ResponseEntity<>(fno, HttpStatus.OK);
     }

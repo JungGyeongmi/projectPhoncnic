@@ -388,15 +388,14 @@
                var fnoInput = $("#fno");
 
                $.getJSON(follow + "/" + artistname + "/" +loginUserId, function (follow) {
-                  fnoInput.val("follow");
+                  fnoInput.val(fno);
+                  if (fno != null) {
+                     console.log(fno);
+                     $("#followBtn").val("언팔로우");
+                  } else {
+                     $("#followBtn").val("팔로우");
+                  }
                });
-
-               if (follow != null) {
-                  console.log(follow);
-                  $("#followBtn").val("언팔로우");
-               } else {
-                  $("#followBtn").val("팔로우");
-               }
 
                showdetailsModal(targetGno, targetFile);
 

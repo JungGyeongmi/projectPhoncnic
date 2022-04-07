@@ -6,9 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import ds.com.phoncnic.entity.CharacterLook;
 import ds.com.phoncnic.entity.CharacterLookInfo;
-import ds.com.phoncnic.entity.Member;
 
 @SpringBootTest
 public class CharacterLookRepositoryTests {
