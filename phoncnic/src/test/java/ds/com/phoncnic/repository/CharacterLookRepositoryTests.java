@@ -47,24 +47,24 @@ public class CharacterLookRepositoryTests {
     }
 
     // ChracterLook 더미
-    // @Test
-    //  public void insertDummies() {
+    @Test
+     public void insertDummies() {
 
-    //     IntStream.rangeClosed(1, 10).forEach(i -> {
+        IntStream.rangeClosed(1, 10).forEach(i -> {
 
-    //         Member member = Member.builder().id("user" + i + "@icloud.com").build();
-    //         CharacterLookInfo characterLookinfo = CharacterLookInfo.builder().chno(43L).build();
+            Member member = Member.builder().id("user" + i + "@icloud.com").build();
+            CharacterLookInfo characterLookinfo = CharacterLookInfo.builder().chno(1L).build();
 
-    //         CharacterLook characterLook = CharacterLook.builder()
-    //                 .member(member)
-    //                 .characterLookinfo(characterLookinfo)
-    //                 .hairname("hair" + 1)
-    //                 .clothesname("clothes" + 1)
-    //                 .build();
+            CharacterLook characterLook = CharacterLook.builder()
+                    .member(member)
+                    .characterLookinfo(characterLookinfo)
+                    .hairname("hair" + 1)
+                    .clothesname("clothes" + 1)
+                    .build();
 
-    //         repository.save(characterLook);
-    //     });
-    // }
+            repository.save(characterLook);
+        });
+    }
 
 
 }
