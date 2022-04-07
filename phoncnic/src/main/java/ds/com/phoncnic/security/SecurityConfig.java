@@ -68,7 +68,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     log.info(">>>"+http.headers().getClass().getName());
    
     // session 당 로그인 인원 제한
-    http.sessionManagement().maximumSessions(1).maxSessionsPreventsLogin(false).expiredUrl("/member/login").sessionRegistry(sessionResistry());
+    http.sessionManagement().maximumSessions(1).maxSessionsPreventsLogin(false)
+    .sessionRegistry(sessionResistry())
+    .expiredUrl("/member/login");;
    
     // access 거부 handler
     http.exceptionHandling().accessDeniedHandler(accessDeniedHandler());

@@ -36,9 +36,12 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
     int interval = session.getMaxInactiveInterval();
     
     log.info("session interval...."+interval);
+    session.setMaxInactiveInterval(3600);
+
+    interval = session.getMaxInactiveInterval();
+    log.info("changed session interval "+ interval);
 
     if (session != null) {
-      log.info( request.getPathInfo());
       String redirectUrl = (String) session.getAttribute("prevPage");
       log.info("redirect url "+redirectUrl);
       if (redirectUrl != null) {
