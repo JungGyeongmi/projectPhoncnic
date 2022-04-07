@@ -17,8 +17,8 @@
     <img type="hidden" id="img" class="look hairlook" th:src="${hdto.hairpath}" alt="">
     <input  type="hidden" id="radiohair" th:value="${hdto.hairname}"></div>
     
-    <input type="text" value="naver.com">
     <img id="charimg" src="" alt="">
+    <input type="text" value="naver.com">
 
   
          <script>
@@ -42,8 +42,8 @@
     }
     if (key === 40 /* BOTTOM */) {
         charimg.style.top = y + 50 + "px";
+        console.log(e.target);
     }
-    console.log(charimg.closest('input').value);
   }
   );
 
