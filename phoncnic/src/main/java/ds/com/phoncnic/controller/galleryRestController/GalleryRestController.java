@@ -58,7 +58,7 @@ public class GalleryRestController {
     }
 
     // Emoji insert/update/remove
-    @PreAuthorize("Authenticated()")
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/emoji/register/{gno}")
     public ResponseEntity<Long[][]> emojiRegister(@RequestBody EmojiDTO emojiDTO, @PathVariable("gno") Long gno, @AuthenticationPrincipal AuthMemberDTO authMemberDTO) {
         emojiDTO.setGno(gno);
@@ -72,7 +72,7 @@ public class GalleryRestController {
     }
     
     // 조회
-    @PreAuthorize("Authenticated()")
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("follow/{artistname}")
     public ResponseEntity<Long> follow(@PathVariable String artistname,  @AuthenticationPrincipal AuthMemberDTO authMemberDTO) {
         
@@ -82,7 +82,7 @@ public class GalleryRestController {
     }
     
     // 등록 삭제
-    @PreAuthorize("Authenticated()")
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("followRegister/{artistname}")
     public ResponseEntity<Object[]> followRegister(@RequestBody FollowDTO followDTO, @PathVariable String artistname, @AuthenticationPrincipal AuthMemberDTO authMemberDTO) {
         followDTO.setFollowerid(authMemberDTO.getId());
