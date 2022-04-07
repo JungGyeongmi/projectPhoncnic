@@ -87,13 +87,5 @@ public class HelpRepositoryTests {
         System.out.println(helpService.register(helpDTO));
     }
 
-    @Test
-    public void testSearchPage() {
 
-        Pageable pageable = PageRequest.of(0, 10, Sort.by("qno").descending());
-        Page<Object[]> result = helpRepository.searchPage("t", "답변", pageable);
-        List<Object[]> helpList = result.getContent();
-        Object[] help = helpList.stream().toArray();
-        System.out.println(Arrays.deepToString(help));
-    }
 }
