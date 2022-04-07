@@ -1,13 +1,14 @@
+
 <!DOCTYPE html>
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
 <th:block th:replace="~{layout/basic :: setContent(~{::content})}">
-  <th:block th:fragment="content">
-    <h1>가게 수정</h1>
+    <th:block th:fragment="content">
+        <h1>가게 수정</h1>
 
     <form th:action="@{/manage/dyning/modify}" th:method="post" id="form">
       <label for="">id
       <input type="hidden" name="dno" th:value="${result.dno}">
-      <input type="text" name="id" th:value="${id}">
+      <input type="hidden" name="id" th:value="${id}">
     </label><br><br>
         <label for="">dyningname
             <input type="text" name="dyningname" th:value="${result.dyningname}" id="">
@@ -18,8 +19,6 @@
         <label for="">location
           <input type="button" value="우편찾기"  id="address"><br>
             <input type="text" name="location" th:value="${result.location}" id=""><br>
-            <input type="text" name="locationdetails" th:value="${result.locationdetails}" id=""><br>
-
         </label><br><br>
         <label for="">tel
             <input type="text" name="tel" th:value="${result.tel}" id="">
@@ -46,230 +45,270 @@
                   <input type="file" class="custom-file-input1 files form-control" id="fileInput1" multiple>
                   <label data-browse="Browse"></label>
                 </div>
-              </li>
-            </th:block>
-
-          </ul>
-        </div>
-      </label><br><br>
-      <label for="">backgroundimage (1장 선택 가능)
-        <div class="form-group background">
-          <label>이미지 넣기</label>
-          <div class="custom-file">
-            <input type="file" class="custom-file-input2 files form-control" id="fileInput2" multiple>
-            <label data-browse="Browse"></label>
-          </div>
-        </div>
-        <div class="backgroundbox">
-        </div>
-        <div class="backgroundshowResult">
-          <ul>
-            <li th:if="${idto.backgroundpath}" style="list-style: none;" th:each="idto: ${imageresult}"
-              th:data-name="${idto.backgroundname}" th:data-uuid="${idto.backgrounduuid}"
-              th:data-path="${idto.backgroundpath}">
-              <div>
-                <button type='button' th:data-file="|@{'/display'}?fileName=${idto.getBackgoundImageURL()}|"
-                  class='btn-warning btn-sm'>X</button><br>
-                <img th:src="|@{'/display'}?fileName=${idto.getBackgoundThumbnailImageURL()}|" alt="">
               </div>
-            </li>
-          </ul>
-        </div>
+              <div class="menubox">
 
-      </label><br><br>
-      <label for="">roofdesign
-        <button type="button" id="roofChoice">roof disign 변경하기</button><br>
-        <input type="hidden" name="oono" id="roofdisign" th:value="${result.oono}">
-        현재 roof 디자인<img id="selectedroof" th:src="${result.roofthumbnail}" alt="">
-      </label><br><br>
+              </div>
+              <div class="menuuploadResult">
+                <ul >
+                  <th:block >
+                    <li style="list-style: none;" th:each="idto: ${imageresult}" th:data-name="${idto.menuimagename}"
+                    th:data-uuid="${idto.menuimageuuid}" th:data-path="${idto.menuimagepath}"><div>
+                    <button th:if="${idto.menuimagename}" type='button' th:data-file="|@{'/display'}?fileName=${idto.getMenuImageURL()}|" class='btn-warning btn-sm'>X</button><br>
+                    <img th:src="|@{'/display'}?fileName=${idto.getMenuThumbnailImageURL()}|" alt=""></div></li>
+                  </th:block>
+
+              </ul>
+              </div>
+        </label><br><br>
+        <label for="">backgroundimage (1장 선택 가능)
+            <div class="form-group background">
+                <label>이미지 넣기</label>
+                <div class="custom-file">
+                  <input type="file" class="custom-file-input2 files form-control" id="fileInput2" multiple>
+                  <label data-browse="Browse"></label>
+                </div>
+              </div>
+              <div class="backgroundbox">
+              </div>
+              <div class="backgroundshowResult">
+                <ul>
+                  <li th:if="${idto.backgroundpath}" style="list-style: none;" th:each="idto: ${imageresult}" th:data-name="${idto.backgroundname}"
+                  th:data-uuid="${idto.backgrounduuid}" th:data-path="${idto.backgroundpath}"><div>
+                  <button  type='button' th:data-file="|@{'/display'}?fileName=${idto.getBackgoundImageURL()}|"
+                  class='btn-warning btn-sm'>X</button><br>
+                  <img th:src="|@{'/display'}?fileName=${idto.getBackgoundThumbnailImageURL()}|" alt=""></div></li>
+              </ul>
+              </div>
+
+        </label><br><br>
+        <label for="">roofdesign
+
+          <button type="button" id="roofChoice">roof disign 변경하기</button><br>
+          <input type="hidden" name="oono" id="roofdisign" th:value="${result.oono}">
+          현재 roof 디자인<img id="selectedroof"  th:src="${result.roofthumbnail}" alt="">
+
+        </label><br><br>
 
     </form>
 
-    <button type="button" class="btn-submit">등록하기</button>
+    <button type="button" class="btn-submit">수정하기</button>
     <a th:href="@{/manage/dyning/list(id=${result.id})}"><button type="button">목록</button></a>
 
-    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-    <script th:inline="javascript">
 
-      window.onload = function () {
-        document.getElementById("address").addEventListener("click", function () { //주소입력칸을 클릭하면
-          //카카오 지도 발생
-          new daum.Postcode({
-            oncomplete: function (data) { //선택시 입력값 세팅
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+      <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+      <script th:inline="javascript">
+
+       window.onload = function(){
+    document.getElementById("address").addEventListener("click", function(){ //주소입력칸을 클릭하면
+        //카카오 지도 발생
+        new daum.Postcode({
+            oncomplete: function(data) { //선택시 입력값 세팅
               document.querySelector("input[name=location]").value = data.address; // 주소 넣기
               document.getElementById("detail").focus(); //상세입력 포커싱
               window.close();
             }
-          }).open();
-        });
-      }
-
-      $(document).ready(function (e) {
-        $("#roofChoice").on("click", function (e) {
+        }).open();
+    });
+}
+       $(document).ready(function (e) {
+        $("#roofChoice").on("click",function(e){
           $("#roofModal").show();
         });
 
-        $(".okBtn").on("click", function (e) {
+        $(".okBtn").on("click",function(e){
           var rooftype = $('input[name="oono"]:checked');
           var selectedroofimage = rooftype.next().attr("src");
           $("#roofdisign").val(rooftype.val());
-          $('#selectedroof').attr("src", selectedroofimage);
+          $('#selectedroof').attr("src",selectedroofimage);
           $("#roofModal").hide();
         });
 
-        $("button[name='btn-close']").on("click", function (e) {
-          $("#roofModal").hide();
+        $("button[name='btn-close']").on("click", function(e){
+           $("#roofModal").hide();
+         });
+         /*[+
+           var roofpath=[[${result.roofpath}]];
+           +]*/
+
+
+         //  upload url 선언 및 초기화
+         /*[+
+           var urlUpload = [[@{/uploadAjax/}]];
+         +]*/
+
+         // 입력 파일 형식 및 크기 제한 : 여기서는 jpg만 받음
+         // 이걸 함수에서만 쓰는거면 지역변수로 넣는게 좋은듯
+         var regex = new RegExp("(.*?)\.(exe|sh|zip|alz|tiff|txt)$");
+         var maxSize = 10485760;
+
+         // 이미지 파일 유효성 검사를 위한 함수 fileName과 fileSize를 파라미터로 받음
+         function checkExtension(fileName, fileSize) {
+           // 사이즈 유효성 검사
+           if (fileSize >= maxSize) {
+             alert("파일사이즈 초과");
+             return false;
+           }
+           // 파일 이름으로 유효성 검사
+           // regex에 .이 포함되어있으니까 +1을 안해줘도 돼
+           if (regex.test(fileName.substring(fileName.lastIndexOf(".")))) {
+             // alert("해당파일은 업로드 될 수 없습니다!");
+             return false;
+           }
+
+           return true;
+         }
+
+         // 해당 클래스에 변화가 있을 때 동작하는 이벤트
+         $(".custom-file-input1").on("change", function () {
+
+           // this 즉 이벤트 타겟의 값을 불러와서 기준값에 따라서 배열로 나누고 배열에서 마지막 요소를 제거하고 그 요소를 반환(pop메소드)
+           var fileName = $(this).val().split("/").pop();
+
+           // 테스트용 콘솔
+           console.log("fileName >> "+fileName);
+           console.log("확장자 인덱스 >> "+fileName.lastIndexOf("."));
+           console.log("확장자 >> "+ fileName.substring(fileName.lastIndexOf(".")+1));
+
+           // 해당 클래스에 selected라는 클래스를 추가함
+           $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+
+           var formData = new FormData(); //Form태그에 동적으로 데이터할당
+           var inputFile = $(this); // 이벤트 대상
+           var files = inputFile[0].files; // 해당 파일 객체
+           var appended = false; // 추가가 정상적으로 이루어졌는지 확인하기 위한 boolean 변수
+
+           for (let i = 0; i < files.length; i++) {
+             if (!checkExtension(files[i].name, files[i].size)) {
+               // 여기서 유효성 검사 통과하지 못하면 파일선택에 들어가있는 값 털어버리는 것 추가 필요 서치 더 해보기
+               return false;
+             }
+             console.log(files[i]);
+             formData.append("uploadFiles", files[i]); // if문을 통과하는경우에 Form태그에 데이터를 append시킴
+             appended = true; // 제대로 추가돼었다는것을 알리기위해서 true값 재할당
+           }
+
+
+           if (!appended) { return; } // 어펜드가 제대로 되지 않은 경우에 리턴하는데 위에서 return false로 함수 나가게 했으니까 필요없지 않나?
+
+           // value라는 변수에 formData의 값들을 하나씩 넣음 forEach내지 향포 개념임 for of 반복문
+           for(var value of formData.values()) console.log("formData >> "+value);
+
+           // 파일 업로드를 위한 ajax
+           $.ajax({
+             url: urlUpload, // 스크림트 도입부에 url 올려둠
+             processData: false,
+             contentType: false,
+             data: formData,
+             type: 'POST',
+             dataType: 'json',
+             success: function (result) {
+               console.log(result);
+               menushowResult(result);
+             },
+             error: function (jqXHR, textStatus, errorThrown) { // 이 부분 잘 이해 안됐음
+               console.log(textStatus);
+             }
+           });
+         });
+
+         $(".custom-file-input2").on("change", function () {
+
+   // this 즉 이벤트 타겟의 값을 불러와서 기준값에 따라서 배열로 나누고 배열에서 마지막 요소를 제거하고 그 요소를 반환(pop메소드)
+   var fileName = $(this).val().split("/").pop();
+
+   // 테스트용 콘솔
+   console.log("fileName >> "+fileName);
+   console.log("확장자 인덱스 >> "+fileName.lastIndexOf("."));
+   console.log("확장자 >> "+ fileName.substring(fileName.lastIndexOf(".")+1));
+
+   // 해당 클래스에 selected라는 클래스를 추가함
+   $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+
+   var formData = new FormData(); //Form태그에 동적으로 데이터할당
+   var inputFile = $(this); // 이벤트 대상
+   var files = inputFile[0].files; // 해당 파일 객체
+   var appended = false; // 추가가 정상적으로 이루어졌는지 확인하기 위한 boolean 변수
+
+   for (let i = 0; i < files.length; i++) {
+     if (!checkExtension(files[i].name, files[i].size)) {
+       // 여기서 유효성 검사 통과하지 못하면 파일선택에 들어가있는 값 털어버리는 것 추가 필요 서치 더 해보기
+       return false;
+     }
+     console.log(files[i]);
+     formData.append("uploadFiles", files[i]); // if문을 통과하는경우에 Form태그에 데이터를 append시킴
+     appended = true; // 제대로 추가돼었다는것을 알리기위해서 true값 재할당
+   }
+
+
+   if (!appended) { return; } // 어펜드가 제대로 되지 않은 경우에 리턴하는데 위에서 return false로 함수 나가게 했으니까 필요없지 않나?
+
+   // value라는 변수에 formData의 값들을 하나씩 넣음 forEach내지 향포 개념임 for of 반복문
+   for(var value of formData.values()) console.log("formData >> "+value);
+
+   // 파일 업로드를 위한 ajax
+   $.ajax({
+     url: urlUpload, // 스크림트 도입부에 url 올려둠
+     processData: false,
+     contentType: false,
+     data: formData,
+     type: 'POST',
+     dataType: 'json',
+     success: function (result) {
+       console.log(result);
+       backgroundshowResult(result);
+     },
+     error: function (jqXHR, textStatus, errorThrown) { // 이 부분 잘 이해 안됐음
+       console.log(textStatus);
+     }
+   });
+ });
+
+         // showResult 함수 선언
+         function menushowResult(uploadResultArr){
+           var uploadUL=$(".menuuploadResult ul");
+           var str = "";
+           /*[+
+           var urlDisplay=[[@{/display}]];
+           +]*/
+           $(uploadResultArr).each(function(i, obj){
+             // test출력
+             // console.log("uploadResultArr obj >> ");
+             // console.log(obj);
+             str+= `<li data-name='${obj.fileName}' data-path='${obj.folderPath}' data-uuid='${obj.uuid}'><div>`;
+             str+= `<button type='button' data-file='${obj.imageURL}\' class='btn-warning btn-sm'>X</button><br>`;
+             str+= `<img src='${urlDisplay}?fileName=${obj.thumbnailURL}'></div></li>`;
+           });
+           uploadUL.append(str); // ul에 전달쓰
+         }
+
+
+
+
+
+       function backgroundshowResult(uploadResultArr){
+           var uploadUL=$(".backgroundshowResult ul");
+           var str = "";
+           /*[+
+           var urlDisplay=[[@{/display}]];
+           +]*/
+           $(uploadResultArr).each(function(i, obj){
+             // test출력
+             // console.log("uploadResultArr obj >> ");
+             // console.log(obj);
+             str+= `<li data-name='${obj.fileName}' data-path='${obj.folderPath}' data-uuid='${obj.uuid}'><div>`;
+             str+= `<button type='button' data-file='${obj.imageURL}\' class='btn-warning btn-sm'>X</button><br>`;
+             str+= `<img src='${urlDisplay}?fileName=${obj.thumbnailURL}'></div></li>`;
+           });
+           uploadUL.append(str); // ul에 전달쓰
+         }
         });
 
-        /*[+
-          var roofpath=[[${result.roofpath}]];
-        +]*/
-
-        //  upload url 선언 및 초기화
-        /*[+
-          var urlUpload = [[@{/uploadAjax/}]];
-        +]*/
-
-        // 입력 파일 형식 및 크기 제한 : 여기서는 jpg만 받음
-        // 이걸 함수에서만 쓰는거면 지역변수로 넣는게 좋은듯
-        var regex = new RegExp("(.*?)\.(exe|sh|zip|alz|tiff|txt)$");
-        var maxSize = 10485760;
-
-        // 이미지 파일 유효성 검사를 위한 함수 fileName과 fileSize를 파라미터로 받음
-        function checkExtension(fileName, fileSize) {
-          // 사이즈 유효성 검사
-          if (fileSize >= maxSize) {
-            alert("파일사이즈 초과");
-            return false;
-          }
-          // 파일 이름으로 유효성 검사
-          // regex에 .이 포함되어있으니까 +1을 안해줘도 돼
-          if (regex.test(fileName.substring(fileName.lastIndexOf(".")))) {
-            // alert("해당파일은 업로드 될 수 없습니다!");
-            return false;
-          }
-
-          return true;
-        }
-
-        // 해당 클래스에 변화가 있을 때 동작하는 이벤트
-        $(".custom-file-input1").on("change", function () {
-
-          // this 즉 이벤트 타겟의 값을 불러와서 기준값에 따라서 배열로 나누고 배열에서 마지막 요소를 제거하고 그 요소를 반환(pop메소드)
-          var fileName = $(this).val().split("/").pop();
-
-          // 테스트용 콘솔
-          console.log("fileName >> " + fileName);
-          console.log("확장자 인덱스 >> " + fileName.lastIndexOf("."));
-          console.log("확장자 >> " + fileName.substring(fileName.lastIndexOf(".") + 1));
-
-          // 해당 클래스에 selected라는 클래스를 추가함
-          $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
-
-          var formData = new FormData(); //Form태그에 동적으로 데이터할당
-          var inputFile = $(this); // 이벤트 대상
-          var files = inputFile[0].files; // 해당 파일 객체
-          var appended = false; // 추가가 정상적으로 이루어졌는지 확인하기 위한 boolean 변수
-
-          for (let i = 0; i < files.length; i++) {
-            if (!checkExtension(files[i].name, files[i].size)) {
-              // 여기서 유효성 검사 통과하지 못하면 파일선택에 들어가있는 값 털어버리는 것 추가 필요 서치 더 해보기
-              return false;
-            }
-            console.log(files[i]);
-            formData.append("uploadFiles", files[i]); // if문을 통과하는경우에 Form태그에 데이터를 append시킴
-            appended = true; // 제대로 추가돼었다는것을 알리기위해서 true값 재할당
-          }
-
-
-          if (!appended) { return; } // 어펜드가 제대로 되지 않은 경우에 리턴하는데 위에서 return false로 함수 나가게 했으니까 필요없지 않나?
-
-          // value라는 변수에 formData의 값들을 하나씩 넣음 forEach내지 향포 개념임 for of 반복문
-          for (var value of formData.values()) console.log("formData >> " + value);
-
-          // 파일 업로드를 위한 ajax
-          $.ajax({
-            url: urlUpload, // 스크림트 도입부에 url 올려둠
-            processData: false,
-            contentType: false,
-            data: formData,
-            type: 'POST',
-            dataType: 'json',
-            success: function (result) {
-              console.log(result);
-              menushowResult(result);
-            },
-            error: function (jqXHR, textStatus, errorThrown) { // 이 부분 잘 이해 안됐음
-              console.log(textStatus);
-            }
-          });
-        });
-
-        $(".custom-file-input2").on("change", function () {
-
-          // this 즉 이벤트 타겟의 값을 불러와서 기준값에 따라서 배열로 나누고 배열에서 마지막 요소를 제거하고 그 요소를 반환(pop메소드)
-          var fileName = $(this).val().split("/").pop();
-
-          // 테스트용 콘솔
-          console.log("fileName >> " + fileName);
-          console.log("확장자 인덱스 >> " + fileName.lastIndexOf("."));
-          console.log("확장자 >> " + fileName.substring(fileName.lastIndexOf(".") + 1));
 
        // submit 버튼
        $(".btn-submit").on("click", function (e) {
          e.preventDefault(); // 기본 이벤트 submit을 막음
-
-         if ($("input[name=id]").val()=="") {
-            alert("id를 입력해주세요");
-            $("input[name=id]").val().focus();
-            return;
-          }else if($("input[name=dyningname]").val()==""){
-            alert("가게이름을 입력해주세요");
-            $("input[name=dyningname]").focus();
-            return;
-          }else if($("input[name=comment]").val()==""){
-            alert("comment 입력해주세요");
-            $("input[name=comment]").focus();
-            return;
-          }else if($("input[name=location]").val()==""){
-            alert("location 입력해주세요");
-            $("input[name=location]").focus();
-            return;
-          }else if($("input[name=locationdetails]").val()==""){
-            alert("locationdetails 입력해주세요");
-            $("input[name=locationdetails]").focus();
-            return;
-          }else if($("input[name=tel]").val()==""){
-            alert("tel 입력해주세요");
-            $("input[name=tel]").focus();
-            return;
-          }else if($("input[name=foodtype]").val()==""){
-            alert("foodtype 입력해주세요");
-            $("input[name=foodtype]").focus();
-            return;
-          }else if($("input[name=businesshours]").val()==""){
-            alert("businesshours 입력해주세요");
-            $("input[name=businesshours]").focus();
-            return;
-          }else if($("input[name=hashtag]").val()==""){
-            alert("hashtag 입력해주세요");
-            $("input[name=hashtag]").focus();
-            return;
-          }else if($("input[name=businesshours]").val()==""){
-            alert("businesshours 입력해주세요");
-            $("input[name=businesshours]").focus();
-            return;
-          }else if($(".menuuploadResult ul").children('li').length==0){
-            alert("메뉴 사진을 선택해주세요");
-            return;
-          }else if($(".backgroundshowResult ul").children('li').length==0){
-            alert("배경 사진을 선택해주세요 입력해주세요");
-            return;
-          }else if($("input[name=oono]").val()==""){
-            alert("rooftype 입력해주세요");
-            $("input[name=oono]").focus();
-            return;
-          }
          // 빈 문자열
          var str = "";
          var str2 = "";
@@ -374,6 +413,7 @@
            </div>
        </div>
 
+</html>
       </th:block>
     </th:block>
     </html>
