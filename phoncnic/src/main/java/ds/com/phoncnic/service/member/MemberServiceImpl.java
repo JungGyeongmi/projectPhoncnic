@@ -52,9 +52,8 @@ public class MemberServiceImpl implements MemberService {
         log.info("update member DTO");
         log.info(member);
 
-        memberRepository.save(member);
-
         log.info("MemberComeOn ....." + member);
+        memberRepository.save(member);
 
     }
 

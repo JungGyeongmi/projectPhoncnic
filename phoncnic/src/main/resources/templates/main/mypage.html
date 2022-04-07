@@ -13,10 +13,16 @@
                     <th scope="col">탈퇴</th>
 
                 </tr>
+                <!-- th:value="${dto.roleSet}" -->
                 <tr th:each="dto : ${memberDTO}">
                     <td><input type="text" th:value=${dto.id} name=id readonly></td>
                     <td><input type="text" th:value=${dto.nickname} name=nickname></td>
-                    <td><input type="text" th:value="${dto.roleSet}" name="roleSet"></td>
+                    <td id="roleSetInfo" th:data-role-set="${dto.roleSet}">
+                        <label for="ROLE_ADMIN">ROLE_ADMIN<input id="ROLE_ADMIN" type="radio" name="roleSet" value="[ROLE_ADMIN]"></label>
+                        <label for="ROLE_USER">ROLE_USER<input id="ROLE_USER" type="radio" name="roleSet" value="[ROLE_USER]"></label>
+                        <label for="ROLE_CEO">ROLE_CEO<input id="ROLE_CEO" type="radio" name="roleSet" value="[ROLE_CEO]"></label>
+                        <label for="ROLE_ARTIST">ROLE_ARTIST<input id="ROLE_ARTIST" type="radio" name="roleSet" value="[ROLE_ARTIST]"></label>
+                    </td>
                     <td><input type="text" th:value=${dto.regdate} readonly></td>
                     <td><button id="memberModifyBtn" type="button">수정</button></td>
                     <td><button id="memberOutBtn" type="button">회원탈퇴</button></td>
@@ -126,6 +132,18 @@
         </style>
         <script th:inline="javascript">
 
+            $(function() {
+                var roleSetData = $("#roleSetInfo").data("roleSet");
+                var roleSetRadio = $("input[name=roleSet]");
+
+                roleSetRadio.each(function (index, item) {
+                    var role = $(item).val();
+                    if(role == roleSetData) {
+                        $(item).prop("checked", true);
+                    }
+                })
+            });
+
             var memberform = document.querySelector("#memberfrm");
             var lookform = document.querySelector("#lookform");
             var dyningfrm = document.querySelector("#dyningfrm");
@@ -156,7 +174,7 @@
             /*[+var urlmemberout = [[@{/main/mypage/memberremove}]];+]*/
 
             document.querySelector("#memberModifyBtn").onclick = function () {
-
+               
                 if (!confirm("계정 정보를 수정하시겠습니까?")) {
                     return;
                 } else {

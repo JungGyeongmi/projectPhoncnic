@@ -22,13 +22,13 @@ public interface MemberService {
             new Function<String, AuthorityRole>() {
               @Override
               public AuthorityRole apply(String t) {
-                if (t.equals("ROLE_USER"))
+                if (t.equals("[ROLE_USER]"))
                   return AuthorityRole.USER;
-                else if (t.equals("ROLE_CEO"))
+                else if (t.equals("[ROLE_CEO]"))
                   return AuthorityRole.CEO;
-                else if (t.equals("ROLE_ARTIST"))
+                else if (t.equals("[ROLE_ARTIST]"))
                   return AuthorityRole.ARTIST;
-                else if (t.equals("ROLE_ADMIN"))
+                else if (t.equals("[ROLE_ADMIN]"))
                   return AuthorityRole.ADMIN;
                 else
                   return AuthorityRole.USER;

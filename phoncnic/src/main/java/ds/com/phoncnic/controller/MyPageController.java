@@ -37,6 +37,7 @@ public class MyPageController {
         
         model.addAttribute("id",dto.getId());
         model.addAttribute("memberDTO", memberDTO);
+
         model.addAttribute("hairDTO", characterLookService.getCharacterHair(dto.getId()));
         model.addAttribute("clothesDTO", characterLookService.getCharacterClothes(dto.getId()));
         model.addAttribute("looklist", characterLookService.lookimageList());
@@ -48,10 +49,14 @@ public class MyPageController {
     @PostMapping("/membermodify")
     public String membermodify(MemberDTO memberDTO, RedirectAttributes ra) {
 
+        log.info("update....");
         log.info("modify post.........id:" + memberDTO.getId());
         log.info("memberDTO : "+memberDTO);
+
         memberService.updateMemberDTO(memberDTO);
+        
         ra.addAttribute("id", memberDTO.getId());
+        
         return "redirect:/main/mypage";
 
     }
