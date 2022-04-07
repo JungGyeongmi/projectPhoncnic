@@ -8,7 +8,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import ds.com.phoncnic.security.filter.ApiLoginFilter;
@@ -77,7 +76,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     
     http.authorizeRequests()
     .antMatchers("/manage/rolechoice", "/main/mypage", "/lookmodal/lookmodify").authenticated()
-    .antMatchers("/manage/dyning/**").hasAnyRole("CEO", "ADMIN")
+    .antMatchers("/manage/dyning/**/**").hasAnyRole("CEO", "ADMIN")
     .antMatchers("/manage/gallery/**").hasAnyRole("ARTIST", "ADMIN")
     .antMatchers("/dyning/**", "/gallery/**").permitAll();
 
