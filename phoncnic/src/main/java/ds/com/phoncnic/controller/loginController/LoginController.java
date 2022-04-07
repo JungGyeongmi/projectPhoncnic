@@ -1,5 +1,8 @@
 package ds.com.phoncnic.controller.loginController;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,19 +15,14 @@ import lombok.extern.log4j.Log4j2;
 public class LoginController {
     
     @GetMapping("/login")
-    public void getLoginPage() {
+    public String getLoginPage(HttpServletRequest request, Authentication auth) {
+        log.info("request...");
+        log.info(request.getServletPath());
+        if(auth!=null && auth.getDetails() != null) {
+            return "/index";
+        }
         log.info("login page......");
+        return "/member/login";
     }
 
-    @GetMapping("/loginRequest")
-    public void getLoginRequestPage() {
-        log.info("login request......");
-    }
-
-    @GetMapping("/logout")
-    public String getLogOutPage() {
-        log.info("logout request.....");
-        
-        return "rediect:/member/login";
-    }
 }

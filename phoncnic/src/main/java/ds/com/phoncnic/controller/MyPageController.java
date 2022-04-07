@@ -23,15 +23,18 @@ import lombok.extern.log4j.Log4j2;
 @RequestMapping("/main/mypage")
 @RequiredArgsConstructor
 public class MyPageController {
+
     private final MemberService memberService;
     private final CharacterLookService characterLookService;
     private final FollowService followService;
     private final EmojiService emojiService;
 
     @GetMapping({ "/", "" })
-    public void mypage( Model model,@AuthenticationPrincipal AuthMemberDTO dto) {
+    public void mypage(Model model, @AuthenticationPrincipal AuthMemberDTO dto) {
+
         log.info("id:" + dto.getId());
         MemberDTO memberDTO = memberService.getMember(dto.getId());
+        
         model.addAttribute("id",dto.getId());
         model.addAttribute("memberDTO", memberDTO);
         model.addAttribute("hairDTO", characterLookService.getCharacterHair(dto.getId()));
@@ -44,7 +47,9 @@ public class MyPageController {
 
     @PostMapping("/membermodify")
     public String membermodify(MemberDTO memberDTO, RedirectAttributes ra) {
+
         log.info("modify post.........id:" + memberDTO.getId());
+        log.info("memberDTO : "+memberDTO);
         memberService.updateMemberDTO(memberDTO);
         ra.addAttribute("id", memberDTO.getId());
         return "redirect:/main/mypage";

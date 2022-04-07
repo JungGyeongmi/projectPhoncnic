@@ -42,8 +42,7 @@ public class ApiLoginFilter
   }
 
   @Override
-  protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
-      Authentication authResult) throws IOException, ServletException {
+  protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
 
     log.info("ApiLoginFilter successfulAuthentication:" + authResult);
     log.info("Principal:" + authResult.getPrincipal());

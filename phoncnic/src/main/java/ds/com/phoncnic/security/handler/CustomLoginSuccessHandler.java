@@ -33,6 +33,10 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
     log.warn("ROLE NAMES : " + roleNames);
 
     HttpSession session = request.getSession(false);
+    int interval = session.getMaxInactiveInterval();
+    
+    log.info("session interval...."+interval);
+
     if (session != null) {
       log.info( request.getPathInfo());
       String redirectUrl = (String) session.getAttribute("prevPage");

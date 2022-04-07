@@ -66,29 +66,30 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     log.info(">>>"+http.headers().getClass().getName());
+   
     // session 당 로그인 인원 제한
     http.sessionManagement().maximumSessions(1).maxSessionsPreventsLogin(false).expiredUrl("/member/login").sessionRegistry(sessionResistry());
+   
     // access 거부 handler
     http.exceptionHandling().accessDeniedHandler(accessDeniedHandler());
-    // 권한이 있다면 모두 접근 가능
+    
     http.authorizeRequests()
-    .antMatchers("/main/mypage", "/lookmodal/lookmodify").authenticated();
-    // user만 접근 가능
-    http.authorizeHttpRequests()
-    .antMatchers("/manage/dyning/**").hasRole("CEO");
-    http.authorizeHttpRequests()
-    .antMatchers("/manage/gallery/**").hasRole("ARTIST");
-    // permit all
-    http.authorizeRequests()
-    .antMatchers("/dyning/**").permitAll();
+    .antMatchers("/manage/rolechoice", "/main/mypage", "/lookmodal/lookmodify").authenticated()
+    .antMatchers("/manage/dyning/**").hasAnyRole("CEO", "ADMIN")
+    .antMatchers("/manage/gallery/**").hasAnyRole("ARTIST", "ADMIN")
+    .antMatchers("/dyning/**", "/gallery/**").permitAll();
+
     // OAuth2UserDetailsService 로그인 handler :: social의 login
-    http.oauth2Login().successHandler(loginSuccessHandler());
+    http.oauth2Login().loginPage("/member/login").successHandler(loginSuccessHandler());
     // logout
-    http.logout().logoutUrl("/member/logout").logoutSuccessHandler(logoutSuccessHandler()).logoutSuccessUrl("/");
+    http.logout().logoutUrl("/member/logout").invalidateHttpSession(true).deleteCookies("JSESSIONID").logoutSuccessHandler(logoutSuccessHandler());
+    
     // remember 
-    http.rememberMe().tokenValiditySeconds(60*60*24*7).userDetailsService((UserDetailsService) memberDetailsService);
+    // http.rememberMe().tokenValiditySeconds(60*60*24*7).userDetailsService((UserDetailsService) memberDetailsService);
+   
     // csrf 
     http.csrf().disable();
+   
     // login filter
     http.addFilterBefore(apiLoginFilter(), UsernamePasswordAuthenticationFilter.class);
   }
