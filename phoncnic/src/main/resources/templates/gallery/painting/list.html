@@ -321,11 +321,14 @@
             var uploadResult = $(".uploadResult");
             var detailsModalbody = $(".details-modal-body");
             var detailsModalbodyEmoji = $(".detail-modal-body2");
+
             var showdetailsModal = function (targetGno, targetFile) {
+            
+               var artistname = "";
                $.getJSON(readUrl + "/" + targetGno, function (dto) {
 
                   $("#detailsModal .modal-title").html(`${dto.title}`);
-
+                  artistname = dto.artistname;
                   var str = "";
                   str = `
                <input type="hidden" name = "gno" value="${targetGno}" class="inputGno" data-gno="${targetGno}">
@@ -372,7 +375,7 @@
 
                   detailsModalbodyEmoji.html(str);
 
-
+                  getJSONFollow(artistname);
                });
             }
 
@@ -384,24 +387,26 @@
             $(".dtoData").click(function () {
                var targetGno = $(this).data("gno");
                var targetFile = $(this).data("file");
-               var artistname = $(this).data("userName");
-               var fnoInput = $("#fno");
-
-               $.getJSON(follow + "/" + artistname + "/" +loginUserId, function (follow) {
-                  fnoInput.val("follow");
-               });
-
-               if (follow != null) {
-                  console.log(follow);
-                  $("#followBtn").val("언팔로우");
-               } else {
-                  $("#followBtn").val("팔로우");
-               }
 
                showdetailsModal(targetGno, targetFile);
-
+              
                $("#detailsModal").modal('show');
             });
+
+            var getJSONFollow = function(artistname){
+
+               $.getJSON(follow + "/" + artistname + "/" +loginUserId, function (fno) {
+                  var fnoInput = $("#fno");
+                  console.log(fno);
+                  if (fno != null) {
+                     fnoInput.val(fno);
+                     $("#followBtn").val("언팔로우");
+                  } else {
+                     fnoInput.val("");
+                     $("#followBtn").val("팔로우");
+                  }
+               });
+            } 
 
             // 큐레이터 모달 제어
             /*[+
@@ -418,7 +423,7 @@
             //팔로우 등록/ 삭제
             $(document).on("click", "#followBtn", function () {
 
-               var artistname = $("#inputArtist").text().substr(0, 5);
+               var artistname = $("#inputArtist").text();
 
                console.log("artistaname : " + artistname);
                var data = { artistname: artistname,  followerid : loginUserId}
@@ -682,7 +687,7 @@
                      <div class="detail-modal-body2">
                      </div>
                      <div class="detail-modal-body3">
-                        <input type="text" id="fno" value="">
+                        <input hidden type="text" id="fno" value="">
                      </div>
                   </div>
                   <div class="modal-footer">
