@@ -83,7 +83,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     // OAuth2UserDetailsService 로그인 handler :: social의 login
     http.oauth2Login().loginPage("/member/login").successHandler(loginSuccessHandler());
     // logout
-    http.logout().logoutUrl("/member/logout").invalidateHttpSession(true).deleteCookies("JSESSIONID").logoutSuccessHandler(logoutSuccessHandler());
+    http.logout().logoutUrl("/member/logout").invalidateHttpSession(true).deleteCookies("JSESSIONID")
+    // .logoutSuccessHandler(logoutSuccessHandler())
+    .logoutSuccessUrl("/");
     
     // remember 
     // http.rememberMe().tokenValiditySeconds(60*60*24*7).userDetailsService((UserDetailsService) memberDetailsService);
