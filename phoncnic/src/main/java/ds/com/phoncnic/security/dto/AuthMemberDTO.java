@@ -17,7 +17,6 @@ import lombok.extern.log4j.Log4j2;
 @Getter
 @Setter
 @ToString
-@EqualsAndHashCode(of={"id"})
 public class AuthMemberDTO extends User implements OAuth2User {
   String id;
   String nickname;

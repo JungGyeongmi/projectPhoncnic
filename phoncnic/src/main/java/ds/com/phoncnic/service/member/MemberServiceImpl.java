@@ -49,6 +49,8 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public void updateMemberDTO(MemberDTO memberDTO) {
         Member member = dtoToEntity(memberDTO);
+        log.info("update member DTO");
+        log.info(member);
 
         memberRepository.save(member);
 
