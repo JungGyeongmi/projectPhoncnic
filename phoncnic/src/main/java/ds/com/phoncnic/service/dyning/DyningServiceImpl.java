@@ -7,9 +7,6 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
-import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.types.dsl.BooleanExpression;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
@@ -17,7 +14,6 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
 import ds.com.phoncnic.dto.DyningDTO;
-import ds.com.phoncnic.dto.pageDTO.PageRequestDTO;
 import ds.com.phoncnic.dto.pageDTO.PageResultDTO;
 import ds.com.phoncnic.dto.pageDTO.SearchDyningPageRequestDTO;
 import ds.com.phoncnic.entity.Dyning;
@@ -44,7 +40,7 @@ public class DyningServiceImpl implements DyningService {
 
   @Autowired
   private final RoofDesignRepository roofDesignRepository;
-  
+
   @Autowired
   private final EmojiInfoService emojiInfoService;
 
@@ -58,9 +54,9 @@ public class DyningServiceImpl implements DyningService {
     Dyning dyning = (Dyning) entityMap.get("dyning");
 
     dyningRepository.save(dyning);
-    
+
     List<DyningImage> dyningImageList = (List<DyningImage>) entityMap.get("dyningImageList");
-   
+
     dyningImageList.forEach(dyningImage -> {
       dyningImageRepository.save(dyningImage);
     });
@@ -146,7 +142,7 @@ public class DyningServiceImpl implements DyningService {
 
     Dyning dyninglist = (Dyning) result.get(0)[0];
     Long emojiCwt = (Long) result.get(0)[1];
-    
+
     Long followerCwt = dyningRepository.getDyningFollowerCount(dno);
     List<DyningImage> dyningImageList = dyningRepository.getImageDetailsPage(dno);
 

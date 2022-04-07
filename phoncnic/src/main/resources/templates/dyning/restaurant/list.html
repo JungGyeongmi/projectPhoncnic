@@ -9,6 +9,7 @@
         <style>
             .search-result-Item {
                 cursor: pointer;
+                list-style: none;
             }
         </style>
         <div class="border-end bg-white" id="sidebar-wrapper">
@@ -24,6 +25,7 @@
                 </form>
             </div>
             <div class="list-group list-group-flush">
+                <br>
                 <ul class="md-serach-result"></ul>
             </div>
         </div>
@@ -73,7 +75,7 @@
                                          <p>${dto.dyningname}</p>
                                          ${dto.hashtag}
                                     </div>
-                                    </li>`;
+                                    </li><hr>`;
                                 });
                                 searchResult.html(str);
                             } else {
