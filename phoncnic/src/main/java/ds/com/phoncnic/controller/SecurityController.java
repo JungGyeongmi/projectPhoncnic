@@ -13,6 +13,7 @@ public class SecurityController {
     
     @GetMapping("/accessError")
     public void getAccessDeniedPage(Authentication auth, Model model) {
+        
         model.addAttribute("msg", auth);
         log.info("access denied...."); 
     }
