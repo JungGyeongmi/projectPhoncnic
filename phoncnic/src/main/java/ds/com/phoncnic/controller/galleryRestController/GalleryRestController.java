@@ -75,20 +75,26 @@ public class GalleryRestController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("follow/{artistname}")
     public ResponseEntity<Long> follow(@PathVariable String artistname,  @AuthenticationPrincipal AuthMemberDTO authMemberDTO) {
-        
-        log.info("authMemberDTO"+authMemberDTO);
+        log.info("gallery follow check ......");
+        log.info("authMemberDTO id "+authMemberDTO.getId());
         Long fno = followService.getGalleryFno(authMemberDTO.getId(), artistname);
+        log.info("checked fno ..."+fno);
         return new ResponseEntity<>(fno, HttpStatus.OK);
     }
     
     // 등록 삭제
     @PreAuthorize("isAuthenticated()")
-    @PostMapping("followRegister/{artistname}")
-    public ResponseEntity<Object[]> followRegister(@RequestBody FollowDTO followDTO, @PathVariable String artistname, @AuthenticationPrincipal AuthMemberDTO authMemberDTO) {
-        followDTO.setFollowerid(authMemberDTO.getId());
-        Object[] follow = followService.galleryfollowRegister(followDTO);
-        log.info("follow Register followDTO:" +followDTO);
-        log.info("authMemberDTO"+authMemberDTO);
+    @PostMapping("followRegister/{artistname}/{loginUserId}")
+    public ResponseEntity<Object[]> followRegister(@RequestBody FollowDTO followDTO, @PathVariable String artistname, @PathVariable String loginUserId) {
+        Object[] follow = null;
+
+        if (loginUserId!="") {
+            followDTO.setFollowerid(loginUserId);
+    
+            follow = followService.galleryfollowRegister(followDTO);
+            
+            log.info("follow Register followDTO:" +followDTO);
+        } 
         return new ResponseEntity<>(follow, HttpStatus.OK);
     }
 }

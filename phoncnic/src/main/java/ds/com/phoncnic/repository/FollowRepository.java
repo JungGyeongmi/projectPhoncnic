@@ -17,7 +17,6 @@ public interface FollowRepository extends JpaRepository<Follow, Long> {
     @Query("select dyningname from Follow f where f.follower.id =:id and dyningname IS NOT NULL")
     List<Object> getfollowDyningList(String id);
 
-    
     @Query("select f from Follow f where f.follower.id=:id and artistname = :name")
     Follow getFollownameArtist(String id, String name);
 

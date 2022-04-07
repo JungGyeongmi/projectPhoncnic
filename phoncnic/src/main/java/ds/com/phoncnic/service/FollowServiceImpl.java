@@ -65,7 +65,7 @@ public class FollowServiceImpl implements FollowService {
 
     @Override
     public Long getGalleryFno(String id, String artistname) {
-        log.info("serviceImplid:-------------------"+id+artistname);
+        log.info("serviceImplid:-------------------"+id+" "+artistname);
         
         Long fno = followRepository.getGalleryFno(id, artistname);
 
