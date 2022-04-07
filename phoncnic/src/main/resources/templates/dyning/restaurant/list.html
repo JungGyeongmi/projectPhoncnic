@@ -127,14 +127,14 @@
             }
 
             #list1 {
-                margin: 20px;
+                margin: 50px;
                 width: 100px;
                 height: 100px;
                 display: inline-block;
             }
 
             #list2 {
-                margin: 20px;
+                margin: 50px;
                 padding-top: 250px;
                 width: 100px;
                 height: 100px;
@@ -146,20 +146,16 @@
         <div class="wrap">
             <ul class="dyning-list-ul">
                 <li id="list1" th:each="dto : ${result}" th:if="${dtoStat.count} <= ${dtoStat.size}/2 + 0.5">       
-                    <div class="dyningdiv">
                         <div th:class="@{/dyning/details(dno=${dto.dno},id=${id}) }">
                             <img class="dyningimg" th:src="${dto.roofthumbnail}" th:id="${dtoStat.count}">
-                        </div>
                     </div>
                     [[${dto.dyningname}]]
                 </li>
             </ul>
             <ul class="dyning-list-ul">
                 <li id="list2" th:each="dto : ${result}" th:if="${dtoStat.count} > ${dtoStat.size}/2 + 0.5">
-                    <div class="dyningdiv">
                         <div th:class="@{/dyning/details(dno=${dto.dno},id=${id}) }" >
                             <img class="dyningimg" th:src="${dto.roofthumbnail}" th:id="${dtoStat.count}">
-                        </div>
                     </div>
                     [[${dto.dyningname}]]
                 </li>
