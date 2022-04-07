@@ -77,7 +77,7 @@ public class GalleryRestController {
     public ResponseEntity<Long> follow(@PathVariable String artistname,  @PathVariable String loginUserId) {
         log.info("gallery follow check ......");
         Long fno = 0L;
-        if(loginUserId !=null) {
+        if(loginUserId != null) {
             fno = followService.getGalleryFno(loginUserId, artistname);
         }
         log.info("checked fno ..."+fno);
