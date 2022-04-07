@@ -115,24 +115,25 @@
             }
 
             #list1 {
-                margin: 20px;
+                margin: 50px;
                 width: 100px;
                 height: 100px;
                 display: inline-block;
             }
 
             #list2 {
-                margin: 20px;
-                padding-top: 250px;
+                margin: 50px;
+                padding-top: 170px;
                 width: 100px;
                 height: 100px;
                 display: inline-block;
             }
         </style>
+
         <h1>cafe</h1>
         <div class="wrap">
             <ul class="dyning-list-ul">
-                <li id="list1" th:each="dto : ${result}" th:if="${dtoStat.count} <= ${dtoStat.size}/2">
+                <li id="list1" th:each="dto : ${result}" th:if="${dtoStat.count} <= ${dtoStat.size}/2 + 0.5">       
                         <div th:class="@{/dyning/details(dno=${dto.dno},id=${id}) }">
                             <img class="dyningimg" th:src="${dto.roofthumbnail}" th:id="${dtoStat.count}">
                         </div>
@@ -140,7 +141,7 @@
                 </li>
             </ul>
             <ul class="dyning-list-ul">
-                <li id="list2" th:each="dto : ${result}" th:if="${dtoStat.count} > ${dtoStat.size}/2">
+                <li id="list2" th:each="dto : ${result}" th:if="${dtoStat.count} > ${dtoStat.size}/2 + 0.5">
                         <div th:class="@{/dyning/details(dno=${dto.dno},id=${id}) }">
                             <img class="dyningimg" th:src="${dto.roofthumbnail}" th:id="${dtoStat.count}">
                         </div>
@@ -224,6 +225,15 @@
         
  
 })();
+        </script>
+
+        <script th:inline="javascript">
+            // 방향키(37~40), space바(32)로 스크롤 이동 막기
+            window.addEventListener("keydown", function (e) {
+                if ([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+                    e.preventDefault();
+                }
+            }, false);
         </script>
 
     </th:block>
