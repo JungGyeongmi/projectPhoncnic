@@ -389,7 +389,6 @@
 
                $.getJSON(follow + "/" + artistname + "/" +loginUserId, function (follow) {
                   fnoInput.val("follow");
-                  alert(fnoInput);
                });
 
                if (follow != null) {
@@ -422,16 +421,16 @@
                var artistname = $("#inputArtist").text().substr(0, 5);
 
                console.log("artistaname : " + artistname);
-               var data = { artistname: artistname }
+               var data = { artistname: artistname,  followerid : loginUserId}
                $.ajax({
                   type: "POST",
-                  url: followRegister + '/' + artistname,
+                  url: followRegister + '/' + artistname + '/' + loginUserId,
                   data: JSON.stringify(data),
                   contentType: "application/json",
                   dataType: "json",
                   success: function (response) {
                      console.log(response);
-                     if (response[3]) {
+                     if (!response[3]) {
                         $("#followBtn").val("언팔로우");
                      } else {
                         $("#followBtn").val("팔로우");
