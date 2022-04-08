@@ -46,7 +46,6 @@
                         type: "POST",
                         url: searchUrl + "/" + id,
                         contentType: "application/json",
-                        dataType: "json",
                         success: function (response) {
                             console.log(response);
                             var str = `<form id="memberfrm" action="">
@@ -123,15 +122,14 @@
                     var roleSet = $("#modirole").val();
                     var data = {id: id,  nickname: nickname};
                     // console.log(frm);
+                    roleSet = roleSet!=null?roleSet:"0";
                     $.ajax({
                         type: "POST",
                         data: JSON.stringify(data),
                         url: modifyUrl+"/"+roleSet,
                         contentType: "application/json",
-                        dataType: "json",
                         success: function (response) {
                             console.log("get modi post success....");
-                            console.log(response);
                         },
                         fail: function(response){
                             console.log(response);
