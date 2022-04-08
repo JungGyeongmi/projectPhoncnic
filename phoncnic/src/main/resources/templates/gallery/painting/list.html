@@ -186,7 +186,8 @@
             padding: 15px 45px;
          }
 
-         .swiper-button-prev,.swiper-button-next {
+         .swiper-button-prev,
+         .swiper-button-next {
             color: lightgray;
          }
       </style>
@@ -321,10 +322,10 @@
 
             var showdetailsModal = function (targetGno, targetFile) {
                var Selectedtype = "";
-               $.post(emojiCheckUrl+"/"+targetGno, function (result) {
+               $.post(emojiCheckUrl + "/" + targetGno, function (result) {
                   Selectedtype = result;
                });
-               
+
                var artistname = "";
                $.getJSON(readUrl + "/" + targetGno, function (dto) {
                   $("#detailsModal .modal-title").html(`${dto.title}`);
@@ -373,13 +374,13 @@
                   <input type="button" value="팔로우" id="followBtn">
                   </div>`;
                   detailsModalbodyEmoji.html(str);
-                  $("input[name=emojitype]").each(function (){
+                  $("input[name=emojitype]").each(function () {
                      $(`label[for=${Selectedtype}]`).next().css("color", "black");
                   });
                   $(`label[for=${Selectedtype}]`).next().css("color", "red");
                   getJSONFollow(artistname);
                });
-               
+
             }
 
             //팔로우 get 
@@ -585,44 +586,44 @@
             //이모지 등록/수정/삭제
             $(document).on("click", ".emoji", function () {
 
-                     var gno = $("input[name=gno]").val();
-                     var emojitype = $(".emoji:checked").val();
+               var gno = $("input[name=gno]").val();
+               var emojitype = $(".emoji:checked").val();
 
-                     var data = { emojitype: emojitype };
-                     console.log(data);
-                     $.ajax({
-                        type: "post",
-                        url: emojiaddUrl + "/" + gno,
-                        data: JSON.stringify(data),
-                        contentType: "application/json",
-                        dataType: "json",
-                        success: function (response) {
-                           for (idx in response) {
-                              $(".emoji-cnt").eq(idx).text(`${response[idx][1]}`);
-                           }
-                           console.log("update emoji success");
-                        },
-                        fail: function (response) {
-                           console.log(response);
-                        }, error: function (request, status, error) {
-                           $(".emoji-cnt").css("color", "black");
-                           swal("로그인 이후 이용해주세요");
-                        // alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
-                        }
-                     });
-                  });
-
-               // 모달 창 내 search result 클릭 시 이동 제어
-               $(document).on("click", ".search-result-Item", function (e) {
-                  var targetGno = $(this).closest("div").data("searchGno");
-                  var targetFile = $(this).closest("div").data("searchFile");
-                  // alert(targetGno);
-                  // alert(targetFile);
-                  $("#curatorModal").modal("hide");
-                  $("#detailsModal").modal("show");
-                  showdetailsModal(targetGno, targetFile);
+               var data = { emojitype: emojitype };
+               console.log(data);
+               $.ajax({
+                  type: "post",
+                  url: emojiaddUrl + "/" + gno,
+                  data: JSON.stringify(data),
+                  contentType: "application/json",
+                  dataType: "json",
+                  success: function (response) {
+                     for (idx in response) {
+                        $(".emoji-cnt").eq(idx).text(`${response[idx][1]}`);
+                     }
+                     console.log("update emoji success");
+                  },
+                  fail: function (response) {
+                     console.log(response);
+                  }, error: function (request, status, error) {
+                     $(".emoji-cnt").css("color", "black");
+                     swal("로그인 이후 이용해주세요");
+                     // alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                  }
                });
             });
+
+            // 모달 창 내 search result 클릭 시 이동 제어
+            $(document).on("click", ".search-result-Item", function (e) {
+               var targetGno = $(this).closest("div").data("searchGno");
+               var targetFile = $(this).closest("div").data("searchFile");
+               // alert(targetGno);
+               // alert(targetFile);
+               $("#curatorModal").modal("hide");
+               $("#detailsModal").modal("show");
+               showdetailsModal(targetGno, targetFile);
+            });
+         });
       </script>
 
       <!-- 큐레이터 모달창 -->
