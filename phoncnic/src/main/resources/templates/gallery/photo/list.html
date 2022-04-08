@@ -36,7 +36,7 @@
 
          .swiper {
             width: 95%;
-            margin-top: 10px;
+            margin-top: 90px;
             margin-bottom: 120px;
          }
 
@@ -44,7 +44,7 @@
             background-position: center;
             background-size: cover;
             width: 300px;
-            height: 350px;
+            height: 470px;
          }
 
          .swiper-slide img {
@@ -127,9 +127,8 @@
 
          .speech-bubble {
             position: absolute;
-            position: absolute;
-            bottom: 270px;
-            left: 132px;
+            bottom: 62px;
+            left: 233px;
          }
 
          .drop_left {
@@ -166,15 +165,15 @@
             z-index: 1;
          }
 
-         .detail-modal-body3 {
+         .detail-modal-body3{
             display: inline-block;
          }
 
-         .detail-modal-body2 {
+         .detail-modal-body2{
             display: inline-block;
          }
-
-         .lastslideBtns {
+         
+         .lastslideBtns{
             display: flex;
             justify-content: space-evenly;
             align-items: center;
@@ -186,16 +185,16 @@
          .lastslideBtns button {
             padding: 15px 45px;
          }
-      </style>
 
-      <input name="loginUserId" type="hidden" th:value="${loginUserId}" />
-      <h1>사진전</h1>
+         .swiper-button-prev,.swiper-button-next {
+            color: lightgray;
+         }
+      </style>
       <div class="swiper mySwiper">
          <div class="swiper-wrapper">
-            <div class="swiper-slide dtoData" th:each="dto : ${galleryDTOList}" th:data-gno="${dto.gno}"
-               th:data-id="${id}" th:data-file="${dto.getImageURL}" th:data-user-name="${dto.getArtistname}"
-               data-bs-toggle="modal" data-bs-target="#detailsModal">
-               <img style="cursor:pointer;" th:src="|@{'/display'}?fileName=${dto.getImageURL()}|" alt="🎨" />
+            <div class="swiper-slide dtoData" th:each="dto : ${galleryDTOList}" th:data-gno="${dto.gno}" th:data-id="${id}"
+            th:data-file="${dto.getImageURL}" th:data-user-name="${dto.getArtistname}" data-bs-toggle="modal" data-bs-target="#detailsModal" >
+            <img style="cursor:pointer;" th:src="|@{'/display'}?fileName=${dto.getImageURL()}|" alt="🎨" />
 
                [[${dto.title}]]
             </div>
@@ -205,9 +204,9 @@
                   <button class="galleryFirstBtn">맨 앞 전시로 이동하기 </button>
                </div>
             </div>
-         </div>
+            </div>
          <div class="swiper-pagination"></div>
-         <div class="swiper-button-prev"></div>
+         <div class="swiper-button-prev"></div> 
          <div class="swiper-button-next"></div>
       </div>
       <div class="showup-curator">
@@ -223,38 +222,38 @@
             </ul>
             <div class="tangel_left"></div>
          </div>
-         <img id="curatorBtn" data-bs-toggle="modal" data-bs-target="#curatorModal" th:src="@{/icon/gurator.png}">
+         <img id="curatorBtn" data-bs-toggle="modal" data-bs-target="#curatorModal" th:src="@{/icon/gurator2.svg}">
       </div>
+      
+      
+    <!-- 규레이터 제어 스크립트 -->
+    <script>
+      $(function () {
 
+         var guratorScript = {
+            0: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur porro rem, numquam voluptatum commodi architecto maiores cum, voluptatem deserunt laborum quisquam tempora nulla quis suscipit officiis autem repellendus possimus ex?",
+            1: "좋은 아침!",
+            2: "뭐 맛있는거 먹었습니까",
+            3: "지원씨! 지원씨!",
+            4: "에잇 너는 그만해",
+            5: "그냥 외우세요",
+            6: "촤하하하하하하!",
+            7: "해창아~",
+         }
 
-      <!-- 규레이터 제어 스크립트 -->
-      <script>
-         $(function () {
-
-            var guratorScript = {
-               0: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur porro rem, numquam voluptatum commodi architecto maiores cum, voluptatem deserunt laborum quisquam tempora nulla quis suscipit officiis autem repellendus possimus ex?",
-               1: "좋은 아침!",
-               2: "뭐 맛있는거 먹었습니까",
-               3: "지원씨! 지원씨!",
-               4: "에잇 너는 그만해",
-               5: "그냥 외우세요",
-               6: "촤하하하하하하!",
-               7: "해창아~",
-            }
-
-            $(".showup-curator").mouseover(function () {
-               var randomIdx = Math.floor(Math.random() * 7 + 1);
-               $(".drop_left").toggleClass('show-gurator-script');
-               $("#showup-text").html(guratorScript[randomIdx]);
-            });
-
-            $(".showup-curator").mouseleave(function () {
-               $(".drop_left").addClass('show-gurator-script');
-               $("#showup-text").html("");
-            });
-
+         $(".showup-curator").mouseover(function () {
+            var randomIdx = Math.floor(Math.random() * 7 + 1);
+            $(".drop_left").toggleClass('show-gurator-script');
+            $("#showup-text").html(guratorScript[randomIdx]);
          });
-      </script>
+
+         $(".showup-curator").mouseleave(function () {
+            $(".drop_left").addClass('show-gurator-script');
+            $("#showup-text").html("");
+         });
+
+      });
+   </script>
       <!-- Swiper JS -->
       <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 
@@ -273,10 +272,6 @@
                slideShadows: true,
             },
             mousewheel: true,
-            // pagination: {
-            //    el: ".swiper-pagination",
-            //    clickable: true,
-            // },
             navigation: {
                nextEl: ".swiper-button-next",
                prevEl: ".swiper-button-prev",
@@ -287,16 +282,16 @@
       <script th:inline="javascript">
          //관람끝내기(endBtn) / 맨 앞장으로가기(firstBtn)
 
-         /*[+ var crossroad = [[@{/crossroad/gallery/}]]; +]*/
+          /*[+ var crossroad = [[@{/crossroad/gallery/}]]; +]*/
 
          var firstBtn = document.querySelector(".galleryFirstBtn");
          var endBtn = document.querySelector(".galleryEndBtn");
 
-         endBtn.onclick = function () {
+         endBtn.onclick = function(){
             location.href = crossroad;
          }
 
-         firstBtn.onclick = function () {
+         firstBtn.onclick = function(){
             location.reload();
          }
 
@@ -315,14 +310,11 @@
                var urlDisplay = [[@{/display}]];
             +]*/
 
-            var loginUserId = $("input[name=loginUserId]").val();
-
             var EmojiStringArray = "";
 
             var uploadResult = $(".uploadResult");
             var detailsModalbody = $(".details-modal-body");
             var detailsModalbodyEmoji = $(".detail-modal-body2");
-
             var showdetailsModal = function (targetGno, targetFile) {
                var Selectedtype = "";
                $.post(emojiCheckUrl+"/"+targetGno, function (result) {
@@ -332,7 +324,7 @@
                var artistname = "";
                $.getJSON(readUrl + "/" + targetGno, function (dto) {
                   $("#detailsModal .modal-title").html(`${dto.title}`);
-                  artistname = dto.artistname;
+                  
                   var str = "";
                   str = `
                <input type="hidden" name = "gno" value="${targetGno}" class="inputGno" data-gno="${targetGno}">
@@ -386,10 +378,6 @@
                
             }
 
-            //팔로우 get 
-            detailsModalbodyFollow = $(".detail-modal-body3");
-
-            // 타겟
             /* target의 gno / target의 imagepath 가져옴 / emoji 갯수 */
             $(".dtoData").click(function () {
                var targetGno = $(this).data("gno");
@@ -398,6 +386,7 @@
                showdetailsModal(targetGno, targetFile);
 
                $("#detailsModal").modal('show');
+               showdetailsModal(targetGno, targetFile);
             });
 
             var getJSONFollow = function (artistname) {
@@ -427,23 +416,23 @@
             var searchForm = $("#modal-frm");
             var keyword = $("input[name=keyword]");
 
-            //팔로우 등록/ 삭제
-            $(document).on("click", "#followBtn", function () {
+            //팔로우 get 
+            detailsModalbodyFollow = $(".detail-modal-body3");
 
-               var artistname = $("#inputArtist").text();
+            var artistname = $(".dtoData").data("userName");
 
                console.log("artistaname : " + artistname);
                var data = { artistname: artistname, followerid: loginUserId }
                console.log(data);
                $.ajax({
                   type: "POST",
-                  url: followRegister + '/' + artistname + '/' + loginUserId,
+                  url: followRegister + '/' + artistname ,
                   data: JSON.stringify(data),
                   contentType: "application/json",
                   dataType: "json",
                   success: function (response) {
                      console.log(response);
-                     if (!response[3]) {
+                     if(response[3]){
                         $("#followBtn").val("언팔로우");
                      } else {
                         $("#followBtn").val("팔로우");
@@ -460,7 +449,7 @@
                });
 
             });
-
+            
             searchBtn.on("click", function (e) {
                getSearchList();
             });
@@ -697,7 +686,6 @@
                      <div class="detail-modal-body2">
                      </div>
                      <div class="detail-modal-body3">
-                        <input hidden type="text" id="fno" value="">
                      </div>
                   </div>
                   <div class="modal-footer">
