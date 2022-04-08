@@ -64,12 +64,10 @@ public class HomeController {
         if(dto!=null){
             log.info("id:" + dto.getId());
             model.addAttribute("id",dto.getId());
-            model.addAttribute("hairDTO", characterLookService.getCharacterHair(dto.getId()));
-            model.addAttribute("clothesDTO", characterLookService.getCharacterClothes(dto.getId()));
+            model.addAttribute("setDTO", characterLookService.getCharacterSet(dto.getId()));
         } else{
             model.addAttribute("id","");
-            model.addAttribute("hairDTO", characterLookService.getCharacterHair("user10@icloud.com"));
-            model.addAttribute("clothesDTO", characterLookService.getCharacterClothes("user10@icloud.com"));
+            model.addAttribute("setDTO", characterLookService.getCharacterSet("user10@icloud.com"));
         }
         model.addAttribute("looklist", characterLookService.lookimageList());
         return "lookmodal";
