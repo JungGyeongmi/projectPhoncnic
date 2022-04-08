@@ -90,8 +90,7 @@ public class OAuth2UserDetailsService extends DefaultOAuth2UserService {
     member.addMemberRole(AuthorityRole.USER);
     memberRepository.save(member);
     CharacterLook characterLook = CharacterLook.builder()
-        .hairname("hair1")
-        .clothesname("clothes1")
+        .setname("set1")
         .characterLookinfo(CharacterLookInfo.builder().chno(1L).build())
         .member(Member.builder().id(email).build())
         .build();
