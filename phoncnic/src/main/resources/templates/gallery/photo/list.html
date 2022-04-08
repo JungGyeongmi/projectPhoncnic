@@ -606,13 +606,13 @@
                            }
                            console.log("update emoji success");
                         },
-                        // fail: function (response) {
-                        //    console.log(response);
-                        // }, error: function (request, status, error) {
-                        //    $(".emoji-cnt").css("color", "black");
-                        //    swal("로그인 이후 이용해주세요");
+                        fail: function (response) {
+                           console.log(response);
+                        }, error: function (request, status, error) {
+                           $(".emoji-cnt").css("color", "black");
+                           swal("로그인 이후 이용해주세요");
                         // alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
-                        // }
+                        }
                      });
                   });
 
