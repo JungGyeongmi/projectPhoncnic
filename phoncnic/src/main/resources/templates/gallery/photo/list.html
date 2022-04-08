@@ -320,8 +320,6 @@
             var detailsModalbody = $(".details-modal-body");
             var detailsModalbodyEmoji = $(".detail-modal-body2");
 
-            var emojiOritype="0";
-
             var showdetailsModal = function (targetGno, targetFile) {
                var selectedtype = "0";
                if(loginUserId != "") {
@@ -388,7 +386,6 @@
 
                   if(selectedtype!=0) {
                      $(".emoji-cnt").eq(selectedtype-1).css("color", "red");
-                     emojiOritype = selectedtype;
                   }
                });
 
@@ -598,8 +595,6 @@
             $(document).on("click", ".emoji", function () {
                var gno = $("input[name=gno]").val();
                var emojitype = $(".emoji:checked").val();
-               console.log("before"+ emojiOritype)
-               // alert($(".emoji-cnt").eq(emojitype-1).css("color"))
                var data = { emojitype: emojitype };
                $.ajax({
                   type: "post",
@@ -616,9 +611,6 @@
                      if(response[0]) {
                         $(".emoji-cnt").eq(emojitype-1).css("color", "red");
                      }
-
-                     emojiOritype = emojitype;
-                     console.log("after"+ emojiOritype)
                      console.log("update emoji success");
                   },
                   fail: function (response) {
@@ -626,6 +618,7 @@
                   }, error: function (request, status, error) {
                      $(".emoji-cnt").css("color", "black");
                      swal("로그인 이후 이용해주세요");
+                     // alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                   }
                });
             });
@@ -634,10 +627,13 @@
             $(document).on("click", ".search-result-Item", function (e) {
                var targetGno = $(this).closest("div").data("searchGno");
                var targetFile = $(this).closest("div").data("searchFile");
+               // alert(targetGno);
+               // alert(targetFile);
                $("#curatorModal").modal("hide");
                $("#detailsModal").modal("show");
                showdetailsModal(targetGno, targetFile);
             });
+
          });
       </script>
 
