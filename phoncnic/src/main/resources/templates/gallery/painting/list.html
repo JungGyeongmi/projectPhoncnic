@@ -320,26 +320,30 @@
             var detailsModalbody = $(".details-modal-body");
             var detailsModalbodyEmoji = $(".detail-modal-body2");
 
-            var showdetailsModal = function (targetGno, targetFile) {
-               var Selectedtype = "";
-               $.post(emojiCheckUrl + "/" + targetGno, function (result) {
-                  Selectedtype = result;
-               });
+            var emojiOritype="0";
 
+            var showdetailsModal = function (targetGno, targetFile) {
+               var selectedtype = "0";
+               if(loginUserId != "") {
+                  $.post(emojiCheckUrl + "/" + targetGno, function (result) {
+                        selectedtype = result;
+                  });
+               }
+              
                var artistname = "";
                $.getJSON(readUrl + "/" + targetGno, function (dto) {
                   $("#detailsModal .modal-title").html(`${dto.title}`);
                   artistname = dto.artistname;
                   var str = "";
                   str = `
-               <input type="hidden" name = "gno" value="${targetGno}" class="inputGno" data-gno="${targetGno}">
-               <img style='width:100%' src="${urlDisplay}?fileName=${targetFile}">
-               <div class=row>
-                  <div class="col-md-7"><h2>${dto.content}</h2></div>
-                  <div class="col-md-4" id="inputArtist"><h4>${dto.artistname}</h4></div>
-               </div>`
+                  <input type="hidden" name = "gno" value="${targetGno}" class="inputGno" data-gno="${targetGno}">
+                  <img style='width:100%' src="${urlDisplay}?fileName=${targetFile}">
+                  <div class=row>
+                        <div class="col-md-7"><h2>${dto.content}</h2></div>
+                        <div class="col-md-4" id="inputArtist"><h4>${dto.artistname}</h4></div>
+                  </div>`
                   detailsModalbody.html(str);
-
+                  
                   str = `<div id="emojiBox">
                   <input type="radio" id="1" value="${dto.emojicount[0][0]}" name="emojitype" class="emoji">
                   <label for="1" class="emojibtn">
@@ -373,12 +377,19 @@
                   <br/>
                   <input type="button" value="팔로우" id="followBtn">
                   </div>`;
+
                   detailsModalbodyEmoji.html(str);
-                  $("input[name=emojitype]").each(function () {
-                     $(`label[for=${Selectedtype}]`).next().css("color", "black");
-                  });
-                  $(`label[for=${Selectedtype}]`).next().css("color", "red");
+                  // console.log(selectedtype);
                   getJSONFollow(artistname);
+
+                  $("input[name=emojitype]").each(function () {
+                     $(".emoji-cnt").css("color", "black");
+                  });
+
+                  if(selectedtype!=0) {
+                     $(".emoji-cnt").eq(selectedtype-1).css("color", "red");
+                     emojiOritype = selectedtype;
+                  }
                });
 
             }
@@ -391,15 +402,13 @@
             $(".dtoData").click(function () {
                var targetGno = $(this).data("gno");
                var targetFile = $(this).data("file");
-
                showdetailsModal(targetGno, targetFile);
-
                $("#detailsModal").modal('show');
             });
 
             var getJSONFollow = function (artistname) {
 
-               $.getJSON(follow + "/" + artistname + "/" + loginUserId, function (fno) {
+               $.getJSON(follow + "/" + artistname, function (fno) {
                   var fnoInput = $("#fno");
                   console.log(fno);
                   if (fno != null) {
@@ -434,7 +443,7 @@
                console.log(data);
                $.ajax({
                   type: "POST",
-                  url: followRegister + '/' + artistname + '/' + loginUserId,
+                  url: followRegister + '/' + artistname,
                   data: JSON.stringify(data),
                   contentType: "application/json",
                   dataType: "json",
@@ -583,14 +592,15 @@
                });
             }
 
+
+
             //이모지 등록/수정/삭제
             $(document).on("click", ".emoji", function () {
-
                var gno = $("input[name=gno]").val();
                var emojitype = $(".emoji:checked").val();
-
+               console.log("before"+ emojiOritype)
+               // alert($(".emoji-cnt").eq(emojitype-1).css("color"))
                var data = { emojitype: emojitype };
-               console.log(data);
                $.ajax({
                   type: "post",
                   url: emojiaddUrl + "/" + gno,
@@ -598,9 +608,17 @@
                   contentType: "application/json",
                   dataType: "json",
                   success: function (response) {
-                     for (idx in response) {
-                        $(".emoji-cnt").eq(idx).text(`${response[idx][1]}`);
+                     for (idx in response[1]) {
+                        $(".emoji-cnt").eq(idx).css("color", "black");
+                        $(".emoji-cnt").eq(idx).text(`${response[1][idx][1]}`);
                      }
+                     
+                     if(response[0]) {
+                        $(".emoji-cnt").eq(emojitype-1).css("color", "red");
+                     }
+
+                     emojiOritype = emojitype;
+                     console.log("after"+ emojiOritype)
                      console.log("update emoji success");
                   },
                   fail: function (response) {
@@ -623,6 +641,7 @@
                $("#detailsModal").modal("show");
                showdetailsModal(targetGno, targetFile);
             });
+
          });
       </script>
 
@@ -636,7 +655,6 @@
                </div>
                <div class="modal-body">
                   <form class="serach-form-container" id="modal-frm" th:action="@{/gallery/curator}" method="get">
-
                      <select name="type">
                         <option value="t" disabled selected>검색조건</option>
                         <option value="t">작품명</option>
@@ -694,7 +712,7 @@
                      <div class="detail-modal-body2">
                      </div>
                      <div class="detail-modal-body3">
-                        <input hidden type="text" id="fno" value="">
+                        <input type="hidden" id="fno" value="">
                      </div>
                   </div>
                   <div class="modal-footer">

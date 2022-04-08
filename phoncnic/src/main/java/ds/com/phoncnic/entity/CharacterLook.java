@@ -25,21 +25,15 @@ public class CharacterLook extends BaseEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long lno;
 
-    private String hairname;
-    private String clothesname;
+    private String setname;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private CharacterLookInfo characterLookinfo;
-
     
-    public void changeHairname(String hairname) {
-        this.hairname = hairname;
-    }
-
-    public void changeClothesname(String clothesname) {
-        this.clothesname = clothesname;
+    public void changeSetname(String setname) {
+        this.setname = setname;
     }
 }

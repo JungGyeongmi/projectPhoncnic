@@ -165,4 +165,16 @@ public class EmojiServiceImpl implements EmojiService {
         Emoji emoji = emojiRepository.getEnoAndType(id, dno);
         return emoji;
     }
+
+    @Override
+    public Boolean checkExistEmoji(String id, Long gno) {
+        List<Object[]> checkerList = emojiRepository.existsByMemberIdANDGno(gno, id);
+        Boolean emojichecker = false;
+        if(!checkerList.isEmpty()){ 
+        // 0 eno 1 type 2 boolean
+            Object[] checker = emojiRepository.existsByMemberIdANDGno(gno, id).get(0);
+            emojichecker = (Boolean)(checker[2]);
+        }
+        return emojichecker;
+    }
 }

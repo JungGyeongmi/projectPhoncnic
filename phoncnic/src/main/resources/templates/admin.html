@@ -41,7 +41,10 @@
                 var searchFunction = function () {
 
                     var id = $("input[name=id]").val();
-
+                    if(id==""|| id==null){
+                        searchResult.text("검색어 입력하슈");
+                        return true;
+                    }
                     if(id=="777") {
                         searchResult.text("🎉이것이 권력의 맛이다🎉");
                         return true;
@@ -88,7 +91,6 @@
                             var roleSetData = response.roleSet;
 
                             roleSetSelector();
-                            swal("수정완");
 
                             console.log("get user info success");
                         },
@@ -119,14 +121,14 @@
                 $("#searchBtn").on("click", searchFunction);
                 
                 $("#raidoContainer input").on("change", function () {
-                console.log($(this).attr("id"));
-                var id = $(this).attr("id");
-                $("#roleSetInfo").children().each(function (idx) {
-                    $(`#roleSetInfo :nth-child(${idx + 1})`).css("color", "black");
-                });
-                selectedRole = $(`label[for=${id}]`).css("color", "red");
-                $("#modirole").val(id);
-            })
+                    console.log($(this).attr("id"));
+                    var id = $(this).attr("id");
+                    $("#roleSetInfo").children().each(function (idx) {
+                        $(`#roleSetInfo :nth-child(${idx + 1})`).css("color", "black");
+                    });
+                    selectedRole = $(`label[for=${id}]`).css("color", "red");
+                    $("#modirole").val(id);
+                })
 
                 $("input[name=id]").on("keydown", function (e) {
                 var keycode = e.keyCode;
@@ -150,6 +152,7 @@
                     url: modifyUrl + "/" + roleSet,
                     contentType: "application/json",
                     success: function (response) {
+                        swal("수정완");
                         console.log("get modi post success....");
                     },
                     fail: function (response) {

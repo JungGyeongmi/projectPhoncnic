@@ -59,7 +59,7 @@ public class GalleryRepositoryTests {
             Gallery gallery = Gallery.builder()
                     .title("title" + i)
                     .content("content" + i)
-                    .artistid(memberRepository.findById("test" + (i+10) + "@icloud.com").get())
+                    .artistid(memberRepository.findById("test" + (i+10) + "@gmail.com").get())
                     .imagepath("2022\\04\\01")
                     .imagetype(rand)
                     .imagename("testImage.jpg")
@@ -71,8 +71,8 @@ public class GalleryRepositoryTests {
             // emoji 추가
             List<Integer> randmember = new ArrayList<>();
 
-            while (randmember.size() != 30) {
-                int inputrandomNumber = (int) (Math.random() * 10) + 1;
+            while (randmember.size() != 10) {
+                int inputrandomNumber = (int) (Math.random() * 30) + 1;
                 for (int k = 0; k < 10; k++) {
                     if (!randmember.contains(inputrandomNumber)) {
                         randmember.add(inputrandomNumber);

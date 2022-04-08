@@ -2,7 +2,6 @@ package ds.com.phoncnic.repository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.IntStream;
 
 import javax.transaction.Transactional;
