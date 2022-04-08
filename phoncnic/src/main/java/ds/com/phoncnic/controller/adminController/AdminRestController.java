@@ -39,9 +39,12 @@ public class AdminRestController {
     public void getMemberInfoModify (@RequestBody MemberDTO memberDTO, @PathVariable("role") String role) {
         
         log.info("modify...");
-        List<String> roleSet = new ArrayList<>();
-        roleSet.add("["+role+"]");
-        memberDTO.setRoleSet(roleSet);
+        
+        if(!role.equals("0")) {
+            List<String> roleSet = new ArrayList<>();
+            roleSet.add("["+role+"]");
+            memberDTO.setRoleSet(roleSet);
+        } 
 
         memberService.updateMemberDTO(memberDTO);
     }
