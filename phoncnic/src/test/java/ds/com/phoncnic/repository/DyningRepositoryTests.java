@@ -47,26 +47,20 @@ public class DyningRepositoryTests {
 
         IntStream.rangeClosed(1, 10).forEach(i -> {
 
-            List<Integer> randmember = new ArrayList<>();
+            String[] randomImageBasic = {
+                "061edec9-4bac-460a-93e6-d6c41b5b8abb",
+                "017a59ec-da2e-47ec-b542-c1f98e88a1bc",
+            };
 
-            while (randmember.size() != 10) {
-                int inputrandomNumber = (int) (Math.random() * 10) + 1;
-                for (int k = 0; k < 10; k++) {
-                    if (!randmember.contains(inputrandomNumber)) {
-                        randmember.add(inputrandomNumber);
-                        break;
-                    }
+            Member member = Member.builder().id("test" + (i+20) + "@gmail.com").build();
 
-                }
-            }
-
-            Member member = Member.builder().id("user" + i + "@icloud.com").build();
-
+            // loof
             long roof = (long) (Math.random() * 5 + 1);
 
             RoofDesign roofDesign = RoofDesign.builder()
                     .oono(roof).build();
 
+            // dyning
             Dyning dyning = Dyning.builder()
                     .dyningname("가게이름" + i)
                     .comment("사장님 한 마디" + i)
@@ -85,10 +79,10 @@ public class DyningRepositoryTests {
             for (int j = 0; j < Math.random() * 3; j++) {
                 DyningImage dyningImage = DyningImage.builder()
                         .menuimagename(j + "menuimagename.jpg")
-                        .menuimageuuid(UUID.randomUUID().toString())
-                        .menuimagepath("menuimagepath" + j)
+                        .menuimageuuid(randomImageBasic[(int)Math.random()*2])
+                        .menuimagepath("2022\\04\\01")
                         .backgroundname(j + "backgroundname.jpg")
-                        .backgrounduuid(UUID.randomUUID().toString())
+                        .backgrounduuid(randomImageBasic[(int)Math.random()*2])
                         .backgroundpath("backgroundpath" + j)
                         .dyning(dyning)
                         .build();
@@ -96,10 +90,23 @@ public class DyningRepositoryTests {
                 dyningImageRepository.save(dyningImage);
             }
 
+            // emoji
+            List<Integer> randmember = new ArrayList<>();
+
+            while (randmember.size() != 10) {
+                int inputrandomNumber = (int) (Math.random() * 10) + 1;
+                for (int k = 0; k < 10; k++) {
+                    if (!randmember.contains(inputrandomNumber)) {
+                        randmember.add(inputrandomNumber);
+                        break;
+                    }
+                }
+            }
+
             int ra = (int) (Math.random() * 5) + 1;
 
             for (int j = 0; j < ra; j++) {
-                member = Member.builder().id("user" + randmember.get(j) + "@icloud.com")
+                member = Member.builder().id("test" + randmember.get(j) + "@gmail.com")
                         .build();
 
                 String emojiType = (int) (Math.random() * 4) + 1 + "";
