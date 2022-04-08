@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,81 +8,69 @@
     <title>메인에서 캐릭터룩 수정</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        .b{
+        .b {
             border: 1px black solid;
         }
     </style>
 </head>
+
 <body>
-    <button type="button" class="btn btn-primary" id="btncharacterlook" data-bs-toggle="modal" data-bs-target="#Mymodal">캐룩</button>
-  </button>
-
+    <button type="button" class="btn btn-primary" id="btncharacterlook" data-bs-toggle="modal"
+        data-bs-target="#Mymodal">캐룩</button>
+    </button>
 </body>
-
 
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script>
- 
-    
+
     $(document).ready(function (e) {
-        
-        var radiohair = $("#radiohair").val();
-        var radioclothes = $("#radioclothes").val();
-        console.log(radiohair);
-        console.log(radioclothes);
-        $('input:radio[name=hairname]:input[value=' + radiohair + ']').attr("checked", true);
-        $('input:radio[name=clothesname]:input[value=' + radioclothes + ']').attr("checked", true);
-        
+
+        var radioset = $("#radioset").val();
+        console.log(radioset);
+        $('input:radio[name=setname]:input[value=' + radioset + ']').attr("checked", true);
+
         // 모달제어
-        $("#btncharacterlook").on("click", function(e) {
+        $("#btncharacterlook").on("click", function (e) {
             $("#modalcharacterlook").show();
         });
-        $("input[name=hairname]").on("change",function(){
-            var checkedhair = $(this).next().attr('src');
-            $("#checkedhair").attr("src",checkedhair);
-        });
-        $("input[name=clothesname]").on("change",function(){
-            var checkedclothes = $(this).next().attr('src');
-            $("#checkedclothes").attr("src",checkedclothes);
+        $("input[name=setname]").on("change", function () {
+            var checkedset = $(this).next().attr('src');
+            $("#checkedset").attr("src", checkedset);
         });
 
-        $("button[name='btn-close']").on("click", function(e){
-        location.href="/phoncnic/";
-        $("#modalcharacterlook").hide();
+        $("button[name='btn-close']").on("click", function (e) {
+            location.href = "/phoncnic/";
+            $("#modalcharacterlook").hide();
         });
-    
-
-
 
         document.querySelector("#lookModifyBtn").onclick = function () {
             var lookform = document.querySelector("#lookfrm");
-            
+
             if (!confirm("캐릭터의 옷을 변경하시겠습니까?")) {
                 return;
             } else {
-            var modifyUrl = `[[@{/lookmodal/lookmodify}]]`;
-            lookform.setAttribute("action", modifyUrl);
-            lookform.setAttribute("method", "post");
-            lookform.submit();
-            $("#modalcharacterlook").hide();
+                var modifyUrl = `[[@{/lookmodal/lookmodify}]]`;
+                lookform.setAttribute("action", modifyUrl);
+                lookform.setAttribute("method", "post");
+                lookform.submit();
+                $("#modalcharacterlook").hide();
 
+            }
         }
-}
     });
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <style>
- 
-    .newhairlook {
+    .newsetlook {
         position: relative;
-        z-index: 10;
+        width: 100px;
+        height: 140px;
     }
-    .newclotheslook{
-        position: relative;
-        margin-top: -90px;
-        z-index: 1;
+
+    #setimg {
+        width: 100px;
+        height: 140px;
     }
-   
 </style>
 <!-- 모달창 -->
 <div class="character modal" tabindex="-1" id="modalcharacterlook">
@@ -89,37 +78,24 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">캐릭터 룩</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" name="btn-close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                    name="btn-close"></button>
             </div>
             <div class="modal-body">
                 <form id="lookfrm" action="">
                     <input type="hidden" id="ids" name="id" th:value="${id}">
-                    <span th:each="hdto : ${looklist}">
-                        <input type="radio" name="hairname" th:value="${hdto.hairname}"><img th:src="${hdto.hairpath}" alt="">
+                    <span th:each="sdto : ${looklist}">
+                        <input type="radio" name="setname" th:value="${sdto.setname}"><img th:src="${sdto.setpath}" id="setimg"
+                            alt="">
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                      </span> 
-                      <br>
-                      <span th:each="cdto : ${looklist}">
-                        <input type="radio" name="clothesname" th:value="${cdto.clothesname}"><img th:src="${cdto.clothespath}" alt="">
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                      </span>
-
-                      <div class="look">
-                          <div  th:each="hdto : ${hairDTO}">
-                              <img class="hairlook newhairlook" th:src="${hdto.hairpath}" alt="" id="checkedhair">
-                        <input  type="hidden" id="radiohair" th:value="${hdto.hairname}">
-                    </div><br>
-
-                        <div th:each="cdto : ${clothesDTO}">
-                            <img class="clotheslook newclotheslook" th:src="${cdto.clothespath}" alt="" id="checkedclothes" >
-                            <input  type="hidden" id="radioclothes" th:value="${cdto.clothesname}">
+                    </span>
+                    <div class="look">
+                        <div th:each="sdto : ${setDTO}">
+                            <img class="setlook newsetlook" th:src="${sdto.setpath}" alt="" id="checkedset">
+                            <input type="hidden" id="radioset" th:value="${sdto.setname}">
                         </div>
-                       
                     </div>
-
-                        
-                </tr>
-            </form>
+                </form>
             </div>
             <div class="modal-footer">
                 <button id="lookModifyBtn" type="button" class="btn btn-primary">변경하기</button>
@@ -127,6 +103,6 @@
             </div>
         </div>
     </div>
-    </div>
+</div>
 
 </html>

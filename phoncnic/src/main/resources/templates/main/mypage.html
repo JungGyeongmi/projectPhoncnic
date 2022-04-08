@@ -32,30 +32,21 @@
 
         <form id="lookform" action="">
             <input type="hidden" name="id" th:value="${id}">
-            <span th:each="hdto : ${looklist}">
-                <input type="radio" name="hairname" id="${hdto.hairname}" th:value="${hdto.hairname}"><img
-                    th:src="${hdto.hairpath}" alt="">
+            <span th:each="sdto : ${looklist}">
+                <input type="radio" name="setname" id="${sdto.setname}" th:value="${sdto.setname}"><img th:src="${sdto.setpath}"
+                    alt="" id="setimg">
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             </span>
-            <br>
-            <span th:each="cdto : ${looklist}">
-                <input type="radio" name="clothesname" id="${cdto.clothesname}" th:value="${cdto.clothesname}"><img
-                    th:src="${cdto.clothespath}" alt="">
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <!-- 미리보기가 필요한가..? -->
+            <span class="character-container">
+                <span th:each="sdto : ${setDTO}">
+                    <img class="look setlook" th:src="${sdto.setpath}" alt="" id="checkedset">
+                    <input type="hidden" id="radioset" th:value="${sdto.setname}">
+                </span>
             </span>
+            <br><br>
             <button id="lookModifyBtn" type="button" class="btn btn-primary">변경하기</button>
-            <br>
         </form>
-        <div class="character-container">
-            <div th:each="hdto : ${hairDTO}">
-                <img class="look hairlook" th:src="${hdto.hairpath}" alt="" id="checkedhair">
-                <input type="hidden" id="radiohair" th:value="${hdto.hairname}">
-            </div><br>
-            <div th:each="cdto : ${clothesDTO}">
-                <img class="look clotheslook" th:src="${cdto.clothespath}" alt="" id="checkedclothes">
-                <input type="hidden" id="radioclothes" th:value="${cdto.clothesname}">
-            </div>
-        </div>
 
 
         <br>
@@ -115,29 +106,29 @@
             </tr>
         </table>
         <style>
-            .character-container {
+            /* .character-container {
                 position: absolute;
-            }
+            } */
 
             .look {
-                display: inline-block;                
+                display: inline-block;       
             }
 
-            .hairlook {
-                /* position: absolute; */
-                position: relative;
-                margin-bottom: -50px;
-                z-index: 10;
+            /* character look radio */
+            #setimg {
+                width: 100px;
+                height: 140px;    
             }
 
-            .clotheslook {
-                /* position: absolute; */
-                margin-top: -30px;
-                z-index: 1;
+            /* character look 미리보기 */
+            .setlook {
+                width: 100px;
+                height: 140px;
             }
 
             .character-container {
                 position: relative;
+                margin-left: 100px;
             }
 
         </style>
@@ -163,18 +154,24 @@
             var artistRemoveBtn = document.querySelector("#artistRemoveBtn");
             var dyningRemoveBtn = document.querySelector("#dyningRemoveBtn");
 
-            var radiohair = $("#radiohair").val();
-            var radioclothes = $("#radioclothes").val();
-            $('input:radio[name=hairname]:input[value=' + radiohair + ']').attr("checked", true);
-            $('input:radio[name=clothesname]:input[value=' + radioclothes + ']').attr("checked", true);
+            // var radiohair = $("#radiohair").val();
+            // var radioclothes = $("#radioclothes").val();
+            var radioset = $("#radioset").val();
+            // $('input:radio[name=hairname]:input[value=' + radiohair + ']').attr("checked", true);
+            // $('input:radio[name=clothesname]:input[value=' + radioclothes + ']').attr("checked", true);
+            $('input:radio[name=setname]:input[value=' + radioset + ']').attr("checked", true);
 
-            $("input[name=hairname]").on("change", function () {
-                var checkedhair = $(this).next().attr('src');
-                $("#checkedhair").attr("src", checkedhair);
-            });
-            $("input[name=clothesname]").on("change", function () {
-                var checkedclothes = $(this).next().attr('src');
-                $("#checkedclothes").attr("src", checkedclothes);
+            // $("input[name=hairname]").on("change", function () {
+            //     var checkedhair = $(this).next().attr('src');
+            //     $("#checkedhair").attr("src", checkedhair);
+            // });
+            // $("input[name=clothesname]").on("change", function () {
+            //     var checkedclothes = $(this).next().attr('src');
+            //     $("#checkedclothes").attr("src", checkedclothes);
+            // });
+            $("input[name=setname]").on("change", function () {
+                var checkedset = $(this).next().attr('src');
+                $("#checkedset").attr("src", checkedset);
             });
 
             /*[+var urlmembermodify = [[@{/main/mypage/membermodify}]];+]*/

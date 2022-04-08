@@ -165,8 +165,8 @@
                     [[${dto.dyningname}]]
                 </li>
             </ul>
-            <div th:each="hdto : ${hairDTO}">
-                <img type="hidden" id="charimg" class="look hairlook" th:src="${hdto.hairpath}" alt="">
+            <div th:each="sdto : ${setDTO}">
+                <img type="hidden" id="charimg" class="look setlook" th:src="${sdto.setpath}" alt="">
             </div>
             <ul class="dyning-list-ul">
                 <li id="list2" th:each="dto : ${result}" th:if="${dtoStat.count} > ${dtoStat.size}/2 + 0.5">
@@ -205,8 +205,8 @@
         <style>
             #charimg {
                 position: relative;
-                width: 100px;
-                height: 100px;
+                width: 80px;
+                height: 112px;
                 right: 0px;
             }
         </style>
