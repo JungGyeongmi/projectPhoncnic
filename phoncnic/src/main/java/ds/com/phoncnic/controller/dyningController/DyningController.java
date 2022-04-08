@@ -37,10 +37,10 @@ public class DyningController {
 
         try {
             model.addAttribute("id",dto.getId());
-            model.addAttribute("hairDTO", characterLookService.getCharacterHair(dto.getId()));
+            model.addAttribute("setDTO", characterLookService.getCharacterSet(dto.getId()));
         } catch (NullPointerException e) {
             model.addAttribute("id","");
-            model.addAttribute("hairDTO", characterLookService.getCharacterHair("user10@icloud.com"));
+            model.addAttribute("setDTO", characterLookService.getCharacterSet("user10@icloud.com"));
         }
    
 
@@ -52,9 +52,9 @@ public class DyningController {
         model.addAttribute("result", dyningService.getRestaurantStreet());
         if(dto!=null){
             model.addAttribute("id",dto.getId());
-            model.addAttribute("hairDTO", characterLookService.getCharacterHair(dto.getId()));
+            model.addAttribute("setDTO", characterLookService.getCharacterSet(dto.getId()));
         }else{
-            model.addAttribute("hairDTO", characterLookService.getCharacterHair("user10@icloud.com"));
+            model.addAttribute("setDTO", characterLookService.getCharacterSet("user10@icloud.com"));
         }
 
     }
@@ -112,9 +112,9 @@ public class DyningController {
     @GetMapping("/movingtest")
     public String movingtest(Model model,@AuthenticationPrincipal AuthMemberDTO dto) {
         if(dto!=null){
-            model.addAttribute("hairDTO", characterLookService.getCharacterHair(dto.getId()));
+            model.addAttribute("setDTO", characterLookService.getCharacterSet(dto.getId()));
         }else{
-            model.addAttribute("hairDTO", characterLookService.getCharacterHair("user10@icloud.com"));
+            model.addAttribute("setDTO", characterLookService.getCharacterSet("user10@icloud.com"));
         }
 
 
@@ -124,9 +124,9 @@ public class DyningController {
     @GetMapping("/movingtest2")
     public String movingtest2(Model model,@AuthenticationPrincipal AuthMemberDTO dto) {
         if(dto!=null){
-            model.addAttribute("hairDTO", characterLookService.getCharacterHair(dto.getId()));
+            model.addAttribute("setDTO", characterLookService.getCharacterSet(dto.getId()));
         }else{
-            model.addAttribute("hairDTO", characterLookService.getCharacterHair("user10@icloud.com"));
+            model.addAttribute("setDTO", characterLookService.getCharacterSet("user10@icloud.com"));
         }
         return "/dyning/movingtest2";
     }

@@ -22,15 +22,7 @@ public class CharacterLookInfo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long chno;
 
-    private String hairname;
-    private String hairpath;
-    private String clothesname;
-    private String clothespath;
-
-    
-
-
-
-    
+    private String setname;
+    private String setpath;   
 
 }
