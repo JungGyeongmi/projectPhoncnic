@@ -2,7 +2,6 @@ package ds.com.phoncnic.repository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.IntStream;
 
@@ -11,10 +10,6 @@ import javax.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Commit;
 
 import ds.com.phoncnic.entity.Dyning;
@@ -118,7 +113,6 @@ public class DyningRepositoryTests {
         });
     }
 
-<<<<<<< HEAD
 
     // @Transactional
     // @Test
@@ -161,45 +155,3 @@ public class DyningRepositoryTests {
 
 
     }
-=======
-    @Transactional
-    @Test
-    public void Test() {
-        Optional<Dyning> result = dyningRepository.findById(1L);
-        Object roof = result.get().getRoofdesign();
-        System.out.println(roof);
-
-    }
-
-    @Test
-    public void Test2() {
-        // List<Dyning> result = dyningRepository.getStreetList();
-        // result.forEach(i -> {
-        //     System.out.println(i);
-        // });
-    }
-
-    @Test
-    public void Test4() {
-        List<DyningImage> result = dyningRepository.getImageDetailsPage(1L);
-        result.forEach(i -> {
-            System.out.println(i);
-        });
-    }
-
-    @Test
-    public void testSearchPage() {
-        Pageable pageable = PageRequest.of(0, 10,
-                Sort.by("dno").descending().and(Sort.by("dyningname").ascending()));
-        Page<Object[]> result = dyningRepository.searchPage("n", "1", pageable);
-        System.out.println(result);
-    }
-
-    @Test
-    public void testFollowereCount() {
-        Long fCwt = dyningRepository.getDyningFollowerCount(1L);
-        System.out.println(fCwt);
-    }
-
-}
->>>>>>> 8b01dcd09daae6cde07cd1ceca02dc5ff4595f3f

@@ -27,6 +27,7 @@ public class CharacterLook extends BaseEntity{
 
     private String hairname;
     private String clothesname;
+    private String setname;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;

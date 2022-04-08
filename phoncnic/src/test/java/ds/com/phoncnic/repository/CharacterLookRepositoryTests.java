@@ -24,23 +24,16 @@ public class CharacterLookRepositoryTests {
     // ChracterLookInfo 더미
     @Test
     public void insertChracterimg() {
-        String[] hair = {
-                "/phoncnic/display?fileName=2022%5C04%5C01%2Fs_f304c504-cf9a-4775-8f8f-6c2ecb86721a_hair1.png",
-                "/phoncnic/display?fileName=2022%5C04%5C01%2Fs_113e7563-4b0e-4226-a846-8ec53e3b70b5_hair2.png",
-                "/phoncnic/display?fileName=2022%5C04%5C01%2Fs_808b7166-dbe5-4b32-96a5-d94a91643157_hair3.png"
-        };
-        String[] clothe = {
-                "/phoncnic/display?fileName=2022%5C04%5C01%2Fs_d0aa38aa-f701-4417-b30d-ef327cdc3cd0_clothes1.png",
-                "/phoncnic/display?fileName=2022%5C04%5C01%2Fs_4a288317-4408-450b-a029-5aea40bd019e_clothes2.png",
-                "/phoncnic/display?fileName=2022%5C04%5C01%2Fs_d574f3d1-f89d-4863-bd82-45f369e94924_clothes3.png"
+        String[] set = {
+            "/phoncnic/display?fileName=2022%5C04%5C01%2F9b6e64c8-4317-4256-8e28-b86efb541e3f_set2.png",
+            "/phoncnic/display?fileName=2022%5C04%5C01%2F05471144-94c6-4f3f-a076-3fe99ba44b0c_set1.png",
+            "/phoncnic/display?fileName=2022%5C04%5C01%2Ff262f865-a15d-4274-9c8c-0b392c23f8ec_set3.png"
         };
 
         IntStream.rangeClosed(1, 3).forEach(i -> {
-            CharacterLookInfo characterLookinfo = CharacterLookInfo.builder()
-                    .hairname("hair" + i)
-                    .hairpath(hair[i - 1])
-                    .clothesname("clothes" + i)
-                    .clothespath(clothe[i - 1])
+            CharacterLookInfo characterLookinfo = CharacterLookInfo.builder()                    
+                    .setname("set" + i)
+                    .setpath(set[i - 1])
                     .build();
             characterLookInforepository.save(characterLookinfo);
         });
@@ -58,8 +51,7 @@ public class CharacterLookRepositoryTests {
             CharacterLook characterLook = CharacterLook.builder()
                     .member(member)
                     .characterLookinfo(characterLookinfo)
-                    .hairname("hair" + 1)
-                    .clothesname("clothes" + 1)
+                    .setname("set" + i)
                     .build();
 
             repository.save(characterLook);
