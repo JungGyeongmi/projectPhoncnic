@@ -48,6 +48,15 @@ public class GalleryRepositoryTests {
     public void insertDummiesLatest() {
         IntStream.rangeClosed(1, 10).forEach(i -> {
             
+            String[] randomImageBasic = {
+                "34058fc8-5d8b-403f-878b-4e95b2c264bb",
+                "7fd1e6bb-3e6b-4488-8260-1d4c3ad36747",
+                "b32cbeb3-adec-455a-a270-ec6831e75d29",
+                "e9314e57-992a-46c3-909a-0f0dca7f4b08",
+                "b7d375be-c025-4ab4-a0f9-2eca87cb7a94",
+            };
+            
+
             // gallery 추가
             boolean rand = (int) (Math.random() * 2) != 0;
             Gallery gallery = Gallery.builder()
@@ -57,7 +66,7 @@ public class GalleryRepositoryTests {
                     .imagepath("2022\\04\\01")
                     .imagetype(rand)
                     .imagename("testImage" + i + ".jpg")
-                    .uuid("946ed916-76d2-4039-b80d-97eb381866f6")
+                    .uuid(randomImageBasic[(int)Math.random()*5])
                     .build();
             galleryRepository.save(gallery);
 
