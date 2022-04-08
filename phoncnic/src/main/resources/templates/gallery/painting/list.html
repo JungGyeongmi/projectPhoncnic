@@ -191,6 +191,8 @@
             color: lightgray;
          }
       </style>
+
+      <input name="loginUserId" type="hidden" th:value="${loginUserId}" />
       <div class="swiper mySwiper">
          <div class="swiper-wrapper">
             <div class="swiper-slide dtoData" th:each="dto : ${galleryDTOList}" th:data-gno="${dto.gno}"
@@ -274,6 +276,10 @@
                slideShadows: true,
             },
             mousewheel: true,
+            // pagination: {
+            //    el: ".swiper-pagination",
+            //    clickable: true,
+            // },
             navigation: {
                nextEl: ".swiper-button-next",
                prevEl: ".swiper-button-prev",
@@ -305,7 +311,6 @@
             /*[+
                var readUrl = [[@{/gallery/read}]];
                var emojiUrl = [[@{/gallery/emoji}]];
-               var emojiCheckUrl = [[@{/gallery/emoji/check}]]
                var emojiaddUrl = [[@{/gallery/emoji/register}]];
                var follow = [[@{/gallery/follow}]]
                var followRegister = [[@{/gallery/followRegister}]]               
@@ -321,13 +326,18 @@
             var detailsModalbodyEmoji = $(".detail-modal-body2");
 
             var showdetailsModal = function (targetGno, targetFile) {
+<<<<<<< HEAD
                var Selectedtype = "";
                $.post(emojiCheckUrl + "/" + targetGno, function (result) {
                   Selectedtype = result;
                });
 
+=======
+            
+>>>>>>> 37ddcf308c595b45f3831d91fd39555a99fc0495
                var artistname = "";
                $.getJSON(readUrl + "/" + targetGno, function (dto) {
+
                   $("#detailsModal .modal-title").html(`${dto.title}`);
                   artistname = dto.artistname;
                   var str = "";
@@ -373,7 +383,9 @@
                   <br/>
                   <input type="button" value="팔로우" id="followBtn">
                   </div>`;
+
                   detailsModalbodyEmoji.html(str);
+<<<<<<< HEAD
                   $("input[name=emojitype]").each(function () {
                      $(`label[for=${Selectedtype}]`).next().css("color", "black");
                   });
@@ -381,6 +393,11 @@
                   getJSONFollow(artistname);
                });
 
+=======
+
+                  getJSONFollow(artistname);
+               });
+>>>>>>> 37ddcf308c595b45f3831d91fd39555a99fc0495
             }
 
             //팔로우 get 
@@ -393,13 +410,13 @@
                var targetFile = $(this).data("file");
 
                showdetailsModal(targetGno, targetFile);
-
+              
                $("#detailsModal").modal('show');
             });
 
-            var getJSONFollow = function (artistname) {
+            var getJSONFollow = function(artistname){
 
-               $.getJSON(follow + "/" + artistname + "/" + loginUserId, function (fno) {
+               $.getJSON(follow + "/" + artistname + "/" +loginUserId, function (fno) {
                   var fnoInput = $("#fno");
                   console.log(fno);
                   if (fno != null) {
@@ -410,7 +427,7 @@
                      $("#followBtn").val("팔로우");
                   }
                });
-            }
+            } 
 
             // 큐레이터 모달 제어
             /*[+
@@ -430,8 +447,7 @@
                var artistname = $("#inputArtist").text();
 
                console.log("artistaname : " + artistname);
-               var data = { artistname: artistname, followerid: loginUserId }
-               console.log(data);
+               var data = { artistname: artistname,  followerid : loginUserId}
                $.ajax({
                   type: "POST",
                   url: followRegister + '/' + artistname + '/' + loginUserId,
@@ -477,52 +493,49 @@
             });
 
             $(".left").on("click", function () {
-               var lefturl = $(".left").attr('data-left-url');
-               if (lefturl == '') {
+               var url = $(".left").attr('data-left-url');
+               if (url == '') {
                   return;
                }
-               getCuratorList(lefturl);
+               getCuratorList(url);
             });
 
             $(".right").on("click", function () {
-               var righturl = $(".right").attr('data-right-url');
-               if (righturl == '') {
+               var url = $(".right").attr('data-right-url');
+               if (url == '') {
                   return;
                }
-               getCuratorList(righturl);
+               getCuratorList(url);
             });
 
-            function getCuratorList(curatorUrl) {
-               $.get(curatorUrl, function (result) {
-
-                  $.get(curatorUrl, function (result) {
-                     var str = "";
-                     $.each(result.dtoList, function (idx, dto) {
-                        str += `<div class="search-result-Item item" data-search-file="${dto.imageURL}" data-search-gno="${dto.gno}">
+            function getCuratorList(url) {
+               $.get(url, function (result) {
+                  var str = "";
+                  $.each(result.dtoList, function (idx, dto) {
+                     str += `<div class="search-result-Item item" data-search-file="${dto.imageURL}" data-search-gno="${dto.gno}">
                         <img  class="md-container-img" src="${displayUrl}?fileName=${dto.imageURL}">                              
                         <br/>
                         <p>${dto.title}</p>
                      </div>`;
-                     });
-                     searchResult.html(str);
-
-                  }).done(function (response) {
-                     if (response.page == 1) {
-                        $(".left").attr('data-left-url', '');
-                        $(".right").attr('data-right-url', curatorUrl + `?page=${response.page + 1}`);
-                     } else if (response.page == response.end) {
-                        $(".left").attr('data-left-url', curatorUrl + `?page=${response.page - 1}`);
-                        $(".right").attr('data-right-url', '');
-                     } else {
-                        $(".left").attr('data-left-url', curatorUrl + `?page=${response.page - 1}`);
-                        $(".right").attr('data-right-url', curatorUrl + `?page=${response.page + 1}`);
-                     }
-                     console.log(response);
-                     console.log("get success curator");
-                  }).fail(function (response) {
-                     console.log("get curator fial...");
-                     console.log(response);
                   });
+                  searchResult.html(str);
+
+               }).done(function (response) {
+                  if (response.page == 1) {
+                     $(".left").attr('data-left-url', '');
+                     $(".right").attr('data-right-url', curatorUrl + `?page=${response.page + 1}`);
+                  } else if (response.page == response.end) {
+                     $(".left").attr('data-left-url', curatorUrl + `?page=${response.page - 1}`);
+                     $(".right").attr('data-right-url', '');
+                  } else {
+                     $(".left").attr('data-left-url', curatorUrl + `?page=${response.page - 1}`);
+                     $(".right").attr('data-right-url', curatorUrl + `?page=${response.page + 1}`);
+                  }
+                  console.log(response);
+                  console.log("get success curator");
+               }).fail(function (response) {
+                  console.log("get curator fial...");
+                  console.log(response);
                });
             }
 
@@ -556,10 +569,10 @@
                      if (response.totalPage != 0) {
                         $.each(response.dtoList, function (idx, dto) {
                            str += `<div class="search-result-Item item" data-search-file="${dto.imageURL}" data-search-gno="${dto.gno}">
-                           <img class="md-container-img" src="${displayUrl}?fileName=${dto.imageURL}">                              
-                              <br/>
-                              <p>${dto.title}</p>
-                           </div>`;
+                                 <img class="md-container-img" src="${displayUrl}?fileName=${dto.imageURL}">                              
+                                    <br/>
+                                    <p>${dto.title}</p>
+                                 </div>`;
                         });
                         searchResult.html(str);
                      } else {

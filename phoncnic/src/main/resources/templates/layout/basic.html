@@ -24,10 +24,14 @@
             #wrapper {
                 background-color: white;
             }
-            .container-fluid{
-                height: 90%;
+            .my.container-fluid{
+                padding: 0;
             }
 
+            body,html {
+                min-height: 100% !important;
+                height: 100% !important;
+            }
         </style>
         <!-- awsome icon cdn -->
         <script src="https://kit.fontawesome.com/f145f2fd92.js" crossorigin="anonymous"></script>
@@ -67,7 +71,7 @@
                     </div>
                 </nav>
                 <!-- Page content-->
-                <div class="container-fluid">
+                <div class="container-fluid my">
                     <th:block th:replace="${content}"></th:block>
                 </div>
             </div>

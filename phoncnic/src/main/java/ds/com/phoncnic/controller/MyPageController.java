@@ -38,8 +38,7 @@ public class MyPageController {
         model.addAttribute("id",dto.getId());
         model.addAttribute("memberDTO", memberDTO);
 
-        model.addAttribute("hairDTO", characterLookService.getCharacterHair(dto.getId()));
-        model.addAttribute("clothesDTO", characterLookService.getCharacterClothes(dto.getId()));
+        model.addAttribute("setDTO", characterLookService.getCharacterSet(dto.getId()));
         model.addAttribute("looklist", characterLookService.lookimageList());
         model.addAttribute("emojiDTO", emojiService.getEmojiList(dto.getId()));
         model.addAttribute("afollowDTO", followService.getFollow(dto.getId()).getFollowartistlist());
@@ -63,8 +62,7 @@ public class MyPageController {
 
     @PostMapping("/lookmodify")
     public String lookmodify(CharacterLookDTO characterLookDTO, @AuthenticationPrincipal AuthMemberDTO dto, RedirectAttributes ra) {
-        log.info("modify post.........:" + characterLookDTO.getHairname());
-        log.info("modify post.........:" + characterLookDTO.getClothesname());
+        log.info("modify post.........:" + characterLookDTO.getSetname());
 
         characterLookService.modify(characterLookDTO, dto.getId());
         ra.addAttribute("id", dto.getId());
