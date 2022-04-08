@@ -374,7 +374,7 @@
                   detailsModalbodyEmoji.html(str);
                   
                   $("input[name=emojitype]").each(function () {
-                     $(`label[for=${Selectedtype}]`).next().css("color", "black");
+                     $(".emoji-cnt").css("color", "black");
                   });
                   
                   if (loginUserId!="" || loginUserId!=null){
@@ -383,8 +383,9 @@
                      });
                   }
 
-                  $(`label[for=${Selectedtype}]`).next().css("color", "red");
+                  $("input[name=emojitype").eq(Selectedtype-1).attr("selected", true);
                   getJSONFollow(artistname);
+
                });
 
             }
