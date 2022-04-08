@@ -29,10 +29,15 @@ public class AdminRestController {
     @Transactional
     @PostMapping("/search/{id}")
     public ResponseEntity<MemberDTO>getMember (@PathVariable("id")String id) {
-        log.info("getMember....");
+        MemberDTO memberDTO = MemberDTO.builder().build();
+
+        if(memberService.checkMemberExist(id)) {
+            memberDTO =  memberService.getMember(id);
+            log.info("getMember....");
+        }
         log.info(id);
         
-        return new ResponseEntity<>(memberService.getMember(id), HttpStatus.OK);
+        return new ResponseEntity<>(memberDTO, HttpStatus.OK);
     }
 
     @PostMapping("/modify/{role}")
