@@ -39,10 +39,10 @@ public class MemberRepositoryTests {
 
                     if (i <= 10) {
                         member.addMemberRole(AuthorityRole.USER);
-                    } else if(i < 20) {
-                        member.addMemberRole(AuthorityRole.ARTIST);
-                    } else {
+                    } else if(i <= 20) {
                         member.addMemberRole(AuthorityRole.CEO);
+                    } else {
+                        member.addMemberRole(AuthorityRole.ARTIST);
                     }
 
                 memberRepository.save(member);
