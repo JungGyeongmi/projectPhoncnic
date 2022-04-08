@@ -14,10 +14,10 @@
             padding: 20px 10px;
          }
 
-         input[name="emojitype"]:checked+label+span {
+         /* input[name="emojitype"]:checked+label+span {
             color: red;
 
-         }
+         } */
 
          html,
          body {
@@ -593,6 +593,7 @@
                   contentType: "application/json",
                   dataType: "json",
                   success: function (response) {
+                     console.log(response);
                      for (idx in response) {
                         $(".emoji-cnt").eq(idx).text(`${response[idx][1]}`);
                      }
