@@ -77,15 +77,23 @@ public class GalleryRestController {
     // Emoji insert/update/remove
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/emoji/register/{gno}")
-    public ResponseEntity<Long[][]> emojiRegister(@RequestBody EmojiDTO emojiDTO, @PathVariable("gno") Long gno,
+    public ResponseEntity<Object[]> emojiRegister(@RequestBody EmojiDTO emojiDTO, @PathVariable("gno") Long gno,
             @AuthenticationPrincipal AuthMemberDTO authMemberDTO) {
-        emojiDTO.setGno(gno);
-        emojiDTO.setId(authMemberDTO.getId());
-        Long[][] newEmojiCount = emojiService.galleryEmojiRegiter(emojiDTO);
-        log.info("emoji Register....................emojiDTO:" + emojiDTO);
-        log.info(Arrays.deepToString(newEmojiCount));
+        
+      emojiDTO.setGno(gno);
+      emojiDTO.setId(authMemberDTO.getId());
+      
+      Object[] returnResult = new Object[2];
+      Long[][] newEmojiCount = emojiService.galleryEmojiRegiter(emojiDTO);
+      Boolean checker = emojiService.checkExistEmoji(authMemberDTO.getId(), gno);
+      
+      returnResult[0] = checker;
+      returnResult[1] = newEmojiCount;
 
-        return new ResponseEntity<>(newEmojiCount, HttpStatus.OK);
+      log.info("emoji Register....................emojiDTO:" + emojiDTO);
+      log.info(Arrays.deepToString(newEmojiCount));
+
+      return new ResponseEntity<>(returnResult, HttpStatus.OK);
     }
 
     // 조회

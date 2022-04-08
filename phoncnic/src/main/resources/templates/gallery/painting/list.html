@@ -320,6 +320,8 @@
             var detailsModalbody = $(".details-modal-body");
             var detailsModalbodyEmoji = $(".detail-modal-body2");
 
+            var emojiOritype="0";
+
             var showdetailsModal = function (targetGno, targetFile) {
                var selectedtype = "0";
                if(loginUserId != "") {
@@ -327,6 +329,7 @@
                         selectedtype = result;
                   });
                }
+              
                var artistname = "";
                $.getJSON(readUrl + "/" + targetGno, function (dto) {
                   $("#detailsModal .modal-title").html(`${dto.title}`);
@@ -385,6 +388,7 @@
 
                   if(selectedtype!=0) {
                      $(".emoji-cnt").eq(selectedtype-1).css("color", "red");
+                     emojiOritype = selectedtype;
                   }
                });
 
@@ -588,11 +592,14 @@
                });
             }
 
+
+
             //이모지 등록/수정/삭제
             $(document).on("click", ".emoji", function () {
                var gno = $("input[name=gno]").val();
                var emojitype = $(".emoji:checked").val();
-
+               console.log("before"+ emojiOritype)
+               // alert($(".emoji-cnt").eq(emojitype-1).css("color"))
                var data = { emojitype: emojitype };
                $.ajax({
                   type: "post",
@@ -601,11 +608,17 @@
                   contentType: "application/json",
                   dataType: "json",
                   success: function (response) {
-                     for (idx in response) {
+                     for (idx in response[1]) {
                         $(".emoji-cnt").eq(idx).css("color", "black");
-                        $(".emoji-cnt").eq(idx).text(`${response[idx][1]}`);
+                        $(".emoji-cnt").eq(idx).text(`${response[1][idx][1]}`);
                      }
-                     $(".emoji-cnt").eq(emojitype-1).css("color", "red");
+                     
+                     if(response[0]) {
+                        $(".emoji-cnt").eq(emojitype-1).css("color", "red");
+                     }
+
+                     emojiOritype = emojitype;
+                     console.log("after"+ emojiOritype)
                      console.log("update emoji success");
                   },
                   fail: function (response) {

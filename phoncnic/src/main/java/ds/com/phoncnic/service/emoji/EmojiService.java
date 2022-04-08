@@ -28,6 +28,8 @@ public interface EmojiService {
 
     void emojiRemove(Long eno);
 
+    Boolean checkExistEmoji(String id, Long gno);
+
     Emoji HaveEmoji(String id, Long dno);
 
     /* DTO -> Entity */
