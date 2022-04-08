@@ -11,9 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class CharacterLookDTO {
     private Long lno;
-    private String hairname;
-    private String hairpath;
-    private String clothesname;
-    private String clothespath;
+    private String setname;
+    private String setpath;
 
 }

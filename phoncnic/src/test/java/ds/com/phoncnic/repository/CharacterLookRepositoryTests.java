@@ -24,23 +24,16 @@ public class CharacterLookRepositoryTests {
     // ChracterLookInfo 더미
     @Test
     public void insertChracterimg() {
-        String[] hair = {
-            "/phoncnic/display?fileName=2022%2F03%2F31%2F08bb5eef-d682-47c4-9030-8727c5faab04_hair1.png",
-            "/phoncnic/display?fileName=2022%2F03%2F31%2Fa7577cbf-aa00-4c44-92e2-8487b416cec0_hair2.png",
-            "/phoncnic/display?fileName=2022%2F03%2F31%2F185fb82e-20b6-4375-8ded-bd7b56413c69_hair3.png"
-        };
-        String[] clothe = {
-            "/phoncnic/display?fileName=2022%2F03%2F31%2Ff2837c1a-553a-4823-b9db-24a45c64e29a_clothes1.png",
-            "/phoncnic/display?fileName=2022%2F03%2F31%2Fcff62990-63fc-4bfc-bea7-0e884bd650b3_clothes2.png",
-            "/phoncnic/display?fileName=2022%2F03%2F31%2F3db2246e-c482-47dc-8835-765aa531b6e2_clothes3.png"
+        String[] set = {
+            "/phoncnic/display?fileName=2022%5C04%5C01%2F05471144-94c6-4f3f-a076-3fe99ba44b0c_set1.png",
+            "/phoncnic/display?fileName=2022%5C04%5C01%2F9b6e64c8-4317-4256-8e28-b86efb541e3f_set2.png",
+            "/phoncnic/display?fileName=2022%5C04%5C01%2Ff262f865-a15d-4274-9c8c-0b392c23f8ec_set3.png"
         };
 
         IntStream.rangeClosed(1, 3).forEach(i -> {
             CharacterLookInfo characterLookinfo = CharacterLookInfo.builder()
-                    .hairname("hair" + i)
-                    .hairpath(hair[i - 1])
-                    .clothesname("clothes" + i)
-                    .clothespath(clothe[i - 1])
+                    .setname("set" + i)
+                    .setpath(set[i - 1])
                     .build();
             characterLookInforepository.save(characterLookinfo);
         });
@@ -58,8 +51,7 @@ public class CharacterLookRepositoryTests {
             CharacterLook characterLook = CharacterLook.builder()
                     .member(member)
                     .characterLookinfo(characterLookinfo)
-                    .hairname("hair" + 1)
-                    .clothesname("clothes" + 1)
+                    .setname("set" + 1)
                     .build();
 
             repository.save(characterLook);
