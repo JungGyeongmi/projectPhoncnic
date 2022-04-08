@@ -11,8 +11,6 @@ import org.springframework.stereotype.Service;
 
 import ds.com.phoncnic.dto.EmojiDTO;
 import ds.com.phoncnic.entity.Emoji;
-import ds.com.phoncnic.entity.EmojiInfo;
-import ds.com.phoncnic.entity.Member;
 import ds.com.phoncnic.repository.EmojiRepository;
 import lombok.extern.log4j.Log4j2;
 
@@ -28,6 +26,11 @@ public class EmojiServiceImpl implements EmojiService {
         Emoji dyningemoji = dtoToEntity(emojiDTO);
         emojiRepository.save(dyningemoji);
         return dyningemoji.getEno();
+    }
+
+    @Override
+    public String getEmojiTyoeByUserId (String id, Long gno) {
+        return emojiRepository.getEmojiTypeByIdAndGno(id, gno);
     }
 
     @Transactional
