@@ -40,15 +40,15 @@ public class EmojiServiceImpl implements EmojiService {
         Emoji galleryEmoji = Emoji.builder().build();
         // 0 eno 1 type 2 boolean
         List<Object[]> checkerList = emojiRepository.existsByMemberIdANDGno(gno, id);
+
         if(checkerList.isEmpty()){
             log.info("checkerList--");
             Emoji emoji = dtoToEntity(emojiDTO);
             emojiRepository.save(emoji);
             return getEmojiCountArrayByGno(emoji.getGallery().getGno());
         }
-        Object[] checker = emojiRepository.existsByMemberIdANDGno(gno, id).get(0);
-        
 
+        Object[] checker = emojiRepository.existsByMemberIdANDGno(gno, id).get(0);
         if (!(boolean) checker[2]) {
             galleryEmoji = dtoToEntity(emojiDTO);
             emojiRepository.save(galleryEmoji);

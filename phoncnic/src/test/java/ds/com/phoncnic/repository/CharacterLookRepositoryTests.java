@@ -25,14 +25,14 @@ public class CharacterLookRepositoryTests {
     @Test
     public void insertChracterimg() {
         String[] hair = {
-                "/phoncnic/display?fileName=2022%5C04%5C01%2Fs_f304c504-cf9a-4775-8f8f-6c2ecb86721a_hair1.png",
-                "/phoncnic/display?fileName=2022%5C04%5C01%2Fs_113e7563-4b0e-4226-a846-8ec53e3b70b5_hair2.png",
-                "/phoncnic/display?fileName=2022%5C04%5C01%2Fs_808b7166-dbe5-4b32-96a5-d94a91643157_hair3.png"
+            "/phoncnic/display?fileName=2022%2F03%2F31%2F08bb5eef-d682-47c4-9030-8727c5faab04_hair1.png",
+            "/phoncnic/display?fileName=2022%2F03%2F31%2Fa7577cbf-aa00-4c44-92e2-8487b416cec0_hair2.png",
+            "/phoncnic/display?fileName=2022%2F03%2F31%2F185fb82e-20b6-4375-8ded-bd7b56413c69_hair3.png"
         };
         String[] clothe = {
-                "/phoncnic/display?fileName=2022%5C04%5C01%2Fs_d0aa38aa-f701-4417-b30d-ef327cdc3cd0_clothes1.png",
-                "/phoncnic/display?fileName=2022%5C04%5C01%2Fs_4a288317-4408-450b-a029-5aea40bd019e_clothes2.png",
-                "/phoncnic/display?fileName=2022%5C04%5C01%2Fs_d574f3d1-f89d-4863-bd82-45f369e94924_clothes3.png"
+            "/phoncnic/display?fileName=2022%2F03%2F31%2Ff2837c1a-553a-4823-b9db-24a45c64e29a_clothes1.png",
+            "/phoncnic/display?fileName=2022%2F03%2F31%2Fcff62990-63fc-4bfc-bea7-0e884bd650b3_clothes2.png",
+            "/phoncnic/display?fileName=2022%2F03%2F31%2F3db2246e-c482-47dc-8835-765aa531b6e2_clothes3.png"
         };
 
         IntStream.rangeClosed(1, 3).forEach(i -> {

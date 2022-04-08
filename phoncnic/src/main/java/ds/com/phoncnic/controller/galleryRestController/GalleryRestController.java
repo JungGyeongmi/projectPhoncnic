@@ -64,9 +64,6 @@ public class GalleryRestController {
         emojiDTO.setGno(gno);
         emojiDTO.setId(authMemberDTO.getId());
         Long[][] newEmojiCount = emojiService.galleryEmojiRegiter(emojiDTO);
-        log.info("ecwt1111");
-
-        
         log.info("emoji Register....................emojiDTO:" + emojiDTO);
         log.info(Arrays.deepToString(newEmojiCount));
        
@@ -81,6 +78,7 @@ public class GalleryRestController {
         Long fno = 0L;
         if(loginUserId != null) {
             fno = followService.getGalleryFno(loginUserId, artistname);
+            log.info("fno come here"+fno);
         }
         log.info("checked fno ..."+fno);
         return new ResponseEntity<>(fno, HttpStatus.OK);
@@ -93,11 +91,10 @@ public class GalleryRestController {
         Object[] follow = null;
 
         if (loginUserId!="") {
+            log.info("loginUserId:"+loginUserId);
             followDTO.setFollowerid(loginUserId);
-    
             follow = followService.galleryfollowRegister(followDTO);
             
-            log.info("follow Register followDTO:" +followDTO);
         } 
         return new ResponseEntity<>(follow, HttpStatus.OK);
     }

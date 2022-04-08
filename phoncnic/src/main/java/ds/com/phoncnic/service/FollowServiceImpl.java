@@ -68,7 +68,7 @@ public class FollowServiceImpl implements FollowService {
         log.info("serviceImplid:-------------------"+id+" "+artistname);
         
         Long fno = followRepository.getGalleryFno(id, artistname);
-
+        
         log.info("serviceImplfno:-------------------"+fno);
 
         return fno;
@@ -80,10 +80,20 @@ public class FollowServiceImpl implements FollowService {
 
         String id = followDTO.getFollowerid();
         String artistname = followDTO.getArtistname();
-
         Follow galleryFollow = Follow.builder().build();
 
         //0 fno 1 artistname 2 followerid 3 boolean
+        List<Object[]> followList =followRepository.getFollowArtist(id, artistname);
+
+        if(followList.isEmpty()){
+            log.info("followList--");
+            Long fno = followRepository.getGalleryFno(id,artistname);
+            Follow follow = dtoToEntity(followDTO);
+            followRepository.save(follow);
+            Object[] arr ={follow.getFno(), follow.getArtistname(),follow.getFollower().getId(),(fno!=null)?true:false};
+            return arr;
+        }
+
         Object[] follow = followRepository.getFollowArtist(id, artistname).get(0);
 
         if(!(boolean) follow[3]) {
