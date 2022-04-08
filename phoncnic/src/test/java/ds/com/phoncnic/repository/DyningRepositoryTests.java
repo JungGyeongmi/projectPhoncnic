@@ -118,6 +118,50 @@ public class DyningRepositoryTests {
         });
     }
 
+<<<<<<< HEAD
+
+    // @Transactional
+    // @Test
+    // public void Test() {
+    //     Optional<Dyning> result = dyningRepository.findById(1L);
+    //     Object roof = result.get().getRoofdesign();
+    //     System.out.println(roof);
+
+    // }
+
+//     @Test
+//     public void Test2() {
+//     List<Dyning> result = dyningRepository.getStreetList();
+//     result.forEach(i -> {
+//     System.out.println(i);
+//     });
+// }
+
+
+    // @Test
+    // public void Test4() {
+    //     List<DyningImage> result = dyningRepository.getImageDetailsPage(1L);
+    //     result.forEach(i -> {
+    //         System.out.println(i);
+    //     });
+    // }
+
+    // @Test
+    // public void testSearchPage() {
+    //     Pageable pageable = PageRequest.of(0, 10,
+    //     Sort.by("dno").descending().and(Sort.by("dyningname").ascending()));
+    //     Page<Object[]> result = dyningRepository.searchPage("n", "1", pageable);
+    // }
+
+    // @Test
+    // public void testFollowereCount() {
+    //     Long fCwt = dyningRepository.getDyningFollowerCount(1L);
+    //     System.out.println(followerCwt);
+    // }
+
+
+    }
+=======
     @Transactional
     @Test
     public void Test() {
@@ -158,3 +202,4 @@ public class DyningRepositoryTests {
     }
 
 }
+>>>>>>> 8b01dcd09daae6cde07cd1ceca02dc5ff4595f3f

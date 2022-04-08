@@ -423,6 +423,7 @@
 
                console.log("artistaname : " + artistname);
                var data = { artistname: artistname,  followerid : loginUserId}
+               console.log(data);
                $.ajax({
                   type: "POST",
                   url: followRegister + '/' + artistname + '/' + loginUserId,
