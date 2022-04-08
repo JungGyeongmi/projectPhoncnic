@@ -92,7 +92,7 @@ public class OAuth2UserDetailsService extends DefaultOAuth2UserService {
     CharacterLook characterLook = CharacterLook.builder()
         .hairname("hair1")
         .clothesname("clothes1")
-        .characterLookinfo(CharacterLookInfo.builder().chno(43L).build())
+        .characterLookinfo(CharacterLookInfo.builder().chno(1L).build())
         .member(Member.builder().id(email).build())
         .build();
     characterLookRepository.save(characterLook);
