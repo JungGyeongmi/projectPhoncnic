@@ -321,22 +321,26 @@
             var detailsModalbodyEmoji = $(".detail-modal-body2");
 
             var showdetailsModal = function (targetGno, targetFile) {
-               var Selectedtype = "";
-               
+               var selectedtype = "0";
+               if(loginUserId != "") {
+                  $.post(emojiCheckUrl + "/" + targetGno, function (result) {
+                        selectedtype = result;
+                  });
+               }
                var artistname = "";
                $.getJSON(readUrl + "/" + targetGno, function (dto) {
                   $("#detailsModal .modal-title").html(`${dto.title}`);
                   artistname = dto.artistname;
                   var str = "";
                   str = `
-               <input type="hidden" name = "gno" value="${targetGno}" class="inputGno" data-gno="${targetGno}">
-               <img style='width:100%' src="${urlDisplay}?fileName=${targetFile}">
-               <div class=row>
-                  <div class="col-md-7"><h2>${dto.content}</h2></div>
-                  <div class="col-md-4" id="inputArtist"><h4>${dto.artistname}</h4></div>
-               </div>`
+                  <input type="hidden" name = "gno" value="${targetGno}" class="inputGno" data-gno="${targetGno}">
+                  <img style='width:100%' src="${urlDisplay}?fileName=${targetFile}">
+                  <div class=row>
+                        <div class="col-md-7"><h2>${dto.content}</h2></div>
+                        <div class="col-md-4" id="inputArtist"><h4>${dto.artistname}</h4></div>
+                  </div>`
                   detailsModalbody.html(str);
-
+                  
                   str = `<div id="emojiBox">
                   <input type="radio" id="1" value="${dto.emojicount[0][0]}" name="emojitype" class="emoji">
                   <label for="1" class="emojibtn">
@@ -372,19 +376,13 @@
                   </div>`;
 
                   detailsModalbodyEmoji.html(str);
-                  
+                  console.log(selectedtype);
                   $("input[name=emojitype]").each(function () {
-                     $(`label[for=${Selectedtype}]`).next().css("color", "black");
+                     $(".emoji-cnt").css("color", "black");
                   });
-                  
-                  if (loginUserId!="" || loginUserId!=null){
-                     $.post(emojiCheckUrl + "/" + targetGno, function (result) {
-                        Selectedtype = result;
-                     });
+                  if(selectedtype!=0) {
+                     $(".emoji-cnt").eq(selectedtype-1).css("color", "red");
                   }
-
-                  $(`label[for=${Selectedtype}]`).next().css("color", "red");
-                  getJSONFollow(artistname);
                });
 
             }
@@ -397,9 +395,7 @@
             $(".dtoData").click(function () {
                var targetGno = $(this).data("gno");
                var targetFile = $(this).data("file");
-
                showdetailsModal(targetGno, targetFile);
-
                $("#detailsModal").modal('show');
             });
 
@@ -591,12 +587,10 @@
 
             //이모지 등록/수정/삭제
             $(document).on("click", ".emoji", function () {
-
                var gno = $("input[name=gno]").val();
                var emojitype = $(".emoji:checked").val();
 
                var data = { emojitype: emojitype };
-               console.log(data);
                $.ajax({
                   type: "post",
                   url: emojiaddUrl + "/" + gno,
@@ -605,8 +599,10 @@
                   dataType: "json",
                   success: function (response) {
                      for (idx in response) {
+                        $(".emoji-cnt").eq(idx).css("color", "black");
                         $(".emoji-cnt").eq(idx).text(`${response[idx][1]}`);
                      }
+                     $(".emoji-cnt").eq(emojitype-1).css("color", "red");
                      console.log("update emoji success");
                   },
                   fail: function (response) {
@@ -629,6 +625,7 @@
                $("#detailsModal").modal("show");
                showdetailsModal(targetGno, targetFile);
             });
+
          });
       </script>
 

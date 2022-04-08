@@ -121,14 +121,14 @@
                 $("#searchBtn").on("click", searchFunction);
                 
                 $("#raidoContainer input").on("change", function () {
-                console.log($(this).attr("id"));
-                var id = $(this).attr("id");
-                $("#roleSetInfo").children().each(function (idx) {
-                    $(`#roleSetInfo :nth-child(${idx + 1})`).css("color", "black");
-                });
-                selectedRole = $(`label[for=${id}]`).css("color", "red");
-                $("#modirole").val(id);
-            })
+                    console.log($(this).attr("id"));
+                    var id = $(this).attr("id");
+                    $("#roleSetInfo").children().each(function (idx) {
+                        $(`#roleSetInfo :nth-child(${idx + 1})`).css("color", "black");
+                    });
+                    selectedRole = $(`label[for=${id}]`).css("color", "red");
+                    $("#modirole").val(id);
+                })
 
                 $("input[name=id]").on("keydown", function (e) {
                 var keycode = e.keyCode;
