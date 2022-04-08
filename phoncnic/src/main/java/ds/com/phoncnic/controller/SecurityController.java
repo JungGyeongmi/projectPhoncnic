@@ -28,7 +28,7 @@ public class SecurityController {
         return "/accessError";
     }
 
-    @GetMapping("/logout")
+    @GetMapping("/member/logout")
     public String getLogout() {
 
         return "redirect:/member/login";

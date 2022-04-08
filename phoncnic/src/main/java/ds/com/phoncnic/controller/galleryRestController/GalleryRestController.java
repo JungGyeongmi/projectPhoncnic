@@ -42,9 +42,9 @@ public class GalleryRestController {
     @GetMapping("/curator")
     public ResponseEntity<PageResultDTO<GalleryDTO, Object[]>> getCuratorModal(SearchPageRequestDTO pageRequestDTO) {
         log.info("---------------get curator rest---------------");
-        
+
         PageResultDTO<GalleryDTO, Object[]> result = galleryService.getGalleryPage(pageRequestDTO);
-        
+
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -57,46 +57,64 @@ public class GalleryRestController {
         return new ResponseEntity<>(galleryDTO, HttpStatus.OK);
     }
 
+    // emoji check
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/emoji/check/{gno}")
+    public ResponseEntity<String> emojiChecker(@PathVariable("gno") Long gno,
+            @AuthenticationPrincipal AuthMemberDTO authMemberDTO) {
+
+        String type = emojiService.getEmojiTyoeByUserId(authMemberDTO.getId(), gno);
+        
+        log.info(type);
+        
+        if (type == null) {
+            type = "";
+        }
+
+        return new ResponseEntity<>(type, HttpStatus.OK);
+    }
+
     // Emoji insert/update/remove
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/emoji/register/{gno}")
-    public ResponseEntity<Long[][]> emojiRegister(@RequestBody EmojiDTO emojiDTO, @PathVariable("gno") Long gno, @AuthenticationPrincipal AuthMemberDTO authMemberDTO) {
+    public ResponseEntity<Long[][]> emojiRegister(@RequestBody EmojiDTO emojiDTO, @PathVariable("gno") Long gno,
+            @AuthenticationPrincipal AuthMemberDTO authMemberDTO) {
         emojiDTO.setGno(gno);
         emojiDTO.setId(authMemberDTO.getId());
         Long[][] newEmojiCount = emojiService.galleryEmojiRegiter(emojiDTO);
-        
         log.info("emoji Register....................emojiDTO:" + emojiDTO);
         log.info(Arrays.deepToString(newEmojiCount));
-       
+
         return new ResponseEntity<>(newEmojiCount, HttpStatus.OK);
     }
-    
+
     // 조회
     @PreAuthorize("isAuthenticated()")
     @GetMapping("follow/{artistname}/{loginUserId}")
-    public ResponseEntity<Long> follow(@PathVariable String artistname,  @PathVariable String loginUserId) {
+    public ResponseEntity<Long> follow(@PathVariable String artistname, @PathVariable String loginUserId) {
         log.info("gallery follow check ......");
         Long fno = 0L;
-        if(loginUserId != null) {
+        if (loginUserId != null) {
             fno = followService.getGalleryFno(loginUserId, artistname);
+            log.info("fno come here" + fno);
         }
-        log.info("checked fno ..."+fno);
+        log.info("checked fno ..." + fno);
         return new ResponseEntity<>(fno, HttpStatus.OK);
     }
-    
+
     // 등록 삭제
     @PreAuthorize("isAuthenticated()")
     @PostMapping("followRegister/{artistname}/{loginUserId}")
-    public ResponseEntity<Object[]> followRegister(@RequestBody FollowDTO followDTO, @PathVariable String artistname, @PathVariable String loginUserId) {
+    public ResponseEntity<Object[]> followRegister(@RequestBody FollowDTO followDTO, @PathVariable String artistname,
+            @PathVariable String loginUserId) {
         Object[] follow = null;
 
-        if (loginUserId!="") {
+        if (loginUserId != "") {
+            log.info("loginUserId:" + loginUserId);
             followDTO.setFollowerid(loginUserId);
-    
             follow = followService.galleryfollowRegister(followDTO);
-            
-            log.info("follow Register followDTO:" +followDTO);
-        } 
+
+        }
         return new ResponseEntity<>(follow, HttpStatus.OK);
     }
 }

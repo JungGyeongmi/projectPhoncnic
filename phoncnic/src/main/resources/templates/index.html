@@ -2,58 +2,54 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <th:block th:replace="~{layout/basic :: setContent(~{::content})}">
     <th:block th:fragment="content">
-        <fieldset>
-            <legend>
-                인덱스여라
-            </legend>
-            <a th:href="@{/}">/index</a> <br>
-        </fieldset>
-        <fieldset>
-            <legend>
-                테스트여라
-            </legend>
-            <a th:href="@{/test}">/test</a><br>
-            <a th:href="@{/lookmodal}">/lookmodal</a><br>
-        </fieldset>
-        <fieldset>
-            <legend>
-                등록 갈림길이여라 (MANAGE)
-            </legend>
-            <a th:href="@{/manage/rolechoice}">등록갈림길</a><br>
-            <a th:href="@{/manage/gallery/list}"> 로그인 후 : galleryList</a><br>
-            <a th:href="@{/manage/gallery/register}">로그인 후 :  galleryRegister</a><br>
-        </fieldset>
-        <fieldset>
-            <legend>
-                갈림길이여라
-            </legend>
-            <a th:href="@{/crossroad}">/crossroad</a><br>
-            <a th:href="@{/crossroad/gallery}">/crossroad/gallery</a> <br>
-            <a th:href="@{/gallery/crossgallery/photo}">/gallery/crossgallery/photo</a><br>
-            <a th:href="@{/gallery/crossgallery/painting}">/gallery/crossgallery/painting</a><br>
-            <a th:href="@{/crossroad/dyning/cafe}">/crossroad/dyning/cafe</a> <br>
-            <a th:href="@{/crossroad/dyning/restaurant}">/crossroad/dyning/restaurant</a> <br>
-        </fieldset>
-        <fieldset>
-            <legend>메인이여라</legend>
-            <a th:href="@{/main/companyinfo}">/main/companyinfo</a><br>
-            <a th:href="@{/help/list}">/help/list</a><br>
-            <a th:href="@{/main/mypage}">
-                <button>마이페이지로 이동</button>
-            </a>
-        </fieldset>
-        <fieldset>
-            <legend>다이닝이여라 - USER1@ICLOUD.COM</legend>
-            <a th:href="@{/dyning/restaurant/list}">/dyning/restaurant/list</a> <br>
-            <a th:href="@{/dyning/cafe/list(id='user1@icloud.com')}">/dyning/cafe/list</a> <br>
-            <a th:href="@{/dyning/details(dno=1)}">/dyning/restaurant/details</a> <br>
-            <!-- <a th:href="@{/dyning/movingtest}">/dyning/movingtest</a> <br>
-            <a th:href="@{/dyning/movingtest2}">/dyning/movingtest2</a> <br> -->
-        </fieldset>
-        <fieldset>
-            <legend>갤러리여라</legend>
-            <a th:href="@{/gallery/photo}">/gallery/photo</a> <br>
-            <a th:href="@{/gallery/painting}">/gallery/painting</a> <br>
-        </fieldset>
+        <table  class="table" >
+            <tr>
+                <th>ALL</th>
+                <th>USER</th>
+                <th>USER</th>
+                <th>ALL</th>
+                <th>USER</th>
+                <th>ALL</th>
+                <th>ALL</th>
+                <th>ADMIN</th>
+            </tr>
+            <tr>
+                <th>인덱스</th>
+                <th>루-크:모달</th>
+                <th>등록 갈림길(MANGE)</th>
+                <th>갈림길</th>
+                <th>메인</th>
+                <th>다이닝</th>
+                <th>갤러리</th>
+                <th>관리자</th>
+            </tr>
+            <tr>
+                <td rowspan="6"><a th:href="@{/}">/index</a></td>
+                <td rowspan="5"><a th:href="@{/lookmodal}">/lookmodal</a></td>
+                <td ><a th:href="@{/manage/rolechoice}">등록갈림길</a></td>
+                <td ><a th:href="@{/crossroad}">/crossroad</a></td>
+                <td ><a th:href="@{/main/companyinfo}">/main/companyinfo</a></td>
+                <td ><a th:href="@{/dyning/restaurant/list}">/dyning/restaurant/list</a></td>
+                <td ><a th:href="@{/gallery/photo}">/gallery/photo</a></td>
+                <td rowspan="6"><a th:href="@{/admin}">/admin</a></td>
+            </tr>
+            <tr>
+                <td><a th:href="@{/manage/gallery/list}">galleryList</a></td>
+                <td><a th:href="@{/crossroad/gallery}">/crossroad/gallery</a></td>
+                <td><a th:href="@{/help/list}">/help/list</a></td>
+                <td><a th:href="@{/dyning/cafe/list}">/dyning/cafe/list</a></td>
+                <td rowspan="3"><a th:href="@{/gallery/painting}">/gallery/painting</a></td>
+            </tr>
+            <tr>
+                <td><a th:href="@{/manage/gallery/register}">galleryRegister</a></td>
+                <td rowspan="2"><a th:href="@{/crossroad/dyning/cafe}">/crossroad/dyning/cafe</a></td>
+                <td rowspan="2"><a th:href="@{/main/mypage}"><button>마이페이지로 이동</button></a></td>
+                <td rowspan="2"><a th:href="@{/dyning/details(dno=1)}">/dyning/restaurant/details(dno=1)</a></td>
+            </tr>
+            <tr>
+                <td ><a th:href="@{/crossroad/dyning/restaurant}">/crossroad/dyning/restaurant</a></td>
+            </tr>
+        </table>
+ 
     </th:block>
 </th:block>

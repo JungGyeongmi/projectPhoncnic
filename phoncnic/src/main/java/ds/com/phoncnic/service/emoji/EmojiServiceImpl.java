@@ -28,6 +28,11 @@ public class EmojiServiceImpl implements EmojiService {
         return dyningemoji.getEno();
     }
 
+    @Override
+    public String getEmojiTyoeByUserId (String id, Long gno) {
+        return emojiRepository.getEmojiTypeByIdAndGno(id, gno);
+    }
+
     @Transactional
     @Override
     public Long[][] galleryEmojiRegiter(EmojiDTO emojiDTO) {
@@ -35,12 +40,18 @@ public class EmojiServiceImpl implements EmojiService {
         String id = emojiDTO.getId();
         Long gno = emojiDTO.getGno();
         String emojiType = emojiDTO.getEmojitype();
-
         Emoji galleryEmoji = Emoji.builder().build();
-
         // 0 eno 1 type 2 boolean
-        Object[] checker = emojiRepository.existsByMemberIdANDGno(gno, id).get(0);
+        List<Object[]> checkerList = emojiRepository.existsByMemberIdANDGno(gno, id);
 
+        if(checkerList.isEmpty()){
+            log.info("checkerList--");
+            Emoji emoji = dtoToEntity(emojiDTO);
+            emojiRepository.save(emoji);
+            return getEmojiCountArrayByGno(emoji.getGallery().getGno());
+        }
+
+        Object[] checker = emojiRepository.existsByMemberIdANDGno(gno, id).get(0);
         if (!(boolean) checker[2]) {
             galleryEmoji = dtoToEntity(emojiDTO);
             emojiRepository.save(galleryEmoji);
@@ -54,6 +65,8 @@ public class EmojiServiceImpl implements EmojiService {
             galleryEmoji = dtoToEntity(emojiDTO);
             emojiRepository.save(galleryEmoji);
             log.info("update eno...." + galleryEmoji.getEno());
+        }else{
+
         }
         return getEmojiCountArrayByGno(gno);
     }

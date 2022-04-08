@@ -152,6 +152,9 @@ public class EmojiRepositoryTests {
     }
 
  
-
+    @Test
+    public void testEmojiType() {
+        System.out.println(emojiRepository.getEmojiTypeByIdAndGno("gm950715@gmail.com", 23L));
+    }
 
 }

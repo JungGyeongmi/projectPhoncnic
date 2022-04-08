@@ -1,6 +1,5 @@
 package ds.com.phoncnic.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -15,7 +14,6 @@ import ds.com.phoncnic.security.handler.ApiLoginFailHandler;
 import ds.com.phoncnic.security.handler.CustomAccessDeniedHandler;
 import ds.com.phoncnic.security.handler.CustomLoginSuccessHandler;
 import ds.com.phoncnic.security.handler.CustomLogoutSuccessHandler;
-import ds.com.phoncnic.security.service.MemberDetailsService;
 import ds.com.phoncnic.security.util.JWTUtil;
 import lombok.extern.log4j.Log4j2;
 
@@ -24,9 +22,6 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-  
-  @Autowired
-  private MemberDetailsService memberDetailsService;
   
   @Bean
   CustomAccessDeniedHandler accessDeniedHandler(){
@@ -75,6 +70,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     http.exceptionHandling().accessDeniedHandler(accessDeniedHandler());
     
     http.authorizeRequests()
+    .antMatchers("/admin/**/**").hasRole("ADMIN")
     .antMatchers("/manage/rolechoice", "/main/mypage", "/lookmodal/lookmodify").authenticated()
     .antMatchers("/manage/dyning/**/**").hasAnyRole("CEO", "ADMIN")
     .antMatchers("/manage/gallery/**").hasAnyRole("ARTIST", "ADMIN")
@@ -83,7 +79,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     // OAuth2UserDetailsService 로그인 handler :: social의 login
     http.oauth2Login().loginPage("/member/login").successHandler(loginSuccessHandler());
     // logout
-    http.logout().logoutUrl("/member/logout").invalidateHttpSession(true).deleteCookies("JSESSIONID").logoutSuccessHandler(logoutSuccessHandler());
+    http.logout().logoutUrl("/member/logout").invalidateHttpSession(true).deleteCookies("JSESSIONID")
+    // .logoutSuccessHandler(logoutSuccessHandler())
+    .logoutSuccessUrl("/");
     
     // remember 
     // http.rememberMe().tokenValiditySeconds(60*60*24*7).userDetailsService((UserDetailsService) memberDetailsService);
