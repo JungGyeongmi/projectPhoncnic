@@ -37,13 +37,11 @@ public class MemberRepositoryTests {
                     .nickname("test" + i)
                     .build();
 
-                    member.addMemberRole(AuthorityRole.USER);
-                    
-                    if(i > 10) {
+                    if (i <= 10) {
+                        member.addMemberRole(AuthorityRole.USER);
+                    } else if(i < 20) {
                         member.addMemberRole(AuthorityRole.ARTIST);
-                    }
-
-                    if(i > 20) {
+                    } else {
                         member.addMemberRole(AuthorityRole.CEO);
                     }
 
