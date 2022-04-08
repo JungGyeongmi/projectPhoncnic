@@ -609,8 +609,6 @@
             $(document).on("click", ".search-result-Item", function (e) {
                var targetGno = $(this).closest("div").data("searchGno");
                var targetFile = $(this).closest("div").data("searchFile");
-               // alert(targetGno);
-               // alert(targetFile);
                $("#curatorModal").modal("hide");
                $("#detailsModal").modal("show");
                showdetailsModal(targetGno, targetFile);
