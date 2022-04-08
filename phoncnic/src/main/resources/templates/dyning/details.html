@@ -22,6 +22,11 @@
         height: 25px;
     }
 
+    #map {
+        max-width: -webkit-fill-available;
+    }
+
+
     #followBtn {
         border: none;
         border-radius: 30px;
@@ -107,8 +112,7 @@
                                 </div>
                             </th:block>
                         </div>
-                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade"
-                            data-bs-slide="prev">
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                             <span class="visually-hidden">Previous</span>
                         </button>
@@ -126,8 +130,7 @@
                         <div class="card-header">
                             <ul class="nav nav-tabs card-header-tabs">
                                 <li class="nav-item" id="dyningInfo">
-                                    <a class="nav-link active" data-bs-toggle="tab" aria-current="true"
-                                        href="#info">가게정보</a>
+                                    <a class="nav-link active" data-bs-toggle="tab" aria-current="true" href="#info">가게정보</a>
                                 </li>
                                 <li class="nav-item" id="mapNav">
                                     <a class="nav-link" data-bs-toggle="tab" href="#mapView">지도</a>
@@ -145,7 +148,6 @@
                                         <hr>
                                         <span class="card-text"><i class="fa-solid fa-location-dot"></i>
                                             [[${dto.location}]], [[${dto.locationdetails}]] </span>
-                                        <!-- <button type="button" class="mapViewBtn">지도보기</button> -->
                                         <a href="#map" type="button" class="mapViewBtn">지도보기</a>
 
                                         <hr>
@@ -249,7 +251,6 @@
                 $(document).ready(function () {
                     // 지도 클릭시 지도 show
                     $('#mapNav').click(function () {
-
                         // display: none -> block으로 변경시 지도가 깨지는 현상이 생김
                         $('#mapView').show();
                         // 중심의 좌표 가져오기
@@ -282,11 +283,6 @@
 
                 //메뉴카드 슬라이드 
                 $(".carousel-item").eq(1).addClass("active");
-
-                //지도보기 클릭
-                // $(".mapViewBtn").on("click",function(){
-                //     location.href = $("#mapView");
-                // });
                 
                 for (i = 1; i < 6; i++) {
                     var imgsrc = $("#emoji" + i).val();
@@ -341,6 +337,7 @@
                         })
                     }
                 });
+
                 //이모지 제어
                 var eno = $("#eno").val();
                 var etype = $("#etype").val();
