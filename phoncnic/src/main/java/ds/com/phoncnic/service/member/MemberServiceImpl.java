@@ -54,14 +54,15 @@ public class MemberServiceImpl implements MemberService {
 
         log.info("MemberComeOn ....." + member);
         memberRepository.save(member);
-
+        
     }
 
     @Override
     public MemberDTO getMember(String id) {
+        log.info(id);
         Optional<Member> memberOptional = memberRepository.findById(id);
         Member member = memberOptional.get();
-
+        log.info("MemberComeOn ....." + member);
         return entityToDTO(member);
     }
 

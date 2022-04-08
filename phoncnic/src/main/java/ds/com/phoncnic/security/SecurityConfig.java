@@ -75,6 +75,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     http.exceptionHandling().accessDeniedHandler(accessDeniedHandler());
     
     http.authorizeRequests()
+    .antMatchers("/admin/**/**").hasRole("ADMIN")
     .antMatchers("/manage/rolechoice", "/main/mypage", "/lookmodal/lookmodify").authenticated()
     .antMatchers("/manage/dyning/**/**").hasAnyRole("CEO", "ADMIN")
     .antMatchers("/manage/gallery/**").hasAnyRole("ARTIST", "ADMIN")

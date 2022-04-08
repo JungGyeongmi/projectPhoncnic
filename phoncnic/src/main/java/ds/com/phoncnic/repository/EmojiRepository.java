@@ -67,6 +67,6 @@ public interface EmojiRepository extends JpaRepository<Emoji, Long> {
     Integer updateEmojiTypeByGnoAndMemberId(String type, Long gno, String id);
 
     @Modifying
-    @Query("SELECT e.eno, e.emojiInfo.emojitype, COUNT(e.member.id) > 0 FROM Emoji e WHERE e.gallery.gno = :gno AND e.member.id = :id")
+    @Query("SELECT e.eno, e.emojiInfo.emojitype, COUNT(e.member.id) > 0 FROM Emoji e WHERE e.gallery.gno = :gno AND e.member.id = :id group by e.eno ")
     List<Object[]> existsByMemberIdANDGno(Long gno, String id);
 }
