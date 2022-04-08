@@ -64,6 +64,8 @@ public class GalleryRestController {
         emojiDTO.setGno(gno);
         emojiDTO.setId(authMemberDTO.getId());
         Long[][] newEmojiCount = emojiService.galleryEmojiRegiter(emojiDTO);
+        log.info("ecwt1111");
+
         
         log.info("emoji Register....................emojiDTO:" + emojiDTO);
         log.info(Arrays.deepToString(newEmojiCount));

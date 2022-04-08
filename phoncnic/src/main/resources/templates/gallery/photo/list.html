@@ -599,6 +599,7 @@
                      console.log(response);
                   }, error: function (request, status, error) {
                      $(".emoji-cnt").css("color", "black");
+                     console.log(request, status, error);
                      swal("로그인 이후 이용해주세요");
                      // alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                   }
