@@ -35,7 +35,7 @@
         width: 63%;
         height: 537px;
         top: 156px;
-        left: 4px;
+        left: 23px;
     }
 
     .carousel-fade {
@@ -71,6 +71,13 @@
     .up> img {
         margin-right: 10px;
     }
+    #map {
+        width: 660px;
+        height: 470px;
+        background-color: grey;
+        overflow: hidden;
+    }
+
 </style>
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
 <th:block th:replace="~{layout/basic:: setContent(~{::content})}">
@@ -138,7 +145,8 @@
                                         <hr>
                                         <span class="card-text"><i class="fa-solid fa-location-dot"></i>
                                             [[${dto.location}]], [[${dto.locationdetails}]] </span>
-                                        <button type="button" class="mapViewBtn">지도보기</button>
+                                        <!-- <button type="button" class="mapViewBtn">지도보기</button> -->
+                                        <a href="#map" type="button" class="mapViewBtn">지도보기</a>
 
                                         <hr>
                                         <span class="card-text"><i class="fa-regular fa-clock"></i>
@@ -179,7 +187,6 @@
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="mapView">
-                                <a href="" id="mapp"></a>
                                     <div id="map"></div>
                             </div>
                         </div>
@@ -189,16 +196,6 @@
             <!-- 가게정보 카드 end -->
 
             <!-- 지도 API 버튼 -->
-            <style>
-                #map {
-                    width: 592px;
-                    height: 470px;
-                    background-color: grey;
-                    overflow: hidden;
-                }
-            </style>
-
-
             </body>
             <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 
@@ -252,6 +249,7 @@
                 $(document).ready(function () {
                     // 지도 클릭시 지도 show
                     $('#mapNav').click(function () {
+
                         // display: none -> block으로 변경시 지도가 깨지는 현상이 생김
                         $('#mapView').show();
                         // 중심의 좌표 가져오기
@@ -289,7 +287,7 @@
                 // $(".mapViewBtn").on("click",function(){
                 //     location.href = $("#mapView");
                 // });
-                //
+                
                 for (i = 1; i < 6; i++) {
                     var imgsrc = $("#emoji" + i).val();
                     $("#emojiimg" + i).attr("src", imgsrc);
@@ -447,7 +445,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Picture</h5>
+                        <h5 class="modal-title">Menu</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
                             name="btn-close"></button>
                     </div>
