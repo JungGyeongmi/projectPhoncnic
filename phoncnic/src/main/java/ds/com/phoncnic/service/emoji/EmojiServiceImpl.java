@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import ds.com.phoncnic.dto.EmojiDTO;
 import ds.com.phoncnic.entity.Emoji;
+import ds.com.phoncnic.entity.EmojiInfo;
+import ds.com.phoncnic.entity.Member;
 import ds.com.phoncnic.repository.EmojiRepository;
 import lombok.extern.log4j.Log4j2;
 
@@ -35,12 +37,18 @@ public class EmojiServiceImpl implements EmojiService {
         String id = emojiDTO.getId();
         Long gno = emojiDTO.getGno();
         String emojiType = emojiDTO.getEmojitype();
-
         Emoji galleryEmoji = Emoji.builder().build();
-
         // 0 eno 1 type 2 boolean
-        Object[] checker = emojiRepository.existsByMemberIdANDGno(gno, id).get(0);
+        List<Object[]> checkerList = emojiRepository.existsByMemberIdANDGno(gno, id);
 
+        if(checkerList.isEmpty()){
+            log.info("checkerList--");
+            Emoji emoji = dtoToEntity(emojiDTO);
+            emojiRepository.save(emoji);
+            return getEmojiCountArrayByGno(emoji.getGallery().getGno());
+        }
+
+        Object[] checker = emojiRepository.existsByMemberIdANDGno(gno, id).get(0);
         if (!(boolean) checker[2]) {
             galleryEmoji = dtoToEntity(emojiDTO);
             emojiRepository.save(galleryEmoji);
@@ -54,6 +62,8 @@ public class EmojiServiceImpl implements EmojiService {
             galleryEmoji = dtoToEntity(emojiDTO);
             emojiRepository.save(galleryEmoji);
             log.info("update eno...." + galleryEmoji.getEno());
+        }else{
+
         }
         return getEmojiCountArrayByGno(gno);
     }

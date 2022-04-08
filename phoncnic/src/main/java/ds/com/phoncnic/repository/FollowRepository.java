@@ -34,7 +34,7 @@ public interface FollowRepository extends JpaRepository<Follow, Long> {
     void deleteByMemberId(String id);
 
     @Modifying
-    @Query("SELECT f.fno, f.artistname, f.follower.id, count(f.follower.id) > 0 FROM Follow f WHERE f.artistname = :artistname AND f.follower.id = :id group by f.fno" )
+    @Query("SELECT f.fno, f.artistname, f.follower.id, count(f.follower.id) > 0 FROM Follow f WHERE f.artistname = :artistname AND f.follower.id = :id group by fno" )
     List<Object[]> getFollowArtist(String id, String artistname);
 
     @Modifying
