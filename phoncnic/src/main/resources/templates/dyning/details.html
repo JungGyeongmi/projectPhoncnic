@@ -19,19 +19,23 @@
         font-size: 15px;
         width: 79px;
         color: black;
-        height: 29px;
+        height: 25px;
     }
 
     #followBtn {
-        border: 1px solid #dbe9b7;
+        border: none;
         border-radius: 30px;
-        width: 118px;
+        width: 100px;
+        height: 31px;
+        font-size: 16px;
+        margin-top: 10px;
     }
 
     .info.card {
-        width: 60%;
+        width: 63%;
         height: 537px;
         top: 156px;
+        left: 4px;
     }
 
     .carousel-fade {
@@ -39,20 +43,27 @@
         width: 400px;
         top: 156px;
         margin: 0;
-        left: 300px;
+        left: 390px;
         
     }
     /* .carousel-item > img {
     width:347px;
     height:540px;
-    } */
-
+    } 
+    */
     .carousel-control-prev {
         left: -61px !important;
     }
+
+    /* .carousel-inner > .carousel-item > img {
+      top: 0 !important;
+      left: 0 !important;
+      width: 100% !important;
+      min-height: 530px !important;
+    }  */
 </style>
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
-<th:block th:replace="~{layout/dyningDetails :: setContent(~{::content})}">
+<th:block th:replace="~{layout/basic:: setContent(~{::content})}">
     <th:block th:fragment="content">
         <div class="containerBox">
             <input type="hidden" name="" id="detaillocation" th:value="${result.location}">
@@ -94,7 +105,7 @@
                 <!-- 메뉴 카드 end -->
                 <!-- 가게정보 카드 -->
                 <div class="col">
-                    <div class="card text-center info" style="width: 75%;">
+                    <div class="card text-center info">
                         <div class="card-header">
                             <ul class="nav nav-tabs card-header-tabs">
                                 <li class="nav-item" id="dyningInfo">
@@ -117,9 +128,7 @@
                                         <hr>
                                         <span class="card-text"><i class="fa-solid fa-location-dot"></i>
                                             [[${dto.location}]], [[${dto.locationdetails}]] </span>
-                                        <a href="#mapView"><button type="button" class="mapViewBtn">지도보기</button></a>
-                                        <button type="button" class="mapViewBtn"><a href="#mapView">지도보기</a></button>
-                                        <a href="#cardBody">지도</a>
+                                        <button type="button" class="mapViewBtn">지도보기</button>
 
                                         <hr>
                                         <span class="card-text"><i class="fa-regular fa-clock"></i>
@@ -161,11 +170,8 @@
                             </div>
                             <div class="tab-pane fade" id="mapView">
                                 <a href="" id="mapp"></a>
-                                <div class="card-body" id="cardBody">
                                     <div id="map"></div>
-                                </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -175,9 +181,10 @@
             <!-- 지도 API 버튼 -->
             <style>
                 #map {
-                    width: 670px;
-                    height: 429px;
+                    width: 592px;
+                    height: 470px;
                     background-color: grey;
+                    overflow: hidden;
                 }
             </style>
 
@@ -249,6 +256,10 @@
                     $('#dyningInfo').click(function () {
                         $('#mapView').hide();
                     });
+
+                    $(".mapViewBtn").click(function(){
+                        $("#mapview").show();
+                    });
                 });
             </script>
             </tr>
@@ -281,7 +292,7 @@
                 //팔로우 제어
                 var fno = $('#followBtn');
                 if (fno.val() != "" && hasid != "") {
-                    fno.html('언팔로우');
+                    fno.html('<i class="bi bi-dash-circle"></i> 언팔로우');
                     fno.css("color", "red");
                 }
                 $('#followBtn').on("click", function () {
