@@ -36,7 +36,7 @@
 
          .swiper {
             width: 95%;
-            margin-top: 10px;
+            margin-top: 90px;
             margin-bottom: 120px;
          }
 
@@ -44,7 +44,7 @@
             background-position: center;
             background-size: cover;
             width: 300px;
-            height: 350px;
+            height: 470px;
          }
 
          .swiper-slide img {
@@ -127,9 +127,8 @@
 
          .speech-bubble {
             position: absolute;
-            position: absolute;
-            bottom: 270px;
-            left: 132px;
+            bottom: 62px;
+            left: 233px;
          }
 
          .drop_left {
@@ -186,10 +185,14 @@
          .lastslideBtns button {
             padding: 15px 45px;
          }
+
+         .swiper-button-prev,
+         .swiper-button-next {
+            color: lightgray;
+         }
       </style>
 
       <input name="loginUserId" type="hidden" th:value="${loginUserId}" />
-      <h1>사진전</h1>
       <div class="swiper mySwiper">
          <div class="swiper-wrapper">
             <div class="swiper-slide dtoData" th:each="dto : ${galleryDTOList}" th:data-gno="${dto.gno}"
@@ -223,7 +226,7 @@
             </ul>
             <div class="tangel_left"></div>
          </div>
-         <img id="curatorBtn" data-bs-toggle="modal" data-bs-target="#curatorModal" th:src="@{/icon/gurator.png}">
+         <img id="curatorBtn" data-bs-toggle="modal" data-bs-target="#curatorModal" th:src="@{/icon/gurator2.svg}">
       </div>
 
 
