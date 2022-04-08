@@ -50,9 +50,9 @@ public class CharacterLookRepositoryTests {
     @Test
      public void insertDummies() {
 
-        IntStream.rangeClosed(1, 10).forEach(i -> {
+        IntStream.rangeClosed(1, 30).forEach(i -> {
 
-            Member member = Member.builder().id("user" + i + "@icloud.com").build();
+            Member member = Member.builder().id("test" + i + "@gmail.com").build();
             CharacterLookInfo characterLookinfo = CharacterLookInfo.builder().chno(1L).build();
 
             CharacterLook characterLook = CharacterLook.builder()

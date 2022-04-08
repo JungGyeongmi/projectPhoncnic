@@ -47,26 +47,15 @@ public class DyningRepositoryTests {
 
         IntStream.rangeClosed(1, 10).forEach(i -> {
 
-            List<Integer> randmember = new ArrayList<>();
+            Member member = Member.builder().id("test" + (i+20) + "@gmail.com").build();
 
-            while (randmember.size() != 10) {
-                int inputrandomNumber = (int) (Math.random() * 10) + 1;
-                for (int k = 0; k < 10; k++) {
-                    if (!randmember.contains(inputrandomNumber)) {
-                        randmember.add(inputrandomNumber);
-                        break;
-                    }
-
-                }
-            }
-
-            Member member = Member.builder().id("user" + i + "@icloud.com").build();
-
+            // loof
             long roof = (long) (Math.random() * 5 + 1);
 
             RoofDesign roofDesign = RoofDesign.builder()
                     .oono(roof).build();
 
+            // dyning
             Dyning dyning = Dyning.builder()
                     .dyningname("가게이름" + i)
                     .comment("사장님 한 마디" + i)
@@ -96,10 +85,23 @@ public class DyningRepositoryTests {
                 dyningImageRepository.save(dyningImage);
             }
 
+            // emoji
+            List<Integer> randmember = new ArrayList<>();
+
+            while (randmember.size() != 10) {
+                int inputrandomNumber = (int) (Math.random() * 10) + 1;
+                for (int k = 0; k < 10; k++) {
+                    if (!randmember.contains(inputrandomNumber)) {
+                        randmember.add(inputrandomNumber);
+                        break;
+                    }
+                }
+            }
+
             int ra = (int) (Math.random() * 5) + 1;
 
             for (int j = 0; j < ra; j++) {
-                member = Member.builder().id("user" + randmember.get(j) + "@icloud.com")
+                member = Member.builder().id("test" + randmember.get(j) + "@gmail.com")
                         .build();
 
                 String emojiType = (int) (Math.random() * 4) + 1 + "";

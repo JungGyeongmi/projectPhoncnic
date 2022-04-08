@@ -40,61 +40,66 @@
 
                 var searchFunction = function () {
 
-                var id = $("input[name=id]").val();
+                    var id = $("input[name=id]").val();
 
-                $.ajax({
-                    type: "POST",
-                    url: searchUrl + "/" + id,
-                    contentType: "application/json",
-                    success: function (response) {
-                        var str = ""
-                        if(response.id==null) {
-                            str = `<div>검색결과를 찾을 수 없습니다.</div>`;
-                            searchResult.html(str);
-                            return true;
-                        } 
-                        str = `<form id="memberfrm" action="">
-                                        <table class="table" border="1">
-                                            <tr>
-                                                <th scope="col">아이디</th>
-                                                <th scope="col">닉네임</th>
-                                                <th scope="col">권한</th>
-                                                <th scope="col">가입일</th>
-                                                <th scope="col">수정</th>
-                                            </tr>
-                                            <tr>
-                                                <td><input type="text" value=${response.id} name="id" readonly></td>
-                                                <td><input type="text" value=${response.nickname} name="nickname"></td>
-                                                <td id="roleSetInfo" data-role-set="${response.roleSet}">
-                                                    <label for="ROLE_ADMIN">ROLE_ADMIN</label>&nbsp;
-                                                    <label for="ROLE_USER">ROLE_USER</label>&nbsp;
-                                                    <label for="ROLE_CEO">ROLE_CEO</label>&nbsp;
-                                                    <label for="ROLE_ARTIST">ROLE_ARTIST</label>
-                                                </td>
-                                                <td><input type="text" value=${response.regdate} readonly></td>
-                                                <td><button id="memberModifyBtn" type="button">수정</button></td>
-                                            </tr>
-                                        </table>
-                                        <input type="hidden" id="modirole" name="roleSet" vlaue="${response.roleSet}" />
-                                    </form>`
-
-                        searchResult.html(str);
-
-                        var roleSetData = response.roleSet;
-
-                        roleSetSelector();
-
-                        console.log("get user info success");
-                    },
-                    fail: function (response) {
-                        console.log(response);
-
-                    }, error: function (request, status, error) {
-                        console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
-
+                    if(id=="777") {
+                        searchResult.text("🎉이것이 권력의 맛이다🎉");
+                        return true;
                     }
-                });
-            }
+
+                    $.ajax({
+                        type: "POST",
+                        url: searchUrl + "/" + id,
+                        contentType: "application/json",
+                        success: function (response) {
+                            var str = ""
+                            if(response.id==null) {
+                                str = `<div>검색결과를 찾을 수 없습니다.</div>`;
+                                searchResult.html(str);
+                                return true;
+                            } 
+                            str = `<form id="memberfrm" action="">
+                                            <table class="table" border="1">
+                                                <tr>
+                                                    <th scope="col">아이디</th>
+                                                    <th scope="col">닉네임</th>
+                                                    <th scope="col">권한</th>
+                                                    <th scope="col">가입일</th>
+                                                    <th scope="col">수정</th>
+                                                </tr>
+                                                <tr>
+                                                    <td><input type="text" value=${response.id} name="id" readonly></td>
+                                                    <td><input type="text" value=${response.nickname} name="nickname"></td>
+                                                    <td id="roleSetInfo" data-role-set="${response.roleSet}">
+                                                        <label for="ROLE_ADMIN">ROLE_ADMIN</label>&nbsp;
+                                                        <label for="ROLE_USER">ROLE_USER</label>&nbsp;
+                                                        <label for="ROLE_CEO">ROLE_CEO</label>&nbsp;
+                                                        <label for="ROLE_ARTIST">ROLE_ARTIST</label>
+                                                    </td>
+                                                    <td><input type="text" value=${response.regdate} readonly></td>
+                                                    <td><button id="memberModifyBtn" type="button">수정</button></td>
+                                                </tr>
+                                            </table>
+                                            <input type="hidden" id="modirole" name="roleSet" vlaue="${response.roleSet}" />
+                                        </form>`
+
+                            searchResult.html(str);
+
+                            var roleSetData = response.roleSet;
+
+                            roleSetSelector();
+
+                            console.log("get user info success");
+                        },
+                        fail: function (response) {
+                            console.log(response);
+
+                        }, error: function (request, status, error) {
+                            console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+
+                        }
+                    });
+                }
             
                 var roleSetSelector = function () {
                     $("input[name=roleSet]").each(function (index, item) {
@@ -109,6 +114,7 @@
                         }
                     });
                 }
+                
                 $("#searchBtn").on("click", searchFunction);
                 
                 $("#raidoContainer input").on("change", function () {
