@@ -312,6 +312,7 @@
                var readUrl = [[@{/gallery/read}]];
                var emojiUrl = [[@{/gallery/emoji}]];
                var emojiaddUrl = [[@{/gallery/emoji/register}]];
+               var emojiCheckUrl = [[@{/gallery/emoji/check}]]
                var follow = [[@{/gallery/follow}]]
                var followRegister = [[@{/gallery/followRegister}]]               
                var urlDisplay = [[@{/display}]];
@@ -326,15 +327,11 @@
             var detailsModalbodyEmoji = $(".detail-modal-body2");
 
             var showdetailsModal = function (targetGno, targetFile) {
-<<<<<<< HEAD
                var Selectedtype = "";
                $.post(emojiCheckUrl + "/" + targetGno, function (result) {
                   Selectedtype = result;
                });
 
-=======
-            
->>>>>>> 37ddcf308c595b45f3831d91fd39555a99fc0495
                var artistname = "";
                $.getJSON(readUrl + "/" + targetGno, function (dto) {
 
@@ -385,7 +382,6 @@
                   </div>`;
 
                   detailsModalbodyEmoji.html(str);
-<<<<<<< HEAD
                   $("input[name=emojitype]").each(function () {
                      $(`label[for=${Selectedtype}]`).next().css("color", "black");
                   });
@@ -393,11 +389,6 @@
                   getJSONFollow(artistname);
                });
 
-=======
-
-                  getJSONFollow(artistname);
-               });
->>>>>>> 37ddcf308c595b45f3831d91fd39555a99fc0495
             }
 
             //팔로우 get 
@@ -598,6 +589,10 @@
 
             //이모지 등록/수정/삭제
             $(document).on("click", ".emoji", function () {
+               
+               
+               $(".emoji-cnt").css("color", "black");
+               
 
                var gno = $("input[name=gno]").val();
                var emojitype = $(".emoji:checked").val();
