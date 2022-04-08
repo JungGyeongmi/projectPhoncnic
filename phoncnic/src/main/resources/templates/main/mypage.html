@@ -140,8 +140,6 @@
 
             $("input[name=setname]").on("change", function () {
                 var checkedset = $(this).next().data('src');
-                console.log(checkedset);
-                console.log($(this).next().closest("#setimg"));
                 $("#checkedset").attr("src", checkedset);
             });
 
