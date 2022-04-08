@@ -72,10 +72,11 @@
         margin-right: 10px;
     }
     #map {
-        width: 660px;
+        width: 593px;
         height: 470px;
         background-color: grey;
         overflow: hidden;
+        max-width: -webkit-fill-available;
     }
 
 </style>
@@ -126,11 +127,10 @@
                         <div class="card-header">
                             <ul class="nav nav-tabs card-header-tabs">
                                 <li class="nav-item" id="dyningInfo">
-                                    <a class="nav-link active" data-bs-toggle="tab" aria-current="true"
-                                        href="#info">가게정보</a>
+                                    <a  id="detail-tab" class="nav-link active" data-bs-toggle="tab" aria-current="true" href="#info">가게정보</a>
                                 </li>
                                 <li class="nav-item" id="mapNav">
-                                    <a class="nav-link" data-bs-toggle="tab" href="#mapView">지도</a>
+                                    <a id="map-tab" class="nav-link" data-bs-toggle="tab" href="#mapView">지도</a>
                                 </li>
                             </ul>
                         </div>
@@ -249,7 +249,6 @@
                 $(document).ready(function () {
                     // 지도 클릭시 지도 show
                     $('#mapNav').click(function () {
-
                         // display: none -> block으로 변경시 지도가 깨지는 현상이 생김
                         $('#mapView').show();
                         // 중심의 좌표 가져오기
@@ -265,9 +264,19 @@
                         $('#mapView').hide();
                     });
 
-                    $(".mapViewBtn").click(function(){
-                        $("#mapview").show();
-                    });
+                    // class = active show
+                    $('.mapViewBtn').click(function () {     
+                    $('#info').removeClass("active");
+                    $('#info').removeClass("show");
+                
+                    $('#mapView').addClass("active");
+                    $('#mapView').addClass("show");
+
+                    $("#map-tab").click();
+                    $("#map-tab").addClass("active");
+                    $("#detail-tab").removeClass("active");
+                });
+
                 });
             </script>
         </div>
@@ -277,16 +286,11 @@
             $(document).ready(function (e) {
                 //배경화면 설정
                 var backgroundImg = $("#backImg").data("file");
-                console.log("백이미지" + backgroundImg);
                 $(".containerBox").css("background-image", "url(" + backgroundImg + ")");
 
                 //메뉴카드 슬라이드 
                 $(".carousel-item").eq(1).addClass("active");
 
-                //지도보기 클릭
-                // $(".mapViewBtn").on("click",function(){
-                //     location.href = $("#mapView");
-                // });
                 
                 for (i = 1; i < 6; i++) {
                     var imgsrc = $("#emoji" + i).val();
