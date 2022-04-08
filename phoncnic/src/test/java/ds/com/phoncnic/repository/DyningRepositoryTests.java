@@ -48,11 +48,8 @@ public class DyningRepositoryTests {
         IntStream.rangeClosed(1, 10).forEach(i -> {
 
             String[] randomImageBasic = {
-                "34058fc8-5d8b-403f-878b-4e95b2c264bb",
-                "7fd1e6bb-3e6b-4488-8260-1d4c3ad36747",
-                "b32cbeb3-adec-455a-a270-ec6831e75d29",
-                "e9314e57-992a-46c3-909a-0f0dca7f4b08",
-                "b7d375be-c025-4ab4-a0f9-2eca87cb7a94",
+                "061edec9-4bac-460a-93e6-d6c41b5b8abb",
+                "017a59ec-da2e-47ec-b542-c1f98e88a1bc",
             };
 
             Member member = Member.builder().id("test" + (i+20) + "@gmail.com").build();
@@ -82,10 +79,10 @@ public class DyningRepositoryTests {
             for (int j = 0; j < Math.random() * 3; j++) {
                 DyningImage dyningImage = DyningImage.builder()
                         .menuimagename(j + "menuimagename.jpg")
-                        .menuimageuuid(randomImageBasic[(int)Math.random()*5])
-                        .menuimagepath("2022\\04\\08")
+                        .menuimageuuid(randomImageBasic[(int)Math.random()*2])
+                        .menuimagepath("2022\\04\\01")
                         .backgroundname(j + "backgroundname.jpg")
-                        .backgrounduuid(randomImageBasic[(int)Math.random()*5])
+                        .backgrounduuid(randomImageBasic[(int)Math.random()*2])
                         .backgroundpath("backgroundpath" + j)
                         .dyning(dyning)
                         .build();
