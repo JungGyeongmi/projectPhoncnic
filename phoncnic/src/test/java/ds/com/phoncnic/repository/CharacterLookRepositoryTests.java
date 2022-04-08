@@ -6,9 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import ds.com.phoncnic.entity.CharacterLook;
 import ds.com.phoncnic.entity.CharacterLookInfo;
-import ds.com.phoncnic.entity.Member;
 
 @SpringBootTest
 public class CharacterLookRepositoryTests {
@@ -47,34 +45,24 @@ public class CharacterLookRepositoryTests {
     }
 
     // ChracterLook 더미
-    @Test
-     public void insertDummies() {
+    // @Test
+    //  public void insertDummies() {
 
-        IntStream.rangeClosed(1, 10).forEach(i -> {
+    //     IntStream.rangeClosed(1, 10).forEach(i -> {
 
-            Member member = Member.builder().id("user" + i + "@icloud.com").build();
-            CharacterLookInfo characterLookinfo = CharacterLookInfo.builder().chno(1L).build();
+    //         Member member = Member.builder().id("user" + i + "@icloud.com").build();
+    //         CharacterLookInfo characterLookinfo = CharacterLookInfo.builder().chno(43L).build();
 
-            CharacterLook characterLook = CharacterLook.builder()
-                    .member(member)
-                    .characterLookinfo(characterLookinfo)
-                    .hairname("hair" + 1)
-                    .clothesname("clothes" + 1)
-                    .build();
+    //         CharacterLook characterLook = CharacterLook.builder()
+    //                 .member(member)
+    //                 .characterLookinfo(characterLookinfo)
+    //                 .hairname("hair" + 1)
+    //                 .clothesname("clothes" + 1)
+    //                 .build();
 
-            repository.save(characterLook);
-        });
-    }
+    //         repository.save(characterLook);
+    //     });
+    // }
 
-    @Test
-    public void TestGetCharacterLook() {
 
-        CharacterLookInfo result = characterLookInforepository.getHair("user1@icloud.com");
-        System.out.println(result.getHairname());
-        System.out.println(result.getHairpath());
-        CharacterLookInfo result2 = characterLookInforepository.getClothes("user1@icloud.com");
-        System.out.println(result2.getClothesname());
-        System.out.println(result2.getClothespath());
-
-    }
 }

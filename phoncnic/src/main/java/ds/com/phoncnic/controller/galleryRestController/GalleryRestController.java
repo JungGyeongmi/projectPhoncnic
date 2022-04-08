@@ -58,7 +58,7 @@ public class GalleryRestController {
     }
 
     // Emoji insert/update/remove
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/emoji/register/{gno}")
     public ResponseEntity<Long[][]> emojiRegister(@RequestBody EmojiDTO emojiDTO, @PathVariable("gno") Long gno, @AuthenticationPrincipal AuthMemberDTO authMemberDTO) {
         emojiDTO.setGno(gno);
@@ -72,23 +72,31 @@ public class GalleryRestController {
     }
     
     // 조회
-    @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping("follow/{artistname}")
-    public ResponseEntity<Long> follow(@PathVariable String artistname,  @AuthenticationPrincipal AuthMemberDTO authMemberDTO) {
-        
-        log.info("authMemberDTO"+authMemberDTO);
-        Long fno = followService.getGalleryFno(authMemberDTO.getId(), artistname);
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("follow/{artistname}/{loginUserId}")
+    public ResponseEntity<Long> follow(@PathVariable String artistname,  @PathVariable String loginUserId) {
+        log.info("gallery follow check ......");
+        Long fno = 0L;
+        if(loginUserId != null) {
+            fno = followService.getGalleryFno(loginUserId, artistname);
+        }
+        log.info("checked fno ..."+fno);
         return new ResponseEntity<>(fno, HttpStatus.OK);
     }
     
     // 등록 삭제
-    @PreAuthorize("hasRole('ROLE_USER')")
-    @PostMapping("followRegister/{artistname}")
-    public ResponseEntity<Object[]> followRegister(@RequestBody FollowDTO followDTO, @PathVariable String artistname, @AuthenticationPrincipal AuthMemberDTO authMemberDTO) {
-        followDTO.setFollowerid(authMemberDTO.getId());
-        Object[] follow = followService.galleryfollowRegister(followDTO);
-        log.info("follow Register followDTO:" +followDTO);
-        log.info("authMemberDTO"+authMemberDTO);
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("followRegister/{artistname}/{loginUserId}")
+    public ResponseEntity<Object[]> followRegister(@RequestBody FollowDTO followDTO, @PathVariable String artistname, @PathVariable String loginUserId) {
+        Object[] follow = null;
+
+        if (loginUserId!="") {
+            followDTO.setFollowerid(loginUserId);
+    
+            follow = followService.galleryfollowRegister(followDTO);
+            
+            log.info("follow Register followDTO:" +followDTO);
+        } 
         return new ResponseEntity<>(follow, HttpStatus.OK);
     }
 }

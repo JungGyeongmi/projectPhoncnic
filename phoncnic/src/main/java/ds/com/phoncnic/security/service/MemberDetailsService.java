@@ -29,7 +29,9 @@ public class MemberDetailsService implements UserDetailsService {
     Optional<Member> result= memberRepository.findByEmail(username);
 
     if(!result.isPresent()) {
-      throw new UsernameNotFoundException("Check Social");
+      log.info("from social : "+username+" is already join...");
+      
+      throw new UsernameNotFoundException("Check Social....");
     }
 
     Member member = result.get();
@@ -40,8 +42,7 @@ public class MemberDetailsService implements UserDetailsService {
       member.getId(),
       member.getNickname(),
       member.getRoleSet().stream().map(
-        role -> new SimpleGrantedAuthority("ROLE_"+role.name()))
-              .collect(Collectors.toSet())
+        role -> new SimpleGrantedAuthority("ROLE_"+role.name())).collect(Collectors.toSet())
     );
 
     return authMemberDTO;

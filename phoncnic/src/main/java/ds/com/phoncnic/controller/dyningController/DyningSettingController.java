@@ -84,15 +84,12 @@ public class DyningSettingController {
     @PostMapping("/register")
     public String register(DyningDTO dyningDTO, RedirectAttributes ra) {
         log.info("dyning register....."+dyningDTO);
-        Long dno = dyningService.register(dyningDTO);
-
-        ra.addFlashAttribute("dno",dno+"번째 가게 등록 왼료");
-
+        dyningService.register(dyningDTO);
         return "redirect:/manage/dyning/list?id="+dyningDTO.getId();
     }
 
     @PostMapping("/remove")
-    public String remove(@AuthenticationPrincipal AuthMemberDTO dto, Long dno) {
+    public String remove(@AuthenticationPrincipal AuthMemberDTO dto, Long dno, RedirectAttributes ra) {
         dyningService.removeWithImages(dno);
         return "redirect:/manage/dyning/list?id="+dto.getId();
     }

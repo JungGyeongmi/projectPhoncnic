@@ -4,11 +4,31 @@
 
     <!-- search toggle -->
     <th:block th:fragment="search">
-        <style>
-            .search-result-Item {
-                cursor: pointer;
-            }
-        </style>
+                <style>
+                    .md-serach-result {
+                        padding: 0 !important;
+                    }
+                
+                    .search-result-Item {
+                        cursor: pointer;
+                        list-style: none;
+                        padding-left: 20px;
+                        padding-top: 20px;
+                        padding-bottom: 20px;
+                    }
+                
+                    .search-result-Item:hover {
+                        background-color: #DBE9B7;
+                    }
+                
+                    #search-result-div {
+                        padding: 0 !important;
+                    }
+                
+                    hr {
+                        margin: 0;
+                    }
+                </style>
         <div class="border-end bg-white" id="sidebar-wrapper">
             <div class="sidebar-heading border-bottom bg-light">
                 <form class="d-flex search-form" th:action="@{/restaurant/toggle}" method="get">
@@ -25,7 +45,6 @@
                 <ul class="md-serach-result"></ul>
             </div>
         </div>
-
         <script th:inline="javascript">
             $(document).ready(function () {
                 /*[+
@@ -69,7 +88,7 @@
                                             <p>${dto.dyningname}</p>
                                             ${dto.hashtag}
                                         </div>
-                                    </li>`;
+                                    </li><hr>`;
                                 })
                                 searchResult.html(str);
                             } else {
@@ -116,43 +135,118 @@
             }
 
             #list1 {
-                margin: 20px;
+                margin: 50px;
                 width: 100px;
                 height: 100px;
                 display: inline-block;
             }
 
             #list2 {
-                margin: 20px;
-                padding-top: 250px;
+                margin: 50px;
+                padding-top: 50px;
                 width: 100px;
                 height: 100px;
                 display: inline-block;
             }
         </style>
-        <h1>cafe</h1>
+
+        <h3>cafe</h3>
         <div class="wrap">
             <ul class="dyning-list-ul">
-                <li id="list1" th:each="dto : ${result}" th:if="${dtoStat.count} <= ${dtoStat.size}/2">
-                    <div>
-                        <a th:href="@{/dyning/details(dno=${dto.dno},id=${id}) }">
-                            <img th:src="${dto.roofthumbnail}">
-                        </a>
+                <li id="list1" th:each="dto : ${result}" th:if="${dtoStat.count} <= ${dtoStat.size}/2 + 0.5">
+                    <div th:class="@{/dyning/details(dno=${dto.dno},id=${id}) }">
+                        <img class="dyningimg" th:src="${dto.roofthumbnail}" th:id="${dtoStat.count}">
                     </div>
                     [[${dto.dyningname}]]
                 </li>
             </ul>
+            <div th:each="hdto : ${hairDTO}">
+                <img type="hidden" id="charimg" class="look hairlook" th:src="${hdto.hairpath}" alt="">
+            </div>
             <ul class="dyning-list-ul">
-                <li id="list2" th:each="dto : ${result}" th:if="${dtoStat.count} > ${dtoStat.size}/2">
-                    <div>
-                        <a th:href="@{/dyning/details(dno=${dto.dno},id=${id}) }">
-                            <img th:src="${dto.roofthumbnail}">
-                        </a>
+                <li id="list2" th:each="dto : ${result}" th:if="${dtoStat.count} > ${dtoStat.size}/2 + 0.5">
+                    <div th:class="@{/dyning/details(dno=${dto.dno},id=${id}) }">
+                        <img class="dyningimg" th:src="${dto.roofthumbnail}" th:id="${dtoStat.count}">
                     </div>
                     [[${dto.dyningname}]]
                 </li>
             </ul>
         </div>
+        <style>
+            #charimg {
+                position: relative;
+                width: 100px;
+                height: 100px;
+                right: 0px;
+            }
+        </style>
+
+        <script>
+            $(".dyningimg").on("click", function (e) {
+                var src = $(this).parent().attr("class");
+                var src = $(this).parent().attr("id");
+                var top = e.target.offsetTop;
+                var left = e.target.offsetLeft;
+                console.log(src);
+                console.log(top, left);
+                // location.href=src;
+            });
+
+            (function () {
+
+                document.addEventListener("keydown", function (e) {
+                    let charimg = document.getElementById("charimg");
+                    let key = e.keyCode;
+                    let y = parseInt(charimg.style.top || 0, 10);
+                    let x = parseInt(charimg.style.left || 0, 10);
+                    if (key === 37 /* LEFT */) {
+                        charimg.style.left = x - 20 + "px";
+                    }
+                    if (key === 38 /* TOP */) {
+                        charimg.style.top = y - 20 + "px";
+                    }
+                    if (key === 39 /* RIGHT */) {
+                        charimg.style.left = x + 20 + "px";
+                    }
+                    if (key === 40 /* BOTTOM */) {
+                        charimg.style.top = y + 20 + "px";
+                    }
+                });
+
+
+                document.addEventListener("keyup", function (e) {
+                    let key = e.keyCode;
+
+                    if (key === 13 /* BOTTOM */) {
+                        var imgLength = $(".dyningimg").length;
+                        var chartop = charimg.offsetTop;
+                        var charleft = charimg.offsetLeft;
+                        console.log("캐릭터좌표" + chartop, charleft);
+
+                        for (i = 1; i <= imgLength; i++) {
+                            var targetTop = $("#" + i).offset().top;
+                            var targetLeft = $("#" + i).offset().left;
+                            var targetHref = $("#" + i).parent().attr('class');
+                            // console.log("캐릭터좌표"+chartop,charleft);
+                            console.log("타겟좌표" + targetTop, targetLeft, targetHref);
+
+                            if (targetTop - 30 < chartop && chartop < targetTop + 30 && targetLeft - 30 < charleft && charleft < targetLeft + 30) {
+                                location.href = targetHref;
+                            };
+                        }
+                    }
+                });
+            })();
+        </script>
+
+        <script th:inline="javascript">
+            // 방향키(37~40), space바(32)로 스크롤 이동 막기
+            window.addEventListener("keydown", function (e) {
+                if ([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+                    e.preventDefault();
+                }
+            }, false);
+        </script>
 
     </th:block>
 </th:block>

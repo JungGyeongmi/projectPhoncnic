@@ -1,7 +1,5 @@
 package ds.com.phoncnic.repository;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.stream.IntStream;
 
 import org.junit.jupiter.api.Test;
@@ -10,7 +8,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 
 import ds.com.phoncnic.dto.HelpDTO;
 import ds.com.phoncnic.entity.Help;
@@ -76,13 +73,5 @@ public class HelpRepositoryTests {
         System.out.println(helpService.register(helpDTO));
     }
 
-    @Test
-    public void testSearchPage() {
-
-        Pageable pageable = PageRequest.of(0, 10, Sort.by("qno").descending());
-        Page<Object[]> result = helpRepository.searchPage("t", "답변", pageable);
-        List<Object[]> helpList = result.getContent();
-        Object[] help = helpList.stream().toArray();
-        System.out.println(Arrays.deepToString(help));
-    }
+   
 }

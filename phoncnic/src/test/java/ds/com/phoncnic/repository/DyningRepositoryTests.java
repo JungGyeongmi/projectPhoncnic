@@ -1,7 +1,6 @@
 package ds.com.phoncnic.repository;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -12,9 +11,12 @@ import javax.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Commit;
 
-import ds.com.phoncnic.dto.DyningDTO;
 import ds.com.phoncnic.entity.Dyning;
 import ds.com.phoncnic.entity.DyningImage;
 import ds.com.phoncnic.entity.Emoji;
@@ -73,8 +75,8 @@ public class DyningRepositoryTests {
             Dyning dyning = Dyning.builder()
                     .dyningname("가게이름" + i)
                     .comment("사장님 한 마디" + i)
-                    .location("실제가게위치" + i)
-                    .locationdetails("1층")
+                    .location("부산 부산진구 중앙대로 668")
+                    .locationdetails("6층")
                     .foodtype(roof)
                     .tel("051-1234-1234")
                     .businesshours("영업시간" + i)
@@ -125,13 +127,13 @@ public class DyningRepositoryTests {
 
     }
 
-    // @Test
-    // public void Test2() {
-    // List<Dyning> result = dyningRepository.getStreetList();
-    // result.forEach(i -> {
-    // System.out.println(i);
-    // });
-    // }
+    @Test
+    public void Test2() {
+        // List<Dyning> result = dyningRepository.getStreetList();
+        // result.forEach(i -> {
+        //     System.out.println(i);
+        // });
+    }
 
     @Test
     public void Test4() {
@@ -143,27 +145,16 @@ public class DyningRepositoryTests {
 
     @Test
     public void testSearchPage() {
-        // Pageable pageable = PageRequest.of(0, 10, Sort.by("dno").descending().and(Sort.by("dyningname").ascending()));
-        // Page<Object[]> result = dyningRepository.searchPage("n", "1", pageable);
+        Pageable pageable = PageRequest.of(0, 10,
+                Sort.by("dno").descending().and(Sort.by("dyningname").ascending()));
+        Page<Object[]> result = dyningRepository.searchPage("n", "1", pageable);
+        System.out.println(result);
     }
 
     @Test
     public void testFollowereCount() {
-        Long followerCwt = dyningRepository.getDyningFollowerCount(1L);
-        System.out.println(followerCwt);
+        Long fCwt = dyningRepository.getDyningFollowerCount(1L);
+        System.out.println(fCwt);
     }
 
-    @Test
-    public void testt() {
-        List<Object[]> result = dyningRepository.getDyningDetails(1L);
-        System.out.println(Arrays.toString(result.get(1)));
-    }
-
-    @Transaction
-    @Test
-    public void testttt() {
-        DyningDTO result = dyningService.getDyningDetails(1L);
-        System.out.println(result);
-        System.out.println();
-    }
 }
