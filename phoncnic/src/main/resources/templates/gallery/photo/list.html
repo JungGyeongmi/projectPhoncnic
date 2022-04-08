@@ -376,10 +376,13 @@
                   </div>`;
 
                   detailsModalbodyEmoji.html(str);
-                  console.log(selectedtype);
+                  // console.log(selectedtype);
+                  getJSONFollow(artistname);
+
                   $("input[name=emojitype]").each(function () {
                      $(".emoji-cnt").css("color", "black");
                   });
+
                   if(selectedtype!=0) {
                      $(".emoji-cnt").eq(selectedtype-1).css("color", "red");
                   }
@@ -639,7 +642,6 @@
                </div>
                <div class="modal-body">
                   <form class="serach-form-container" id="modal-frm" th:action="@{/gallery/curator}" method="get">
-
                      <select name="type">
                         <option value="t" disabled selected>검색조건</option>
                         <option value="t">작품명</option>
@@ -697,7 +699,7 @@
                      <div class="detail-modal-body2">
                      </div>
                      <div class="detail-modal-body3">
-                        <input hidden type="text" id="fno" value="">
+                        <input type="hidden" id="fno" value="">
                      </div>
                   </div>
                   <div class="modal-footer">
