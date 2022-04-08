@@ -322,10 +322,7 @@
 
             var showdetailsModal = function (targetGno, targetFile) {
                var Selectedtype = "";
-               $.post(emojiCheckUrl + "/" + targetGno, function (result) {
-                  Selectedtype = result;
-               });
-
+               
                var artistname = "";
                $.getJSON(readUrl + "/" + targetGno, function (dto) {
                   $("#detailsModal .modal-title").html(`${dto.title}`);
@@ -373,10 +370,19 @@
                   <br/>
                   <input type="button" value="팔로우" id="followBtn">
                   </div>`;
+
                   detailsModalbodyEmoji.html(str);
+                  
                   $("input[name=emojitype]").each(function () {
                      $(`label[for=${Selectedtype}]`).next().css("color", "black");
                   });
+                  
+                  if (loginUserId!="" || loginUserId!=null){
+                     $.post(emojiCheckUrl + "/" + targetGno, function (result) {
+                        Selectedtype = result;
+                     });
+                  }
+
                   $(`label[for=${Selectedtype}]`).next().css("color", "red");
                   getJSONFollow(artistname);
                });
