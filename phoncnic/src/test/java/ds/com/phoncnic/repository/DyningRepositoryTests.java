@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Commit;
 
-import ds.com.phoncnic.dto.DyningDTO;
 import ds.com.phoncnic.entity.Dyning;
 import ds.com.phoncnic.entity.DyningImage;
 import ds.com.phoncnic.entity.Emoji;
@@ -160,11 +159,4 @@ public class DyningRepositoryTests {
         System.out.println(Arrays.toString(result.get(1)));
     }
 
-    @Transaction
-    @Test
-    public void testttt() {
-        DyningDTO result = dyningService.getDyningDetails(1L);
-        System.out.println(result);
-        System.out.println();
-    }
 }
