@@ -22,9 +22,13 @@ public interface EmojiService {
 
     List<EmojiDTO> getEmojiByGno(String type, Long no);
 
+    String getEmojiTyoeByUserId(String id, Long gno);
+
     Long getEmojitypeCwt(Long dno, String emojitype);
 
     void emojiRemove(Long eno);
+
+    Boolean checkExistEmoji(String id, Long gno);
 
     Emoji HaveEmoji(String id, Long dno);
 

@@ -4,12 +4,31 @@
 
     <!-- search toggle -->
     <th:block th:fragment="search">
-        <style>
-            .search-result-Item {
-                cursor: pointer;
-                list-style: none;
-            }
-        </style>
+                <style>
+                    .md-serach-result {
+                        padding: 0 !important;
+                    }
+                
+                    .search-result-Item {
+                        cursor: pointer;
+                        list-style: none;
+                        padding-left: 20px;
+                        padding-top: 20px;
+                        padding-bottom: 20px;
+                    }
+                
+                    .search-result-Item:hover {
+                        background-color: #DBE9B7;
+                    }
+                
+                    #search-result-div {
+                        padding: 0 !important;
+                    }
+                
+                    hr {
+                        margin: 0;
+                    }
+                </style>
         <div class="border-end bg-white" id="sidebar-wrapper">
             <div class="sidebar-heading border-bottom bg-light">
                 <form class="d-flex search-form" th:action="@{/restaurant/toggle}" method="get">
@@ -23,7 +42,6 @@
                 </form>
             </div>
             <div class="list-group list-group-flush">
-                <br>
                 <ul class="md-serach-result"></ul>
             </div>
         </div>
@@ -142,8 +160,8 @@
                     [[${dto.dyningname}]]
                 </li>
             </ul>
-            <div th:each="hdto : ${hairDTO}">
-                <img type="hidden" id="charimg" class="look hairlook" th:src="${hdto.hairpath}" alt="">
+            <div th:each="sdto : ${setDTO}">
+                <img type="hidden" id="charimg" class="look setlook" th:src="${sdto.setpath}" alt="">
             </div>
             <ul class="dyning-list-ul">
                 <li id="list2" th:each="dto : ${result}" th:if="${dtoStat.count} > ${dtoStat.size}/2 + 0.5">
@@ -157,8 +175,8 @@
         <style>
             #charimg {
                 position: relative;
-                width: 100px;
-                height: 100px;
+                width: 80px;
+                height: 112px;
                 right: 0px;
             }
         </style>

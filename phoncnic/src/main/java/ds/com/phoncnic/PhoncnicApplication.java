@@ -8,6 +8,7 @@ import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 
 @EnableJpaAuditing
 @SpringBootApplication
+@ComponentScan
 public class PhoncnicApplication {
 
 	public static void main(String[] args) {

@@ -51,7 +51,7 @@ public class EmojiRepositoryTests {
     @Test
     @Transactional
     public void testGetEmojiListByMember() {
-        List<Emoji> emojiList = emojiRepository.getEmojiByMember("user3@icloud.com");
+        List<Emoji> emojiList = emojiRepository.getEmojiByMember("test3@gmail.com");
 
         emojiList.stream().forEach(emoji -> {
             System.out.println(emojiService.entityToEmojiDTO(emoji));
@@ -61,7 +61,7 @@ public class EmojiRepositoryTests {
 
     @Test
     public void testgetEnonType() {
-        Emoji result = emojiRepository.getEnoAndType("user1@icloud.com", 13L);
+        Emoji result = emojiRepository.getEnoAndType("test1@gmail.com", 13L);
         System.out.println(result);
 
     }
@@ -147,31 +147,14 @@ public class EmojiRepositoryTests {
     @Test
     @Transactional
     public void testUpdateEmoji() {
-        Integer eno = emojiRepository.updateEmojiTypeByGnoAndMemberId("3", 28L, "user1@icloud.com");
+        Integer eno = emojiRepository.updateEmojiTypeByGnoAndMemberId("3", 28L, "test1@gmail.com");
         System.out.println(eno);
     }
 
+ 
     @Test
-    public void testExistsEmojiByMemberId() {
-        List<Object[]> result = emojiRepository.existsByMemberIdANDGno(10L, "user7@icloud.com");
-        System.out.println(Arrays.toString(result.get(0)));
+    public void testEmojiType() {
+        System.out.println(emojiRepository.getEmojiTypeByIdAndGno("gm950715@gmail.com", 23L));
     }
 
-    @Test
-    @Transactional
-    public void emojiServiceRegisterTest() {
-        
-        EmojiDTO emojiDTO = EmojiDTO.builder()
-        .id("user1@icloud.com")
-        .gno(44L)
-        .emojitype("3")
-        .build();
-
-        Long[][] emojicout1 = emojiService.getEmojiCountArrayByGno(emojiDTO.getGno());
-
-        Long[][] emojicout2 = emojiService.galleryEmojiRegiter(emojiDTO);
-        System.out.println(Arrays.deepToString(emojicout1));
-        System.out.println("_-------------------_");
-        System.out.println(Arrays.deepToString(emojicout2));
-    }
 }

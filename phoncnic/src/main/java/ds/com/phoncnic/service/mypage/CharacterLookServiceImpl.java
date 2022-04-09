@@ -28,14 +28,8 @@ public class CharacterLookServiceImpl implements CharacterLookService {
     private CharacterLookInfoRepository characterLookInfoRepository;
 
     @Override
-    public CharacterLookDTO getCharacterHair(String id) {
-        CharacterLookInfo characterLookinfo = repository.getHair(id);
-        return entityToDTO(characterLookinfo);
-    }
-
-    @Override
-    public CharacterLookDTO getCharacterClothes(String id) {
-        CharacterLookInfo characterLookinfo = repository.getClothes(id);
+    public CharacterLookDTO getCharacterSet(String id) {
+        CharacterLookInfo characterLookinfo = repository.getSet(id);
         return entityToDTO(characterLookinfo);
     }
 
@@ -46,9 +40,8 @@ public class CharacterLookServiceImpl implements CharacterLookService {
 
         if (result.isPresent()) {
             CharacterLook characterLook = result.get();
-
-            characterLook.changeHairname(dto.getHairname());
-            characterLook.changeClothesname(dto.getClothesname());
+            
+            characterLook.changeSetname(dto.getSetname());
 
             characterLookRepository.save(characterLook);
         }

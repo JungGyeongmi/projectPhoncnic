@@ -1,11 +1,8 @@
 package ds.com.phoncnic.repository;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
-
-import javax.transaction.Transactional;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,13 +21,13 @@ public class FollowRepositoryTests {
     // artist 팔로우 더미
     @Test
     public void insertArtistFollowDummies() {
-        IntStream.rangeClosed(1, 10).forEach(i -> {
+        IntStream.rangeClosed(1, 30).forEach(i -> {
 
             List<Integer> randmember = new ArrayList<>();
 
-            while (randmember.size() != 10) {
-                int inputrandomNumber = (int) (Math.random() * 10) + 1;
-                for (int k = 0; k < 10; k++) {
+            while (randmember.size() != 30) {
+                int inputrandomNumber = (int) (Math.random() * 30) + 1;
+                for (int k = 0; k < 30; k++) {
                     if (!randmember.contains(inputrandomNumber)) {
                         randmember.add(inputrandomNumber);
                         break;
@@ -40,8 +37,8 @@ public class FollowRepositoryTests {
 
             for (int j = 0; j < (int) (Math.random() * 5) + 1; j++) {
                 Follow follow = Follow.builder()
-                        .follower(Member.builder().id("user" + randmember.get(j) + "@icloud.com").build())
-                        .artistname("user" + i)
+                        .follower(Member.builder().id("test" + randmember.get(j) + "@gmail.com").build())
+                        .artistname("test" + i)
                         .build();
 
                 followRepository.save(follow);
@@ -53,13 +50,13 @@ public class FollowRepositoryTests {
     // dyning 팔로우 더미
     @Test
     public void insertDyningFollowDummies() {
-        IntStream.rangeClosed(1, 10).forEach(i -> {
+        IntStream.rangeClosed(1, 30).forEach(i -> {
 
             List<Integer> randmember = new ArrayList<>();
 
-            while (randmember.size() != 10) {
-                int inputrandomNumber = (int) (Math.random() * 10) + 1;
-                for (int k = 0; k < 10; k++) {
+            while (randmember.size() != 30) {
+                int inputrandomNumber = (int) (Math.random() * 30) + 1;
+                for (int k = 0; k < 30; k++) {
                     if (!randmember.contains(inputrandomNumber)) {
                         randmember.add(inputrandomNumber);
                         break;
@@ -69,7 +66,7 @@ public class FollowRepositoryTests {
 
             for (int j = 0; j < (int) (Math.random() * 5) + 1; j++) {
                 Follow follow = Follow.builder()
-                        .follower(Member.builder().id("user" + randmember.get(j) + "@icloud.com").build())
+                        .follower(Member.builder().id("test" + randmember.get(j) + "@gmail.com").build())
                         .dyningname("가게이름" + i)
                         .build();
 
@@ -77,10 +74,4 @@ public class FollowRepositoryTests {
             }
         });
     }
-
-   @Test
-   @Transactional
-   public void testFno(){
-       List<Object[]> fno = followRepository.getFollowArtist("user2@icloud.com", "user2");
-       System.out.println(Arrays.toString(fno.get(0)));   }
 }

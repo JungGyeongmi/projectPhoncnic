@@ -12,8 +12,8 @@ import ds.com.phoncnic.entity.Member;
 
 public interface MemberRepository extends JpaRepository<Member, String> {
     
-    @Query("select m from Member m where m.id = :id")
-    Member getMemberByMemberId(String id);
+    @Query("SELECT COUNT(m) > 0 FROM Member m WHERE m.id = :id")
+    Boolean getMemberByMemberId(String id);
 
     @Query("select COUNT(m) > 0 from Member m where m.nickname = :nickname")
     Boolean findByMemberNickName(String nickname);

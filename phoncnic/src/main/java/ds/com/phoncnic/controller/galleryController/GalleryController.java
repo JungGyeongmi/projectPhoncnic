@@ -36,20 +36,29 @@ public class GalleryController {
 
     // 사진전 상세페이지
     @GetMapping("/photo")
-    public String photo(PageRequestDTO pageRequestDTO, Model model, Long gno) {
+    public String photo(PageRequestDTO pageRequestDTO, Model model, Long gno, @AuthenticationPrincipal AuthMemberDTO authMemberDTO) {
         model.addAttribute("galleryDTOList", galleryService.getGalleryList(false));
         model.addAttribute("list", galleryService.getPhotoList(pageRequestDTO));
+        String loginUserId = "";
+        if(authMemberDTO != null) {
+            log.info(authMemberDTO);
+            loginUserId = authMemberDTO.getId();
+        }
+        model.addAttribute("loginUserId", loginUserId);
         return "gallery/photo/list";
     }
 
     // 그림전 상세페이지
     @GetMapping("/painting")
-    public String painting(PageRequestDTO pageRequestDTO, Model model, Long gno,
-            @AuthenticationPrincipal AuthMemberDTO authMemberDTO) {
+    public String painting(PageRequestDTO pageRequestDTO, Model model, Long gno, @AuthenticationPrincipal AuthMemberDTO authMemberDTO) {
         model.addAttribute("galleryDTOList", galleryService.getGalleryList(true));
         model.addAttribute("list", galleryService.getPaintingList(pageRequestDTO));
-        model.addAttribute("loginUserId", "user1@icloud.com");
-        log.info(authMemberDTO);
+        String loginUserId = "";
+        if(authMemberDTO != null) {
+            log.info(authMemberDTO);
+            loginUserId = authMemberDTO.getId();
+        }
+        model.addAttribute("loginUserId", loginUserId);
         return "gallery/painting/list";
     }
 }

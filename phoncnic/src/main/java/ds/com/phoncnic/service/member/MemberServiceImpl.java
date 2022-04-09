@@ -49,16 +49,20 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public void updateMemberDTO(MemberDTO memberDTO) {
         Member member = dtoToEntity(memberDTO);
+        log.info("update member DTO");
+        log.info(member);
 
-        memberRepository.save(member);
         log.info("MemberComeOn ....." + member);
-
+        memberRepository.save(member);
+        
     }
 
     @Override
     public MemberDTO getMember(String id) {
+        log.info(id);
         Optional<Member> memberOptional = memberRepository.findById(id);
         Member member = memberOptional.get();
+        log.info("MemberComeOn ....." + member);
         return entityToDTO(member);
     }
 
@@ -69,7 +73,9 @@ public class MemberServiceImpl implements MemberService {
         if (result.isPresent()) {
             Member member = result.get();
             member.changeNickname(dto.getNickname());
-            log.info("Memberrrrr" + member);
+
+            log.info("modify member by authMememberDTO ... " + member);
+
             memberRepository.save(member);
         }
     }
@@ -79,34 +85,52 @@ public class MemberServiceImpl implements MemberService {
     @Modifying
     public void remove(String id) {
         Optional<Member> result = memberRepository.findById(id);
-        log.info("dtoResult" + result);
+
+        log.info("get member by id for remove ..." + result);
+
         if (result.isPresent()) {
+            
             characterLookRepository.deleteByMemberId(id);
             followRepository.deleteByMemberId(id);
+            
             List<Dyning> dyninglist = dyningRepository.findByMemberId(id);
+
             for (Dyning dno : dyninglist)
                 emojiRepository.deleteByDno(dno.getDno());
 
             List<Gallery> gallerylist = galleryRepository.findByMemberId(id);
+            
             for (Gallery gno : gallerylist)
                 emojiRepository.deleteByGno(gno.getGno());
 
             List<Emoji> emojilist = emojiRepository.findByMemberId(id);
+           
             for (Emoji eno : emojilist)
                 emojiRepository.deleteByEno(eno.getEno());
+           
             log.info("dyninglist" + dyninglist);
             log.info("gallerylist" + gallerylist);
             log.info("emojilist" + emojilist);
+           
             Optional<Dyning> haveDyning = dyningRepository.findDyningByMemberId(id);
+           
             if (haveDyning.isPresent()) {
                 dyningImageRepository.deleteByDno(haveDyning.get().getDno());
                 log.info("---------dno deleted--------------");
             }
+
             dyningRepository.deleteByMemberId(id);
             galleryRepository.deleteByMemberId(id);
             helpRepository.deleteByMemberId(id);
-            log.info(memberRepository.findById(id));
+
+            log.info("get member by id for delete ...."+memberRepository.findById(id));
+
             memberRepository.deleteById(id);
         }
+    }
+
+    @Override
+    public Boolean checkMemberExist(String id) {
+        return memberRepository.getMemberByMemberId(id);
     }
 }

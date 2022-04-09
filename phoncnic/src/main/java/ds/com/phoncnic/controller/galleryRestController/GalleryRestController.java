@@ -42,9 +42,9 @@ public class GalleryRestController {
     @GetMapping("/curator")
     public ResponseEntity<PageResultDTO<GalleryDTO, Object[]>> getCuratorModal(SearchPageRequestDTO pageRequestDTO) {
         log.info("---------------get curator rest---------------");
-        
+
         PageResultDTO<GalleryDTO, Object[]> result = galleryService.getGalleryPage(pageRequestDTO);
-        
+
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -57,38 +57,71 @@ public class GalleryRestController {
         return new ResponseEntity<>(galleryDTO, HttpStatus.OK);
     }
 
-    // Emoji insert/update/remove
-    @PreAuthorize("hasRole('ROLE_USER')")
-    @PostMapping("/emoji/register/{gno}")
-    public ResponseEntity<Long[][]> emojiRegister(@RequestBody EmojiDTO emojiDTO, @PathVariable("gno") Long gno, @AuthenticationPrincipal AuthMemberDTO authMemberDTO) {
-        emojiDTO.setGno(gno);
-        emojiDTO.setId(authMemberDTO.getId());
-        Long[][] newEmojiCount = emojiService.galleryEmojiRegiter(emojiDTO);
+    // emoji check
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/emoji/check/{gno}")
+    public ResponseEntity<String> emojiChecker(@PathVariable("gno") Long gno,
+            @AuthenticationPrincipal AuthMemberDTO authMemberDTO) {
+
+        String type = emojiService.getEmojiTyoeByUserId(authMemberDTO.getId(), gno);
         
-        log.info("emoji Register....................emojiDTO:" + emojiDTO);
-        log.info(Arrays.deepToString(newEmojiCount));
-       
-        return new ResponseEntity<>(newEmojiCount, HttpStatus.OK);
+        log.info(type);
+        
+        if (type == null) {
+            type = "";
+        }
+
+        return new ResponseEntity<>(type, HttpStatus.OK);
     }
-    
-    // 조회
-    @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping("follow/{artistname}")
-    public ResponseEntity<Long> follow(@PathVariable String artistname,  @AuthenticationPrincipal AuthMemberDTO authMemberDTO) {
+
+    // Emoji insert/update/remove
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/emoji/register/{gno}")
+    public ResponseEntity<Object[]> emojiRegister(@RequestBody EmojiDTO emojiDTO, @PathVariable("gno") Long gno,
+            @AuthenticationPrincipal AuthMemberDTO authMemberDTO) {
         
-        log.info("authMemberDTO"+authMemberDTO);
-        Long fno = followService.getGalleryFno(authMemberDTO.getId(), artistname);
+      emojiDTO.setGno(gno);
+      emojiDTO.setId(authMemberDTO.getId());
+      
+      Object[] returnResult = new Object[2];
+      Long[][] newEmojiCount = emojiService.galleryEmojiRegiter(emojiDTO);
+      Boolean checker = emojiService.checkExistEmoji(authMemberDTO.getId(), gno);
+      
+      returnResult[0] = checker;
+      returnResult[1] = newEmojiCount;
+
+      log.info("emoji Register....................emojiDTO:" + emojiDTO);
+      log.info(Arrays.deepToString(newEmojiCount));
+
+      return new ResponseEntity<>(returnResult, HttpStatus.OK);
+    }
+
+    // 조회
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("follow/{artistname}")
+    public ResponseEntity<Long> follow(@PathVariable String artistname, @AuthenticationPrincipal AuthMemberDTO authMemberDTO) {
+        log.info("gallery follow check ......");
+        Long fno = 0L;
+        if (authMemberDTO.getId() != null) {
+            fno = followService.getGalleryFno(authMemberDTO.getId(), artistname);
+            log.info("fno come here" + fno);
+        }
+        log.info("checked fno ..." + fno);
         return new ResponseEntity<>(fno, HttpStatus.OK);
     }
-    
+
     // 등록 삭제
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("followRegister/{artistname}")
-    public ResponseEntity<Object[]> followRegister(@RequestBody FollowDTO followDTO, @PathVariable String artistname, @AuthenticationPrincipal AuthMemberDTO authMemberDTO) {
-        followDTO.setFollowerid(authMemberDTO.getId());
-        Object[] follow = followService.galleryfollowRegister(followDTO);
-        log.info("follow Register followDTO:" +followDTO);
-        log.info("authMemberDTO"+authMemberDTO);
+    public ResponseEntity<Object[]> followRegister(@RequestBody FollowDTO followDTO, @PathVariable String artistname,
+        @AuthenticationPrincipal AuthMemberDTO authMemberDTO) {
+        Object[] follow = null;
+
+        if (authMemberDTO.getId() != "") {
+            log.info("loginUserId:" + authMemberDTO.getId());
+            followDTO.setFollowerid(authMemberDTO.getId());
+            follow = followService.galleryfollowRegister(followDTO);
+        }
         return new ResponseEntity<>(follow, HttpStatus.OK);
     }
 }

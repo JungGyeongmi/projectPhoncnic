@@ -39,11 +39,11 @@ public class DyningController {
         model.addAttribute("result", dyningService.getCafeStreet());
 
         try {
-            model.addAttribute("id", dto.getId());
-            model.addAttribute("hairDTO", characterLookService.getCharacterHair(dto.getId()));
+            model.addAttribute("id",dto.getId());
+            model.addAttribute("setDTO", characterLookService.getCharacterSet(dto.getId()));
         } catch (NullPointerException e) {
-            model.addAttribute("id", "");
-            model.addAttribute("hairDTO", characterLookService.getCharacterHair("user10@icloud.com"));
+            model.addAttribute("id","");
+            model.addAttribute("setDTO", characterLookService.getCharacterSet("user10@icloud.com"));
         }
 
     }
@@ -52,11 +52,11 @@ public class DyningController {
     public void restaurant(Model model, @AuthenticationPrincipal AuthMemberDTO dto) {
         log.info("restaurant list.................");
         model.addAttribute("result", dyningService.getRestaurantStreet());
-        if (dto != null) {
-            model.addAttribute("id", dto.getId());
-            model.addAttribute("hairDTO", characterLookService.getCharacterHair(dto.getId()));
-        } else {
-            model.addAttribute("hairDTO", characterLookService.getCharacterHair("user10@icloud.com"));
+        if(dto!=null){
+            model.addAttribute("id",dto.getId());
+            model.addAttribute("setDTO", characterLookService.getCharacterSet(dto.getId()));
+        }else{
+            model.addAttribute("setDTO", characterLookService.getCharacterSet("user10@icloud.com"));
         }
 
     }
@@ -107,22 +107,22 @@ public class DyningController {
     }
 
     @GetMapping("/movingtest")
-    public String movingtest(Model model, @AuthenticationPrincipal AuthMemberDTO dto) {
-        if (dto != null) {
-            model.addAttribute("hairDTO", characterLookService.getCharacterHair(dto.getId()));
-        } else {
-            model.addAttribute("hairDTO", characterLookService.getCharacterHair("user10@icloud.com"));
+    public String movingtest(Model model,@AuthenticationPrincipal AuthMemberDTO dto) {
+        if(dto!=null){
+            model.addAttribute("setDTO", characterLookService.getCharacterSet(dto.getId()));
+        }else{
+            model.addAttribute("setDTO", characterLookService.getCharacterSet("user10@icloud.com"));
         }
 
         return "/dyning/movingtest";
     }
 
     @GetMapping("/movingtest2")
-    public String movingtest2(Model model, @AuthenticationPrincipal AuthMemberDTO dto) {
-        if (dto != null) {
-            model.addAttribute("hairDTO", characterLookService.getCharacterHair(dto.getId()));
-        } else {
-            model.addAttribute("hairDTO", characterLookService.getCharacterHair("user10@icloud.com"));
+    public String movingtest2(Model model,@AuthenticationPrincipal AuthMemberDTO dto) {
+        if(dto!=null){
+            model.addAttribute("setDTO", characterLookService.getCharacterSet(dto.getId()));
+        }else{
+            model.addAttribute("setDTO", characterLookService.getCharacterSet("user10@icloud.com"));
         }
         return "/dyning/movingtest2";
     }

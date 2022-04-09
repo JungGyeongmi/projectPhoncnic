@@ -9,6 +9,7 @@ import ds.com.phoncnic.entity.Member;
 import ds.com.phoncnic.security.dto.AuthMemberDTO;
 
 public interface MemberService {
+  Boolean checkMemberExist(String id);
   void updateMemberDTO(MemberDTO memberDTO);
   void modify2(AuthMemberDTO dto);
   void remove(String id);
@@ -22,13 +23,13 @@ public interface MemberService {
             new Function<String, AuthorityRole>() {
               @Override
               public AuthorityRole apply(String t) {
-                if (t.equals("ROLE_USER"))
+                if (t.equals("[ROLE_USER]"))
                   return AuthorityRole.USER;
-                else if (t.equals("ROLE_CEO"))
+                else if (t.equals("[ROLE_CEO]"))
                   return AuthorityRole.CEO;
-                else if (t.equals("ROLE_ARTIST"))
+                else if (t.equals("[ROLE_ARTIST]"))
                   return AuthorityRole.ARTIST;
-                else if (t.equals("ROLE_ADMIN"))
+                else if (t.equals("[ROLE_ADMIN]"))
                   return AuthorityRole.ADMIN;
                 else
                   return AuthorityRole.USER;

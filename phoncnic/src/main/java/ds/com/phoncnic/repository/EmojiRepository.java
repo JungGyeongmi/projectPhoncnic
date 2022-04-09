@@ -48,6 +48,9 @@ public interface EmojiRepository extends JpaRepository<Emoji, Long> {
             "GROUP BY e.gallery.gno, e.emojiInfo.emojitype ORDER BY 1, 2 ")
     List<Object[]> getEmojiCountByGno(Long gno);
 
+    @Query("SELECT e.emojiInfo.emojitype FROM Emoji e WHERE e.member.id= :id AND e.gallery.gno= :gno")
+    String getEmojiTypeByIdAndGno(String id, Long gno);
+
     @Query("SELECT e FROM Emoji e WHERE e.member.id=:id AND e.dyning.dno=:dno")
     Emoji getEnoAndType(String id, Long dno);
 
@@ -67,6 +70,6 @@ public interface EmojiRepository extends JpaRepository<Emoji, Long> {
     Integer updateEmojiTypeByGnoAndMemberId(String type, Long gno, String id);
 
     @Modifying
-    @Query("SELECT e.eno, e.emojiInfo.emojitype, COUNT(e.member.id) > 0 FROM Emoji e WHERE e.gallery.gno = :gno AND e.member.id = :id")
+    @Query("SELECT e.eno, e.emojiInfo.emojitype, COUNT(e.member.id) > 0 FROM Emoji e WHERE e.gallery.gno = :gno AND e.member.id = :id group by eno")
     List<Object[]> existsByMemberIdANDGno(Long gno, String id);
 }

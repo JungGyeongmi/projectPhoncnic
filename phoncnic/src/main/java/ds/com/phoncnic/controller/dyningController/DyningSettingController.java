@@ -84,7 +84,7 @@ public class DyningSettingController {
     @PostMapping("/register")
     public String register(DyningDTO dyningDTO, RedirectAttributes ra) {
         log.info("dyning register....."+dyningDTO);
-        Long dno = dyningService.register(dyningDTO);
+        dyningService.register(dyningDTO);
         return "redirect:/manage/dyning/list?id="+dyningDTO.getId();
     }
 
