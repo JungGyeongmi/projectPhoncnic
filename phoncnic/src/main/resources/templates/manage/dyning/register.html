@@ -4,10 +4,10 @@
   .containerBox {
     max-width: 650px;
     margin: 0 auto;
+    font-family: 'GmarketSansLight';
   }
   .my.btn {
-    background-color: #ced4da;
-    font-family: 'GmarketSansLight';
+    background-color: #e9ecef;
     margin:60px auto 60px auto;
   }
 
@@ -15,14 +15,35 @@
     background-color: #DBE9B7;
   }
 
+hr {
+  margin-top: 0 !important;
+  margin-bottom: 25px !important;
+  color: black !important;
+}
+
+.p-line{
+  margin-bottom: 0;
+  font-weight: bold;
+  color: black;
+
+}
+#roofChoice {
+  background-color: #e9ecef;
+}
+
+#roofChoice:hover {
+  background-color: #dbdde0;
+}
+
 </style>
 <th:block th:replace="~{layout/basic :: setContent(~{::content})}">
   <th:block th:fragment="content">
     <div class="containerBox">
       <div class="row">
-        <h3 class="pt-5" style="font-family: 'GmarketSansMedium';">
+        <h3 class="py-5" style="font-family: 'GmarketSansMedium';">
           <img th:src="@{/icon/vertical-line.png}" style="width:30px;" alt="">가게 등록
         </h3>
+        <p class="p-line">가게 상세</p> <hr>
         <form th:action="@{/manage/dyning/register}" th:method="post" id="form">
           <div class="col-12 py-3">
             <label for="" class="form-label">id</label>
@@ -66,6 +87,7 @@
           <label for="" class="form-label">해시태그
           <input type="text" name="hashtag" id="" class="form-control">
         </div>
+        <p class="p-line pt-2">이미지 업로드</p><hr>
         <div class="col-12 py-3">
           <label for="" class="form-label">메뉴 이미지 (중복 선택 가능)</label>
             <div class="form-group menuimage">
@@ -100,10 +122,10 @@
             </div>
 
           </div>  
+          <p class="p-line pt-2">지붕</p><hr>
           <div class="col-12">
-            <label for="">지붕 디자인</label> &nbsp;
             <input type="hidden" name="oono" id="roofdisign" value="">
-            <button type="button" id="roofChoice" class="btn btn-light btn-sm">
+            <button type="button" id="roofChoice" class="btn btn-lg">
               지붕 선택하기
             </button> 
             <br><img id="selectedroof" src="" alt="">

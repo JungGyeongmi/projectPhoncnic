@@ -1,9 +1,87 @@
 <!DOCTYPE html>
+<style>
+    .containerBox {
+        width: 1200px;
+        margin: 0 auto;
+        font-family: 'GmarketSansLight';
+    }
+
+    .title {
+        text-align: center;
+        padding: 70px 0;
+
+    }
+
+    .content-container {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+    }
+
+    .content {
+        width: 320px;
+        height: 385px;
+        background-color: #DBE9B7;
+        text-align: center;
+        border-radius: 8px;
+    }
+    .content-body{
+        padding: 44px;
+    }
+    .content-body > img {
+        margin: 0 auto;
+        width: 130px;
+    }
+    .content-container .content:first-child button {
+        height: 44px;
+        border: none;
+        width: 216px;
+        border-radius: 30px;
+        background-color: darkslateblue;
+        font-size: 19px;
+        color: white;        
+        padding: 10px;
+    }
+
+    .content-container .content:last-child button {
+        height: 44px;
+        border: none;
+        width: 216px;
+        border-radius: 30px;
+        background-color: orange;
+        font-size: 19px;
+        color: white;        
+        padding: 10px;
+    }
+
+    .content-container p{
+        font-size: 22px;
+        margin: 0px auto 32px auto;
+    }
+</style>
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
 <th:block th:replace="~{layout/basic :: setContent(~{::content})}">
     <th:block th:fragment="content">
-        <h1>Ceo OR Artist?</h1>
-        <a th:href="@{/manage/dyning/list}">사장 등록 및 관리</a><br />
-        <a th:href="@{/manage/gallery/register(id='user1@icloud.com')}">작가 등록 및 관리</a>
+        <div class="containerBox">
+            <div class="title">
+                <h2 style="font-family: 'GmarketSansmedium';"><img th:src="@{/icon/vertical-line.png}"style="width:30px;" alt="">등록 및 관리</h2>
+            </div>
+            <div class="content-container">
+                <div class="content">
+                    <div class="content-body">
+                        <img th:src="@{/icon/store.png}" alt="">
+                    </div>
+                    <p><b>사업자</b> 관리</p>
+                    <a th:href="@{/manage/dyning/list}"><button>등록 및 관리</button></a>
+                </div>
+                <div class="content">
+                    <div class="content-body">
+                        <img th:src="@{/icon/art.png}" alt="">
+                    </div>
+                    <p><b>작가</b> 관리</p>
+                    <a th:href="@{/manage/gallery/register(id='user1@icloud.com')}"><button>등록 및 관리</button></a>
+                </div>
+            </div>
+        </div>
     </th:block>
 </th:block>

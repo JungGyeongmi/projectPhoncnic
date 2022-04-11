@@ -4,10 +4,12 @@
   .containerBox {
     max-width: 650px;
     margin: 0 auto;
+    font-family: 'GmarketSansLight';
+
   }
 
   .my.btn {
-    background-color: #f5f4f4;
+    background-color: #e9ecef;
     font-family: 'GmarketSansLight';
     margin-right: 60px;
   }
@@ -21,14 +23,37 @@
     justify-content: center;
     padding: 59px;
   }
+
+  hr {
+  margin-top: 0 !important;
+  margin-bottom: 25px !important;
+  color: black !important;
+}
+
+.p-line{
+  margin-top: 60px;
+  margin-bottom: 0;
+  font-weight: bold;
+  color: black;
+
+}
+#roofChoice {
+  background-color: #e9ecef;
+}
+
+#roofChoice:hover {
+  background-color: #dbdde0;
+}
+
 </style>
 <th:block th:replace="~{layout/basic :: setContent(~{::content})}">
   <th:block th:fragment="content">
     <div class="containerBox">
       <div class="row">
-        <h3 class="pt-5" style="font-family: 'GmarketSansMedium';">
+        <h3 class="py-5" style="font-family: 'GmarketSansMedium';">
           <img th:src="@{/icon/vertical-line.png}" style="width:30px;" alt=""> 가게정보 수정
         </h3>
+        <p class="p-line">가게 상세</p> <hr>
         <form th:action="@{/manage/dyning/modify}" th:method="post" id="form">
           <div class="col-12 py-3">
             <label for="labelId" class="form-label">아이디</label>
@@ -76,6 +101,7 @@
             <label for="labelHashtag" class="form-label">해시태그</label>
             <input type="text" name="hashtag" th:value="${result.hashtag}" class="form-control" id="labelHashtag">
           </div>
+          <p class="p-line">이미지 업로드</p> <hr>
           <div class="col-12 py-3">
             <label for="" class="form-label">메뉴 이미지 (중복 선택 가능)</label>
             <div class="form-group menuimage">
@@ -130,8 +156,8 @@
               </ul>
             </div>
           </div>
+          <p class="p-line">지붕</p> <hr>
           <div class="col-12">
-            <label for="" class="form-label">지붕 디자인</label><br>
             <input type="hidden" name="oono" id="roofdisign" th:value="${result.oono}">
             <img id="selectedroof" th:src="${result.roofthumbnail}" alt=""> <br>
             <button type="button" id="roofChoice" class="btn btn-light btn-sm" style="margin-top: 15px;">
