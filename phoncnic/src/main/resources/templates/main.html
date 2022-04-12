@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{layout/basic :: setContent(~{::content})}">
+    <th:block th:fragment="content">
+  
+        <a th:href="@{/index}">인덱스(임시)</a>
+        <a th:href="@{/crossroad}">피크닉갈림길</a>
+        <a th:href="@{/manage/rolechoice}">등록갈림길</a>
+
+    
+        <button type="button" class="btn btn-primary" id="btncharacterlook" data-bs-toggle="modal" data-bs-target="#modalcharacterlook">캐룩</button>
+        </button>
+        
+        
+        <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+        <script th:inline="javascript">
+        
+            $(function (e) {
+        
+                // var radioset = $("#radioset").val();
+                // console.log(radioset);
+                // $('input:radio[name=setname]:input[value=' + radioset + ']').attr("checked", true);
+                
+                /*[+
+                    var lookModalUrl =  [[@{/character/lookmodal}]];
+                +]*/
+                
+                var modalBody = $(".character-modal-body");
+                // 모달제어
+                $("#btncharacterlook").on("click", function (e) {
+                    var str ='';
+                    $.get(lookModalUrl, function(result){
+                        str = `<form id="lookfrm" action="">
+                                    <input type="hidden" id="ids" name="id" th:value="${result[1]}">
+                                    <span th:each="${item} : ${result[0]}">
+                                        <input type="radio" name="setname" th:value="${item.setname}"><img th:src="${item.setpath}" id="setimg" alt="">
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    </span>
+                                    <div class="look">
+                                        <div th:each="${sdto} : ${result[3]}">
+                                            <img class="setlook newsetlook" th:src="${sdto.setpath}" alt="" id="checkedset">
+                                            <input type="hidden" id="radioset" th:value="${sdto.setname}">
+                                        </div>
+                                    </div>
+                                </form>`;
+                    });
+
+                    modalBody.html(str);
+                });
+
+                $("input[name=setname]").on("change", function () {
+                    var checkedset = $(this).next().attr('src');
+                    $("#checkedset").attr("src", checkedset);
+                });
+        
+        
+                document.querySelector("#lookModifyBtn").onclick = function () {
+                    var lookform = document.querySelector("#lookfrm");
+        
+                    if (!confirm("캐릭터의 옷을 변경하시겠습니까?")) {
+                        return;
+                    } else {
+                        var modifyUrl = `[[@{/lookmodal/lookmodify}]]`;
+                        lookform.setAttribute("action", modifyUrl);
+                        lookform.setAttribute("method", "post");
+                        lookform.submit();
+                        $("#modalcharacterlook").hide();
+        
+                    }
+                }
+            });
+        </script>
+        <style>
+            .newsetlook {
+                position: relative;
+                width: 100px;
+                height: 140px;
+            }
+        
+            #setimg {
+                width: 100px;
+                height: 140px;
+            }
+        </style>
+        <!-- 모달창 -->
+        <div class="character modal" tabindex="-1" id="modalcharacterlook">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">캐릭터 룩</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                            name="btn-close"></button>
+                    </div>
+                    <div class="modal-body character-modal-body">
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button id="lookModifyBtn" type="button" class="btn btn-primary">변경하기</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" name="btn-close">취소</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </th:block>
+</th:block>

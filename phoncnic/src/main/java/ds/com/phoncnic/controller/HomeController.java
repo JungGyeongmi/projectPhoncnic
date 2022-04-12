@@ -19,9 +19,14 @@ import lombok.extern.log4j.Log4j2;
 public class HomeController {
     private final CharacterLookService characterLookService;
 
+    @GetMapping("/index")
+    public void index() {
+        log.info("index..");
+    }
+
     @GetMapping({ "", "/" })
     public String home() {
-        return "index";
+        return "main";
     }
 
     @GetMapping("/crossroad")
