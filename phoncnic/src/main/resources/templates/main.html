@@ -2,13 +2,15 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <th:block th:replace="~{layout/basic :: setContent(~{::content})}">
     <th:block th:fragment="content">
-        <input type="text" th:value="${loginuserId}">
+        <input type="text" name="loginUserId" th:value="${loginuserId}" hidden>
+        
         <a th:href="@{/index}">인덱스(임시)</a>
         <a th:href="@{/crossroad}">피크닉갈림길</a>
         <a th:href="@{/manage/rolechoice}">등록갈림길</a>
 
-    
-        <button type="button" class="btn btn-primary" id="btncharacterlook" data-bs-toggle="modal" data-bs-target="#modalcharacterlook">캐룩</button>
+        <button type="button" class="btn " id="btncharacterlook" data-bs-toggle="modal" data-bs-target="#modalcharacterlook">
+            <img th:src="${avatar.setpath}" alt="🙄" width="100px">
+        </button>
         </button>
         
         
@@ -76,24 +78,25 @@
 
 
                 // 모달제어
-                $("#btncharacterlook").on("click", showLookModal);
+                if($("input[name=loginUserId]").val() != "") {
+                    $("#btncharacterlook").on("click", showLookModal);
 
-                $(document).on("change", "input[name=chalookInfo]", function () {
-                    var checkRaido = $(this).val();
-                    var checkedset = $(this).next().children("img").attr("src");
-                    $("#checkedset").attr("src", checkedset);
-                    $("input[name=setname]").val(checkRaido);
-                    $("input[name=setpath]").val(checkedset);
-                });
-        
-        
-                $(document).on("click", "#lookModifyBtn", function () {
-                    if (!confirm("캐릭터의 옷을 변경하시겠습니까?")) {
-                        return;
-                    } else {
-                        modifyLook();
-                    }
-                });
+                    $(document).on("change", "input[name=chalookInfo]", function () {
+                        var checkRaido = $(this).val();
+                        var checkedset = $(this).next().children("img").attr("src");
+                        $("#checkedset").attr("src", checkedset);
+                        $("input[name=setname]").val(checkRaido);
+                        $("input[name=setpath]").val(checkedset);
+                    });
+            
+                    $(document).on("click", "#lookModifyBtn", function () {
+                        if (!confirm("캐릭터의 옷을 변경하시겠습니까?")) {
+                            return;
+                        } else {
+                            modifyLook();
+                        }
+                    });
+                }
             });
         </script>
         <style>
@@ -118,7 +121,7 @@
                             name="btn-close"></button>
                     </div>
                     <div class="modal-body character-modal-body">
-                        
+                        <div>로그인 후 이용해주세요 </div>
                     </div>
                     <div class="modal-footer">
                         <button id="lookModifyBtn" type="button" class="btn btn-primary">변경하기</button>

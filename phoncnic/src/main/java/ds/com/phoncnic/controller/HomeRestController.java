@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ds.com.phoncnic.dto.CharacterLookDTO;
 import ds.com.phoncnic.security.dto.AuthMemberDTO;
-import ds.com.phoncnic.service.mypage.CharacterLookService;
+import ds.com.phoncnic.service.characterLook.CharacterLookService;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2

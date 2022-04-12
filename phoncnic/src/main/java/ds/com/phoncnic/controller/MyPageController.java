@@ -12,9 +12,9 @@ import ds.com.phoncnic.dto.CharacterLookDTO;
 import ds.com.phoncnic.dto.MemberDTO;
 import ds.com.phoncnic.security.dto.AuthMemberDTO;
 import ds.com.phoncnic.service.FollowService;
+import ds.com.phoncnic.service.characterLook.CharacterLookService;
 import ds.com.phoncnic.service.emoji.EmojiService;
 import ds.com.phoncnic.service.member.MemberService;
-import ds.com.phoncnic.service.mypage.CharacterLookService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 

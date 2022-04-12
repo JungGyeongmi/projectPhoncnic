@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import ds.com.phoncnic.dto.CharacterLookDTO;
 import ds.com.phoncnic.security.dto.AuthMemberDTO;
-import ds.com.phoncnic.service.mypage.CharacterLookService;
+import ds.com.phoncnic.service.characterLook.CharacterLookService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -17,19 +17,26 @@ import lombok.extern.log4j.Log4j2;
 @RequiredArgsConstructor
 @Log4j2
 public class HomeController {
+
     private final CharacterLookService characterLookService;
 
+    @GetMapping({ "", "/" })
+    public String home(@AuthenticationPrincipal AuthMemberDTO dto, Model model) {
+        if(dto != null) {
+            log.info("dto get id "+dto.getId());
+            model.addAttribute("loginuserId", dto.getId());
+            model.addAttribute("avartar", characterLookService.getCharacterSet(dto.getId()));
+        } else {
+            model.addAttribute("avatar", characterLookService.getDefaultAvatar(1L));
+        }
+        return "main";
+    }
+
     @GetMapping("/index")
-    public void index(@AuthenticationPrincipal AuthMemberDTO dto, Model model) {
-        log.info("dto get id "+dto.getId());
-        model.addAttribute("loginuserId", dto.getId()==null?"":dto.getId());
+    public void index() {
         log.info("index..");
     }
 
-    @GetMapping({ "", "/" })
-    public String home() {
-        return "main";
-    }
 
     @GetMapping("/crossroad")
     public String crossRoad() {
