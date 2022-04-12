@@ -2,7 +2,7 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <th:block th:replace="~{layout/basic :: setContent(~{::content})}">
     <th:block th:fragment="content">
-  
+        <input type="text" th:value="${loginuserId}">
         <a th:href="@{/index}">인덱스(임시)</a>
         <a th:href="@{/crossroad}">피크닉갈림길</a>
         <a th:href="@{/manage/rolechoice}">등록갈림길</a>
@@ -17,57 +17,83 @@
         
             $(function (e) {
         
-                // var radioset = $("#radioset").val();
-                // console.log(radioset);
-                // $('input:radio[name=setname]:input[value=' + radioset + ']').attr("checked", true);
-                
                 /*[+
                     var lookModalUrl =  [[@{/character/lookmodal}]];
+                    var lookModifyUrl = [[@{/character/lookmodify}]];
                 +]*/
-                
+
                 var modalBody = $(".character-modal-body");
-                // 모달제어
-                $("#btncharacterlook").on("click", function (e) {
+                var showLookModal = function (e) {
                     var str ='';
                     $.get(lookModalUrl, function(result){
-                        str = `<form id="lookfrm" action="">
-                                    <input type="hidden" id="ids" name="id" th:value="${result[1]}">
-                                    <span th:each="${item} : ${result[0]}">
-                                        <input type="radio" name="setname" th:value="${item.setname}"><img th:src="${item.setpath}" id="setimg" alt="">
-                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    </span>
-                                    <div class="look">
-                                        <div th:each="${sdto} : ${result[3]}">
-                                            <img class="setlook newsetlook" th:src="${sdto.setpath}" alt="" id="checkedset">
-                                            <input type="hidden" id="radioset" th:value="${sdto.setname}">
-                                        </div>
+                        console.log(result);
+                        $.each(result[0], function(index, item){
+                            str +=  `<span>
+                                        <input id="${index}${item.setname}" name="chalookInfo" type="radio" value="${item.setname}" hidden>
+                                        <label for="${index}${item.setname}">
+                                            <img src="${item.setpath}" id="setimg" alt="">
+                                        <lable>
+                                    </span>`
+                        });
+                                    
+                        str += `<form id="lookfrm" action="">
+                            <input type="hidden" name="id" value="${result[1]}">
+                            <input type="hidden" name="setname" value="${result[2].setname}">
+                            <input type="hidden" name="setpath" value="${result[2].setpath}">
+                            <div class="look">
+                                    <div>
+                                        <img class="setlook newsetlook" src="${result[2].setpath}" alt="" id="checkedset">
                                     </div>
-                                </form>`;
+                                </div>
+                            </form>`;
+                        modalBody.html(str);
+                        $('input:radio[name=setname]:input[value=' + result[2].setname + ']').attr("checked", true);
                     });
+                    console.log("get look modal success...");
+                }
 
-                    modalBody.html(str);
-                });
+                var modifyLook = function(){
+                    var setname = $("input[name=setname]").val();
+                    var setpath = $("input[name=setpath]").val();
+                    var data = {setname : setname, setpath: setpath};
+                    console.log(data);
+                    $.ajax({
+                        type: "post",
+                        url: lookModifyUrl,
+                        data: JSON.stringify(data),
+                        contentType: "application/json",
+                        success: function (response) {                    
+                            swal('success', "변경완료");
+                            console.log("update characterlook success");
+                        },
+                        fail: function (response) {
+                            console.log(response);
+                        }, error: function (request, status, error) {
+                            console.log(request);
+                        }
+                    });
+                }
 
-                $("input[name=setname]").on("change", function () {
-                    var checkedset = $(this).next().attr('src');
+
+                // 모달제어
+                $("#btncharacterlook").on("click", showLookModal);
+
+                $(document).on("change", "input[name=chalookInfo]", function () {
+                    var checkRaido = $(this).val();
+                    var checkedset = $(this).next().children("img").attr("src");
                     $("#checkedset").attr("src", checkedset);
+                    $("input[name=setname]").val(checkRaido);
+                    $("input[name=setpath]").val(checkedset);
                 });
         
         
-                document.querySelector("#lookModifyBtn").onclick = function () {
-                    var lookform = document.querySelector("#lookfrm");
-        
+                $(document).on("click", "#lookModifyBtn", function () {
                     if (!confirm("캐릭터의 옷을 변경하시겠습니까?")) {
                         return;
                     } else {
-                        var modifyUrl = `[[@{/lookmodal/lookmodify}]]`;
-                        lookform.setAttribute("action", modifyUrl);
-                        lookform.setAttribute("method", "post");
-                        lookform.submit();
-                        $("#modalcharacterlook").hide();
-        
+                        modifyLook();
                     }
-                }
+                });
             });
         </script>
         <style>

@@ -20,7 +20,9 @@ public class HomeController {
     private final CharacterLookService characterLookService;
 
     @GetMapping("/index")
-    public void index() {
+    public void index(@AuthenticationPrincipal AuthMemberDTO dto, Model model) {
+        log.info("dto get id "+dto.getId());
+        model.addAttribute("loginuserId", dto.getId()==null?"":dto.getId());
         log.info("index..");
     }
 
@@ -72,7 +74,7 @@ public class HomeController {
             model.addAttribute("setDTO", characterLookService.getCharacterSet(dto.getId()));
         } else{
             model.addAttribute("id","");
-            model.addAttribute("setDTO", characterLookService.getCharacterSet("user10@icloud.com"));
+            model.addAttribute("setDTO", characterLookService.getCharacterSet("test10@gmail.com"));
         }
         model.addAttribute("looklist", characterLookService.lookimageList());
         return "lookmodal";
