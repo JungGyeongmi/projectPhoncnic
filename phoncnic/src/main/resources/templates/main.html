@@ -14,7 +14,6 @@
         </button>
         
         
-        <script src="http://code.jquery.com/jquery-latest.min.js"></script>
         <script th:inline="javascript">
         
             $(function (e) {
@@ -66,7 +65,7 @@
                         contentType: "application/json",
                         success: function (response) {                    
                             swal('success', "변경완료");
-                            $("img #userAvatar").val(setpath);
+                            $("img #userAvatar").attr("src", setpath);
                             console.log("update characterlook success");
                         },
                         fail: function (response) {
