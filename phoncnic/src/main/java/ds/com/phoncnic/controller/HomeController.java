@@ -1,5 +1,7 @@
 package ds.com.phoncnic.controller;
 
+import java.util.Locale;
+
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -83,5 +85,11 @@ public class HomeController {
 
         return "redirect:/";
     }
+
+    @GetMapping("/websocket/chat")
+    public String chat(Locale locale, Model model) {
+        return "/websocket/chat";
+    }
+
 
 }

@@ -1,5 +1,7 @@
 package ds.com.phoncnic.controller.dyningController;
 
+import java.util.Locale;
+
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -130,6 +132,7 @@ public class DyningController {
         }
         return "/dyning/movingtest2";
     }
+
 
 
 }

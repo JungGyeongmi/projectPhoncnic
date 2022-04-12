@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<head>
+    <script src="/webjar/sockjs-client/sockjs.min.js"></script>
+    <script src="/webjar/jquery/jquery.min.js"></script>
+    <script src="/webjar/stomp-websocket/stomp.min.js"></script>
+    <link href="/webjar/bootstrap/css/bootstrap.min.js" rel="stylesheet">
+    <script>
+        function setConnected(connected) {
+            $("#connect").prop("disabled",connected);
+            $("#disconnect").prop("disabled",!connected);
+            if (connected) {
+                $("#conversation").show();
+            }else{
+                $("#conversation").hide();
+            }
+            $("#greetings").html("");
+        }
+
+    </script>
+</head>
+</html>
