@@ -191,9 +191,9 @@
             color: lightgray;
          }
       </style>
-      
+
       <input type="text" th:if="${loginUserId}" name="loginUserId" th:value="${loginUserId}">
-      
+
       <div class="swiper mySwiper">
          <div class="swiper-wrapper">
             <div class="swiper-slide dtoData" th:each="dto : ${galleryDTOList}" th:data-gno="${dto.gno}"
@@ -215,8 +215,9 @@
          <div class="swiper-button-next"></div>
       </div>
       <!-- 임시 정렬 -->
-      <div style="text-align:center;"> 
-         <button type="button" class="btn " id="btncharacterlook" data-bs-toggle="modal"data-bs-target="#modalcharacterlook">
+      <div style="text-align:center;">
+         <button type="button" class="btn " id="btncharacterlook" data-bs-toggle="modal"
+            data-bs-target="#modalcharacterlook">
             <img id="userAvatar" th:src="${avatar?.setpath}" alt="🙄" width="100px">
          </button>
       </div>
@@ -235,7 +236,7 @@
          </div>
          <img id="curatorBtn" data-bs-toggle="modal" data-bs-target="#curatorModal" th:src="@{/icon/gurator2.svg}">
       </div>
-      
+
       <!-- 규레이터 제어 스크립트 -->
       <script>
          $(function () {
@@ -289,7 +290,7 @@
          });
 
       </script>
-      
+
       <script th:inline="javascript">
          //관람끝내기(endBtn) / 맨 앞장으로가기(firstBtn)
 
@@ -439,39 +440,6 @@
             var searchForm = $("#modal-frm");
             var keyword = $("input[name=keyword]");
 
-            //팔로우 등록/ 삭제
-            $(document).on("click", "#followBtn", function () {
-
-               var artistname = $("#inputArtist").text();
-
-               console.log("artistaname : " + artistname);
-               var data = { artistname: artistname, followerid: loginUserId }
-               console.log(data);
-               $.ajax({
-                  type: "POST",
-                  url: followRegister + '/' + artistname,
-                  data: JSON.stringify(data),
-                  contentType: "application/json",
-                  dataType: "json",
-                  success: function (response) {
-                     console.log(response);
-                     if (!response[3]) {
-                        $("#followBtn").val("언팔로우");
-                     } else {
-                        $("#followBtn").val("팔로우");
-                     }
-                     console.log("update follow success");
-                  },
-                  fail: function (response) {
-                     console.log("fail");
-                     console.log(response);
-                  }, error: function (request, status, error) {
-                     swal("로그인 이후 이용해주세요");
-                     // console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
-                  }
-               });
-
-            });
 
             searchBtn.on("click", function (e) {
                getSearchList();
@@ -598,36 +566,77 @@
                });
             }
 
+
             //이모지 등록/수정/삭제
             $(document).on("click", ".emoji", function () {
-               var gno = $("input[name=gno]").val();
-               var emojitype = $(".emoji:checked").val();
-               var data = { emojitype: emojitype };
-               $.ajax({
-                  type: "post",
-                  url: emojiaddUrl + "/" + gno,
-                  data: JSON.stringify(data),
-                  contentType: "application/json",
-                  dataType: "json",
-                  success: function (response) {
-                     for (idx in response[1]) {
-                        $(".emoji-cnt").eq(idx).css("color", "black");
-                        $(".emoji-cnt").eq(idx).text(`${response[1][idx][1]}`);
-                     }
+               if ($("input[name=loginUserId]").val() != null) {
+                  var gno = $("input[name=gno]").val();
+                  var emojitype = $(".emoji:checked").val();
+                  var data = { emojitype: emojitype };
+                  $.ajax({
+                     type: "post",
+                     url: emojiaddUrl + "/" + gno,
+                     data: JSON.stringify(data),
+                     contentType: "application/json",
+                     dataType: "json",
+                     success: function (response) {
+                        for (idx in response[1]) {
+                           $(".emoji-cnt").eq(idx).css("color", "black");
+                           $(".emoji-cnt").eq(idx).text(`${response[1][idx][1]}`);
+                        }
 
-                     if (response[0]) {
-                        $(".emoji-cnt").eq(emojitype - 1).css("color", "red");
+                        if (response[0]) {
+                           $(".emoji-cnt").eq(emojitype - 1).css("color", "red");
+                        }
+                        console.log("update emoji success");
+                     },
+                     fail: function (response) {
+                        console.log(response);
+                     }, error: function (request, status, error) {
+                        $(".emoji-cnt").css("color", "black");
+                        // alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                      }
-                     console.log("update emoji success");
-                  },
-                  fail: function (response) {
-                     console.log(response);
-                  }, error: function (request, status, error) {
-                     $(".emoji-cnt").css("color", "black");
-                     swal("로그인 이후 이용해주세요");
-                     // alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
-                  }
-               });
+                  });
+
+               } else {
+                  swal("로그인", "로그인 이후 사용가능합니다.")
+               }
+            });
+
+            //팔로우 등록/ 삭제
+            $(document).on("click", "#followBtn", function () {
+               if ($("input[name=loginUserId]").val() != null) {
+
+                  var artistname = $("#inputArtist").text();
+
+                  console.log("artistaname : " + artistname);
+                  var data = { artistname: artistname, followerid: loginUserId }
+                  console.log(data);
+                  $.ajax({
+                     type: "POST",
+                     url: followRegister + '/' + artistname,
+                     data: JSON.stringify(data),
+                     contentType: "application/json",
+                     dataType: "json",
+                     success: function (response) {
+                        console.log(response);
+                        if (!response[3]) {
+                           $("#followBtn").val("언팔로우");
+                        } else {
+                           $("#followBtn").val("팔로우");
+                        }
+                        console.log("update follow success");
+                     },
+                     fail: function (response) {
+                        console.log("fail");
+                        console.log(response);
+                     }, error: function (request, status, error) {
+                        // console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                     }
+                  });
+               } else {
+                  swal("로그인", "로그인 이후 사용가능합니다.")
+               }
             });
 
             // 모달 창 내 search result 클릭 시 이동 제어
@@ -708,7 +717,7 @@
 
 
             // 모달제어
-            if ($("input[name=loginUserId]").val() != "" && $("input[name=loginUserId]").val() != null) {
+            if ($("input[name=loginUserId]").val() != null) {
 
                modalBody.html("잠시 기다려주세요 ... ");
 
