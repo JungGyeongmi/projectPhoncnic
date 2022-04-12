@@ -27,14 +27,14 @@
     .info.card {
         width: 63%;
         height: 537px;
-        top: 156px;
+        top: 145px;
         left: 4px;
     }
 
     .carousel-fade {
         height: 537px;
         width: 400px;
-        top: 156px;
+        top: 145px;
         margin: 0;
         left: 390px;
 
@@ -88,8 +88,22 @@
         margin: 23px auto 0 auto;
 }
 
-        
-    
+    .my.btn   {
+        background-color: #f5f4f4;
+        font-family: 'GmarketSansLight';
+        width: 100px;
+
+    }
+    .my.btn:hover {
+        background-color: #DBE9B7;
+    }
+    .BtnItems {
+        margin: 219px auto 0px auto;
+        width: 20%;
+        display: flex;
+        justify-content: space-evenly;
+    }
+
 
 </style>
 
@@ -151,7 +165,7 @@
                                 <div class="card-body">
                                     <th:block th:each="dto : ${result}">
                                         <input type="hidden" name="" id="dyningname" th:value="${dto.dyningname}">
-                                        <h4 class="card-title"><b>[[${dto.dyningname}]]</b></h4>
+                                        <h4 class="card-title" style="font-family: 'GmarketSansMedium';">[[${dto.dyningname}]]</h4>
                                         <div class="followEmojiBox">
                                             <span id="followBtn" type="button" th:value="${fno}">
                                                 <i class="bi bi-plus-circle-fill"></i>&nbsp&nbsp팔로우 <b>[[${result.followercwt}]]</b>
@@ -204,12 +218,12 @@
                 <input type="hidden" name="id" th:value="${result.id}">
                 <input type="hidden" name="dno" th:value="${result.dno}">
             </form>
-    
-            <button type="button" id="modifyBtn">수정</button>
-            <button type="button" id="removeBtn">삭제</button>
-            <a th:href="@{/manage/dyning/list(id=${result.id})}"><button type="button">목록</button></a>
-    
 
+            <div class="BtnItems">
+            <button class="btn my" type="button" id="modifyBtn">수정</button>
+            <button class="btn my" type="button" id="removeBtn">삭제</button>
+            <a class="btn my" th:href="@{/manage/dyning/list(id=${result.id})}" role="button">목록</a>
+            </div>
             <!-- 지도 API 버튼 -->
 
             </body>
@@ -307,7 +321,7 @@
 
                 //배경화면 설정
                 var backgroundImg = $("#backImg").data("file");
-                $(".containerBox").css("background-image", "url(" + backgroundImg + ")");
+                $(".d-flex").css("background-image", "url(" + backgroundImg + ")");
 
                 //메뉴카드 슬라이드 
                 $(".carousel-item").eq(1).addClass("active");
