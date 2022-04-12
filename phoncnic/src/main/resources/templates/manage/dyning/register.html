@@ -9,6 +9,10 @@
   .my.btn {
     background-color: #e9ecef;
     margin:60px auto 60px auto;
+    height: 57px;
+    border-radius: 13px;
+    font-weight: bold;
+    font-size: 22px;
   }
 
   .my.btn:hover {
@@ -46,7 +50,7 @@ hr {
         <p class="p-line">가게 상세</p> <hr>
         <form th:action="@{/manage/dyning/register}" th:method="post" id="form">
           <div class="col-12 py-3">
-            <label for="" class="form-label">id</label>
+            <label for="" class="form-label">아이디</label>
             <input type="text" name="id" th:value="${id}" class="form-control" readonly>
          </div>
          <div class="col-12 py-3">
@@ -125,7 +129,7 @@ hr {
           <p class="p-line pt-2">지붕</p><hr>
           <div class="col-12">
             <input type="hidden" name="oono" id="roofdisign" value="">
-            <button type="button" id="roofChoice" class="btn btn-lg">
+            <button type="button" id="roofChoice" class="btn">
               지붕 선택하기
             </button> 
             <br><img id="selectedroof" src="" alt="">

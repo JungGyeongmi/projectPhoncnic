@@ -1,29 +1,124 @@
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
+<style>
+    .containerBox {
+        font-family: 'GmarketSansLight';
+        width: 940px;
+        margin: 0 auto;
+    }
+
+    .containerBox h3 {
+        font-family: 'GmarketSansMedium';
+        padding: 50px 0 50px 0;
+        margin: 0;
+    }
+
+    .title {
+        margin-bottom: 0;
+    }
+
+    .containerBox hr {
+        margin-top: 0;
+    }
+
+    .register-container {
+        margin: 0 auto;
+        text-align: center;
+        width: 100%;
+    }
+
+    .register-content {
+        width: 430px;
+        height: 200px;
+        border-radius: 4px;
+        display: inline-block;
+        text-align: center;
+        margin: 0 auto;
+    }
+
+    .store-img {
+        padding: 11px;
+        text-align: center;
+    }
+
+    .store-img img {
+        width: 112px;
+        margin: 0 auto;
+        filter: drop-shadow(4px 2px 6px lightgray); 
+    }
+
+    .register-btn button {
+        padding: 10px;
+        border: none;
+        border-radius: 20px;
+        height: 43px;
+        width: 420px;
+        background-color: #e9ecef;
+    }
+
+    .register-btn button:hover {
+        background-color: #DBE9B7;
+    }
+
+    .register-btn {
+        margin-top: 25px;
+        font-size: 17px;
+        text-align: center;
+    }
+
+    .store-container {
+        text-align: center;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        width: 100%;
+        flex-wrap: wrap;
+    }
+    .store-content {
+        flex: 1 1 40%;
+        cursor: pointer;
+        margin-bottom: 20px;
+    }
+
+    .store-content img{
+        width: 170px;
+        filter: drop-shadow(4px 2px 6px lightgray); 
+    }
+    #dyningname{
+        margin-top: 10px;
+    }
+</style>
 <th:block th:replace="~{layout/basic :: setContent(~{::content})}">
     <th:block th:fragment="content">
-
-        <h1>등록된 가게 목록</h1>
-        <a th:href="@{/manage/dyning/register(id=${id})}">
-            <button type="button">
-                <h2> [[${id}]]가게 등록하러 GO</h2>
-            </button>
-        </a>
-
-        <table border="1">
-            <tr>
-                <th scope="col">dyningname</th>
-                <th scope="col">Roof Path</th>
-            </tr>
-            <tr th:each="dto : ${result}" th:onclick="'location.href=
-        \''+ @{/manage/dyning/read(dno=${dto.dno},id=${id})}
-             + '\''">
-                <!-- <td >[[${dto.dno}]]</td> -->
-                <td id="dyningname">[[${dto.dyningname}]]</td>
-                <!-- <td>[[${dto.foodtype}]]</td> -->
-                <td id="roofpath">
-                    <img th:src="${dto.roofthumbnail}" alt="">
-                </td>
-            </tr>
-        </table>
+        <div class="containerBox">
+            <h3><img th:src="@{/icon/vertical-line.png}" style="width: 30px;" alt="">등록 및 관리</h3>
+            <div class="title">등록</div>
+            <hr>
+            <div class="register-container">
+                <div class="register-content">
+                    <div class="store-img">
+                        <img th:src="@{/icon/store.png}" alt="">
+                    </div>
+                    <div class="register-btn">
+                        <a th:href="@{/manage/dyning/register(id=${id})}"><button type="button"><b>[[${id}]]</b> 님의 가게
+                                등록하러
+                                가기</button></a>
+                    </div>
+                </div>
+            </div>
+            <br><br>
+            <div>등록된 가게 관리</div>
+            <hr>
+            <div class="store-container">
+                <th:block th:each="dto : ${result}" >
+                    <div class="store-content">
+                        <div id="roofpath">
+                            <img th:src="${dto.roofpath}" th:onclick="'location.href=
+                            \''+ @{/manage/dyning/read(dno=${dto.dno},id=${id})} + '\''" alt="">
+                        </div>
+                        <div id="dyningname">[[${dto.dyningname}]]</div>
+                    </div>
+                </th:block>
+            </div>
+        </div>
     </th:block>
 </th:block>
