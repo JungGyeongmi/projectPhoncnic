@@ -80,6 +80,9 @@
 
                 // 모달제어
                 if($("input[name=loginUserId]").val() != "") {
+                    
+                    modalBody.html("잠시 기다려주세요 ... ");
+
                     $("#btncharacterlook").on("click", showLookModal);
 
                     $(document).on("change", "input[name=chalookInfo]", function () {
