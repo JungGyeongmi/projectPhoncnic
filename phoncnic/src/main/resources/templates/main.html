@@ -9,7 +9,7 @@
         <a th:href="@{/manage/rolechoice}">등록갈림길</a>
 
         <button type="button" class="btn " id="btncharacterlook" data-bs-toggle="modal" data-bs-target="#modalcharacterlook">
-            <img th:src="${avatar.setpath}" alt="🙄" width="100px">
+            <img id="userAvatar" th:src="${avatar?.setpath}" alt="🙄" width="100px">
         </button>
         </button>
         
@@ -58,7 +58,7 @@
                     var setname = $("input[name=setname]").val();
                     var setpath = $("input[name=setpath]").val();
                     var data = {setname : setname, setpath: setpath};
-                    console.log(data);
+                    // console.log(data);
                     $.ajax({
                         type: "post",
                         url: lookModifyUrl,
@@ -66,6 +66,7 @@
                         contentType: "application/json",
                         success: function (response) {                    
                             swal('success', "변경완료");
+                            $("img #userAvatar").val(setpath);
                             console.log("update characterlook success");
                         },
                         fail: function (response) {

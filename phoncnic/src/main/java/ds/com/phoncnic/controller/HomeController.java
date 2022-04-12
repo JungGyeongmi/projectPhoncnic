@@ -25,7 +25,7 @@ public class HomeController {
         if(dto != null) {
             log.info("dto get id "+dto.getId());
             model.addAttribute("loginuserId", dto.getId());
-            model.addAttribute("avartar", characterLookService.getCharacterSet(dto.getId()));
+            model.addAttribute("avatar", characterLookService.getCharacterSet(dto.getId()));
         } else {
             model.addAttribute("avatar", characterLookService.getDefaultAvatar(1L));
         }
