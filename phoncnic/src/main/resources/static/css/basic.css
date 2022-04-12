@@ -30,8 +30,6 @@
 /* content 부분 */
 .container-fluid {
     font-family: 'Noto Sans KR', sans-serif !important; 
-    width: 100%;
-    height: 90%;
 }
 
 /* 사이드바 전체 */
@@ -42,4 +40,8 @@
 /* 사이드바 Phoncnic */
 .bg-white > .p-3 {
     font-family: "NeoDunggeunmo";
+}
+
+button{
+    font-family: 'GmarketSansLight';
 }
