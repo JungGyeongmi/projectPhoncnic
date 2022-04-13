@@ -169,6 +169,7 @@
                 text-align: center;
                 font-weight: 600;
                 font-family: GmarketSansLight;
+                overflow: hidden;
             }
         </style>
 
@@ -186,7 +187,7 @@
             </ul>
             <div th:each="sdto : ${setDTO}" id="char">
                 <img type="hidden"  id ="charimg" class="look setlook" th:src="${sdto.setpath}" alt="">
-                <div th:text="${nickname}" class="nickname">[[${nickname}]]</div>
+                <div th:text="${nickname}" class="nickname" th:if="${nickname}!=''">[[${nickname}]]</div>
                 <input type="text" name="chartop"  th:value="${chartop}" style="opacity: 0;">
                 <input type="text" name="charleft"  th:value="${charleft}" style="opacity: 0;">
             </div>
