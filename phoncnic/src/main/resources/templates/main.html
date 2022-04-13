@@ -33,11 +33,11 @@
                                         <input id="${index}${item.setname}" name="chalookInfo" type="radio" value="${item.setname}" hidden>
                                         <label for="${index}${item.setname}">
                                             <img src="${item.setpath}" id="setimg" alt="">
-                                        <lable>
+                                        </lable>
                                     </span>`
                         });
                                     
-                        str += `<form id="lookfrm" action="">
+                        str += `<form id="lookfrm" action="" hidden>
                             <input type="hidden" name="id" value="${result[1]}">
                             <input type="hidden" name="setname" value="${result[2].setname}">
                             <input type="hidden" name="setpath" value="${result[2].setpath}">
@@ -112,6 +112,18 @@
             #setimg {
                 width: 100px;
                 height: 140px;
+            }
+
+            span>label {
+                padding: 15px; 
+            }
+            span>label:hover {
+                cursor: pointer;
+            }
+
+            input[type=radio]:checked + label {
+                background-color: #DBE9B7;
+                border-radius: 5px;
             }
         </style>
         <!-- 모달창 -->

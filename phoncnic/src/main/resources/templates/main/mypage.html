@@ -124,6 +124,17 @@
                 margin-left: 100px;
             }
 
+            span>label {
+                padding: 15px; 
+            }
+            span>label:hover {
+                cursor: pointer;
+            }
+
+            input[type=radio]:checked + label {
+                background-color: #DBE9B7;
+                border-radius: 5px;
+            }
         </style>
         <script th:inline="javascript">
 
