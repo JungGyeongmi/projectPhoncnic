@@ -51,7 +51,7 @@ public class DyningRepositoryTests {
                 "017a59ec-da2e-47ec-b542-c1f98e88a1bc",
             };
 
-            Member member = Member.builder().id("test" + (i+20) + "@gmail.com").build();
+            Member member = Member.builder().id("test" + (i+10) + "@gmail.com").build();
 
             // loof
             long roof = (long) (Math.random() * 5 + 1);
