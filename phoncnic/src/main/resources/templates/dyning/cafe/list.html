@@ -160,8 +160,9 @@
                     [[${dto.dyningname}]]
                 </li>
             </ul>
-            <div th:each="sdto : ${setDTO}">
-                <img type="hidden" id="charimg" class="look setlook" th:src="${sdto.setpath}" alt="">
+            <div th:each="sdto : ${setDTO}" id="char">
+                <img type="hidden"  id ="charimg" class="look setlook" th:src="${sdto.setpath}" alt="">
+                <div th:text="${nickname}">[[${nickname}]]</div>
             </div>
             <ul class="dyning-list-ul">
                 <li id="list2" th:each="dto : ${result}" th:if="${dtoStat.count} > ${dtoStat.size}/2 + 0.5">
@@ -173,12 +174,19 @@
             </ul>
         </div>
         <style>
-            #charimg {
+            .setlook {
                 position: relative;
                 width: 80px;
                 height: 112px;
                 right: 0px;
             }
+            #char{
+                position: relative;
+                width: 80px;
+                height: 112px;
+                right: 0px; 
+            }
+
         </style>
 
         <script>
@@ -195,21 +203,23 @@
             (function () {
 
                 document.addEventListener("keydown", function (e) {
-                    let charimg = document.getElementById("charimg");
+                    let char = document.getElementById("char");
+                    let charimg = document.getElementById("char");
+
                     let key = e.keyCode;
-                    let y = parseInt(charimg.style.top || 0, 10);
-                    let x = parseInt(charimg.style.left || 0, 10);
+                    let y = parseInt(char.style.top || 0, 10);
+                    let x = parseInt(char.style.left || 0, 10);
                     if (key === 37 /* LEFT */) {
-                        charimg.style.left = x - 20 + "px";
+                        char.style.left = x - 20 + "px";
                     }
                     if (key === 38 /* TOP */) {
-                        charimg.style.top = y - 20 + "px";
+                        char.style.top = y - 20 + "px";
                     }
                     if (key === 39 /* RIGHT */) {
-                        charimg.style.left = x + 20 + "px";
+                        char.style.left = x + 20 + "px";
                     }
                     if (key === 40 /* BOTTOM */) {
-                        charimg.style.top = y + 20 + "px";
+                        char.style.top = y + 20 + "px";
                     }
                 });
 
@@ -219,8 +229,8 @@
 
                     if (key === 13 /* BOTTOM */) {
                         var imgLength = $(".dyningimg").length;
-                        var chartop = charimg.offsetTop;
-                        var charleft = charimg.offsetLeft;
+                        var chartop = char.offsetTop;
+                        var charleft = char.offsetLeft;
                         console.log("캐릭터좌표" + chartop, charleft);
 
                         for (i = 1; i <= imgLength; i++) {
@@ -230,7 +240,7 @@
                             // console.log("캐릭터좌표"+chartop,charleft);
                             console.log("타겟좌표" + targetTop, targetLeft, targetHref);
 
-                            if (targetTop - 30 < chartop && chartop < targetTop + 30 && targetLeft - 30 < charleft && charleft < targetLeft + 30) {
+                            if (targetTop - 80 < chartop && chartop < targetTop + 80 && targetLeft - 30 < charleft && charleft < targetLeft + 30) {
                                 location.href = targetHref;
                             };
                         }

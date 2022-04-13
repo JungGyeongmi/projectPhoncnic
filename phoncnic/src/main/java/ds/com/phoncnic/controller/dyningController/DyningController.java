@@ -37,6 +37,7 @@ public class DyningController {
 
         try {
             model.addAttribute("id",dto.getId());
+            model.addAttribute("nickname",dto.getNickname());
             model.addAttribute("setDTO", characterLookService.getCharacterSet(dto.getId()));
         } catch (NullPointerException e) {
             model.addAttribute("id","");
@@ -52,6 +53,7 @@ public class DyningController {
         model.addAttribute("result", dyningService.getRestaurantStreet());
         if(dto!=null){
             model.addAttribute("id",dto.getId());
+            model.addAttribute("nickname",dto.getNickname());
             model.addAttribute("setDTO", characterLookService.getCharacterSet(dto.getId()));
         }else{
             model.addAttribute("setDTO", characterLookService.getCharacterSet("user10@icloud.com"));
