@@ -161,6 +161,7 @@
                                         <hr>
 
                                     </th:block>
+
                                     <form action="">
                                         <input type="hidden" name="id" id="followerid" th:value="${id}" readonly>
                                         <input type="hidden" name="dno" th:value="${result.dno}">
@@ -187,15 +188,18 @@
                                         <img id="emojiimg5" th:src="${result.emojiinfo['5']}" alt="" style="width: 30px;">[[${emojitype5}]]
                                     </button>
 
+
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="mapView">
                                     <div id="map"></div>
                             </div>
                         </div>
+                        <button type="button" id="back" class="btn my">돌아가기</button>
                     </div>
                 </div>
             </div>
+
             <!-- 가게정보 카드 end -->
 
             <!-- 지도 API 버튼 -->
@@ -439,6 +443,10 @@
                 $("button[name='btn-close']").on("click", function (e) {
                     $("#imageModal").hide();
                 });
+            });
+
+            $("#back").on("click", function(){
+                window.history.back();
             });
 
         </script>

@@ -156,6 +156,15 @@
                 font-size: 18px;
                 font-family: GmarketSansMedium;
             }
+
+            .nickname {
+                border: 2px solid #DBE9B7;
+                border-radius: 5px;
+                background-color: white;
+                text-align: center;
+                font-weight: 600;
+                font-family: GmarketSansLight;
+            }
         </style>
 
         <h3>cafe</h3>
@@ -172,7 +181,7 @@
             </ul>
             <div th:each="sdto : ${setDTO}" id="char">
                 <img type="hidden"  id ="charimg" class="look setlook" th:src="${sdto.setpath}" alt="">
-                <div th:text="${nickname}">[[${nickname}]]</div>
+                <div th:text="${nickname}" class="nickname">[[${nickname}]]</div>
                 <input type="text" name="chartop"  th:value="${chartop}" style="opacity: 0;">
                 <input type="text" name="charleft"  th:value="${charleft}" style="opacity: 0;">
             </div>

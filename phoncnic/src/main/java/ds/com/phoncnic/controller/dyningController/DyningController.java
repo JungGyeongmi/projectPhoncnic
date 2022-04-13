@@ -35,7 +35,7 @@ public class DyningController {
     public void cafeList(Model model,@AuthenticationPrincipal AuthMemberDTO dto) {
         log.info("cafe list.................");
         model.addAttribute("result", dyningService.getCafeStreet());
-        
+       
         try {
             model.addAttribute("id",dto.getId());
             model.addAttribute("nickname",dto.getNickname());
