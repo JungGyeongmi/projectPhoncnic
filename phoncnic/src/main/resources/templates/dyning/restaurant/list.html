@@ -165,8 +165,11 @@
                     [[${dto.dyningname}]]
                 </li>
             </ul>
-            <div th:each="sdto : ${setDTO}">
-                <img type="hidden" id="charimg" class="look setlook" th:src="${sdto.setpath}" alt="">
+            <div th:each="sdto : ${setDTO}" id="char">
+                <img type="hidden"  id ="charimg" class="look setlook" th:src="${sdto.setpath}" alt="">
+                <div th:text="${nickname}">[[${nickname}]]</div>
+                <input type="text" name="chartop"  th:value="${chartop}" style="opacity: 0;">
+                <input type="text" name="charleft"  th:value="${charleft}" style="opacity: 0;">
             </div>
             <ul class="dyning-list-ul">
                 <li id="list2" th:each="dto : ${result}" th:if="${dtoStat.count} > ${dtoStat.size}/2 + 0.5">
@@ -203,72 +206,106 @@
         </script>
         <!-- 가게 건물 좌표를 얻는 js -->
         <style>
-            #charimg {
+            .setlook {
                 position: relative;
                 width: 80px;
                 height: 112px;
                 right: 0px;
             }
+            #char{
+                position: relative;
+                width: 80px;
+                height: 112px;
+                right: 0px; 
+            }
         </style>
+       
+<script>
+
+    
+    // document.onload(function(e){
+
+    //     if($("input[name='chartop']").val()!="${chartop}"){
+    //         let char = document.getElementById("char");
+    
+    //         var top =  $("input[name='chartop']").val();
+    //         var left =  $("input[name='charleft']").val();
+    //         char.offset({top : top , left : left});
+    //     }
+    // });
+    $(document).ready(function(e){
+        if($("input[name='chartop']").val()!=""){
+            
+            var top =  $("input[name='chartop']").val();
+            var left =  $("input[name='charleft']").val();
+            $("#char").offset({top : top });
+            $("#char").offset({left : left });
+
+        }
+    });
+    $(".dyningimg").on("click", function (e) {
+        var src = $(this).parent().attr("class");
+        var src = $(this).parent().attr("id");
+        var top = e.target.offsetTop;
+        var left = e.target.offsetLeft;
+        console.log(src);
+        console.log(top, left);
+        // location.href=src;
+    });
+ 
+    (function () {
+
+       
 
 
-        <script>
-            $(".dyningimg").on("click", function (e) {
-                var src = $(this).parent().attr("class");
-                var src = $(this).parent().attr("id");
-                var top = e.target.offsetTop;
-                var left = e.target.offsetLeft;
-                console.log(src);
-                console.log(top, left);
-                // location.href=src;
-            });
+        document.addEventListener("keydown", function (e) {
+            let char = document.getElementById("char");
+            let charimg = document.getElementById("charimg");
 
-            (function () {
+            let key = e.keyCode;
+            let y = parseInt(char.style.top || 0, 10);
+            let x = parseInt(char.style.left || 0, 10);
+            if (key === 37 /* LEFT */) {
+                char.style.left = x - 20 + "px";
+            }
+            if (key === 38 /* TOP */) {
+                char.style.top = y - 20 + "px";
+            }
+            if (key === 39 /* RIGHT */) {
+                char.style.left = x + 20 + "px";
+            }
+            if (key === 40 /* BOTTOM */) {
+                char.style.top = y + 20 + "px";
+            }
+        });
+        
+        
+        
+        document.addEventListener("keyup", function (e) {
+            var chartop = char.offsetTop;
+            var charleft = char.offsetLeft;
+            let key = e.keyCode;
+            console.log("캐릭터좌표" + chartop, charleft);
+            $("input[name='chartop']").val(chartop);
+            $("input[name='charleft']").val(charleft);
+            if (key === 13 /* enter */) {
+                var imgLength = $(".dyningimg").length;
 
-                document.addEventListener("keydown", function (e) {
-                    let charimg = document.getElementById("charimg");
-                    let key = e.keyCode;
-                    let y = parseInt(charimg.style.top || 0, 10);
-                    let x = parseInt(charimg.style.left || 0, 10);
-                    if (key === 37 /* LEFT */) {
-                        charimg.style.left = x - 20 + "px";
-                    }
-                    if (key === 38 /* TOP */) {
-                        charimg.style.top = y - 20 + "px";
-                    }
-                    if (key === 39 /* RIGHT */) {
-                        charimg.style.left = x + 20 + "px";
-                    }
-                    if (key === 40 /* BOTTOM */) {
-                        charimg.style.top = y + 20 + "px";
-                    }
-                });
+                for (i = 1; i <= imgLength; i++) {
+                    var targetTop = $("#" + i).offset().top;
+                    var targetLeft = $("#" + i).offset().left;
+                    var targetHref = $("#" + i).parent().attr('class');
+                    // console.log("캐릭터좌표"+chartop,charleft);
+                    console.log("타겟좌표" + targetTop, targetLeft, targetHref);
 
-
-                document.addEventListener("keyup", function (e) {
-                    let key = e.keyCode;
-
-                    if (key === 13 /* BOTTOM */) {
-                        var imgLength = $(".dyningimg").length;
-                        var chartop = charimg.offsetTop;
-                        var charleft = charimg.offsetLeft;
-                        console.log("캐릭터좌표" + chartop, charleft);
-
-                        for (i = 1; i <= imgLength; i++) {
-                            var targetTop = $("#" + i).offset().top;
-                            var targetLeft = $("#" + i).offset().left;
-                            var targetHref = $("#" + i).parent().attr('class');
-                            // console.log("캐릭터좌표"+chartop,charleft);
-                            console.log("타겟좌표" + targetTop, targetLeft, targetHref);
-
-                            if (targetTop - 30 < chartop && chartop < targetTop + 30 && targetLeft - 30 < charleft && charleft < targetLeft + 30) {
-                                location.href = targetHref;
-                            };
-                        }
-                    }
-                });
-            })();
-        </script>
+                    if (targetTop - 80 < chartop && chartop < targetTop + 80 && targetLeft - 30 < charleft && charleft < targetLeft + 30) {
+                        location.href = targetHref + "&chartop=" + chartop + "&charleft=" + charleft;
+                    };
+                }
+            }
+        });
+    })();
+</script>
         
     </th:block>
 </th:block>

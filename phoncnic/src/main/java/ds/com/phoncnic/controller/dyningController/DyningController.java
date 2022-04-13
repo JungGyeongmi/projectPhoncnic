@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ds.com.phoncnic.dto.DyningDTO;
 import ds.com.phoncnic.security.dto.AuthMemberDTO;
@@ -34,13 +35,15 @@ public class DyningController {
     public void cafeList(Model model,@AuthenticationPrincipal AuthMemberDTO dto) {
         log.info("cafe list.................");
         model.addAttribute("result", dyningService.getCafeStreet());
-
+        
         try {
             model.addAttribute("id",dto.getId());
+            model.addAttribute("nickname",dto.getNickname());
             model.addAttribute("setDTO", characterLookService.getCharacterSet(dto.getId()));
         } catch (NullPointerException e) {
             model.addAttribute("id","");
-            model.addAttribute("setDTO", characterLookService.getCharacterSet("user10@icloud.com"));
+            model.addAttribute("nickname","");
+            model.addAttribute("setDTO", characterLookService.getCharacterSet("test1@gmail.com"));
         }
    
 
@@ -50,18 +53,24 @@ public class DyningController {
     public void restaurant(Model model,@AuthenticationPrincipal AuthMemberDTO dto) {
         log.info("restaurant list.................");
         model.addAttribute("result", dyningService.getRestaurantStreet());
+
         if(dto!=null){
             model.addAttribute("id",dto.getId());
+            model.addAttribute("nickname",dto.getNickname());
             model.addAttribute("setDTO", characterLookService.getCharacterSet(dto.getId()));
         }else{
-            model.addAttribute("setDTO", characterLookService.getCharacterSet("user10@icloud.com"));
+            model.addAttribute("id","");
+            model.addAttribute("nickname","");
+            model.addAttribute("setDTO", characterLookService.getCharacterSet("test1@gmail.com"));
         }
 
     }
 
 
     @GetMapping("/details")
-    public void details(@RequestParam("dno") Long dno,@AuthenticationPrincipal AuthMemberDTO dto, Model model) {
+    public void details(@RequestParam("dno") Long dno,@AuthenticationPrincipal AuthMemberDTO dto, Model model,
+     @RequestParam("chartop") Long chartop,@RequestParam("charleft") Long charleft,RedirectAttributes ra) {
+
         log.info("Details.................");
         if (dno != 0) {
 	        model.addAttribute("emojiInfo", emojiInfoService.getEmojiInfoList());
@@ -98,7 +107,8 @@ public class DyningController {
             model.addAttribute("emojitype4", emojiService.getEmojitypeCwt(dno, "4"));
             model.addAttribute("emojitype5", emojiService.getEmojitypeCwt(dno, "5"));
 
-
+            ra.addFlashAttribute("chartop", chartop);
+            ra.addFlashAttribute("charleft",charleft);
             // model.addAttribute("follow",followService.)
 
         } else
