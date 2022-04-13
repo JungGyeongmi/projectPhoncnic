@@ -1,5 +1,21 @@
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
 <style>
+    .look {
+        display: inline-block;
+    }
+
+    /* character look radio */
+    #setimg {
+        width: 100px;
+        height: 140px;
+    }
+
+    /* character look 미리보기 */
+    .setlook {
+        width: 100px;
+        height: 140px;
+    }
+
     .containerBox {
         max-width: 1000px;
         margin: 0 auto;
@@ -7,18 +23,17 @@
     }
 
     .personal-info-container {
-        background-color: #e9ecef;
+        background-color: #f4f4f4;
         border-radius: 5px;
         width: 100%;
-        height: 334px;
+        height: 286px;
         display: flex;
+        align-items: center;
         justify-content: space-evenly;
-        text-align: center;
-
     }
 
     .personal-info-character {
-        padding: 57px 57px 25px 57px;
+        padding: 15px 57px 30px 57px;
     }
 
     .personal-info-character-content button {
@@ -29,94 +44,286 @@
         border-radius: 20px;
         font-size: 16px;
     }
+
     .info-div {
         padding: 7px 0 6px 0;
     }
-    .personal-info-character-content{
-        border-right: 1px solod black;
+
+    .personal-info-character-content {
+        text-align: center;
+        /* border-right: 1px solid black; */
+        /* border-right-height: 30px; */
+
     }
-    .personal-info-character img{
-      filter: drop-shadow(4px 2px 6px lightgray);
+
+    .personal-info-character img {
+        filter: drop-shadow(4px 2px 6px lightgray);
+    }
+
+    hr {
+        height: 260px !important;
+        width: 0.5px !important;
+        border-width: 0;
+        color: #000;
+        background-color: #000;
+    }
+
+    .personal-info-content {
+        padding: 55px 0 30px 0;
+    }
+
+    .personal-info {
+        margin: 15px 0 15px 0;
+    }
+
+    .personal-info span:last-child {
+        margin-left: 17px;
+    }
+
+    .info-btns {
+        padding: 10px;
+        text-align: center;
+    }
+
+    #memberModifyBtn {
+        text-align: center;
+        background-color: #DBE9B7;
+        height: 42px;
+        border: none;
+        border-radius: 7px;
+        font-size: 16px;
+        width: 63px;
+
+    }
+
+    .info-btns button {
+        background-color: #DBE9B7;
+        height: 30px;
+        border: none;
+        border-radius: 20px;
+        font-size: 16px;
+
+
+    }
+
+
+    .info-btns button:last-child {
+        width: 144px;
+    }
+
+    .personal-info input {
+        width: 223px !important;
+        height: 42 !important;
+        display: inline-block !important;
+        margin: 0 !important;
+        margin-left: 15px !important;
+    }
+
+    .content-title {
+        font-weight: bold;
+        border-bottom: 1px solid gray;
+        margin: 29px 0;
+    }
+
+    .character-list {
+        display: inline-block;
+        padding: 23px;
+    }
+
+    .my-character {
+        display: inline-block;
+        padding: 0 20px 17px 20px;
+    }
+
+    .character-container {
+        display: flex;
+        justify-content: space-evenly;
+        width: 100%;
+        height: 265px;
+        padding: 20px;
+        background-color: #f4f4f4;
+        text-align: center;
+    }
+
+    .character-container img {
+        filter: drop-shadow(3px 1px 4px lightgray);
+    }
+
+    .character-container hr {
+        height: 160px !important;
+        width: 0.5px !important;
+        border-width: 0;
+        color: #000;
+        background-color: #000;
+    }
+
+    .my-character-container button {
+        background-color: #DBE9B7;
+        height: 30px;
+        border: none;
+        border-radius: 20px;
+        font-size: 16px;
+        width: 120px;
+
+    }
+
+    .my-character-container p {
+        margin: 0 !important;
+        font-size: 18px;
+    }
+
+    .follow-container {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        width: 100%;
+        flex-wrap: wrap ;
+        padding: 10px;
+    }
+    .follow-content hr{
+        margin: 0 !important;
+    }
+
+    .follow-content {
+        /* align-items: center; */
+        display: flex;
+        align-items: center;
+        width: 100%;
+        padding: 15px 10px;
+    }
+
+    .follow-title {
+        flex-basis: 120px;
+        text-align: center;
+    }
+    .follow-content hr {
+        height: 160px !important;
+        width: 0.5px !important;
+        border-width: 0;
+        color: #000;
+        background-color: #000;
+        margin: 0 30px !important;
+
+    }
+    .follow-list{
+    }
+    .follow-content {
+        width: 100%;
     }
 </style>
 <th:block th:replace="~{layout/basic :: setContent(~{::content})}">
     <th:block th:fragment="content">
         <div class="containerBox">
-            <h3 class="py-5" style="font-family: 'GmarketSansMedium';">
-                <img th:src="@{/icon/vertical-line.png}" style="width:30px;" alt="">마이페이지
-            </h3>
-            <div class="personal-info-container">
-                <div class="personal-info-character-content">
-                    <div class="personal-info-character">
-                        <th:block th:each="sdto : ${setDTO}">
-                            <img class="look setlook" th:src="${sdto.setpath}" alt="" id="checkedset">
-                            <input type="hidden" id="radioset" th:value="${sdto.setname}">
-                        </th:block>
+            <form id="memberfrm" action="">
+                <h3 class="py-5" style="font-family: 'GmarketSansMedium';">
+                    <img th:src="@{/icon/vertical-line.png}" style="width:30px;" alt="">마이페이지
+                </h3>
+                <p class="content-title">개인정보</p>
+                <div class="personal-info-container">
+                    <div class="personal-info-character-content">
+                        <div class="personal-info-character">
+                            <th:block th:each="sdto : ${setDTO}">
+                                <img class="look setlook" th:src="${sdto.setpath}" alt="">
+                                <input type="hidden" id="radioset" th:value="${sdto.setname}">
+                            </th:block>
+                        </div>
+                        <div class="info-div">
+                            <a href="#setimg"><button type="button">캐릭터 변경하기</button></a>
+                        </div>
+                        <div class="info-div">
+                        </div>
                     </div>
-                    <div class="info-div">
-                        <a href="#setimg"><button type="button">캐릭터 변경하기</button></a>
-                    </div>
-                    <div class="info-div">
-                        <span><b>[[${memberDTO.id}]]</b> 님</span>
+                    <hr>
+                    <div class="personal-info-content">
+                        <div class="personal-info">
+                            <span>아이디</span>
+                            <input type="hidden" th:value=${memberDTO.id} name=id readonly>
+                            <span><b>[[${memberDTO.id}]]</b></span>
+                        </div>
+                        <div class="personal-info">
+                            <span>닉네임</span>
+                            <input type="text" th:value=${memberDTO.nickname} name=nickname class="form-control">
+                            <button id="memberModifyBtn" type="button">수정</button>
+                        </div>
+                        <div class="personal-info">
+                            <span>가입일</span>
+                            <span><b>[[${memberDTO.regdate}]]</b></span>
+                        </div>
+                        <div class="info-btns">
+                            <button id="memberOutBtn" type="button">회원탈퇴</button>
+                        </div>
                     </div>
                 </div>
-                <div class="personal-info-content">
-                    <div class="personal-info">
-                        <span>닉네임</span>
-                        <span>[[${memberDTO.nickname}]]</span>
-                        <span>가입일</span>
-                        <span>[[${memberDTO.regdate}]]</span>
+            </form>
+            <!-- 캐릭터 -->
+            <p class="content-title">캐릭터</p>
+            <form id="lookform" action="">
+                <div class="character-container">
+                    <div class="character-list">
+                        <input type="hidden" name="id" th:value="${id}">
+                        <span th:each="sdto : ${looklist}">
+                            <input hidden type="radio" name="setname" th:id="${sdto.setname}"
+                                th:value="${sdto.setname}">
+                            <label th:for="${sdto.setname}" th:data-src="${sdto.setpath}">
+                                <img th:src="${sdto.setpath}" alt="" id="setimg" />
+                            </label>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </span>
                     </div>
-                    <div class="info-btns">
-                        <button id="memberModifyBtn" type="button">수정</button>
-                        <button id="memberOutBtn" type="button">회원탈퇴</button>
+                    <hr>
+                    <!-- 현재 내 캐릭터 -->
+                    <div class="my-character-container">
+                        <div>
+                            <p>내 캐릭터</p>
+                        </div>
+                        <div class="my-character">
+                            <div th:each="sdto : ${setDTO}">
+                                <img class="look setlook" th:src="${sdto.setpath}" alt="" id="checkedset">
+                                <input type="hidden" id="radioset" th:value="${sdto.setname}">
+                            </div>
+                        </div>
+                        <div>
+                            <button id="lookModifyBtn" type="button">변경하기</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <!-- 팔로우 -->
+            <p class="content-title">팔로우</p>
+            <div class="follow-container">
+                <div class="follow-content">
+                    <div class="follow-title">
+                        <span>작가</span>
+                    </div>
+                    <hr>
+                    <div class="follow-list">
+                        <div th:each="adto : ${afollowDTO}" class="follow-info">
+                            <input type="hidden" th:value="${adto}" readonly>
+                            <span>[[${adto}]]</span>
+                            <span class="follow-btn">
+                            <button th:value="${memberDTO.id}" type="button" class="artistRemoveBtn">팔로우 취소</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="follow-content">
+                    <div class="follow-title">
+                        <span>가게</span>
+                    </div>
+                    <hr>
+                    <div class="follow-list">
+                        <div th:each="ddto : ${dfollowDTO}" class="follow-info">
+                            <input type="hidden" name="name" th:value="${ddto}" readonly>
+                            <span>[[${ddto}]]</span>
+                            <span class="follow-btn">
+                            <button class="dyningRemoveBtn" th:value="${memberDTO.id}" type="button">팔로우취소</button>
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
 
-
-            <form id="memberfrm" action="">
-                <table border="1">
-                    <tr>
-                        <th scope="col">아이디</th>
-                        <th scope="col">닉네임</th>
-                        <th scope="col">가입일</th>
-                        <th scope="col">수정</th>
-                        <th scope="col">탈퇴</th>
-
-                    </tr>
-                    <!-- th:value="${dto.roleSet}" -->
-                    <tr th:each="dto : ${memberDTO}">
-                        <td><input type="text" th:value=${dto.id} name=id readonly></td>
-                        <td><input type="text" th:value=${dto.nickname} name=nickname></td>
-                        <td><input type="text" th:value=${dto.regdate} readonly></td>
-                        <td><button id="memberModifyBtn" type="button">수정</button></td>
-                        <td><button id="memberOutBtn" type="button">회원탈퇴</button></td>
-                    </tr>
-                </table>
-            </form>
-
-            <form id="lookform" action="">
-                <input type="hidden" name="id" th:value="${id}">
-                <span th:each="sdto : ${looklist}">
-                    <input hidden type="radio" name="setname" th:id="${sdto.setname}" th:value="${sdto.setname}">
-                    <label th:for="${sdto.setname}" th:data-src="${sdto.setpath}"><img th:src="${sdto.setpath}" alt=""
-                            id="setimg" /></label>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                </span>
-                <!-- 미리보기가 필요한가..? -->
-                <span class="character-container">
-                    <span th:each="sdto : ${setDTO}">
-                        <img class="look setlook" th:src="${sdto.setpath}" alt="" id="checkedset">
-                        <input type="hidden" id="radioset" th:value="${sdto.setname}">
-                    </span>
-                </span>
-                <br><br>
-                <button id="lookModifyBtn" type="button" class="btn btn-primary">변경하기</button>
-            </form>
-
-
-            <br>
+            
             <table border="1">
                 <tr>
                     <th scope="col">팔로우한 artist</th>
@@ -173,32 +380,6 @@
                 </tr>
             </table>
         </div>
-        <style>
-            /* .character-container {
-                position: absolute;
-            } */
-
-            .look {
-                display: inline-block;
-            }
-
-            /* character look radio */
-            #setimg {
-                width: 100px;
-                height: 140px;
-            }
-
-            /* character look 미리보기 */
-            .setlook {
-                width: 100px;
-                height: 140px;
-            }
-
-            .character-container {
-                position: relative;
-                margin-left: 100px;
-            }
-        </style>
         <script th:inline="javascript">
 
             var memberform = document.querySelector("#memberfrm");
