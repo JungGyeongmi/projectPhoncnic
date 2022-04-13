@@ -1,7 +1,9 @@
 package ds.com.phoncnic.controller.dyningController;
 
-import java.util.Locale;
-
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import ds.com.model.ChatMessage;
 import ds.com.phoncnic.dto.DyningDTO;
 import ds.com.phoncnic.security.dto.AuthMemberDTO;
 import ds.com.phoncnic.service.FollowService;
@@ -20,6 +23,8 @@ import ds.com.phoncnic.service.emoji.EmojiService;
 import ds.com.phoncnic.service.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+
+
 
 @Controller
 @Log4j2
@@ -144,6 +149,20 @@ public class DyningController {
         }
         return "/dyning/movingtest2";
     }
+
+    @MessageMapping("/chat.register")
+	@SendTo("/topic/public")
+	public ChatMessage register(@Payload ChatMessage chatMessage, SimpMessageHeaderAccessor headerAccessor) {
+		headerAccessor.getSessionAttributes().put("username", chatMessage.getSender());
+		return chatMessage;
+	}
+
+	@MessageMapping("/chat.send")
+	@SendTo("/topic/public")
+	public ChatMessage sendMessage(@Payload ChatMessage chatMessage) {
+		return chatMessage;
+	}
+
 
 
 
