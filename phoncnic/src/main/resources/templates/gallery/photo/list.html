@@ -31,16 +31,21 @@
          }
 
          .swiper {
-            width: 95%;
-            margin-top: 90px;
-            margin-bottom: 120px;
+            width: 100%;
+            margin-top: 5%;
+            /* margin-bottom: 120px; */
+            
+         }
+
+         .swiper-wrapper :not(:nth-last-child()){
+            padding : 0 30rem;
          }
 
          .swiper-slide {
             background-position: center;
             background-size: cover;
-            /* max-width: 500px;
-            max-height: 500px; */
+            max-width: 500px;
+            max-height: 500px;
             min-width: 400px;
             min-height: 400px;
             /* width: 300px;
@@ -337,7 +342,7 @@
             effect: "coverflow",
             grabCursor: false,
             centeredSlides: true,
-            slidesPerView: "2",
+            slidesPerView: "3",
             coverflowEffect: {
                rotate: 0,
                stretch: -0,
