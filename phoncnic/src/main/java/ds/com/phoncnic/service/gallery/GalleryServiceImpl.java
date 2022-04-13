@@ -59,7 +59,7 @@ public class GalleryServiceImpl implements GalleryService {
 
     @Override
     public PageResultDTO<GalleryDTO, Object[]> getGalleryPage(SearchPageRequestDTO pageRequestDTO) {
-
+        log.info("search page....");
         List<EmojiInfo> emojiInfoList = emojiInfoService.getEmojiInfoList();
         // 임시로 3L로 고정
         Long[][] emojiArray = emojiService.getEmojiCountArrayByGno(3L);
@@ -69,6 +69,9 @@ public class GalleryServiceImpl implements GalleryService {
                 pageRequestDTO.getType(),
                 pageRequestDTO.getKeyword(),
                 pageRequestDTO.getPageable(sort));
+
+
+        log.info(pageRequestDTO);
         return new PageResultDTO<>(result, fn);
     }
 

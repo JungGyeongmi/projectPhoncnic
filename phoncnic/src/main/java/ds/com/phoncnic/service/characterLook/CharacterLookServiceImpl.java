@@ -1,4 +1,4 @@
-package ds.com.phoncnic.service.mypage;
+package ds.com.phoncnic.service.characterLook;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,6 +21,7 @@ public class CharacterLookServiceImpl implements CharacterLookService {
 
     @Autowired
     private CharacterLookInfoRepository repository;
+
     @Autowired
     private CharacterLookRepository characterLookRepository;
 
@@ -28,14 +29,8 @@ public class CharacterLookServiceImpl implements CharacterLookService {
     private CharacterLookInfoRepository characterLookInfoRepository;
 
     @Override
-    public CharacterLookDTO getCharacterHair(String id) {
-        CharacterLookInfo characterLookinfo = repository.getHair(id);
-        return entityToDTO(characterLookinfo);
-    }
-
-    @Override
-    public CharacterLookDTO getCharacterClothes(String id) {
-        CharacterLookInfo characterLookinfo = repository.getClothes(id);
+    public CharacterLookDTO getCharacterSet(String id) {
+        CharacterLookInfo characterLookinfo = repository.getSet(id);
         return entityToDTO(characterLookinfo);
     }
 
@@ -46,9 +41,8 @@ public class CharacterLookServiceImpl implements CharacterLookService {
 
         if (result.isPresent()) {
             CharacterLook characterLook = result.get();
-
-            characterLook.changeHairname(dto.getHairname());
-            characterLook.changeClothesname(dto.getClothesname());
+            
+            characterLook.changeSetname(dto.getSetname());
 
             characterLookRepository.save(characterLook);
         }
@@ -58,5 +52,10 @@ public class CharacterLookServiceImpl implements CharacterLookService {
     public List<CharacterLookInfo> lookimageList() {
         List<CharacterLookInfo> dto = characterLookInfoRepository.findAll();
         return dto;
+    }
+
+    @Override
+    public CharacterLookInfo getDefaultAvatar(long chno) {
+       return repository.getDefaultCharacterLookByChno(chno);
     }
 }

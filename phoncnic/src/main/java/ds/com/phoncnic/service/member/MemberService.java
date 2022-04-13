@@ -9,10 +9,12 @@ import ds.com.phoncnic.entity.Member;
 import ds.com.phoncnic.security.dto.AuthMemberDTO;
 
 public interface MemberService {
+  Boolean checkMemberExist(String id);
   void updateMemberDTO(MemberDTO memberDTO);
   void modify2(AuthMemberDTO dto);
   void remove(String id);
   MemberDTO getMember(String id);
+  String getNickname(String id);
 
   default Member dtoToEntity(MemberDTO memberDTO) {
     Member member = Member.builder()

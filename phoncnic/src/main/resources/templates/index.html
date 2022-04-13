@@ -5,6 +5,7 @@
         <table  class="table" >
             <tr>
                 <th>ALL</th>
+                <th>ALL</th>
                 <th>USER</th>
                 <th>USER</th>
                 <th>ALL</th>
@@ -15,6 +16,7 @@
             </tr>
             <tr>
                 <th>인덱스</th>
+                <th>메인</th>
                 <th>루-크:모달</th>
                 <th>등록 갈림길(MANGE)</th>
                 <th>갈림길</th>
@@ -24,7 +26,8 @@
                 <th>관리자</th>
             </tr>
             <tr>
-                <td rowspan="6"><a th:href="@{/}">/index</a></td>
+                <td rowspan="6"><a th:href="@{/index}">/index</a></td>
+                <td rowspan="6"><a th:href="@{/}">main.html</a></td>
                 <td rowspan="5"><a th:href="@{/lookmodal}">/lookmodal</a></td>
                 <td ><a th:href="@{/manage/rolechoice}">등록갈림길</a></td>
                 <td ><a th:href="@{/crossroad}">/crossroad</a></td>
@@ -41,8 +44,8 @@
                 <td rowspan="3"><a th:href="@{/gallery/painting}">/gallery/painting</a></td>
             </tr>
             <tr>
-                <td><a th:href="@{/manage/gallery/register}">galleryRegister</a></td>
-                <td rowspan="2"><a th:href="@{/crossroad/dyning/cafe}">/crossroad/dyning/cafe</a></td>
+                <td rowspan="2"><a th:href="@{/manage/gallery/register}">galleryRegister</a></td>
+                <td><a th:href="@{/crossroad/dyning/cafe}">/crossroad/dyning/cafe</a></td>
                 <td rowspan="2"><a th:href="@{/main/mypage}"><button>마이페이지로 이동</button></a></td>
                 <td rowspan="2"><a th:href="@{/dyning/details(dno=1)}">/dyning/restaurant/details(dno=1)</a></td>
             </tr>

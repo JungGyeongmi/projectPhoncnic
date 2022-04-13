@@ -128,4 +128,18 @@ public class MemberServiceImpl implements MemberService {
             memberRepository.deleteById(id);
         }
     }
+
+    @Override
+    public Boolean checkMemberExist(String id) {
+        return memberRepository.getMemberByMemberId(id);
+    }
+
+    @Override
+    public String getNickname(String id) {
+
+        return memberRepository.getNicknameById(id);
+
+    }
+
+    
 }

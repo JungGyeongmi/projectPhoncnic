@@ -18,27 +18,36 @@
             #wrapper {
                 background-color: #FDFDF6;
             } */
+            
             #nav {
                 background-color: white;
             }
+
             #wrapper {
+                height: 100%;
+                min-height: 100%;
+                overflow-y: hidden;
+
                 background-color: white;
+                background-repeat: no-repeat;
+                background-size: cover;
             }
+
             .my.container-fluid{
+                height: 91%;
+                width:100%;
                 padding: 0;
             }
 
-            body,html {
-                min-height: 100% !important;
-                height: 100% !important;
-            }
         </style>
         <!-- awsome icon cdn -->
         <script src="https://kit.fontawesome.com/f145f2fd92.js" crossorigin="anonymous"></script>
         <!-- Favicon-->
         <link rel="icon" type="image/x-icon" th:href="@{/assets/picnic-basket.png}" />
         <!-- Google NotoSans -->
-        <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300&display=swap" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300&display=swap" rel="stylesheet">
         <!-- Core theme CSS (includes Bootstrap)-->
         <link th:href="@{/css/styles.css}" rel="stylesheet" />
         <!-- jQuery cdn -->
@@ -83,8 +92,12 @@
                 <!-- <a th:href="@{/}"><div class="sidebar-heading border-bottom bg-light">Start Bootstrap</div></a> -->
                 <div class="list-group list-group-flush">
                     <a class="list-group-item list-group-item-action list-group-item-light p-3"
+                        sec:authorize="isAnonymous()"
                         th:href="@{/member/login}">Google로 로그인</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3"
+                        sec:authorize="isAuthenticated()">유저정보</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3"
+                        sec:authorize="isAuthenticated()"
                         th:href="@{/member/logout}">로그아웃</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3"
                         th:href="@{/main/mypage}">마이페이지</a>
@@ -92,6 +105,12 @@
                         th:href="@{/help/list/}">고객센터</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3"
                         th:href="@{/main/companyinfo}">회사소개</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3"
+                        sec:authorize="hasRole('ROLE_ADMIN')"
+                        th:href="@{/index}">인덱스</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3"
+                        sec:authorize="hasRole('ROLE_ADMIN')"
+                        th:href="@{/admin}">관리자</a>
                 </div>
             </div>
         </div>

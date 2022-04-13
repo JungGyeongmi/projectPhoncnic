@@ -77,25 +77,33 @@ public class GalleryRestController {
     // Emoji insert/update/remove
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/emoji/register/{gno}")
-    public ResponseEntity<Long[][]> emojiRegister(@RequestBody EmojiDTO emojiDTO, @PathVariable("gno") Long gno,
+    public ResponseEntity<Object[]> emojiRegister(@RequestBody EmojiDTO emojiDTO, @PathVariable("gno") Long gno,
             @AuthenticationPrincipal AuthMemberDTO authMemberDTO) {
-        emojiDTO.setGno(gno);
-        emojiDTO.setId(authMemberDTO.getId());
-        Long[][] newEmojiCount = emojiService.galleryEmojiRegiter(emojiDTO);
-        log.info("emoji Register....................emojiDTO:" + emojiDTO);
-        log.info(Arrays.deepToString(newEmojiCount));
+        
+      emojiDTO.setGno(gno);
+      emojiDTO.setId(authMemberDTO.getId());
+      
+      Object[] returnResult = new Object[2];
+      Long[][] newEmojiCount = emojiService.galleryEmojiRegiter(emojiDTO);
+      Boolean checker = emojiService.checkExistEmoji(authMemberDTO.getId(), gno);
+      
+      returnResult[0] = checker;
+      returnResult[1] = newEmojiCount;
 
-        return new ResponseEntity<>(newEmojiCount, HttpStatus.OK);
+      log.info("emoji Register....................emojiDTO:" + emojiDTO);
+      log.info(Arrays.deepToString(newEmojiCount));
+
+      return new ResponseEntity<>(returnResult, HttpStatus.OK);
     }
 
     // 조회
     @PreAuthorize("isAuthenticated()")
-    @GetMapping("follow/{artistname}/{loginUserId}")
-    public ResponseEntity<Long> follow(@PathVariable String artistname, @PathVariable String loginUserId) {
+    @GetMapping("follow/{artistname}")
+    public ResponseEntity<Long> follow(@PathVariable String artistname, @AuthenticationPrincipal AuthMemberDTO authMemberDTO) {
         log.info("gallery follow check ......");
         Long fno = 0L;
-        if (loginUserId != null) {
-            fno = followService.getGalleryFno(loginUserId, artistname);
+        if (authMemberDTO.getId() != null) {
+            fno = followService.getGalleryFno(authMemberDTO.getId(), artistname);
             log.info("fno come here" + fno);
         }
         log.info("checked fno ..." + fno);
@@ -104,16 +112,15 @@ public class GalleryRestController {
 
     // 등록 삭제
     @PreAuthorize("isAuthenticated()")
-    @PostMapping("followRegister/{artistname}/{loginUserId}")
+    @PostMapping("followRegister/{artistname}")
     public ResponseEntity<Object[]> followRegister(@RequestBody FollowDTO followDTO, @PathVariable String artistname,
-            @PathVariable String loginUserId) {
+        @AuthenticationPrincipal AuthMemberDTO authMemberDTO) {
         Object[] follow = null;
 
-        if (loginUserId != "") {
-            log.info("loginUserId:" + loginUserId);
-            followDTO.setFollowerid(loginUserId);
+        if (authMemberDTO.getId() != "") {
+            log.info("loginUserId:" + authMemberDTO.getId());
+            followDTO.setFollowerid(authMemberDTO.getId());
             follow = followService.galleryfollowRegister(followDTO);
-
         }
         return new ResponseEntity<>(follow, HttpStatus.OK);
     }

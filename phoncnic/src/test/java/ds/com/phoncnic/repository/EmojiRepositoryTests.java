@@ -51,7 +51,7 @@ public class EmojiRepositoryTests {
     @Test
     @Transactional
     public void testGetEmojiListByMember() {
-        List<Emoji> emojiList = emojiRepository.getEmojiByMember("user3@icloud.com");
+        List<Emoji> emojiList = emojiRepository.getEmojiByMember("test3@gmail.com");
 
         emojiList.stream().forEach(emoji -> {
             System.out.println(emojiService.entityToEmojiDTO(emoji));
@@ -61,7 +61,7 @@ public class EmojiRepositoryTests {
 
     @Test
     public void testgetEnonType() {
-        Emoji result = emojiRepository.getEnoAndType("user1@icloud.com", 13L);
+        Emoji result = emojiRepository.getEnoAndType("test1@gmail.com", 13L);
         System.out.println(result);
 
     }
@@ -147,7 +147,7 @@ public class EmojiRepositoryTests {
     @Test
     @Transactional
     public void testUpdateEmoji() {
-        Integer eno = emojiRepository.updateEmojiTypeByGnoAndMemberId("3", 28L, "user1@icloud.com");
+        Integer eno = emojiRepository.updateEmojiTypeByGnoAndMemberId("3", 28L, "test1@gmail.com");
         System.out.println(eno);
     }
 
