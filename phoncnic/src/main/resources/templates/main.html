@@ -65,7 +65,7 @@
                         contentType: "application/json",
                         success: function (response) {                    
                             swal('success', "변경완료");
-                            $("img #userAvatar").attr("src", setpath);
+                            $("#userAvatar").attr("src", setpath);
                             console.log("update characterlook success");
                         },
                         fail: function (response) {
