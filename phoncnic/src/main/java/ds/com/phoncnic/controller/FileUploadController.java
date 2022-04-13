@@ -29,6 +29,7 @@ import net.coobird.thumbnailator.Thumbnailator;
 @RestController
 @Log4j2
 public class FileUploadController {
+    
     @Value("${com.ds.upload.path}")
     private String uploadPath;
 

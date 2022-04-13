@@ -1,4 +1,4 @@
-package ds.com.phoncnic.service.mypage;
+package ds.com.phoncnic.service.characterLook;
 
 import java.util.List;
 
@@ -12,6 +12,8 @@ public interface CharacterLookService {
     CharacterLookDTO getCharacterSet(String id);
 
     void modify(CharacterLookDTO characterLookDTO, String id);
+    
+    CharacterLookInfo getDefaultAvatar(long chno);
 
     default CharacterLookDTO entityToDTO(CharacterLookInfo characterLookinfo) {
         CharacterLookDTO characterLookDTO = CharacterLookDTO.builder()

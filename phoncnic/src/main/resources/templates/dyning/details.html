@@ -22,6 +22,11 @@
         height: 25px;
     }
 
+    #map {
+        max-width: -webkit-fill-available;
+    }
+
+
     #followBtn {
         border: none;
         border-radius: 30px;
@@ -108,8 +113,7 @@
                                 </div>
                             </th:block>
                         </div>
-                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade"
-                            data-bs-slide="prev">
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                             <span class="visually-hidden">Previous</span>
                         </button>
@@ -145,7 +149,6 @@
                                         <hr>
                                         <span class="card-text"><i class="fa-solid fa-location-dot"></i>
                                             [[${dto.location}]], [[${dto.locationdetails}]] </span>
-                                        <!-- <button type="button" class="mapViewBtn">지도보기</button> -->
                                         <a href="#map" type="button" class="mapViewBtn">지도보기</a>
 
                                         <hr>
@@ -290,7 +293,6 @@
 
                 //메뉴카드 슬라이드 
                 $(".carousel-item").eq(1).addClass("active");
-
                 
                 for (i = 1; i < 6; i++) {
                     var imgsrc = $("#emoji" + i).val();
@@ -345,6 +347,7 @@
                         })
                     }
                 });
+
                 //이모지 제어
                 var eno = $("#eno").val();
                 var etype = $("#etype").val();
