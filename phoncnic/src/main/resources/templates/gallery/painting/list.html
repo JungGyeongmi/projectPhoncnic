@@ -14,15 +14,11 @@
             padding: 20px 10px;
          }
 
-         input[name="emojitype"]:checked+label+span {
-            color: red;
-
-         }
-
          html,
          body {
             position: relative;
-            height: 100%;
+         } ::-webkit-scrollbar { 
+            display: none; 
          }
 
          body {
@@ -32,6 +28,7 @@
             color: #000;
             margin: 0;
             padding: 0;
+            scroll:no;
          }
 
          .swiper {
@@ -190,6 +187,48 @@
          .swiper-button-next {
             color: lightgray;
          }
+
+         /* character */
+         .character-look-wrapper {
+            position: absolute;
+         }
+
+         .btn-character-look {
+            position: fixed;
+            bottom: -7%;
+            z-index: 3;
+            left: 50%;
+         }
+
+         .btn-character-look img {
+            width: 10rem;
+         }
+
+         /* icon font */
+         .galleryEndBtn,
+         .galleryFirstBtn {
+            cursor: pointer;
+         }
+
+         .fa-solid {
+            font-size : 10rem;
+            color: #DBE9B7 ;
+         } :hover {
+            color: grey;
+         }
+
+         .lastslideBtns .slide-font {
+            text-align: center;
+            font-size: 1.5rem;
+         }
+
+         .galleryEndBtn {
+            margin-right: 1.5rem;
+         }
+         .galleryFirstBtn {
+            margin-left: 1.5rem;
+         }
+
       </style>
 
       <input type="hidden" th:if="${loginUserId}" name="loginUserId" th:value="${loginUserId}">
@@ -205,8 +244,16 @@
             </div>
             <div class="swiper-slide lastSlide">
                <div class="lastslideBtns">
-                  <button class="galleryEndBtn">관람전 돌아가기</button>
-                  <button class="galleryFirstBtn">맨 앞 전시로 이동하기 </button>
+                  <div class="galleryEndBtn">
+                     <i class="fa-solid fa-person-booth"></i>
+                     <br>
+                     <div class="slide-font"> 감상 끝내기 </div>
+                  </div>
+                  <span class="galleryFirstBtn">
+                     <i class="fa-solid fa-arrow-rotate-left"></i>
+                     <br>
+                     <div class="slide-font"> 처음으로 </div>   
+                  </span>
                </div>
             </div>
          </div>
@@ -215,10 +262,10 @@
          <div class="swiper-button-next"></div>
       </div>
       <!-- 임시 정렬 -->
-      <div style="text-align:center;">
-         <button type="button" class="btn " id="btncharacterlook" data-bs-toggle="modal"
+      <div class="character-look-wrapper">
+         <button type="button" class="btn btn-character-look" id="btncharacterlook" data-bs-toggle="modal"
             data-bs-target="#modalcharacterlook">
-            <img id="userAvatar" th:src="${avatar?.setpath}" alt="🙄" width="100px">
+            <img id="userAvatar" th:src="${avatar?.setpath}" alt="🙄">
          </button>
       </div>
       <div class="showup-curator">
