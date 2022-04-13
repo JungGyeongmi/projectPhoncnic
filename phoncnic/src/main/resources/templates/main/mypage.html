@@ -45,34 +45,7 @@
             <h3 class="py-5" style="font-family: 'GmarketSansMedium';">
                 <img th:src="@{/icon/vertical-line.png}" style="width:30px;" alt="">마이페이지
             </h3>
-            <div class="personal-info-container">
-                <div class="personal-info-character-content">
-                    <div class="personal-info-character">
-                        <th:block th:each="sdto : ${setDTO}">
-                            <img class="look setlook" th:src="${sdto.setpath}" alt="" id="checkedset">
-                            <input type="hidden" id="radioset" th:value="${sdto.setname}">
-                        </th:block>
-                    </div>
-                    <div class="info-div">
-                        <a href="#setimg"><button type="button">캐릭터 변경하기</button></a>
-                    </div>
-                    <div class="info-div">
-                        <span><b>[[${memberDTO.id}]]</b> 님</span>
-                    </div>
-                </div>
-                <div class="personal-info-content">
-                    <div class="personal-info">
-                        <span>닉네임</span>
-                        <span>[[${memberDTO.nickname}]]</span>
-                        <span>가입일</span>
-                        <span>[[${memberDTO.regdate}]]</span>
-                    </div>
-                    <div class="info-btns">
-                        <button id="memberModifyBtn" type="button">수정</button>
-                        <button id="memberOutBtn" type="button">회원탈퇴</button>
-                    </div>
-                </div>
-            </div>
+           
 
 
             <form id="memberfrm" action="">
