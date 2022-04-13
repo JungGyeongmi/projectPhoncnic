@@ -101,12 +101,12 @@
             <label for="labelHashtag" class="form-label">해시태그</label>
             <input type="text" name="hashtag" th:value="${result.hashtag}" class="form-control" id="labelHashtag">
           </div>
-          <p class="p-line">이미지 업로드</p> <hr>
+          <p class="p-line pt-2">이미지 업로드</p> <hr>
           <div class="col-12 py-3">
             <label for="" class="form-label">메뉴 이미지 (중복 선택 가능)</label>
             <div class="form-group menuimage">
               <div class="custom-file">
-                <input type="file" class="form-control" id="fileInput1" multiple>
+                <input type="file" class="custom-file-input1 files form-control" id="fileInput1" multiple>
                 <label data-browse="Browse"></label>
               </div>
             </div>
@@ -136,7 +136,7 @@
             <label for="fileInput2" class="form-label">배경 이미지 (1장만 선택 가능)</label>
             <div class="form-group background">
               <div class="custom-file">
-                <input type="file" class="form-control" id="fileInput2" multiple>
+                <input type="file" class="form-control files custom-file-input2" id="fileInput2" multiple>
                 <label data-browse="Browse"></label>
               </div>
             </div>
@@ -282,6 +282,7 @@
             dataType: 'json',
             success: function (result) {
               console.log(result);
+              console.log(result);
               menushowResult(result);
             },
             error: function (jqXHR, textStatus, errorThrown) { // 이 부분 잘 이해 안됐음
@@ -335,6 +336,8 @@
             dataType: 'json',
             success: function (result) {
               console.log(result);
+              console.log(result);
+
               backgroundshowResult(result);
             },
             error: function (jqXHR, textStatus, errorThrown) { // 이 부분 잘 이해 안됐음
