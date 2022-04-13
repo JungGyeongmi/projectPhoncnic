@@ -15,6 +15,7 @@ import ds.com.phoncnic.service.characterLook.CharacterLookService;
 import ds.com.phoncnic.service.dyning.DyningService;
 import ds.com.phoncnic.service.emoji.EmojiInfoService;
 import ds.com.phoncnic.service.emoji.EmojiService;
+import ds.com.phoncnic.service.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -29,6 +30,7 @@ public class DyningController {
     private final EmojiInfoService emojiInfoService;
     private final FollowService followService;
     private final CharacterLookService characterLookService;
+    private final MemberService memberService;
 
     // 카페 거리 페이지
     @GetMapping("/cafe/list")
@@ -38,7 +40,7 @@ public class DyningController {
        
         try {
             model.addAttribute("id",dto.getId());
-            model.addAttribute("nickname",dto.getNickname());
+            model.addAttribute("nickname",memberService.getNickname(dto.getId()));
             model.addAttribute("setDTO", characterLookService.getCharacterSet(dto.getId()));
         } catch (NullPointerException e) {
             model.addAttribute("id","");
@@ -56,7 +58,7 @@ public class DyningController {
 
         if(dto!=null){
             model.addAttribute("id",dto.getId());
-            model.addAttribute("nickname",dto.getNickname());
+            model.addAttribute("nickname",memberService.getNickname(dto.getId()));
             model.addAttribute("setDTO", characterLookService.getCharacterSet(dto.getId()));
         }else{
             model.addAttribute("id","");
