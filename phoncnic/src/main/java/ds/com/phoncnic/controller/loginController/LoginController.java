@@ -19,7 +19,7 @@ public class LoginController {
         log.info("request...");
         log.info(request.getServletPath());
         if(auth!=null && auth.getDetails() != null) {
-            return "/index";
+            return "redirect:/";
         }
         log.info("login page......");
         return "/member/login";
