@@ -92,8 +92,12 @@
                 <!-- <a th:href="@{/}"><div class="sidebar-heading border-bottom bg-light">Start Bootstrap</div></a> -->
                 <div class="list-group list-group-flush">
                     <a class="list-group-item list-group-item-action list-group-item-light p-3"
+                        sec:authorize="isAnonymous()"
                         th:href="@{/member/login}">Google로 로그인</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3"
+                        sec:authorize="isAuthenticated()">유저정보</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3"
+                        sec:authorize="isAuthenticated()"
                         th:href="@{/member/logout}">로그아웃</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3"
                         th:href="@{/main/mypage}">마이페이지</a>
@@ -101,6 +105,12 @@
                         th:href="@{/help/list/}">고객센터</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3"
                         th:href="@{/main/companyinfo}">회사소개</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3"
+                        sec:authorize="hasRole('ROLE_ADMIN')"
+                        th:href="@{/index}">인덱스</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3"
+                        sec:authorize="hasRole('ROLE_ADMIN')"
+                        th:href="@{/admin}">관리자</a>
                 </div>
             </div>
         </div>
