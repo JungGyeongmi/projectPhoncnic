@@ -28,7 +28,6 @@
             color: #000;
             margin: 0;
             padding: 0;
-            scroll:no;
          }
 
          .swiper {
@@ -40,8 +39,12 @@
          .swiper-slide {
             background-position: center;
             background-size: cover;
-            width: 300px;
-            height: 470px;
+            /* max-width: 500px;
+            max-height: 500px; */
+            min-width: 400px;
+            min-height: 400px;
+            /* width: 300px;
+            height: 470px; */
          }
 
          .swiper-slide img {
@@ -50,6 +53,11 @@
             height: 100%;
             object-fit: cover;
             object-position: center;
+         }
+
+         .swiper-slide-title {
+            color: grey ;
+            font-size: 1.2rem;
          }
 
          .serach-form-container {
@@ -172,15 +180,16 @@
 
          .lastslideBtns {
             display: flex;
-            justify-content: space-evenly;
+            /* justify-content: space-evenly; */
             align-items: center;
             width: 100%;
             height: 100%;
             margin-left: 60px;
          }
 
-         .lastslideBtns button {
-            padding: 15px 45px;
+         .lastSlide {
+            display: flex;
+            align-items: center;
          }
 
          .swiper-button-prev,
@@ -217,6 +226,8 @@
             color: grey;
          }
 
+         /* last slide */
+
          .lastslideBtns .slide-font {
             text-align: center;
             font-size: 1.5rem;
@@ -225,6 +236,7 @@
          .galleryEndBtn {
             margin-right: 1.5rem;
          }
+
          .galleryFirstBtn {
             margin-left: 1.5rem;
          }
@@ -235,14 +247,18 @@
 
       <div class="swiper mySwiper">
          <div class="swiper-wrapper">
-            <div class="swiper-slide dtoData" th:each="dto : ${galleryDTOList}" th:data-gno="${dto.gno}"
-               th:data-id="${id}" th:data-file="${dto.getImageURL}" th:data-user-name="${dto.getArtistname}"
-               data-bs-toggle="modal" data-bs-target="#detailsModal">
-               <img style="cursor:pointer;" th:src="|@{'/display'}?fileName=${dto.getImageURL()}|" alt="🎨" />
-
-               [[${dto.title}]]
+            <div class="swiper-slide dtoData" 
+            th:each="dto : ${galleryDTOList}" 
+            th:data-gno="${dto.gno}"
+            th:data-id="${id}" th:data-file="${dto.getImageURL}" 
+            th:data-user-name="${dto.getArtistname}"
+            data-bs-toggle="modal" data-bs-target="#detailsModal">
+            <div class="swiper-slide-title">
+               [[${dto.title}]]               
             </div>
-            <div class="swiper-slide lastSlide">
+            <img style="cursor:pointer;" th:src="|@{'/display'}?fileName=${dto.getImageURL()}|" alt="🎨" />
+         </div>
+         <div class="swiper-slide lastSlide">
                <div class="lastslideBtns">
                   <div class="galleryEndBtn">
                      <i class="fa-solid fa-person-booth"></i>
