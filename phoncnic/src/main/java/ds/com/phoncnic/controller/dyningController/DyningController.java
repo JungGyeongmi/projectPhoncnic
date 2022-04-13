@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ds.com.phoncnic.dto.DyningDTO;
 import ds.com.phoncnic.security.dto.AuthMemberDTO;
@@ -67,7 +68,9 @@ public class DyningController {
 
 
     @GetMapping("/details")
-    public void details(@RequestParam("dno") Long dno,@AuthenticationPrincipal AuthMemberDTO dto, Model model) {
+    public void details(@RequestParam("dno") Long dno,@AuthenticationPrincipal AuthMemberDTO dto, Model model,
+     @RequestParam("chartop") Long chartop,@RequestParam("charleft") Long charleft,RedirectAttributes ra) {
+
         log.info("Details.................");
         if (dno != 0) {
 	        model.addAttribute("emojiInfo", emojiInfoService.getEmojiInfoList());
@@ -104,7 +107,8 @@ public class DyningController {
             model.addAttribute("emojitype4", emojiService.getEmojitypeCwt(dno, "4"));
             model.addAttribute("emojitype5", emojiService.getEmojitypeCwt(dno, "5"));
 
-
+            ra.addFlashAttribute("chartop", chartop);
+            ra.addFlashAttribute("charleft",charleft);
             // model.addAttribute("follow",followService.)
 
         } else

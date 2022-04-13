@@ -163,6 +163,8 @@
             <div th:each="sdto : ${setDTO}" id="char">
                 <img type="hidden"  id ="charimg" class="look setlook" th:src="${sdto.setpath}" alt="">
                 <div th:text="${nickname}">[[${nickname}]]</div>
+                <input type="text" name="chartop"  th:value="${chartop}" style="opacity: 0;">
+                <input type="text" name="charleft"  th:value="${charleft}" style="opacity: 0;">
             </div>
             <ul class="dyning-list-ul">
                 <li id="list2" th:each="dto : ${result}" th:if="${dtoStat.count} > ${dtoStat.size}/2 + 0.5">
@@ -190,6 +192,19 @@
         </style>
 
         <script>
+
+            $(document).ready(function(e){
+                if($("input[name='chartop']").val()!=""){
+                    
+                    var top =  $("input[name='chartop']").val();
+                    var left =  $("input[name='charleft']").val();
+
+                    $("#char").offset({top : top });
+                    $("#char").offset({left : left });
+
+                }
+            });
+
             $(".dyningimg").on("click", function (e) {
                 var src = $(this).parent().attr("class");
                 var src = $(this).parent().attr("id");
@@ -225,13 +240,16 @@
 
 
                 document.addEventListener("keyup", function (e) {
+                    var chartop = char.offsetTop;
+                    var charleft = char.offsetLeft;
                     let key = e.keyCode;
+                    $("input[name='chartop']").val(chartop);
+                    $("input[name='charleft']").val(charleft);
 
                     if (key === 13 /* BOTTOM */) {
                         var imgLength = $(".dyningimg").length;
-                        var chartop = char.offsetTop;
-                        var charleft = char.offsetLeft;
                         console.log("캐릭터좌표" + chartop, charleft);
+
 
                         for (i = 1; i <= imgLength; i++) {
                             var targetTop = $("#" + i).offset().top;
@@ -241,7 +259,7 @@
                             console.log("타겟좌표" + targetTop, targetLeft, targetHref);
 
                             if (targetTop - 80 < chartop && chartop < targetTop + 80 && targetLeft - 30 < charleft && charleft < targetLeft + 30) {
-                                location.href = targetHref;
+                                location.href = targetHref + "&chartop=" + chartop + "&charleft=" + charleft;
                             };
                         }
                     }
