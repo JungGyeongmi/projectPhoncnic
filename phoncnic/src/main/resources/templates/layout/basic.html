@@ -39,6 +39,10 @@
                 padding: 0;
             }
 
+            #loginUserPicture{
+                border-radius: 50%;
+            }
+
         </style>
         <!-- awsome icon cdn -->
         <script src="https://kit.fontawesome.com/f145f2fd92.js" crossorigin="anonymous"></script>
@@ -75,7 +79,7 @@
                             </a>
                         </div>
                         <button class="btn" id="sidebarToggle">
-                            <img th:src="@{/icon/line-icon.png}" alt="표시할 수 없음" style="width:50px">
+                            <img th:src="@{/icon/line-icon.png}" alt="표시할 수 없음" width="50px">
                         </button>
                     </div>
                 </nav>
@@ -94,8 +98,16 @@
                     <a class="list-group-item list-group-item-action list-group-item-light p-3"
                         sec:authorize="isAnonymous()"
                         th:href="@{/member/login}">Google로 로그인</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3"
-                        sec:authorize="isAuthenticated()">유저정보</a>
+                    <div id="userInfoToggle" class="list-group-item list-group-item-light p-3"
+                        sec:authorize="isAuthenticated()">
+                        <span hidden id="loginUserPictureSrc" sec:authentication='principal.attr["picture"]'></span>
+                        <span hidden id="loginUserRole" sec:authentication='principal.authorities'></span>
+                        <div style="display:inline;">
+                            <i style="color: gold; position: absolute;  padding-left: 1%; top: 0; font-size: 2rem;" sec:authorize="hasRole('ROLE_ADMIN')" class="fa-solid fa-crown"></i>
+                            <img id="loginUserPicture" src="" alt="" width="20%">
+                        </div>
+                        <span sec:authentication="principal.nickname"></span>
+                    </div>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3"
                         sec:authorize="isAuthenticated()"
                         th:href="@{/member/logout}">로그아웃</a>
@@ -118,6 +130,24 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->
         <script th:src="@{/js/scripts.js}"></script>
+        <script th:inline="javascript">
+            $(function() {
+                
+                var loginUserProfileSrc = $("#loginUserPictureSrc").text();
+                var loginUserPicture = $("#loginUserPicture")
+                var userInfoToggle = $("#userInfoToggle")
+                var loginUserRole = $("#loginUserRole").text();
+
+                if(loginUserProfileSrc!="" || loginUserProfileSrc !=null){
+                    loginUserPicture.attr("src", loginUserProfileSrc)
+                }
+
+                if(loginUserRole=="[ROLE_ADMIN]") {
+                    userInfoToggle.css("border", "solid 5px gold");
+                }
+            
+            });
+        </script>
     </body>
 </th:block>
 </html>
