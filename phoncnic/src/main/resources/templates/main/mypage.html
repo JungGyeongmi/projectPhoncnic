@@ -247,7 +247,7 @@
                         </div>
                         <div class="personal-info">
                             <span>가입일</span>
-                            <span><b>[[${memberDTO.regdate}]]</b></span>
+                            <span><b>[[${#temporals.format(memberDTO.regdate, 'yyyy-MM-dd')}]]</b></span>
                         </div>
                         <div class="info-btns">
                             <button id="memberOutBtn" type="button">회원탈퇴</button>
