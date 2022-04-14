@@ -82,7 +82,7 @@
                 <!-- 여기서 input 으로 전달해주는 값을 img 아래로 내리니까 전달자체가 되지 않았음 -->
                 <label class="form-label">작품 업로드</label>
                 <div class="custom-file">
-                    <input type="file" class="custom-file-input files form-control" id="fileInput" multiple>
+                    <input type="file" class="custom-file-input files form-control" id="fileInput" accept="image/jpeg,png" required>
                     <label data-browse="Browse"></label>
                 </div>
             </div>
@@ -143,6 +143,7 @@
                     }
                     // 파일 이름으로 유효성 검사
                     if (regex.test(fileName.substring(fileName.lastIndexOf(".")))) {
+                        
                         swal("jpg 형태의 파일을 추가해주세요");
                         return false;
                     }
@@ -165,25 +166,31 @@
                     var files = inputFile[0].files;
                     var appended = false;
 
+                    if (files.length > 1 || $(".backgroundshowResult ul li").length != 0) {
+                         swal({
+                            title : "알림", 
+                            text:"갤러리 사진은 1장만 추가 가능합니다",
+                            type: "warning",
+                            button: false,
+                        }); 
+                         return; 
+                        }
                     for (let i = 0; i < files.length; i++) {
                         if (!checkExtension(files[i].name, files[i].size)) {
                             return false;
                         }
-                        console.log(files[i]);
                         formData.append("uploadFiles", files[i]);
                         appended = true;
                     }
 
                     if (!appended) { return; }
 
-                    // 테스트용 콘솔
-                    // for (var value of formData.values()) console.log("formData >> " + value);
 
                     /*[+
                         var urlUpload = [[@{/uploadAjax/}]];
-                     +]*/
+                    +]*/
 
-                    // 파일 업로드를 위한 ajax
+                   
                     $.ajax({
                         url: urlUpload,
                         processData: false,
