@@ -357,7 +357,7 @@
                         <span>작품</span>
                     </div>
                     <hr>
-                    <div class="follow-list">       
+                    <div class="follow-list"  id="gno-emoji">       
                         <div th:each="edto : ${emojiDTO}" th:if="${edto.gno}!=0" class="emoji-info">
                             <div>- <b>[[${edto.gno}]]번 게시물</b></div>
                             <input type="hidden" th:value="${edto.emojitype}">
@@ -366,12 +366,6 @@
                                 <button class="emojiRemoveBtn" th:value="${edto.eno}" type="button">삭제</button>
                             </span>
                         </div>
-                        <div th:each="edto : ${emojiDTO}" th:unless="${edto.gno}!=0" >
-                            - 작품에 좋아요를 남겨보세요
-                        </div>
-                        <div  th:if='${emojiDTO.size()}==0'>
-                            - 작품에 좋아요를 남겨보세요
-                        </div>
                     </div>
                 </div>
                 <div class="follow-content">
@@ -379,20 +373,14 @@
                         <span>가게</span>
                     </div>
                     <hr>
-                    <div class="follow-list">
-                        <div th:each="edto : ${emojiDTO}" th:if="${edto.dno}!=0" class="emoji-info">
+                    <div class="follow-list" id="dno-emoji">
+                        <div th:each="edto : ${emojiDTO}" th:if="${edto.dno}!=0" class="emoji-info" >
                             <div>- <b>[[${edto.dno}]]번 게시물</b></div>
                             <input type="hidden" th:value="${edto.emojitype}">
                             <div><img th:src="${edto.emojipath}" alt="" width="40px"></div>
                             <span class="follow-btn">
                                 <button class="emojiRemoveBtn" th:value="${edto.eno}" type="button">삭제</button> 
                             </span>
-                        </div>
-                        <div th:each="edto : ${emojiDTO}" th:unless="${edto.dno}!=0">
-                            - 가게에 좋아요를 남겨보세요
-                        </div>
-                        <div  th:if='${emojiDTO.size()}==0'>
-                            - 가게에 좋아요를 남겨보세요
                         </div>
                     </div>
                 </div>
@@ -402,6 +390,16 @@
             </div>
         </div>
         <script th:inline="javascript">
+            var gnoemoji = document.getElementById("gno-emoji");
+            var dnoemoji = document.getElementById("dno-emoji");
+
+            if(gnoemoji.innerText == ""){
+                gnoemoji.innerHTML="<div>- 작품에 남긴 좋아요가 없습니다</div>";
+            } 
+            if(dnoemoji.innerText == ""){
+                dnoemoji.innerHTML="<div>- 가게에 남긴 좋아요가 없습니다</div>";
+            }
+
 
             var memberform = document.querySelector("#memberfrm");
             var lookform = document.querySelector("#lookform");
