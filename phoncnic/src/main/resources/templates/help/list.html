@@ -83,6 +83,7 @@
                         <button type="button" class="btn btn-secondary custom">
                             문의하기
                         </button>
+                        <input type="text" id="userid" th:value="${userid}">
                     </a>
                 </div>
             </div>
@@ -129,25 +130,6 @@
               </li>
             </ul>
           </nav>
-        <!-- pagination -->
-        <!-- <ul>
-            <li th:if="${result.prev}">
-                <a th:href="@{/help/list(page=${result.start-1}, 
-                type=${pageRequestDTO.type},
-                keyword=${pageRequestDTO.keyword})}" tabindex="-1">Previous</a>
-            </li>
-            <li th:each="page : ${result.pageList}">
-                <a class="page-link" th:href="@{/help/list
-                    (page=${page}, 
-                    type=${pageRequestDTO.type},
-                    keyword=${pageRequestDTO.keyword})}">[[${page}]]</a>
-            </li>
-            <li th:if="${result.next}">
-                <a th:href="@{/help/list(page=${result.end+1}, 
-                type=${pageRequestDTO.type},
-                keyword=${pageRequestDTO.keyword})}">Next</a>
-            </li>
-        </ul> -->
     </div>
     
 
@@ -166,8 +148,11 @@
             }
         }
 
-        /*[+ var msg=[[${msg}]]; +]*/
-        /*[+ var id=[[${id}]]; +]*/
+        /*[+ 
+            var msg=[[${msg}]]; 
+            var id=[[${id}]];
+            var readUrl = [[@{/help/read}]];
+        +]*/
 
         var userid = document.querySelector("#userid").getAttribute('value');
         console.log(msg);
