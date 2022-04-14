@@ -2,8 +2,6 @@ package ds.com.phoncnic.controller;
 
 import javax.servlet.http.HttpSession;
 
-import org.hibernate.Session;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,9 +12,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ds.com.phoncnic.dto.CharacterLookDTO;
 import ds.com.phoncnic.dto.MemberDTO;
 import ds.com.phoncnic.service.FollowService;
+import ds.com.phoncnic.service.characterLook.CharacterLookService;
 import ds.com.phoncnic.service.emoji.EmojiService;
-import ds.com.phoncnic.service.mypage.CharacterLookService;
-import ds.com.phoncnic.service.mypage.MemberService;
+import ds.com.phoncnic.service.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -46,7 +44,7 @@ public class MyPageController {
     public String membermodify(MemberDTO memberDTO, RedirectAttributes ra) {
         log.info("modify post.........id:" + memberDTO.getId());
 
-        memberService.modify(memberDTO);
+        memberService.modify2(memberDTO);
         ra.addAttribute("id", memberDTO.getId());
         return "redirect:/main/mypage";
 
