@@ -14,6 +14,7 @@ public interface MemberService {
   void modify2(AuthMemberDTO dto);
   void remove(String id);
   MemberDTO getMember(String id);
+  String getNickname(String id);
 
   default Member dtoToEntity(MemberDTO memberDTO) {
     Member member = Member.builder()

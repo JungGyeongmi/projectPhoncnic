@@ -4,7 +4,6 @@
     <th:block th:fragment="content">
         <input type="text" name="loginUserId" th:value="${loginuserId}" hidden>
         
-        <a th:href="@{/index}">인덱스(임시)</a>
         <a th:href="@{/crossroad}">피크닉갈림길</a>
         <a th:href="@{/manage/rolechoice}">등록갈림길</a>
 
@@ -33,11 +32,11 @@
                                         <input id="${index}${item.setname}" name="chalookInfo" type="radio" value="${item.setname}" hidden>
                                         <label for="${index}${item.setname}">
                                             <img src="${item.setpath}" id="setimg" alt="">
-                                        <lable>
+                                        </lable>
                                     </span>`
                         });
                                     
-                        str += `<form id="lookfrm" action="">
+                        str += `<form id="lookfrm" action="" hidden>
                             <input type="hidden" name="id" value="${result[1]}">
                             <input type="hidden" name="setname" value="${result[2].setname}">
                             <input type="hidden" name="setpath" value="${result[2].setpath}">
@@ -48,7 +47,7 @@
                                 </div>
                             </form>`;
                         modalBody.html(str);
-                        $('input:radio[name=setname]:input[value=' + result[2].setname + ']').attr("checked", true);
+                        $('input:radio[name=chalookInfo]:input[value=' + result[2].setname + ']').attr("checked", true);
                     });
                     console.log("get look modal success...");
                 }
@@ -65,7 +64,7 @@
                         contentType: "application/json",
                         success: function (response) {                    
                             swal('success', "변경완료");
-                            $("img #userAvatar").attr("src", setpath);
+                            $("#userAvatar").attr("src", setpath);
                             console.log("update characterlook success");
                         },
                         fail: function (response) {
@@ -99,6 +98,7 @@
                             modifyLook();
                         }
                     });
+                
                 }
             });
         </script>
@@ -113,6 +113,24 @@
                 width: 100px;
                 height: 140px;
             }
+
+            span>label {
+                padding: 15px; 
+            }
+            span>label:hover {
+                cursor: pointer;
+            }
+
+            input[type=radio]:checked + label {
+                background-color: #DBE9B7;
+                border-radius: 5px;
+            }
+
+            .character-modal-body {
+                display: flex;
+                justify-content: center;
+            }
+      </style>
         </style>
         <!-- 모달창 -->
         <div class="character modal" tabindex="-1" id="modalcharacterlook">

@@ -59,7 +59,7 @@ public class GalleryRepositoryTests {
             Gallery gallery = Gallery.builder()
                     .title("title" + i)
                     .content("content" + i)
-                    .artistid(memberRepository.findById("test" + (i+10) + "@gmail.com").get())
+                    .artistid(memberRepository.findById("test" + (i+20) + "@gmail.com").get())
                     .imagepath("2022\\04\\01")
                     .imagetype(rand)
                     .imagename("testImage.jpg")

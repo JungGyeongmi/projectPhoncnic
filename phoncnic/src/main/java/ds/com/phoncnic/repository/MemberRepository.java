@@ -35,5 +35,8 @@ public interface MemberRepository extends JpaRepository<Member, String> {
     @EntityGraph(attributePaths = {"roleSet"}, type= EntityGraphType.LOAD)
     @Query("select m from Member m where id= :id")
     Optional<Member> findByEmail(String id);
+
+    @Query("select nickname from Member where id = :id")
+    String getNicknameById(String id);
    
 }

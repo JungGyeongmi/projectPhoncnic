@@ -6,6 +6,16 @@
       <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
 
       <style>
+         button:active {
+            outline: none;
+            border: none;
+         }
+         
+         button:focus {
+            border: none;
+            outline: none;
+         }
+
          input[name="emojitype"] {
             opacity: 0;
          }
@@ -14,15 +24,13 @@
             padding: 20px 10px;
          }
 
-         input[name="emojitype"]:checked+label+span {
-            color: red;
-
-         }
-
          html,
          body {
             position: relative;
-            height: 100%;
+         }
+
+         ::-webkit-scrollbar {
+            display: none;
          }
 
          body {
@@ -35,16 +43,25 @@
          }
 
          .swiper {
-            width: 95%;
-            margin-top: 90px;
-            margin-bottom: 120px;
+            width: 100%;
+            margin-top: 5%;
+            /* margin-bottom: 120px; */
+
+         }
+
+         .swiper-wrapper :not(:nth-last-child()) {
+            padding: 0 30rem;
          }
 
          .swiper-slide {
             background-position: center;
             background-size: cover;
-            width: 300px;
-            height: 470px;
+            max-width: 500px;
+            max-height: 500px;
+            min-width: 400px;
+            min-height: 400px;
+            /* width: 300px;
+            height: 470px; */
          }
 
          .swiper-slide img {
@@ -53,6 +70,11 @@
             height: 100%;
             object-fit: cover;
             object-position: center;
+         }
+
+         .swiper-slide-title {
+            color: grey;
+            font-size: 1.2rem;
          }
 
          .serach-form-container {
@@ -175,20 +197,106 @@
 
          .lastslideBtns {
             display: flex;
-            justify-content: space-evenly;
+            /* justify-content: space-evenly; */
             align-items: center;
             width: 100%;
             height: 100%;
             margin-left: 60px;
          }
 
-         .lastslideBtns button {
-            padding: 15px 45px;
+         .lastSlide {
+            display: flex;
+            align-items: center;
          }
 
          .swiper-button-prev,
          .swiper-button-next {
             color: lightgray;
+         }
+
+         /* character */
+         .character-look-wrapper {
+            position: absolute;
+         }
+
+         .btn-character-look {
+            position: fixed;
+            bottom: -7%;
+            z-index: 3;
+            left: 50%;
+         }
+
+         .btn-character-look img {
+            width: 10rem;
+         }
+
+         /* icon font */
+         .galleryEndBtn,
+         .galleryFirstBtn {
+            cursor: pointer;
+         }
+
+         .slideBtn {
+            font-size: 10rem;
+            color: #DBE9B7;
+         }
+
+         .galleryFirstBtn :hover,
+         .galleryEndBtn :hover {
+            color: grey;
+         }
+
+         /* last slide */
+
+         .lastslideBtns .slide-font {
+            text-align: center;
+            font-size: 1.5rem;
+         }
+
+         .galleryEndBtn {
+            margin-right: 1.5rem;
+         }
+
+         .galleryFirstBtn {
+            margin-left: 1.5rem;
+         }
+
+         /* detail */
+
+         .col-md-5 {
+            text-align: end;
+            padding-right: 3%;
+         }
+
+         #inputArtist h4 {
+            max-width: fit-content;
+            text-overflow: clip;
+            overflow-x: hidden;
+         }
+
+         #followBtn {
+            border: none;
+            background: lightgrey;
+            border-radius: 30px;
+            font-size: 1rem;
+            padding: 3%;
+            cursor: pointer;
+            margin-top: 5%;
+         }
+
+         .md-content {
+            display: flex;
+            align-items: self-end;
+         }
+
+         .md-follow {
+            display: flex;
+            align-items: self-end;
+            justify-content: end;
+         }
+
+         div .row {
+            margin-top: 1%;
          }
       </style>
 
@@ -199,14 +307,23 @@
             <div class="swiper-slide dtoData" th:each="dto : ${galleryDTOList}" th:data-gno="${dto.gno}"
                th:data-id="${id}" th:data-file="${dto.getImageURL}" th:data-user-name="${dto.getArtistname}"
                data-bs-toggle="modal" data-bs-target="#detailsModal">
+               <div class="swiper-slide-title">
+                  [[${dto.title}]]
+               </div>
                <img style="cursor:pointer;" th:src="|@{'/display'}?fileName=${dto.getImageURL()}|" alt="🎨" />
-
-               [[${dto.title}]]
             </div>
             <div class="swiper-slide lastSlide">
                <div class="lastslideBtns">
-                  <button class="galleryEndBtn">관람전 돌아가기</button>
-                  <button class="galleryFirstBtn">맨 앞 전시로 이동하기 </button>
+                  <div class="galleryEndBtn">
+                     <i class="fa-solid fa-person-booth slideBtn"></i>
+                     <br>
+                     <div class="slide-font"> 감상 끝내기 </div>
+                  </div>
+                  <span class="galleryFirstBtn">
+                     <i class="fa-solid fa-arrow-rotate-left slideBtn"></i>
+                     <br>
+                     <div class="slide-font"> 처음으로 </div>
+                  </span>
                </div>
             </div>
          </div>
@@ -215,11 +332,11 @@
          <div class="swiper-button-next"></div>
       </div>
       <!-- 임시 정렬 -->
-      <div style="text-align:center;">
-         <button type="button" class="btn " id="btncharacterlook" data-bs-toggle="modal"
+      <div class="character-look-wrapper">
+         <button type="button" class="btn btn-character-look" id="btncharacterlook" data-bs-toggle="modal"
             data-bs-target="#modalcharacterlook">
-            <img id="userAvatar" th:src="${avatar?.setpath}" alt="🙄" width="100px">
-         </button>
+            <img id="userAvatar" th:src="${avatar?.setpath}" alt="🙄">
+      </button>
       </div>
       <div class="showup-curator">
          <div class="drop_left speech-bubble show-gurator-script">
@@ -274,7 +391,7 @@
             effect: "coverflow",
             grabCursor: false,
             centeredSlides: true,
-            slidesPerView: "2",
+            slidesPerView: "3",
             coverflowEffect: {
                rotate: 0,
                stretch: -0,
@@ -346,9 +463,16 @@
                   str = `
                   <input type="hidden" name = "gno" value="${targetGno}" class="inputGno" data-gno="${targetGno}">
                   <img style='width:100%' src="${urlDisplay}?fileName=${targetFile}">
-                  <div class=row>
-                        <div class="col-md-7"><h2>${dto.content}</h2></div>
-                        <div class="col-md-4" id="inputArtist"><h4>${dto.artistname}</h4></div>
+                  <div class="row">
+                        <div class="col-md-7 md-content">
+                           <h4 id="inputArtist">${dto.artistname}</h4>
+                        </div>
+                        <div class="col-md-5 md-follow">
+                           <span id="followBtn"><i class="bi bi-plus-circle-fill"></i> 팔로우</span>
+                        </div>
+                  </div>
+                  <div>
+                     ${dto.content}   
                   </div>`
                   detailsModalbody.html(str);
 
@@ -382,8 +506,6 @@
                      <img src='${dto.emojiinfo["5"]}' alt="이미지를 불러올 수 없습니다" style="width: 30px;">   
                   </label>
                   <span class="emoji-cnt">${dto.emojicount[4][1]}</span>
-                  <br/>
-                  <input type="button" value="팔로우" id="followBtn">
                   </div>`;
 
                   detailsModalbodyEmoji.html(str);
@@ -420,10 +542,12 @@
                   console.log(fno);
                   if (fno != null) {
                      fnoInput.val(fno);
-                     $("#followBtn").val("언팔로우");
+                     $("#followBtn").css('color', 'red');
+                     $("#followBtn").html('<i class="bi bi-dash-circle"></i> 언팔로우');
                   } else {
                      fnoInput.val("");
-                     $("#followBtn").val("팔로우");
+                     $("#followBtn").css('color', 'black');
+                     $("#followBtn").html('<i class="bi bi-plus-circle-fill"></i> 팔로우');
                   }
                });
             }
@@ -607,11 +731,12 @@
             $(document).on("click", "#followBtn", function () {
                if ($("input[name=loginUserId]").val() != null) {
 
-                  var artistname = $("#inputArtist").text();
+                  var artistname = $("#inputArtist").text().trim();
+                  var data = { artistname: artistname, followerid: loginUserId }
 
                   console.log("artistaname : " + artistname);
-                  var data = { artistname: artistname, followerid: loginUserId }
                   console.log(data);
+
                   $.ajax({
                      type: "POST",
                      url: followRegister + '/' + artistname,
@@ -621,9 +746,11 @@
                      success: function (response) {
                         console.log(response);
                         if (!response[3]) {
-                           $("#followBtn").val("언팔로우");
+                           $("#followBtn").css('color', 'red');
+                           $("#followBtn").html('<i class="bi bi-dash-circle"></i> 언팔로우');
                         } else {
-                           $("#followBtn").val("팔로우");
+                           $("#followBtn").css('color', 'black');
+                           $("#followBtn").html('<i class="bi bi-plus-circle-fill"></i> 팔로우');
                         }
                         console.log("update follow success");
                      },
@@ -680,14 +807,14 @@
                    <input type="hidden" name="id" value="${result[1]}">
                    <input type="hidden" name="setname" value="${result[2].setname}">
                    <input type="hidden" name="setpath" value="${result[2].setpath}">
-                   <div class="look">
+                   <div class="look" hidden>
                            <div>
-                               <img class="setlook newsetlook" src="${result[2].setpath}" alt="" id="checkedset">
+                              <img class="setlook newsetlook" src="${result[2].setpath}" alt="" id="checkedset">
                            </div>
                        </div>
                    </form>`;
                   modalBody.html(str);
-                  $('input:radio[name=setname]:input[value=' + result[2].setname + ']').attr("checked", true);
+                  $('input:radio[name=chalookInfo]:input[value=' + result[2].setname + ']').attr("checked", true);
                });
                console.log("get look modal success...");
             }
@@ -752,6 +879,25 @@
             width: 100px;
             height: 140px;
          }
+
+         span>label {
+            padding: 15px;
+         }
+
+         span>label:hover {
+            cursor: pointer;
+         }
+
+         input[type=radio]:checked+label {
+            background-color: #DBE9B7;
+            border-radius: 5px;
+         }
+
+         .character-modal-body {
+            display: flex;
+            justify-content: center;
+         }
+
       </style>
 
       <!-- 캐릭터 모달창 -->
@@ -829,7 +975,7 @@
       <!-- Details 모달창 -->
       <div class="modal" tabindex="-1" id="detailsModal">
          <div class="container">
-            <div class="modal-dialog modal-lg">
+            <div class="modal-dialog modal-md">
                <div class="modal-content">
                   <div class="modal-header">
                      <h5 class="modal-title">작품 상세페이지</h5>
@@ -838,15 +984,12 @@
                   <div class="modal-body">
                      <div class="details-modal-body">
                      </div>
+                     <hr>
                      <div class="detail-modal-body2">
                      </div>
                      <div class="detail-modal-body3">
                         <input type="hidden" id="fno" value="">
                      </div>
-                  </div>
-                  <div class="modal-footer">
-                     <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                     <button type="button" class="btn btn-primary">Save changes</button> -->
                   </div>
                </div>
             </div>

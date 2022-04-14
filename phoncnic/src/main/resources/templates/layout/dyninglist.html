@@ -24,6 +24,8 @@
         <!-- jQuery cdn -->
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"
             integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        <link rel="stylesheet" th:href="@{/css/basic.css}">
+
     </head>
 
     <body>
@@ -64,11 +66,21 @@
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" th:href="@{/}">Phoncnic</a></li>
                             <hr style="margin: 0.5rem 0;">
-                            <li><a class="dropdown-item" th:href="@{/member/login}">Google로 로그인</a></li>
-                            <li><a class="dropdown-item" th:href="@{/member/logout}">로그아웃</a></li>
-                            <li><a class="dropdown-item" th:href="@{/main/mypage}">마이페이지</a></li>
+                            <li sec:authorize="isAnonymous()"><a class="dropdown-item" th:href="@{/member/login}">
+                                    <img src="https://img.icons8.com/fluency/48/000000/google-logo.png" / width="15%">
+                                    로그인
+                                </a>
+                            </li>
+                            <li sec:authorize="isAuthenticated()"><a class="dropdown-item" th:href="@{/member/logout}">
+                                    <img src="https://img.icons8.com/fluency/48/000000/google-logo.png" / width="15%">
+                                    로그아웃
+                                </a>
+                            </li>
+                            <li sec:authorize="isAuthenticated()"><a class="dropdown-item"
+                                    th:href="@{/main/mypage}">마이페이지</a></li>
                             <li><a class="dropdown-item" th:href="@{/help/list/}">고객센터</a></li>
                             <li><a class="dropdown-item" th:href="@{/main/companyinfo}">회사소개</a></li>
+
                         </ul>
                     </li>
 

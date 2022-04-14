@@ -1,42 +1,114 @@
 <!DOCTYPE html>
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
-    <style>
-        .btnItems {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            height: 100%;
-        }
+<style>
+    .containerBox {
+        width: 1000px;
+        margin: 0 auto;
+        font-family: 'GmarketSansLight';
+    }
 
-        .btnItems > button {
-        background: #DBE9B7;
-        width: 250px;
-        height: 130px;
-        border-radius: 7px;
+    .title {
+        text-align: center;
+        padding: 70px 0 90px 0;
+
+    }
+
+    .content-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .content {
+        width: 400px;
+        height: 400px;
+        /* background-color: #DBE9B7; */
+        text-align: center;
+        border-radius: 8px;
+    }
+
+    .content-body {
+        padding: 50px;
+    }
+
+    .content-body>img {
+        margin: 0 auto;
+    }
+
+    .content-container .content:first-child button {
+        height: 44px;
         border: none;
-        }
+        width: 216px;
+        border-radius: 30px;
+        background-color: darkslateblue;
+        font-size: 19px;
+        color: white;
+        padding: 10px;
+    }
 
-        .btnItems > button > a{
-            text-decoration: none;
-            color: black;
-            font-size: 30px;
-        }
+    .content-container .content:last-child button {
+        height: 44px;
+        border: none;
+        width: 216px;
+        border-radius: 30px;
+        background-color: orange;
+        font-size: 19px;
+        color: white;
+        padding: 10px;
+    }
 
+    .content-container p {
+        font-size: 22px;
+        margin: 0px auto 32px auto;
+    }
+    .content-body img.open {
+    display: none;
+    cursor: url("../../static/icon/right-cursor.png"), auto;    
 
-        .btnItems  >:first-child{
-            margin-right: 100px;
-        }
+    }
+    .content-body img.close {
+        display: block;
+        width: 300px;
+        cursor: url("../../static/icon/right-cursor.png"), auto;    
+    }
+    .content-body:hover img.open {
+        display: block;
+        width: 300px;
+        cursor: url("../../static/icon/right-cursor.png"), auto;    
+    }
+    .content-body:hover img.close {
+        display: none;
+        cursor: url("../../static/icon/right-cursor.png"), auto;    
 
-        .btnItems > :last-child{
-            margin-left: 100px;
+    }
+    .content-body{
+        cursor: url("../../static/icon/right-cursor.png"), auto;    
         }
-    </style>
+</style>
 <th:block th:replace="~{layout/basic :: setContent(~{::content})}">
     <th:block th:fragment="content">
-        <div class="btnItems">
-            <button><a th:href="@{/gallery/crossgallery/photo}">사진전</a></button>
-            <button><a th:href="@{/gallery/crossgallery/painting}">그림전</a></button>
+        <div class="containerBox">
+            <div class="title">
+                <h2 style="font-family: 'GmarketSansmedium';"><img th:src="@{/icon/vertical-line.png}"
+                        style="width:30px;" alt="">전시회 관람 선택</h2>
+            </div>
+            <div class="content-container">
+                <div class="content">
+                    <div class="content-body">
+                        <img class="close" th:src="@{/icon/close.png}" alt="">
+                        <a th:href="@{/gallery/crossgallery/photo}"><img class="open" th:src="@{/icon/open.png}" alt=""></a>
+                    </div>
+                    <a th:href="@{/gallery/crossgallery/photo}"><button><b>사진전</b> 입장하기</button></a>
+                </div>
+                <div class="content">
+                    <div class="content-body">
+                        <img class="close" th:src="@{/icon/close.png}" alt="">
+                        <a th:href="@{/gallery/crossgallery/painting}"><img class="open" th:src="@{/icon/open.png}" alt=""></a>
+                    </div>
+                    <a th:href="@{/gallery/crossgallery/painting}"><button><b>그림전</b> 입장하기</button></a>
+                </div>
+            </div>
         </div>
+
     </th:block>
 </th:block>

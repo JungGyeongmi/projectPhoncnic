@@ -39,6 +39,19 @@ hr {
   background-color: #dbdde0;
 }
 
+span>label {
+  padding: 15px; 
+}
+
+span>label:hover {
+  cursor: pointer;
+}
+
+input[type=radio]:checked + label {
+  background-color: #DBE9B7;
+  border-radius: 5px;
+}
+
 </style>
 <th:block th:replace="~{layout/basic :: setContent(~{::content})}">
   <th:block th:fragment="content">
@@ -100,6 +113,7 @@ hr {
                 <label data-browse="Browse"></label>
               </div>
             </div>
+          </div>
             <div class="menubox">
             </div>
             <div class="menuuploadResult">
@@ -108,7 +122,6 @@ hr {
 
               </ul>
             </div>
-      </div>
       <div class="col-12">
           <label for="" class="form-label">가게 배경 이미지 (1장 선택 가능)</label>
             <div class="form-group background">
@@ -164,7 +177,7 @@ hr {
 
         $(".okBtn").on("click", function (e) {
           var rooftype = $('input[name="oono"]:checked');
-          var selectedroofimage = rooftype.next().attr("src");
+          var selectedroofimage = rooftype.next().children("img").attr("src");
           $("#roofdisign").val(rooftype.val());
           $('#selectedroof').attr("src", selectedroofimage);
           $("#roofModal").hide();
@@ -481,9 +494,10 @@ hr {
           </div>
           <div class="modal-body">
             <span th:each="roof : ${roofList}">
-              <input type="radio" name="oono" id="" th:value="${roof.rooftype}"><img th:src="${roof.roofthumbnail}"
-                alt="">
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <input type="radio" class="radio" name="oono" th:id="${roof.rooftype}" th:value="${roof.rooftype}" hidden>
+              <label th:for="${roof.rooftype}">
+                <img th:src="${roof.roofthumbnail}" alt="">
+              </label>
             </span>
           </div>
 
