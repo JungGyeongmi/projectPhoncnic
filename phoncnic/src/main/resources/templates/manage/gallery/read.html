@@ -53,6 +53,10 @@
         margin-right: 15px;
         width: 35px;
     }
+    input[name=content]{
+        height: 150px;
+    }
+
 </style>
 <th:block th:replace="~{layout/basic :: setContent(~{::content})}">
     <th:block th:fragment="content">
@@ -79,7 +83,7 @@
                 <input type="text" class="form-control" readonly th:value="${galleryDTO.title}">
             </div>
             <div class="py-3">
-                <label for="" class="form-label">작품 내용</label>
+                <label for="" class="form-label">작품 설명</label>
                 <input type="text" class="form-control" readonly th:value="${galleryDTO.content}">
             </div>
             <div class="py-3">
