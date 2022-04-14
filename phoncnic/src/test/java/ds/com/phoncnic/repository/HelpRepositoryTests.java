@@ -10,6 +10,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import ds.com.phoncnic.dto.HelpDTO;
+import ds.com.phoncnic.dto.pageDTO.PageRequestDTO;
+import ds.com.phoncnic.dto.pageDTO.PageResultDTO;
 import ds.com.phoncnic.entity.Help;
 import ds.com.phoncnic.service.help.HelpService;
 
@@ -39,7 +41,7 @@ public class HelpRepositoryTests {
                 .password("1234")
                 .qtype("type"+type)
                 .answerstatus(rand)
-                .writer(memberRepository.findById("test"+randomMember+"@gmail.com").get())
+                .writeremail("test"+randomMember+"@gmail.com")
             .build();
             helpRepository.save(help);
         });
@@ -61,16 +63,29 @@ public class HelpRepositoryTests {
     @Test
     void registerTest(){
         HelpDTO helpDTO = HelpDTO.builder()
-        .title("title")
-        .content("content")
-        .password("1234")
-        .qtype("type1")
-        .answerstatus(false)
-        .writer("test3@gmail.com")
+            .title("title!")
+            .content("content")
+            .password("1234")
+            .qtype("type1")
+            .answerstatus(false)
+            .writeremail("test3@gmail.com")
         .build();
 
         System.out.println(helpService.register(helpDTO));
     }
 
-   
+    @Test
+    void getPageListTest() {
+
+        PageRequestDTO pageRequestDTO = PageRequestDTO.builder().page(1).size(10).build();
+        PageResultDTO<HelpDTO, Object[]> page = helpService.getQnaList(pageRequestDTO);
+        System.out.println(page);
+        System.out.println(page.getPage());
+        System.out.println(page.getTotalPage());
+    }
+
+   @Test
+    void removeByQno() {
+        helpService.remove(2L);
+    }
 }

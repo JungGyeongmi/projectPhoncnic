@@ -66,6 +66,7 @@ input[type=radio]:checked + label {
         <h3 class="py-5" style="font-family: 'GmarketSansMedium';">
           <img th:src="@{/icon/vertical-line.png}" style="width:30px;" alt=""> 가게정보 수정
         </h3>
+        <input type="hidden" name="" id="selectedfoodtype" th:value="${result.foodtype}">
         <p class="p-line">가게 상세</p> <hr>
         <form th:action="@{/manage/dyning/modify}" th:method="post" id="form">
           <div class="col-12 py-3">
@@ -400,6 +401,11 @@ input[type=radio]:checked + label {
       });
 
 
+      var selectedfoodtype = $("#selectedfoodtype").val();
+      console.log(selectedfoodtype);
+      $('#labelFoodtype option[value='+selectedfoodtype+']').attr('selected', true);
+
+      
       // submit 버튼
       $("#btn-submit").on("click", function (e) {
         e.preventDefault(); // 기본 이벤트 submit을 막음
