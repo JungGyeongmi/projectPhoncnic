@@ -65,6 +65,4 @@ public class CharacterLookRepositoryTests {
             repository.save(characterLook);
         });
     }
-
-
 }

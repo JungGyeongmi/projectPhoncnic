@@ -185,7 +185,7 @@
                     swal("비밀번호를 다시 입력해주세요");
                     return;
                 } else if (message == inputPw) {
-                    window.location.href = "read?qno=" + qno + "&page=" + page;
+                    window.location.href = readUrl+ "?qno=" + qno + "&page=" + page;
                     return;
                 }
             });
