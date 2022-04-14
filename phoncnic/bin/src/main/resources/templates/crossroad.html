@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{layout/basic :: setContent(~{::content})}">
+    <th:block th:fragment="content">
+        <h1>갈림길</h1>
+        <ul>
+            <li><a th:href="@{/crossroad/gallery}">Gallery</a></li>
+            <li><a th:href="@{/crossroad/dyning/cafe}">cafe</a></li>
+            <li><a th:href="@{/crossroad/dyning/restaurant}">restaurant</a></li>
+        </ul>
+    </th:block>
+</th:block>
