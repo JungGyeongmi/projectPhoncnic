@@ -76,7 +76,7 @@ public class SearchDyningRepositoryImpl extends QuerydslRepositorySupport implem
       }
     });
 
-    obj.groupBy(dyning); // board의 목록에 따른 그룹
+    obj.groupBy(dyning); 
     obj.offset(pageable.getOffset());
     obj.limit(pageable.getPageSize());
 

@@ -15,6 +15,8 @@ public interface HelpService {
     void modify(HelpDTO helpDTO);
     void remove(Long qno);
 
+
+
     /* Entity -> DTO */
     default HelpDTO entityToDTO(Help help){
         HelpDTO helpDTO = HelpDTO.builder()
@@ -32,6 +34,7 @@ public interface HelpService {
         return helpDTO;
     }
 
+    
     /* DTO -> Entity */
     default Help dtoToEntity(HelpDTO helpDTO) {
 

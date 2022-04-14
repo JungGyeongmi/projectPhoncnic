@@ -14,6 +14,7 @@ import ds.com.phoncnic.entity.Help;
 import ds.com.phoncnic.repository.HelpRepository;
 import lombok.RequiredArgsConstructor;
 
+@Service
 @RequiredArgsConstructor
 public class HelpServiceImpl implements HelpService { 
     
