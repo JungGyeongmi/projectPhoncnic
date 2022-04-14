@@ -13,6 +13,4 @@ public class PhoncnicApplication {
 		SpringApplication.run(PhoncnicApplication.class, args);
 	}
 
-
-
 }

@@ -75,6 +75,13 @@ public class HomeController {
         return "/manage/rolechoice";
     }
 
+    @GetMapping("/chat")
+    public String chat2() {
+        return "/ws/chat";
+    }
+
+  
+
     @GetMapping("/lookmodal")
     public String test2 (@AuthenticationPrincipal AuthMemberDTO dto, Model model) {
         if(dto!=null){

@@ -76,5 +76,6 @@ public class MyPageController {
         memberService.remove(id);
         return "redirect:/";
     }
+    
 
 }
