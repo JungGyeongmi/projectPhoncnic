@@ -129,6 +129,7 @@
                 /* 단이 나뉘지않고 스크롤이 생김  */
                 white-space: nowrap;
                 margin: 0 auto;
+                scroll-behavior: smooth;
             }
 
             /* .wrap::-webkit-scrollbar {
@@ -147,7 +148,7 @@
             }
 
             #list2 {
-                margin: 50px 100px 30px;
+                margin: 30px 100px 30px;
                 padding-top: 50px;
                 width: 150px;
                 height: 150px;
@@ -212,7 +213,6 @@
         <script th:inline="javascript">
 
             window.addEventListener("keydown", function (e) {
-                // space and arrow keys
                 if ([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
                     e.preventDefault();
                 }
@@ -242,7 +242,7 @@
             #char{
                 position: relative;
                 width: 70px;
-                height: 98px;
+                height: 126px;
                 right: 0px; 
             }
         </style>
@@ -288,6 +288,7 @@
         document.addEventListener("keydown", function (e) {
             let char = document.getElementById("char");
             let charimg = document.getElementById("charimg");
+            var charleft = char.offsetLeft;
 
             let key = e.keyCode;
             let y = parseInt(char.style.top || 0, 10);
@@ -304,6 +305,11 @@
             if (key === 40 /* BOTTOM */) {
                 char.style.top = y + 20 + "px";
             }
+
+            if(charleft > 1200) {
+                window.scrollTo({left:13, behavior:'smooth'});
+            }
+
         });
         
         
