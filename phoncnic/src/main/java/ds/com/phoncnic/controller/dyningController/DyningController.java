@@ -117,11 +117,10 @@ public class DyningController {
 
             ra.addFlashAttribute("chartop", chartop);
             ra.addFlashAttribute("charleft",charleft);
-            // model.addAttribute("follow",followService.)
 
-        } else
+        } else {
             return;
-
+        }
     }
 
 

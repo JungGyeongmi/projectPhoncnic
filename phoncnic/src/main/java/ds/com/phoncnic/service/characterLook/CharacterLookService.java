@@ -8,11 +8,8 @@ import ds.com.phoncnic.entity.CharacterLookInfo;
 public interface CharacterLookService {
 
     List<CharacterLookInfo> lookimageList();
-
     CharacterLookDTO getCharacterSet(String id);
-
     void modify(CharacterLookDTO characterLookDTO, String id);
-    
     CharacterLookInfo getDefaultAvatar(long chno);
 
     default CharacterLookDTO entityToDTO(CharacterLookInfo characterLookinfo) {

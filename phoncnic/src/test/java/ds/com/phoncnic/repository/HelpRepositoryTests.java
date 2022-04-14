@@ -71,6 +71,4 @@ public class HelpRepositoryTests {
 
         System.out.println(helpService.register(helpDTO));
     }
-
-   
 }

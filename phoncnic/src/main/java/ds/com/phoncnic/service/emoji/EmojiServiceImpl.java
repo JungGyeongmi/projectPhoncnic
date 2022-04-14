@@ -171,7 +171,6 @@ public class EmojiServiceImpl implements EmojiService {
         List<Object[]> checkerList = emojiRepository.existsByMemberIdANDGno(gno, id);
         Boolean emojichecker = false;
         if(!checkerList.isEmpty()){ 
-        // 0 eno 1 type 2 boolean
             Object[] checker = emojiRepository.existsByMemberIdANDGno(gno, id).get(0);
             emojichecker = (Boolean)(checker[2]);
         }

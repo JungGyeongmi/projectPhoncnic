@@ -25,13 +25,6 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 public class SearchDyningRepositoryImpl extends QuerydslRepositorySupport implements SearchDyningRepository {
 
-  /*
-   * JpaRepository의 부족한 부분은 바로 각 항목에 대한
-   * max, min 값을 구하는 Predicate query와
-   * 다양한 update,delete를 하는 query들을 만들어주는 것이 불가능
-   * 그래서 QuerydslRepositorySupport을 사용
-   */
-
   public SearchDyningRepositoryImpl() {
     super(Dyning.class);
   }
@@ -83,7 +76,7 @@ public class SearchDyningRepositoryImpl extends QuerydslRepositorySupport implem
       }
     });
 
-    obj.groupBy(dyning); // board의 목록에 따른 그룹
+    obj.groupBy(dyning); 
     obj.offset(pageable.getOffset());
     obj.limit(pageable.getPageSize());
 

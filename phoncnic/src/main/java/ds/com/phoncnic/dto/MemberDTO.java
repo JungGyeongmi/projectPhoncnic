@@ -16,7 +16,6 @@ import lombok.NoArgsConstructor;
 public class MemberDTO {
     private String id;
     private String nickname;
-    private String password;
     
     private LocalDateTime regdate, moddate;
     

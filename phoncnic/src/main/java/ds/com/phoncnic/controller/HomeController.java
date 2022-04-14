@@ -39,7 +39,6 @@ public class HomeController {
         log.info("index..");
     }
 
-
     @GetMapping("/crossroad")
     public String crossRoad() {
         return "crossroad";

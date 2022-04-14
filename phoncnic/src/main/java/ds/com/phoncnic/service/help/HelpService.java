@@ -50,6 +50,4 @@ public interface HelpService {
 
         return help;
     }
-
-
 }

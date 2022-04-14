@@ -26,7 +26,6 @@ public class TestRestController {
         pageRequestDTO.setType(type);
         pageRequestDTO.setSort(sort);
         pageRequestDTO.setKeyword(keyword);
-
         PageResultDTO<GalleryDTO, Object[]> result = galleryService.getGalleryPage(pageRequestDTO);
 
         log.info("gallery rest controller ... curator ...");

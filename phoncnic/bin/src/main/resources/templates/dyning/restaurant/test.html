@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ko" xmls:th="http://www.thymeleaf.org">
+
+<style>
+    /* body{ -ms-overflow-style: none; }  
+    ::-webkit-scrollbar { display: none; } */
+
+    .wrap {
+        -ms-overflow-style: auto;
+        overflow-x: auto;
+        /* 단이 나뉘지않고 스크롤이 생김  */
+        white-space: nowrap;
+        margin: 0 auto;
+    }
+
+    /* .wrap::-webkit-scrollbar {
+        display: none;
+    } */
+
+    .dyning-list-ul {
+        max-width: 10000px;
+    }
+
+    .dyning-list-ul li {
+        margin: 20px;
+        width: 100px;
+        height: 100px;
+        display: inline-block;
+    }
+</style>
+
+<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script th:inline="javascript">
+    $(document).ready(function () {
+        var numitems = $(".dyning-list-ul li").length;
+
+        console.log("numitems: " + numitems);
+
+        $(".dyning-list-ul").css("column-count", Math.round(numitems / 2));
+    });
+</script> -->
+
+<h1>restaurant</h1>
+<div class="wrap">
+    <ul class="dyning-list-ul">
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+        <li>5</li>
+        <li>6</li>
+        <li>7</li>
+        <li>8</li>
+        <li>9</li>
+        <li>10</li>
+        <li>11</li>
+        <li>12</li>
+        <li>13</li>
+        <li>14</li>
+        <li>15</li>
+        <li>16</li>
+        <li>17</li>
+        <li>18</li>
+        <li>19</li>
+        <li>20</li>
+        <li>21</li>
+    </ul>
+    <ul class="dyning-list-ul">
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+        <li>5</li>
+        <li>6</li>
+        <li>7</li>
+        <li>8</li>
+        <li>9</li>
+        <li>10</li>
+        <li>11</li>
+        <li>12</li>
+        <li>13</li>
+        <li>14</li>
+        <li>15</li>
+        <li>16</li>
+        <li>17</li>
+        <li>18</li>
+        <li>19</li>
+        <li>20</li>
+        <li>21</li>
+    </ul>
+</div>
+</html>

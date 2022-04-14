@@ -61,10 +61,6 @@ public interface EmojiRepository extends JpaRepository<Emoji, Long> {
     @Query("select e.emojiInfo.emojitype,count(e.emojiInfo.emojitype) from Emoji e where e.dyning.dno=:dno and e.emojiInfo.emojitype=:emojitype")
     List<Object[]> getEmojiCountByEmojitype2(Long dno, String emojitype);
 
-    /*
-     * update를 사용할때는 modifying annotation
-     * update 테이블 set 컬럼 = 변경된컬럼값 where 조건 = :조건 and 조건 = :조건
-     */
     @Modifying
     @Query("UPDATE Emoji e SET e.emojiInfo.emojitype = :type WHERE e.gallery.gno = :gno AND e.member.id = :id")
     Integer updateEmojiTypeByGnoAndMemberId(String type, Long gno, String id);
