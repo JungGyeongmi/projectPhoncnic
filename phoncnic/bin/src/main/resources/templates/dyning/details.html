@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<style>
+    .containerBox {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    .carousel-item>img {
+        margin: 0;
+    }
+
+    .mapViewBtn {
+        background-color: #DBE9B7;
+        border-radius: 30px;
+        border: none;
+        font-size: 15px;
+        width: 79px;
+        color: black;
+        height: 25px;
+    }
+
+    #followBtn {
+        border: none;
+        border-radius: 30px;
+        width: 100px;
+        height: 31px;
+        font-size: 16px;
+        margin-top: 10px;
+    }
+
+    .info.card {
+        width: 63%;
+        height: 537px;
+        top: 156px;
+        left: 23px;
+    }
+
+    .carousel-fade {
+        height: 537px;
+        width: 400px;
+        top: 156px;
+        margin: 0;
+        left: 390px;
+        
+    }
+    .carousel-control-prev {
+        left: -55px !important;
+    }
+
+    .carousel-inner > .carousel-item > img {
+      top: 0 !important;
+      left: 0 !important;
+      width: 350px !important;
+      min-height: 540px !important;
+      object-fit: contain;
+      background-position: center;
+
+    } 
+
+    .up{
+        border: none;
+        background-color: white;
+        padding:5px;
+        margin-top: 20px;
+        margin-right: 10px;
+    }
+
+    .up> img {
+        margin-right: 10px;
+    }
+    #map {
+        width: 660px;
+        height: 470px;
+        background-color: grey;
+        overflow: hidden;
+    }
+
+</style>
+<html lang="ko" xmls:th="http://www.thymeleaf.org">
+<th:block th:replace="~{layout/basic:: setContent(~{::content})}">
+    <th:block th:fragment="content">
+        <div class="containerBox">
+            <input type="hidden" name="" id="detaillocation" th:value="${result.location}">
+            <div style="display:none;">
+                <th:block th:each="idto : ${imageresult}">
+                    <img th:src="|@{'/display'}?fileName=${idto.getMenuThumbnailImageURL()}|" class="thumbimage"
+                        th:data-file="|@{'/display'}?fileName=${idto.getMenuImageURL()}|" alt="">
+                </th:block>
+                <th:block th:each="idto : ${imageresult}">
+                    <img th:src="|@{'/display'}?fileName=${idto.getBackgoundThumbnailImageURL()}|" class="thumbimage"
+                        th:data-file="|@{'/display'}?fileName=${idto.getBackgoundImageURL()}|" id="backImg" alt="">
+                </th:block>
+            </div>
+            <div class="row">
+                <!-- 메뉴 카드 -->
+                <div class="col">
+                    <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel"
+                        data-bs-interval="false">
+                        <div class="carousel-inner">
+                            <th:block th:each="idto : ${imageresult}">
+                                <div class="carousel-item">
+                                    <img th:src="|@{'/display'}?fileName=${idto.getMenuImageURL()}|" class="d-block thumbimage" 
+                                    th:data-file="|@{'/display'}?fileName=${idto.getMenuImageURL()}|" alt="사진이 엄따">
+                                </div>
+                            </th:block>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade"
+                            data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade"
+                            data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                </div>
+                <!-- 메뉴 카드 end -->
+                <!-- 가게정보 카드 -->
+                <div class="col">
+                    <div class="card text-center info">
+                        <div class="card-header">
+                            <ul class="nav nav-tabs card-header-tabs">
+                                <li class="nav-item" id="dyningInfo">
+                                    <a class="nav-link active" data-bs-toggle="tab" aria-current="true"
+                                        href="#info">가게정보</a>
+                                </li>
+                                <li class="nav-item" id="mapNav">
+                                    <a class="nav-link" data-bs-toggle="tab" href="#mapView">지도</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="tab-content">
+                            <div class="tab-pane fade show active" id="info">
+                                <div class="card-body">
+                                    <th:block th:each="dto : ${result}">
+                                        <input type="hidden" name="" id="dyningname" th:value="${dto.dyningname}">
+                                        <h4 class="card-title"><b>[[${dto.dyningname}]]</b></h4>
+                                        <button id="followBtn" type="button" th:value="${fno}"><i
+                                                class="bi bi-plus-circle-fill"></i>&nbsp&nbsp팔로우[[${fno}]]</button>
+                                        <hr>
+                                        <span class="card-text"><i class="fa-solid fa-location-dot"></i>
+                                            [[${dto.location}]], [[${dto.locationdetails}]] </span>
+                                        <!-- <button type="button" class="mapViewBtn">지도보기</button> -->
+                                        <a href="#map" type="button" class="mapViewBtn">지도보기</a>
+
+                                        <hr>
+                                        <span class="card-text"><i class="fa-regular fa-clock"></i>
+                                            [[${dto.businesshours}]]</span> &nbsp &nbsp &nbsp &nbsp
+                                        <span class="card-text"><i class="fa-solid fa-phone"></i> [[${dto.tel}]]</span>
+                                        <hr>
+                                        <p class="card-text"><i class="bi bi-bookmark-heart-fill"></i>
+                                            [[${dto.comment}]]</p>
+                                        <hr>
+
+                                    </th:block>
+                                    <form action="">
+                                        <input type="hidden" name="id" id="followerid" th:value="${id}" readonly>
+                                        <input type="hidden" name="dno" th:value="${result.dno}">
+                                    </form>
+                                    <input type="hidden" name="" id="eno" th:value="${eno}">
+                                    <input type="hidden" name="" id="etype" th:value="${emojitype}">
+                                    <span th:each="eInfo : ${emojiInfo}">
+                                        <input type="hidden" th:value="${eInfo.emojipath}" th:id="${eInfo.kindofemoji}">
+                                    </span>
+
+                                    <button class="up" id="emojiBtn1" value="1" name="emojitype" type="button">
+                                        <img id="emojiimg1" th:src="${result.emojiinfo['1']}" alt="" style="width: 30px;">[[${emojitype1}]]
+                                    </button>
+                                    <button class="up" id="emojiBtn2" value="2" name="emojitype" type="button">
+                                        <img id="emojiimg2" th:src="${result.emojiinfo['2']}" alt="" style="width: 30px;">[[${emojitype2}]]
+                                    </button>
+                                    <button class="up" id="emojiBtn3" value="3" name="emojitype" type="button">
+                                        <img id="emojiimg3" th:src="${result.emojiinfo['3']}" alt="" style="width: 30px;">[[${emojitype3}]]
+                                    </button>
+                                    <button class="up" id="emojiBtn4" value="4" name="emojitype" type="button">
+                                        <img id="emojiimg4" th:src="${result.emojiinfo['4']}" alt="" style="width: 30px;"> [[${emojitype4}]]
+                                    </button>
+                                    <button class="up" id="emojiBtn5" value="5" name="emojitype" type="button">
+                                        <img id="emojiimg5" th:src="${result.emojiinfo['5']}" alt="" style="width: 30px;">[[${emojitype5}]]
+                                    </button>
+
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="mapView">
+                                    <div id="map"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 가게정보 카드 end -->
+
+            <!-- 지도 API 버튼 -->
+            </body>
+            <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+
+            <!-- 지도 -->
+            <script type="text/javascript"
+                src="//dapi.kakao.com/v2/maps/sdk.js?appkey=acf4120589cf996321f7660949777c8c&libraries=services"></script>
+            <script type="text/javascript"
+                src="//dapi.kakao.com/v2/maps/sdk.js?appkey=acf4120589cf996321f7660949777c8c"></script>
+            <script type="text/javascript">
+                var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+                    mapOption = {
+                        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+                        level: 3 // 지도의 확대 레벨
+                    };
+
+                // 지도를 생성합니다    
+                var map = new kakao.maps.Map(mapContainer, mapOption);
+
+                // 주소-좌표 변환 객체를 생성합니다
+                var geocoder = new kakao.maps.services.Geocoder();
+
+                var detaillocation = $('#detaillocation').val();
+
+                var testbtn = document.querySelector('#btnlocation');
+
+                $('#btnlocation').on('click', function () {
+                    console.log(detaillocation);
+                });
+
+
+                // 주소로 좌표를 검색합니다
+                geocoder.addressSearch(detaillocation, function (result, status) {
+
+                    // 정상적으로 검색이 완료됐으면 
+                    if (status === kakao.maps.services.Status.OK) {
+                        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+                        // 결과값으로 받은 위치를 마커로 표시합니다
+                        var marker = new kakao.maps.Marker({
+                            map: map,
+                            position: coords
+                        });
+
+                        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+                        map.setCenter(coords);
+                    }
+                });    
+            </script>
+            <!-- map 제어 -->
+            <script>
+                $(document).ready(function () {
+                    // 지도 클릭시 지도 show
+                    $('#mapNav').click(function () {
+
+                        // display: none -> block으로 변경시 지도가 깨지는 현상이 생김
+                        $('#mapView').show();
+                        // 중심의 좌표 가져오기
+                        var coords = map.getCenter();
+                        // 맵의 레이아웃 재조정                 
+                        map.relayout();
+                        // 센터 재조정                
+                        map.setCenter(coords);
+                    });
+
+                    // 가게 정보 클릭시 지도 hide
+                    $('#dyningInfo').click(function () {
+                        $('#mapView').hide();
+                    });
+
+                    $(".mapViewBtn").click(function(){
+                        $("#mapview").show();
+                    });
+                });
+            </script>
+        </div>
+
+        <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+        <script>
+            $(document).ready(function (e) {
+                //배경화면 설정
+                var backgroundImg = $("#backImg").data("file");
+                console.log("백이미지" + backgroundImg);
+                $(".containerBox").css("background-image", "url(" + backgroundImg + ")");
+
+                //메뉴카드 슬라이드 
+                $(".carousel-item").eq(1).addClass("active");
+
+                //지도보기 클릭
+                // $(".mapViewBtn").on("click",function(){
+                //     location.href = $("#mapView");
+                // });
+                
+                for (i = 1; i < 6; i++) {
+                    var imgsrc = $("#emoji" + i).val();
+                    $("#emojiimg" + i).attr("src", imgsrc);
+                }
+                var hasid = $("#followerid").val();
+
+                //팔로우 제어
+                var fno = $('#followBtn');
+                if (fno.val() != "" && hasid != "") {
+                    fno.html('<i class="bi bi-dash-circle"></i> 언팔로우');
+                    fno.css("color", "red");
+                }
+                $('#followBtn').on("click", function () {
+                    if (hasid == "") { alert("로그인 후 이용할 수 있습니다."); return; }
+
+                    var id = $("#followerid").val();
+                    var dyningname = $("#dyningname").val();
+                    console.log(fno.val());
+
+                    //언팔 상태
+                    if (fno.val() == "") {
+                        var data = { followerid: id, dyningname: dyningname };
+                        var urladd = `[[@{/dyning/addfollow}]]`;
+                        console.log(data);
+                        $.ajax({
+                            url: urladd,
+                            type: "POST",
+                            data: JSON.stringify(data),
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "text",
+                            success: function (result) {
+                                self.location.reload();
+                            }
+                        });
+                    } else if (fno.val() != "") {
+                        if (hasid == "") { alert("로그인 후 이용할 수 있습니다."); return; }
+
+                        var data = { id: id, dyningname: dyningname };
+                        var urlremove = `[[@{/main/mypage/dyningremove}]]`;
+
+                        $.ajax({
+                            url: urlremove + "/" + id + "/" + dyningname,
+                            type: "DELETE",
+                            data: JSON.stringify(data),
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "text",
+                            success: function (result) {
+                                console.log("result: " + result);
+                                self.location.reload();
+                            }
+                        })
+                    }
+                });
+                //이모지 제어
+                var eno = $("#eno").val();
+                var etype = $("#etype").val();
+                if (eno != "") {
+                    $("button[name ='emojitype']:button[value=" + etype + "]").css("color", "red");
+                }
+
+                $(".up").click(function () {
+                    if (hasid == "") { alert("로그인 후 이용할 수 있습니다."); return; }
+
+                    var id = $("input[name='id']").val();
+                    var dno = $("input[name='dno']").val();
+                    var emojitype = $(this).val();
+                    var next = $(this).next();
+                    if (eno != "" && $(this).val() == etype) {
+                        var data = { eno: eno };
+                        console.log(data);
+                        var urlemojiremove = `[[@{/dyning/emojiremove}]]`;
+                        $.ajax({
+                            url: urlemojiremove + "/" + eno,
+                            type: "DELETE",
+                            data: JSON.stringify(data),
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "text",
+                            success: function (result) {
+                                console.log("result: " + result);
+                                self.location.reload();
+
+                            }
+                        });
+                    } else if (eno != "" && $(this).val() != etype) {
+                        var data = { eno: eno };
+                        console.log(data);
+                        var urlemojiremove = `[[@{/dyning/emojiremove}]]`;
+                        $.ajax({
+                            url: urlemojiremove + "/" + eno,
+                            type: "DELETE",
+                            data: JSON.stringify(data),
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "text",
+                            success: function (result) {
+                                console.log("result: " + result);
+                            }
+                        });
+                        var data = { id: id, dno: dno, emojitype: emojitype };
+                        var urlemojiregister = `[[@{/dyning/emojiregister}]]`;
+                        console.log(data);
+
+                        $.ajax({
+                            url: urlemojiregister + "/" + dno,
+                            type: "POST",
+                            data: JSON.stringify(data),
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "text",
+                            success: function (result) {
+                                console.log("result: " + result);
+                                self.location.reload();
+                            }
+                        });
+                    } else if (eno == "") {
+                        var data = { id: id, dno: dno, emojitype: emojitype };
+                        var urlemojiregister = `[[@{/dyning/emojiregister}]]`;
+                        console.log(data);
+                        $.ajax({
+                            url: urlemojiregister + "/" + dno,
+                            type: "POST",
+                            data: JSON.stringify(data),
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "text",
+                            success: function (result) {
+                                console.log("result: " + result);
+                                self.location.reload();
+                            }
+                        })
+                    }
+                });
+
+                //모달제어
+                $(".btn-close").on("click", function (e) {
+                    $("#imageModal").hide();
+                });
+                $(".thumbimage").on("click", function (e) {
+                    var filename = $(this).data('file');
+                    console.log(filename);
+                    var OriginMenu = `<img style="width:100%" src="${filename}">`;
+                    $(".modal-body").html(OriginMenu);
+                    $("#imageModal").show();
+                });
+                $("button[name='btn-close']").on("click", function (e) {
+                    $("#imageModal").hide();
+                });
+            });
+
+        </script>
+
+        </head>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+        <div id="imageModal" class="modal imageModal" tabindex="-2">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Menu</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                            name="btn-close"></button>
+                    </div>
+                    <div class="modal-body">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary pictureClose" name="btn-close"
+                            data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </th:block>
+</th:block>

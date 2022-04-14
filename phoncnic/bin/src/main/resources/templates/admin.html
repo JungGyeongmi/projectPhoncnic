@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{layout/basic :: setContent(~{::content})}">
+    <th:block th:fragment="content">
+        <h1>관리자 페이지</h1>
+        <table class="table">
+            <tr>
+                <th>관리자명</th>
+                <th>유저검색</th>
+            </tr>
+            <tr>
+                <td> [[${userId}]] </td>
+                <td>
+                    <form id="userSearchFrm" action="" method="">
+                        <input type="text" value="" name="id" placeholder="냐냐냐@gmail.com">
+                        <input type="button" value="겟-챠" id="searchBtn">
+                    </form>
+                </td>
+            </tr>
+        </table>
+        <div id="searchResult">
+        </div>
+        <div id="raidoContainer" style="display:none">
+            <input id="ROLE_ADMIN" type="radio" name="roleSet" value="[ROLE_ADMIN]">
+            <input id="ROLE_USER" type="radio" name="roleSet" value="[ROLE_USER]">
+            <input id="ROLE_CEO" type="radio" name="roleSet" value="[ROLE_CEO]">
+            <input id="ROLE_ARTIST" type="radio" name="roleSet" value="[ROLE_ARTIST]">
+        </div>
+
+        <script th:inline="javascript">
+            $(function () {
+
+                /*[+
+                    var searchUrl = [[ @{/admin/search} ]]
+                    var modifyUrl = [[ @{/admin/modify} ]]
+                +]*/
+
+                var userSearchFrm = $("#userSearchFrm");
+                var searchResult = $("#searchResult");
+
+                var searchFunction = function () {
+
+                    var id = $("input[name=id]").val();
+                    if(id==""|| id==null){
+                        searchResult.text("검색어 입력하슈");
+                        return true;
+                    }
+                    if(id=="777") {
+                        searchResult.text("🎉이것이 권력의 맛이다🎉");
+                        return true;
+                    }
+
+                    $.ajax({
+                        type: "POST",
+                        url: searchUrl + "/" + id,
+                        contentType: "application/json",
+                        success: function (response) {
+                            var str = ""
+                            if(response.id==null) {
+                                str = `<div>검색결과를 찾을 수 없습니다.</div>`;
+                                searchResult.html(str);
+                                return true;
+                            } 
+                            str = `<form id="memberfrm" action="">
+                                            <table class="table" border="1">
+                                                <tr>
+                                                    <th scope="col">아이디</th>
+                                                    <th scope="col">닉네임</th>
+                                                    <th scope="col">권한</th>
+                                                    <th scope="col">가입일</th>
+                                                    <th scope="col">수정</th>
+                                                </tr>
+                                                <tr>
+                                                    <input type="hidden" value="${response.id}" name="id" readonly/>
+                                                    <td> <span >${response.id}</sapn></td>
+                                                    <td><input type="text" value="${response.nickname}" name="nickname"></td>
+                                                    <td id="roleSetInfo" data-role-set="${response.roleSet}">
+                                                        <label for="ROLE_ADMIN">ROLE_ADMIN</label>&nbsp;
+                                                        <label for="ROLE_USER">ROLE_USER</label>&nbsp;
+                                                        <label for="ROLE_CEO">ROLE_CEO</label>&nbsp;
+                                                        <label for="ROLE_ARTIST">ROLE_ARTIST</label>
+                                                    </td>
+                                                    <td>${response.regdate}</td>
+                                                    <td><button id="memberModifyBtn" type="button">수정</button></td>
+                                                </tr>
+                                            </table>
+                                            <input type="hidden" id="modirole" name="roleSet" vlaue="${response.roleSet}" />
+                                        </form>`
+
+                            searchResult.html(str);
+
+                            var roleSetData = response.roleSet;
+
+                            roleSetSelector();
+
+                            console.log("get user info success");
+                        },
+                        fail: function (response) {
+                            console.log(response);
+
+                        }, error: function (request, status, error) {
+                            console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+
+                        }
+                    });
+                }
+            
+                var roleSetSelector = function () {
+                    $("input[name=roleSet]").each(function (index, item) {
+                        var role = $(item).attr("id");
+                        var roleSetData = $("#roleSetInfo").data("roleSet");
+                        
+                        if (role == roleSetData) {
+                            $(item).prop("checked", true);
+                                $(`#roleSetInfo :nth-child(${index})`).css("color", "red");
+                                $("#modirole").val(roleSetData);
+                                return true;
+                        }
+                    });
+                }
+                
+                $("#searchBtn").on("click", searchFunction);
+                
+                $("#raidoContainer input").on("change", function () {
+                    console.log($(this).attr("id"));
+                    var id = $(this).attr("id");
+                    $("#roleSetInfo").children().each(function (idx) {
+                        $(`#roleSetInfo :nth-child(${idx + 1})`).css("color", "black");
+                    });
+                    selectedRole = $(`label[for=${id}]`).css("color", "red");
+                    $("#modirole").val(id);
+                })
+
+                $("input[name=id]").on("keydown", function (e) {
+                    var keycode = e.keyCode;
+                    if (keycode == "13") {
+                        e.preventDefault();
+                        searchFunction();
+                    }
+                });
+
+                $(document).on("click", "#memberModifyBtn", function () {
+                // var frm = $("#memberfrm").serialize();
+                var id = $("input[name=id]").val();
+                var nickname = $("input[name=nickname]").val();
+                var roleSet = $("#modirole").val();
+                var data = { id: id, nickname: nickname };
+                // console.log(frm);
+                roleSet = roleSet != null ? roleSet : "0";
+                $.ajax({
+                    type: "POST",
+                    data: JSON.stringify(data),
+                    url: modifyUrl + "/" + roleSet,
+                    contentType: "application/json",
+                    success: function (response) {
+                        swal("수정완");
+                        console.log("get modi post success....");
+                    },
+                    fail: function (response) {
+                        console.log(response);
+                    }, error: function (reponse, error) {
+                        // console.log("code:" + reponse.status + "\n" + "message:" + reponse.responseText + "\n" + "error:" + error);
+                        console.log(response.responseText.trace);
+                    }
+                });
+            });
+
+            });
+
+        </script>
+    </th:block>
+</th:block>

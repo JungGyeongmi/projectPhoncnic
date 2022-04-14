@@ -47,7 +47,7 @@
                                 </div>
                             </form>`;
                         modalBody.html(str);
-                        $('input:radio[name=setname]:input[value=' + result[2].setname + ']').attr("checked", true);
+                        $('input:radio[name=chalookInfo]:input[value=' + result[2].setname + ']').attr("checked", true);
                     });
                     console.log("get look modal success...");
                 }
@@ -98,6 +98,7 @@
                             modifyLook();
                         }
                     });
+                
                 }
             });
         </script>
@@ -124,6 +125,12 @@
                 background-color: #DBE9B7;
                 border-radius: 5px;
             }
+
+            .character-modal-body {
+                display: flex;
+                justify-content: center;
+            }
+      </style>
         </style>
         <!-- 모달창 -->
         <div class="character modal" tabindex="-1" id="modalcharacterlook">

@@ -167,17 +167,17 @@
             }
 
             #list1 {
-                margin: 50px;
-                width: 100px;
-                height: 100px;
+                margin: 50px 100px 0px;
+                width: 150px;
+                height: 150px;
                 display: inline-block;
             }
 
             #list2 {
-                margin: 50px;
+                margin: 50px 100px 30px;
                 padding-top: 50px;
-                width: 100px;
-                height: 100px;
+                width: 150px;
+                height: 150px;
                 display: inline-block;
             }
 
@@ -198,9 +198,14 @@
                 font-family: GmarketSansLight;
                 overflow: hidden;
             }
+
+            .dyningimg {
+                width: 150px;
+                height: 150px;
+            }
         </style>
 
-        <h3>cafe</h3>
+        <!-- <h3>cafe</h3> -->
         <div class="wrap">
             <ul class="dyning-list-ul">
                 <li id="list1" th:each="dto : ${result}" th:if="${dtoStat.count} <= ${dtoStat.size}/2 + 0.5">
@@ -232,14 +237,14 @@
         <style>
             .setlook {
                 position: relative;
-                width: 80px;
-                height: 112px;
+                width: 70px;
+                height: 98px;
                 right: 0px;
             }
             #char{
                 position: relative;
-                width: 80px;
-                height: 112px;
+                width: 70px;
+                height: 98px;
                 right: 0px; 
             }
 
@@ -312,7 +317,7 @@
                             // console.log("캐릭터좌표"+chartop,charleft);
                             console.log("타겟좌표" + targetTop, targetLeft, targetHref);
 
-                            if (targetTop - 80 < chartop && chartop < targetTop + 80 && targetLeft - 30 < charleft && charleft < targetLeft + 30) {
+                            if (targetTop - 20 < chartop && chartop < targetTop + 100 && targetLeft - 30 < charleft && charleft < targetLeft + 100) {
                                 location.href = targetHref + "&chartop=" + chartop + "&charleft=" + charleft;
                             };
                         }
