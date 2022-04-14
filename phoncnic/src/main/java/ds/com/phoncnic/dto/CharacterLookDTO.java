@@ -14,4 +14,6 @@ public class CharacterLookDTO {
     private String setname;
     private String setpath;
 
+    private String setbackname;
+    private String setbackpath;
 }

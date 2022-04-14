@@ -19,6 +19,7 @@ public interface CharacterLookService {
         CharacterLookDTO characterLookDTO = CharacterLookDTO.builder()
                 .setname(characterLookinfo.getSetname())
                 .setpath(characterLookinfo.getSetpath())
+                .setbackpath(characterLookinfo.getSetbackpath())
                 .build();
         return characterLookDTO;
     }
