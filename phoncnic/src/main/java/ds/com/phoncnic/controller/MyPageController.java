@@ -2,8 +2,11 @@ package ds.com.phoncnic.controller;
 
 import javax.servlet.http.HttpSession;
 
-import org.hibernate.Session;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -49,24 +52,29 @@ public class MyPageController {
     }
 
     @PostMapping("/membermodify")
-    public String membermodify(MemberDTO memberDTO, RedirectAttributes ra) {
+    public String membermodify(MemberDTO memberDTO, RedirectAttributes ra, @AuthenticationPrincipal AuthMemberDTO dto) {
 
         log.info("update....");
         log.info("modify post.........id:" + memberDTO.getId());
         log.info("memberDTO : "+memberDTO);
 
         memberService.updateMemberDTO(memberDTO);
-        
+        dto.setNickname(memberDTO.getNickname());
+
         ra.addAttribute("id", memberDTO.getId());
         
+        // session 값
+        Authentication authentication = new UsernamePasswordAuthenticationToken(dto, null, dto.getAuthorities());
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        securityContext.setAuthentication(authentication);
+        
         return "redirect:/main/mypage";
-
     }
 
     @PostMapping("/lookmodify")
     public String lookmodify(CharacterLookDTO characterLookDTO, @AuthenticationPrincipal AuthMemberDTO dto, RedirectAttributes ra) {
         log.info("modify post.........:" + characterLookDTO.getSetname());
-
+  
         characterLookService.modify(characterLookDTO, dto.getId());
         ra.addAttribute("id", dto.getId());
         return "redirect:/main/mypage";

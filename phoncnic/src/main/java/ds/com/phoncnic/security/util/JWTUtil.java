@@ -27,7 +27,6 @@ public class JWTUtil {
         .compact();
   }
 
-  //인코딩된 문자열에서 원하는 값을 추출
   public String validateAndExtract(String tokenStr) throws Exception {
     String contentValue = null;
     try {

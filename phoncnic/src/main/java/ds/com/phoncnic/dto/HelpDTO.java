@@ -19,8 +19,7 @@ public class HelpDTO {
     private String password;
     private String qtype;
     private boolean answerstatus;
+    private String writeremail;
 
     private LocalDateTime regdate, moddate;
-
-    private String writer;
 }

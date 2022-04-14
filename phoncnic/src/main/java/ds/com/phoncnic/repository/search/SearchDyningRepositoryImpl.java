@@ -25,13 +25,6 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 public class SearchDyningRepositoryImpl extends QuerydslRepositorySupport implements SearchDyningRepository {
 
-  /*
-   * JpaRepository의 부족한 부분은 바로 각 항목에 대한
-   * max, min 값을 구하는 Predicate query와
-   * 다양한 update,delete를 하는 query들을 만들어주는 것이 불가능
-   * 그래서 QuerydslRepositorySupport을 사용
-   */
-
   public SearchDyningRepositoryImpl() {
     super(Dyning.class);
   }
@@ -39,16 +32,11 @@ public class SearchDyningRepositoryImpl extends QuerydslRepositorySupport implem
   @Override
   public Page<Object[]> searchPage(String type, String keyword, Pageable pageable) {
     log.info("searchPage.....");
-    // 1. 사용하고자 하는 Q도메인을 선언(동적쿼리 호출을 위해 선언)
+   
     QDyning dyning = QDyning.dyning;
-
-    // 2. JPQLQuery을 이용해서 서로 연관(조인) 시킴
     JPQLQuery<Dyning> jpqlQuery = from(dyning);
-
-    // 3. 쿼리 대상(내용)을 정한다. Tuple은 Object[]과 같은 기능
     JPQLQuery<Dyning> obj = jpqlQuery.select(dyning);
 
-    // 4. 검색 조건을 위한 객체 선언
     BooleanBuilder builder = new BooleanBuilder();
     BooleanExpression expression = dyning.dno.gt(0L);
     builder.and(expression);
@@ -83,7 +71,7 @@ public class SearchDyningRepositoryImpl extends QuerydslRepositorySupport implem
       }
     });
 
-    obj.groupBy(dyning); // board의 목록에 따른 그룹
+    obj.groupBy(dyning); 
     obj.offset(pageable.getOffset());
     obj.limit(pageable.getPageSize());
 

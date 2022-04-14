@@ -46,6 +46,7 @@ public class HelpServiceImpl implements HelpService {
         if(result.isPresent()) {
             return entityToDTO(result.get());        
         }
+
         return null;
     }
 
@@ -57,15 +58,13 @@ public class HelpServiceImpl implements HelpService {
 
             help.changeTitle(helpDTO.getTitle());
             help.changeContent(helpDTO.getContent());
-            help.changeQtype(helpDTO.getQtype());
 
             helpRepository.save(help);
         }
     }
-
+    
     @Override
     public void remove(Long qno) {
         helpRepository.deleteById(qno);
-        helpRepository.deleteById(qno-1);
     }
 }

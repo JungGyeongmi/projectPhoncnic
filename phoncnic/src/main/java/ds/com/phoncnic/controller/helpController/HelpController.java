@@ -25,7 +25,11 @@ public class HelpController {
 
     @GetMapping({ "", "/","/list" })
     public String getHelpHome(PageRequestDTO pageRequestDTO, Model model) {
-         model.addAttribute("result", helpService.getQnaList(pageRequestDTO));
+        log.info("get help list...");
+        log.info(pageRequestDTO);
+        log.info(helpService.getQnaList(pageRequestDTO));
+        model.addAttribute("result", helpService.getQnaList(pageRequestDTO));
+       
         return "/help/list";
     }
     
@@ -47,8 +51,8 @@ public class HelpController {
         try {
          ra.addFlashAttribute("id", authMemberDTO.getId());
         } catch (NullPointerException  e) {
-            ra.addFlashAttribute("userid", helpDTO.getWriter()); 
-            log.info("userid:"+helpDTO.getWriter());
+            ra.addFlashAttribute("userid", helpDTO.getWriteremail()); 
+            log.info("userid:"+helpDTO.getWriteremail());
         }  return "redirect:/help/list";
     }
 
