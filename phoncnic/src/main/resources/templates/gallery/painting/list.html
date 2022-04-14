@@ -797,7 +797,7 @@
                   $.each(result[0], function (index, item) {
                      str += `<span>
                                <input id="${index}${item.setname}" name="chalookInfo" type="radio" value="${item.setname}" hidden>
-                               <label for="${index}${item.setname}">
+                               <label class="character-info-label" for="${index}${item.setname}">
                                    <img src="${item.setpath}" id="setimg" alt="">
                                    <img src="${item.setbackpath}" id="setimg" alt="" hidden>
                                <lable>
@@ -868,9 +868,20 @@
                      modifyLook();
                   }
                });
+
+               $(document).on("mouseover", ".character-info-label", function () {
+                  $(this).children("img").eq(0).attr("hidden", true);
+                  $(this).children("img").eq(1).attr("hidden", false);
+               });
+
+               $(document).on("mouseleave", ".character-info-label", function () {
+                  $(this).children("img").eq(1).attr("hidden", true);
+                  $(this).children("img").eq(0).attr("hidden", false);
+               });
             }
          });
       </script>
+
       <style>
          .newsetlook {
             position: relative;

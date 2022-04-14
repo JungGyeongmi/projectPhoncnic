@@ -163,6 +163,8 @@
                 <a th:href="@{/manage/gallery/read(gno=${dto.getGno}) }">
                   <img th:src="|@{'/display'}?fileName=${dto.getImageURL()}|" alt="" width="200px">
                 </a>
+                <br>
+                <span th:text="${dto.getTitle}">TITLE</span>
               </div>
           </div>
         </th:block>
