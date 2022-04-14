@@ -8,7 +8,7 @@
                     .md-serach-result {
                         padding: 0 !important;
                     }
-                
+
                     .search-result-Item {
                         cursor: pointer;
                         list-style: none;
@@ -16,15 +16,15 @@
                         padding-top: 20px;
                         padding-bottom: 20px;
                     }
-                
+
                     .search-result-Item:hover {
                         background-color: #DBE9B7;
                     }
-                
+
                     #search-result-div {
                         padding: 0 !important;
                     }
-                
+
                     hr {
                         margin: 0;
                     }
@@ -128,6 +128,9 @@
                 /* 단이 나뉘지않고 스크롤이 생김  */
                 white-space: nowrap;
                 margin: 0 auto;
+                scroll-behavior: smooth;
+                height: 100%;
+
             }
 
             .dyning-list-ul {
@@ -135,17 +138,16 @@
             }
 
             #list1 {
-                margin: 50px 100px 0px;
-                width: 150px;
-                height: 150px;
+                margin: 50px 100px 70px;
+                width: 200px;
+                height: 200px;
                 display: inline-block;
             }
 
             #list2 {
-                margin: 50px 100px 30px;
-                padding-top: 50px;
-                width: 150px;
-                height: 150px;
+                margin: 40px 100px 30px;
+                width: 200px;
+                height: 200px;
                 display: inline-block;
             }
 
@@ -168,8 +170,8 @@
             }
 
             .dyningimg {
-                width: 150px;
-                height: 150px;
+                width: 200px;
+                height: 200px;
             }
         </style>
 
@@ -212,8 +214,8 @@
             #char{
                 position: relative;
                 width: 70px;
-                height: 98px;
-                right: 0px; 
+                height: 126px;
+                right: 0px;
             }
 
         </style>
@@ -222,7 +224,7 @@
 
             $(document).ready(function(e){
                 if($("input[name='chartop']").val()!=""){
-                    
+
                     var top =  $("input[name='chartop']").val();
                     var left =  $("input[name='charleft']").val();
 
@@ -270,6 +272,7 @@
                     var chartop = char.offsetTop;
                     var charleft = char.offsetLeft;
                     let key = e.keyCode;
+                    console.log("캐릭터좌표" + chartop, charleft);
                     $("input[name='chartop']").val(chartop);
                     $("input[name='charleft']").val(charleft);
 
@@ -279,17 +282,36 @@
 
 
                         for (i = 1; i <= imgLength; i++) {
-                            var targetTop = $("#" + i).offset().top;
-                            var targetLeft = $("#" + i).offset().left;
-                            var targetHref = $("#" + i).parent().attr('class');
+                            // 절대 좌표
+                            var targetTop = document.getElementById(i).offsetTop;
+                            var targetLeft = document.getElementById(i).offsetLeft;
+                            var targetHref = document.getElementById(i).offsetHeight;
+                            // var targetTop = $("#" + i).offset().top;
+                            // var targetLeft = $("#" + i).offset().left;
+                            // var targetHref = $("#" + i).parent().attr('class');
                             // console.log("캐릭터좌표"+chartop,charleft);
-                            console.log("타겟좌표" + targetTop, targetLeft, targetHref);
+                            console.log("타겟좌표: " + targetTop, targetLeft, targetHref);
 
-                            if (targetTop - 20 < chartop && chartop < targetTop + 100 && targetLeft - 30 < charleft && charleft < targetLeft + 100) {
+                            if (targetTop - 40 < chartop && chartop < targetTop + 160 && targetLeft - 30 < charleft && charleft < targetLeft + 160) {
                                 location.href = targetHref + "&chartop=" + chartop + "&charleft=" + charleft;
                             };
                         }
                     }
+                    if (key === 39) {
+                        var imgLength = $(".dyningimg").length;
+                        // console.log("캐릭터좌표" + chartop, charleft);
+
+                        for (i = 1; i <= imgLength; i++) {
+                            var targetTop = document.getElementById(i).offsetTop;
+                            var targetLeft = document.getElementById(i).offsetLeft;
+                            // console.log("타겟좌표" + targetTop, targetLeft, targetHref);
+
+                            if (targetTop - 40 < chartop && chartop < targetTop + 160 && targetLeft - 30 < charleft && charleft < targetLeft + 160) {
+
+                            };
+                        }
+                    }
+
                 });
             })();
         </script>

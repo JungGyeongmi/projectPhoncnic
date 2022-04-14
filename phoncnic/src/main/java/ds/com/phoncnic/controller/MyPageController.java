@@ -40,7 +40,7 @@ public class MyPageController {
 
         log.info("id:" + dto.getId());
         MemberDTO memberDTO = memberService.getMember(dto.getId());
-        
+
         model.addAttribute("id",dto.getId());
         model.addAttribute("memberDTO", memberDTO);
 
@@ -62,19 +62,19 @@ public class MyPageController {
         dto.setNickname(memberDTO.getNickname());
 
         ra.addAttribute("id", memberDTO.getId());
-        
+
         // session 값
         Authentication authentication = new UsernamePasswordAuthenticationToken(dto, null, dto.getAuthorities());
         SecurityContext securityContext = SecurityContextHolder.getContext();
         securityContext.setAuthentication(authentication);
-        
+
         return "redirect:/main/mypage";
     }
 
     @PostMapping("/lookmodify")
     public String lookmodify(CharacterLookDTO characterLookDTO, @AuthenticationPrincipal AuthMemberDTO dto, RedirectAttributes ra) {
         log.info("modify post.........:" + characterLookDTO.getSetname());
-  
+
         characterLookService.modify(characterLookDTO, dto.getId());
         ra.addAttribute("id", dto.getId());
         return "redirect:/main/mypage";
