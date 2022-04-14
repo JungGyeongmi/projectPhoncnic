@@ -30,7 +30,9 @@ public class CharacterLookServiceImpl implements CharacterLookService {
 
     @Override
     public CharacterLookDTO getCharacterSet(String id) {
+      
         CharacterLookInfo characterLookinfo = repository.getSet(id);
+       
         return entityToDTO(characterLookinfo);
     }
 
@@ -51,11 +53,13 @@ public class CharacterLookServiceImpl implements CharacterLookService {
     @Override
     public List<CharacterLookInfo> lookimageList() {
         List<CharacterLookInfo> dto = characterLookInfoRepository.findAll();
+        
         return dto;
     }
 
     @Override
     public CharacterLookInfo getDefaultAvatar(long chno) {
-       return repository.getDefaultCharacterLookByChno(chno);
+       
+        return repository.getDefaultCharacterLookByChno(chno);
     }
 }
