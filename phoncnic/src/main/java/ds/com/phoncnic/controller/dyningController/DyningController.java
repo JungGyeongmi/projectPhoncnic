@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import ds.com.model.ChatMessage;
 import ds.com.phoncnic.dto.DyningDTO;
 import ds.com.phoncnic.security.dto.AuthMemberDTO;
 import ds.com.phoncnic.service.FollowService;
@@ -150,18 +149,7 @@ public class DyningController {
         return "/dyning/movingtest2";
     }
 
-    @MessageMapping("/chat.register")
-	@SendTo("/topic/public")
-	public ChatMessage register(@Payload ChatMessage chatMessage, SimpMessageHeaderAccessor headerAccessor) {
-		headerAccessor.getSessionAttributes().put("username", chatMessage.getSender());
-		return chatMessage;
-	}
-
-	@MessageMapping("/chat.send")
-	@SendTo("/topic/public")
-	public ChatMessage sendMessage(@Payload ChatMessage chatMessage) {
-		return chatMessage;
-	}
+    
 
 
 
