@@ -271,11 +271,12 @@
         }
     });
     $(".dyningimg").on("click", function (e) {
-        var src = $(this).parent().attr("class");
-        var src = $(this).parent().attr("id");
+        var src1 = $(this).parent().attr("class");
+        var src2 = $(this).parent().attr("id");
         var top = e.target.offsetTop;
         var left = e.target.offsetLeft;
-        console.log(src);
+        console.log(src1);
+        console.log(src2);
         console.log(top, left);
         // location.href=src;
     });
@@ -355,10 +356,10 @@
                     // 절대 좌표
                     var targetTop = document.getElementById(i).offsetTop;
                     var targetLeft = document.getElementById(i).offsetLeft;
-                    var targetHref = document.getElementById(i).offsetHeight;
+                    // var targetHref = document.getElementById(i).parentNode.getAttribute("class");
                     // var targetTop = $("#" + i).offset().top;
                     // var targetLeft = $("#" + i).offset().left;
-                    // var targetHref = $("#" + i).parent().attr('class');
+                    var targetHref = $("#" + i).parent().attr('class');
                     // console.log("캐릭터좌표"+chartop,charleft);
                     console.log("타겟좌표: "+targetTop, targetLeft, targetHref);
 
