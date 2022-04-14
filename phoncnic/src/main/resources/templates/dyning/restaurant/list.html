@@ -10,6 +10,7 @@
             #dyningname{cursor: pointer;}
             #roofpath{cursor: pointer;}
         </style>
+<<<<<<< HEAD
 </head>
 
 <body>
@@ -32,3 +33,310 @@
 </body>
 
 </html>
+=======
+        <div class="border-end bg-white" id="sidebar-wrapper">
+            <div class="sidebar-heading border-bottom bg-light">
+                <form class="d-flex search-form" th:action="@{/restaurant/toggle}" method="get">
+                    <select class="form-select-sm" name="type">
+                        <option value="n" >가게명</option>
+                        <option value="h">해쉬태그</option>
+                    </select>
+                    <input class="form-control me-2" name="keyword" type="search" placeholder="Search"
+                        aria-label="Search">
+                    <button class="btn btn-outline-success" id="btnsearch" type="button">Search</button>
+                </form>
+            </div>
+            <div class="list-group list-group-flush">
+                <ul class="md-serach-result"></ul>
+            </div>
+        </div>
+
+
+
+        <script th:inline="javascript">
+            $(document).ready(function () {
+                /*[+
+                    var searchUrl = [[@{/dyning/restaurant/toggle}]];
+                +]*/
+
+                var btnsearch = $('#btnsearch');
+                var searchForm = $('.search-form');
+                var searchResult = $(".md-serach-result");
+                var keyword = $("input[name=keyword]");
+
+                // 검색버튼 클릭시 search
+                btnsearch.on("click", function (e) {
+                    console.log(searchForm.serialize());
+                    getSearchList();
+                })
+
+                // 엔터 입력시 search
+                keyword.on("keydown", function (e) {
+                    var keycode = e.keyCode;
+                    if (keycode == "13") {
+                        e.preventDefault();
+                        getSearchList();
+                    }
+                });
+
+                function getSearchList() {
+                    $.ajax({
+                        type: "GET",
+                        url: searchUrl,
+                        data: searchForm.serialize(),
+                        success: function (response) {
+                            console.log("get search success");
+                            var str = "";
+
+                            if (response.totalPage != 0) {
+                                $.each(response.dtoList, function (idx, dto) {
+                                    str += `<li class="search-result-Item " data-search-dno="${dto.dno}" value="${dto.dno}">
+                                    <input class="input" type="hidden" value="${dto.dno}">
+                                    <div id="search-result-div">
+                                         <p>${dto.dyningname}</p>
+                                         ${dto.hashtag}
+                                    </div>
+                                    </li><hr>`;
+                                });
+                                searchResult.html(str);
+                            } else {
+                                searchResult.html('<div> 검색 결과가 없습니다. </div>');
+                            }
+                        },
+                        error: function (response) {
+                            console.log(response);
+                        }
+                    });
+                }
+
+                // 토글 창 내 search result 클릭 시 이동 제어
+                $(document).on("click", ".search-result-Item", function (e) {
+                    console.log("click");
+                    var val = $(this).attr("value");
+                    location.href = "/phoncnic/dyning/details?dno=" + val;
+                });
+
+            });
+        </script>
+    </th:block>
+
+    <!-- 내용부분(restaurant 거리) -->
+    <th:block th:fragment="content">
+        <style>
+            body {
+                -ms-overflow-style: none;
+            }
+
+            ::-webkit-scrollbar {
+                display: none;
+            }
+
+            .wrap {
+                -ms-overflow-style: auto;
+                overflow-x: auto;
+                /* 단이 나뉘지않고 스크롤이 생김  */
+                white-space: nowrap;
+                margin: 0 auto;
+            }
+
+            /* .wrap::-webkit-scrollbar {
+                display: none;
+            } */
+
+            .dyning-list-ul {
+                max-width: 10000px;
+            }
+
+            #list1 {
+                margin: 50px;
+                width: 100px;
+                height: 100px;
+                display: inline-block;
+            }
+
+            #list2 {
+                margin: 50px;
+                padding-top: 50px;
+                width: 100px;
+                height: 100px;
+                display: inline-block;
+            }
+
+            .dyningname {
+                margin-top: 5px;
+                background-color: lightgoldenrodyellow;
+                text-align: center;
+                font-size: 18px;
+                font-family: GmarketSansMedium;
+            }
+
+            .nickname {
+                border: 2px solid #DBE9B7;
+                border-radius: 5px;
+                background-color: white;
+                text-align: center;
+                font-weight: 600;
+                font-family: GmarketSansLight;
+                overflow: hidden;
+            }
+        </style>
+
+        <h3>restaurant</h3>
+        <div class="wrap">
+            <ul class="dyning-list-ul">
+                <li id="list1" th:each="dto : ${result}" th:if="${dtoStat.count} <= ${dtoStat.size}/2 + 0.5">
+                    <div th:class="@{/dyning/details(dno=${dto.dno},id=${id}) }">
+                        <img class="dyningimg" th:src="${dto.roofthumbnail}" th:id="${dtoStat.count}">
+                    </div>
+                    <div class="dyningname">
+                        [[${dto.dyningname}]]
+                    </div>
+                </li>
+            </ul>
+            <div th:each="sdto : ${setDTO}" id="char">
+                <img type="hidden"  id ="charimg" class="look setlook" th:src="${sdto.setpath}" alt="">
+                <div th:text="${nickname}" class="nickname" th:if="${nickname}!=''">[[${nickname}]]</div>
+                <input type="text" name="chartop"  th:value="${chartop}" style="opacity: 0;">
+                <input type="text" name="charleft"  th:value="${charleft}" style="opacity: 0;">
+            </div>
+            <ul class="dyning-list-ul">
+                <li id="list2" th:each="dto : ${result}" th:if="${dtoStat.count} > ${dtoStat.size}/2 + 0.5">
+                    <div th:class="@{/dyning/details(dno=${dto.dno},id=${id}) }">
+                        <img class="dyningimg" th:src="${dto.roofthumbnail}" th:id="${dtoStat.count}">
+                    </div>
+                    <div class="dyningname">
+                        [[${dto.dyningname}]]
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div id="saveTop"></div>
+        <script th:inline="javascript">
+
+            window.addEventListener("keydown", function (e) {
+                // space and arrow keys
+                if ([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+                    e.preventDefault();
+                }
+            }, false);
+
+                // var Img = document.getElementsByClassName("dyningimg");
+                // var divv = document.querySelectorAll("#dyninga.dyningimg");
+                // for(i=1; i<=8; i++){
+                //     console.log(divv[i].offsetTop);
+                // }
+                // document.getElementsByClassName("dyningimg").offsetTop;
+                // console.log(Img.offsetTop);
+                // window.addEventListener("mouseover", function(e) {
+                //     console.log(e.target.offsetTop, e.target.offsetLeft);
+                // });
+
+
+        </script>
+        <!-- 가게 건물 좌표를 얻는 js -->
+        <style>
+            .setlook {
+                position: relative;
+                width: 80px;
+                height: 112px;
+                right: 0px;
+            }
+            #char{
+                position: relative;
+                width: 80px;
+                height: 112px;
+                right: 0px; 
+            }
+        </style>
+       
+<script>
+
+    
+    // document.onload(function(e){
+
+    //     if($("input[name='chartop']").val()!="${chartop}"){
+    //         let char = document.getElementById("char");
+    
+    //         var top =  $("input[name='chartop']").val();
+    //         var left =  $("input[name='charleft']").val();
+    //         char.offset({top : top , left : left});
+    //     }
+    // });
+    $(document).ready(function(e){
+        if($("input[name='chartop']").val()!=""){
+            
+            var top =  $("input[name='chartop']").val();
+            var left =  $("input[name='charleft']").val();
+            $("#char").offset({top : top });
+            $("#char").offset({left : left });
+
+        }
+    });
+    $(".dyningimg").on("click", function (e) {
+        var src = $(this).parent().attr("class");
+        var src = $(this).parent().attr("id");
+        var top = e.target.offsetTop;
+        var left = e.target.offsetLeft;
+        console.log(src);
+        console.log(top, left);
+        // location.href=src;
+    });
+ 
+    (function () {
+
+       
+
+
+        document.addEventListener("keydown", function (e) {
+            let char = document.getElementById("char");
+            let charimg = document.getElementById("charimg");
+
+            let key = e.keyCode;
+            let y = parseInt(char.style.top || 0, 10);
+            let x = parseInt(char.style.left || 0, 10);
+            if (key === 37 /* LEFT */) {
+                char.style.left = x - 20 + "px";
+            }
+            if (key === 38 /* TOP */) {
+                char.style.top = y - 20 + "px";
+            }
+            if (key === 39 /* RIGHT */) {
+                char.style.left = x + 20 + "px";
+            }
+            if (key === 40 /* BOTTOM */) {
+                char.style.top = y + 20 + "px";
+            }
+        });
+        
+        
+        
+        document.addEventListener("keyup", function (e) {
+            var chartop = char.offsetTop;
+            var charleft = char.offsetLeft;
+            let key = e.keyCode;
+            console.log("캐릭터좌표" + chartop, charleft);
+            $("input[name='chartop']").val(chartop);
+            $("input[name='charleft']").val(charleft);
+            if (key === 13 /* enter */) {
+                var imgLength = $(".dyningimg").length;
+
+                for (i = 1; i <= imgLength; i++) {
+                    var targetTop = $("#" + i).offset().top;
+                    var targetLeft = $("#" + i).offset().left;
+                    var targetHref = $("#" + i).parent().attr('class');
+                    // console.log("캐릭터좌표"+chartop,charleft);
+                    console.log("타겟좌표" + targetTop, targetLeft, targetHref);
+
+                    if (targetTop - 80 < chartop && chartop < targetTop + 80 && targetLeft - 30 < charleft && charleft < targetLeft + 30) {
+                        location.href = targetHref + "&chartop=" + chartop + "&charleft=" + charleft;
+                    };
+                }
+            }
+        });
+    })();
+</script>
+        
+    </th:block>
+</th:block>
+>>>>>>> 8699efb8632e6c2dfcb33355359b37bc801e0804
