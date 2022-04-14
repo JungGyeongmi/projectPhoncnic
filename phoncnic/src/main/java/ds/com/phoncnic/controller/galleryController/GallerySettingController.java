@@ -30,6 +30,17 @@ public class GallerySettingController {
     EmojiInfoService emojiInfoService;
 
 
+    @GetMapping("/manage")
+    public void toMainManagePage(@AuthenticationPrincipal AuthMemberDTO authMemberDTO, Model model) {
+        String id = authMemberDTO.getId();
+        String nickname = authMemberDTO.getNickname();
+        log.info("user id : "+id+" list page.....");
+
+        model.addAttribute("nickname", nickname);
+        model.addAttribute("galleryDTOList", galleryService.getUserGallery(id));
+        log.info("gallery list : "+galleryService.getUserGallery(id));
+    }
+
     @GetMapping("/list")
     public void toListPage(@AuthenticationPrincipal AuthMemberDTO authMemberDTO, Model model) {
         String id = authMemberDTO.getId();

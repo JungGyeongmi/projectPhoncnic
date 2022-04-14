@@ -15,7 +15,7 @@
                 <th scope="col">Roof Path</th>
             </tr>
             <tr th:each="dto : ${result}" th:onclick="'location.href=
-        \''+ @{/manage/dyning/read(dno=${dto.dno},id=${id})}
+                \''+ @{/manage/dyning/read(dno=${dto.dno},id=${id})}
              + '\''">
                 <!-- <td >[[${dto.dno}]]</td> -->
                 <td id="dyningname">[[${dto.dyningname}]]</td>

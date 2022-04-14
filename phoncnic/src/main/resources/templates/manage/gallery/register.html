@@ -8,6 +8,7 @@
         margin: 0 auto;
         font-family: 'GmarketSansLight';
     }
+
     .containerBox h3 {
         padding: 60px 0 40px 0;
     }
@@ -35,19 +36,19 @@
         width: 49%;
     }
 
-  .btn-items > .my:nth-child(1){
-      width: 100%;
-  }
+    .btn-items > .my:nth-child(1){
+        width: 100%;
+    }
 
-  .my.btn:nth-child(2){
-       width: 50%;
-  }
+    .my.btn:nth-child(2){
+        width: 50%;
+    }
 
-  .my.btn:hover,
-  .my2.btn:hover {
-    background-color: #DBE9B7;
-  }
-   
+    .my.btn:hover,
+    .my2.btn:hover {
+        background-color: #DBE9B7;
+    }
+    
 </style>
 
 <th:block th:replace="~{layout/basic :: setContent(~{::content})}">
@@ -58,7 +59,7 @@
                     <img th:src="@{/icon/vertical-line.png}" style="width:30px;" alt="">작품 등록
                 </h3>
 
-                <form th:action="@{/manage/gallery/register}" th:method="POST" id="frm">
+                <form th:action="@{/manage/gallery/register}" method="POST" id="frm">
                     <input type="hidden" name="id" th:value="${authDTO.id}"><br>
                     <label class="form-label">작가명</label>
                     <input type="text" name="artistname" th:value="${authDTO.nickname}" class="form-control"

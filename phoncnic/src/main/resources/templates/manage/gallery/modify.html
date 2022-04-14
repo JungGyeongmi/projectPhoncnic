@@ -4,7 +4,7 @@
     <th:block th:fragment="content">
         <h1>전시회 상세페이지 예제</h1>
         <form id="frm">
-            <table border="1">
+            <table style="border:1px">
                 <tr>
                     <th>
                         번호
@@ -57,33 +57,49 @@
         </form>
 
         <script th:inline="javascript">
+            
             var actionForm = document.querySelector("#frm");
             var removeBtn = document.querySelector("#removeBtn");
 
+            /*[+ 
+                var urlremove = [[@{/manage/gallery/remove}]];
+            +]*/
+
             removeBtn.onclick = function () {
-                /*[+ var urlremove = [[@{/manage/gallery/remove}]] +]*/
                 actionForm.setAttribute("action", urlremove);
                 actionForm.setAttribute("method", "post");
-                swal("삭제되었습니다");
-                actionForm.submit();
+                swal("삭제되었습니다").then((confirm)=>{
+                    if(confirm) {
+                        actionForm.submit();
+                    }
+                });
             }
+
+            /*[+ 
+                var modifyUrl = [[@{/manage/gallery/modify}]];
+            +]*/
 
             var modifyBtn = document.querySelector("#modifyBtn");
             modifyBtn.onclick = function () {
-                /*[+ var modifyUrl = [[@{/manage/gallery/modify}]] +]*/
                 actionForm.setAttribute("action", modifyUrl);
                 actionForm.setAttribute("method", "post");
-                swal("수정되었습니다");
-                actionForm.submit();
+                swal("수정되었습니다").then((confirm)=>{
+                    if(confirm) {
+                        actionForm.submit();
+                    }
+                });
             }
+
+            
+            /*[+ 
+                var listUrl = [[@{/manage/gallery/list}]];
+            +]*/
 
             var listBtn = document.querySelector("#listBtn");
             listBtn.onclick = function () {
-                /*[+ var listUrl = 
-                    [[@{/manage/gallery/list)}]]
-                +]*/
                 location.href = listUrl;
             }
+         
 
         </script>
     </th:block>

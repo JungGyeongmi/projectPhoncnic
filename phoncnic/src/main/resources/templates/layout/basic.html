@@ -100,7 +100,7 @@
                     <a class="list-group-item list-group-item-action list-group-item-light p-3"
                         sec:authorize="isAnonymous()"
                         th:href="@{/member/login}">
-                        <img src="https://img.icons8.com/fluency/48/000000/google-logo.png"/ width="10%">  로그인 </a>
+                        <img src="https://img.icons8.com/fluency/48/000000/google-logo.png" width="10%">  로그인 </a>
                     <div id="userInfoToggle" class="list-group-item list-group-item-light p-3"
                         sec:authorize="isAuthenticated()">
                         <span hidden id="loginUserPictureSrc" sec:authentication='principal.attr["picture"]'></span>
