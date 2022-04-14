@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
 <th:block th:replace="~{layout/dyninglist :: setContent(~{::content}, ~{::search})}">
+
     <!-- search toggle -->
     <th:block th:fragment="search">
 
@@ -19,7 +20,7 @@
                 background-color: #DBE9B7;
             }
             #search-result-div {
-                padding: 0 !important;
+                padding: 0 !important;       
             }
             hr {
                 margin: 0;
@@ -128,8 +129,6 @@
                 /* 단이 나뉘지않고 스크롤이 생김  */
                 white-space: nowrap;
                 margin: 0 auto;
-                scroll-behavior: smooth;
-                height: 100%;
             }
 
             /* .wrap::-webkit-scrollbar {
@@ -141,70 +140,40 @@
             }
 
             #list1 {
-                margin: 50px 100px 70px;
-                width: 200px;
-                height: 200px;
+                margin: 50px;
+                width: 100px;
+                height: 100px;
                 display: inline-block;
             }
 
             #list2 {
-                margin: 40px 100px 30px;
-                width: 200px;
-                height: 200px;
+                margin: 50px;
+                padding-top: 50px;
+                width: 100px;
+                height: 100px;
                 display: inline-block;
-            }
-
-            .dyningname {
-                margin-top: 5px;
-                background-color: lightgoldenrodyellow;
-                text-align: center;
-                font-size: 18px;
-                font-family: GmarketSansMedium;
-            }
-
-            .nickname {
-                border: 2px solid #DBE9B7;
-                border-radius: 5px;
-                background-color: white;
-                text-align: center;
-                font-weight: 600;
-                font-family: GmarketSansLight;
-                overflow: hidden;
-            }
-
-            .dyningimg {
-                width: 200px;
-                height: 200px;
             }
         </style>
 
-        <!-- <h3>restaurant</h3> -->
+        <h3>restaurant</h3>
         <div class="wrap">
             <ul class="dyning-list-ul">
                 <li id="list1" th:each="dto : ${result}" th:if="${dtoStat.count} <= ${dtoStat.size}/2 + 0.5">
                     <div th:class="@{/dyning/details(dno=${dto.dno},id=${id}) }">
                         <img class="dyningimg" th:src="${dto.roofthumbnail}" th:id="${dtoStat.count}">
                     </div>
-                    <div class="dyningname">
-                        [[${dto.dyningname}]]
-                    </div>
+                    [[${dto.dyningname}]]
                 </li>
             </ul>
-            <div th:each="sdto : ${setDTO}" id="char">
-                <img type="hidden"  id ="charimg" class="look setlook" th:src="${sdto.setpath}" alt="">
-                <div th:text="${nickname}" class="nickname" th:if="${nickname}!=''">[[${nickname}]]</div>
-                <input type="text" name="chartop"  th:value="${chartop}" style="opacity: 0;">
-                <input type="text" name="charleft"  th:value="${charleft}" style="opacity: 0;">
-                <div id="output"></div>
+            <div th:each="hdto : ${hairDTO}">
+                <img type="hidden" id="charimg" class="look hairlook" th:src="${hdto.hairpath}" alt="">
             </div>
             <ul class="dyning-list-ul">
                 <li id="list2" th:each="dto : ${result}" th:if="${dtoStat.count} > ${dtoStat.size}/2 + 0.5">
                     <div th:class="@{/dyning/details(dno=${dto.dno},id=${id}) }">
                         <img class="dyningimg" th:src="${dto.roofthumbnail}" th:id="${dtoStat.count}">
                     </div>
-                    <div class="dyningname">
-                        [[${dto.dyningname}]]
-                    </div>
+                    [[${dto.dyningname}]]
                 </li>
             </ul>
         </div>
@@ -213,6 +182,7 @@
         <script th:inline="javascript">
 
             window.addEventListener("keydown", function (e) {
+                // space and arrow keys
                 if ([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
                     e.preventDefault();
                 }
@@ -233,143 +203,72 @@
         </script>
         <!-- 가게 건물 좌표를 얻는 js -->
         <style>
-            .setlook {
+            #charimg {
                 position: relative;
-                width: 70px;
-                height: 98px;
-                right: 0px;
-            }
-            #char{
-                position: relative;
-                width: 70px;
-                height: 126px;
+                width: 100px;
+                height: 100px;
                 right: 0px;
             }
         </style>
 
-<script>
+
+        <script>
+            $(".dyningimg").on("click", function (e) {
+                var src = $(this).parent().attr("class");
+                var src = $(this).parent().attr("id");
+                var top = e.target.offsetTop;
+                var left = e.target.offsetLeft;
+                console.log(src);
+                console.log(top, left);
+                // location.href=src;
+            });
+
+            (function () {
+
+                document.addEventListener("keydown", function (e) {
+                    let charimg = document.getElementById("charimg");
+                    let key = e.keyCode;
+                    let y = parseInt(charimg.style.top || 0, 10);
+                    let x = parseInt(charimg.style.left || 0, 10);
+                    if (key === 37 /* LEFT */) {
+                        charimg.style.left = x - 20 + "px";
+                    }
+                    if (key === 38 /* TOP */) {
+                        charimg.style.top = y - 20 + "px";
+                    }
+                    if (key === 39 /* RIGHT */) {
+                        charimg.style.left = x + 20 + "px";
+                    }
+                    if (key === 40 /* BOTTOM */) {
+                        charimg.style.top = y + 20 + "px";
+                    }
+                });
 
 
-    // document.onload(function(e){
+                document.addEventListener("keyup", function (e) {
+                    let key = e.keyCode;
 
-    //     if($("input[name='chartop']").val()!="${chartop}"){
-    //         let char = document.getElementById("char");
+                    if (key === 13 /* BOTTOM */) {
+                        var imgLength = $(".dyningimg").length;
+                        var chartop = charimg.offsetTop;
+                        var charleft = charimg.offsetLeft;
+                        console.log("캐릭터좌표" + chartop, charleft);
 
-    //         var top =  $("input[name='chartop']").val();
-    //         var left =  $("input[name='charleft']").val();
-    //         char.offset({top : top , left : left});
-    //     }
-    // });
-    $(document).ready(function(e){
-        if($("input[name='chartop']").val()!=""){
+                        for (i = 1; i <= imgLength; i++) {
+                            var targetTop = $("#" + i).offset().top;
+                            var targetLeft = $("#" + i).offset().left;
+                            var targetHref = $("#" + i).parent().attr('class');
+                            // console.log("캐릭터좌표"+chartop,charleft);
+                            console.log("타겟좌표" + targetTop, targetLeft, targetHref);
 
-            var top =  $("input[name='chartop']").val();
-            var left =  $("input[name='charleft']").val();
-            $("#char").offset({top : top });
-            $("#char").offset({left : left });
-
-        }
-    });
-    $(".dyningimg").on("click", function (e) {
-        var src = $(this).parent().attr("class");
-        var src = $(this).parent().attr("id");
-        var top = e.target.offsetTop;
-        var left = e.target.offsetLeft;
-        console.log(src);
-        console.log(top, left);
-        // location.href=src;
-    });
-
-    (function () {
-
-
-
-
-        document.addEventListener("keydown", function (e) {
-            let char = document.getElementById("char");
-            let charimg = document.getElementById("charimg");
-
-            var chartop = char.offsetTop;
-            var charleft = char.offsetLeft;
-            // console.log(charleft);
-            $("input[name='chartop']").val(chartop);
-            $("input[name='charleft']").val(charleft);
-
-            let key = e.keyCode;
-            let y = parseInt(char.style.top || 0, 10);
-            let x = parseInt(char.style.left || 0, 10);
-            if (key === 37 /* LEFT */) {
-                char.style.left = x - 20 + "px";
-            }
-            if (key === 38 /* TOP */) {
-                char.style.top = y - 20 + "px";
-            }
-            if (key === 39 /* RIGHT */) {
-                char.style.left = x + 20 + "px";
-            }
-            if (key === 40 /* BOTTOM */) {
-                char.style.top = y + 20 + "px";
-            }
-
-            // if(key === 19) {
-            //     if(charleft < 1300 & charleft > 1200) {
-            //         // $("#wrap").animate({ left: 673, behavior: 'smooth' });
-            //         window.scrollTo({left:673, behavior:'smooth'});
-            //     }
-            // }
-
-
-            if (key === 39) {
-                var imgLength = $(".dyningimg").length;
-                console.log("캐릭터좌표" + chartop, charleft);
-
-                for (i = 1; i <= imgLength; i++) {
-                    // 절대 좌표
-                    var targetTop = document.getElementById(i).offsetTop;
-                    var targetLeft = document.getElementById(i).offsetLeft;
-                    // console.log("타겟좌표: " + targetTop, targetLeft);
-
-                    if (charleft > 1600 && charleft < 1680) {
-                        console.log("succes")
-                        window.scrollTo({left: 1200, behavior:"smooth"})
-
-                    };
-                }
-            }
-
-        });
-
-
-
-        document.addEventListener("keyup", function (e) {
-            var chartop = char.offsetTop;
-            var charleft = char.offsetLeft;
-            let key = e.keyCode;
-            console.log("캐릭터좌표" + chartop, charleft);
-            $("input[name='chartop']").val(chartop);
-            $("input[name='charleft']").val(charleft);
-            if (key === 13 /* enter */) {
-                var imgLength = $(".dyningimg").length;
-
-                for (i = 1; i <= imgLength; i++) {
-                    // 절대 좌표
-                    var targetTop = document.getElementById(i).offsetTop;
-                    var targetLeft = document.getElementById(i).offsetLeft;
-                    var targetHref = document.getElementById(i).offsetHeight;
-                    // var targetTop = $("#" + i).offset().top;
-                    // var targetLeft = $("#" + i).offset().left;
-                    // var targetHref = $("#" + i).parent().attr('class');
-                    // console.log("캐릭터좌표"+chartop,charleft);
-                    console.log("타겟좌표: "+targetTop, targetLeft, targetHref);
-
-                    if (targetTop - 40 < chartop && chartop < targetTop + 160 && targetLeft - 30 < charleft && charleft < targetLeft + 160) {
-                        location.href = targetHref + "&chartop=" + chartop + "&charleft=" + charleft;
-                    };
-                }
-            }
-        });
-    })();
-</script>
-
+                            if (targetTop - 30 < chartop && chartop < targetTop + 30 && targetLeft - 30 < charleft && charleft < targetLeft + 30) {
+                                location.href = targetHref;
+                            };
+                        }
+                    }
+                });
+            })();
+        </script>
+        
     </th:block>
 </th:block>

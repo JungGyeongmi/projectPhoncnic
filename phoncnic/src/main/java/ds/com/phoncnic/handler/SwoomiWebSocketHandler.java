@@ -12,7 +12,7 @@ public class SwoomiWebSocketHandler extends TextWebSocketHandler{
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception{
     String payload = message.getPayload();
 
-    TextMessage initialGreeting = new TextMessage("Welcome to Swoomi server~");
+    TextMessage initialGreeting = new TextMessage("Welcome to 굴러굴러 왕구슬 server~");
     session.sendMessage(initialGreeting);
     }
 }
