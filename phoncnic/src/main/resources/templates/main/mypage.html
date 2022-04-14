@@ -272,7 +272,7 @@
                             </div>
                             <div class="personal-info">
                                 <span>가입일</span>
-                                <span><b>[[${dto.regdate}]]</b></span>
+                                <span><b>[[${#temporals.format(dto.regdate, 'yyyy-MM-dd HH:mm:ss')}]]</b></span>
                                 <input type="hidden" th:value=${dto.regdate}>
                             </div>
                         </th:block>

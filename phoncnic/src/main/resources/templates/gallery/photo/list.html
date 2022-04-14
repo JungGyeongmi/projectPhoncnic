@@ -335,7 +335,7 @@
       <div class="character-look-wrapper">
          <button type="button" class="btn btn-character-look" id="btncharacterlook" data-bs-toggle="modal"
             data-bs-target="#modalcharacterlook">
-            <img id="userAvatar" th:src="${avatar?.setpath}" alt="🙄">
+            <img id="userAvatar" th:src="${avatar?.setbackpath}" alt="🙄">
       </button>
       </div>
       <div class="showup-curator">
@@ -799,6 +799,7 @@
                                <input id="${index}${item.setname}" name="chalookInfo" type="radio" value="${item.setname}" hidden>
                                <label for="${index}${item.setname}">
                                    <img src="${item.setpath}" id="setimg" alt="">
+                                   <img src="${item.setbackpath}" id="setimg" alt="" hidden>
                                <lable>
                            </span>`
                   });
@@ -807,6 +808,7 @@
                    <input type="hidden" name="id" value="${result[1]}">
                    <input type="hidden" name="setname" value="${result[2].setname}">
                    <input type="hidden" name="setpath" value="${result[2].setpath}">
+                   <input type="hidden" name="setbackpath" value="${result[2].setbackpath}">
                    <div class="look" hidden>
                            <div>
                               <img class="setlook newsetlook" src="${result[2].setpath}" alt="" id="checkedset">
@@ -822,15 +824,15 @@
             var modifyLook = function () {
                var setname = $("input[name=setname]").val();
                var setpath = $("input[name=setpath]").val();
-               var data = { setname: setname, setpath: setpath };
-               // console.log(data);
+               var setbackpath = $("input[name=setbackpath]").val();
+               var data = { setname: setname, setpath: setpath, setbackpath : setbackpath };
                $.ajax({
                   type: "post",
                   url: lookModifyUrl,
                   data: JSON.stringify(data),
                   contentType: "application/json",
                   success: function (response) {
-                     $("#userAvatar").attr("src", setpath);
+                     $("#userAvatar").attr("src", setbackpath);
                      swal('success', "변경완료");
                      console.log("update characterlook success");
                   },
@@ -852,10 +854,12 @@
 
                $(document).on("change", "input[name=chalookInfo]", function () {
                   var checkRaido = $(this).val();
-                  var checkedset = $(this).next().children("img").attr("src");
+                  var checkedset = $(this).next().children("img").eq(0).attr("src");
+                  var checkedbackset = $(this).next().children("img").eq(1).attr("src");
                   $("#checkedset").attr("src", checkedset);
                   $("input[name=setname]").val(checkRaido);
                   $("input[name=setpath]").val(checkedset);
+                  $("input[name=setbackpath]").val(checkedbackset);
                });
 
                $(document).on("click", "#lookModifyBtn", function () {
