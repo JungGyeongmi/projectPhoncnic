@@ -14,8 +14,8 @@ import ds.com.phoncnic.entity.Member;
 import ds.com.phoncnic.service.member.MemberService;
 import lombok.extern.log4j.Log4j2;
 
-@SpringBootTest
 @Log4j2
+@SpringBootTest
 public class MemberRepositoryTests {
 
     @Autowired

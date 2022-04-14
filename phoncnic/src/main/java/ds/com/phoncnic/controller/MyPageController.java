@@ -88,5 +88,4 @@ public class MyPageController {
         session.invalidate();
         return "redirect:/";
     }
-
 }

@@ -9,6 +9,7 @@ import ds.com.phoncnic.entity.Member;
 import ds.com.phoncnic.security.dto.AuthMemberDTO;
 
 public interface MemberService {
+  
   Boolean checkMemberExist(String id);
   void updateMemberDTO(MemberDTO memberDTO);
   void modify2(AuthMemberDTO dto);

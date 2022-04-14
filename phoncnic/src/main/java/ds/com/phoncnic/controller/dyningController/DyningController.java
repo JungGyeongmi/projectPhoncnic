@@ -1,5 +1,9 @@
 package ds.com.phoncnic.controller.dyningController;
 
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +22,8 @@ import ds.com.phoncnic.service.emoji.EmojiService;
 import ds.com.phoncnic.service.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+
+
 
 @Controller
 @Log4j2
@@ -111,11 +117,10 @@ public class DyningController {
 
             ra.addFlashAttribute("chartop", chartop);
             ra.addFlashAttribute("charleft",charleft);
-            // model.addAttribute("follow",followService.)
 
-        } else
+        } else {
             return;
-
+        }
     }
 
 
@@ -142,6 +147,10 @@ public class DyningController {
         }
         return "/dyning/movingtest2";
     }
+
+    
+
+
 
 
 }

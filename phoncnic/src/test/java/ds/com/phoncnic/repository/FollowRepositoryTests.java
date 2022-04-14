@@ -17,8 +17,6 @@ public class FollowRepositoryTests {
     @Autowired
     FollowRepository followRepository;
 
-    // follow 테이블 삭제 -> Artist&Dyning 더미 돌리기
-    // artist 팔로우 더미
     @Test
     public void insertArtistFollowDummies() {
         IntStream.rangeClosed(1, 30).forEach(i -> {
@@ -46,8 +44,7 @@ public class FollowRepositoryTests {
         });
 
     }
-
-    // dyning 팔로우 더미
+    
     @Test
     public void insertDyningFollowDummies() {
         IntStream.rangeClosed(1, 30).forEach(i -> {
