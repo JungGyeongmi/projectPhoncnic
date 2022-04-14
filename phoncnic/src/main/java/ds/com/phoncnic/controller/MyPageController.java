@@ -2,7 +2,8 @@ package ds.com.phoncnic.controller;
 
 import javax.servlet.http.HttpSession;
 
-import org.hibernate.Session;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
