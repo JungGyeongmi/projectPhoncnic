@@ -46,7 +46,6 @@
             width: 100%;
             margin-top: 5%;
             /* margin-bottom: 120px; */
-
          }
 
          .swiper-wrapper :not(:nth-last-child()) {
@@ -539,7 +538,7 @@
 
                $.getJSON(follow + "/" + artistname, function (fno) {
                   var fnoInput = $("#fno");
-                  console.log(fno);
+                  // console.log(fno);
                   if (fno != null) {
                      fnoInput.val(fno);
                      $("#followBtn").css('color', 'red');
@@ -578,7 +577,7 @@
             });
 
             curatorBtn.on("click", function (e) {
-               console.log("curator button clicked");
+               // console.log("curator button clicked");
                e.preventDefault();
                getCuratorList(curatorUrl);
             });
@@ -613,7 +612,7 @@
                   searchResult.html(str);
 
                }).done(function (response) {
-                  console.log(response);
+                  // console.log(response);
 
                   $(".right").data('rightUrl', "");
                   $(".left").data('leftUrl', "");
@@ -627,11 +626,11 @@
                      $(".right").data('rightUrl', curatorUrl + `?page=${response.page + 1}`);
                   }
 
-                  console.log("get success curator");
+                  // console.log("get success curator");
 
                }).fail(function (response) {
-                  console.log("get curator fial...");
-                  console.log(response);
+                  // console.log("get curator fial...");
+                  // console.log(response);
                });
             }
 
@@ -654,8 +653,8 @@
                   data: searchForm.serialize(),
                   success: function (response) {
 
-                     console.log("get curator saerch success");
-                     console.log(response);
+                     // console.log("get curator saerch success");
+                     // console.log(response);
 
                      var str = "";
 
@@ -712,10 +711,11 @@
                         if (response[0]) {
                            $(".emoji-cnt").eq(emojitype - 1).css("color", "red");
                         }
-                        console.log("update emoji success");
+
+                        // console.log("update emoji success");
                      },
                      fail: function (response) {
-                        console.log(response);
+                        // console.log(response);
                      }, error: function (request, status, error) {
                         $(".emoji-cnt").css("color", "black");
                         // alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
@@ -734,8 +734,8 @@
                   var artistname = $("#inputArtist").text().trim();
                   var data = { artistname: artistname, followerid: loginUserId }
 
-                  console.log("artistaname : " + artistname);
-                  console.log(data);
+                  // console.log("artistaname : " + artistname);
+                  // console.log(data);
 
                   $.ajax({
                      type: "POST",
@@ -744,7 +744,7 @@
                      contentType: "application/json",
                      dataType: "json",
                      success: function (response) {
-                        console.log(response);
+                        // console.log(response);
                         if (!response[3]) {
                            $("#followBtn").css('color', 'red');
                            $("#followBtn").html('<i class="bi bi-dash-circle"></i> 언팔로우');
@@ -752,11 +752,11 @@
                            $("#followBtn").css('color', 'black');
                            $("#followBtn").html('<i class="bi bi-plus-circle-fill"></i> 팔로우');
                         }
-                        console.log("update follow success");
+                        // console.log("update follow success");
                      },
                      fail: function (response) {
-                        console.log("fail");
-                        console.log(response);
+                        // console.log("fail");
+                        // console.log(response);
                      }, error: function (request, status, error) {
                         // console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                      }
@@ -793,7 +793,7 @@
             var showLookModal = function (e) {
                var str = '';
                $.get(lookModalUrl, function (result) {
-                  console.log(result);
+                  // console.log(result);
                   $.each(result[0], function (index, item) {
                      str += `<span>
                                <input id="${index}${item.setname}" name="chalookInfo" type="radio" value="${item.setname}" hidden>
@@ -818,7 +818,7 @@
                   modalBody.html(str);
                   $('input:radio[name=chalookInfo]:input[value=' + result[2].setname + ']').attr("checked", true);
                });
-               console.log("get look modal success...");
+               // console.log("get look modal success...");
             }
 
             var modifyLook = function () {
@@ -834,12 +834,12 @@
                   success: function (response) {
                      $("#userAvatar").attr("src", setbackpath);
                      swal('success', "변경완료");
-                     console.log("update characterlook success");
+                     // console.log("update characterlook success");
                   },
                   fail: function (response) {
-                     console.log(response);
+                     // console.log(response);
                   }, error: function (request, status, error) {
-                     console.log(request);
+                     // console.log(request);
                   }
                });
             }
@@ -902,7 +902,12 @@
             cursor: pointer;
          }
 
-         input[type=radio]:checked+label {
+         /* input[type=radio]:checked+label {
+            background-color: #DBE9B7;
+            border-radius: 5px;
+         } */
+
+         label:active {
             background-color: #DBE9B7;
             border-radius: 5px;
          }
