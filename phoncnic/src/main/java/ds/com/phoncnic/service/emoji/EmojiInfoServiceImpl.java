@@ -20,7 +20,9 @@ public class EmojiInfoServiceImpl implements EmojiInfoService {
 
     @Override
     public List<EmojiInfo> getEmojiInfoList() {
+        
         List<EmojiInfo>  emojiInfoList = emojiInfoRepository.getEmojiInfoAll();
+        
         return emojiInfoList;
     }
 }

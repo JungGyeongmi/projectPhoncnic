@@ -16,17 +16,22 @@ public interface EmojiService {
 
     List<EmojiDTO> getEmojiList(String id);
 
-    void emojiRemove(Long eno);
-
     Long dyningEmojiRegister(EmojiDTO emojiDTO);
 
-    Long galleryEmojiRegiter(EmojiDTO emojiDTO);
+    Long[][] galleryEmojiRegiter(EmojiDTO emojiDTO);
 
     List<EmojiDTO> getEmojiByGno(String type, Long no);
 
+    String getEmojiTyoeByUserId(String id, Long gno);
+
     Long getEmojitypeCwt(Long dno, String emojitype);
 
-    /* DTO -> Entity */
+    void emojiRemove(Long eno);
+
+    Boolean checkExistEmoji(String id, Long gno);
+
+    Emoji HaveEmoji(String id, Long dno);
+
     default Emoji dtoToEntity(EmojiDTO emojiDTO) {
         if (emojiDTO.getGno() == null) {
             Emoji emoji = Emoji.builder()
@@ -49,7 +54,6 @@ public interface EmojiService {
 
     /* Entity -> DTO */
     default EmojiDTO entityToEmojiDTO(Emoji emoji) {
-
         if (emoji.getDyning() == null) {
             EmojiDTO emojiDTO = EmojiDTO.builder()
                     .eno(emoji.getEno())

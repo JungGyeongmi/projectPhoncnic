@@ -87,7 +87,6 @@ public class SearchGalleryRepositoryImpl extends QuerydslRepositorySupport imple
       builder.and(conditionBuilder);
     }
     tuple.where(builder);
-
     Sort sort = pageable.getSort();
     sort.stream().forEach(new Consumer<Sort.Order>() {
       @Override

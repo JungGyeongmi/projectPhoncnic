@@ -4,7 +4,6 @@ import java.util.Optional;
 import java.util.function.Function;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -12,41 +11,30 @@ import ds.com.phoncnic.dto.HelpDTO;
 import ds.com.phoncnic.dto.pageDTO.PageRequestDTO;
 import ds.com.phoncnic.dto.pageDTO.PageResultDTO;
 import ds.com.phoncnic.entity.Help;
-import ds.com.phoncnic.entity.Member;
 import ds.com.phoncnic.repository.HelpRepository;
 import lombok.RequiredArgsConstructor;
 
-@Service
 @RequiredArgsConstructor
 public class HelpServiceImpl implements HelpService { 
     
     private final HelpRepository helpRepository;
     
     @Override
-    public PageResultDTO<HelpDTO, Help> getQnaList(PageRequestDTO pageRequestDTO) {
-
-        Pageable pageable = pageRequestDTO.getPageable(Sort.by("regDate").descending());
-
-        Page<Help> result = helpRepository.getListPage(pageable);
+    public PageResultDTO<HelpDTO, Object[]> getQnaList(PageRequestDTO pageRequestDTO) {
         
-        Function<Help, HelpDTO> fn = (entity -> entityToDTO(entity));
-        
+        Function<Object[], HelpDTO> fn = (entity -> entityToDTO((Help)entity[0]));
+        Page<Object[]> result = helpRepository.searchPage(
+            pageRequestDTO.getType(), 
+            pageRequestDTO.getKeyword(),
+            pageRequestDTO.getPageable(Sort.by("qno").descending()) );
+            
         return new PageResultDTO<>(result, fn);
     }
 
     @Override
     public Long register(HelpDTO helpDTO) {
         Help entity = dtoToEntity(helpDTO);
-        Help helpEntity = Help.builder()
-            .title("답변")
-            .content("답변내용")
-            .password(helpDTO.getPassword())
-            .qtype(helpDTO.getQtype()+"answer")
-            .answerstatus(false)
-            .writer(Member.builder().id("user10@icloud.com").build())
-            .build();
         helpRepository.save(entity);
-        helpRepository.save(helpEntity);
         return entity.getQno();
     }
 

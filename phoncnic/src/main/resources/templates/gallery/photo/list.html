@@ -1,285 +1,924 @@
 <!DOCTYPE html>
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
+<th:block th:replace="~{layout/basic :: setContent(~{::content})}">
+   <th:block th:fragment="content">
+      <!-- Link Swiper's CSS -->
+      <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
 
-<head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Gallery : painting</title>
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<style>
-	input[name="emojitype"] {
-		opacity: 0;
-	}
+      <style>
+         input[name="emojitype"] {
+            opacity: 0;
+         }
 
-	input[name="emojitype"]+label {
-		padding: 20px 10px;
-	}
+         input[name="emojitype"]+label {
+            padding: 20px 10px;
+         }
 
-	input[name="emojitype"]:checked+label+span {
-		color: red;
+         html,
+         body {
+            position: relative;
+         } ::-webkit-scrollbar { 
+            display: none; 
+         }
 
-	}
-</style>
+         body {
+            background: #eee;
+            font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+            font-size: 14px;
+            color: #000;
+            margin: 0;
+            padding: 0;
+         }
 
-<body>
-	<h1>그림전</h1>
-	<ul style="list-style:none;padding-left:0px;">
-		<li style="margin-bottom:1%;" class="galleryList" th:each="dto : ${galleryDTOList}" th:data-gno="${dto.gno}"
-			th:data-file="${dto.getImageURL}" data-bs-toggle="modal" data-bs-target="#myModal">
-			<div style="border: 1px black solid;">
-				[[${dto.title}]]
-				<br><img style="cursor:pointer;" th:src="|@{'/display'}?fileName=${dto.getThumbnailURL()}|"
-					alt="이미지를 불러올 수 없습니다">
-				[[${dto.content}]]
-				<br>
-			</div>
-		</li>
-	</ul>
-	<button type="button" id="curatorBtn" data-bs-toggle="modal" data-bs-target="#Mymodal">큐레이터</button>
+         .swiper {
+            width: 100%;
+            margin-top: 5%;
+            /* margin-bottom: 120px; */
+            
+         }
 
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	<script th:inline="javascript">
+         .swiper-wrapper :not(:nth-last-child()){
+            padding : 0 30rem;
+         }
 
-		$(document).ready(function () {
+         .swiper-slide {
+            background-position: center;
+            background-size: cover;
+            max-width: 500px;
+            max-height: 500px;
+            min-width: 400px;
+            min-height: 400px;
+            /* width: 300px;
+            height: 470px; */
+         }
 
-			/*[+
-				var readUrl = [[@{/gallery/read}]];
-				var emojiUrl = [[@{/gallery/emoji}]];
-				var emojiaddUrl = [[@{/gallery/register}]];
-				var urlDisplay = [[@{/display}]];
-		    
-			+]*/
+         .swiper-slide img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+         }
 
-			var targetGno = 0;
-			var uploadResult = $(".uploadResult");
-			var modalBody = $(".modal-body");
+         .swiper-slide-title {
+            color: grey ;
+            font-size: 1.2rem;
+         }
+
+         .serach-form-container {
+            display: grid;
+            grid-template-columns: 0.5fr 1fr 0.3fr 0.5fr;
+            column-gap: 0.5%;
+         }
+
+         .md-container {
+            display: grid;
+            grid-template-columns: 0.02fr 10fr 0.02fr;
+         }
+
+         .result-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, auto));
+            grid-template-rows: repeat(1, minmax(300px, auto));
+            row-gap: 1%;
+            align-items: center;
+            justify-items: center;
+         }
+
+         .md-container img {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+         }
+
+         .md-btn-container {
+            width: 20px;
+            height: 100%;
+         }
+
+         .md-item-btn {
+            width: 0;
+            z-index: 3;
+            display: inline-block;
+            vertical-align: middle;
+            transform: scale(2);
+         }
+
+         .helper {
+            width: 0;
+            display: inline-block;
+            vertical-align: middle;
+            height: inherit;
+         }
+
+         #curatorBtn {
+            z-index: 1;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            transform: scaleX(-1);
+            width: 15rem;
+         }
+
+         #curatorBtn:hover {
+            cursor: help;
+         }
+
+         .show-gurator-script {
+            visibility: hidden;
+         }
+
+         ul,
+         li {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+         }
+
+         .speech-bubble {
+            position: absolute;
+            bottom: 62px;
+            left: 233px;
+         }
+
+         .drop_left {
+            -moz-border-radius: 10px;
+            -webkit-border-radius: 10px;
+            border-radius: 10px;
+            margin-left: 20px;
+            position: absolute;
+            z-index: 1;
+            max-width: 250px;
+            background: -moz-linear-gradient(bottom, #58abff 20%, #2484e7);
+            background: -webkit-gradient(linear, 0 0, 0 20%, from(#58abff), to(#2484e7));
+         }
+
+         .drop_left li {
+            text-overflow: ellipsis;
+            overflow: hidden;
+            font-size: 12px;
+            color: #FFF;
+            display: block;
+            padding: 5px;
+            margin: 10px;
+            z-index: 2;
+         }
+
+         .tangel_left {
+            width: 10px;
+            height: 10px;
+            left: -3px;
+            top: 13px;
+            position: absolute;
+            -webkit-transform: rotate(45deg);
+            background-color: #2484e7;
+            z-index: 1;
+         }
+
+         .detail-modal-body3 {
+            display: inline-block;
+         }
+
+         .detail-modal-body2 {
+            display: inline-block;
+         }
+
+         .lastslideBtns {
+            display: flex;
+            /* justify-content: space-evenly; */
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            margin-left: 60px;
+         }
+
+         .lastSlide {
+            display: flex;
+            align-items: center;
+         }
+
+         .swiper-button-prev,
+         .swiper-button-next {
+            color: lightgray;
+         }
+
+         /* character */
+         .character-look-wrapper {
+            position: absolute;
+         }
+
+         .btn-character-look {
+            position: fixed;
+            bottom: -7%;
+            z-index: 3;
+            left: 50%;
+         }
+
+         .btn-character-look img {
+            width: 10rem;
+         }
+
+         /* icon font */
+         .galleryEndBtn,
+         .galleryFirstBtn {
+            cursor: pointer;
+         }
+
+         .fa-solid {
+            font-size : 10rem;
+            color: #DBE9B7 ;
+         } :hover {
+            color: grey;
+         }
+
+         /* last slide */
+
+         .lastslideBtns .slide-font {
+            text-align: center;
+            font-size: 1.5rem;
+         }
+
+         .galleryEndBtn {
+            margin-right: 1.5rem;
+         }
+
+         .galleryFirstBtn {
+            margin-left: 1.5rem;
+         }
+
+      </style>
+
+      <input type="hidden" th:if="${loginUserId}" name="loginUserId" th:value="${loginUserId}">
+
+      <div class="swiper mySwiper">
+         <div class="swiper-wrapper">
+            <div class="swiper-slide dtoData" 
+            th:each="dto : ${galleryDTOList}" 
+            th:data-gno="${dto.gno}"
+            th:data-id="${id}" th:data-file="${dto.getImageURL}" 
+            th:data-user-name="${dto.getArtistname}"
+            data-bs-toggle="modal" data-bs-target="#detailsModal">
+            <div class="swiper-slide-title">
+               [[${dto.title}]]               
+            </div>
+            <img style="cursor:pointer;" th:src="|@{'/display'}?fileName=${dto.getImageURL()}|" alt="🎨" />
+         </div>
+         <div class="swiper-slide lastSlide">
+               <div class="lastslideBtns">
+                  <div class="galleryEndBtn">
+                     <i class="fa-solid fa-person-booth"></i>
+                     <br>
+                     <div class="slide-font"> 감상 끝내기 </div>
+                  </div>
+                  <span class="galleryFirstBtn">
+                     <i class="fa-solid fa-arrow-rotate-left"></i>
+                     <br>
+                     <div class="slide-font"> 처음으로 </div>   
+                  </span>
+               </div>
+            </div>
+         </div>
+         <div class="swiper-pagination"></div>
+         <div class="swiper-button-prev"></div>
+         <div class="swiper-button-next"></div>
+      </div>
+      <!-- 임시 정렬 -->
+      <div class="character-look-wrapper">
+         <button type="button" class="btn btn-character-look" id="btncharacterlook" data-bs-toggle="modal"
+            data-bs-target="#modalcharacterlook">
+            <img id="userAvatar" th:src="${avatar?.setpath}" alt="🙄">
+         </button>
+      </div>
+      <div class="showup-curator">
+         <div class="drop_left speech-bubble show-gurator-script">
+            <ul>
+               <li>
+                  <div id="showup-text"></div>
+                  <div>
+                     <hr>
+                     규레이터 클릭시 Gallery 내 모든 작품을 검색해볼 수 있습니다.
+                  </div>
+               </li>
+            </ul>
+            <div class="tangel_left"></div>
+         </div>
+         <img id="curatorBtn" data-bs-toggle="modal" data-bs-target="#curatorModal" th:src="@{/icon/gurator2.svg}">
+      </div>
+
+      <!-- 규레이터 제어 스크립트 -->
+      <script>
+         $(function () {
+
+            var guratorScript = {
+               0: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur porro rem, numquam voluptatum commodi architecto maiores cum, voluptatem deserunt laborum quisquam tempora nulla quis suscipit officiis autem repellendus possimus ex?",
+               1: "좋은 아침!",
+               2: "뭐 맛있는거 먹었습니까",
+               3: "지원씨! 지원씨!",
+               4: "에잇 너는 그만해",
+               5: "그냥 외우세요",
+               6: "촤하하하하하하!",
+               7: "해창아~",
+            }
+
+            $(".showup-curator").mouseover(function () {
+               var randomIdx = Math.floor(Math.random() * 7 + 1);
+               $(".drop_left").toggleClass('show-gurator-script');
+               $("#showup-text").html(guratorScript[randomIdx]);
+            });
+
+            $(".showup-curator").mouseleave(function () {
+               $(".drop_left").addClass('show-gurator-script');
+               $("#showup-text").html("");
+            });
+
+         });
+      </script>
+      <!-- Swiper JS -->
+      <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+      <!-- Initialize Swiper -->
+      <script>
+         var swiper = new Swiper(".mySwiper", {
+            effect: "coverflow",
+            grabCursor: false,
+            centeredSlides: true,
+            slidesPerView: "3",
+            coverflowEffect: {
+               rotate: 0,
+               stretch: -0,
+               depth: 200,
+               modifier: 1,
+               slideShadows: true,
+            },
+            mousewheel: true,
+            navigation: {
+               nextEl: ".swiper-button-next",
+               prevEl: ".swiper-button-prev",
+            }
+         });
+
+      </script>
+
+      <script th:inline="javascript">
+         //관람끝내기(endBtn) / 맨 앞장으로가기(firstBtn)
+
+         /*[+ var crossroad = [[@{/crossroad/gallery/}]]; +]*/
+
+         var firstBtn = document.querySelector(".galleryFirstBtn");
+         var endBtn = document.querySelector(".galleryEndBtn");
+
+         endBtn.onclick = function () {
+            location.href = crossroad;
+         }
+
+         firstBtn.onclick = function () {
+            location.reload();
+         }
+
+      </script>
+
+      <script th:inline="javascript">
+         $(document).ready(function () {
+
+            /*[+
+               var readUrl = [[@{/gallery/read}]];
+               var emojiUrl = [[@{/gallery/emoji}]];
+               var emojiCheckUrl = [[@{/gallery/emoji/check}]]
+               var emojiaddUrl = [[@{/gallery/emoji/register}]];
+               var follow = [[@{/gallery/follow}]]
+               var followRegister = [[@{/gallery/followRegister}]]               
+               var urlDisplay = [[@{/display}]];
+            +]*/
+
+            var loginUserId = $("input[name=loginUserId]").val();
+
+            var EmojiStringArray = "";
+
+            var uploadResult = $(".uploadResult");
+            var detailsModalbody = $(".details-modal-body");
+            var detailsModalbodyEmoji = $(".detail-modal-body2");
+
+            var showdetailsModal = function (targetGno, targetFile) {
+               var selectedtype = "0";
+               if (loginUserId != "") {
+                  $.post(emojiCheckUrl + "/" + targetGno, function (result) {
+                     selectedtype = result;
+                  });
+               }
+
+               var artistname = "";
+               $.getJSON(readUrl + "/" + targetGno, function (dto) {
+                  $("#detailsModal .modal-title").html(`${dto.title}`);
+                  artistname = dto.artistname;
+                  var str = "";
+                  str = `
+                  <input type="hidden" name = "gno" value="${targetGno}" class="inputGno" data-gno="${targetGno}">
+                  <img style='width:100%' src="${urlDisplay}?fileName=${targetFile}">
+                  <div class=row>
+                        <div class="col-md-7"><h2>${dto.content}</h2></div>
+                        <div class="col-md-4" id="inputArtist"><h4>${dto.artistname}</h4></div>
+                  </div>`
+                  detailsModalbody.html(str);
+
+                  str = `<div id="emojiBox">
+                  <input type="radio" id="1" value="${dto.emojicount[0][0]}" name="emojitype" class="emoji">
+                  <label for="1" class="emojibtn">
+                     <img src='${dto.emojiinfo["1"]}' alt="이미지를 불러올 수 없습니다" style="width: 30px;">   
+                  </label>
+                  <span class="emoji-cnt">${dto.emojicount[0][1]}</span>
+                  
+                  <input type="radio" id="2" value="${dto.emojicount[1][0]}" name="emojitype" class="emoji">      
+                  <label for="2" class="emojibtn">
+                     <img src='${dto.emojiinfo["2"]}' alt="이미지를 불러올 수 없습니다" style="width: 30px;">
+                  </label>
+                  <span class="emoji-cnt">${dto.emojicount[1][1]}</span>
+               
+                  <input type="radio" id="3" value="${dto.emojicount[2][0]}" name="emojitype" class="emoji">       
+                  <label for="3" class="emojibtn">
+                     <img src='${dto.emojiinfo["3"]}' alt="이미지를 불러올 수 없습니다" style="width: 30px;">   
+                  </label>
+                  <span class="emoji-cnt">${dto.emojicount[2][1]}</span>
+         
+                  <input type="radio" id="4"  value="${dto.emojicount[3][0]}" name="emojitype" class="emoji">      
+                  <label for="4" class="emojibtn">
+                     <img src='${dto.emojiinfo["4"]}' alt="이미지를 불러올 수 없습니다" style="width: 30px;">   
+                  </label>
+                  <span class="emoji-cnt">${dto.emojicount[3][1]}</span>
+                  
+                  <input type="radio" id="5"  value="${dto.emojicount[4][0]}" name="emojitype" class="emoji">      
+                  <label for="5" class="emojibtn">
+                     <img src='${dto.emojiinfo["5"]}' alt="이미지를 불러올 수 없습니다" style="width: 30px;">   
+                  </label>
+                  <span class="emoji-cnt">${dto.emojicount[4][1]}</span>
+                  <br/>
+                  <input type="button" value="팔로우" id="followBtn">
+                  </div>`;
+
+                  detailsModalbodyEmoji.html(str);
+                  // console.log(selectedtype);
+                  getJSONFollow(artistname);
+
+                  $("input[name=emojitype]").each(function () {
+                     $(".emoji-cnt").css("color", "black");
+                  });
+
+                  if (selectedtype != 0) {
+                     $(".emoji-cnt").eq(selectedtype - 1).css("color", "red");
+                  }
+               });
+
+            }
+
+            //팔로우 get 
+            detailsModalbodyFollow = $(".detail-modal-body3");
+
+            // 타겟
+            /* target의 gno / target의 imagepath 가져옴 / emoji 갯수 */
+            $(".dtoData").click(function () {
+               var targetGno = $(this).data("gno");
+               var targetFile = $(this).data("file");
+               showdetailsModal(targetGno, targetFile);
+               $("#detailsModal").modal('show');
+            });
+
+            var getJSONFollow = function (artistname) {
+
+               $.getJSON(follow + "/" + artistname, function (fno) {
+                  var fnoInput = $("#fno");
+                  console.log(fno);
+                  if (fno != null) {
+                     fnoInput.val(fno);
+                     $("#followBtn").val("언팔로우");
+                  } else {
+                     fnoInput.val("");
+                     $("#followBtn").val("팔로우");
+                  }
+               });
+            }
+
+            // 큐레이터 모달 제어
+            /*[+
+               var curatorUrl = [[@{/gallery/curator}]];
+               var displayUrl = [[@{/display}]];
+            +]*/
+
+            var searchResult = $(".md-serach-result");
+            var curatorBtn = $("#curatorBtn");
+            var searchBtn = $("#md-search-btn");
+            var searchForm = $("#modal-frm");
+            var keyword = $("input[name=keyword]");
 
 
+            searchBtn.on("click", function (e) {
+               getSearchList();
+            });
 
-			/* target의 gno / target의 imagepath 가져옴 / emoji 갯수 */
-			$(".galleryList").click(function () {
-				var targetGno = $(this).data("gno");
-				var targetFile = $(this).data("file");
-				console.log("targetGno: " + targetGno);
-				console.log("targetFile: " + targetFile);
+            keyword.on("keydown", function (e) {
+               var keycode = e.keyCode;
+               if (keycode == "13") {
+                  e.preventDefault();
+                  getSearchList();
+               }
+            });
 
-				$.getJSON(readUrl + "/" + targetGno, function (dto) {
+            curatorBtn.on("click", function (e) {
+               console.log("curator button clicked");
+               e.preventDefault();
+               getCuratorList(curatorUrl);
+            });
 
-					console.log("getList..........dto " + JSON.stringify(dto));
-					var str = "";
+            $(".left").on("click", function () {
+               var lefturl = $(".left").data('leftUrl');
+               if (lefturl == '') {
+                  return;
+               }
+               getCuratorList(lefturl);
+            });
 
-					str += `
-					
-					<input type="hidden" name = "gno" value="${targetGno}" class="inputGno" data-gno="${targetGno}">
-					<input type="hidden" name = "id" value="user1@icloud.com" class="inputId" data-id="${dto.id}">
+            $(".right").on("click", function () {
+               var righturl = $(".right").data('rightUrl');
+               if (righturl == '') {
+                  return;
+               }
+               getCuratorList(righturl);
+            });
 
-					<img style='width:100%' src="${urlDisplay}?fileName=${targetFile}">
+            function getCuratorList(getcuratorURL) {
 
-				 <div class=row>
-					 <div class="col-md-7"><h2>${dto.title}</h2></div>
-					 <div class="col-md-4"><h4>${dto.id}</h4></div>
-				 </div>
+               $.get(getcuratorURL, function (result) {
+                  var str = "";
+                  $.each(result.dtoList, function (idx, dto) {
+                     str += `<div class="search-result-Item item" data-search-file="${dto.imageURL}" data-search-gno="${dto.gno}">
+                        <img  class="md-container-img" src="${displayUrl}?fileName=${dto.imageURL}">                              
+                        <br/>
+                        <p>${dto.title}</p>
+                     </div>`;
+                  });
+                  searchResult.html(str);
 
-				 <div>
-				<input type="radio" id="1" value="1" name="emojitype" data-emojitype="${dto.emojicount[0]}" class="emoji">      
-				<label for="1" class="emojibtn">🥰</label>
-				<span>${dto.emojicount[0][1]}</span>
-				
-				<input type="radio" id="2" value="2" name="emojitype" data-emojitype="${dto.emojicount[1]}" class="emoji">      
-				<label for="2" class="emojibtn">😊</label>
-				<span>${dto.emojicount[1][1]}</span>
-			
-				<input type="radio" id="3" value="3" name="emojitype" data-emojitype="${dto.emojicount[2]}" class="emoji">       
-				<label for="3" class="emojibtn">😥</label>
-				<span>${dto.emojicount[2][1]}</span>
-	
-				<input type="radio" id="4" value="4" name="emojitype" data-emojitype="${dto.emojicount[3]}" class="emoji">      
-				<label for="4" class="emojibtn">😂</label>
-				<span>${dto.emojicount[3][1]}</span>
-				
-				<input type="radio" id="5" value="5" name="emojitype" data-emojitype="${dto.emojicount[4]}" class="emoji">      
-				<label for="5" class="emojibtn">😝</label>
-				<span>${dto.emojicount[4][1]}</span>
-				</div>
-				`;
-					modalBody.html(str);
-					// $("uploadResult").html(str);
-				})
-			});
+               }).done(function (response) {
+                  console.log(response);
 
-			$(document).on("click", ".emoji", function (event) {
-				var check = $(".emoji:checked").val();
-				console.log("check!!!!!!!!!!!!!!:" + check);
-				var id = $(".inputId").data("id");
-				console.log("id:" + id);
-				var gno = $(".inputGno").data("gno");
-				console.log("gno:" + gno);
-				var emojitype = $(".emoji:checked").val();
-				console.log("emojitype:" + emojitype);
+                  $(".right").data('rightUrl', "");
+                  $(".left").data('leftUrl', "");
 
-				var data = { id: id, gno: gno, emojitype: emojitype };
+                  if (response.page == 1) {
+                     $(".right").data('rightUrl', curatorUrl + `?page=${response.page + 1}`);
+                  } else if (response.page == response.end) {
+                     $(".left").data('leftUrl', curatorUrl + `?page=${response.page - 1}`);
+                  } else {
+                     $(".left").data('leftUrl', curatorUrl + `?page=${response.page - 1}`);
+                     $(".right").data('rightUrl', curatorUrl + `?page=${response.page + 1}`);
+                  }
 
-				console.log(data);
+                  console.log("get success curator");
 
-				$.ajax({
-					url: emojiaddUrl + "/" + gno,
-					method: "POST",
-					data: JSON.stringify(data),
-					contentType: "application/json; charset=utf-8",
-					dataType: "text",
-					success: function (result) {
-						alert(result.message);
-					}
-					, error: function (request, status, error) {
-						console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
-					}
-				});
+               }).fail(function (response) {
+                  console.log("get curator fial...");
+                  console.log(response);
+               });
+            }
 
-			});
+            function getSearchList() {
 
+               // 유효성 검사
+               var typeSelect = $("select[name=type]").val();
+               var searchKeywordInput = $("#md-search-keyword").val();
+               if (typeSelect == null) {
+                  swal("검색조건을 설정해주세요");
+                  return;
+               } else if (searchKeywordInput == '') {
+                  swal("검색어를 입력해주세요");
+                  return;
+               }
 
-			// 큐레이터 모달 제어
-			/*[+
-				var curatorUrl = [[@{/gallery/curator}]];
-				var displayUrl = [[@{/display}]];
-			+]*/
+               $.ajax({
+                  type: "GET",
+                  url: curatorUrl,
+                  data: searchForm.serialize(),
+                  success: function (response) {
 
-			var searchResult = $(".md-serach-result");
-			var curatorBtn = $("#curatorBtn");
-			var searchBtn = $("#md-search-btn");
-			var searchForm = $("#modal-frm");
-			var keyword = $("input[name=keyword]");
+                     console.log("get curator saerch success");
+                     console.log(response);
 
-			searchBtn.on("click", function (e) {
-				getSearchList();
-			});
+                     var str = "";
 
-			keyword.on("keydown", function (e) {
-				var keycode = e.keyCode;
-				if (keycode == "13") {
-					e.preventDefault();
-					getSearchList();
-				}
-			});
+                     if (response.totalPage != 0) {
+                        $.each(response.dtoList, function (idx, dto) {
+                           str += `<div class="search-result-Item item" data-search-file="${dto.imageURL}" data-search-gno="${dto.gno}">
+                           <img class="md-container-img" src="${displayUrl}?fileName=${dto.imageURL}">                              
+                              <br/>
+                              <p>${dto.title}</p>
+                           </div>`;
+                        });
+                        searchResult.html(str);
+                     } else {
+                        searchResult.html('<div> 검색 결과가 없습니다. </div>');
+                     }
 
+                     $(".right").data('rightUrl', "");
+                     $(".left").data('leftUrl', "");
 
-			curatorBtn.on("click", function (e) {
-				console.log("curator button clicked");
-				e.preventDefault();
-				getCuratorList();
-			});
-
-			function getCuratorList() {
-				$.get(curatorUrl, function (result) {
-					var str = "";
-					$.each(result.dtoList, function (idx, dto) {
-						str += `<li>
-								<div>${dto.gno}</div>
-								<img src="${displayUrl}?fileName=${dto.thumbnailURL}">	
-								<div>${dto.title}</div>
-							</li>`;
-					})
-					searchResult.html(str);
-				}).done(function () {
-					console.log("get success curator");
-				}).fail(function (response) {
-					console.log("get curator fial...");
-					console.log(response);
-				});
-			}
-
-			function getSearchList() {
-				$.ajax({
-					type: "GET",
-					url: curatorUrl,
-					data: searchForm.serialize(),
-					success: function (response) {
-						console.log("get curator saerch success");
-						var str = "";
-						$.each(response.dtoList, function (idx, dto) {
-							str += `<li>
-								<div>${dto.gno}</div>
-								<img src="${displayUrl}?fileName=${dto.thumbnailURL}">	
-								<div>${dto.title}</div>
-							</li>`;
-						})
-						searchResult.html(str);
-					},
-					error: function () {
-						alert('Error');
-					}
-				});
-			}
-		});
-	</script>
-
-	<!-- 모달창 -->
-	<div class="modal" tabindex="-1" id="Mymodal">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title">큐레이터</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
-					<form id="modal-frm" th:action="@{/gallery/curator}" method="get">
-						<select name="type">
-							<option value="t" disabled selected>검색조건</option>
-							<option value="t">작품명</option>
-							<option value="c">내용</option>
-							<option value="w">작가</option>
-						</select>
-						<input id="md-search-keyword" type="text" name="keyword" value="">
-						<input id="md-search-btn" type="button" value="검색">
-						<select name="sort">
-							<option value="d" disabled selected>정렬조건</option>
-							<option value="e">좋아요순</option>
-							<option value="d">가나다순</option>
-						</select>
-					</form>
-					<hr>
-					<div>
-						<ul class="md-serach-result">
-
-						</ul>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button> -->
-				</div>
-			</div>
-		</div>
-	</div>
+                     if (response.page == 1) {
+                        $(".right").data('rightUrl', curatorUrl + `?page=${response.page + 1}`);
+                     } else if (response.page == response.end) {
+                        $(".left").data('leftUrl', curatorUrl + `?page=${response.page - 1}`);
+                     } else {
+                        $(".left").data('leftUrl', curatorUrl + `?page=${response.page - 1}`);
+                        $(".right").data('rightUrl', curatorUrl + `?page=${response.page + 1}`);
+                     }
+                  },
+                  error: function () {
+                     alert('Error');
+                  }
+               });
+            }
 
 
-	<!-- Details 모달창 -->
-	<div class="modal" tabindex="-1" id="myModal">
-		<div class="container">
-			<div class="modal-dialog modal-xl">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title">작품 상세페이지</h5>
-						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-					</div>
-					<div class="modal-body">
-					</div>
-					<div class="modal-body2">
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-						<button type="button" class="btn btn-primary">Save changes</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+            //이모지 등록/수정/삭제
+            $(document).on("click", ".emoji", function () {
+               if ($("input[name=loginUserId]").val() != null) {
+                  var gno = $("input[name=gno]").val();
+                  var emojitype = $(".emoji:checked").val();
+                  var data = { emojitype: emojitype };
+                  $.ajax({
+                     type: "post",
+                     url: emojiaddUrl + "/" + gno,
+                     data: JSON.stringify(data),
+                     contentType: "application/json",
+                     dataType: "json",
+                     success: function (response) {
+                        for (idx in response[1]) {
+                           $(".emoji-cnt").eq(idx).css("color", "black");
+                           $(".emoji-cnt").eq(idx).text(`${response[1][idx][1]}`);
+                        }
 
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+                        if (response[0]) {
+                           $(".emoji-cnt").eq(emojitype - 1).css("color", "red");
+                        }
+                        console.log("update emoji success");
+                     },
+                     fail: function (response) {
+                        console.log(response);
+                     }, error: function (request, status, error) {
+                        $(".emoji-cnt").css("color", "black");
+                        // alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                     }
+                  });
+
+               } else {
+                  swal("로그인", "로그인 이후 사용가능합니다.")
+               }
+            });
+
+            //팔로우 등록/ 삭제
+            $(document).on("click", "#followBtn", function () {
+               if ($("input[name=loginUserId]").val() != null) {
+
+                  var artistname = $("#inputArtist").text();
+
+                  console.log("artistaname : " + artistname);
+                  var data = { artistname: artistname, followerid: loginUserId }
+                  console.log(data);
+                  $.ajax({
+                     type: "POST",
+                     url: followRegister + '/' + artistname,
+                     data: JSON.stringify(data),
+                     contentType: "application/json",
+                     dataType: "json",
+                     success: function (response) {
+                        console.log(response);
+                        if (!response[3]) {
+                           $("#followBtn").val("언팔로우");
+                        } else {
+                           $("#followBtn").val("팔로우");
+                        }
+                        console.log("update follow success");
+                     },
+                     fail: function (response) {
+                        console.log("fail");
+                        console.log(response);
+                     }, error: function (request, status, error) {
+                        // console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                     }
+                  });
+               } else {
+                  swal("로그인", "로그인 이후 사용가능합니다.")
+               }
+            });
+
+            // 모달 창 내 search result 클릭 시 이동 제어
+            $(document).on("click", ".search-result-Item", function (e) {
+               var targetGno = $(this).closest("div").data("searchGno");
+               var targetFile = $(this).closest("div").data("searchFile");
+               // alert(targetGno);
+               // alert(targetFile);
+               $("#curatorModal").modal("hide");
+               $("#detailsModal").modal("show");
+               showdetailsModal(targetGno, targetFile);
+            });
+
+         });
+      </script>
+
+      <script th:inline="javascript">
+
+         $(function (e) {
+
+            /*[+
+                var lookModalUrl =  [[@{/character/lookmodal}]];
+                var lookModifyUrl = [[@{/character/lookmodify}]];
+            +]*/
+
+            var modalBody = $(".character-modal-body");
+            var showLookModal = function (e) {
+               var str = '';
+               $.get(lookModalUrl, function (result) {
+                  console.log(result);
+                  $.each(result[0], function (index, item) {
+                     str += `<span>
+                               <input id="${index}${item.setname}" name="chalookInfo" type="radio" value="${item.setname}" hidden>
+                               <label for="${index}${item.setname}">
+                                   <img src="${item.setpath}" id="setimg" alt="">
+                               <lable>
+                           </span>`
+                  });
+
+                  str += `<form id="lookfrm" action="">
+                   <input type="hidden" name="id" value="${result[1]}">
+                   <input type="hidden" name="setname" value="${result[2].setname}">
+                   <input type="hidden" name="setpath" value="${result[2].setpath}">
+                   <div class="look">
+                           <div>
+                               <img class="setlook newsetlook" src="${result[2].setpath}" alt="" id="checkedset">
+                           </div>
+                       </div>
+                   </form>`;
+                  modalBody.html(str);
+                  $('input:radio[name=setname]:input[value=' + result[2].setname + ']').attr("checked", true);
+               });
+               console.log("get look modal success...");
+            }
+
+            var modifyLook = function () {
+               var setname = $("input[name=setname]").val();
+               var setpath = $("input[name=setpath]").val();
+               var data = { setname: setname, setpath: setpath };
+               // console.log(data);
+               $.ajax({
+                  type: "post",
+                  url: lookModifyUrl,
+                  data: JSON.stringify(data),
+                  contentType: "application/json",
+                  success: function (response) {
+                     $("#userAvatar").attr("src", setpath);
+                     swal('success', "변경완료");
+                     console.log("update characterlook success");
+                  },
+                  fail: function (response) {
+                     console.log(response);
+                  }, error: function (request, status, error) {
+                     console.log(request);
+                  }
+               });
+            }
 
 
-</body>
+            // 모달제어
+            if ($("input[name=loginUserId]").val() != null) {
 
-</html>
+               modalBody.html("잠시 기다려주세요 ... ");
+
+               $("#btncharacterlook").on("click", showLookModal);
+
+               $(document).on("change", "input[name=chalookInfo]", function () {
+                  var checkRaido = $(this).val();
+                  var checkedset = $(this).next().children("img").attr("src");
+                  $("#checkedset").attr("src", checkedset);
+                  $("input[name=setname]").val(checkRaido);
+                  $("input[name=setpath]").val(checkedset);
+               });
+
+               $(document).on("click", "#lookModifyBtn", function () {
+                  if (!confirm("캐릭터의 옷을 변경하시겠습니까?")) {
+                     return;
+                  } else {
+                     modifyLook();
+                  }
+               });
+            }
+         });
+      </script>
+      <style>
+         .newsetlook {
+            position: relative;
+            width: 100px;
+            height: 140px;
+         }
+
+         #setimg {
+            width: 100px;
+            height: 140px;
+         }
+      </style>
+
+      <!-- 캐릭터 모달창 -->
+      <div class="character modal" tabindex="-1" id="modalcharacterlook">
+         <div class="modal-dialog">
+            <div class="modal-content">
+               <div class="modal-header">
+                  <h5 class="modal-title">캐릭터 룩</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                     name="btn-close"></button>
+               </div>
+               <div class="modal-body character-modal-body">
+                  <div>로그인 후 이용해주세요 </div>
+               </div>
+               <div class="modal-footer">
+                  <button th:if="${loginuserId}" id="lookModifyBtn" type="button" class="btn btn-primary">변경하기</button>
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" name="btn-close">취소</button>
+               </div>
+            </div>
+         </div>
+      </div>
+
+      <!-- 큐레이터 모달창 -->
+      <div class="modal fade bd-example-modal-xl" tabindex="-1" id="curatorModal">
+         <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+               <div class="modal-header">
+                  <h5 class="modal-title">규레이터</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+               </div>
+               <div class="modal-body">
+                  <form class="serach-form-container" id="modal-frm" th:action="@{/gallery/curator}" method="get">
+                     <select name="type">
+                        <option value="t" disabled selected>검색조건</option>
+                        <option value="t">작품명</option>
+                        <option value="c">내용</option>
+                        <option value="w">작가</option>
+                     </select>
+                     <input id="md-search-keyword" type="text" name="keyword" value="">
+                     <input id="md-search-btn" type="button" value="검색">
+                     <select name="sort">
+                        <option value="d" disabled selected>정렬조건</option>
+                        <option value="d">최신순</option>
+                        <option value="a">과거순</option>
+                     </select>
+                  </form>
+                  <br />
+                  <div class="">
+                     <div class="md-container ">
+
+                        <div class='md-btn-container'>
+                           <div class='helper'></div>
+                           <div class="md-item-btn left">
+                              <span style="cursor: pointer;">
+                                 <i class="fa-solid fa-angle-left"></i>
+                              </span>
+                           </div>
+                        </div>
+
+                        <div class="md-serach-result result-container"></div>
+
+                        <div class='md-btn-container'>
+                           <div class='helper'></div>
+                           <div class="md-item-btn right">
+                              <span style="cursor: pointer;"><i class="fa-solid fa-angle-right"></i></span>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+
+      <!-- Details 모달창 -->
+      <div class="modal" tabindex="-1" id="detailsModal">
+         <div class="container">
+            <div class="modal-dialog modal-lg">
+               <div class="modal-content">
+                  <div class="modal-header">
+                     <h5 class="modal-title">작품 상세페이지</h5>
+                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                     <div class="details-modal-body">
+                     </div>
+                     <div class="detail-modal-body2">
+                     </div>
+                     <div class="detail-modal-body3">
+                        <input type="hidden" id="fno" value="">
+                     </div>
+                  </div>
+                  <div class="modal-footer">
+                     <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                     <button type="button" class="btn btn-primary">Save changes</button> -->
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </th:block>
+</th:block>

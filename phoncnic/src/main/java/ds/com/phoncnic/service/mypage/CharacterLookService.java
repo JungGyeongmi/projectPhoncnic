@@ -9,10 +9,8 @@ public interface CharacterLookService {
     CharacterLookDTO getCharacterHair(String id);
     CharacterLookDTO getCharacterClothes(String id);
     void modify(CharacterLookDTO characterLookDTO,String id);
-    // void modify(MyPageDTO myPageDTO);
 
-
-        default CharacterLookDTO entityToDTO(CharacterLookInfo characterLookinfo){
+    default CharacterLookDTO entityToDTO(CharacterLookInfo characterLookinfo) {
         CharacterLookDTO characterLookDTO = CharacterLookDTO.builder()
         .hairname(characterLookinfo.getHairname())
         .hairpath(characterLookinfo.getHairpath())
@@ -21,15 +19,4 @@ public interface CharacterLookService {
         .build();
         return characterLookDTO;
     }
- 
-    // default CharacterLook dtoToEntity(MyPageDTO mypageDTO) {
-
-    //     CharacterLook characterLook = CharacterLook.builder()
-    //     .hairname(mypageDTO.getHairname())
-    //     .clothesname(mypageDTO.getClothesname())
-    //     .build();
-
-    //     return characterLook;
-
-    // }
 }

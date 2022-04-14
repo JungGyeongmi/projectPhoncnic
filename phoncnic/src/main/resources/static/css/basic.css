@@ -1,0 +1,47 @@
+/* neo 둥근모 */
+@font-face {
+    font-family: 'NeoDunggeunmo';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.3/NeoDunggeunmo.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+/* G마켓 M */
+@font-face {
+    font-family: 'GmarketSansMedium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* G마켓 L */
+@font-face {
+    font-family: 'GmarketSansLight';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansLight.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* NotoSans */
+/* font-family: 'Noto Sans KR', sans-serif; */
+
+
+/* content 부분 */
+.container-fluid {
+    font-family: 'Noto Sans KR', sans-serif !important; 
+}
+
+/* 사이드바 전체 */
+.bg-white {
+    font-family: "GmarketSansMedium";
+}
+
+/* 사이드바 Phoncnic */
+.bg-white > .p-3 {
+    font-family: "NeoDunggeunmo";
+}
+
+button{
+    font-family: 'GmarketSansLight';
+}

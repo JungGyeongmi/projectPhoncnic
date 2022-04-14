@@ -7,15 +7,13 @@ import ds.com.phoncnic.entity.Help;
 import ds.com.phoncnic.entity.Member;
 
 public interface HelpService {
-    PageResultDTO<HelpDTO, Help> getQnaList(PageRequestDTO pageRequestDTO);
+    PageResultDTO<HelpDTO, Object[]> getQnaList(PageRequestDTO pageRequestDTO);
 
     Long register(HelpDTO helpDTO);
 
     HelpDTO get(Long qno);
     void modify(HelpDTO helpDTO);
     void remove(Long qno);
-
-
 
     /* Entity -> DTO */
     default HelpDTO entityToDTO(Help help){
@@ -34,7 +32,6 @@ public interface HelpService {
         return helpDTO;
     }
 
-    
     /* DTO -> Entity */
     default Help dtoToEntity(HelpDTO helpDTO) {
 
@@ -50,6 +47,4 @@ public interface HelpService {
 
         return help;
     }
-
-
 }

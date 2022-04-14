@@ -1,14 +1,114 @@
 <!DOCTYPE html>
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gallery crossroad</title>
-</head>
-<body>
-    <ul>
-        <li><a th:href="@{/gallery/crossgallery/photo}">/gallery/crossgallery/photo</a></li>
-        <li><a th:href="@{/gallery/crossgallery/painting}">/gallery/crossgallery/painting</a></li>
-    </ul>
-</body>
+<style>
+    .containerBox {
+        width: 1000px;
+        margin: 0 auto;
+        font-family: 'GmarketSansLight';
+    }
+
+    .title {
+        text-align: center;
+        padding: 70px 0 90px 0;
+
+    }
+
+    .content-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .content {
+        width: 400px;
+        height: 400px;
+        /* background-color: #DBE9B7; */
+        text-align: center;
+        border-radius: 8px;
+    }
+
+    .content-body {
+        padding: 50px;
+    }
+
+    .content-body>img {
+        margin: 0 auto;
+    }
+
+    .content-container .content:first-child button {
+        height: 44px;
+        border: none;
+        width: 216px;
+        border-radius: 30px;
+        background-color: darkslateblue;
+        font-size: 19px;
+        color: white;
+        padding: 10px;
+    }
+
+    .content-container .content:last-child button {
+        height: 44px;
+        border: none;
+        width: 216px;
+        border-radius: 30px;
+        background-color: orange;
+        font-size: 19px;
+        color: white;
+        padding: 10px;
+    }
+
+    .content-container p {
+        font-size: 22px;
+        margin: 0px auto 32px auto;
+    }
+    .content-body img.open {
+    display: none;
+    cursor: url("../../static/icon/right-cursor.png"), auto;    
+
+    }
+    .content-body img.close {
+        display: block;
+        width: 300px;
+        cursor: url("../../static/icon/right-cursor.png"), auto;    
+    }
+    .content-body:hover img.open {
+        display: block;
+        width: 300px;
+        cursor: url("../../static/icon/right-cursor.png"), auto;    
+    }
+    .content-body:hover img.close {
+        display: none;
+        cursor: url("../../static/icon/right-cursor.png"), auto;    
+
+    }
+    .content-body{
+        cursor: url("../../static/icon/right-cursor.png"), auto;    
+        }
+</style>
+<th:block th:replace="~{layout/basic :: setContent(~{::content})}">
+    <th:block th:fragment="content">
+        <div class="containerBox">
+            <div class="title">
+                <h2 style="font-family: 'GmarketSansmedium';"><img th:src="@{/icon/vertical-line.png}"
+                        style="width:30px;" alt="">전시회 관람 선택</h2>
+            </div>
+            <div class="content-container">
+                <div class="content">
+                    <div class="content-body">
+                        <img class="close" th:src="@{/icon/close.png}" alt="">
+                        <a th:href="@{/gallery/crossgallery/photo}"><img class="open" th:src="@{/icon/open.png}" alt=""></a>
+                    </div>
+                    <a th:href="@{/gallery/crossgallery/photo}"><button><b>사진전</b> 입장하기</button></a>
+                </div>
+                <div class="content">
+                    <div class="content-body">
+                        <img class="close" th:src="@{/icon/close.png}" alt="">
+                        <a th:href="@{/gallery/crossgallery/painting}"><img class="open" th:src="@{/icon/open.png}" alt=""></a>
+                    </div>
+                    <a th:href="@{/gallery/crossgallery/painting}"><button><b>그림전</b> 입장하기</button></a>
+                </div>
+            </div>
+        </div>
+
+    </th:block>
+</th:block>

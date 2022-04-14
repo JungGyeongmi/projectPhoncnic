@@ -7,23 +7,23 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
-import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.types.dsl.BooleanExpression;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
 import ds.com.phoncnic.dto.DyningDTO;
-import ds.com.phoncnic.dto.pageDTO.PageRequestDTO;
 import ds.com.phoncnic.dto.pageDTO.PageResultDTO;
+import ds.com.phoncnic.dto.pageDTO.SearchDyningPageRequestDTO;
 import ds.com.phoncnic.entity.Dyning;
 import ds.com.phoncnic.entity.DyningImage;
-import ds.com.phoncnic.entity.QDyning;
+import ds.com.phoncnic.entity.EmojiInfo;
+import ds.com.phoncnic.entity.RoofDesign;
 import ds.com.phoncnic.repository.DyningImageRepository;
 import ds.com.phoncnic.repository.DyningRepository;
+import ds.com.phoncnic.repository.RoofDesignRepository;
+import ds.com.phoncnic.service.emoji.EmojiInfoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -38,76 +38,127 @@ public class DyningServiceImpl implements DyningService {
   @Autowired
   private final DyningImageRepository dyningImageRepository;
 
+  @Autowired
+  private final RoofDesignRepository roofDesignRepository;
+
+  @Autowired
+  private final EmojiInfoService emojiInfoService;
+
   @Transactional
   @Override
   public Long register(DyningDTO dyningdDTO) {
+
     log.info("dyning/setting/register....");
+
     Map<String, Object> entityMap = dtoToEntity(dyningdDTO);
     Dyning dyning = (Dyning) entityMap.get("dyning");
+
     dyningRepository.save(dyning);
+
     List<DyningImage> dyningImageList = (List<DyningImage>) entityMap.get("dyningImageList");
+
     dyningImageList.forEach(dyningImage -> {
       dyningImageRepository.save(dyningImage);
     });
+
     log.info(dyning.getDno());
+
     return dyning.getDno();
   }
 
   @Override
-  public List<DyningDTO> getStreet() {
-    List<Dyning> result = dyningRepository.getStreetList();
+  public List<RoofDesign> roofimageList() {
+    List<RoofDesign> dto = roofDesignRepository.findAll();
+    return dto;
+  }
+
+  @Override
+  public List<DyningDTO> getCafeStreet() {
+    List<Dyning> result = dyningRepository.getCafeStreetList();
     List<DyningDTO> DyningList = result.stream().map(entity -> roofEntityToDTO(entity)).collect(Collectors.toList());
     return DyningList;
   }
 
   @Override
-  public DyningDTO getDyningDetails(Long dno) {
-    List<Object[]> result = dyningRepository.getDyningDetails(dno);
-    Dyning dyninglist = (Dyning) result.get(0)[0];
-    Long emojiCwt = (Long) result.get(0)[1];
-    List<DyningImage> dyningImageList = dyningRepository.getImageDetailsPage(dno);
-    return entityToDTO(dyninglist, emojiCwt, dyningImageList);
+  public List<DyningDTO> getRestaurantStreet() {
+    List<Dyning> result = dyningRepository.getRestaurantStreetList();
+    List<DyningDTO> DyningList = result.stream().map(entity -> roofEntityToDTO(entity)).collect(Collectors.toList());
+    return DyningList;
   }
 
   @Override
-  public PageResultDTO<DyningDTO, Dyning> getList(PageRequestDTO pageRequestDTO) {
+  public List<DyningDTO> getMyDyningList(String id) {
+    List<Dyning> result = dyningRepository.findByMemberId(id);
+    List<DyningDTO> DyningList = result.stream().map(entity -> roofEntityToDTO(entity)).collect(Collectors.toList());
+    return DyningList;
+  }
 
-    Pageable pageable = pageRequestDTO.getPageable(Sort.by("dno"));
+  @Transactional
+  @Modifying
+  @Override
+  public void removeWithImages(Long dno) {
+    dyningImageRepository.deleteByDno(dno);
+    dyningRepository.deleteByDno(dno);
+  }
 
-    BooleanBuilder builder = getSearch(pageRequestDTO);
+  @Transactional
+  @Modifying
+  @Override
+  public void modify(DyningDTO dyningDTO) {
+    log.info(dyningDTO.getDyningImageDTOList());
 
-    Page<Dyning> result = dyningRepository.findAll(builder, pageable);
+    Dyning dyning = dyningRepository.findById(dyningDTO.getDno()).get();
 
-    Function<Dyning, DyningDTO> fn = (entity -> entitiesToDTO(entity));
+    dyningImageRepository.deleteByDno(dyningDTO.getDno());
+    List<DyningImage> dyningImageList = imagesDTOToEntity(dyningDTO);
+
+    if (!dyningImageList.isEmpty()) {
+      dyningImageList.forEach(dyningImage -> {
+        dyningImageRepository.save(dyningImage);
+      });
+    }
+
+    RoofDesign roof = roofDesignRepository.findById(dyningDTO.getOono()).get();
+
+    dyning.modifyDyning(dyningDTO.getDyningname(), dyningDTO.getComment(), dyningDTO.getLocation(),
+        dyningDTO.getLocationdetails(), dyningDTO.getFoodtype(),
+        dyningDTO.getBusinesshours(), dyningDTO.getTel(), dyningDTO.getHashtag(), roof);
+
+    dyningRepository.save(dyning);
+  }
+
+  @Override
+  public DyningDTO getDyningDetails(Long dno) {
+
+    List<Object[]> result = dyningRepository.getDyningDetails(dno);
+
+    Dyning dyninglist = (Dyning) result.get(0)[0];
+    Long emojiCwt = (Long) result.get(0)[1];
+
+    Long followerCwt = dyningRepository.getDyningFollowerCount(dno);
+    List<DyningImage> dyningImageList = dyningRepository.getImageDetailsPage(dno);
+
+    List<EmojiInfo> emojiInfoList = emojiInfoService.getEmojiInfoList();
+
+    return entityToDTO(dyninglist, emojiCwt, dyningImageList, followerCwt, emojiInfoList);
+  }
+
+  @Override
+  public PageResultDTO<DyningDTO, Object[]> getDyningPage(SearchDyningPageRequestDTO searchPageRequestDTO) {
+    log.info("searchRequestDTO ..." + searchPageRequestDTO);
+
+    Function<Object[], DyningDTO> fn = new Function<Object[], DyningDTO>() {
+      @Override
+      public DyningDTO apply(Object[] en) {
+        return entitiesToDTO((Dyning) en[0]);
+      }
+    };
+
+    Page<Object[]> result = dyningRepository.searchPage(
+        searchPageRequestDTO.getType(),
+        searchPageRequestDTO.getKeyword(),
+        searchPageRequestDTO.getPageable(Sort.by("dno").descending()));
+
     return new PageResultDTO<>(result, fn);
   }
-
-  private BooleanBuilder getSearch(PageRequestDTO pageRequestDTO) {
-    String type = pageRequestDTO.getType();
-
-    BooleanBuilder builder = new BooleanBuilder();
-
-    QDyning qDyning = QDyning.dyning;
-
-    String keyword = pageRequestDTO.getKeyword();
-
-    BooleanExpression expression = qDyning.dno.gt(0L);
-    builder.and(expression);
-
-    if (type == null || type.trim().length() == 0) {
-      return builder;
-    }
-
-    BooleanBuilder conditionBuilder = new BooleanBuilder();
-    if (type.contains("n")) {
-      conditionBuilder.or(qDyning.dyningname.contains(keyword));
-    }
-    if (type.contains("h")) {
-      conditionBuilder.or(qDyning.hashtag.contains(keyword));
-    }
-
-    builder.and(conditionBuilder);
-    return builder;
-  }
-
 }

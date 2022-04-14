@@ -33,24 +33,13 @@ public class HelpRepositoryTests {
             int randomMember = (int)(Math.random()*10)+1;  
             int type = (int)(Math.random()*4)+1;
             boolean rand =((int)(Math.random()*2)) !=0;
-            // 답변용 빈깡통
-            Help rehelp = Help.builder()
-                .title("답변"+i)
-                .content("답변내용"+i)
-                .password("1234")
-                .qtype("답변용"+type)
-                .answerstatus(rand)
-                // 임의로 10 잡았는데 master user가 필요한건가?
-                .writer(memberRepository.findById("user10@icloud.com").get())
-            .build();
-            helpRepository.save(rehelp);
             Help help = Help.builder()
                 .title("질문"+i)
                 .content("질문내용"+i)
                 .password("1234")
                 .qtype("type"+type)
                 .answerstatus(rand)
-                .writer(memberRepository.findById("user"+randomMember+"@icloud.com").get())
+                .writer(memberRepository.findById("test"+randomMember+"@gmail.com").get())
             .build();
             helpRepository.save(help);
         });
@@ -64,7 +53,6 @@ public class HelpRepositoryTests {
         Page<Help> result = helpRepository.getListPage(pageable);
 
         System.out.println(result.getSize());
-        // System.out.println(result.getTotalElements());
         System.out.println(result.getTotalPages());
         System.out.println(result.hasNext());
         System.out.println(result.getContent());
@@ -78,7 +66,7 @@ public class HelpRepositoryTests {
         .password("1234")
         .qtype("type1")
         .answerstatus(false)
-        .writer("user3@icloud.com")
+        .writer("test3@gmail.com")
         .build();
 
         System.out.println(helpService.register(helpDTO));

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
 
+<<<<<<< HEAD
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -75,3 +76,85 @@
 </body>
 
 </html>
+=======
+<th:block th:replace="~{layout/basic :: setContent(~{::content})}">
+    <th:block th:fragment="content">
+        <h1>READ : GALLERY</h1>
+        <table border="1">
+            <tr>
+                <th>
+                    번호
+                </th>
+                <td>
+                    [[${galleryDTO.gno}]]
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    아이디
+                </th>
+                <td>
+                    [[${galleryDTO.id}]]
+                </td>
+            </tr>
+            <tr>
+                <th>제목</th>
+                <td> [[${galleryDTO.title}]]</td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <img th:src="|@{'/display'}?fileName=${galleryDTO.getImageURL()}|" alt="이미지를 불러올 수 없습니다">
+                </td>
+            </tr>
+            <tr>
+                <th>작품 설명</th>
+                <td>
+                    [[${galleryDTO.content}]]
+                </td>
+            </tr>
+            <tr>
+                <th>등록일</th>
+                <td>
+                    [[${#temporals.format(galleryDTO.regdate,'yyyy/MM/dd')}]]
+                </td>
+            </tr>
+            <tr>
+                <th>수정일</th>
+                <td>
+                    [[${#temporals.format(galleryDTO.moddate,'yyyy/MM/dd')}]]
+                </td>
+            </tr>
+            <tr>
+                <th>이모지</th>
+                <td>
+                    <img th:src="${galleryDTO.emojiinfo['1']}" alt="" style="width: 30px;">
+                    [[${galleryDTO.emojicount[0][1]}]]
+
+                    <img th:src="${galleryDTO.emojiinfo['2']}" alt="" style="width: 30px;">
+                    [[${galleryDTO.emojicount[1][1]}]]
+
+                    <img th:src="${galleryDTO.emojiinfo['3']}" alt="" style="width: 30px;">
+                    [[${galleryDTO.emojicount[2][1]}]]
+
+                    <img th:src="${galleryDTO.emojiinfo['4']}" alt="" style="width: 30px;">
+                    [[${galleryDTO.emojicount[3][1]}]]
+
+                    <img th:src="${galleryDTO.emojiinfo['5']}" alt="" style="width: 30px;">
+                    [[${galleryDTO.emojicount[4][1]}]]
+
+                </td>
+            </tr>
+        </table>
+        <div>
+
+        </div>
+        <a th:href="@{/manage/gallery/modify(gno=${galleryDTO.gno})}">
+            <button type="button">수 정</button>
+        </a>
+        <a th:href="@{/manage/gallery/list(id=${galleryDTO.id})}">
+            <button type="button">돌아가기</button>
+        </a>
+
+    </th:block>
+</th:block>
+>>>>>>> 8699efb8632e6c2dfcb33355359b37bc801e0804

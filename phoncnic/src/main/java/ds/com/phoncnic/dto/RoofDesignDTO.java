@@ -15,9 +15,7 @@ public class RoofDesignDTO {
 
     private Long rooftype; 
     private String roofname; 
+    private String roofthumbnail;
     private String roofpath;
-
-    
-
 
 }
