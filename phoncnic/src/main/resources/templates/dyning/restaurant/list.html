@@ -2,6 +2,7 @@
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
 <th:block th:replace="~{layout/dyninglist :: setContent(~{::content}, ~{::search})}">
 
+
     <!-- search toggle -->
     <th:block th:fragment="search">
 
@@ -9,6 +10,7 @@
             .md-serach-result {
                 padding: 0 !important;
             }
+
             .search-result-Item {
                 cursor: pointer;
                 list-style: none;
@@ -16,12 +18,15 @@
                 padding-top: 20px;
                 padding-bottom: 20px;
             }
+
             .search-result-Item:hover {
                 background-color: #DBE9B7;
             }
+
             #search-result-div {
                 padding: 0 !important;
             }
+
             hr {
                 margin: 0;
             }
@@ -30,7 +35,7 @@
             <div class="sidebar-heading border-bottom bg-light">
                 <form class="d-flex search-form" th:action="@{/restaurant/toggle}" method="get">
                     <select class="form-select-sm" name="type">
-                        <option value="n" >가게명</option>
+                        <option value="n">가게명</option>
                         <option value="h">해쉬태그</option>
                     </select>
                     <input class="form-control me-2" name="keyword" type="search" placeholder="Search"
@@ -115,22 +120,24 @@
     <!-- 내용부분(restaurant 거리) -->
     <th:block th:fragment="content">
         <style>
-            body {
+            /* body {
                 -ms-overflow-style: none;
             }
 
             ::-webkit-scrollbar {
                 display: none;
-            }
+            } */
 
             .wrap {
                 -ms-overflow-style: auto;
                 overflow-x: auto;
+                overflow-y: hidden;
                 /* 단이 나뉘지않고 스크롤이 생김  */
                 white-space: nowrap;
                 margin: 0 auto;
                 scroll-behavior: smooth;
-                height: 100%;
+                /* height: 100%; */
+                padding-bottom: 100px;
             }
 
             /* .wrap::-webkit-scrollbar {
@@ -142,14 +149,14 @@
             }
 
             #list1 {
-                margin: 50px 100px 70px;
+                margin: 50px 50px 70px;
                 width: 200px;
                 height: 200px;
                 display: inline-block;
             }
 
             #list2 {
-                margin: 40px 100px 30px;
+                margin: 40px 50px 30px;
                 width: 200px;
                 height: 200px;
                 display: inline-block;
@@ -179,37 +186,43 @@
             }
         </style>
 
-        <!-- <h3>restaurant</h3> -->
-        <div class="wrap">
-            <ul class="dyning-list-ul">
-                <li id="list1" th:each="dto : ${result}" th:if="${dtoStat.count} <= ${dtoStat.size}/2 + 0.5">
-                    <div th:class="@{/dyning/details(dno=${dto.dno},id=${id}) }">
-                        <img class="dyningimg" th:src="${dto.roofthumbnail}" th:id="${dtoStat.count}">
-                    </div>
-                    <div class="dyningname">
-                        [[${dto.dyningname}]]
-                    </div>
-                </li>
+<input type="hidden" th:value="${result.page}" id="listpage">
+<input type="text" th:value="${result.totalPage}" id="totalpage">
+        <div>
+            <ul>
+                <th:block th:each="dto, index : ${result.dtoList}" th:if="${index.count}%2 !=0">
+                    <li id="list1">
+                        <div th:class="@{/dyning/details(dno=${dto.dno},id=${id}) }">
+                            <img class="dyningimg" th:src="${dto.getRoofthumbnail}" th:id="${index.count}">
+                        </div>
+                        <!-- [[${dto.getRoofthumbnail}]] -->
+                        <div class="dyningname">
+                            [[${dto.getDyningname}]]
+                        </div>
+                    </li>
+                </th:block>
             </ul>
             <div th:each="sdto : ${setDTO}" id="char">
-                <img type="hidden"  id ="charimg" class="look setlook" th:src="${sdto.setpath}" alt="">
+                <img type="hidden" id="charimg" class="look setlook" th:src="${sdto.setpath}" alt="">
                 <div th:text="${nickname}" class="nickname" th:if="${nickname}!=''">[[${nickname}]]</div>
-                <input type="text" name="chartop"  th:value="${chartop}" style="opacity: 0;">
-                <input type="text" name="charleft"  th:value="${charleft}" style="opacity: 0;">
+                <input type="text" name="chartop" th:value="${chartop}" style="opacity: 0;">
+                <input type="text" name="charleft" th:value="${charleft}" style="opacity: 0;">
             </div>
-            <ul class="dyning-list-ul">
-                <li id="list2" th:each="dto : ${result}" th:if="${dtoStat.count} > ${dtoStat.size}/2 + 0.5">
-                    <div th:class="@{/dyning/details(dno=${dto.dno},id=${id}) }">
-                        <img class="dyningimg" th:src="${dto.roofthumbnail}" th:id="${dtoStat.count}">
-                    </div>
-                    <div class="dyningname">
-                        [[${dto.dyningname}]]
-                    </div>
-                </li>
+            <ul>
+                <th:block th:each="dto, index : ${result.dtoList}" th:if="${index.count}%2 == 0">
+                    <li id="list2">
+                        <div th:class="@{/dyning/details(dno=${dto.dno},id=${id}) }">
+                            <img class="dyningimg" th:src="${dto.getRoofthumbnail}" th:id="${index.count}">
+                        </div>
+                        <div class="dyningname">
+                            [[${dto.getDyningname}]]
+                        </div>
+                    </li>
+                </th:block>
             </ul>
         </div>
 
-        <div id="saveTop"></div>
+
         <script th:inline="javascript">
 
             window.addEventListener("keydown", function (e) {
@@ -239,7 +252,8 @@
                 height: 98px;
                 right: 0px;
             }
-            #char{
+
+            #char {
                 position: relative;
                 width: 70px;
                 height: 126px;
@@ -247,129 +261,149 @@
             }
         </style>
 
-<script>
+        <script>
 
 
-    // document.onload(function(e){
+            // document.onload(function(e){
 
-    //     if($("input[name='chartop']").val()!="${chartop}"){
-    //         let char = document.getElementById("char");
+            //     if($("input[name='chartop']").val()!="${chartop}"){
+            //         let char = document.getElementById("char");
 
-    //         var top =  $("input[name='chartop']").val();
-    //         var left =  $("input[name='charleft']").val();
-    //         char.offset({top : top , left : left});
-    //     }
-    // });
-    $(document).ready(function(e){
-        if($("input[name='chartop']").val()!=""){
-
-            var top =  $("input[name='chartop']").val();
-            var left =  $("input[name='charleft']").val();
-            $("#char").offset({top : top });
-            $("#char").offset({left : left });
-
-        }
-    });
-    $(".dyningimg").on("click", function (e) {
-        var src = $(this).parent().attr("class");
-        var src = $(this).parent().attr("id");
-        var top = e.target.offsetTop;
-        var left = e.target.offsetLeft;
-        console.log(src);
-        console.log(top, left);
-        // location.href=src;
-    });
-
-    (function () {
-
-
-
-
-        document.addEventListener("keydown", function (e) {
-            let char = document.getElementById("char");
-            let charimg = document.getElementById("charimg");
-
-            var chartop = char.offsetTop;
-            var charleft = char.offsetLeft;
-            // console.log(charleft);
-            $("input[name='chartop']").val(chartop);
-            $("input[name='charleft']").val(charleft);
-
-            let key = e.keyCode;
-            let y = parseInt(char.style.top || 0, 10);
-            let x = parseInt(char.style.left || 0, 10);
-            if (key === 37 /* LEFT */) {
-                char.style.left = x - 20 + "px";
-            }
-            if (key === 38 /* TOP */) {
-                char.style.top = y - 20 + "px";
-            }
-            if (key === 39 /* RIGHT */) {
-                char.style.left = x + 20 + "px";
-            }
-            if (key === 40 /* BOTTOM */) {
-                char.style.top = y + 20 + "px";
-            }
-
-            // if(key === 19) {
-            //     if(charleft < 1300 & charleft > 1200) {
-            //         // $("#wrap").animate({ left: 673, behavior: 'smooth' });
-            //         window.scrollTo({left:673, behavior:'smooth'});
+            //         var top =  $("input[name='chartop']").val();
+            //         var left =  $("input[name='charleft']").val();
+            //         char.offset({top : top , left : left});
             //     }
-            // }
+            // });
+            $(document).ready(function (e) {
+                if ($("input[name='chartop']").val() != "") {
 
+                    var top = $("input[name='chartop']").val();
+                    var left = $("input[name='charleft']").val();
+                    $("#char").offset({ top: top });
+                    $("#char").offset({ left: left });
 
-            if (key === 39) {
-                var imgLength = $(".dyningimg").length;
-                console.log("캐릭터좌표" + chartop, charleft);
-
-                for (i = 1; i <= imgLength; i++) {
-                    // 절대 좌표
-                    var targetTop = document.getElementById(i).offsetTop;
-                    var targetLeft = document.getElementById(i).offsetLeft;
-                    // console.log("타겟좌표: " + targetTop, targetLeft);
-
-                    if (charleft > 1600 && charleft < 1680) {
-                        console.log("succes")
-                        window.scrollTo({left: 1200, behavior:"smooth"})
-
-                    };
                 }
-            }
+            });
+            $(".dyningimg").on("click", function (e) {
+                var src1 = $(this).parent().attr("class");
+                var src2 = $(this).parent().attr("id");
+                var top = e.target.offsetTop;
+                var left = e.target.offsetLeft;
+                console.log(src1);
+                console.log(src2);
+                console.log(top, left);
+                // location.href=src;
+            });
 
-        });
+            (function () {
+
+
+                var listlocation = "/phoncnic/dyning/restaurant/list?page=";
+                var totalpage = document.querySelector("#totalpage").value;
+
+
+                document.addEventListener("keydown", function (e) {
+                    let char = document.getElementById("char");
+                    let charimg = document.getElementById("charimg");
+
+                    var chartop = char.offsetTop;
+                    var charleft = char.offsetLeft;
+                    // console.log(charleft);
+                    $("input[name='chartop']").val(chartop);
+                    $("input[name='charleft']").val(charleft);
+
+                    let key = e.keyCode;
+                    let y = parseInt(char.style.top || 0, 10);
+                    let x = parseInt(char.style.left || 0, 10);
+                    if (key === 37 /* LEFT */) {
+                        char.style.left = x - 20 + "px";
+                    }
+                    if (key === 38 /* TOP */) {
+                        char.style.top = y - 20 + "px";
+                    }
+                    if (key === 39 /* RIGHT */) {
+                        char.style.left = x + 20 + "px";
+                    }
+                    if (key === 40 /* BOTTOM */) {
+                        char.style.top = y + 20 + "px";
+                    }
+
+                    // if(key === 19) {
+                    //     if(charleft < 1300 & charleft > 1200) {
+                    //         // $("#wrap").animate({ left: 673, behavior: 'smooth' });
+                    //         window.scrollTo({left:673, behavior:'smooth'});
+                    //     }
+                    // }
+
+
+                    if (key === 39) {
+                        var imgLength = $(".dyningimg").length;
+                        console.log("캐릭터좌표" + chartop, charleft);
+                        var screenWidth = window.screen.width;
+                        var listpage = Number(document.querySelector("#listpage").value) +1;
+
+                        if(listpage-1 == totalpage) {
+                            return;
+                        }
+                        if (charleft > screenWidth-200) {
+                            location.replace(listlocation+listpage);
+                        };
+
+                    }
+
+                    if (key === 37) {
+                        var imgLength = $(".dyningimg").length;
+                        console.log("캐릭터좌표" + chartop, charleft);
+                        var screenWidth = window.screen.width;
+                        var listpage = Number(document.querySelector("#listpage").value) - 1;
+
+                        if(listpage >= 1) {
+                            if (charleft < 100) {
+                                location.replace(listlocation + listpage);
+                            } else {
+                                return;
+                            }
+                            $("#char").offset({ top: 439 });
+                            $("#char").offset({ left: screenWidth - 100 });
+
+                        }
+
+                    }
+
+                });
 
 
 
-        document.addEventListener("keyup", function (e) {
-            var chartop = char.offsetTop;
-            var charleft = char.offsetLeft;
-            let key = e.keyCode;
-            console.log("캐릭터좌표" + chartop, charleft);
-            $("input[name='chartop']").val(chartop);
-            $("input[name='charleft']").val(charleft);
-            if (key === 13 /* enter */) {
-                var imgLength = $(".dyningimg").length;
+                document.addEventListener("keyup", function (e) {
+                    var chartop = char.offsetTop;
+                    var charleft = char.offsetLeft;
+                    let key = e.keyCode;
+                    console.log("캐릭터좌표" + chartop, charleft);
+                    $("input[name='chartop']").val(chartop);
+                    $("input[name='charleft']").val(charleft);
+                    if (key === 13 /* enter */) {
+                        var imgLength = $(".dyningimg").length;
 
-                for (i = 1; i <= imgLength; i++) {
-                    // 절대 좌표
-                    var targetTop = document.getElementById(i).offsetTop;
-                    var targetLeft = document.getElementById(i).offsetLeft;
-                    var targetHref = document.getElementById(i).offsetHeight;
-                    // var targetTop = $("#" + i).offset().top;
-                    // var targetLeft = $("#" + i).offset().left;
-                    // var targetHref = $("#" + i).parent().attr('class');
-                    // console.log("캐릭터좌표"+chartop,charleft);
-                    console.log("타겟좌표: "+targetTop, targetLeft, targetHref);
+                        for (i = 1; i <= imgLength; i++) {
+                            console.log(document.getElementById(i));
+                            // 절대 좌표
+                            var targetTop = document.getElementById(i).offsetTop;
+                            var targetLeft = document.getElementById(i).offsetLeft;
+                            // var targetHref = document.getElementById(i).parentNode.getAttribute("class");
+                            // var targetTop = $("#" + i).offset().top;
+                            // var targetLeft = $("#" + i).offset().left;
+                            var targetHref = $("#" + i).parent().attr('class');
+                            // console.log("캐릭터좌표"+chartop,charleft);
+                            console.log("타겟좌표: " + targetTop, targetLeft, targetHref);
 
-                    if (targetTop - 40 < chartop && chartop < targetTop + 160 && targetLeft - 30 < charleft && charleft < targetLeft + 160) {
-                        location.href = targetHref + "&chartop=" + chartop + "&charleft=" + charleft;
-                    };
-                }
-            }
-        });
-    })();
-</script>
+                            if (targetTop - 40 < chartop && chartop < targetTop + 160 && targetLeft - 30 < charleft && charleft < targetLeft + 160) {
+                                location.href = targetHref + "&chartop=" + chartop + "&charleft=" + charleft;
+                            };
+                        }
+                    }
+                });
+            })();
+        </script>
 
     </th:block>
 </th:block>
