@@ -284,7 +284,7 @@ input[type=radio]:checked + label {
           var inputFile = $(this); // 이벤트 대상
           var files = inputFile[0].files; // 해당 파일 객체
           var appended = false; // 추가가 정상적으로 이루어졌는지 확인하기 위한 boolean 변수
-          if (files.length > 1 || $(".backgroundshowResult ul li").length != 0) { swal("알림", "배경 사진은 1장만 추가 가능합니다"); return }
+          if (files.length > 1 || $(".backgroundshowResult ul li").length != 0) {  $("#fileInput2").val(""); swal("알림", "배경 사진은 1장만 추가 가능합니다");  return }
           for (let i = 0; i < files.length; i++) {
             if (!checkExtension(files[i].name, files[i].size)) {
               // 여기서 유효성 검사 통과하지 못하면 파일선택에 들어가있는 값 털어버리는 것 추가 필요 서치 더 해보기
@@ -345,20 +345,17 @@ input[type=radio]:checked + label {
           /*[+
           var urlDisplay=[[@{/display}]];
           +]*/
-          $(uploadResultArr).each(function (i, obj) {
+          $(uploadResultArr).each(function (index, obj) {
             // test출력
             // console.log("uploadResultArr obj >> ");
             // console.log(obj);
+            console.log("dddddd"+index);
             str += `<li data-name='${obj.fileName}' data-file='${obj.imageURL}\' data-path='${obj.folderPath}' data-uuid='${obj.uuid}'><div>`;
             str += `<button type='button' data-file='${obj.imageURL}\' class='btn-warning btn-sm'>X</button><br>`;
             str += `<img src='${urlDisplay}?fileName=${obj.thumbnailURL}'></div></li>`;
           });
           uploadUL.append(str); // ul에 전달쓰
         }
-
-
-
-
 
         // submit 버튼
         $("#btn-submit").on("click", function (e) {
@@ -439,7 +436,9 @@ input[type=radio]:checked + label {
 
         // 사진 삭제
         $(".menuuploadResult ").on("click", "li button", function (e) {
+          
           console.log("delete file...");
+          
           var targetFile = $(this).data("file");
           var targetLi = $(this).closest("li");
 
@@ -456,6 +455,17 @@ input[type=radio]:checked + label {
               targetLi.remove();
             }
           });
+
+          var test = $("#fileInput1");
+          console.log("-----------");
+          console.log($(this));
+          console.log(test);
+          console.log(targetFile);
+          console.log(targetLi);
+          console.log(test);
+          var file = test[0].files;
+
+          
         });
 
         $(".backgroundshowResult").on("click", "li button", function (e) {
@@ -476,7 +486,10 @@ input[type=radio]:checked + label {
             success: function (result) {
               targetLi.remove();
             }
+
           });
+
+          $("#fileInput2").val("");
 
         });
       });
