@@ -20,7 +20,6 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
 import ds.com.phoncnic.entity.Help;
 import ds.com.phoncnic.entity.QHelp;
-import ds.com.phoncnic.entity.QMember;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
