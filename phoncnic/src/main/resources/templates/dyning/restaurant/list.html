@@ -162,8 +162,8 @@
             }
         </style>
 
-        <input type="hidden" th:value="${result.page}" id="listpage">
-        <input type="text" th:value="${result.totalPage}" id="totalpage">
+<input type="hidden" th:value="${result.page}" id="listpage">
+<input type="text" th:value="${result.totalPage}" id="totalpage">
         <div>
             <ul>
                 <th:block th:each="dto, index : ${result.dtoList}" th:if="${index.count}%2 !=0">
@@ -317,13 +317,13 @@
                         var imgLength = $(".dyningimg").length;
                         console.log("캐릭터좌표" + chartop, charleft);
                         var screenWidth = window.screen.width;
-                        var listpage = Number(document.querySelector("#listpage").value) + 1;
+                        var listpage = Number(document.querySelector("#listpage").value) +1;
 
-                        if (listpage - 1 == totalpage) {
+                        if(listpage-1 == totalpage) {
                             return;
                         }
-                        if (charleft > screenWidth - 200) {
-                            location.replace(listlocation + listpage);
+                        if (charleft > screenWidth-200) {
+                            location.replace(listlocation+listpage);
                         };
 
                     }
@@ -334,7 +334,7 @@
                         var screenWidth = window.screen.width;
                         var listpage = Number(document.querySelector("#listpage").value) - 1;
 
-                        if (listpage >= 1) {
+                        if(listpage >= 1) {
                             if (charleft < 100) {
                                 location.replace(listlocation + listpage);
                             } else {
