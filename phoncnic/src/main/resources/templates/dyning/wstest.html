@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1> WSTEST</h1>
+    <body>
+        <input type="text" id="top">
+        <input type="text" id="left">
+        <input type="text" id="testInput">
+        <div id="testdiv"></div>
+        <input type="text" id="nickname" class="form-inline" placeholder="닉네임을 입력해주세요" required autofocus>
+        <button class = "btn btn-primary" id = "name">확인</button>
+        <!-- <div id = "chatroom" style = "width:1000px; height: 1000px; border:1px solid; background-color : white; overflow: auto;" ></div> -->
+        <input type = "text" id = "message" style = "height : 30px; width : 340px" placeholder="내용을 입력하세요" autofocus>
+        <button class = "btn btn-primary" id = "send">전송</button>
+        <script>
+     
+        </script>
+    </body>
+    <script>
+        var webSocket;
+        var nickname;
+        document.getElementById("name").addEventListener("click", function(){
+            nickname = document.getElementById("nickname").value;
+            document.getElementById("nickname").style.display="none";
+            document.getElementById("name").style.display="none";
+            connect();
+        })
+        document.getElementById("send").addEventListener("click",function(){
+            send();
+        })
+        function connect(){
+            webSocket = new WebSocket("wss://1786-175-119-172-242.jp.ngrok.io/phoncnic/street");
+            webSocket.onopen = onOpen;
+            webSocket.onclose = onClose;
+            webSocket.onmessage = onMessage;
+        }
+        function disconnect(){
+            webSocket.send(nickname + "님이 퇴장하셨습니다");
+            webSocket.close();
+        }
+        function send(){
+            msg = document.getElementById("message").value;
+            webSocket.send(nickname + " : " + msg);
+            document.getElementById("message").value = "";
+        }
+        function onOpen(){
+            webSocket.send('<div id ="heocat" style="display: inline-block; left: 300px; position: absolute;"><img id="userAvatar" src="/phoncnic/display?fileName=2022%2F04%2F12%2Fd6e8cbd9-83f8-47fd-a230-4ee1f4fbd294_05471144-94c6-4f3f-a076-3fe99ba44b0c_set1.png" alt="🙄" width="100px"></div>');
+        }
+        function onMessage(e){
+            data = e.data;
+            testInput = document.getElementById("testInput").value;
+            testdiv = document.getElementById("testdiv");
+            catdiv = document.getElementById("heocat");
+            // chatroom = document.getElementById("chatroom");
+            if(catdiv!=null){
+                catdiv.remove();
+                testdiv.innerHTML = testdiv.innerHTML + "<br>" + data + testInput;
+            }else{
+                testdiv.innerHTML = testdiv.innerHTML + "<br>" + data + testInput;
+            }
+            // document.innerHTML = document + "<br>" + data + testInput;
+        }
+        function onClose(){
+ 
+        }
+    </script>
+    <script>
+        
+    </script>
+</body>
+</html>
