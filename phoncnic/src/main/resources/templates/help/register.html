@@ -75,19 +75,22 @@
                     } else if($("input[name=password]").val()=="") {
                         checkerSwal("비밀번호를 입력해주세요", $("input[name=password]"));
                     } else {
-                        var form = $("#frm");
-                        form.attr("method", "post");
-                        form.attr("action", qnaRegiUrl);
-                        form.submit();
+                       confirmSwal();
                     }
                 });
-
+               
                 var checkerSwal = function(msg, target) {
                     swal({
                         title: "CHECK!",
                         text: msg,
                         icon: "warning",
                         button: false,
+                        showClass: {
+                            popup: 'animate__animated animate__fadeInDown'
+                        },
+                        hideClass: {
+                            popup: 'animate__animated animate__fadeOutUp'
+                        }
                     }).then((check) => {
                         target.focus();
                         if (check) {
@@ -96,7 +99,23 @@
                     });
                 }
 
-            
+                var confirmSwal = function() {
+                    swal({
+                        title: "답변 받을 이메일을 한번 더 확인해주세요",
+                        text: $("input[name=writeremail]").val(),
+                        icon: "warning",
+                        buttons: true,
+                    }).then((check)=>{
+                        if(check) {
+                            var form = $("#frm");
+                            form.attr("method", "post");
+                            form.attr("action", qnaRegiUrl);
+                            form.submit();
+                        } else {
+                            return false;
+                        }
+                    });
+                }
 
             $("input[name=writeremail]").on("keyup", function() {
                 var origin = $("input[name=writeremail]").val();
