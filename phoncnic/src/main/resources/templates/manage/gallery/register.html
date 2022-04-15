@@ -24,7 +24,7 @@
         background-color: #e9ecef;
         border-radius: 13px; 
         margin-bottom: 15px;
-  }
+    }
 
     .my2.btn{
         font-weight: bold;
@@ -35,24 +35,26 @@
         width: 49%;
     }
 
-  .btn-items > .my:nth-child(1){
-      width: 100%;
-  }
+    .btn-items > .my:nth-child(1){
+        width: 100%;
+    }
 
-  .my.btn:nth-child(2){
-       width: 50%;
-  }
+    .my.btn:nth-child(2){
+        width: 50%;
+    }
 
-  .my.btn:hover,
-  .my2.btn:hover {
-    background-color: #DBE9B7;
-  }
-  .img-warn{
-      font-family:'Noto Sans KR', sans-serif !important; 
-      font-size: 16px;
-      color: red;
-  }
-  input[name=content]{
+    .my.btn:hover,
+    .my2.btn:hover {
+        background-color: #DBE9B7;
+    }
+
+    .img-warn{
+        font-family:'Noto Sans KR', sans-serif !important; 
+        font-size: 16px;
+        color: red;
+    }
+
+    input[name=content]{
         height: 150px;
     }
    
@@ -91,7 +93,6 @@
                 <label class="form-label">작품 업로드 ( 1장만 가능 )</label>
                 <div class="custom-file">
                     <input type="file" class="custom-file-input files form-control" id="fileInput" accept="image/jpeg,png" required>
-                    <label data-browse="Browse"></label>
                 </div>
                 <div class="img-warn">* 작품 등록 후 작품 이미지는 수정 할 수 없습니다. 수정을 원할 시 삭제 후 재업로드 해야하오니 &nbsp&nbsp 신중히 올려주시길 바랍니다.</div>
             </div>
@@ -217,21 +218,24 @@
                     var uploadUL = $(".uploadResult ul");
                     var showImageStr = "";
                     var fileDataStr = "";
+
                     /*[+
                     var urlDisplay=[[@{/display}]];
                     +]*/
+
                     $(uploadResultArr).each(function (i, obj) {
                         showImageStr += `<li data-name='${obj.fileName}' data-path='${obj.folderPath}' data-uuid='${obj.uuid}'><div>
                             <button type='button' data-file='${obj.imageURL}'><i class="fa-solid fa-x"></i></button><br>
                             <img src='${urlDisplay}?fileName=${obj.thumbnailURL}'></div></li>`;
                     });
+
                     uploadUL.append(showImageStr);
 
                     $(".uploadResult li").each(function (i, obj) {
                         var target = $(obj);
                         fileDataStr += `<input type='hidden' name='imagename' value='${target.data('name')}'>
-                                    <input type='hidden' name='imagepath' value='${target.data('path')}'>
-                                    <input type='hidden' name='uuid' value='${target.data('uuid')}'>`;
+                            <input type='hidden' name='imagepath' value='${target.data('path')}'>
+                            <input type='hidden' name='uuid' value='${target.data('uuid')}'>`;
                     });
 
                     $(".box").html(fileDataStr);
@@ -274,7 +278,7 @@
                     /*[+
                       var urlRemove = [[@{/removeFile}]];
                     +]*/
-
+                    
                     $.ajax({
                         url: urlRemove,
                         data: { fileName: targetFile },
@@ -285,6 +289,8 @@
                             targetLi.remove();
                         }
                     });
+
+                    $("#fileInput").val("");
                 });
             });
         </script>
