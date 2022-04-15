@@ -4,6 +4,10 @@
     <th:block th:fragment="content">
         <h1>고객센터</h1>
         <h3>문의 작성</h3>
+        <div class="containerBox">
+            <h3 class="py-4" style="font-family: 'GmarketSansMedium';">
+                <img th:src="@{/icon/vertical-line.png}" style="width:30px;" alt=""> 문의 등록
+            </h3>
         <form id="frm">
             <div>
                 <div class="py-3">
@@ -46,6 +50,7 @@
                 <a th:href="@{/help/list}"><button type="button">목록</button></a>
             </div>
         </form>
+    </div>
 
         <script th:inline="javascript">
 

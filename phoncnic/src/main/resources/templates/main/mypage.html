@@ -145,7 +145,8 @@
         font-size: 18px;
     }
 
-    .follow-container {
+    .follow-container,
+    .emoji-container {
         display: flex;
         justify-content: space-evenly;
         align-items: center;
@@ -154,11 +155,8 @@
         padding: 10px;
     }
 
-    .follow-content hr {
-        margin: 0 !important;
-    }
-
-    .follow-content {
+    .follow-content,
+    .emoji-content {
         /* align-items: center; */
         display: flex;
         align-items: center;
@@ -167,12 +165,14 @@
         margin-bottom: 15px;
     }
 
-    .follow-title {
+    .follow-title,
+    .emoji-title {
         flex-basis: 120px;
         text-align: center;
     }
 
-    .follow-content hr {
+    .follow-content hr,
+    .emoji-content hr {
         height: 160px !important;
         width: 0.5px !important;
         border-width: 0;
@@ -182,11 +182,8 @@
 
     }
 
-    .follow-list {
-        width: 100%;
-    }
-
-    .follow-content {
+    .follow-list,
+    .emoji-list {
         width: 100%;
     }
 
@@ -205,6 +202,7 @@
         align-items: center;
 
     }
+
 
     .follow-info:hover,
     .emoji-info:hover {
@@ -351,17 +349,13 @@
 
             <!-- 이모지 -->
             <p class="content-title">좋아요</p>
-            <div class="follow-container">
-                <div class="follow-content">
-                    <div class="follow-title">
+            <div class="emoji-container">
+                <div class="emoji-content">
+                    <div class="emoji-title">
                         <span>작품</span>
                     </div>
                     <hr>
-<<<<<<< HEAD
-                    <div class="follow-list"  id="gno-emoji">       
-=======
-                    <div class="follow-list">       
->>>>>>> gallery_gm
+                    <div class="emoji-list"  id="gno-emoji">       
                         <div th:each="edto : ${emojiDTO}" th:if="${edto.gno}!=0" class="emoji-info">
                             <div>- <b>[[${edto.gno}]]번 게시물</b></div>
                             <input type="hidden" th:value="${edto.emojitype}">
@@ -370,29 +364,15 @@
                                 <button class="emojiRemoveBtn" th:value="${edto.eno}" type="button">삭제</button>
                             </span>
                         </div>
-<<<<<<< HEAD
-=======
-                        <div th:each="edto : ${emojiDTO}" th:unless="${edto.gno}!=0" >
-                            - 작품에 좋아요를 남겨보세요
-                        </div>
-                        <div  th:if='${emojiDTO.size()}==0'>
-                            - 작품에 좋아요를 남겨보세요
-                        </div>
->>>>>>> gallery_gm
                     </div>
                 </div>
-                <div class="follow-content">
-                    <div class="follow-title">
+                <div class="emoji-content">
+                    <div class="emoji-title">
                         <span>가게</span>
                     </div>
                     <hr>
-<<<<<<< HEAD
-                    <div class="follow-list" id="dno-emoji">
+                    <div class="emoji-list" id="dno-emoji">
                         <div th:each="edto : ${emojiDTO}" th:if="${edto.dno}!=0" class="emoji-info" >
-=======
-                    <div class="follow-list">
-                        <div th:each="edto : ${emojiDTO}" th:if="${edto.dno}!=0" class="emoji-info">
->>>>>>> gallery_gm
                             <div>- <b>[[${edto.dno}]]번 게시물</b></div>
                             <input type="hidden" th:value="${edto.emojitype}">
                             <div><img th:src="${edto.emojipath}" alt="" width="40px"></div>
@@ -400,15 +380,6 @@
                                 <button class="emojiRemoveBtn" th:value="${edto.eno}" type="button">삭제</button> 
                             </span>
                         </div>
-<<<<<<< HEAD
-=======
-                        <div th:each="edto : ${emojiDTO}" th:unless="${edto.dno}!=0">
-                            - 가게에 좋아요를 남겨보세요
-                        </div>
-                        <div  th:if='${emojiDTO.size()}==0'>
-                            - 가게에 좋아요를 남겨보세요
-                        </div>
->>>>>>> gallery_gm
                     </div>
                 </div>
             </div>
