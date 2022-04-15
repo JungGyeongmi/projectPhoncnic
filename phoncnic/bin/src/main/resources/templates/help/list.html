@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<style>
+    .form-select {
+        width: 100px;
+    }
+
+    .table-hover tbody tr:hover td {
+        background-color: #DBE9B7;
+    }
+    tr, th, td {
+        text-align: center;
+    }
+
+    .custom {
+        width: 200px !important;
+    }
+    .containerBox{
+        width: 70vw;
+        margin: 0 auto;
+    }
+
+    #searchBox {
+        margin-top: 70px;
+        margin-bottom: 30px;
+    }
+
+    button {
+        font-family: "GmarketSansLight" !important;
+    }
+
+    .container-fluid{
+        height: 82% !important;
+    }
+
+    .my.pagination > .active > a ,
+    .my.pagination > .active > span, 
+    .my.pagination > .active > a:hover, 
+    .my.pagination > .active > span:hover, 
+    .my.pagination > .active > span:focus {
+        background: #DBE9B7;
+        border-color: #DBE9B7;
+    }    
+    
+    .my.pagination > li > a {
+        color: gray;
+    } 
+    .my.pagination >  .active > a {
+        color: black;
+    }
+
+    .pagination {
+        margin-top: 70px;
+    }
+
+    .my.col-3 {
+        padding: 0;
+    }
+</style>
+<th:block th:replace="~{layout/basic :: setContent(~{::content})}">
+    <th:block th:fragment="content">
+        <div class="containerBox">
+        <form th:action="@{/help/list}" method="get" id="searchForm">
+            <input type="hidden" name="page" value="1">
+            <div class="row" id="searchBox">
+                <div class="col-md-2" style="width:10%"> 
+                    <select class="form-select" name="type">
+                        <option th:selected="${pageRequestDTO.type == null}">선택</option>
+                        <option value="t" th:selected="${pageRequestDTO.type == 't'}">제목</option>
+                        <option value="c" th:selected="${pageRequestDTO.type == 'c'}">내용</option>
+                        <option value="w" th:selected="${pageRequestDTO.type == 'w'}">작성자</option>
+                        <option value="tc" th:selected="${pageRequestDTO.type == 'tc'}">제목+내용</option>
+                    </select>
+                </div>
+                <div class="col-3 my ">
+                    <input id="srch" name="keyword" th:value="${pageRequestDTO.keyword}" class="form-control">
+                </div>
+                <div class="col-6">
+                    <button id="searchBtn" type="button" class="btn btn-light">검색</button>
+                </div>
+                <div class="col-md-1">
+                    <a th:href="@{/help/register}">
+                        <button type="button" class="btn btn-secondary custom">
+                            문의하기
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </form>
+        <table class="table table-hover">
+            <thead class="table-light">
+                <tr>
+                    <!--/* <th scope="col">No.</th> */-->
+                    <th scope="col">문의 종류</th>
+                    <th scope="col">제목</th>
+                    <th scope="col">내용</th>
+                    <th scope="col">작성자</th>
+                    <th scope="col" style="width:22%">등록일</th>
+                    <th scope="col" style="width:0%"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="dto : ${result.dtoList}" class="dto" 
+                    th:onclick="|javascript:pwcheck([[${dto.qno}]],[[${result.page}]])|">
+                    <td>[[${dto.qtype}]]</td>
+                    <td>[[${ dto.title }]]</td>
+                    <td><b th:text="${dto.content}"></b></td>
+                    <td>[[${dto.writer}]]</td>
+                    <td>[[${#temporals.format(dto.regdate,'yyyy/MM/dd')}]]</td>
+                    <td style="border: none;"><input type="hidden" th:value="${dto.password}" id="inputPw"></td>
+                </tr>
+            </tbody>
+        </table>
+        <!-- pagination -->
+        <nav>
+            <ul class="pagination justify-content-center my">
+              <li class="page-item" th:if="${result.prev}">
+                <a th:href="@{/help/list(page=${result.start-1}, type=${pageRequestDTO.type},
+                keyword=${pageRequestDTO.keyword})}" class="page-link" tabindex="-1" >&laquo;</a>
+              </li>
+              <li th:class=" 'page-item ' + ${result.page==page?'active':''} " th:each="page : ${result.pageList}">
+                  <a th:href="@{/help/list(page=${page}, type=${pageRequestDTO.type},
+                    keyword=${pageRequestDTO.keyword})}" class="page-link" >[[${page}]]</a>
+                </li>
+
+              <li class="page-item" th:if="${result.next}">
+                <a  th:href="@{/help/list(page=${result.end+1}, type=${pageRequestDTO.type},
+                keyword=${pageRequestDTO.keyword})}" class="page-link">&raquo;</a>
+              </li>
+            </ul>
+          </nav>
+        <!-- pagination -->
+        <!-- <ul>
+            <li th:if="${result.prev}">
+                <a th:href="@{/help/list(page=${result.start-1}, 
+                type=${pageRequestDTO.type},
+                keyword=${pageRequestDTO.keyword})}" tabindex="-1">Previous</a>
+            </li>
+            <li th:each="page : ${result.pageList}">
+                <a class="page-link" th:href="@{/help/list
+                    (page=${page}, 
+                    type=${pageRequestDTO.type},
+                    keyword=${pageRequestDTO.keyword})}">[[${page}]]</a>
+            </li>
+            <li th:if="${result.next}">
+                <a th:href="@{/help/list(page=${result.end+1}, 
+                type=${pageRequestDTO.type},
+                keyword=${pageRequestDTO.keyword})}">Next</a>
+            </li>
+        </ul> -->
+    </div>
+    
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script th:inline="javascript">
+        // 검색 submit
+        var search = document.querySelector("#searchForm");
+        var sel = document.querySelector("#searchForm select");
+        var srch = document.querySelector("#srch");
+        document.querySelector("#searchBtn").onclick = function () {
+            if (sel.options[0].selected == true) {
+                srch.value = "";
+                swal("확인해주세요", "검색조건을 설정하세요", "warning");
+            } else {
+                search.submit();
+            }
+        }
+
+        /*[+ var msg=[[${msg}]]; +]*/
+        /*[+ var id=[[${id}]]; +]*/
+
+        var userid = document.querySelector("#userid").getAttribute('value');
+        console.log(msg);
+        console.log(userid);
+
+        if (msg != null && id != null) {
+            swal("성공!", "답변은 " + id + " 로 발송해드립니다.", "success");
+        } else if (msg != null && userid != null) {
+            swal("성공!", "답변은 " + userid + " 로 발송해드립니다.", "success");
+        } else if (msg != null && userid == null) {
+            swal("성공!", "답변은 이메일로 발송해드립니다.", "success");
+        }
+
+        /*[+ var msg2=[[${msg2}]]; +]*/
+
+        if (msg2 != null) {
+            swal("글이 삭제되었습니다");
+        }
+
+        //비밀번호 유효성검사
+        const dto = document.querySelector(".dto");
+        dto.addEventListener("click", pwcheck, once);
+
+        function pwcheck(qno, page) {
+            const inputPw = document.querySelector("#inputPw").value;
+            swal("비밀번호를 입력해주세요", {
+                content: "input",
+            }).then((message) => {
+                if (message != inputPw || message == "") {
+                    swal("비밀번호를 다시 입력해주세요");
+                    return;
+                } else if (message == inputPw) {
+                    window.location.href = "read?qno=" + qno + "&page=" + page;
+                    return;
+                }
+            });
+        }
+    </script>
+    </th:block>
+</th:block>

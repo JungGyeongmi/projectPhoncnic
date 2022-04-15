@@ -4,9 +4,13 @@
     <th:block th:fragment="content">
         <h1>고객센터</h1>
         <h3>문의 작성</h3>
-        <form th:action="@{/help/register}" th:method="post">
+        <div class="containerBox">
+            <h3 class="py-4" style="font-family: 'GmarketSansMedium';">
+                <img th:src="@{/icon/vertical-line.png}" style="width:30px;" alt=""> 문의 등록
+            </h3>
+        <form id="frm">
             <div>
-                <div>
+                <div class="py-3">
                     <label>문의 종류</label> <br>
                     <select name="qtype" id="">
                         <option value="type1">type1</option>
@@ -18,7 +22,7 @@
                 <th:block th:if="${id} != ''">
                     <div>
                         <label>작성자</label> <br>
-                        <input type="text" name="writer" id="inputId" th:value="${id}">
+                        <input type="text" name="writeremail" id="inputId" th:value="${id}">
                         <span>답변 받으실 이메일이 맞는지 확인해주세요</span>
                     </div>
                 </th:block>
@@ -29,7 +33,6 @@
                         <span>답변 받으실 이메일을 입력해주세요</span>
                     </div>
                 </th:block>
-
                 <div>
                     <label>제목</label> <br>
                     <input type="text" name="title">
@@ -40,21 +43,60 @@
                 </div>
                 <div>
                     <label>비밀번호</label> <br>
-                    <input type="number" name="password" id="pwInput" oninput="pwLength(this,4)">
+                    <input type="text" name="password" id="pwInput" maxlength="4">
                     <span>숫자 4자리를 입력해주세요</span>
                 </div> <br>
-                <button type="submit">등록</button>
+                <button id="submitBtn" type="button" >등록</button>
                 <a th:href="@{/help/list}"><button type="button">목록</button></a>
             </div>
         </form>
+    </div>
+
         <script th:inline="javascript">
-            //글자수 제한
-            pwInput = document.getElementById("pwInput");
-            function pwLength(input, maxlength) {
-                if (pwInput.value > maxlength) {
-                    input.value = input.value.substr(0, maxlength);
+
+           
+            $(function() {
+
+                var form = $("#frm");
+
+                /*[+
+                  var qnaRegiUrl = [[@{/help/register}]];
+                +]*/
+
+                $("#submitBtn").on("click", function(e) {
+                    
+                    if($("input[name=writeremail]").val().trim().length==0) {
+                        checkerSwal("이메일", $("input[name=writeremail]"));
+                    } else if($("input[name=title]").val().trim().length==0) {
+                        checkerSwal("제목", $("input[name=title]"));
+                    } else if($("textarea[name=content]").val().trim().length==0) {
+                        checkerSwal("내용", $("textarea[name=content]"));
+                    } else if($("input[name=password]").val().trim().length==0) {
+                        checkerSwal("비밀번호", $("input[name=password]"));
+                    } else {
+                        form.attr("method", "post");
+                        form.attr("action", qnaRegiUrl);
+                        form.submit();
+                    }
+                });
+
+                var checkerSwal = function(msg, target) {
+                    swal({
+                        title: "CHECK!",
+                        text: msg+"을 입력해주세요",
+                        icon: "warning",
+                        button: false,
+                    }).then((check) => {
+                        target.focus();
+                        if (check) {
+                            return;
+                        }
+                    });
                 }
-            }
+
+            });
+
         </script>
+    
     </th:block>
 </th:block>

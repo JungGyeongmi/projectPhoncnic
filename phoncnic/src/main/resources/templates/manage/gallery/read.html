@@ -1,83 +1,131 @@
 <!DOCTYPE html>
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
+<style>
+    .containerBox {
+        max-width: 650px;
+        height: auto;
+        margin: 0 auto;
+        font-family: 'GmarketSansLight';
+    }
 
+    .containerBox h3 {
+        padding: 60px 0 20px 0;
+    }
+
+    .btn-items {
+        text-align: center;
+        margin: 50px auto;
+    }
+
+    .my.btn {
+        font-weight: bold;
+        font-size: 19px;
+        height: 46px;
+        background-color: #e9ecef;
+        border-radius: 13px;
+        margin-bottom: 15px;
+    }
+
+    .btn-items a:first-child button {
+        width: 130px;
+        margin-right: 50px;
+    }
+
+    .btn-items a:last-child button {
+        width: 170px;
+    }
+
+
+    .my.btn:hover {
+        background-color: #DBE9B7;
+    }
+
+    .emoji {
+        width: 85%;
+        display: flex;
+        justify-content: space-between;
+        text-align: center;
+        margin: auto;
+        padding: 60px 0 30px 0;
+
+    }
+    .emoji img{
+        margin-right: 15px;
+        width: 35px;
+    }
+    input[name=content]{
+        height: 150px;
+    }
+
+</style>
 <th:block th:replace="~{layout/basic :: setContent(~{::content})}">
     <th:block th:fragment="content">
-        <h1>READ : GALLERY</h1>
-        <table border="1">
-            <tr>
-                <th>
-                    번호
-                </th>
-                <td>
-                    [[${galleryDTO.gno}]]
-                </td>
-            </tr>
-            <tr>
-                <th>
-                    아이디
-                </th>
-                <td>
-                    [[${galleryDTO.id}]]
-                </td>
-            </tr>
-            <tr>
-                <th>제목</th>
-                <td> [[${galleryDTO.title}]]</td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    <img th:src="|@{'/display'}?fileName=${galleryDTO.getImageURL()}|" alt="이미지를 불러올 수 없습니다">
-                </td>
-            </tr>
-            <tr>
-                <th>작품 설명</th>
-                <td>
-                    [[${galleryDTO.content}]]
-                </td>
-            </tr>
-            <tr>
-                <th>등록일</th>
-                <td>
-                    [[${#temporals.format(galleryDTO.regdate,'yyyy/MM/dd')}]]
-                </td>
-            </tr>
-            <tr>
-                <th>수정일</th>
-                <td>
-                    [[${#temporals.format(galleryDTO.moddate,'yyyy/MM/dd')}]]
-                </td>
-            </tr>
-            <tr>
-                <th>이모지</th>
-                <td>
-                    <img th:src="${galleryDTO.emojiinfo['1']}" alt="" style="width: 30px;">
+        <div class="containerBox">
+            <h3 style="font-family: 'GmarketSansMedium';">
+                <img th:src="@{/icon/vertical-line.png}" style="width:30px;" alt="">작품 정보
+            </h3>
+            <div class="py-3">
+                <label for="" class="form-label">작품 번호</label>
+                <input type="text" class="form-control" readonly th:value="${galleryDTO.gno}">
+            </div>
+            <div class="py-3">
+                <label for="" class="form-label">아이디</label>
+                <input type="text" class="form-control" readonly th:value="${galleryDTO.id}">
+            </div>
+            <div class="py-3">
+                <label for="" class="form-label">작품 이미지</label>
+                <div>
+                    <img style="width: 100%;" th:src="|@{'/display'}?fileName=${galleryDTO.getImageURL()}|" alt="이미지를 불러올 수 없습니다">
+                </div>
+            </div>
+            <div class="py-3">
+                <label for="" class="form-label">작품명</label>
+                <input type="text" class="form-control" readonly th:value="${galleryDTO.title}">
+            </div>
+            <div class="py-3">
+                <label for="" class="form-label">작품 설명</label>
+                <input type="text" class="form-control" readonly th:value="${galleryDTO.content}">
+            </div>
+            <div class="py-3">
+                <label for="" class="form-label">등록일</label>
+                <input type="text" class="form-control" readonly
+                    th:value="${#temporals.format(galleryDTO.regdate,'yyyy/MM/dd')}">
+            </div>
+            <div class="py-3">
+                <label for="" class="form-label">수정일</label>
+                <input type="text" class="form-control" readonly
+                    th:value="${#temporals.format(galleryDTO.moddate,'yyyy/MM/dd')}">
+            </div>
+            <div class="emoji">
+                <div>
+                    <img th:src="${galleryDTO.emojiinfo['1']}" alt="">
                     [[${galleryDTO.emojicount[0][1]}]]
-
-                    <img th:src="${galleryDTO.emojiinfo['2']}" alt="" style="width: 30px;">
+                </div>
+                <div>
+                    <img th:src="${galleryDTO.emojiinfo['2']}" alt="">
                     [[${galleryDTO.emojicount[1][1]}]]
-
-                    <img th:src="${galleryDTO.emojiinfo['3']}" alt="" style="width: 30px;">
+                </div>
+                <div>
+                    <img th:src="${galleryDTO.emojiinfo['3']}" alt="">
                     [[${galleryDTO.emojicount[2][1]}]]
-
-                    <img th:src="${galleryDTO.emojiinfo['4']}" alt="" style="width: 30px;">
+                </div>
+                <div>
+                    <img th:src="${galleryDTO.emojiinfo['4']}" alt="">
                     [[${galleryDTO.emojicount[3][1]}]]
-
-                    <img th:src="${galleryDTO.emojiinfo['5']}" alt="" style="width: 30px;">
+                </div>
+                <div>
+                    <img th:src="${galleryDTO.emojiinfo['5']}" alt="">
                     [[${galleryDTO.emojicount[4][1]}]]
-
-                </td>
-            </tr>
-        </table>
-        <div>
-
+                </div>
+            </div>
+            <div class="btn-items">
+                <a th:href="@{/manage/gallery/modify(gno=${galleryDTO.gno})}">
+                    <button type="button" class="btn my">수 정</button>
+                </a>
+                <a th:href="@{/manage/gallery/list(id=${galleryDTO.id})}">
+                    <button type="button" class="btn my">돌아가기</button>
+                </a>
+            </div>
         </div>
-        <a th:href="@{/manage/gallery/modify(gno=${galleryDTO.gno})}">
-            <button type="button">수 정</button>
-        </a>
-        <a th:href="@{/manage/gallery/list(id=${galleryDTO.id})}">
-            <button type="button">돌아가기</button>
-        </a>
-
     </th:block>
 </th:block>

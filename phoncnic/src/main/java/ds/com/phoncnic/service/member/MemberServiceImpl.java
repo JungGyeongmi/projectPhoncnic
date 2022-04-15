@@ -121,7 +121,7 @@ public class MemberServiceImpl implements MemberService {
 
             dyningRepository.deleteByMemberId(id);
             galleryRepository.deleteByMemberId(id);
-            helpRepository.deleteByMemberId(id);
+            helpRepository.deleteByWriterEmail(id);
 
             log.info("get member by id for delete ...."+memberRepository.findById(id));
 
