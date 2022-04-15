@@ -57,7 +57,7 @@
     }
 
     .pagination {
-        margin-top: 70px;
+        margin: 50px auto 70px auto;
     }
 
     .my.col-3 {
@@ -154,11 +154,11 @@
             /*[+ 
                 var msg=[[${msg}]]; 
                 var id=[[${id}]];
+                var userid=[[${userid}]];
                 var readUrl = [[@{/help/read}]];
             +]*/
 
             console.log(msg);
-
 
             if (msg != null && id != null) {
                 swal("성공!", "답변은 " + id + " 로 발송해드립니다.", "success");
