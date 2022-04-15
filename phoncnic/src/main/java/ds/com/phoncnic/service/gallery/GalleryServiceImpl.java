@@ -36,6 +36,7 @@ public class GalleryServiceImpl implements GalleryService {
 
     @Override
     public PageResultDTO<GalleryDTO, Gallery> getPhotoList(PageRequestDTO PageRequestDTO) {
+       
         Pageable pageable = PageRequestDTO.getPageable(Sort.by("gno").descending());
         List<EmojiInfo> emojiInfoList = emojiInfoService.getEmojiInfoList();
         Page<Gallery> result = galleryRepository.getPhotoPage(pageable);
