@@ -50,19 +50,28 @@
             document.getElementById("message").value = "";
         }
         function onOpen(){
-            webSocket.send(nickname + "님이 입장하셨습니다.");
+            webSocket.send('<div id ="heocat" style="display: inline-block; left: 300px; position: absolute;"><img id="userAvatar" src="/phoncnic/display?fileName=2022%2F04%2F12%2Fd6e8cbd9-83f8-47fd-a230-4ee1f4fbd294_05471144-94c6-4f3f-a076-3fe99ba44b0c_set1.png" alt="🙄" width="100px"></div>');
         }
         function onMessage(e){
             data = e.data;
             testInput = document.getElementById("testInput").value;
-            chatroom = document.getElementById("chatroom");
             testdiv = document.getElementById("testdiv");
-            testdiv.innerHTML = testdiv.innerHTML + "<br>" + data + testInput;
+            catdiv = document.getElementById("heocat");
+            // chatroom = document.getElementById("chatroom");
+            if(catdiv!=null){
+                catdiv.remove();
+                testdiv.innerHTML = testdiv.innerHTML + "<br>" + data + testInput;
+            }else{
+                testdiv.innerHTML = testdiv.innerHTML + "<br>" + data + testInput;
+            }
             // document.innerHTML = document + "<br>" + data + testInput;
         }
         function onClose(){
  
         }
+    </script>
+    <script>
+        
     </script>
 </body>
 </html>
