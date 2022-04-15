@@ -345,9 +345,64 @@
                 width: 3rem;
             }
 
+            ul {
+                position: relative;
+                display: flex;
+            }
+
+            li {
+              list-style: none;
+            }
+
+            label {
+               position: relative;
+            }
+
+            input[type="checkbox"] {
+                position: absolute;
+                opacity: 0;
+                cursor: pointer;
+                height: 80px;
+                width: 80px;
+                z-index: 100;
+            }
+
+            .arrow-div {
+                background: #18191f;
+                color: #555;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 46px;
+                cursor: pointer;
+                margin: 0 4px;
+                border-radius: 20px;
+                box-shadow: -1px -1px 4px rgba(53, 255, 70, 0.05),
+                    4px 4px 6px rgba(0, 0, 0, 0.2),
+                    inset -1px -1px 4px rgba(156, 17, 17, 0.05),
+                    inset 1px 1px 1px rgba(0, 0, 0, 0.1);
+            }
+
+            input[type="checkbox"]:checked ~ .arrow-div {
+                /* box-shadow: inset 0 0 2px rgba(255, 255, 255, 0.05),
+                    inset 4px 4px 6px rgba(0, 0, 0, 0.2); */
+                color: whitesmoke;
+                text-shadow: 0 0 15px rgb(56, 187, 89), 0 0 25px rgb(78, 180, 100);
+                animation: glow 1.5s linear infinite;
+            }
+
+            @keyframes glow {
+                0% {
+                    filter: hue-rotate(0deg);
+                }
+                100% {
+                    filter: hue-rotate(360deg);
+                }
+            }
+
         </style>
         <!-- 모달창 -->
-        <th:block sec:authorize="isAuthenticated()"><span class="roleSpan" sec:authentication='principal.authorities'></span></th:block>
+        <th:block  sec:authorize="isAuthenticated()"><span class="roleSpan" sec:authentication='principal.authorities' hidden></span></th:block>
         <div class="modal" tabindex="-1" id="modalUserInfo">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -360,13 +415,13 @@
                     </div>
                     <ul class="nav nav-tabs">
                         <li class="tab-nav-item " data-tab-section="indexSection">
-                          <button class="nav-link  active show">민첩(목차)</button>
+                          <button name="mdlabel" class="nav-link  active show">민첩(목차)</button>
                         </li>
                         <li class="tab-nav-item" data-tab-section="infoSection">
-                          <button class="nav-link">회피(내정보)</a>
+                          <button name="mdlabel"  class="nav-link">회피(내정보)</a>
                         </li>
-                        <li class="tab-nav-item" data-tab-section="helpSection">
-                          <button class="nav-link">지능(사용법)</a>
+                        <li  class="tab-nav-item helpSection" data-tab-section="helpSection">
+                          <button name="mdlabel"  class="nav-link">지능(사용법)</a>
                         </li>
                       </ul>
                     <div class="modal-body" sec:authorize="isAnonymous()">
@@ -412,7 +467,29 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="tab-setions" id="helpSection" hidden>지능</div>
+                        <div class="tab-setions" id="helpSection" hidden>
+                            <h5>조작방법</h5>
+                            <ul>
+                                <li>움직이기</li>
+                                <li>
+                                  <input name="arrow-box" type="checkbox" />
+                                  <div class="arrow-div">←</div>
+                                </li>
+                                <li>
+                                  <input name="arrow-box"  type="checkbox" />
+                                  <div class="arrow-div">↑</div>
+                                </li>
+                                <li>
+                                  <input name="arrow-box"  type="checkbox" />
+                                  <div class="arrow-div">→</div>
+                                </li>
+                                <li>들어가기</li>
+                                <li>
+                                    <input name="arrow-box" type="checkbox" />
+                                    <div class="arrow-div">ENTER</div>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -434,14 +511,9 @@
             // 모달 외부 클릭시 닫기
             $(document).mouseup(function (e){
                 if(charimgUserModal.has(e.target).length==0) {
-                    charimgUserModal.hide();
+                    hideStatusModal();
                 }
             });
-
-            $(document).keyup(function (e){
-                charimgUserModal.hide();
-            });
-
 
             $(document).on("click", ".tab-nav-item", function(e) {
                 $(".tab-setions").each((index, item)=>{
@@ -479,6 +551,42 @@
                 }
 
             })
+  
+            $(document).on("keyup", function(e) {
+                // console.log($(".helpSection").closest("button"))
+                if(!$(".helpSection").children("button").hasClass("show")){
+                    $("input[name=arrow-box]").each((i)=>{
+                        $("input[name=arrow-box]").eq(i)[0].checked=false;
+                    });
+                    hideStatusModal();
+                    return;
+                } 
+                $("input[name=arrow-box]").each((i)=>{
+                    $("input[name=arrow-box]").eq(i)[0].checked=false;
+                });
+                switch (e.which) {
+                    case 39 : // 오
+                        $("input[name=arrow-box]").eq(2)[0].checked=true;
+                        break;
+                    case 37: // 왼
+                        $("input[name=arrow-box]").eq(0)[0].checked=true;
+                        break; 
+                    case 38: // 업
+                        $("input[name=arrow-box]").eq(1)[0].checked=true;
+                        break;
+                    case 13: // 엔터
+                        $("input[name=arrow-box]").eq(3)[0].checked=true;
+                        break;
+                }
+            });
+
+            var hideStatusModal = ()=>{
+                $("button[name=mdlabel]").eq(0).addClass("active");
+                $("button[name=mdlabel]").eq(1).removeClass("active");
+                $("button[name=mdlabel]").eq(2).removeClass("active");
+                charimgUserModal.hide();
+            }
+
         </script>
         
     </th:block>
