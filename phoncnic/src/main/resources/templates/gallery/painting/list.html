@@ -95,6 +95,11 @@
             row-gap: 1%;
             align-items: center;
             justify-items: center;
+            text-align: center;
+         }
+
+         .result-container p {
+            margin: 15px auto;
          }
 
          .md-container img {
@@ -934,15 +939,15 @@
                <div class="modal-body">
                   <form class="serach-form-container" id="modal-frm" th:action="@{/gallery/curator}" method="get">
                      <select name="type">
-                        <option value="t" disabled selected>검색조건</option>
+                        <option value="t" disabled selected  class="form-select form-select-sm">검색조건</option>
                         <option value="t">작품명</option>
                         <option value="c">내용</option>
                         <option value="w">작가</option>
                      </select>
-                     <input id="md-search-keyword" type="text" name="keyword" value="">
-                     <input id="md-search-btn" type="button" value="검색">
+                     <input id="md-search-keyword" type="text" name="keyword" value=""  class="form-control form-control-sm">
+                     <input id="md-search-btn" type="button" value="검색" class="form-control form-control-sm">
                      <select name="sort">
-                        <option value="d" disabled selected>정렬조건</option>
+                        <option value="d" disabled selected class="form-select form-select-sm">정렬조건</option>
                         <option value="d">최신순</option>
                         <option value="a">과거순</option>
                      </select>
