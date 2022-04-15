@@ -355,7 +355,7 @@
                         <span>작품</span>
                     </div>
                     <hr>
-                    <div class="follow-list"  id="gno-emoji">       
+                    <div class="emoji-list"  id="gno-emoji">       
                         <div th:each="edto : ${emojiDTO}" th:if="${edto.gno}!=0" class="emoji-info">
                             <div>- <b>[[${edto.gno}]]번 게시물</b></div>
                             <input type="hidden" th:value="${edto.emojitype}">
@@ -371,7 +371,7 @@
                         <span>가게</span>
                     </div>
                     <hr>
-                    <div class="follow-list" id="dno-emoji">
+                    <div class="emoji-list" id="dno-emoji">
                         <div th:each="edto : ${emojiDTO}" th:if="${edto.dno}!=0" class="emoji-info" >
                             <div>- <b>[[${edto.dno}]]번 게시물</b></div>
                             <input type="hidden" th:value="${edto.emojitype}">

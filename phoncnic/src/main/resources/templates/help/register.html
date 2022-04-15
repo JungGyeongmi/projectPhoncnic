@@ -1,87 +1,119 @@
 <!DOCTYPE html>
+<style>
+    .containerBox {
+        max-width: 650px;
+        margin: 0 auto;
+        font-family: 'GmarketSansLight';
+    }
+
+    .my.btn {
+        background-color: #e9ecef;
+        font-family: 'GmarketSansLight';
+        margin-right: 38px;
+        width: 100px;
+    }
+
+    .my.btn:hover {
+        background-color: #DBE9B7;
+    }
+
+    .BtnItems {
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        margin: 9px auto 95px auto;
+    }
+</style>
+
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <th:block th:replace="~{layout/basic :: setContent(~{::content})}">
     <th:block th:fragment="content">
-        <h1>고객센터</h1>
-        <h3>문의 작성</h3>
         <div class="containerBox">
             <h3 class="py-4" style="font-family: 'GmarketSansMedium';">
                 <img th:src="@{/icon/vertical-line.png}" style="width:30px;" alt=""> 문의 등록
             </h3>
-        <form id="frm">
-            <div>
-                <div class="py-3">
-                    <label>문의 종류</label> <br>
-                    <select name="qtype" id="">
-                        <option value="type1">type1</option>
-                        <option value="type2">type2</option>
-                        <option value="type3">type3</option>
-                        <option value="type4">type4</option>
-                    </select>
-                </div>
-                <th:block th:if="${id} != ''">
-                    <div>
-                        <label>작성자</label> <br>
-                        <input type="text" name="writeremail" th:value="${id}" />
-                        <span>답변 받으실 이메일이 맞는지 확인해주세요</span>
+            <form id="frm">
+                <div>
+                    <div class="py-3">
+                        <label class="form-label">문의 종류</label> <br>
+                        <select name="qtype" id="" class="form-select">
+                            <option value="type1">type1</option>
+                            <option value="type2">type2</option>
+                            <option value="type3">type3</option>
+                            <option value="type4">type4</option>
+                        </select>
                     </div>
-                </th:block>
-                <th:block th:if="${id} == ''">
-                    <div>
-                        <label>작성자</label> <br>
-                        <input type="text" name="writeremail" /> 
-                        <span>답변 받으실 이메일을 입력해주세요</span>
+                    <th:block th:if="${id} != ''">
+                        <div class="py-3">
+                            <label class="form-label">작성자</label> <br>
+                            <input class="form-control" type="text" name="writeremail" id="id" th:value="${id}">
+                            <span style="font-size:16px; padding: 20px;">* 답변 받으실 이메일이 맞는지 확인해주세요</span>
+                        </div>
+                    </th:block>
+                    <th:block th:if="${id} == ''">
+                        <div class="py-3">
+                            <label class="form-label">작성자</label> <br>
+                            <input class="form-control" type="text" name="writeremail" id="userId">
+                            <span  style="font-size:16px; padding: 20px;">* 답변 받으실 이메일을 입력해주세요</span>
+                        </div>
+                    </th:block>
+                    <div class="py-3">
+                        <label class="form-label">제목</label> <br>
+                        <input class="form-control" type="text" name="title">
                     </div>
-                </th:block>
-                <div>
-                    <label>제목</label> <br>
-                    <input type="text" name="title">
+                    <div class="py-3">
+                        <label class="form-label">내용</label> <br>
+                        <textarea class="form-control" name="content" id="" cols="30" rows="7"></textarea>
+                    </div>
+                    <div class="py-3">
+                        <label class="form-label">비밀번호</label> <br>
+                        <input class="form-control" type="text" name="password" id="pwInput" maxlength="4">
+                        <span  style="font-size:16px; padding: 20px;">* 숫자 4자리를 입력해주세요</span>
+                    </div> <br>
+                    <div class="BtnItems">
+                        <button class="btn my" id="submitBtn" type="button">등록</button>
+                        <a th:href="@{/help/list}"><button class="btn my" type="button">목록</button></a>
+                    </div>
                 </div>
-                <div>
-                    <label>내용</label> <br>
-                    <textarea name="content" id="" cols="30" rows="10"></textarea>
-                </div>
-                <div>
-                    <label>비밀번호</label> <br>
-                    <input type="text" name="password" id="pwInput" maxlength="4">
-                    <span>숫자 4자리를 입력해주세요</span>
-                </div> <br>
-                <button id="submitBtn" type="button" >등록</button>
-                <a th:href="@{/help/list}"><button type="button">목록</button></a>
-            </div>
-        </form>
-    </div>
+            </form>
+        </div>
 
         <script th:inline="javascript">
 
-            $(function() {          
-                // 재출
-                
+
+            $(function () {
+
+                var form = $("#frm"); 
+                var email_check = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+
                 /*[+
-                var qnaRegiUrl = [[@{/help/register}]];
-                +]*/
-                
-                $("#submitBtn").on("click", function(e) {
-                    if($("input[name=writeremail]").val()=="") {
+                  var qnaRegiUrl = [[@{/help/register}]];
+                +]*/    
+
+                $("#submitBtn").on("click", function (e) {
+
+                    if ($("input[name=writeremail]").val() == "") {
                         checkerSwal("이메일", $("input[name=writeremail]"));
-                    } else if($("input[name=title]").val()=="") {
+                    } else if(! email_check.test($("#userId").val())) {
+                        swal("CHECK!","이메일이 유효하지 않습니다","warning");
+                        console.log(userid);
+                    } else if ($("input[name=title]").val() == "") {
                         checkerSwal("제목", $("input[name=title]"));
-                    } else if($("textarea[name=content]").val()=="") {
+                    } else if ($("textarea[name=content]").val() == "") {
                         checkerSwal("내용", $("textarea[name=content]"));
-                    } else if($("input[name=password]").val()=="") {
+                    } else if ($("input[name=password]").val() == "") {
                         checkerSwal("비밀번호", $("input[name=password]"));
                     } else {
-                        var form = $("#frm");
                         form.attr("method", "post");
                         form.attr("action", qnaRegiUrl);
                         form.submit();
                     }
                 });
 
-                var checkerSwal = function(msg, target) {
+                var checkerSwal = function (msg, target) {
                     swal({
                         title: "CHECK!",
-                        text: msg+"을 입력해주세요",
+                        text: msg + "을 입력해주세요",
                         icon: "warning",
                         button: false,
                     }).then((check) => {
@@ -95,6 +127,6 @@
             });
 
         </script>
-    
+
     </th:block>
 </th:block>
