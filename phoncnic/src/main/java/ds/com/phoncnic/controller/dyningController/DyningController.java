@@ -148,6 +148,11 @@ public class DyningController {
         return "/dyning/movingtest2";
     }
 
+    @GetMapping("/wstest")
+    public String wstest() {
+        return "dyning/wstest";
+    }
+
     
 
 
