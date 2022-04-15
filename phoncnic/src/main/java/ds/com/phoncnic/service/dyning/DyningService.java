@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 
 import ds.com.phoncnic.dto.DyningDTO;
 import ds.com.phoncnic.dto.DyningImageDTO;
-import ds.com.phoncnic.dto.pageDTO.PageRequestDTO;
 import ds.com.phoncnic.dto.pageDTO.PageResultDTO;
 import ds.com.phoncnic.dto.pageDTO.SearchDyningPageRequestDTO;
 import ds.com.phoncnic.entity.Dyning;
@@ -125,23 +124,18 @@ public interface DyningService {
     // 레스토랑 거리
     List<DyningDTO> getRestaurantStreet();
 
-    // Paging 처리
-    PageResultDTO<DyningDTO, Object[]> getRestaurantPage(PageRequestDTO PageRequestDTO);
-    PageResultDTO<DyningDTO, Dyning> getCafePage(PageRequestDTO PageRequestDTO);
-
-
     List<DyningDTO> getMyDyningList(String id);
 
     // DyningDTO getRoof();
     default DyningDTO roofEntityToDTO(Dyning dyning) {
         DyningDTO dyningDTO = DyningDTO.builder()
-            .dno(dyning.getDno())
-            .dyningname(dyning.getDyningname())
-            .roofpath(dyning.getRoofdesign().getRoofpath())
-            .roofthumbnail(dyning.getRoofdesign().getRoofthumbnail())
-            .id(dyning.getCeoid().getId())
-            .foodtype(dyning.getFoodtype())
-            .build();
+                .dno(dyning.getDno())
+                .dyningname(dyning.getDyningname())
+                .roofpath(dyning.getRoofdesign().getRoofpath())
+                .roofthumbnail(dyning.getRoofdesign().getRoofthumbnail())
+                .id(dyning.getCeoid().getId())
+                .foodtype(dyning.getFoodtype())
+                .build();
 
         return dyningDTO;
     }

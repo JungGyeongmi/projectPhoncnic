@@ -9,13 +9,11 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
 import ds.com.phoncnic.dto.DyningDTO;
-import ds.com.phoncnic.dto.pageDTO.PageRequestDTO;
 import ds.com.phoncnic.dto.pageDTO.PageResultDTO;
 import ds.com.phoncnic.dto.pageDTO.SearchDyningPageRequestDTO;
 import ds.com.phoncnic.entity.Dyning;
@@ -163,29 +161,4 @@ public class DyningServiceImpl implements DyningService {
 
     return new PageResultDTO<>(result, fn);
   }
-
-  @Override
-  public PageResultDTO<DyningDTO, Dyning> getCafePage(PageRequestDTO PageRequestDTO) {
-    Pageable pageable = PageRequestDTO.getPageable(Sort.by("dno"));
-    Page<Dyning> result = dyningRepository.getCafeStreet(pageable);
-    Function<Dyning, DyningDTO> fn = (entity -> roofEntityToDTO(entity));
-    return new PageResultDTO<>(result, fn);
-  }
-
-  @Override
-  public PageResultDTO<DyningDTO, Object[]> getRestaurantPage(PageRequestDTO PageRequestDTO) {
-    log.info("impl .. getRestaurantPage...");
-    
-    Pageable pageable = PageRequestDTO.getPageable(Sort.by("dno"));
-    Page<Object[]> page = dyningRepository.getRestaurantStreet(pageable);
-    
-    Function<Object[], DyningDTO> fn = new Function<Object[], DyningDTO>() {
-      @Override
-      public DyningDTO apply(Object[] en) {
-        return roofEntityToDTO((Dyning) en[0]);
-      }
-    };
-    return new PageResultDTO<>(page, fn);
-  }
-
 }

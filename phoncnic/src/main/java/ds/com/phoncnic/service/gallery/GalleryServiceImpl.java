@@ -69,6 +69,8 @@ public class GalleryServiceImpl implements GalleryService {
                 pageRequestDTO.getType(),
                 pageRequestDTO.getKeyword(),
                 pageRequestDTO.getPageable(sort));
+
+
         log.info(pageRequestDTO);
         return new PageResultDTO<>(result, fn);
     }

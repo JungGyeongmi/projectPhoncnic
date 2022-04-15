@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ds.com.phoncnic.dto.DyningDTO;
-import ds.com.phoncnic.dto.pageDTO.PageRequestDTO;
 import ds.com.phoncnic.security.dto.AuthMemberDTO;
 import ds.com.phoncnic.service.FollowService;
 import ds.com.phoncnic.service.characterLook.CharacterLookService;
@@ -37,9 +36,9 @@ public class DyningController {
 
     // 카페 거리 페이지
     @GetMapping("/cafe/list")
-    public void cafeList(Model model,@AuthenticationPrincipal AuthMemberDTO dto, PageRequestDTO pageRequestDTO) {
+    public void cafeList(Model model,@AuthenticationPrincipal AuthMemberDTO dto) {
         log.info("cafe list.................");
-        model.addAttribute("result", dyningService.getCafePage(pageRequestDTO));
+        model.addAttribute("result", dyningService.getCafeStreet());
        
         try {
             model.addAttribute("id",dto.getId());
@@ -55,9 +54,9 @@ public class DyningController {
     }
 
     @GetMapping("/restaurant/list")
-    public void restaurant(Model model,@AuthenticationPrincipal AuthMemberDTO dto, PageRequestDTO pageRequestDTO) {
+    public void restaurant(Model model,@AuthenticationPrincipal AuthMemberDTO dto) {
         log.info("restaurant list.................");
-        model.addAttribute("result", dyningService.getRestaurantPage(pageRequestDTO));
+        model.addAttribute("result", dyningService.getRestaurantStreet());
 
         if(dto!=null){
             model.addAttribute("id",dto.getId());
@@ -74,7 +73,7 @@ public class DyningController {
 
     @GetMapping("/details")
     public void details(@RequestParam("dno") Long dno,@AuthenticationPrincipal AuthMemberDTO dto, Model model,
-     @RequestParam("chartop") Long chartop,@RequestParam("charleft") Long charleft,RedirectAttributes ra, PageRequestDTO pageRequestDTO) {
+     @RequestParam("chartop") Long chartop,@RequestParam("charleft") Long charleft,RedirectAttributes ra) {
 
         log.info("Details.................");
         if (dno != 0) {
