@@ -285,10 +285,9 @@
                             // 절대 좌표
                             var targetTop = document.getElementById(i).offsetTop;
                             var targetLeft = document.getElementById(i).offsetLeft;
-                            var targetHref = document.getElementById(i).offsetHeight;
                             // var targetTop = $("#" + i).offset().top;
                             // var targetLeft = $("#" + i).offset().left;
-                            // var targetHref = $("#" + i).parent().attr('class');
+                            var targetHref = $("#" + i).parent().attr('class');
                             // console.log("캐릭터좌표"+chartop,charleft);
                             console.log("타겟좌표: " + targetTop, targetLeft, targetHref);
 
