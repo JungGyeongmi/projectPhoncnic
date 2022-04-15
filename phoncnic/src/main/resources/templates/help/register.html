@@ -4,10 +4,13 @@
     <th:block th:fragment="content">
         <h1>고객센터</h1>
         <h3>문의 작성</h3>
+<<<<<<< HEAD
         <div class="containerBox">
             <h3 class="py-4" style="font-family: 'GmarketSansMedium';">
                 <img th:src="@{/icon/vertical-line.png}" style="width:30px;" alt=""> 문의 등록
             </h3>
+=======
+>>>>>>> gallery_gm
         <form id="frm">
             <div>
                 <div class="py-3">
@@ -22,14 +25,18 @@
                 <th:block th:if="${id} != ''">
                     <div>
                         <label>작성자</label> <br>
+<<<<<<< HEAD
                         <input type="text" name="writeremail" id="inputId" th:value="${id}">
+=======
+                        <input type="text" name="writeremail" th:value="${id}" />
+>>>>>>> gallery_gm
                         <span>답변 받으실 이메일이 맞는지 확인해주세요</span>
                     </div>
                 </th:block>
                 <th:block th:if="${id} == ''">
                     <div>
                         <label>작성자</label> <br>
-                        <input type="text" name="writer" id="inputId"> 
+                        <input type="text" name="writeremail" /> 
                         <span>답변 받으실 이메일을 입력해주세요</span>
                     </div>
                 </th:block>
@@ -50,13 +57,17 @@
                 <a th:href="@{/help/list}"><button type="button">목록</button></a>
             </div>
         </form>
+<<<<<<< HEAD
     </div>
+=======
+>>>>>>> gallery_gm
 
         <script th:inline="javascript">
 
            
             $(function() {
 
+<<<<<<< HEAD
                 var form = $("#frm");
 
                 /*[+
@@ -74,6 +85,33 @@
                     } else if($("input[name=password]").val().trim().length==0) {
                         checkerSwal("비밀번호", $("input[name=password]"));
                     } else {
+=======
+                
+                
+                
+                
+                
+                
+                
+                
+                // 재출
+                
+                /*[+
+                var qnaRegiUrl = [[@{/help/register}]];
+                +]*/
+                
+                $("#submitBtn").on("click", function(e) {
+                    if($("input[name=writeremail]").val()=="") {
+                        checkerSwal("이메일", $("input[name=writeremail]"));
+                    } else if($("input[name=title]").val()=="") {
+                        checkerSwal("제목", $("input[name=title]"));
+                    } else if($("textarea[name=content]").val()=="") {
+                        checkerSwal("내용", $("textarea[name=content]"));
+                    } else if($("input[name=password]").val()=="") {
+                        checkerSwal("비밀번호", $("input[name=password]"));
+                    } else {
+                        var form = $("#frm");
+>>>>>>> gallery_gm
                         form.attr("method", "post");
                         form.attr("action", qnaRegiUrl);
                         form.submit();

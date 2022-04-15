@@ -44,6 +44,7 @@
 </style>
 <th:block th:replace="~{layout/basic :: setContent(~{::content})}">
     <th:block th:fragment="content">
+<<<<<<< HEAD
         <div class="containerBox">
             <h3 style="font-family: 'GmarketSansMedium';">
                 <img th:src="@{/icon/vertical-line.png}" style="width:30px;" alt="">작품 수정
@@ -91,36 +92,112 @@
                 </div>
             </form>
         </div>
-
+=======
+        <h1>전시회 상세페이지 예제</h1>
+        <form id="frm">
+            <table style="border:1px">
+                <tr>
+                    <th>
+                        번호
+                    </th>
+                    <td>
+                        <input type="text" name="gno" th:value="${galleryDTO.gno}" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        아이디
+                    </th>
+                    <td>
+                        <input type="text" th:value="${galleryDTO.id}" name="id" readonly>
+                    </td>
+                </tr>
+                <tr>
+                    <th>제목</th>
+                    <td>
+                        <input name="title" type="text" th:value="${galleryDTO.title}">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <img th:src="|@{'/display'}?fileName=${galleryDTO.getImageURL()}|" alt="이미지를 불러올 수 없습니다">
+                    </td>
+                </tr>
+                <tr>
+                    <th>작품 설명</th>
+                    <td>
+                        <input name="content" type="text" th:value="${galleryDTO.content}">
+                    </td>
+                </tr>
+                <tr>
+                    <th>등록일</th>
+                    <td>
+                        [[${#temporals.format(galleryDTO.regdate,'yyyy/MM/dd')}]]
+                    </td>
+                </tr>
+                <tr>
+                    <th>수정일</th>
+                    <td>
+                        [[${#temporals.format(galleryDTO.moddate,'yyyy/MM/dd')}]]
+                    </td>
+                </tr>
+            </table>
+            <button type="button" id="modifyBtn">반영하기</button>
+            <button type="button" id="removeBtn">삭제하기</button>
+            <button type="button" id="listBtn">돌아가기</button>
+        </form>
+>>>>>>> gallery_gm
 
         <script th:inline="javascript">
+            
             var actionForm = document.querySelector("#frm");
             var removeBtn = document.querySelector("#removeBtn");
 
+            /*[+ 
+                var urlremove = [[@{/manage/gallery/remove}]];
+            +]*/
+
             removeBtn.onclick = function () {
-                /*[+ var urlremove = [[@{/manage/gallery/remove}]] +]*/
                 actionForm.setAttribute("action", urlremove);
                 actionForm.setAttribute("method", "post");
-                swal("삭제되었습니다");
-                actionForm.submit();
+                swal("삭제되었습니다").then((confirm)=>{
+                    if(confirm) {
+                        actionForm.submit();
+                    }
+                });
             }
+
+            /*[+ 
+                var modifyUrl = [[@{/manage/gallery/modify}]];
+            +]*/
 
             var modifyBtn = document.querySelector("#modifyBtn");
             modifyBtn.onclick = function () {
-                /*[+ var modifyUrl = [[@{/manage/gallery/modify}]] +]*/
                 actionForm.setAttribute("action", modifyUrl);
                 actionForm.setAttribute("method", "post");
-                swal("수정되었습니다");
-                actionForm.submit();
+                swal("수정되었습니다").then((confirm)=>{
+                    if(confirm) {
+                        actionForm.submit();
+                    }
+                });
             }
+
+            
+            /*[+ 
+                var listUrl = [[@{/manage/gallery/list}]];
+            +]*/
 
             var listBtn = document.querySelector("#listBtn");
             listBtn.onclick = function () {
+<<<<<<< HEAD
                 /*[+ var listUrl = 
                     [[@{/manage/gallery/list}]]
                 +]*/
+=======
+>>>>>>> gallery_gm
                 location.href = listUrl;
             }
+         
 
         </script>
     </th:block>

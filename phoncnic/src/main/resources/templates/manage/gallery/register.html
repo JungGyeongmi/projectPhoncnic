@@ -8,6 +8,7 @@
         margin: 0 auto;
         font-family: 'GmarketSansLight';
     }
+
     .containerBox h3 {
         padding: 60px 0 20px 0;
     }
@@ -35,14 +36,15 @@
         width: 49%;
     }
 
-  .btn-items > .my:nth-child(1){
-      width: 100%;
-  }
+    .btn-items > .my:nth-child(1){
+        width: 100%;
+    }
 
-  .my.btn:nth-child(2){
-       width: 50%;
-  }
+    .my.btn:nth-child(2){
+        width: 50%;
+    }
 
+<<<<<<< HEAD
   .my.btn:hover,
   .my2.btn:hover {
     background-color: #DBE9B7;
@@ -56,6 +58,13 @@
         height: 150px;
     }
    
+=======
+    .my.btn:hover,
+    .my2.btn:hover {
+        background-color: #DBE9B7;
+    }
+    
+>>>>>>> gallery_gm
 </style>
 
 <th:block th:replace="~{layout/basic :: setContent(~{::content})}">
@@ -66,7 +75,7 @@
                     <img th:src="@{/icon/vertical-line.png}" style="width:30px;" alt="">작품 등록
                 </h3>
 
-                <form th:action="@{/manage/gallery/register}" th:method="POST" id="frm">
+                <form th:action="@{/manage/gallery/register}" method="POST" id="frm">
                     <input type="hidden" name="id" th:value="${authDTO.id}"><br>
                     <label class="form-label">작가명</label>
                     <input type="text" name="artistname" th:value="${authDTO.nickname}" class="form-control"
@@ -90,7 +99,11 @@
                 <!-- 여기서 input 으로 전달해주는 값을 img 아래로 내리니까 전달자체가 되지 않았음 -->
                 <label class="form-label">작품 업로드 ( 1장만 가능 )</label>
                 <div class="custom-file">
+<<<<<<< HEAD
                     <input type="file" class="custom-file-input files form-control" id="fileInput" >
+=======
+                    <input type="file" class="custom-file-input files form-control" id="fileInput" accept="image/jpeg,png" required>
+>>>>>>> gallery_gm
                     <label data-browse="Browse"></label>
                 </div>
                 <div class="img-warn">* 작품 등록 후 작품 이미지는 수정 할 수 없습니다. 수정을 원할 시 삭제 후 재업로드 해야하오니 &nbsp&nbsp 신중히 올려주시길 바랍니다.</div>
@@ -155,6 +168,7 @@
                     }
                     // 파일 이름으로 유효성 검사
                     if (regex.test(fileName.substring(fileName.lastIndexOf(".")))) {
+                        
                         swal("jpg 형태의 파일을 추가해주세요");
                         return false;
                     }
@@ -177,25 +191,31 @@
                     var files = inputFile[0].files;
                     var appended = false;
 
+                    if (files.length > 1 || $(".backgroundshowResult ul li").length != 0) {
+                         swal({
+                            title : "알림", 
+                            text:"갤러리 사진은 1장만 추가 가능합니다",
+                            type: "warning",
+                            button: false,
+                        }); 
+                         return; 
+                        }
                     for (let i = 0; i < files.length; i++) {
                         if (!checkExtension(files[i].name, files[i].size)) {
                             return false;
                         }
-                        console.log(files[i]);
                         formData.append("uploadFiles", files[i]);
                         appended = true;
                     }
 
                     if (!appended) { return; }
 
-                    // 테스트용 콘솔
-                    // for (var value of formData.values()) console.log("formData >> " + value);
 
                     /*[+
                         var urlUpload = [[@{/uploadAjax/}]];
-                     +]*/
+                    +]*/
 
-                    // 파일 업로드를 위한 ajax
+                   
                     $.ajax({
                         url: urlUpload,
                         processData: false,

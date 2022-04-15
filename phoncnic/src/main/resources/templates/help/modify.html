@@ -40,6 +40,7 @@
             <input type="hidden" name="type" th:value="${pageRequestDTO.type}">
             <input type="hidden" name="keyword" th:value="${pageRequestDTO.keyword}">
             <input type="hidden" name="qno" th:value="${dto.qno}">
+<<<<<<< HEAD
             <div class="py-3">
                 <label class="form-label">문의 종류</label> <br>
                 <input  class="form-control" type="text" name="qtype" th:value="${dto.qtype}" readonly>
@@ -47,6 +48,15 @@
             <div class="py-3">
                 <label class="form-label">작성자</label> <br>
                 <input  class="form-control" type="text" name="writeremail" th:value="${dto.writeremail}" readonly>
+=======
+            <div>
+                <label>문의 종류</label> <br>
+                <input type="text" name="qtype" th:value="${dto.qtype}" readonly>
+            </div>
+            <div>
+                <label>작성자</label> <br>
+                <input type="text" name="writeremail" th:value="${dto.writeremail}" readonly>
+>>>>>>> gallery_gm
             </div>
             <div class="py-3">
                 <label class="form-label">제목</label> <br>
@@ -56,10 +66,17 @@
                 <label class="form-label">내용</label> <br>
                 <input  class="form-control" type="text" name="content" th:value="${dto.content}">
             </div>
+<<<<<<< HEAD
             <div class="BtnItems py-3">
                 <button  class="btn my" type="button" id="modifyBtn">수정</button>
                 <button  class="btn my" type="button" id="removeBtn">삭제</button>
                 <a th:href="@{/help/list(page=${pageRequestDTO.page})}"><button  class="btn my" type="button">목록</button></a>
+=======
+            <div>
+                <button type="button" id="modifyBtn">수정</button>
+                <button type="button" id="removeBtn">삭제</button>
+                <a th:href="@{/help/list(page=${pageRequestDTO.page})}"><button type="button">목록</button></a>
+>>>>>>> gallery_gm
             </div>
         </form>
     </div>

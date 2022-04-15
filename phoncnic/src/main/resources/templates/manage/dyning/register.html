@@ -273,9 +273,9 @@ input[type=radio]:checked + label {
           var fileName = $(this).val().split("/").pop();
 
           // 테스트용 콘솔
-          console.log("fileName >> " + fileName);
-          console.log("확장자 인덱스 >> " + fileName.lastIndexOf("."));
-          console.log("확장자 >> " + fileName.substring(fileName.lastIndexOf(".") + 1));
+          // console.log("fileName >> " + fileName);
+          // console.log("확장자 인덱스 >> " + fileName.lastIndexOf("."));
+          // console.log("확장자 >> " + fileName.substring(fileName.lastIndexOf(".") + 1));
 
           // 해당 클래스에 selected라는 클래스를 추가함
           $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
