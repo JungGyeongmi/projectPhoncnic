@@ -68,19 +68,12 @@
           <img th:src="@{/icon/vertical-line.png}" style="width:30px;" alt="">작가 신청
         </h3>
 
-        <form th:action="@{/reception/artist/submit}" th:method="POST" id="frm">
+        <form th:action="@{/reception/register}" th:method="POST" id="frm">
+          <input type="hidden" name="applicationtype" th:value="false"><br>
           <input type="hidden" name="id" th:value="${authDTO?.id}"><br>
           <label class="form-label">필명</label>
           <input type="text" name="artistname" th:value="${authDTO?.nickname}" class="form-control" readonly>
           <div class="img-warn">* 필명(닉네임)은 마이페이지에서 언제나 변경 가능합니다</div>
-          <br>
-
-          <label class="form-label">선호 장르</label>
-          <select name="imagetype" id="imagetype" class="form-select">
-            <option value="" disabled selected>선택하세요</option>
-            <option value="1">그림전</option>
-            <option value="0">사진전</option>
-          </select>
           <br>
           <label for="content" class="form-label">한마디</label><br>
           <input type="text" name="content" class="form-control"><br>
@@ -101,8 +94,8 @@
             swal("선호 장르를 선택해주세요");
             return;
           }
-          // $("#frm").submit();
-          console.log($("#frm").serialize());
+          $("#frm").submit();
+          // console.log($("#frm").serialize());
         });
       });
     </script>
