@@ -8,7 +8,7 @@
                     .md-serach-result {
                         padding: 0 !important;
                     }
-                
+
                     .search-result-Item {
                         cursor: pointer;
                         list-style: none;
@@ -16,15 +16,15 @@
                         padding-top: 20px;
                         padding-bottom: 20px;
                     }
-                
+
                     .search-result-Item:hover {
                         background-color: #DBE9B7;
                     }
-                
+
                     #search-result-div {
                         padding: 0 !important;
                     }
-                
+
                     hr {
                         margin: 0;
                     }
@@ -174,37 +174,49 @@
                 width: 150px;
                 height: 150px;
             }
+
+            .ullist {
+                padding-left: 150px;
+                padding-right: 150px;
+            }
         </style>
 
-        <!-- <h3>cafe</h3> -->
-        <div class="wrap">
-            <ul class="dyning-list-ul">
-                <li id="list1" th:each="dto : ${result}" th:if="${dtoStat.count} <= ${dtoStat.size}/2 + 0.5">
-                    <div th:class="@{/dyning/details(dno=${dto.dno},id=${id}) }">
-                        <img class="dyningimg" th:src="${dto.roofthumbnail}" th:id="${dtoStat.count}">
-                    </div>
-                    <div class="dyningname">
-                        [[${dto.dyningname}]]
-                    </div>
-                </li>
+        <input type="hidden" th:value="${result.page}" id="listpage">
+        <input type="hidden" th:value="${result.totalPage}" id="totalpage">
+        <div class="wrap" id="wrap">
+            <ul class="ullist">
+                <th:block th:each="dto, index : ${result.dtoList}" th:if="${index.count}%2 !=0">
+                    <li id="list1">
+                        <div th:class="@{/dyning/details(dno=${dto.dno},id=${id}) }">
+                            <img class="dyningimg" th:src="${dto.getRoofthumbnail}" th:id="${index.count}">
+                        </div>
+                        <!-- [[${dto.getRoofthumbnail}]] -->
+                        <div class="dyningname">
+                            [[${dto.getDyningname}]]
+                        </div>
+                    </li>
+                </th:block>
             </ul>
             <div th:each="sdto : ${setDTO}" id="char">
-                <img type="hidden"  id ="charimg" class="look setlook" th:src="${sdto.setpath}" alt="">
+                <img type="hidden" id="charimg" class="look setlook" th:src="${sdto.setpath}" alt="">
                 <div th:text="${nickname}" class="nickname" th:if="${nickname}!=''">[[${nickname}]]</div>
-                <input type="text" name="chartop"  th:value="${chartop}" style="opacity: 0;">
-                <input type="text" name="charleft"  th:value="${charleft}" style="opacity: 0;">
+                <input type="text" name="chartop" th:value="${chartop}" style="opacity: 0;">
+                <input type="text" name="charleft" th:value="${charleft}" style="opacity: 0;">
             </div>
-            <ul class="dyning-list-ul">
-                <li id="list2" th:each="dto : ${result}" th:if="${dtoStat.count} > ${dtoStat.size}/2 + 0.5">
-                    <div th:class="@{/dyning/details(dno=${dto.dno},id=${id}) }">
-                        <img class="dyningimg" th:src="${dto.roofthumbnail}" th:id="${dtoStat.count}">
-                    </div>
-                    <div class="dyningname">
-                        [[${dto.dyningname}]]
-                    </div>
-                </li>
+            <ul class="ullist">
+                <th:block th:each="dto, index : ${result.dtoList}" th:if="${index.count}%2 == 0">
+                    <li id="list2">
+                        <div th:class="@{/dyning/details(dno=${dto.dno},id=${id}) }">
+                            <img class="dyningimg" th:src="${dto.getRoofthumbnail}" th:id="${index.count}">
+                        </div>
+                        <div class="dyningname">
+                            [[${dto.getDyningname}]]
+                        </div>
+                    </li>
+                </th:block>
             </ul>
         </div>
+
         <style>
             .setlook {
                 position: relative;
@@ -216,7 +228,7 @@
                 position: relative;
                 width: 70px;
                 height: 98px;
-                right: 0px; 
+                right: 0px;
             }
 
         </style>
@@ -225,7 +237,7 @@
 
             $(document).ready(function(e){
                 if($("input[name='chartop']").val()!=""){
-                    
+
                     var top =  $("input[name='chartop']").val();
                     var left =  $("input[name='charleft']").val();
 
@@ -250,6 +262,13 @@
                 document.addEventListener("keydown", function (e) {
                     let char = document.getElementById("char");
                     let charimg = document.getElementById("char");
+                    var wrapheight = document.getElementById("wrap").clientHeight;
+                    var top = wrapheight / 2;
+
+                    var chartop = char.offsetTop;
+                    var charleft = char.offsetLeft;
+                    $("input[name='chartop']").val(chartop);
+                    $("input[name='charleft']").val(charleft);
 
                     let key = e.keyCode;
                     let y = parseInt(char.style.top || 0, 10);
@@ -265,6 +284,40 @@
                     }
                     if (key === 40 /* BOTTOM */) {
                         char.style.top = y + 20 + "px";
+                    }
+
+                    // →방향키
+                    if (key === 39) {
+                        var imgLength = $(".dyningimg").length;
+                        var screenWidth = window.screen.width;
+                        var screenHeight = window.screen.availHeight;
+                        var listpage = Number(document.querySelector("#listpage").value) + 1;
+
+                        if (listpage - 1 == totalpage) {
+                            return;
+                        }
+                        if (charleft > screenWidth - 200) {
+                            location.replace(listlocation + listpage + "&top=" + top + "&left=" + 40);
+                        };
+
+                    }
+
+                    // ←방향키
+                    if (key === 37) {
+                        var imgLength = $(".dyningimg").length;
+                        var screenWidth = window.screen.width;
+                        var screenHeight = window.screen.availHeight;
+                        var left = screenWidth - 100;
+
+                        var listpage = Number(document.querySelector("#listpage").value) - 1;
+
+                        if (listpage >= 1) {
+                            if (charleft < 100) {
+                                location.replace(listlocation + listpage + "&top=" + top + "&left=" + left);
+                            } else {
+                                return;
+                            }
+                        }
                     }
                 });
 
@@ -282,11 +335,11 @@
 
 
                         for (i = 1; i <= imgLength; i++) {
-                            var targetTop = $("#" + i).offset().top;
-                            var targetLeft = $("#" + i).offset().left;
+                            // 절대 좌표
+                            var targetTop = document.getElementById(i).offsetTop;
+                            var targetLeft = document.getElementById(i).offsetLeft;
                             var targetHref = $("#" + i).parent().attr('class');
-                            // console.log("캐릭터좌표"+chartop,charleft);
-                            console.log("타겟좌표" + targetTop, targetLeft, targetHref);
+                            console.log("타겟좌표: " + targetTop, targetLeft, targetHref);
 
                             if (targetTop - 20 < chartop && chartop < targetTop + 100 && targetLeft - 30 < charleft && charleft < targetLeft + 100) {
                                 location.href = targetHref + "&chartop=" + chartop + "&charleft=" + charleft;

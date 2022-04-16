@@ -37,26 +37,34 @@ public class DyningController {
 
     // 카페 거리 페이지
     @GetMapping("/cafe/list")
-    public void cafeList(Model model,@AuthenticationPrincipal AuthMemberDTO dto, PageRequestDTO pageRequestDTO) {
+    public void cafeList(@RequestParam("top") Long chartop, @RequestParam("left") Long charleft,
+            Model model, @AuthenticationPrincipal AuthMemberDTO dto, PageRequestDTO pageRequestDTO) {
+
+        if (chartop != null && charleft != null) {
+            log.info("top" + chartop);
+            log.info("left" + charleft);
+            model.addAttribute("chartop", chartop);
+            model.addAttribute("charleft", charleft);
+        }
+
         log.info("cafe list.................");
         model.addAttribute("result", dyningService.getCafePage(pageRequestDTO));
-       
+
         try {
-            model.addAttribute("id",dto.getId());
-            model.addAttribute("nickname",memberService.getNickname(dto.getId()));
+            model.addAttribute("id", dto.getId());
+            model.addAttribute("nickname", memberService.getNickname(dto.getId()));
             model.addAttribute("setDTO", characterLookService.getCharacterSet(dto.getId()));
         } catch (NullPointerException e) {
-            model.addAttribute("id","");
-            model.addAttribute("nickname","");
+            model.addAttribute("id", "");
+            model.addAttribute("nickname", "");
             model.addAttribute("setDTO", characterLookService.getCharacterSet("test1@gmail.com"));
         }
-   
 
     }
 
     @GetMapping("/restaurant/list")
-    public void restaurant(@RequestParam("top") Long chartop, @RequestParam("left")Long charleft, 
-    Model model,@AuthenticationPrincipal AuthMemberDTO dto, PageRequestDTO pageRequestDTO) {
+    public void restaurant(@RequestParam("top") Long chartop, @RequestParam("left") Long charleft,
+            Model model, @AuthenticationPrincipal AuthMemberDTO dto, PageRequestDTO pageRequestDTO) {
 
         if (chartop != null && charleft != null) {
             log.info("top" + chartop);
@@ -67,15 +75,14 @@ public class DyningController {
 
         log.info("restaurant list.................");
         model.addAttribute("result", dyningService.getRestaurantPage(pageRequestDTO));
-        
 
-        if(dto!=null){
-            model.addAttribute("id",dto.getId());
-            model.addAttribute("nickname",memberService.getNickname(dto.getId()));
+        if (dto != null) {
+            model.addAttribute("id", dto.getId());
+            model.addAttribute("nickname", memberService.getNickname(dto.getId()));
             model.addAttribute("setDTO", characterLookService.getCharacterSet(dto.getId()));
-        }else{
-            model.addAttribute("id","");
-            model.addAttribute("nickname","");
+        } else {
+            model.addAttribute("id", "");
+            model.addAttribute("nickname", "");
             model.addAttribute("setDTO", characterLookService.getCharacterSet("test1@gmail.com"));
         }
 
@@ -87,11 +94,11 @@ public class DyningController {
 
         log.info("Details.................");
         if (dno != 0) {
-	        model.addAttribute("emojiInfo", emojiInfoService.getEmojiInfoList());
+            model.addAttribute("emojiInfo", emojiInfoService.getEmojiInfoList());
             DyningDTO dyningDTO = dyningService.getDyningDetails(dno);
             model.addAttribute("result", dyningService.getDyningDetails(dno));
             model.addAttribute("imageresult", dyningService.getDyningDetails(dno).getDyningImageDTOList());
-            if(dto!=null){
+            if (dto != null) {
                 model.addAttribute("id", dto.getId());
                 try {
                     model.addAttribute("fno", followService.getFno(dto.getId(), dyningDTO.getDyningname()));
@@ -100,18 +107,18 @@ public class DyningController {
                 }
                 try {
                     model.addAttribute("eno", emojiService.HaveEmoji(dto.getId(), dno).getEno());
-                    model.addAttribute("emojitype", emojiService.HaveEmoji(dto.getId(), dno).getEmojiInfo().getEmojitype());
+                    model.addAttribute("emojitype",
+                            emojiService.HaveEmoji(dto.getId(), dno).getEmojiInfo().getEmojitype());
                 } catch (NullPointerException e) {
                     model.addAttribute("eno", "");
                     model.addAttribute("emojitype", "");
                 }
 
-            } else{
+            } else {
                 model.addAttribute("eno", "");
                 model.addAttribute("emojitype", "");
                 model.addAttribute("id", "");
                 model.addAttribute("fno", "");
-
 
             }
             model.addAttribute("emojilist", emojiService.dyningEmojiList(dno));
@@ -129,26 +136,22 @@ public class DyningController {
         }
     }
 
-
-
-
     @GetMapping("/movingtest")
-    public String movingtest(Model model,@AuthenticationPrincipal AuthMemberDTO dto) {
-        if(dto!=null){
+    public String movingtest(Model model, @AuthenticationPrincipal AuthMemberDTO dto) {
+        if (dto != null) {
             model.addAttribute("setDTO", characterLookService.getCharacterSet(dto.getId()));
-        }else{
+        } else {
             model.addAttribute("setDTO", characterLookService.getCharacterSet("user10@icloud.com"));
         }
-
 
         return "/dyning/movingtest";
     }
 
     @GetMapping("/movingtest2")
-    public String movingtest2(Model model,@AuthenticationPrincipal AuthMemberDTO dto) {
-        if(dto!=null){
+    public String movingtest2(Model model, @AuthenticationPrincipal AuthMemberDTO dto) {
+        if (dto != null) {
             model.addAttribute("setDTO", characterLookService.getCharacterSet(dto.getId()));
-        }else{
+        } else {
             model.addAttribute("setDTO", characterLookService.getCharacterSet("user10@icloud.com"));
         }
         return "/dyning/movingtest2";
@@ -158,10 +161,5 @@ public class DyningController {
     public String wstest() {
         return "dyning/wstest";
     }
-
     
-
-
-
-
 }

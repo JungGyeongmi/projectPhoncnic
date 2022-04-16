@@ -8,7 +8,7 @@
                     .md-serach-result {
                         padding: 0 !important;
                     }
-                
+
                     .search-result-Item {
                         cursor: pointer;
                         list-style: none;
@@ -16,15 +16,15 @@
                         padding-top: 20px;
                         padding-bottom: 20px;
                     }
-                
+
                     .search-result-Item:hover {
                         background-color: #DBE9B7;
                     }
-                
+
                     #search-result-div {
                         padding: 0 !important;
                     }
-                
+
                     hr {
                         margin: 0;
                     }
@@ -227,33 +227,30 @@
                 position: relative;
                 width: 70px;
                 height: 98px;
-                right: 0px; 
+                right: 0px;
             }
 
         </style>
 
         <script>
 
-            $(document).ready(function(e){
-                if($("input[name='chartop']").val()!=""){
-                    
-                    var top =  $("input[name='chartop']").val();
-                    var left =  $("input[name='charleft']").val();
+            $(document).ready(function (e) {
+                if ($("input[name='chartop']").val() != "") {
 
-                    $("#char").offset({top : top });
-                    $("#char").offset({left : left });
+                    var top = $("input[name='chartop']").val();
+                    var left = $("input[name='charleft']").val();
+                    $("#char").offset({ top: top });
+                    $("#char").offset({ left: left });
 
                 }
             });
 
             $(".dyningimg").on("click", function (e) {
                 var src = $(this).parent().attr("class");
-                var src = $(this).parent().attr("id");
                 var top = e.target.offsetTop;
                 var left = e.target.offsetLeft;
                 console.log(src);
                 console.log(top, left);
-                // location.href=src;
             });
 
             (function () {
@@ -263,11 +260,9 @@
                     let charimg = document.getElementById("charimg");
                     var wrapheight = document.getElementById("wrap").clientHeight;
                     var top = wrapheight / 2;
-                    console.log(wrapheight);
 
                     var chartop = char.offsetTop;
                     var charleft = char.offsetLeft;
-                    // console.log(charleft);
                     $("input[name='chartop']").val(chartop);
                     $("input[name='charleft']").val(charleft);
 
@@ -287,17 +282,9 @@
                         char.style.top = y + 20 + "px";
                     }
 
-                    // if(key === 19) {
-                    //     if(charleft < 1300 & charleft > 1200) {
-                    //         // $("#wrap").animate({ left: 673, behavior: 'smooth' });
-                    //         window.scrollTo({left:673, behavior:'smooth'});
-                    //     }
-                    // }
-
-
+                    // →방향키
                     if (key === 39) {
                         var imgLength = $(".dyningimg").length;
-                        console.log("캐릭터좌표" + chartop, charleft);
                         var screenWidth = window.screen.width;
                         var screenHeight = window.screen.availHeight;
                         var listpage = Number(document.querySelector("#listpage").value) + 1;
@@ -306,32 +293,20 @@
                             return;
                         }
                         if (charleft > screenWidth - 200) {
+                            $("body div").animate({
+                                "opacity": "0",
+                                "top": "10px"
+                            }, 500, function () {
                             location.replace(listlocation + listpage + "&top=" + top + "&left=" + 40 );
+                            });
                         };
 
                     }
 
-                    // if (key === 39) {
-                    //     var imgLength = $(".dyningimg").length;
-                    //     console.log("캐릭터좌표" + chartop, charleft);
-                    //     var screenWidth = window.screen.width;
-                    //     var listpage = Number(document.querySelector("#listpage").value) + 1;
-
-                    //     if (listpage - 1 == totalpage) {
-                    //         return;
-                    //     }
-                    //     if (charleft > screenWidth3 - 200) {
-                    //         // alert(listpage);
-                    //         location.replace(listlocation + listpage + "&top=" + top + "&left=" + left);
-                    //         // alert(listlocation + listpage +"&top="+top+"&left="+left);
-                    //     };
-
-                    // }
-
+                    // ←방향키
                     if (key === 37) {
                         var imgLength = $(".dyningimg").length;
-                        console.log("캐릭터좌표" + chartop, charleft);
-                        var screenWidth = window.screen.width; 
+                        var screenWidth = window.screen.width;
                         var screenHeight = window.screen.availHeight;
                         var left = screenWidth - 100;
 
@@ -343,13 +318,9 @@
                             } else {
                                 return;
                             }
-
                         }
-
                     }
-
                 });
-
 
                 document.addEventListener("keyup", function (e) {
                     var chartop = char.offsetTop;
@@ -364,11 +335,12 @@
 
 
                         for (i = 1; i <= imgLength; i++) {
-                            var targetTop = $("#" + i).offset().top;
-                            var targetLeft = $("#" + i).offset().left;
+                            console.log(document.getElementById(i));
+                            // 절대 좌표
+                            var targetTop = document.getElementById(i).offsetTop;
+                            var targetLeft = document.getElementById(i).offsetLeft;
                             var targetHref = $("#" + i).parent().attr('class');
-                            // console.log("캐릭터좌표"+chartop,charleft);
-                            console.log("타겟좌표" + targetTop, targetLeft, targetHref);
+                            console.log("타겟좌표: " + targetTop, targetLeft, targetHref);
 
                             if (targetTop - 20 < chartop && chartop < targetTop + 100 && targetLeft - 30 < charleft && charleft < targetLeft + 100) {
                                 location.href = targetHref + "&chartop=" + chartop + "&charleft=" + charleft;
