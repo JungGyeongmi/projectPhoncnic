@@ -75,20 +75,6 @@ public class DyningServiceImpl implements DyningService {
   }
 
   @Override
-  public List<DyningDTO> getCafeStreet() {
-    List<Dyning> result = dyningRepository.getCafeStreetList();
-    List<DyningDTO> DyningList = result.stream().map(entity -> roofEntityToDTO(entity)).collect(Collectors.toList());
-    return DyningList;
-  }
-
-  @Override
-  public List<DyningDTO> getRestaurantStreet() {
-    List<Dyning> result = dyningRepository.getRestaurantStreetList();
-    List<DyningDTO> DyningList = result.stream().map(entity -> roofEntityToDTO(entity)).collect(Collectors.toList());
-    return DyningList;
-  }
-
-  @Override
   public List<DyningDTO> getMyDyningList(String id) {
     List<Dyning> result = dyningRepository.findByMemberId(id);
     List<DyningDTO> DyningList = result.stream().map(entity -> roofEntityToDTO(entity)).collect(Collectors.toList());
@@ -165,20 +151,28 @@ public class DyningServiceImpl implements DyningService {
   }
 
   @Override
-  public PageResultDTO<DyningDTO, Dyning> getCafePage(PageRequestDTO PageRequestDTO) {
-    Pageable pageable = PageRequestDTO.getPageable(Sort.by("dno"));
-    Page<Dyning> result = dyningRepository.getCafeStreet(pageable);
-    Function<Dyning, DyningDTO> fn = (entity -> roofEntityToDTO(entity));
-    return new PageResultDTO<>(result, fn);
-  }
-
-  @Override
   public PageResultDTO<DyningDTO, Object[]> getRestaurantPage(PageRequestDTO PageRequestDTO) {
     log.info("impl .. getRestaurantPage...");
     
     Pageable pageable = PageRequestDTO.getPageable(Sort.by("dno"));
     Page<Object[]> page = dyningRepository.getRestaurantStreet(pageable);
     
+    Function<Object[], DyningDTO> fn = new Function<Object[], DyningDTO>() {
+      @Override
+      public DyningDTO apply(Object[] en) {
+        return roofEntityToDTO((Dyning) en[0]);
+      }
+    };
+    return new PageResultDTO<>(page, fn);
+  }
+
+  @Override
+  public PageResultDTO<DyningDTO, Object[]> getCafePage(PageRequestDTO PageRequestDTO) {
+    log.info("impl .. getRestaurantPage...");
+
+    Pageable pageable = PageRequestDTO.getPageable(Sort.by("dno"));
+    Page<Object[]> page = dyningRepository.getCafeStreet(pageable);
+
     Function<Object[], DyningDTO> fn = new Function<Object[], DyningDTO>() {
       @Override
       public DyningDTO apply(Object[] en) {

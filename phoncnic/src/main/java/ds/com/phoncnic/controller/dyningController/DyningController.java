@@ -53,9 +53,19 @@ public class DyningController {
     }
 
     @GetMapping("/restaurant/list")
-    public void restaurant(Model model,@AuthenticationPrincipal AuthMemberDTO dto, PageRequestDTO pageRequestDTO) {
+    public void restaurant(@RequestParam("top") Long chartop, @RequestParam("left")Long charleft, 
+    Model model,@AuthenticationPrincipal AuthMemberDTO dto, PageRequestDTO pageRequestDTO) {
+
+        if (chartop != null && charleft != null) {
+            log.info("top" + chartop);
+            log.info("left" + charleft);
+            model.addAttribute("chartop", chartop);
+            model.addAttribute("charleft", charleft);
+        }
+
         log.info("restaurant list.................");
         model.addAttribute("result", dyningService.getRestaurantPage(pageRequestDTO));
+        
 
         if(dto!=null){
             model.addAttribute("id",dto.getId());
@@ -68,7 +78,6 @@ public class DyningController {
         }
 
     }
-
 
     @GetMapping("/details")
     public void details(@RequestParam("dno") Long dno,@AuthenticationPrincipal AuthMemberDTO dto, Model model,

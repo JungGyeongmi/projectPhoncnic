@@ -118,16 +118,9 @@ public interface DyningService {
         return dyningDTO;
     }
 
-    // List<DyningDTO> getStreet();
-    // 카페 거리
-    List<DyningDTO> getCafeStreet();
-
-    // 레스토랑 거리
-    List<DyningDTO> getRestaurantStreet();
-
     // Paging 처리
     PageResultDTO<DyningDTO, Object[]> getRestaurantPage(PageRequestDTO PageRequestDTO);
-    PageResultDTO<DyningDTO, Dyning> getCafePage(PageRequestDTO PageRequestDTO);
+    PageResultDTO<DyningDTO, Object[]> getCafePage(PageRequestDTO PageRequestDTO);
 
 
     List<DyningDTO> getMyDyningList(String id);
