@@ -23,7 +23,7 @@ public class HomeController {
     @GetMapping({ "", "/" })
     public String home(@AuthenticationPrincipal AuthMemberDTO dto, Model model) {
         if(dto != null) {
-            log.info("dto get id "+dto.getId());
+            log.info("dto get id " + dto.getId());
             model.addAttribute("loginuserId", dto.getId());
             model.addAttribute("avatar", characterLookService.getCharacterSet(dto.getId()));
         } else {
@@ -37,6 +37,11 @@ public class HomeController {
         log.info("index..");
     }
 
+    @GetMapping("/reception")
+    public String receptionDesk() {
+        log.info("reception..");
+        return "/application/reception";
+    }
 
     @GetMapping("/crossroad")
     public String crossRoad() {
