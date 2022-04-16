@@ -6,14 +6,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+
     <script src="https://kit.fontawesome.com/f145f2fd92.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+     <!-- boot strap css -->
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+     <link rel="stylesheet" th:href="@{/css/basic.css}">
     <style>
         body{
             padding: 0;
             margin: 0;
             box-sizing: border-box;
-            /* background: red; */
         }
 
         .container {
@@ -23,11 +27,11 @@
         
         .card {
             border: solid 1px #FDFDF6;
-            border-radius: 3rem;
+            border-radius: 1rem;
 
             min-width: max-content;
             max-width: max-content;
-            padding: 2rem 2rem;
+            padding: 2rem;
 
             position: fixed;
             top:50%;
@@ -38,9 +42,11 @@
             align-items: center;
             justify-items: center;
 
-            background-color: beige;
+            background-color: #FDFDF6;
 
             box-shadow: 5px 5px 0px 0px grey;
+
+            grid-template-rows: 1fr 3fr 0.5fr;
         }
 
         .login-btn {
@@ -65,46 +71,55 @@
         .slider::-webkit-slider-thumb {
             -webkit-appearance: none;
             
-            height: 3rem;
-            width: 3rem;
+            height: 5rem;
+            width: 5rem;
             
-            background-image: url("[[ @{/icon/flower.png} ]]");
+            background-image: url("[[ @{/icon/toycar.png} ]]");
             background-position: right;
             background-repeat: none;
-            background-size: 3rem;
+            background-size: 5rem;
+        }
+
+        .card-text ~ h5 {
+            text-align: center;
+        }
+
+        .card-img {
+            text-align: center;
+        }
+
+        .card-footer a {
+            text-decoration: none;
+            color: unset;
         }
 
     </style>
-
 </head>
 
 <body>
     <div class="container">
         <div class="card">
-            <div>
-                
-                <svg width="200" height="200" viewBox="0 0 24 24">
-                    <path d="M19 4v6.406l-3.753 3.741-6.463-6.462 3.7-3.685h6.516zm2-2h-12.388l1.497 1.5-4.171 4.167 9.291 9.291 4.161-4.193 1.61 1.623v-12.388zm-5 4c.552 0 1 .449 1 1s-.448 1-1 1-1-.449-1-1 .448-1 1-1zm0-1c-1.104 0-2 .896-2 2s.896 2 2 2 2-.896 2-2-.896-2-2-2zm6.708.292l-.708.708v3.097l2-2.065-1.292-1.74zm-12.675 9.294l-1.414 1.414h-2.619v2h-2v2h-2v-2.17l5.636-5.626-1.417-1.407-6.219 6.203v5h6v-2h2v-2h2l1.729-1.729-1.696-1.685z" />
-                </svg>
-            </div>
             <div class="card-title">
                 <h3>
                     로그인
                 </h3>
             </div>
             <div class="card-body">
-                <p class="card-text" style="display:inline-block;">
-                    밀어서 산책 시작하기
+                <div class="card-img">
+                   <img th:src=" @{/icon/picnic-table.png}" alt="" width="100rem" height="100rem">
+                </div>
+                <p class="card-text">
+                   <h5>밀어서 <b>산책</b> 시작</h5> 
                 </p>
-            </div>
-            <div class="card-footer">
                 <div class="silidecontainer">
                     <input type="range" min="0" max="10" value="0" step="1" class="slider" id="loginRange">
-                    <!-- <div id="test"></div> -->
                 </div>
-                <!-- <a th:href="@{/oauth2/authorization/google}">
-                    <button class="login-btn">GOOGLE</button>
-                </a> -->
+                <br>
+            </div>
+            <div class="card-footer">
+               <a th:href="@{/}"> 
+                    메인 돌아가기
+               </a>
             </div>
         </div>
 

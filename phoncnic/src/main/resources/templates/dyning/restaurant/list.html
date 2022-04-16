@@ -359,23 +359,26 @@
             }
 
             input[type="checkbox"] {
-                position: absolute;
-                opacity: 0;
-                cursor: pointer;
-                height: 80px;
-                width: 80px;
-                z-index: 100;
+               visibility: hidden;
             }
 
             .arrow-div {
-                background: #18191f;
-                color: #555;
+                margin: 0 3%;
+                
+                overflow: hidden;
+                text-overflow: clip;
+                
+                background: #DBE9B7;
+                color: whitesmoke;
+                
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                font-size: 46px;
+                
+                font-size: 3rem;
+                
                 cursor: pointer;
-                margin: 0 4px;
+                
                 border-radius: 20px;
                 box-shadow: -1px -1px 4px rgba(53, 255, 70, 0.05),
                     4px 4px 6px rgba(0, 0, 0, 0.2),
@@ -400,11 +403,15 @@
                 }
             }
 
+            #modalUserInfo {
+                background-color: #8e8e8e6b;
+            }
+
         </style>
         <!-- 모달창 -->
         <th:block  sec:authorize="isAuthenticated()"><span class="roleSpan" sec:authentication='principal.authorities' hidden></span></th:block>
         <div class="modal" tabindex="-1" id="modalUserInfo">
-            <div class="modal-dialog">
+            <div class="modal-dialog  modal-dialog-centered">
                 <div class="modal-content">
                     <div class="md-head">
                         <h5  sec:authorize="isAnonymous()" >폰크닉 더 재밌게 즐기는 방법</h5>
@@ -413,7 +420,7 @@
                         </span>
                         <!-- <button type="button" class="btn-close"  name="btn-close" th:onclick="closeUserInfoModal()"></button> -->
                     </div>
-                    <ul class="nav nav-tabs">
+                    <ul class="nav nav-tabs" sec:authorize="isAuthenticated()">
                         <li class="tab-nav-item " data-tab-section="indexSection">
                           <button name="mdlabel" class="nav-link  active show">민첩(목차)</button>
                         </li>
@@ -432,7 +439,7 @@
                             <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/main/companyinfo}">회사소개</a>
                         </div>
                     </div>
-                    <div class="tab-content">
+                    <div class="tab-content" sec:authorize="isAuthenticated()">
                         <div class="tab-setions" id="indexSection">
                             <div id="index" class="modal-body" sec:authorize="isAuthenticated()">
                                 <a class="list-group-item list-group-item-action list-group-item-light p-3"
@@ -486,7 +493,7 @@
                                 <li>들어가기</li>
                                 <li>
                                     <input name="arrow-box" type="checkbox" />
-                                    <div class="arrow-div">ENTER</div>
+                                    <div class="arrow-div"> ENTER </div>
                                 </li>
                             </ul>
                         </div>
@@ -534,7 +541,6 @@
                     }
                 });
 
-
                 switch ($(".roleSpan").text()) {
                     case "[ROLE_USER]" :
                         $("#userRoleSet").html("모험가");
@@ -553,14 +559,14 @@
             })
   
             $(document).on("keyup", function(e) {
-                // console.log($(".helpSection").closest("button"))
-                if(!$(".helpSection").children("button").hasClass("show")){
+                if(!$(".helpSection").children("button").hasClass("show") || e.which == 27) {
                     $("input[name=arrow-box]").each((i)=>{
                         $("input[name=arrow-box]").eq(i)[0].checked=false;
                     });
                     hideStatusModal();
                     return;
-                } 
+                }
+
                 $("input[name=arrow-box]").each((i)=>{
                     $("input[name=arrow-box]").eq(i)[0].checked=false;
                 });
@@ -581,9 +587,13 @@
             });
 
             var hideStatusModal = ()=>{
-                $("button[name=mdlabel]").eq(0).addClass("active");
-                $("button[name=mdlabel]").eq(1).removeClass("active");
-                $("button[name=mdlabel]").eq(2).removeClass("active");
+                $(".tab-setions").each((index, item)=>{
+                    item.setAttribute("hidden", true);
+                });
+                $(".tab-setions").eq(0).removeAttr("hidden");
+                $("button[name=mdlabel]").eq(0).addClass("active", "show");
+                $("button[name=mdlabel]").eq(1).removeClass("active", "show");
+                $("button[name=mdlabel]").eq(2).removeClass("active", "show");
                 charimgUserModal.hide();
             }
 
