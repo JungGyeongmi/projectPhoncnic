@@ -1,90 +1,141 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<style>
+    .containerBox {
+        max-width: 650px;
+        height: auto;
+        margin: 0 auto;
+        font-family: 'GmarketSansLight';
+    }
+
+    .containerBox h3 {
+        padding: 60px 0 20px 0;
+    }
+
+    input[name=content] {
+        height: 150px;
+    }
+
+    .btn-items {
+        text-align: center;
+        margin: 50px auto;
+    }
+
+    .my.btn {
+        width: 150px;
+        font-weight: bold;
+        font-size: 19px;
+        height: 46px;
+        background-color: #e9ecef;
+        border-radius: 13px;
+        margin-right: 15px;
+        
+    }
+
+    .my.btn:hover {
+        background-color: #DBE9B7;
+    }
+    .img span{
+        font-family:'Noto Sans KR', sans-serif !important; 
+        font-size: 16px;
+        color: gray;
+    }
+
+</style>
 <th:block th:replace="~{layout/basic :: setContent(~{::content})}">
     <th:block th:fragment="content">
-        <h1>전시회 상세페이지 예제</h1>
-        <form id="frm">
-            <table border="1">
-                <tr>
-                    <th>
-                        번호
-                    </th>
-                    <td>
-                        <input type="text" name="gno" th:value="${galleryDTO.gno}" readonly>
-                    </td>
-                </tr>
-                <tr>
-                    <th>
-                        아이디
-                    </th>
-                    <td>
-                        <input type="text" th:value="${galleryDTO.id}" name="id" readonly>
-                    </td>
-                </tr>
-                <tr>
-                    <th>제목</th>
-                    <td>
-                        <input name="title" type="text" th:value="${galleryDTO.title}">
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        <img th:src="|@{'/display'}?fileName=${galleryDTO.getImageURL()}|" alt="이미지를 불러올 수 없습니다">
-                    </td>
-                </tr>
-                <tr>
-                    <th>작품 설명</th>
-                    <td>
-                        <input name="content" type="text" th:value="${galleryDTO.content}">
-                    </td>
-                </tr>
-                <tr>
-                    <th>등록일</th>
-                    <td>
-                        [[${#temporals.format(galleryDTO.regdate,'yyyy/MM/dd')}]]
-                    </td>
-                </tr>
-                <tr>
-                    <th>수정일</th>
-                    <td>
-                        [[${#temporals.format(galleryDTO.moddate,'yyyy/MM/dd')}]]
-                    </td>
-                </tr>
-            </table>
-            <button type="button" id="modifyBtn">반영하기</button>
-            <button type="button" id="removeBtn">삭제하기</button>
-            <button type="button" id="listBtn">돌아가기</button>
-        </form>
+        <div class="containerBox">
+            <h3 style="font-family: 'GmarketSansMedium';">
+                <img th:src="@{/icon/vertical-line.png}" style="width:30px;" alt="">작품 수정
+            </h3>
 
+            <form id="frm">
+                <div class="py-3">
+                    <label for="" class="form-label">작품 번호</label>
+                    <input class="form-control" type="text" name="gno" th:value="${galleryDTO.gno}" readonly>
+                </div>
+                <div class="py-3">
+                    <label for="" class="form-label">아이디</label>
+                    <input class="form-control" type="text" th:value="${galleryDTO.id}" name="id" readonly>
+                </div>
+                <div class="py-3 img">
+                    <label for="" class="form-label">작품 이미지</label>
+                    <span>* 이미지는 수정 불가</span>
+                    <div>
+                        <img style="width: 100%;" th:src="|@{'/display'}?fileName=${galleryDTO.getImageURL()}|"
+                            alt="이미지를 불러올 수 없습니다">
+                    </div>
+                </div>
+                <div class="py-3">
+                    <label for="" class="form-label">작품명</label>
+                    <input class="form-control" name="title" type="text" th:value="${galleryDTO.title}">
+                </div>
+                <div class="py-3">
+                    <label for="" class="form-label">작품 설명</label>
+                    <input class="form-control" name="content" type="text" th:value="${galleryDTO.content}">
+                </div>
+                <div class="py-3">
+                    <label for="" class="form-label">등록일</label>
+                    <input type="text" class="form-control" readonly
+                        th:value="${#temporals.format(galleryDTO.regdate,'yyyy/MM/dd')}">
+                </div>
+                <div class="py-3">
+                    <label for="" class="form-label">수정일</label>
+                    <input type="text" class="form-control" readonly
+                        th:value="${#temporals.format(galleryDTO.moddate,'yyyy/MM/dd')}">
+                </div>
+                <div class="btn-items">
+                    <button type="button" id="modifyBtn" class="btn my">수정하기</button>
+                    <button type="button" id="removeBtn" class="btn my">삭제하기</button>
+                    <button type="button" id="listBtn" class="btn my">돌아가기</button>
+                </div>
+            </form>
+        </div>
 
         <script th:inline="javascript">
+            
             var actionForm = document.querySelector("#frm");
             var removeBtn = document.querySelector("#removeBtn");
 
+            /*[+ 
+                var urlremove = [[@{/manage/gallery/remove}]];
+            +]*/
+
             removeBtn.onclick = function () {
-                /*[+ var urlremove = [[@{/manage/gallery/remove}]] +]*/
                 actionForm.setAttribute("action", urlremove);
                 actionForm.setAttribute("method", "post");
-                swal("삭제되었습니다");
-                actionForm.submit();
+                swal("삭제되었습니다").then((confirm)=>{
+                    if(confirm) {
+                        actionForm.submit();
+                    }
+                });
             }
+
+            /*[+ 
+                var modifyUrl = [[@{/manage/gallery/modify}]];
+            +]*/
 
             var modifyBtn = document.querySelector("#modifyBtn");
             modifyBtn.onclick = function () {
-                /*[+ var modifyUrl = [[@{/manage/gallery/modify}]] +]*/
                 actionForm.setAttribute("action", modifyUrl);
                 actionForm.setAttribute("method", "post");
-                swal("수정되었습니다");
-                actionForm.submit();
+                swal("수정되었습니다").then((confirm)=>{
+                    if(confirm) {
+                        actionForm.submit();
+                    }
+                });
             }
+
+            
+            /*[+ 
+                var listUrl = [[@{/manage/gallery/list}]];
+            +]*/
 
             var listBtn = document.querySelector("#listBtn");
             listBtn.onclick = function () {
-                /*[+ var listUrl = 
-                    [[@{/manage/gallery/list)}]]
-                +]*/
                 location.href = listUrl;
             }
+         
 
         </script>
     </th:block>

@@ -27,6 +27,8 @@
     #searchBox {
         margin-top: 70px;
         margin-bottom: 30px;
+        width: 100%;
+
     }
 
     button {
@@ -55,7 +57,7 @@
     }
 
     .pagination {
-        margin-top: 70px;
+        margin: 50px auto 70px auto;
     }
 
     .my.col-3 {
@@ -149,20 +151,18 @@
                 }
             }
 
-            /*[+
-                var msg=[[${msg}]];
-                var id=[[${id}]];
+            /*[+ 
+                var msg = [[${msg}]]; 
+                var writeremail = [[${writeremail}]];
                 var readUrl = [[@{/help/read}]];
             +]*/
 
-            console.log(msg);
+            // console.log(msg);
 
 
-            if (msg != null && id != null) {
-                swal("성공!", "답변은 " + id + " 로 발송해드립니다.", "success");
-            } else if (msg != null && userid != null) {
-                swal("성공!", "답변은 " + userid + " 로 발송해드립니다.", "success");
-            }
+            if (msg != null && writeremail != null) {
+                swal("성공!", "답변은 " + writeremail + " 로 발송해드립니다.", "success");
+            } 
 
             /*[+ var msg2=[[${msg2}]]; +]*/
 
@@ -172,7 +172,7 @@
 
             //비밀번호 유효성검사
             const dto = document.querySelector(".dto");
-            dto.addEventListener("click", pwcheck, once);
+            dto.addEventListener("click", pwcheck,{ once : true});
 
             function pwcheck(qno, page) {
                 const inputPw = document.querySelector("#inputPw").value;

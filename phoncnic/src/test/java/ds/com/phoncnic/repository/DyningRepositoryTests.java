@@ -77,14 +77,14 @@ public class DyningRepositoryTests {
 
             for (int j = 0; j < Math.random() * 3; j++) {
                 DyningImage dyningImage = DyningImage.builder()
-                        .menuimagename(j + "menuimagename.jpg")
-                        .menuimageuuid(randomImageBasic[(int)Math.random()*2])
-                        .menuimagepath("2022\\04\\01")
-                        .backgroundname(j + "backgroundname.jpg")
-                        .backgrounduuid(randomImageBasic[(int)Math.random()*2])
-                        .backgroundpath("backgroundpath" + j)
-                        .dyning(dyning)
-                        .build();
+                    .menuimagename(j + "menuimagename.jpg")
+                    .menuimageuuid(randomImageBasic[(int)Math.random()*2])
+                    .menuimagepath("2022\\04\\01")
+                    .backgroundname(j + "backgroundname.jpg")
+                    .backgrounduuid(randomImageBasic[(int)Math.random()*2])
+                    .backgroundpath("backgroundpath" + j)
+                    .dyning(dyning)
+                .build();
 
                 dyningImageRepository.save(dyningImage);
             }

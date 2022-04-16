@@ -44,16 +44,17 @@ public class HelpController {
     }
 
     @PostMapping("/register")
-    public String RegisterPost(HelpDTO helpDTO, RedirectAttributes ra,@AuthenticationPrincipal AuthMemberDTO authMemberDTO) {
+    public String RegisterPost(HelpDTO helpDTO, RedirectAttributes ra) {
+        
         log.info("help resister.................:" + helpDTO);
-        Long qno = helpService.register(helpDTO);
+        log.info("writeremail:"+helpDTO.getWriteremail());
+       
+        Long qno = helpService.register(helpDTO); 
+        
         ra.addFlashAttribute("msg", qno);
-        try {
-         ra.addFlashAttribute("id", authMemberDTO.getId());
-        } catch (NullPointerException  e) {
-            ra.addFlashAttribute("userid", helpDTO.getWriteremail()); 
-            log.info("userid:"+helpDTO.getWriteremail());
-        }  return "redirect:/help/list";
+        ra.addFlashAttribute("writeremail", helpDTO.getWriteremail()); 
+       
+        return "redirect:/help/list";
     }
 
     @GetMapping({ "/read", "/modify" })

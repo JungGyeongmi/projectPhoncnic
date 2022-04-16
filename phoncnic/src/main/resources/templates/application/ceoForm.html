@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ko" xmls:th="http://www.thymeleaf.org">
+
+<style>
+    .containerBox {
+        max-width: 650px;
+        height: auto;
+        margin: 0 auto;
+        font-family: 'GmarketSansLight';
+    }
+    .containerBox h3 {
+        padding: 60px 0 20px 0;
+    }
+
+    .btn-items{
+        width: 100%;
+        padding: 10px 0 80px 0;
+    }
+    
+    .my.btn {
+        font-weight: bold;
+        font-size: 19px;
+        height: 46px;
+        background-color: #e9ecef;
+        border-radius: 13px; 
+        margin-bottom: 15px;
+    }
+
+    .my2.btn{
+        font-weight: bold;
+        font-size: 19px;
+        height: 46px;
+        background-color: #e9ecef;
+        border-radius: 13px; 
+        width: 49%;
+    }
+
+    .btn-items > .my:nth-child(1){
+        width: 100%;
+    }
+
+    .my.btn:nth-child(2){
+        width: 50%;
+    }
+
+    .my.btn:hover,
+    .my2.btn:hover {
+        background-color: #DBE9B7;
+    }
+
+    .img-warn{
+        font-family:'Noto Sans KR', sans-serif !important; 
+        font-size: 16px;
+        color: red;
+    }
+
+    input[name=content]{
+        height: 150px;
+    }
+   
+</style>
+
+<th:block th:replace="~{layout/basic :: setContent(~{::content})}">
+    <th:block th:fragment="content">
+        <div class="containerBox">
+            <div class="row">
+                <h3 style="font-family: 'GmarketSansMedium';">
+                    <img th:src="@{/icon/vertical-line.png}" style="width:30px;" alt="">사업자등록
+                </h3>
+
+                <form th:action="@{/reception/register}" th:method="POST" id="frm">
+                    <input type="hidden" name="applicationtype" th:value="true"><br>
+                    <label class="form-label">사업자아이디</label>
+                    <input type="text" name="applicant" th:value="${authDTO?.id}" class="form-control" readonly><br>
+                    
+                    <label for="dyningname" class="form-label">상호명</label><br>
+                    <input type="text" name="dyningname" class="form-control"><br>
+
+                    <label for="content" class="form-label">한마디</label><br>
+                    <input type="text" name="content" class="form-control"><br>
+                    
+                    <div class="box"></div>
+                </form>
+                <label class="form-label">사업자 증명서</label>
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input files form-control" id="fileInput" accept="image/jpeg,png" multiple>
+                </div>
+                <div class="img-warn">* 사업자 증명서는 한번 제출한 후 수정불가능합니다. <br> 수정을 원할 시 삭제 후 재업로드 해야하오니 신중히 올려주시길 바랍니다.</div>
+            </div>
+
+            <!-- upload된 이미지 파일을 보여주기 위한 list style 설정 -->
+            <style>
+                .uploadResult {
+                    width: 100%;
+                    background: #e9ecef;
+                    margin-top: 30px;
+                    border-radius: 5px;
+                }
+
+                .uploadResult ul {
+                    display: flex;
+                    flex-flow: row;
+                    justify-content: center;
+                    align-items: center;
+                    overflow: auto;
+                }
+
+                .uploadResult ul li {
+                    list-style: none;
+                    padding: 10px;
+                }
+
+                .uploadResult ul li img {
+                    width: 100px;
+                }
+                .uploadResult button{
+                    border: none;
+                    background: none;
+                }
+            </style>
+
+            <!-- 업로드된 사진이 보여질 div안의 ul태그 -->
+            <div class="uploadResult">
+                <ul>
+
+                </ul>
+            </div>
+
+            <div class="btn-items">
+                <button type="button" id="register" class="btn my">등록하기</button>
+            </div>
+        </div>
+        <script th:inline="javascript">
+
+            $(function (e) {
+                var regex = new RegExp("(.*?)\.(exe|sh|zip|alz|tiff|txt)$");
+                var maxSize = 10485760;
+
+                function checkExtension(fileName, fileSize) {
+                    // 사이즈 유효성 검사
+                    if (fileSize >= maxSize) {
+                        swal("파일사이즈 초과");
+                        return false;
+                    }
+                    // 파일 이름으로 유효성 검사
+                    if (regex.test(fileName.substring(fileName.lastIndexOf(".")))) {
+                        swal("jpg 형태의 파일을 추가해주세요");
+                        return false;
+                    }
+                    return true;
+                }
+
+                // 해당 클래스에 변화가 있을 때 동작하는 이벤트
+                $(".custom-file-input").on("change", function () {
+                    var fileName = $(this).val().split("/").pop();
+
+                    $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+
+                    var formData = new FormData();
+                    var inputFile = $(this);
+                    var files = inputFile[0].files;
+                    var appended = false;
+
+                    for (let i = 0; i < files.length; i++) {
+                        if (!checkExtension(files[i].name, files[i].size)) {
+                            return false;
+                        }
+                        console.log(files[i]);
+                        formData.append("uploadFiles", files[i]);
+                        appended = true;
+                    }
+
+                    if (!appended) { return; }
+
+                    /*[+
+                        var urlUpload = [[@{/uploadAjax/}]];
+                     +]*/
+
+                    // 파일 업로드를 위한 ajax
+                    $.ajax({
+                        url: urlUpload,
+                        processData: false,
+                        contentType: false,
+                        data: formData,
+                        type: 'POST',
+                        dataType: 'json',
+                        success: function (result) {
+                            showResult(result);
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            console.log(textStatus);
+                        }
+                    });
+                });
+
+                // showResult 함수 선언
+                function showResult(uploadResultArr) {
+                    var uploadUL = $(".uploadResult ul");
+                    var showImageStr = "";
+                    var fileDataStr = "";
+
+                    /*[+
+                    var urlDisplay=[[@{/display}]];
+                    +]*/
+
+                    $(uploadResultArr).each(function (i, obj) {
+                        showImageStr += `<li data-name='${obj.fileName}' data-path='${obj.folderPath}' data-uuid='${obj.uuid}'><div>
+                            <button type='button' data-file='${obj.imageURL}'><i class="fa-solid fa-x"></i></button><br>
+                            <img src='${urlDisplay}?fileName=${obj.thumbnailURL}'></div></li>`;
+                    });
+
+                    uploadUL.append(showImageStr);
+                    var str = "";
+                    $(".uploadResult li").each(function (i, obj) {
+                      var target = $(obj);
+                      str += `<input type='hidden' name='applicationImageDTOList[${i}].imagename' value='${target.data('name')}'>`;
+                      str += `<input type='hidden' name='applicationImageDTOList[${i}].uuid' value='${target.data('uuid')}'>`;
+                      str += `<input type='hidden' name='applicationImageDTOList[${i}].imagepath' value='${target.data('path')}'>`;
+                    });
+
+                    $(".box").html(str);
+                }
+
+                // submit 버튼
+                $("#register").on("click", function (e) {
+                    // 유효성 검사
+                    var dyningnameInput = $("input[name=dyningname]").val();
+                    var contentInput = $("input[name=content]").val();
+                    var uploadimageFile = $(".box").children().length;
+
+                    console.log($(".box").children());
+
+                    if(dyningnameInput == "") {
+                      swal("상호명을 입력해주세요")
+                      return;
+                    } else if (uploadimageFile == 0) {
+                      swal("사업자 등록 증명서를 첨부해주세요")
+                      return;
+                    }
+                    $("form").submit();
+                });
+
+                // 사진 삭제
+                $(".uploadResult ").on("click", "li button", function (e) {
+
+                    console.log("delete file...");
+
+                    var targetFile = $(this).data("file");
+                    var targetLi = $(this).closest("li");
+
+                    /*[+
+                      var urlRemove = [[@{/removeFile}]];
+                    +]*/
+                    
+                    $.ajax({
+                        url: urlRemove,
+                        data: { fileName: targetFile },
+                        dataType: 'text',
+                        type: 'POST',
+                        success: function (result) {
+                            swal(result ? "Deleted!" : "Error");
+                            targetLi.remove();
+                        }
+                    });
+
+                    $("#fileInput").val("");
+                });
+            });
+        </script>
+    </th:block>
+</th:block>
