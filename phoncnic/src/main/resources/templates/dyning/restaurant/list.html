@@ -409,7 +409,10 @@
 
         </style>
         <!-- 모달창 -->
-        <th:block  sec:authorize="isAuthenticated()"><span class="roleSpan" sec:authentication='principal.authorities' hidden></span></th:block>
+        <th:block  sec:authorize="isAuthenticated()">
+            <span class="roleSpan" sec:authentication='principal.authorities' hidden></span>
+            <input type="hidden" th:value="${nickname}" class="md-user-nickname">
+        </th:block>
         <div class="modal" tabindex="-1" id="modalUserInfo">
             <div class="modal-dialog  modal-dialog-centered">
                 <div class="modal-content">
@@ -420,7 +423,7 @@
                         </span>
                         <!-- <button type="button" class="btn-close"  name="btn-close" th:onclick="closeUserInfoModal()"></button> -->
                     </div>
-                    <ul class="nav nav-tabs" sec:authorize="isAuthenticated()">
+                    <ul class="nav nav-tabs" >
                         <li class="tab-nav-item " data-tab-section="indexSection">
                           <button name="mdlabel" class="nav-link  active show">민첩(목차)</button>
                         </li>
@@ -431,16 +434,14 @@
                           <button name="mdlabel"  class="nav-link">지능(사용법)</a>
                         </li>
                       </ul>
-                    <div class="modal-body" sec:authorize="isAnonymous()">
-                        <div>
-                            <a th:href="@{/member/login}"> <h3>GOOGLE</h3> </a>
-                            로그인 하면 오조오억배 !
-                            <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/help/list/}">고객센터</a>
-                            <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/main/companyinfo}">회사소개</a>
-                        </div>
-                    </div>
-                    <div class="tab-content" sec:authorize="isAuthenticated()">
+                    <div class="tab-content" >
                         <div class="tab-setions" id="indexSection">
+                            <div  id="index" class="modal-body" sec:authorize="isAnonymous()">
+                                <a th:href="@{/member/login}"><h3>GOGOOGLEGO</h3> </a>
+                                로그인 하면 오조오억배 !
+                                <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/help/list/}">고객센터</a>
+                                <a class="list-group-item list-group-item-action list-group-item-light p-3" th:href="@{/main/companyinfo}">회사소개</a>
+                            </div>
                             <div id="index" class="modal-body" sec:authorize="isAuthenticated()">
                                 <a class="list-group-item list-group-item-action list-group-item-light p-3"
                                 sec:authorize="isAuthenticated()"
@@ -461,9 +462,9 @@
                                     <img class="user-info-char" th:src="${setDTO.setpath}" alt="">
                                 </div>
                                 <div class="user-info-str">
-                                    <label for="">닉네임</label> : [[${nickname}]]
+                                    <label for="">닉네임</label> : <span id="md-rand-nickname"></span>
                                     <br>
-                                    <label for="">아이디</label> : [[${id}]]
+                                    <label for="">아이디</label> : <th:block th:text="${id}!=''?${id}:'nwigiya@phoncnic.com'"></th:block>
                                     <br>
                                     <label for="">직 업</label> : <b id="userRoleSet"></b>
                                 </div>
@@ -474,8 +475,9 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- 조작법 -->
                         <div class="tab-setions" id="helpSection" hidden>
-                            <h5>조작방법</h5>
+                            <h5 style="text-align:center;">조작방법</h5>
                             <ul>
                                 <li>움직이기</li>
                                 <li>
@@ -505,15 +507,25 @@
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
         <script th:inline="javascript">
 
+            var rnadNickArr = [
+                "내꿈은소드마스터", "요리왕비룡","벽돌집벽돌빼서젠가", "펩시가핏속에흐르는", "개미핥기조련사", "산채비빔밥먹는스님앞에서관짝춤머신", "삼성프라자계란장수계란스틸러",
+                "폰크닉에왔더니내가무협최강", "피크닉사세요", "눈을떴더니공작영애", "눈으로욕하는루피짤", "자본주의미소를잘하는","오히려좋아", "급식실푸드파이터"
+            ]
+            
+            if($(".md-user-nickname").val()==undefined) {
+                var index = Math.floor(Math.random() * (rnadNickArr.length-1));
+                console.log(rnadNickArr[index]);
+                $("#md-rand-nickname").html(rnadNickArr[index]);
+                $(".md-user-nickname").val(rnadNickArr[index]);
+            } else {
+                $("#md-rand-nickname").html($(".md-user-nickname").val());
+            }
+
             var charimgUserModal = $("#modalUserInfo");
 
-            $("#charimg").on("click", function() {
+            $("#char").on("click", function() {
                 $("#modalUserInfo").show();
             });
-
-            // var closeUserInfoModal = function() {
-            //     $("#modalUserInfo").hide();
-            // };
 
             // 모달 외부 클릭시 닫기
             $(document).mouseup(function (e){
@@ -541,20 +553,26 @@
                     }
                 });
 
+
                 switch ($(".roleSpan").text()) {
                     case "[ROLE_USER]" :
                         $("#userRoleSet").html("모험가");
-                    break
+                        break;
                     case "[ROLE_ARTIST]" :
                         $("#userRoleSet").html("음유시인");
-                    break
+                        break;
                     case "[ROLE_CEO]" :
                         $("#userRoleSet").html("보부상");
-                    break
+                        break;
                     case "[ROLE_ADMIN]" :
                         $("#userRoleSet").html("용사님");
-                    break
+                        $("#md-rand-nickname").html("GM "+$(".md-user-nickname").val());
+                        break;
+                    default : 
+                        $("#userRoleSet").html("타지에서온방랑자");
+                        break;
                 }
+
 
             })
   
