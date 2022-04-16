@@ -109,7 +109,7 @@ input[type=radio]:checked + label {
           <label for="" class="form-label">메뉴 이미지 (중복 선택 가능)</label>
             <div class="form-group menuimage">
               <div class="custom-file">
-                <input type="file" class="custom-file-input1 files form-control" id="fileInput1" multiple>
+                <input type="file" class="custom-file-input1 files form-control" id="fileInput1" multiple >
                 <label data-browse="Browse"></label>
               </div>
             </div>
@@ -117,27 +117,21 @@ input[type=radio]:checked + label {
             <div class="menubox">
             </div>
             <div class="menuuploadResult">
-
-              <ul>
-
-              </ul>
+              <ul></ul>
             </div>
       <div class="col-12">
           <label for="" class="form-label">가게 배경 이미지 (1장 선택 가능)</label>
             <div class="form-group background">
               <div class="custom-file">
-                <input type="file" class="custom-file-input2 files form-control" id="fileInput2" multiple>
+                <input type="file" class="custom-file-input2 files form-control" id="fileInput2" >
                 <label data-browse="Browse"></label>
               </div>
             </div>
             <div class="backgroundbox">
             </div>
             <div class="backgroundshowResult">
-              <ul>
-
-              </ul>
+              <ul></ul>
             </div>
-
           </div>  
           <p class="p-line pt-2">지붕</p><hr>
           <div class="col-12">
@@ -273,9 +267,9 @@ input[type=radio]:checked + label {
           var fileName = $(this).val().split("/").pop();
 
           // 테스트용 콘솔
-          console.log("fileName >> " + fileName);
-          console.log("확장자 인덱스 >> " + fileName.lastIndexOf("."));
-          console.log("확장자 >> " + fileName.substring(fileName.lastIndexOf(".") + 1));
+          // console.log("fileName >> " + fileName);
+          // console.log("확장자 인덱스 >> " + fileName.lastIndexOf("."));
+          // console.log("확장자 >> " + fileName.substring(fileName.lastIndexOf(".") + 1));
 
           // 해당 클래스에 selected라는 클래스를 추가함
           $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
@@ -284,7 +278,9 @@ input[type=radio]:checked + label {
           var inputFile = $(this); // 이벤트 대상
           var files = inputFile[0].files; // 해당 파일 객체
           var appended = false; // 추가가 정상적으로 이루어졌는지 확인하기 위한 boolean 변수
-          if (files.length > 1 || $(".backgroundshowResult ul li").length != 0) { swal("알림", "배경 사진은 1장만 추가 가능합니다"); return }
+          
+          if (files.length > 1 || $(".backgroundshowResult ul li").length != 0) {  $("#fileInput2").val(""); swal("알림", "배경 사진은 1장만 추가 가능합니다");  return }
+         
           for (let i = 0; i < files.length; i++) {
             if (!checkExtension(files[i].name, files[i].size)) {
               // 여기서 유효성 검사 통과하지 못하면 파일선택에 들어가있는 값 털어버리는 것 추가 필요 서치 더 해보기
@@ -294,7 +290,6 @@ input[type=radio]:checked + label {
             formData.append("uploadFiles", files[i]); // if문을 통과하는경우에 Form태그에 데이터를 append시킴
             appended = true; // 제대로 추가돼었다는것을 알리기위해서 true값 재할당
           }
-
 
           if (!appended) { return; } // 어펜드가 제대로 되지 않은 경우에 리턴하는데 위에서 return false로 함수 나가게 했으니까 필요없지 않나?
 
@@ -329,14 +324,11 @@ input[type=radio]:checked + label {
           +]*/
 
           $(uploadResultArr).each(function (i, obj) {
-            // test출력
-            // console.log("uploadResultArr obj >> ");
-            // console.log(obj);
             str += `<li data-name='${obj.fileName}' data-file='${obj.imageURL}\' data-path='${obj.folderPath}' data-uuid='${obj.uuid}'><div>`;
             str += `<button type='button' data-file='${obj.imageURL}\' class='btn-warning btn-sm'>X</button><br>`;
             str += `<img src='${urlDisplay}?fileName=${obj.thumbnailURL}'></div></li>`;
           });
-          uploadUL.append(str); // ul에 전달쓰
+          uploadUL.append(str);
         }
 
         function backgroundshowResult(uploadResultArr) {
@@ -345,20 +337,13 @@ input[type=radio]:checked + label {
           /*[+
           var urlDisplay=[[@{/display}]];
           +]*/
-          $(uploadResultArr).each(function (i, obj) {
-            // test출력
-            // console.log("uploadResultArr obj >> ");
-            // console.log(obj);
+          $(uploadResultArr).each(function (index, obj) {
             str += `<li data-name='${obj.fileName}' data-file='${obj.imageURL}\' data-path='${obj.folderPath}' data-uuid='${obj.uuid}'><div>`;
             str += `<button type='button' data-file='${obj.imageURL}\' class='btn-warning btn-sm'>X</button><br>`;
             str += `<img src='${urlDisplay}?fileName=${obj.thumbnailURL}'></div></li>`;
           });
           uploadUL.append(str); // ul에 전달쓰
         }
-
-
-
-
 
         // submit 버튼
         $("#btn-submit").on("click", function (e) {
@@ -439,7 +424,9 @@ input[type=radio]:checked + label {
 
         // 사진 삭제
         $(".menuuploadResult ").on("click", "li button", function (e) {
+          
           console.log("delete file...");
+          
           var targetFile = $(this).data("file");
           var targetLi = $(this).closest("li");
 
@@ -456,7 +443,19 @@ input[type=radio]:checked + label {
               targetLi.remove();
             }
           });
+          deleteFileValue(targetLi.index());
         });
+
+        const deleteFileValue = (fileNum) => {
+          const dataTransfer = new DataTransfer();
+          let files = $("#fileInput1")[0].files;
+          let fileArray = Array.from(files);
+          fileArray.splice(fileNum, 1);
+          fileArray.forEach(file => {
+            dataTransfer.items.add(file);
+          });
+          $("#fileInput1")[0].files = dataTransfer.files;
+        }
 
         $(".backgroundshowResult").on("click", "li button", function (e) {
           console.log("delete file...");
@@ -476,11 +475,13 @@ input[type=radio]:checked + label {
             success: function (result) {
               targetLi.remove();
             }
+
           });
+
+          $("#fileInput2").val("");
 
         });
       });
-
 
     </script>
 

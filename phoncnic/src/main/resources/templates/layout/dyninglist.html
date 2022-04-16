@@ -9,6 +9,14 @@
         <meta name="author" content="" />
         <title>dyning</title>
         <style>
+            html, body{
+                height: 100%;
+            }
+
+            .container-fluid {
+                height: 100%;
+            }
+            
             .list-group-flush .list-group-item-action:hover {
                 background-color: #DBE9B7 !important;
             }
@@ -16,7 +24,14 @@
             .dropdown-item:hover {
                 background-color: #DBE9B7 !important;
             }
+
+            .d-flex {
+                overflow: hidden;
+            }
+
         </style>
+        <!-- awsome icon cdn -->
+        <script src="https://kit.fontawesome.com/f145f2fd92.js" crossorigin="anonymous"></script>
         <!-- Favicon-->
         <link rel="icon" type="image/x-icon" th:href="@{/assets/favicon.ico}" />
         <!-- Core theme CSS (includes Bootstrap)-->
@@ -25,9 +40,7 @@
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"
             integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
         <link rel="stylesheet" th:href="@{/css/basic.css}">
-
     </head>
-
     <body>
         <script th:inline="javascript">
             $(document).ready(function () {

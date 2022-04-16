@@ -53,8 +53,6 @@ public class GalleryRepositoryTests {
                 "017a59ec-da2e-47ec-b542-c1f98e88a1bc",
             };
             
-
-            // gallery 추가
             boolean rand = (int) (Math.random() * 2) != 0;
             Gallery gallery = Gallery.builder()
                     .title("title" + i)
@@ -67,8 +65,6 @@ public class GalleryRepositoryTests {
                     .build();
             galleryRepository.save(gallery);
 
-            
-            // emoji 추가
             List<Integer> randmember = new ArrayList<>();
 
             while (randmember.size() != 10) {
@@ -93,6 +89,5 @@ public class GalleryRepositoryTests {
                 emojiRepository.save(emoji);
             }
         });
-
     }
 }

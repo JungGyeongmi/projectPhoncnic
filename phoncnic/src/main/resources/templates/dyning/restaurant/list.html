@@ -4,11 +4,18 @@
 
     <!-- search toggle -->
     <th:block th:fragment="search">
-
         <style>
+            #wrapper {
+                background-image: url([[@{/icon/dyning-street.png}]]);
+                background-repeat: no-repeat;
+                background-size: cover;
+                background-position: center;
+            }
+
             .md-serach-result {
                 padding: 0 !important;
             }
+
             .search-result-Item {
                 cursor: pointer;
                 list-style: none;
@@ -16,21 +23,25 @@
                 padding-top: 20px;
                 padding-bottom: 20px;
             }
+
             .search-result-Item:hover {
                 background-color: #DBE9B7;
             }
+
             #search-result-div {
-                padding: 0 !important;       
+                padding: 0 !important;
             }
+
             hr {
                 margin: 0;
             }
         </style>
+
         <div class="border-end bg-white" id="sidebar-wrapper">
             <div class="sidebar-heading border-bottom bg-light">
                 <form class="d-flex search-form" th:action="@{/restaurant/toggle}" method="get">
                     <select class="form-select-sm" name="type">
-                        <option value="n" >가게명</option>
+                        <option value="n">가게명</option>
                         <option value="h">해쉬태그</option>
                     </select>
                     <input class="form-control me-2" name="keyword" type="search" placeholder="Search"
@@ -42,8 +53,6 @@
                 <ul class="md-serach-result"></ul>
             </div>
         </div>
-
-
 
         <script th:inline="javascript">
             $(document).ready(function () {
@@ -107,7 +116,6 @@
                     var val = $(this).attr("value");
                     location.href = "/phoncnic/dyning/details?dno=" + val;
                 });
-
             });
         </script>
     </th:block>
@@ -129,28 +137,27 @@
                 /* 단이 나뉘지않고 스크롤이 생김  */
                 white-space: nowrap;
                 margin: 0 auto;
+                scroll-behavior: smooth;
+                height: 100%;
+                padding-top: 20px;
+                padding-bottom: 100px;
             }
-
-            /* .wrap::-webkit-scrollbar {
-                display: none;
-            } */
 
             .dyning-list-ul {
                 max-width: 10000px;
             }
 
             #list1 {
-                margin: 50px 100px 0px;
-                width: 150px;
-                height: 150px;
+                margin: 50px 50px 70px;
+                width: 200px;
+                height: 200px;
                 display: inline-block;
             }
 
             #list2 {
-                margin: 50px 100px 30px;
-                padding-top: 50px;
-                width: 150px;
-                height: 150px;
+                margin: 40px 50px 30px;
+                width: 200px;
+                height: 200px;
                 display: inline-block;
             }
 
@@ -173,64 +180,52 @@
             }
 
             .dyningimg {
-                width: 150px;
-                height: 150px;
+                width: 200px;
+                height: 200px;
+            }
+
+            .ullist {
+                padding-left: 150px;
+                padding-right: 150px;
             }
         </style>
 
-        <!-- <h3>restaurant</h3> -->
-        <div class="wrap">
-            <ul class="dyning-list-ul">
-                <li id="list1" th:each="dto : ${result}" th:if="${dtoStat.count} <= ${dtoStat.size}/2 + 0.5">
-                    <div th:class="@{/dyning/details(dno=${dto.dno},id=${id}) }">
-                        <img class="dyningimg" th:src="${dto.roofthumbnail}" th:id="${dtoStat.count}">
-                    </div>
-                    <div class="dyningname">
-                        [[${dto.dyningname}]]
-                    </div>
-                </li>
+        <input type="hidden" th:value="${result.page}" id="listpage">
+        <input type="hidden" th:value="${result.totalPage}" id="totalpage">
+        <div class="wrap" id="wrap">
+            <ul class="ullist">
+                <th:block th:each="dto, index : ${result.dtoList}" th:if="${index.count}%2 !=0">
+                    <li id="list1">
+                        <div th:class="@{/dyning/details(dno=${dto.dno},id=${id}) }">
+                            <img class="dyningimg" th:src="${dto.getRoofthumbnail}" th:id="${index.count}">
+                        </div>
+                        <!-- [[${dto.getRoofthumbnail}]] -->
+                        <div class="dyningname">
+                            [[${dto.getDyningname}]]
+                        </div>
+                    </li>
+                </th:block>
             </ul>
             <div th:each="sdto : ${setDTO}" id="char">
-                <img type="hidden"  id ="charimg" class="look setlook" th:src="${sdto.setpath}" alt="">
+                <img type="hidden" id="charimg" class="look setlook" th:src="${sdto.setpath}" alt="">
                 <div th:text="${nickname}" class="nickname" th:if="${nickname}!=''">[[${nickname}]]</div>
-                <input type="text" name="chartop"  th:value="${chartop}" style="opacity: 0;">
-                <input type="text" name="charleft"  th:value="${charleft}" style="opacity: 0;">
+                <input type="text" name="chartop" th:value="${chartop}" style="opacity: 0;">
+                <input type="text" name="charleft" th:value="${charleft}" style="opacity: 0;">
             </div>
-            <ul class="dyning-list-ul">
-                <li id="list2" th:each="dto : ${result}" th:if="${dtoStat.count} > ${dtoStat.size}/2 + 0.5">
-                    <div th:class="@{/dyning/details(dno=${dto.dno},id=${id}) }">
-                        <img class="dyningimg" th:src="${dto.roofthumbnail}" th:id="${dtoStat.count}">
-                    </div>
-                    <div class="dyningname">
-                        [[${dto.dyningname}]]
-                    </div>
-                </li>
+            <ul class="ullist">
+                <th:block th:each="dto, index : ${result.dtoList}" th:if="${index.count}%2 == 0">
+                    <li id="list2">
+                        <div th:class="@{/dyning/details(dno=${dto.dno},id=${id}) }">
+                            <img class="dyningimg" th:src="${dto.getRoofthumbnail}" th:id="${index.count}">
+                        </div>
+                        <div class="dyningname">
+                            [[${dto.getDyningname}]]
+                        </div>
+                    </li>
+                </th:block>
             </ul>
         </div>
 
-        <div id="saveTop"></div>
-        <script th:inline="javascript">
-
-            window.addEventListener("keydown", function (e) {
-                // space and arrow keys
-                if ([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
-                    e.preventDefault();
-                }
-            }, false);
-
-                // var Img = document.getElementsByClassName("dyningimg");
-                // var divv = document.querySelectorAll("#dyninga.dyningimg");
-                // for(i=1; i<=8; i++){
-                //     console.log(divv[i].offsetTop);
-                // }
-                // document.getElementsByClassName("dyningimg").offsetTop;
-                // console.log(Img.offsetTop);
-                // window.addEventListener("mouseover", function(e) {
-                //     console.log(e.target.offsetTop, e.target.offsetLeft);
-                // });
-
-
-        </script>
         <!-- 가게 건물 좌표를 얻는 js -->
         <style>
             .setlook {
@@ -239,100 +234,461 @@
                 height: 98px;
                 right: 0px;
             }
-            #char{
+
+            #char {
                 position: relative;
                 width: 70px;
-                height: 98px;
-                right: 0px; 
+                height: 126px;
+                right: 0px;
             }
         </style>
-       
-<script>
 
-    
-    // document.onload(function(e){
+        <script>
+            $(document).ready(function (e) {
+                if ($("input[name='chartop']").val() != "") {
 
-    //     if($("input[name='chartop']").val()!="${chartop}"){
-    //         let char = document.getElementById("char");
-    
-    //         var top =  $("input[name='chartop']").val();
-    //         var left =  $("input[name='charleft']").val();
-    //         char.offset({top : top , left : left});
-    //     }
-    // });
-    $(document).ready(function(e){
-        if($("input[name='chartop']").val()!=""){
-            
-            var top =  $("input[name='chartop']").val();
-            var left =  $("input[name='charleft']").val();
-            $("#char").offset({top : top });
-            $("#char").offset({left : left });
+                    var top = $("input[name='chartop']").val();
+                    var left = $("input[name='charleft']").val();
+                    $("#char").offset({ top: top });
+                    $("#char").offset({ left: left });
 
-        }
-    });
-    $(".dyningimg").on("click", function (e) {
-        var src = $(this).parent().attr("class");
-        var src = $(this).parent().attr("id");
-        var top = e.target.offsetTop;
-        var left = e.target.offsetLeft;
-        console.log(src);
-        console.log(top, left);
-        // location.href=src;
-    });
- 
-    (function () {
+                }
+            });
+            $(".dyningimg").on("click", function (e) {
+                var src = $(this).parent().attr("class");
+                var top = e.target.offsetTop;
+                var left = e.target.offsetLeft;
+                console.log(src);
+                console.log(top, left);
+            });
 
-       
+            (function () {
 
+                var listlocation = "/phoncnic/dyning/restaurant/list?page=";
+                var totalpage = document.querySelector("#totalpage").value;
 
-        document.addEventListener("keydown", function (e) {
-            let char = document.getElementById("char");
-            let charimg = document.getElementById("charimg");
+                document.addEventListener("keydown", function (e) {
+                    let char = document.getElementById("char");
+                    let charimg = document.getElementById("charimg");
+                    var wrapheight = document.getElementById("wrap").clientHeight;
+                    var top = Math.round(wrapheight / 2);
 
-            let key = e.keyCode;
-            let y = parseInt(char.style.top || 0, 10);
-            let x = parseInt(char.style.left || 0, 10);
-            if (key === 37 /* LEFT */) {
-                char.style.left = x - 20 + "px";
+                    var chartop = char.offsetTop;
+                    var charleft = char.offsetLeft;
+                    $("input[name='chartop']").val(chartop);
+                    $("input[name='charleft']").val(charleft);
+
+                    let key = e.keyCode;
+                    let y = parseInt(char.style.top || 0, 10);
+                    let x = parseInt(char.style.left || 0, 10);
+                    if (key === 37 /* LEFT */) {
+                        char.style.left = x - 20 + "px";
+                    }
+                    if (key === 38 /* TOP */) {
+                        char.style.top = y - 20 + "px";
+                    }
+                    if (key === 39 /* RIGHT */) {
+                        char.style.left = x + 20 + "px";
+                    }
+                    if (key === 40 /* BOTTOM */) {
+                        char.style.top = y + 20 + "px";
+                    }
+
+                    // →방향키
+                    if (key === 39) {
+                        var imgLength = $(".dyningimg").length;
+                        var screenWidth = window.screen.width;
+                        var screenHeight = window.screen.availHeight;
+                        var listpage = Number(document.querySelector("#listpage").value) + 1;
+
+                        if (listpage - 1 == totalpage) {
+                            return;
+                        }
+                        if (charleft > screenWidth - 200) {
+                            $("body div").animate({
+                                "opacity": "0",
+                                "top": "100px"
+                            }, 100, function () {
+                                location.replace(listlocation + listpage + "&top=" + top + "&left=" + 40);
+                            });
+                        };
+                    }
+
+                    // ←방향키
+                    if (key === 37) {
+                        var imgLength = $(".dyningimg").length;
+                        var screenWidth = window.screen.width;
+                        var screenHeight = window.screen.availHeight;
+                        var left = screenWidth - 100;
+                        var listpage = Number(document.querySelector("#listpage").value) - 1;
+
+                        if (listpage >= 1) {
+                            if (charleft < 100) {
+                                $("body div").animate({
+                                    "opacity": "0",
+                                    "top": "100px"
+                                }, 100, function () {
+                                    location.replace(listlocation + listpage + "&top=" + top + "&left=" + left);
+                                });
+                            } else {
+                                return;
+                            }
+                        }
+                    }
+                });
+
+                document.addEventListener("keyup", function (e) {
+                    var chartop = char.offsetTop;
+                    var charleft = char.offsetLeft;
+                    let key = e.keyCode;
+                    $("input[name='chartop']").val(chartop);
+                    $("input[name='charleft']").val(charleft);
+
+                    if (key === 13 /* enter */) {
+                        var imgLength = $(".dyningimg").length;
+                        console.log("캐릭터좌표" + chartop, charleft);
+
+                        for (i = 1; i <= imgLength; i++) {
+                            console.log(document.getElementById(i));
+                            // 절대 좌표
+                            var targetTop = document.getElementById(i).offsetTop;
+                            var targetLeft = document.getElementById(i).offsetLeft;
+                            var targetHref = $("#" + i).parent().attr('class');
+                            console.log("타겟좌표: " + targetTop, targetLeft, targetHref);
+
+                            if (targetTop - 40 < chartop && chartop < targetTop + 160 && targetLeft - 30 < charleft && charleft < targetLeft + 160) {
+                                location.href = targetHref + "&chartop=" + chartop + "&charleft=" + charleft;
+                            };
+                        }
+                    }
+                });
+            })();
+        </script>
+
+        <script th:inline="javascript">
+            // 방향키(37~40), space바(32)로 스크롤 이동 막기
+            window.addEventListener("keydown", function (e) {
+                if ([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+                    e.preventDefault();
+                }
+            }, false);
+        </script>
+
+        <style>
+            .user-info-char {
+                height: 4rem;
+                border-radius: 69%;
+                border: 3px solid goldenrod;
             }
-            if (key === 38 /* TOP */) {
-                char.style.top = y - 20 + "px";
-            }
-            if (key === 39 /* RIGHT */) {
-                char.style.left = x + 20 + "px";
-            }
-            if (key === 40 /* BOTTOM */) {
-                char.style.top = y + 20 + "px";
-            }
-        });
-        
-        
-        
-        document.addEventListener("keyup", function (e) {
-            var chartop = char.offsetTop;
-            var charleft = char.offsetLeft;
-            let key = e.keyCode;
-            console.log("캐릭터좌표" + chartop, charleft);
-            $("input[name='chartop']").val(chartop);
-            $("input[name='charleft']").val(charleft);
-            if (key === 13 /* enter */) {
-                var imgLength = $(".dyningimg").length;
 
-                for (i = 1; i <= imgLength; i++) {
-                    var targetTop = $("#" + i).offset().top;
-                    var targetLeft = $("#" + i).offset().left;
-                    var targetHref = $("#" + i).parent().attr('class');
-                    // console.log("캐릭터좌표"+chartop,charleft);
-                    console.log("타겟좌표" + targetTop, targetLeft, targetHref);
+            .user-info-container {
+                padding: 3%;
+                display: grid;
+                grid-template-columns: 1fr 3fr 1fr;
+                column-gap: 2%;
+            }
 
-                    if (targetTop - 20 < chartop && chartop < targetTop + 100 && targetLeft - 30 < charleft && charleft < targetLeft + 100) {
-                        location.href = targetHref + "&chartop=" + chartop + "&charleft=" + charleft;
-                    };
+            .user-info-item1 {
+                justify-content: center;
+                text-align: center;
+                padding: 3%;
+            }
+
+            .user-info-str {
+                padding: 3%;
+            }
+
+            .md-head {
+                text-align: center;
+            }
+
+            .phon-stamp {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .font-effect {
+                color: goldenrod;
+            }
+
+            .dragon-con {
+                width: 3rem;
+            }
+
+            .help-ul {
+                position: relative;
+                display: flex;
+            }
+
+            .help-ul li {
+                list-style: none;
+            }
+
+            label {
+                position: relative;
+            }
+
+            input[type="checkbox"] {
+                visibility: hidden;
+            }
+
+            .arrow-div {
+                margin: 0 3%;
+
+                overflow: hidden;
+                text-overflow: clip;
+
+                background: #DBE9B7;
+                color: whitesmoke;
+
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                font-size: 3rem;
+
+                cursor: pointer;
+
+                border-radius: 20px;
+                box-shadow: -1px -1px 4px rgba(53, 255, 70, 0.05),
+                    4px 4px 6px rgba(0, 0, 0, 0.2),
+                    inset -1px -1px 4px rgba(156, 17, 17, 0.05),
+                    inset 1px 1px 1px rgba(0, 0, 0, 0.1);
+            }
+
+            input[type="checkbox"]:checked~.arrow-div {
+                color: whitesmoke;
+                text-shadow: 0 0 15px rgb(56, 187, 89), 0 0 25px rgb(78, 180, 100);
+                animation: glow 1.5s linear infinite;
+            }
+
+            @keyframes glow {
+                0% {
+                    filter: hue-rotate(0deg);
+                }
+
+                100% {
+                    filter: hue-rotate(360deg);
                 }
             }
-        });
-    })();
-</script>
-        
+
+            #modalUserInfo {
+                background-color: #8e8e8e6b;
+            }
+        </style>
+        <!-- 모달창 -->
+        <th:block sec:authorize="isAuthenticated()">
+            <span class="roleSpan" sec:authentication='principal.authorities' hidden></span>
+            <input type="hidden" th:value="${nickname}" class="md-user-nickname">
+        </th:block>
+        <div class="modal" tabindex="-1" id="modalUserInfo">
+            <div class="modal-dialog  modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="md-head">
+                        <h5 sec:authorize="isAnonymous()">폰크닉 더 재밌게 즐기는 방법</h5>
+                        <span class="modal-title" sec:authorize="isAuthenticated()">
+                            <h5>[[${nickname}]]의 스탯창</h5>
+                        </span>
+                    </div>
+                    <ul class="nav nav-tabs">
+                        <li class="tab-nav-item " data-tab-section="indexSection">
+                            <button name="mdlabel" class="nav-link  active show">민첩(목차)</button>
+                        </li>
+                        <li class="tab-nav-item" data-tab-section="infoSection">
+                            <button name="mdlabel" class="nav-link">회피(내정보)</a>
+                        </li>
+                        <li class="tab-nav-item helpSection" data-tab-section="helpSection">
+                            <button name="mdlabel" class="nav-link">지능(사용법)</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-setions" id="indexSection">
+                            <div id="index" class="modal-body" sec:authorize="isAnonymous()">
+                                <a th:href="@{/member/login}">
+                                    <h3>GOGOOGLEGO</h3>
+                                </a>
+                                로그인 하면 오조오억배 !
+                                <a class="list-group-item list-group-item-action list-group-item-light p-3"
+                                    th:href="@{/help/list/}">고객센터</a>
+                                <a class="list-group-item list-group-item-action list-group-item-light p-3"
+                                    th:href="@{/main/companyinfo}">회사소개</a>
+                            </div>
+                            <div id="index" class="modal-body" sec:authorize="isAuthenticated()">
+                                <a class="list-group-item list-group-item-action list-group-item-light p-3"
+                                    sec:authorize="isAuthenticated()" th:href="@{/main/mypage}">마이페이지</a>
+                                <a class="list-group-item list-group-item-action list-group-item-light p-3"
+                                    th:href="@{/help/list/}">고객센터</a>
+                                <a class="list-group-item list-group-item-action list-group-item-light p-3"
+                                    sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/index}">인덱스</a>
+                                <a class="list-group-item list-group-item-action list-group-item-light p-3"
+                                    sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/admin}">관리자</a>
+                            </div>
+                        </div>
+                        <div class="tab-setions" id="infoSection" hidden>
+                            <div class="user-info-container">
+                                <div class="user-info-item1">
+                                    <img class="user-info-char" th:src="${setDTO.setpath}" alt="">
+                                </div>
+                                <div class="user-info-str">
+                                    <label for="">닉네임</label> : <span id="md-rand-nickname"></span>
+                                    <br>
+                                    <label for="">아이디</label> : <th:block
+                                        th:text="${id}!=''?${id}:'nwigiya@phoncnic.com'"></th:block>
+                                    <br>
+                                    <label for="">직 업</label> : <b id="userRoleSet"></b>
+                                </div>
+                                <div class="phon-stamp">
+                                    <span class="dragon-con">
+                                        <i class="fa-solid fa-dragon font-effect">폰크닉협회인증</i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-setions" id="helpSection" hidden>
+                            <h5 style="text-align:center;">조작방법</h5>
+                            <ul class="help-ul">
+                                <li>움직이기</li>
+                                <li>
+                                    <input name="arrow-box" type="checkbox" />
+                                    <div class="arrow-div">←</div>
+                                </li>
+                                <li>
+                                    <input name="arrow-box" type="checkbox" />
+                                    <div class="arrow-div">↑</div>
+                                </li>
+                                <li>
+                                    <input name="arrow-box" type="checkbox" />
+                                    <div class="arrow-div">→</div>
+                                </li>
+                                <li>
+                                    <input name="arrow-box" type="checkbox" />
+                                    <div class="arrow-div">↓</div>
+                                </li>
+                                <li>들어가기</li>
+                                <li>
+                                    <input name="arrow-box" type="checkbox" />
+                                    <div class="arrow-div"> ENTER </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script th:inline="javascript">
+            var rnadNickArr = [
+                "내꿈은소드마스터", "요리왕비룡", "벽돌집벽돌빼서젠가", "펩시가핏속에흐르는", "개미핥기조련사", "산채비빔밥먹는스님앞에서관짝춤머신", "삼성프라자계란장수계란스틸러",
+                "폰크닉에왔더니내가무협최강", "피크닉사세요", "눈을떴더니공작영애", "눈으로욕하는루피짤", "자본주의미소를잘하는", "오히려좋아", "급식실푸드파이터"
+            ]
+
+            if ($(".md-user-nickname").val() == undefined) {
+                var index = Math.floor(Math.random() * (rnadNickArr.length - 1));
+                console.log(rnadNickArr[index]);
+                $("#md-rand-nickname").html(rnadNickArr[index]);
+                $(".md-user-nickname").val(rnadNickArr[index]);
+            } else {
+                $("#md-rand-nickname").html($(".md-user-nickname").val());
+            }
+
+            var charimgUserModal = $("#modalUserInfo");
+
+            $("#char").on("click", function () {
+                $("#modalUserInfo").show();
+            });
+
+            // 모달 외부 클릭시 닫기
+            $(document).mouseup(function (e) {
+                if (charimgUserModal.has(e.target).length == 0) {
+                    hideStatusModal();
+                }
+            });
+
+            $(document).on("click", ".tab-nav-item", function (e) {
+                $(".tab-setions").each((index, item) => {
+                    if (item.id == $(this).data("tabSection")) {
+                        item.removeAttribute("hidden");
+                    } else {
+                        item.setAttribute("hidden", true);
+                    }
+                });
+
+                $(".tab-nav-item").each((index, item) => {
+                    if (item.dataset.tabSection != $(this).data("tabSection")) {
+                        item.children[0].classList.remove("active");
+                        item.children[0].classList.remove("show");
+                    } else {
+                        item.children[0].classList.add("active");
+                        item.children[0].classList.add("show");
+                    }
+                });
+
+
+                switch ($(".roleSpan").text()) {
+                    case "[ROLE_USER]":
+                        $("#userRoleSet").html("모험가");
+                        break;
+                    case "[ROLE_ARTIST]":
+                        $("#userRoleSet").html("음유시인");
+                        break;
+                    case "[ROLE_CEO]":
+                        $("#userRoleSet").html("보부상");
+                        break;
+                    case "[ROLE_ADMIN]":
+                        $("#userRoleSet").html("용사님");
+                        $("#md-rand-nickname").html("GM " + $(".md-user-nickname").val());
+                        break;
+                    default:
+                        $("#userRoleSet").html("타지에서온방랑자");
+                        break;
+                }
+
+
+            })
+
+            $(document).on("keyup", function (e) {
+                if (!$(".helpSection").children("button").hasClass("show") || e.which == 27) {
+                    $("input[name=arrow-box]").each((i) => {
+                        $("input[name=arrow-box]").eq(i)[0].checked = false;
+                    });
+                    hideStatusModal();
+                    return;
+                }
+
+                $("input[name=arrow-box]").each((i) => {
+                    $("input[name=arrow-box]").eq(i)[0].checked = false;
+                });
+                switch (e.which) {
+                    case 39: // 오
+                        $("input[name=arrow-box]").eq(2)[0].checked = true;
+                        break;
+                    case 37: // 왼
+                        $("input[name=arrow-box]").eq(0)[0].checked = true;
+                        break;
+                    case 38: // 업
+                        $("input[name=arrow-box]").eq(1)[0].checked = true;
+                        break;
+                    case 40: // 다
+                        $("input[name=arrow-box]").eq(3)[0].checked = true;
+                        break;
+                    case 13: // 엔터
+                        $("input[name=arrow-box]").eq(4)[0].checked = true;
+                        break;
+                }
+            });
+
+            var hideStatusModal = () => {
+                $(".tab-setions").each((index, item) => {
+                    item.setAttribute("hidden", true);
+                });
+                $(".tab-setions").eq(0).removeAttr("hidden");
+                $("button[name=mdlabel]").eq(0).addClass("active", "show");
+                $("button[name=mdlabel]").eq(1).removeClass("active", "show");
+                $("button[name=mdlabel]").eq(2).removeClass("active", "show");
+                charimgUserModal.hide();
+            }
+
+        </script>
+
     </th:block>
 </th:block>

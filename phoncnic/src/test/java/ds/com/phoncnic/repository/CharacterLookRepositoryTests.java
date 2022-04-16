@@ -47,7 +47,6 @@ public class CharacterLookRepositoryTests {
         });
     }
 
-    // ChracterLook 더미
     @Test
      public void insertDummies() {
 

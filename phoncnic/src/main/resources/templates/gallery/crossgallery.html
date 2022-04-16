@@ -5,6 +5,7 @@
         width: 1000px;
         margin: 0 auto;
         font-family: 'GmarketSansLight';
+        /* overflow-y: scroll; */
     }
 
     .title {
@@ -22,7 +23,6 @@
     .content {
         width: 400px;
         height: 400px;
-        /* background-color: #DBE9B7; */
         text-align: center;
         border-radius: 8px;
     }
@@ -63,26 +63,26 @@
     }
     .content-body img.open {
     display: none;
-    cursor: url("../../static/icon/right-cursor.png"), auto;    
+    cursor: url("[[@{/icon/right-cursor.png}]]"), auto;    
 
     }
     .content-body img.close {
         display: block;
         width: 300px;
-        cursor: url("../../static/icon/right-cursor.png"), auto;    
+        cursor: url("[[@{/icon/right-cursor.png}]]"), auto;    
     }
     .content-body:hover img.open {
         display: block;
         width: 300px;
-        cursor: url("../../static/icon/right-cursor.png"), auto;    
+        cursor: url("[[@{/icon/right-cursor.png}]]"), auto;    
     }
     .content-body:hover img.close {
         display: none;
-        cursor: url("../../static/icon/right-cursor.png"), auto;    
+        cursor: url("[[@{/icon/right-cursor.png}]]"), auto;    
 
     }
     .content-body{
-        cursor: url("../../static/icon/right-cursor.png"), auto;    
+        cursor: url("[[@{/icon/right-cursor.png}]]"), auto;    
         }
 </style>
 <th:block th:replace="~{layout/basic :: setContent(~{::content})}">

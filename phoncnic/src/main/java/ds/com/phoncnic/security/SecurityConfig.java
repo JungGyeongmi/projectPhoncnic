@@ -71,10 +71,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     
     http.authorizeRequests()
     .antMatchers("/admin/**/**").hasRole("ADMIN")
-    .antMatchers("/manage/rolechoice", "/main/mypage", "/lookmodal/lookmodify").authenticated()
+    .antMatchers("/manage/rolechoice", "/main/mypage", "/lookmodal/lookmodify", "/reception/artist","/reception/ceo").authenticated()
     .antMatchers("/manage/dyning/**/**").hasAnyRole("CEO", "ADMIN")
     .antMatchers("/manage/gallery/**").hasAnyRole("ARTIST", "ADMIN")
-    .antMatchers("/dyning/**", "/gallery/**").permitAll();
+    .antMatchers("/dyning/**", "/gallery/**", "/reception").permitAll();
 
     // OAuth2UserDetailsService 로그인 handler :: social의 login
     http.oauth2Login().loginPage("/member/login").successHandler(loginSuccessHandler());

@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import ds.com.phoncnic.dto.DyningDTO;
 import ds.com.phoncnic.dto.DyningImageDTO;
+import ds.com.phoncnic.dto.pageDTO.PageRequestDTO;
 import ds.com.phoncnic.dto.pageDTO.PageResultDTO;
 import ds.com.phoncnic.dto.pageDTO.SearchDyningPageRequestDTO;
 import ds.com.phoncnic.entity.Dyning;
@@ -117,12 +118,10 @@ public interface DyningService {
         return dyningDTO;
     }
 
-    // List<DyningDTO> getStreet();
-    // 카페 거리
-    List<DyningDTO> getCafeStreet();
+    // Paging 처리
+    PageResultDTO<DyningDTO, Object[]> getRestaurantPage(PageRequestDTO PageRequestDTO);
+    PageResultDTO<DyningDTO, Object[]> getCafePage(PageRequestDTO PageRequestDTO);
 
-    // 레스토랑 거리
-    List<DyningDTO> getRestaurantStreet();
 
     List<DyningDTO> getMyDyningList(String id);
 

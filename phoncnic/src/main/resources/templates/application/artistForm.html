@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ko" xmls:th="http://www.thymeleaf.org">
+
+<style>
+  .containerBox {
+    max-width: 650px;
+    height: auto;
+    margin: 0 auto;
+    font-family: 'GmarketSansLight';
+  }
+
+  .containerBox h3 {
+    padding: 60px 0 20px 0;
+  }
+
+  .btn-items {
+    width: 100%;
+    padding: 10px 0 80px 0;
+  }
+
+  .my.btn {
+    font-weight: bold;
+    font-size: 19px;
+    height: 46px;
+    background-color: #e9ecef;
+    border-radius: 13px;
+    margin-bottom: 15px;
+  }
+
+  .my2.btn {
+    font-weight: bold;
+    font-size: 19px;
+    height: 46px;
+    background-color: #e9ecef;
+    border-radius: 13px;
+    width: 49%;
+  }
+
+  .btn-items>.my:nth-child(1) {
+    width: 100%;
+  }
+
+  .my.btn:nth-child(2) {
+    width: 50%;
+  }
+
+  .my.btn:hover,
+  .my2.btn:hover {
+    background-color: #DBE9B7;
+  }
+
+  .img-warn {
+    font-family: 'Noto Sans KR', sans-serif !important;
+    font-size: 16px;
+    color: red;
+  }
+
+  input[name=content] {
+    height: 150px;
+  }
+</style>
+
+<th:block th:replace="~{layout/basic :: setContent(~{::content})}">
+  <th:block th:fragment="content">
+    <div class="containerBox">
+      <div class="row">
+        <h3 style="font-family: 'GmarketSansMedium';">
+          <img th:src="@{/icon/vertical-line.png}" style="width:30px;" alt="">작가 신청
+        </h3>
+
+        <form th:action="@{/reception/register}" th:method="POST" id="frm">
+          <input type="hidden" name="applicationtype" th:value="false"><br>
+          <input type="hidden" name="applicant" th:value="${authDTO?.id}"><br>
+          <label class="form-label">필명</label>
+          <input type="text" th:value="${authDTO?.nickname}" class="form-control" readonly>
+          <div class="img-warn">* 필명(닉네임)은 마이페이지에서 언제나 변경 가능합니다</div>
+          <br>
+          <label for="content" class="form-label">한마디</label><br>
+          <input type="text" name="content" class="form-control"><br>
+          <div class="box">
+          </div>
+        </form>
+        <button type="button" id="submitBtn" class="btn my">신청하기</button>
+      </div>
+    </div>
+    <script th:inline="javascript">
+      $(function (e) {
+        // submit 버튼
+        $("#submitBtn").on("click", function (e) {
+          var typeSelect = $("select[name=imagetype] option:selected").val();
+          var contentInput = $("input[name=content]").val();
+
+          if (typeSelect == '') {
+            swal("선호 장르를 선택해주세요");
+            return;
+          }
+          $("#frm").submit();
+          // console.log($("#frm").serialize());
+        });
+      });
+    </script>
+  </th:block>
+</th:block>

@@ -1,0 +1,199 @@
+<html lang="ko" xmls:th="http://www.thymeleaf.org">
+<style>
+  .containerBox {
+    font-family: 'GmarketSansLight';
+    width: 940px;
+    margin: 0 auto;
+  }
+
+  .containerBox h3 {
+    font-family: 'GmarketSansMedium';
+    padding: 50px 0 50px 0;
+    margin: 0;
+  }
+
+  .title {
+    margin-bottom: 0;
+  }
+
+  .containerBox hr {
+    margin-top: 0;
+  }
+
+  .register-container {
+    margin: 0 auto;
+    text-align: center;
+    width: 100%;
+  }
+
+  .register-content {
+    width: 430px;
+    height: 200px;
+    border-radius: 4px;
+    display: inline-block;
+    text-align: center;
+    margin: 0 auto;
+  }
+
+  .gallery-img {
+    padding: 11px;
+    text-align: center;
+    position: relative;
+  }
+
+  .gallery-img img {
+    width: 112px;
+    margin: 0 auto;
+    filter: drop-shadow(4px 2px 3px lightgray);
+  }
+
+  .register-btn button {
+    padding: 10px;
+    border: none;
+    border-radius: 20px;
+    height: 43px;
+    width: 420px;
+    background-color: #e9ecef;
+  }
+
+  .register-btn button:hover {
+    background-color: #DBE9B7;
+  }
+
+  .register-btn {
+    margin-top: 25px;
+    font-size: 17px;
+    text-align: center;
+  }
+
+  .gallery-container {
+    text-align: center;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .gallery-content {
+    flex: 1 1 40%;
+    cursor: pointer;
+    margin-bottom: 20px;
+  }
+
+  .gallery-content img {
+    width: 170px;
+    filter: drop-shadow(4px 2px 6px lightgray);
+  }
+
+  #dyningname {
+    margin-top: 10px;
+  }
+
+  .curtain-open-str {
+    position: absolute;
+    top: 50%;
+    left: 44.5%;
+    display: inline;
+
+    font-weight: bold;
+    color: white;
+    text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff, 0 0 42px #0fa, 0 0 82px #0fa, 0 0 92px #0fa, 0 0 102px #0fa, 0 0 151px #0fa;
+  }
+
+  #curtainImg {
+    cursor: pointer;
+  }
+
+  .recent-upload-con {
+    display: inline-block;
+  }
+</style>
+<th:block th:replace="~{layout/basic :: setContent(~{::content})}">
+  <th:block th:fragment="content">
+    <div class="containerBox">
+      <h3><img th:src="@{/icon/vertical-line.png}" style="width: 30px;" alt="">등록 및 관리</h3>
+      <div class="title">등록</div>
+      <hr>
+      <div class="register-container">
+        <div class="register-content">
+          <div class="gallery-img">
+            <a id="curtainImg" th:href="@{/gallery/}">
+              <img th:src="@{/icon/close.png}" alt="" >
+              <div class="curtain-open-str">OPEN</div>
+            </a>
+          </div>
+          <div class="register-btn">
+            <a th:href="@{/manage/gallery/register}">
+              <button type="button">
+                <b>[[${nickname}]]</b> 님의 작품 등록하러 가기
+              </button>
+            </a>
+          </div>
+        </div>
+      </div>
+      <br><br>
+      <div>관리</div>
+      <hr>
+      <div class="gallery-container">
+        <th:block th:if="${galleryDTOList.size()}==0">
+          <div>[[${nickname}]]님! 아직 등록된 작품이 없습니다.
+            <br>
+            위의 버튼을 클릭해서 작품을 등록해보세요.
+          </div>
+        </th:block>
+        <th:block th:unless="${galleryDTOList.size()}==0">
+          <div class="register-btn">
+            <a th:href="@{/manage/gallery/list}">
+              <button type="button">
+                전시회 관리하러 가기
+              </button>
+            </a>
+            <br>
+            전시회 업로드 : <b>[[${galleryDTOList.size()}]] / 10 </b>
+          </div>
+
+          <div>
+            <b>최근 업로드 작품</b>
+            <br>
+            <b>[[ ${#temporals.format(galleryDTOList[0].regdate, 'yyyy-MM-dd')} ]]</b>
+            <br>
+            <th:block th:each="dto, index : ${galleryDTOList}" th:with="max='2'">
+              <div class="recent-upload-con" th:if="${max}>${index.count}">
+                <a th:href="@{/manage/gallery/read(gno=${dto.getGno}) }">
+                  <img th:src="|@{'/display'}?fileName=${dto.getImageURL()}|" alt="" width="200px">
+                </a>
+                <br>
+                <span th:text="${dto.getTitle}">TITLE</span>
+              </div>
+          </div>
+        </th:block>
+      </div>
+    </div>
+
+    <script th:inline="javascript">
+
+      $(function () {
+
+        /*[+
+          var opencurtainurl = [[@{/icon/open.png}]];
+          var closecurtainurl = [[@{/icon/close.png}]];
+        +]*/
+
+        $("#curtainImg").on("mouseenter", function () {
+          $("#curtainImg img").attr("src", opencurtainurl);
+          $(".curtain-open-str").html("전시회장");
+          // $(".curtain-open-str").css("color", "#DBE9B7");
+          $(".curtain-open-str").css("color", "black");
+        });
+
+        $("#curtainImg").on("mouseout", function () {
+          $("#curtainImg img").attr("src", closecurtainurl);
+          $(".curtain-open-str").html("OPEN");
+          $(".curtain-open-str").css("color", "white");
+        });
+      });
+
+    </script>
+  </th:block>
+</th:block>

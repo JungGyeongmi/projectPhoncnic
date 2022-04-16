@@ -1,5 +1,7 @@
 package ds.com.phoncnic.controller;
 
+import java.util.Locale;
+
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +25,7 @@ public class HomeController {
     @GetMapping({ "", "/" })
     public String home(@AuthenticationPrincipal AuthMemberDTO dto, Model model) {
         if(dto != null) {
-            log.info("dto get id "+dto.getId());
+            log.info("dto get id " + dto.getId());
             model.addAttribute("loginuserId", dto.getId());
             model.addAttribute("avatar", characterLookService.getCharacterSet(dto.getId()));
         } else {
@@ -37,6 +39,11 @@ public class HomeController {
         log.info("index..");
     }
 
+    @GetMapping("/reception")
+    public String receptionDesk() {
+        log.info("reception..");
+        return "/application/reception";
+    }
 
     @GetMapping("/crossroad")
     public String crossRoad() {
@@ -73,6 +80,11 @@ public class HomeController {
         return "/manage/rolechoice";
     }
 
+    @GetMapping("/chat")
+    public String chat2() {
+        return "/ws/chat";
+    }
+  
     @GetMapping("/lookmodal")
     public String test2 (@AuthenticationPrincipal AuthMemberDTO dto, Model model) {
         if(dto!=null){
@@ -95,5 +107,11 @@ public class HomeController {
 
         return "redirect:/";
     }
+
+    @GetMapping("/websocket/chat")
+    public String chat(Locale locale, Model model) {
+        return "/websocket/chat";
+    }
+
 
 }

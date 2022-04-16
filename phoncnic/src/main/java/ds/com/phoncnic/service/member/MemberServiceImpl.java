@@ -9,10 +9,13 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
 import ds.com.phoncnic.dto.MemberDTO;
+import ds.com.phoncnic.entity.ApplicationForm;
 import ds.com.phoncnic.entity.Dyning;
 import ds.com.phoncnic.entity.Emoji;
 import ds.com.phoncnic.entity.Gallery;
 import ds.com.phoncnic.entity.Member;
+import ds.com.phoncnic.repository.ApplicationFormRepository;
+import ds.com.phoncnic.repository.ApplicationImageRepository;
 import ds.com.phoncnic.repository.CharacterLookRepository;
 import ds.com.phoncnic.repository.DyningImageRepository;
 import ds.com.phoncnic.repository.DyningRepository;
@@ -45,6 +48,10 @@ public class MemberServiceImpl implements MemberService {
     private final DyningRepository dyningRepository;
 
     private final DyningImageRepository dyningImageRepository;
+
+    private final ApplicationFormRepository applicationFormRepository;
+
+    private final ApplicationImageRepository applicationImageRepository;
 
     @Override
     public void updateMemberDTO(MemberDTO memberDTO) {
@@ -89,7 +96,6 @@ public class MemberServiceImpl implements MemberService {
         log.info("get member by id for remove ..." + result);
 
         if (result.isPresent()) {
-            
             characterLookRepository.deleteByMemberId(id);
             followRepository.deleteByMemberId(id);
             
@@ -107,11 +113,12 @@ public class MemberServiceImpl implements MemberService {
            
             for (Emoji eno : emojilist)
                 emojiRepository.deleteByEno(eno.getEno());
-           
+
             log.info("dyninglist" + dyninglist);
             log.info("gallerylist" + gallerylist);
             log.info("emojilist" + emojilist);
-           
+            // log.info("applylist" + applyilist);
+            
             Optional<Dyning> haveDyning = dyningRepository.findDyningByMemberId(id);
            
             if (haveDyning.isPresent()) {
@@ -119,9 +126,17 @@ public class MemberServiceImpl implements MemberService {
                 log.info("---------dno deleted--------------");
             }
 
+            Optional<ApplicationForm> havingApply = applicationFormRepository.findApplicationFormByMemberId(id);
+
+            if (havingApply.isPresent()) {
+                applicationImageRepository.deleteByAfno(havingApply.get().getAfno());
+                log.info("---------afno deleted--------------");
+            }
+
             dyningRepository.deleteByMemberId(id);
             galleryRepository.deleteByMemberId(id);
             helpRepository.deleteByWriterEmail(id);
+            applicationFormRepository.deleteByApplicantId(id);
 
             log.info("get member by id for delete ...."+memberRepository.findById(id));
 

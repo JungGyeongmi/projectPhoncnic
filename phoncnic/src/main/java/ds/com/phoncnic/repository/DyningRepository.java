@@ -3,6 +3,8 @@ package ds.com.phoncnic.repository;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -15,18 +17,15 @@ import ds.com.phoncnic.repository.search.SearchDyningRepository;
 
 public interface DyningRepository extends JpaRepository<Dyning, Long>, QuerydslPredicateExecutor<Dyning>, SearchDyningRepository {
 
-    // 거리에서 가게명/루프패스
-    // @Query("SELECT d, r FROM Dyning d LEFT JOIN RoofDesign r ON d.roofdesign =
-    // r.oono")
-    // List<Dyning> getStreetList();
 
-    // 카페거리 리스트
-    @Query("SELECT d, r FROM Dyning d LEFT JOIN RoofDesign r ON d.roofdesign = r.oono where d.foodtype = 1")
-    List<Dyning> getCafeStreetList();
-
+    // 페이징 처리    
     // 음식점거리 리스트
     @Query("SELECT d, r FROM Dyning d LEFT JOIN RoofDesign r ON d.roofdesign = r.oono where d.foodtype != 1")
-    List<Dyning> getRestaurantStreetList();
+    Page<Object[]> getRestaurantStreet(Pageable pageable);
+    
+    // 카페거리 리스트
+    @Query("SELECT d, r FROM Dyning d LEFT JOIN RoofDesign r ON d.roofdesign = r.oono where d.foodtype = 1")
+    Page<Object[]> getCafeStreet(Pageable pageable);
 
     @Modifying
     @Query("delete from Dyning d where d.ceoid.id=:id")
