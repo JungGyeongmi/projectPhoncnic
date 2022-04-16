@@ -37,9 +37,9 @@ public class DyningController {
 
     // 카페 거리 페이지
     @GetMapping("/cafe/list")
-    public void cafeList(Model model,@AuthenticationPrincipal AuthMemberDTO dto) {
+    public void cafeList(Model model,@AuthenticationPrincipal AuthMemberDTO dto, PageRequestDTO pageRequestDTO) {
         log.info("cafe list.................");
-        model.addAttribute("result", dyningService.getCafeStreet());
+        model.addAttribute("result", dyningService.getCafePage(pageRequestDTO));
        
         try {
             model.addAttribute("id",dto.getId());
