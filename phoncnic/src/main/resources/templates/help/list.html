@@ -157,7 +157,7 @@
                 var readUrl = [[@{/help/read}]];
             +]*/
 
-            console.log(msg);
+            // console.log(msg);
 
 
             if (msg != null && writeremail != null) {
@@ -172,7 +172,7 @@
 
             //비밀번호 유효성검사
             const dto = document.querySelector(".dto");
-            dto.addEventListener("click", pwcheck, once);
+            dto.addEventListener("click", pwcheck,{ once : true});
 
             function pwcheck(qno, page) {
                 const inputPw = document.querySelector("#inputPw").value;
