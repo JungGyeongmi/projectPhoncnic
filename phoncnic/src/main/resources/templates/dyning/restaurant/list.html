@@ -236,18 +236,6 @@
                 }
             }, false);
 
-                // var Img = document.getElementsByClassName("dyningimg");
-                // var divv = document.querySelectorAll("#dyninga.dyningimg");
-                // for(i=1; i<=8; i++){
-                //     console.log(divv[i].offsetTop);
-                // }
-                // document.getElementsByClassName("dyningimg").offsetTop;
-                // console.log(Img.offsetTop);
-                // window.addEventListener("mouseover", function(e) {
-                //     console.log(e.target.offsetTop, e.target.offsetLeft);
-                // });
-
-
         </script>
         <!-- 가게 건물 좌표를 얻는 js -->
         <style>
@@ -268,17 +256,6 @@
 
         <script>
 
-
-            // document.onload(function(e){
-
-            //     if($("input[name='chartop']").val()!="${chartop}"){
-            //         let char = document.getElementById("char");
-
-            //         var top =  $("input[name='chartop']").val();
-            //         var left =  $("input[name='charleft']").val();
-            //         char.offset({top : top , left : left});
-            //     }
-            // });
             $(document).ready(function (e) {
                 if ($("input[name='chartop']").val() != "") {
 
@@ -290,14 +267,11 @@
                 }
             });
             $(".dyningimg").on("click", function (e) {
-                var src1 = $(this).parent().attr("class");
-                var src2 = $(this).parent().attr("id");
+                var src = $(this).parent().attr("class");
                 var top = e.target.offsetTop;
                 var left = e.target.offsetLeft;
-                console.log(src1);
-                console.log(src2);
+                console.log(src);
                 console.log(top, left);
-                // location.href=src;
             });
 
             (function () {
@@ -311,12 +285,10 @@
                     let char = document.getElementById("char");
                     let charimg = document.getElementById("charimg");
                     var wrapheight = document.getElementById("wrap").clientHeight;
-                    var top = wrapheight / 2;
-                    console.log(wrapheight);
+                    var top = wrapheight / 2;                    
 
                     var chartop = char.offsetTop;
                     var charleft = char.offsetLeft;
-                    // console.log(charleft);
                     $("input[name='chartop']").val(chartop);
                     $("input[name='charleft']").val(charleft);
 
@@ -336,17 +308,9 @@
                         char.style.top = y + 20 + "px";
                     }
 
-                    // if(key === 19) {
-                    //     if(charleft < 1300 & charleft > 1200) {
-                    //         // $("#wrap").animate({ left: 673, behavior: 'smooth' });
-                    //         window.scrollTo({left:673, behavior:'smooth'});
-                    //     }
-                    // }
-
-
+                    // →방향키
                     if (key === 39) {
                         var imgLength = $(".dyningimg").length;
-                        console.log("캐릭터좌표" + chartop, charleft);
                         var screenWidth = window.screen.width;
                         var screenHeight = window.screen.availHeight;
                         var listpage = Number(document.querySelector("#listpage").value) + 1;
@@ -355,31 +319,19 @@
                             return;
                         }
                         if (charleft > screenWidth - 200) {
+                            $("body div").animate({
+                                "opacity": "0",
+                                "top": "10px"
+                            }, 500, function () {
                             location.replace(listlocation + listpage + "&top=" + top + "&left=" + 40 );
+                            });
                         };
 
                     }
 
-                    // if (key === 39) {
-                    //     var imgLength = $(".dyningimg").length;
-                    //     console.log("캐릭터좌표" + chartop, charleft);
-                    //     var screenWidth = window.screen.width;
-                    //     var listpage = Number(document.querySelector("#listpage").value) + 1;
-
-                    //     if (listpage - 1 == totalpage) {
-                    //         return;
-                    //     }
-                    //     if (charleft > screenWidth3 - 200) {
-                    //         // alert(listpage);
-                    //         location.replace(listlocation + listpage + "&top=" + top + "&left=" + left);
-                    //         // alert(listlocation + listpage +"&top="+top+"&left="+left);
-                    //     };
-
-                    // }
-
+                    // ←방향키
                     if (key === 37) {
                         var imgLength = $(".dyningimg").length;
-                        console.log("캐릭터좌표" + chartop, charleft);
                         var screenWidth = window.screen.width; 
                         var screenHeight = window.screen.availHeight;
                         var left = screenWidth - 100;
@@ -392,20 +344,14 @@
                             } else {
                                 return;
                             }
-
                         }
-
                     }
-
                 });
-
-
 
                 document.addEventListener("keyup", function (e) {
                     var chartop = char.offsetTop;
                     var charleft = char.offsetLeft;
                     let key = e.keyCode;
-                    console.log("캐릭터좌표" + chartop, charleft);
                     $("input[name='chartop']").val(chartop);
                     $("input[name='charleft']").val(charleft);
                     if (key === 13 /* enter */) {
@@ -416,11 +362,7 @@
                             // 절대 좌표
                             var targetTop = document.getElementById(i).offsetTop;
                             var targetLeft = document.getElementById(i).offsetLeft;
-                            // var targetHref = document.getElementById(i).parentNode.getAttribute("class");
-                            // var targetTop = $("#" + i).offset().top;
-                            // var targetLeft = $("#" + i).offset().left;
                             var targetHref = $("#" + i).parent().attr('class');
-                            // console.log("캐릭터좌표"+chartop,charleft);
                             console.log("타겟좌표: " + targetTop, targetLeft, targetHref);
 
                             if (targetTop - 40 < chartop && chartop < targetTop + 160 && targetLeft - 30 < charleft && charleft < targetLeft + 160) {
