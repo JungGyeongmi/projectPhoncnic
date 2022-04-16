@@ -114,15 +114,10 @@ public class MemberServiceImpl implements MemberService {
             for (Emoji eno : emojilist)
                 emojiRepository.deleteByEno(eno.getEno());
 
-            List<ApplicationForm> applyilist = applicationFormRepository.findByMemberId(id);
-
-            for (ApplicationForm afno : applyilist)
-                applicationFormRepository.deleteById(afno.getAfno());
-           
             log.info("dyninglist" + dyninglist);
             log.info("gallerylist" + gallerylist);
             log.info("emojilist" + emojilist);
-            log.info("applylist" + applyilist);
+            // log.info("applylist" + applyilist);
             
             Optional<Dyning> haveDyning = dyningRepository.findDyningByMemberId(id);
            
