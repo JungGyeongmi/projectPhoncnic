@@ -1,4 +1,4 @@
-<html lang="ko" xmls:th="http://www.thymeleaf.org">
+    <html lang="ko" xmls:th="http://www.thymeleaf.org">
 <style>
     .look {
         display: inline-block;
@@ -25,7 +25,6 @@
         margin: 0 auto;
         font-family: 'GmarketSansLight';
     }
-
     .personal-info-container {
         background-color: #f4f4f4;
         border-radius: 5px;
@@ -38,15 +37,6 @@
 
     .personal-info-character {
         padding: 15px 57px 30px 57px;
-    }
-
-    .personal-info-character-content button {
-        width: 162px;
-        background-color: #DBE9B7;
-        height: 30px;
-        border: none;
-        border-radius: 20px;
-        font-size: 16px;
     }
 
     .info-div {
@@ -73,21 +63,17 @@
     }
 
     .personal-info-content {
-        padding: 55px 0 30px 0;
+        padding: 40px;
     }
 
     .personal-info {
-        margin: 15px 0 15px 0;
+        margin: 18px auto;
     }
 
-    .personal-info span:last-child {
-        margin-left: 17px;
+    .personal-info span:first-child {
+        margin-right: 25px;
     }
 
-    .info-btns {
-        padding: 10px;
-        text-align: center;
-    }
 
     #memberModifyBtn {
         text-align: center;
@@ -100,33 +86,18 @@
 
     }
 
-    .info-btns button {
-        background-color: #DBE9B7;
-        height: 30px;
-        border: none;
-        border-radius: 20px;
-        font-size: 16px;
-
-
-    }
-
-
-    .info-btns button:last-child {
-        width: 144px;
-    }
-
     .personal-info input {
         width: 223px !important;
         height: 42 !important;
         display: inline-block !important;
         margin: 0 !important;
-        margin-left: 15px !important;
+
     }
 
     .content-title {
         font-weight: bold;
         border-bottom: 1px solid gray;
-        margin: 29px 0;
+        margin: 52px 0 28px 0;
     }
 
     .character-list {
@@ -147,6 +118,7 @@
         padding: 20px;
         background-color: #f4f4f4;
         text-align: center;
+        border-radius: 5px;
     }
 
     .character-container img {
@@ -181,10 +153,11 @@
         justify-content: space-evenly;
         align-items: center;
         width: 100%;
-        flex-wrap: wrap ;
+        flex-wrap: wrap;
         padding: 10px;
     }
-    .follow-content hr{
+
+    .follow-content hr {
         margin: 0 !important;
     }
 
@@ -194,12 +167,14 @@
         align-items: center;
         width: 100%;
         padding: 15px 10px;
+        margin-bottom: 15px;
     }
 
     .follow-title {
         flex-basis: 120px;
         text-align: center;
     }
+
     .follow-content hr {
         height: 160px !important;
         width: 0.5px !important;
@@ -209,56 +184,104 @@
         margin: 0 30px !important;
 
     }
-    .follow-list{
+
+    .follow-list {
+        width: 100%;
     }
+
     .follow-content {
         width: 100%;
+    }
+
+    .follow-info div {
+        display: inline-block;
+        min-width: 620px;
+
+    }
+
+    .follow-info,
+    .emoji-info {
+        padding: 10px 10px;
+        margin-bottom: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+    }
+
+    .follow-info:hover,
+    .emoji-info:hover {
+        background-color: #DBE9B7;
+    }
+
+    .follow-btn button {
+        border: none;
+        background-color: f4f4f4;
+        border-radius: 20px;
+        width: 139px;
+        height: 30px;
+
+    }
+
+    .info-btns {
+        padding: 35px 10px 100px 10px;
+        text-align: center;
+    }
+
+    #memberOutBtn {
+        background-color: #DBE9B7;
+        font-size: 24px;
+        height: 51px;
+        width: 100%;
+        border: none;
+        border-radius: 20px;
     }
 </style>
 <th:block th:replace="~{layout/basic :: setContent(~{::content})}">
     <th:block th:fragment="content">
         <div class="containerBox">
-            <form id="memberfrm" action="">
-                <h3 class="py-5" style="font-family: 'GmarketSansMedium';">
-                    <img th:src="@{/icon/vertical-line.png}" style="width:30px;" alt="">마이페이지
-                </h3>
-                <p class="content-title">개인정보</p>
-                <div class="personal-info-container">
-                    <div class="personal-info-character-content">
-                        <div class="personal-info-character">
-                            <th:block th:each="sdto : ${setDTO}">
-                                <img class="look setlook" th:src="${sdto.setpath}" alt="">
-                                <input type="hidden" id="radioset" th:value="${sdto.setname}">
-                            </th:block>
-                        </div>
-                        <div class="info-div">
-                            <a href="#setimg"><button type="button">캐릭터 변경하기</button></a>
-                        </div>
-                        <div class="info-div">
-                        </div>
+            <h3 class="py-5" style="font-family: 'GmarketSansMedium';">
+                <img th:src="@{/icon/vertical-line.png}" style="width:30px;" alt="">마이페이지
+            </h3>
+            <!-- 개인정보 -->
+            <p class="content-title">개인정보</p>
+            <div class="personal-info-container">
+                <div class="personal-info-character-content">
+                    <div class="personal-info-character">
+                        <th:block th:each="sdto : ${setDTO}">
+                            <img class="look setlook" th:src="${sdto.setpath}" alt="">
+                            <input type="hidden" id="radioset" th:value="${sdto.setname}">
+                        </th:block>
                     </div>
-                    <hr>
-                    <div class="personal-info-content">
-                        <div class="personal-info">
-                            <span>아이디</span>
-                            <input type="hidden" th:value=${memberDTO.id} name=id readonly>
-                            <span><b>[[${memberDTO.id}]]</b></span>
-                        </div>
-                        <div class="personal-info">
-                            <span>닉네임</span>
-                            <input type="text" th:value=${memberDTO.nickname} name=nickname class="form-control">
-                            <button id="memberModifyBtn" type="button">수정</button>
-                        </div>
-                        <div class="personal-info">
-                            <span>가입일</span>
-                            <span><b>[[${#temporals.format(memberDTO.regdate, 'yyyy-MM-dd')}]]</b></span>
-                        </div>
-                        <div class="info-btns">
-                            <button id="memberOutBtn" type="button">회원탈퇴</button>
-                        </div>
+                    <div class="info-div">
+                        내 캐릭터
+                    </div>
+                    <div class="info-div">
                     </div>
                 </div>
-            </form>
+                <hr>
+                <form id="memberfrm" action="">
+                    <div class="personal-info-content">
+                        <th:block th:each="dto : ${memberDTO}">
+                            <div class="personal-info">
+                                <span>아이디</span>
+                                <span><b>[[${dto.id}]]</b></span>
+                                <input type="hidden" th:value=${dto.id} name=id>
+                            </div>
+                            <div class="personal-info">
+                                <span>닉네임</span>
+                                <input type="text" th:value=${dto.nickname} name=nickname class="form-control">
+                                <button id="memberModifyBtn" type="button">수정</button>
+                            </div>
+                            <div class="personal-info">
+                                <span>가입일</span>
+                                <span><b>[[${#temporals.format(dto.regdate, 'yyyy-MM-dd HH:mm:ss')}]]</b></span>
+                                <input type="hidden" th:value=${dto.regdate}>
+                            </div>
+                        </th:block>
+                    </div>
+                </form>
+            </div>
             <!-- 캐릭터 -->
             <p class="content-title">캐릭터</p>
             <form id="lookform" action="">
@@ -301,11 +324,12 @@
                     </div>
                     <hr>
                     <div class="follow-list">
+                        <div th:if="${afollowDTO.size()}==0">- 팔로우한 작가가 없습니다</div>
                         <div th:each="adto : ${afollowDTO}" class="follow-info">
-                            <input type="hidden" th:value="${adto}" readonly>
-                            <span>[[${adto}]]</span>
+                            <input type="hidden" th:value="${adto}" name="adto">
+                            <div>- <b>[[${adto}]]</b></div>
                             <span class="follow-btn">
-                            <button th:value="${memberDTO.id}" type="button" class="artistRemoveBtn">팔로우 취소</button>
+                                <button th:value="${memberDTO.id}" type="button" class="artistRemoveBtn">팔로우 취소</button>
                             </span>
                         </div>
                     </div>
@@ -316,73 +340,69 @@
                     </div>
                     <hr>
                     <div class="follow-list">
+                        <div th:if="${dfollowDTO.size()}==0">- 팔로우한 가게가 없습니다</div>
                         <div th:each="ddto : ${dfollowDTO}" class="follow-info">
-                            <input type="hidden" name="name" th:value="${ddto}" readonly>
-                            <span>[[${ddto}]]</span>
+                            <input type="hidden" name="name" th:value="${ddto}">
+                            <div>- <b>[[${ddto}]]</b></div>
                             <span class="follow-btn">
-                            <button class="dyningRemoveBtn" th:value="${memberDTO.id}" type="button">팔로우취소</button>
+                                <button class="dyningRemoveBtn" th:value="${memberDTO.id}" type="button">팔로우취소</button>
                             </span>
                         </div>
                     </div>
                 </div>
             </div>
 
-            
-            <table border="1">
-                <tr>
-                    <th scope="col">팔로우한 artist</th>
-                </tr>
-                <tr th:each="adto : ${afollowDTO}">
-                    <td>
-                        <input type="text" th:value="${adto}" readonly>
-                        <button th:value="${memberDTO.id}" type="button" class="artistRemoveBtn">팔로우 취소</button>
-                    </td>
-                </tr>
-            </table>
-            <table border="1">
-                <tr>
-                    <th scope="col">팔로우한 dyning</th>
-                </tr>
-                <tr th:each="ddto : ${dfollowDTO}">
-                    <td><input type="text" name="name" th:value="${ddto}" readonly>
-                        <button class="dyningRemoveBtn" th:value="${memberDTO.id}" type="button">팔로우취소</button>
-                    </td>
-                </tr>
-            </table>
-            <br>
-            <table border="1">
-                <tr>
-                    <th scope="col">DNO</th>
-                    <th scope="col">이모지타입</th>
-                    <th scope="col">이모지path</th>
-                    <th scope="col">등록날짜</th>
-                    <th scope="col">삭제</th>
-                </tr>
-                <tr th:each="edto : ${emojiDTO}" th:if="${edto.dno}!=0">
-                    <td>[[${edto.dno}]]</td>
-                    <td>[[${edto.emojitype}]]</td>
-                    <td><img th:src="${edto.emojipath}" alt="" / width="30px"></td>
-                    <td>[[${edto.regdate}]]</td>
-                    <td><button class="emojiRemoveBtn" th:value="${edto.eno}" type="button">삭제</button></td>
-                </tr>
-            </table>
-            <br>
-            <table border="1">
-                <tr>
-                    <th scope="col">GNO</th>
-                    <th scope="col">이모지타입</th>
-                    <th scope="col">이모지path</th>
-                    <th scope="col">등록날짜</th>
-                    <th scope="col">삭제</th>
-                </tr>
-                <tr th:each="edto : ${emojiDTO}" th:if="${edto.gno}!=0">
-                    <td>[[${edto.gno}]]</td>
-                    <td>[[${edto.emojitype}]]</td>
-                    <td><img th:src="${edto.emojipath}" alt="" width="30px"></td>
-                    <td>[[${edto.regdate}]]</td>
-                    <td><button class="emojiRemoveBtn" th:value="${edto.eno}" type="button">삭제</button></td>
-                </tr>
-            </table>
+            <!-- 이모지 -->
+            <p class="content-title">좋아요</p>
+            <div class="follow-container">
+                <div class="follow-content">
+                    <div class="follow-title">
+                        <span>작품</span>
+                    </div>
+                    <hr>
+                    <div class="follow-list">       
+                        <div th:each="edto : ${emojiDTO}" th:if="${edto.gno}!=0" class="emoji-info">
+                            <div>- <b>[[${edto.gno}]]번 게시물</b></div>
+                            <input type="hidden" th:value="${edto.emojitype}">
+                            <div><img th:src="${edto.emojipath}" alt="" width="40px"></div>
+                            <span class="follow-btn">
+                                <button class="emojiRemoveBtn" th:value="${edto.eno}" type="button">삭제</button>
+                            </span>
+                        </div>
+                        <div th:each="edto : ${emojiDTO}" th:unless="${edto.gno}!=0" >
+                            - 작품에 좋아요를 남겨보세요
+                        </div>
+                        <div  th:if='${emojiDTO.size()}==0'>
+                            - 작품에 좋아요를 남겨보세요
+                        </div>
+                    </div>
+                </div>
+                <div class="follow-content">
+                    <div class="follow-title">
+                        <span>가게</span>
+                    </div>
+                    <hr>
+                    <div class="follow-list">
+                        <div th:each="edto : ${emojiDTO}" th:if="${edto.dno}!=0" class="emoji-info">
+                            <div>- <b>[[${edto.dno}]]번 게시물</b></div>
+                            <input type="hidden" th:value="${edto.emojitype}">
+                            <div><img th:src="${edto.emojipath}" alt="" width="40px"></div>
+                            <span class="follow-btn">
+                                <button class="emojiRemoveBtn" th:value="${edto.eno}" type="button">삭제</button> 
+                            </span>
+                        </div>
+                        <div th:each="edto : ${emojiDTO}" th:unless="${edto.dno}!=0">
+                            - 가게에 좋아요를 남겨보세요
+                        </div>
+                        <div  th:if='${emojiDTO.size()}==0'>
+                            - 가게에 좋아요를 남겨보세요
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="info-btns">
+                <button id="memberOutBtn" type="button">회원탈퇴</button>
+            </div>
         </div>
         <script th:inline="javascript">
 
@@ -485,7 +505,7 @@
 
             $(".artistRemoveBtn").click(function () {
                 var id = $(this).val();
-                var artistname = $(this).prev().val();
+                var artistname = $("input[name=adto]").val();
 
                 var data = { id: id, artistname: artistname };
 
@@ -506,7 +526,7 @@
 
             $(".dyningRemoveBtn").click(function () {
                 var id = $(this).val();
-                var dyningname = $(this).prev().val();
+                var dyningname = $("input[name=name]").val();
 
                 var data = { id: id, dyningname: dyningname };
 

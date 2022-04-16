@@ -17,10 +17,6 @@ import ds.com.phoncnic.repository.search.SearchDyningRepository;
 
 public interface DyningRepository extends JpaRepository<Dyning, Long>, QuerydslPredicateExecutor<Dyning>, SearchDyningRepository {
 
-    // 거리에서 가게명/루프패스
-    // @Query("SELECT d, r FROM Dyning d LEFT JOIN RoofDesign r ON d.roofdesign =
-    // r.oono")
-    // List<Dyning> getStreetList();
 
     // 페이징 처리    
     // 음식점거리 리스트

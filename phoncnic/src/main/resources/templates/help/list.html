@@ -95,10 +95,8 @@
             <table class="table table-hover">
                 <thead class="table-light">
                     <tr>
-                        <!--/* <th scope="col">No.</th> */-->
                         <th scope="col">문의 종류</th>
                         <th scope="col">제목</th>
-                        <th scope="col">내용</th>
                         <th scope="col">작성자</th>
                         <th scope="col" style="width:22%">등록일</th>
                         <th scope="col" style="width:0%"></th>
@@ -109,10 +107,11 @@
                         th:onclick="|javascript:pwcheck([[${dto.qno}]],[[${result.page}]])|">
                         <td>[[${dto.qtype}]]</td>
                         <td>[[${ dto.title }]]</td>
-                        <td><b th:text="${dto.content}"></b></td>
-                        <td>[[${dto.writer}]]</td>
+                        <td>[[${dto.writeremail}]]</td>
                         <td>[[${#temporals.format(dto.regdate,'yyyy/MM/dd')}]]</td>
-                        <td style="border: none;"><input type="hidden" th:value="${dto.password}" id="inputPw"></td>
+                        <td style="border: none;">
+                            <input type="hidden" th:value="${dto.password}" id="inputPw">
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -128,44 +127,15 @@
                         <a th:href="@{/help/list(page=${page}, type=${pageRequestDTO.type},
                     keyword=${pageRequestDTO.keyword})}" class="page-link">[[${page}]]</a>
                     </li>
-
                     <li class="page-item" th:if="${result.next}">
                         <a th:href="@{/help/list(page=${result.end+1}, type=${pageRequestDTO.type},
-                keyword=${pageRequestDTO.keyword})}" class="page-link">&raquo;</a>
+                    keyword=${pageRequestDTO.keyword})}" class="page-link">&raquo;</a>
                     </li>
                 </ul>
             </nav>
-            <!-- pagination -->
-            <!-- <ul>
-            <li th:if="${result.prev}">
-                <a th:href="@{/help/list(page=${result.start-1}, 
-                type=${pageRequestDTO.type},
-                keyword=${pageRequestDTO.keyword})}" tabindex="-1">Previous</a>
-            </li>
-            <li th:each="page : ${result.pageList}">
-                <a class="page-link" th:href="@{/help/list
-                    (page=${page}, 
-                    type=${pageRequestDTO.type},
-                    keyword=${pageRequestDTO.keyword})}">[[${page}]]</a>
-            </li>
-            <li th:if="${result.next}">
-                <a th:href="@{/help/list(page=${result.end+1}, 
-                type=${pageRequestDTO.type},
-                keyword=${pageRequestDTO.keyword})}">Next</a>
-            </li>
-        </ul> -->
         </div>
-
-
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
         <script th:inline="javascript">
-
-            /*[+
-                var msg=[[${msg}]]; 
-                var id=[[${id}]];
-                var readUrl = [[@{/help/read}]];
-            +]*/
-
             // 검색 submit
             var search = document.querySelector("#searchForm");
             var sel = document.querySelector("#searchForm select");
@@ -179,16 +149,19 @@
                 }
             }
 
-            var userid = document.querySelector("#userid").getAttribute('value');
+            /*[+
+                var msg=[[${msg}]];
+                var id=[[${id}]];
+                var readUrl = [[@{/help/read}]];
+            +]*/
+
             console.log(msg);
-            console.log(userid);
+
 
             if (msg != null && id != null) {
                 swal("성공!", "답변은 " + id + " 로 발송해드립니다.", "success");
             } else if (msg != null && userid != null) {
                 swal("성공!", "답변은 " + userid + " 로 발송해드립니다.", "success");
-            } else if (msg != null && userid == null) {
-                swal("성공!", "답변은 이메일로 발송해드립니다.", "success");
             }
 
             /*[+ var msg2=[[${msg2}]]; +]*/
@@ -210,7 +183,7 @@
                         swal("비밀번호를 다시 입력해주세요");
                         return;
                     } else if (message == inputPw) {
-                        window.location.href = "read?qno=" + qno + "&page=" + page;
+                        window.location.href = readUrl + "?qno=" + qno + "&page=" + page;
                         return;
                     }
                 });

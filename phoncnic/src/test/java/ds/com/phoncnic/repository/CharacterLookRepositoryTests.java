@@ -24,22 +24,29 @@ public class CharacterLookRepositoryTests {
     // ChracterLookInfo 더미
     @Test
     public void insertChracterimg() {
+       
         String[] set = {
             "/phoncnic/display?fileName=2022%5C04%5C01%2F05471144-94c6-4f3f-a076-3fe99ba44b0c_set1.png",
             "/phoncnic/display?fileName=2022%5C04%5C01%2F9b6e64c8-4317-4256-8e28-b86efb541e3f_set2.png",
             "/phoncnic/display?fileName=2022%5C04%5C01%2Ff262f865-a15d-4274-9c8c-0b392c23f8ec_set3.png"
         };
 
+        String[] setback = {
+            "/phoncnic/display?fileName=2022%5C04%5C01%2F05471144-94c6-4f3f-a076-3fe99ba44b0c_set1back.png",
+            "/phoncnic/display?fileName=2022%5C04%5C01%2F9b6e64c8-4317-4256-8e28-b86efb541e3f_set2back.png",
+            "/phoncnic/display?fileName=2022%5C04%5C01%2Ff262f865-a15d-4274-9c8c-0b392c23f8ec_set3back.png"
+        };
+
         IntStream.rangeClosed(1, 3).forEach(i -> {
             CharacterLookInfo characterLookinfo = CharacterLookInfo.builder()
                     .setname("set" + i)
                     .setpath(set[i - 1])
+                    .setbackpath(setback[i - 1])
                     .build();
             characterLookInforepository.save(characterLookinfo);
         });
     }
 
-    // ChracterLook 더미
     @Test
      public void insertDummies() {
 
@@ -57,6 +64,4 @@ public class CharacterLookRepositoryTests {
             repository.save(characterLook);
         });
     }
-
-
 }

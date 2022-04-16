@@ -2,7 +2,11 @@ package ds.com.phoncnic.controller;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,7 +40,7 @@ public class MyPageController {
 
         log.info("id:" + dto.getId());
         MemberDTO memberDTO = memberService.getMember(dto.getId());
-        
+
         model.addAttribute("id",dto.getId());
         model.addAttribute("memberDTO", memberDTO);
 
@@ -48,18 +52,23 @@ public class MyPageController {
     }
 
     @PostMapping("/membermodify")
-    public String membermodify(MemberDTO memberDTO, RedirectAttributes ra) {
+    public String membermodify(MemberDTO memberDTO, RedirectAttributes ra, @AuthenticationPrincipal AuthMemberDTO dto) {
 
         log.info("update....");
         log.info("modify post.........id:" + memberDTO.getId());
         log.info("memberDTO : "+memberDTO);
 
         memberService.updateMemberDTO(memberDTO);
-        
-        ra.addAttribute("id", memberDTO.getId());
-        
-        return "redirect:/main/mypage";
+        dto.setNickname(memberDTO.getNickname());
 
+        ra.addAttribute("id", memberDTO.getId());
+
+        // session 값
+        Authentication authentication = new UsernamePasswordAuthenticationToken(dto, null, dto.getAuthorities());
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        securityContext.setAuthentication(authentication);
+
+        return "redirect:/main/mypage";
     }
 
     @PostMapping("/lookmodify")
@@ -79,5 +88,4 @@ public class MyPageController {
         session.invalidate();
         return "redirect:/";
     }
-
 }

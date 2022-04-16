@@ -20,6 +20,8 @@ import ds.com.phoncnic.service.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
+
+
 @Controller
 @Log4j2
 @RequiredArgsConstructor
@@ -35,9 +37,9 @@ public class DyningController {
 
     // 카페 거리 페이지
     @GetMapping("/cafe/list")
-    public void cafeList(Model model,@AuthenticationPrincipal AuthMemberDTO dto, PageRequestDTO pageRequestDTO) {
+    public void cafeList(Model model,@AuthenticationPrincipal AuthMemberDTO dto) {
         log.info("cafe list.................");
-        model.addAttribute("result", dyningService.getCafePage(pageRequestDTO));
+        model.addAttribute("result", dyningService.getCafeStreet());
        
         try {
             model.addAttribute("id",dto.getId());
@@ -81,7 +83,7 @@ public class DyningController {
 
     @GetMapping("/details")
     public void details(@RequestParam("dno") Long dno,@AuthenticationPrincipal AuthMemberDTO dto, Model model,
-     @RequestParam("chartop") Long chartop,@RequestParam("charleft") Long charleft,RedirectAttributes ra, PageRequestDTO pageRequestDTO) {
+     @RequestParam("chartop") Long chartop,@RequestParam("charleft") Long charleft,RedirectAttributes ra) {
 
         log.info("Details.................");
         if (dno != 0) {
@@ -121,11 +123,10 @@ public class DyningController {
 
             ra.addFlashAttribute("chartop", chartop);
             ra.addFlashAttribute("charleft",charleft);
-            // model.addAttribute("follow",followService.)
 
-        } else
+        } else {
             return;
-
+        }
     }
 
 
@@ -152,6 +153,15 @@ public class DyningController {
         }
         return "/dyning/movingtest2";
     }
+
+    @GetMapping("/wstest")
+    public String wstest() {
+        return "dyning/wstest";
+    }
+
+    
+
+
 
 
 }

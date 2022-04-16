@@ -11,11 +11,11 @@ import ds.com.phoncnic.repository.search.SearchHelpRepository;
 
 public interface HelpRepository extends JpaRepository<Help, Long>, SearchHelpRepository {
 
-    @Query("select q from Help q where answerstatus = true or mod(qno, 2) = 0 ")
+    @Query("select q from Help q")
     Page<Help> getListPage(Pageable pageable);
     
     @Modifying
-    @Query("delete from Help h where h.writer.id=:id")
-    void deleteByMemberId(String id);
+    @Query("delete from Help h where h.writeremail=:email")
+    void deleteByWriterEmail(String email);
 
 }

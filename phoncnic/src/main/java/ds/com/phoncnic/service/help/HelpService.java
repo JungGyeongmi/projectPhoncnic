@@ -4,18 +4,16 @@ import ds.com.phoncnic.dto.HelpDTO;
 import ds.com.phoncnic.dto.pageDTO.PageRequestDTO;
 import ds.com.phoncnic.dto.pageDTO.PageResultDTO;
 import ds.com.phoncnic.entity.Help;
-import ds.com.phoncnic.entity.Member;
 
 public interface HelpService {
+    
     PageResultDTO<HelpDTO, Object[]> getQnaList(PageRequestDTO pageRequestDTO);
 
-    Long register(HelpDTO helpDTO);
-
     HelpDTO get(Long qno);
+    
+    Long register(HelpDTO helpDTO);
     void modify(HelpDTO helpDTO);
     void remove(Long qno);
-
-
 
     /* Entity -> DTO */
     default HelpDTO entityToDTO(Help help){
@@ -28,7 +26,7 @@ public interface HelpService {
             .answerstatus(help.isAnswerstatus())
             .moddate(help.getModDate())
             .regdate(help.getRegDate())
-            .writer(help.getWriter().getNickname())
+            .writeremail(help.getWriteremail())
         .build();
         
         return helpDTO;
@@ -45,11 +43,9 @@ public interface HelpService {
             .password(helpDTO.getPassword())
             .qtype(helpDTO.getQtype())
             .answerstatus(helpDTO.isAnswerstatus())
-            .writer( Member.builder().id(helpDTO.getWriter()).build())
+            .writeremail(helpDTO.getWriteremail())
         .build();
 
         return help;
     }
-
-
 }

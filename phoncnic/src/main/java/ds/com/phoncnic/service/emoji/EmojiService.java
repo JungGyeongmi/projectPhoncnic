@@ -32,8 +32,6 @@ public interface EmojiService {
 
     Emoji HaveEmoji(String id, Long dno);
 
-    /* DTO -> Entity */
-    // gno 나 dno 가 null 값이 들어왔을뗀 전환을 제외하도록 if 문을 써 줌.(안 나누면 Pk가 자동생성됨)
     default Emoji dtoToEntity(EmojiDTO emojiDTO) {
         if (emojiDTO.getGno() == null) {
             Emoji emoji = Emoji.builder()

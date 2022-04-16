@@ -23,6 +23,6 @@ public class CharacterLookInfo {
     private Long chno;
 
     private String setname;
-    private String setpath;   
-
+    private String setpath;
+    private String setbackpath;
 }

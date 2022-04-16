@@ -2,10 +2,10 @@ package ds.com.phoncnic.repository.search;
 
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -33,36 +33,12 @@ public class SearchHelpRepositoryImpl
   }
 
   @Override
-  public Help search1() {
-    log.info("serch1...........");
-    QHelp help = QHelp.help;
-    QMember member = QMember.member;
-    JPQLQuery<Help> jpqlQuery = from(help);
-    jpqlQuery.leftJoin(member).on(help.writer.eq(member));
-    JPQLQuery<Tuple> tuple = jpqlQuery.select(
-        help, member.id);
-    tuple.groupBy(help);
-
-    log.info("----------------------------");
-    log.info(tuple);
-    log.info("----------------------------");
-
-    List<Help> result = jpqlQuery.fetch();
-    log.info(result);
-    return null;
-  }
-
-  @Override
   public Page<Object[]> searchPage(String type, String keyword, Pageable pageable) {
     log.info("searchPage.....");
+   
     QHelp help = QHelp.help;
-    QMember member = QMember.member;
-
     JPQLQuery<Help> jpqlQuery = from(help);
-    jpqlQuery.leftJoin(member).on(help.writer.eq(member));
-
-    JPQLQuery<Tuple> tuple = jpqlQuery.select(
-        help, member);
+    JPQLQuery<Help> obj = jpqlQuery.select(help);
 
     BooleanBuilder builder = new BooleanBuilder();
     BooleanExpression expression = help.qno.gt(0L);
@@ -77,7 +53,7 @@ public class SearchHelpRepositoryImpl
             conditionBuilder.or(help.title.contains(keyword));
             break;
           case "w":
-            conditionBuilder.or(member.id.contains(keyword));
+            conditionBuilder.or(help.writeremail.contains(keyword));
             break;
           case "c":
             conditionBuilder.or(help.content.contains(keyword));
@@ -86,7 +62,7 @@ public class SearchHelpRepositoryImpl
       }
       builder.and(conditionBuilder);
     }
-    tuple.where(builder);
+    obj.where(builder);
 
     Sort sort = pageable.getSort();
     sort.stream().forEach(new Consumer<Sort.Order>() {
@@ -94,22 +70,29 @@ public class SearchHelpRepositoryImpl
       public void accept(Sort.Order order) {
         Order direction = order.isAscending() ? Order.ASC : Order.DESC;
         String prop = order.getProperty();
+
         log.info("prop>>" + prop);
+
         PathBuilder orderByExpression = new PathBuilder<>(
             Help.class, "help");
-        tuple.orderBy(new OrderSpecifier<>(direction, orderByExpression.get(prop)));
+          obj.orderBy(new OrderSpecifier<>(direction, orderByExpression.get(prop)));
       }
     });
 
-    tuple.groupBy(help);
-    tuple.offset(pageable.getOffset());
-    tuple.limit(pageable.getPageSize());
+    obj.groupBy(help);
+    obj.offset(pageable.getOffset());
+    obj.limit(pageable.getPageSize());
 
-    List<Tuple> result = tuple.fetch();
+    List<Help> result = obj.fetch();
     log.info(result);
-    long count = tuple.fetchCount();
+    long count = obj.fetchCount();
     log.info("COUNT: " + count);
 
-    return new PageImpl<Object[]>(result.stream().map(t -> t.toArray()).collect(Collectors.toList()), pageable, count);
+    return new PageImpl<Object[]>(result.stream().map(new Function<Help, Object[]>() {
+      @Override
+      public Object[] apply(Help t) {
+        return new Object[] { t };
+      }
+    }).collect(Collectors.toList()), pageable, count);
   }
 }

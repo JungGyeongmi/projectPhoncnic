@@ -128,13 +128,13 @@ public interface DyningService {
     // DyningDTO getRoof();
     default DyningDTO roofEntityToDTO(Dyning dyning) {
         DyningDTO dyningDTO = DyningDTO.builder()
-            .dno(dyning.getDno())
-            .dyningname(dyning.getDyningname())
-            .roofpath(dyning.getRoofdesign().getRoofpath())
-            .roofthumbnail(dyning.getRoofdesign().getRoofthumbnail())
-            .id(dyning.getCeoid().getId())
-            .foodtype(dyning.getFoodtype())
-            .build();
+                .dno(dyning.getDno())
+                .dyningname(dyning.getDyningname())
+                .roofpath(dyning.getRoofdesign().getRoofpath())
+                .roofthumbnail(dyning.getRoofdesign().getRoofthumbnail())
+                .id(dyning.getCeoid().getId())
+                .foodtype(dyning.getFoodtype())
+                .build();
 
         return dyningDTO;
     }
