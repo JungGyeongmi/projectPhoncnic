@@ -118,8 +118,8 @@
       <div class="register-container">
         <div class="register-content">
           <div class="gallery-img">
-            <a th:href="@{/manage/gallery/register}">
-              <img th:src="@{/icon/close.png}" alt="" id="curtainImg">
+            <a id="curtainImg" th:href="@{/gallery/}">
+              <img th:src="@{/icon/close.png}" alt="" >
               <div class="curtain-open-str">OPEN</div>
             </a>
           </div>
@@ -181,13 +181,14 @@
         +]*/
 
         $("#curtainImg").on("mouseenter", function () {
-          $("#curtainImg").attr("src", opencurtainurl);
-          $(".curtain-open-str").html("CLICK");
-          $(".curtain-open-str").css("color", "#DBE9B7");
+          $("#curtainImg img").attr("src", opencurtainurl);
+          $(".curtain-open-str").html("전시회장");
+          // $(".curtain-open-str").css("color", "#DBE9B7");
+          $(".curtain-open-str").css("color", "black");
         });
 
         $("#curtainImg").on("mouseout", function () {
-          $("#curtainImg").attr("src", closecurtainurl);
+          $("#curtainImg img").attr("src", closecurtainurl);
           $(".curtain-open-str").html("OPEN");
           $(".curtain-open-str").css("color", "white");
         });
