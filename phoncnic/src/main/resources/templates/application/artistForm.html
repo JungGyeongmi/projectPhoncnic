@@ -70,9 +70,9 @@
 
         <form th:action="@{/reception/register}" th:method="POST" id="frm">
           <input type="hidden" name="applicationtype" th:value="false"><br>
-          <input type="hidden" name="id" th:value="${authDTO?.id}"><br>
+          <input type="hidden" name="applicant" th:value="${authDTO?.id}"><br>
           <label class="form-label">필명</label>
-          <input type="text" name="artistname" th:value="${authDTO?.nickname}" class="form-control" readonly>
+          <input type="text" th:value="${authDTO?.nickname}" class="form-control" readonly>
           <div class="img-warn">* 필명(닉네임)은 마이페이지에서 언제나 변경 가능합니다</div>
           <br>
           <label for="content" class="form-label">한마디</label><br>

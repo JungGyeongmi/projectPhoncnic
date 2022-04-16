@@ -36,7 +36,8 @@ public class ApplicationFormServiceImpl implements ApplicationFormService {
 
     formRepository.save(apply);
 
-    if(entityMap.get("businessregistration") != null){
+    if(dto.getApplicationtype()){
+      log.info("register img....");
       List<ApplicationImage> imglist = (List<ApplicationImage>) entityMap.get("businessregistration");
   
       imglist.forEach(image -> {

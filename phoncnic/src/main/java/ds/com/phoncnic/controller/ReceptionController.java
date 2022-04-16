@@ -9,12 +9,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import ds.com.phoncnic.dto.ApplicationFormDTO;
 import ds.com.phoncnic.security.dto.AuthMemberDTO;
+import ds.com.phoncnic.service.reception.ApplicationFormService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/reception")
 public class ReceptionController {
+
+  private final ApplicationFormService applicationFormService;
 
   @GetMapping("/ceo")
   public String toCeoForm(@AuthenticationPrincipal AuthMemberDTO authDTO, Model model) {
@@ -35,6 +40,9 @@ public class ReceptionController {
     
     log.info("apply register....");
     log.info("applyDTO..."+applyDTO);
+
+    applicationFormService.register(applyDTO);
+
     return "redirect:/reception";
   }
 }

@@ -14,6 +14,8 @@ import lombok.NoArgsConstructor;
 @Data
 public class ApplicationFormDTO {
   
+  private Long afno;
+
   private Boolean applicationtype;
   private String content;
   
@@ -22,6 +24,8 @@ public class ApplicationFormDTO {
   private String applicant;
 
   @Builder.Default
-  private List<ApplicationImageDTO> businessregistrationDTO = new ArrayList<>();
+  private List<ApplicationImageDTO> applicationImageDTOList = new ArrayList<>();
+
+  
 
 }

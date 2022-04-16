@@ -13,7 +13,7 @@ import ds.com.phoncnic.entity.Member;
 
 public interface ApplicationFormService {
 
-  Long register (ApplicationFormDTO dto);
+  Long register(ApplicationFormDTO dto);
 
   default Map<String, Object> dtoToEntity(ApplicationFormDTO dto) {
     Map<String, Object> entityMap = new HashMap<>();
@@ -21,15 +21,15 @@ public interface ApplicationFormService {
     Member member = Member.builder().id(dto.getApplicant()).build();
 
     ApplicationForm apply = ApplicationForm.builder()
-      .applicationtype(dto.getApplicationtype())
-      .content(dto.getContent())
-      .dyningname(dto.getDyningname())
-      .member(member)
-    .build();
+        .applicationtype(dto.getApplicationtype())
+        .content(dto.getContent())
+        .dyningname(dto.getDyningname())
+        .member(member)
+        .build();
 
     entityMap.put("applicationform", apply);
 
-    List<ApplicationImageDTO> applicationImageDTOList = dto.getBusinessregistrationDTO();
+    List<ApplicationImageDTO> applicationImageDTOList = dto.getApplicationImageDTOList();
 
     if (applicationImageDTOList != null && applicationImageDTOList.size() > 0) {
       List<ApplicationImage> appliImagelist = applicationImageDTOList.stream().map(ApplicationImageDTO -> {
@@ -46,10 +46,28 @@ public interface ApplicationFormService {
 
       entityMap.put("businessregistration", appliImagelist);
     } else {
-      
+
     }
 
     return entityMap;
   }
 
+  default List<ApplicationImage> imagesDTOToEntity(ApplicationFormDTO dto) {
+
+    List<ApplicationImageDTO> applicationImageDTOList = dto.getApplicationImageDTOList();
+
+   List<ApplicationImage> appliImagelist = applicationImageDTOList.stream().map(ApplicationImageDTO -> {
+        ApplicationImage image = ApplicationImage.builder()
+            .imagename(ApplicationImageDTO.getImagename())
+            .imagepath(ApplicationImageDTO.getImagepath())
+            .uuid(ApplicationImageDTO.getUuid())
+            .applicationform(ApplicationForm.builder().afno(dto.getAfno()).build())
+            .build();
+
+        return image;
+
+      }).collect(Collectors.toList());
+
+    return appliImagelist;
+  }
 }

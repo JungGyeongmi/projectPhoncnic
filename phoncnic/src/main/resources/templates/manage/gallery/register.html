@@ -69,9 +69,9 @@
                 </h3>
 
                 <form th:action="@{/manage/gallery/register}" th:method="POST" id="frm">
-                    <input type="hidden" name="id" th:value="${authDTO.id}"><br>
+                    <input type="hidden" name="id" th:value="${authDTO?.id}"><br>
                     <label class="form-label">작가명</label>
-                    <input type="text" name="artistname" th:value="${authDTO.nickname}" class="form-control"
+                    <input type="text" name="artistname" th:value="${authDTO?.nickname}" class="form-control"
                         readonly><br>
 
                     <label class="form-label">출품 유형</label>
