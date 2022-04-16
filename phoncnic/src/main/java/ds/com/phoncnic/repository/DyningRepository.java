@@ -22,23 +22,14 @@ public interface DyningRepository extends JpaRepository<Dyning, Long>, QuerydslP
     // r.oono")
     // List<Dyning> getStreetList();
 
-    // 카페거리 리스트
-    @Query("SELECT d, r FROM Dyning d LEFT JOIN RoofDesign r ON d.roofdesign = r.oono where d.foodtype = 1")
-    List<Dyning> getCafeStreetList();
-
-    // 음식점거리 리스트
-    @Query("SELECT d, r FROM Dyning d LEFT JOIN RoofDesign r ON d.roofdesign = r.oono where d.foodtype != 1")
-    List<Dyning> getRestaurantStreetList();
-
     // 페이징 처리    
     // 음식점거리 리스트
     @Query("SELECT d, r FROM Dyning d LEFT JOIN RoofDesign r ON d.roofdesign = r.oono where d.foodtype != 1")
     Page<Object[]> getRestaurantStreet(Pageable pageable);
-    // Page<Object[]> getRestaurantStreet(Pageable pageable);
     
     // 카페거리 리스트
     @Query("SELECT d, r FROM Dyning d LEFT JOIN RoofDesign r ON d.roofdesign = r.oono where d.foodtype = 1")
-    Page<Dyning> getCafeStreet(Pageable pageable);
+    Page<Object[]> getCafeStreet(Pageable pageable);
 
     @Modifying
     @Query("delete from Dyning d where d.ceoid.id=:id")
