@@ -4,31 +4,32 @@
 
     <!-- search toggle -->
     <th:block th:fragment="search">
-                <style>
-                    .md-serach-result {
-                        padding: 0 !important;
-                    }
-                
-                    .search-result-Item {
-                        cursor: pointer;
-                        list-style: none;
-                        padding-left: 20px;
-                        padding-top: 20px;
-                        padding-bottom: 20px;
-                    }
-                
-                    .search-result-Item:hover {
-                        background-color: #DBE9B7;
-                    }
-                
-                    #search-result-div {
-                        padding: 0 !important;
-                    }
-                
-                    hr {
-                        margin: 0;
-                    }
-                </style>
+        <style>
+            .md-serach-result {
+                padding: 0 !important;
+            }
+
+            .search-result-Item {
+                cursor: pointer;
+                list-style: none;
+                padding-left: 20px;
+                padding-top: 20px;
+                padding-bottom: 20px;
+            }
+
+            .search-result-Item:hover {
+                background-color: #DBE9B7;
+            }
+
+            #search-result-div {
+                padding: 0 !important;
+            }
+
+            hr {
+                margin: 0;
+            }
+        </style>
+
         <div class="border-end bg-white" id="sidebar-wrapper">
             <div class="sidebar-heading border-bottom bg-light">
                 <form class="d-flex search-form" th:action="@{/restaurant/toggle}" method="get">
@@ -45,6 +46,7 @@
                 <ul class="md-serach-result"></ul>
             </div>
         </div>
+
         <script th:inline="javascript">
             $(document).ready(function () {
                 /*[+
@@ -130,7 +132,8 @@
                 margin: 0 auto;
                 scroll-behavior: smooth;
                 height: 100%;
-
+                padding-top: 20px;
+                padding-bottom: 100px;
             }
 
             .dyning-list-ul {
@@ -223,25 +226,24 @@
                 height: 98px;
                 right: 0px;
             }
-            #char{
+
+            #char {
                 position: relative;
                 width: 70px;
                 height: 126px;
-                right: 0px; 
+                right: 0px;
             }
-
         </style>
 
         <script>
+            $(document).ready(function (e) {
+                if ($("input[name='chartop']").val() != "") {
 
-            $(document).ready(function(e){
-                if($("input[name='chartop']").val()!=""){
-                    
-                    var top =  $("input[name='chartop']").val();
-                    var left =  $("input[name='charleft']").val();
+                    var top = $("input[name='chartop']").val();
+                    var left = $("input[name='charleft']").val();
 
-                    $("#char").offset({top : top });
-                    $("#char").offset({left : left });
+                    $("#char").offset({ top: top });
+                    $("#char").offset({ left: left });
 
                 }
             });
@@ -262,7 +264,7 @@
                     let char = document.getElementById("char");
                     let charimg = document.getElementById("char");
                     var wrapheight = document.getElementById("wrap").clientHeight;
-                    var top = wrapheight / 2;                    
+                    var top = Math.round(wrapheight / 2);
 
                     var chartop = char.offsetTop;
                     var charleft = char.offsetLeft;
@@ -296,9 +298,13 @@
                             return;
                         }
                         if (charleft > screenWidth - 200) {
-                            location.replace(listlocation + listpage + "&top=" + top + "&left=" + 40);
+                            $("body div").animate({
+                                "opacity": "0",
+                                "top": "100px"
+                            }, 100, function () {
+                                location.replace(listlocation + listpage + "&top=" + top + "&left=" + 40);
+                            });
                         };
-
                     }
 
                     // ←방향키
@@ -307,19 +313,22 @@
                         var screenWidth = window.screen.width;
                         var screenHeight = window.screen.availHeight;
                         var left = screenWidth - 100;
-
                         var listpage = Number(document.querySelector("#listpage").value) - 1;
 
                         if (listpage >= 1) {
                             if (charleft < 100) {
-                                location.replace(listlocation + listpage + "&top=" + top + "&left=" + left);
+                                $("body div").animate({
+                                    "opacity": "0",
+                                    "top": "100px"
+                                }, 100, function () {
+                                    location.replace(listlocation + listpage + "&top=" + top + "&left=" + left);
+                                });
                             } else {
                                 return;
                             }
                         }
                     }
                 });
-
 
                 document.addEventListener("keyup", function (e) {
                     var chartop = char.offsetTop;
@@ -332,7 +341,6 @@
                     if (key === 13 /* BOTTOM */) {
                         var imgLength = $(".dyningimg").length;
                         console.log("캐릭터좌표" + chartop, charleft);
-
 
                         for (i = 1; i <= imgLength; i++) {
                             // 절대 좌표
