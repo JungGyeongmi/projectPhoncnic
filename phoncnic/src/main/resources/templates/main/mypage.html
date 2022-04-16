@@ -1,4 +1,4 @@
-    <html lang="ko" xmls:th="http://www.thymeleaf.org">
+<html lang="ko" xmls:th="http://www.thymeleaf.org">
 <style>
     .look {
         display: inline-block;
@@ -425,29 +425,40 @@
             /*[+var urlemojiremove = [[@{/main/mypage/emojiremove}]];+]*/
             /*[+var urlmemberout = [[@{/main/mypage/memberremove}]];+]*/
 
-            document.querySelector("#memberModifyBtn").onclick = function () {
-
+            function memberModify() {
                 swal({
                     title: "닉네임을 수정하시겠습니까?",
                     text: "OK를 누르면 닉네임이 수정됩니다",
                     icon: "warning",
                     buttons: true,
-                    dangerMode: true,
+                    dangerMode: false,
                 })
                     .then((willDelete) => {
                         if (willDelete) {
                             swal("닉네임이 변경되었습니다", {
                                 icon: "success",
+                            }).then(()=>{
+                                memberform.setAttribute("action", urlmembermodify);
+                                memberform.setAttribute("method", "post");
+                                memberform.submit();
                             });
-                            memberform.setAttribute("action", urlmembermodify);
-                            memberform.setAttribute("method", "post");
-                            memberform.submit();
                         } else {
                             swal("닉네임 수정이 취소되었습니다.");
                         }
                     });
+                    
 
             }
+            
+            $("#memberModifyBtn").on("click", memberModify);
+            $("input[name=nickname]").on("keydown", function (e) {
+                    var keycode = e.keyCode;
+                    if (keycode == "13") {
+                        e.preventDefault();
+                        memberModify();
+                    }
+                });
+
             document.querySelector("#lookModifyBtn").onclick = function () {
                 swal({
                     title: "캐릭터 옷을 변경하시겠습니까?",
