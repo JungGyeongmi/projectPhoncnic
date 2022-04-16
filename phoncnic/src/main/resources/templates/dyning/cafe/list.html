@@ -2,38 +2,6 @@
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
 <th:block th:replace="~{layout/dyninglist :: setContent(~{::content}, ~{::search})}">
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CAFE LIST</title>
-    <style>
-        #dyningname {cursor: pointer;}
-        #roofdesign {cursor: pointer;}
-    </style>
-</head>
-
-<body>
-    <h1>cafe</h1>
-    <table border="1" >
-        <tr >
-            <th scope="col">dyningname</th>
-            <th scope="col">Roof Path</th>
-        </tr>
-        <tr  th:each="dto : ${result}"
-        th:onclick="'location.href=
-        \''+ @{/dyning/details(dno=${dto.dno})}
-             + '\''"
-              th:if="${dto.foodtype}==1">
-            <!-- <td >[[${dto.dno}]]</td> -->
-            <td id="dyningname">[[${dto.dyningname}]]</td>
-            <!-- <td>[[${dto.foodtype}]]</td> -->
-            <td id="roofpath">[[${dto.roofpath}]]</td>
-        </tr>
-    </table>
-</body>
-
-</html>
     <!-- search toggle -->
     <th:block th:fragment="search">
                 <style>
@@ -135,9 +103,12 @@
 
                 // 토글 창 내 search result 클릭 시 이동 제어
                 $(document).on("click", ".search-result-Item", function (e) {
+                    var chartop = char.offsetTop;
+                    var charleft = char.offsetLeft;
+
                     console.log("click");
                     var val = $(this).attr("value");
-                    location.href = "/phoncnic/dyning/details?dno=" + val;
+                    location.href = "/phoncnic/dyning/details?dno="+ val + "&chartop=" + chartop + "&charleft=" + charleft;
                 });
             })
         </script>
@@ -160,9 +131,6 @@
                 /* 단이 나뉘지않고 스크롤이 생김  */
                 white-space: nowrap;
                 margin: 0 auto;
-                scroll-behavior: smooth;
-                height: 100%;
-
             }
 
             .dyning-list-ul {
@@ -170,16 +138,17 @@
             }
 
             #list1 {
-                margin: 50px 100px 70px;
-                width: 200px;
-                height: 200px;
+                margin: 50px 100px 0px;
+                width: 150px;
+                height: 150px;
                 display: inline-block;
             }
 
             #list2 {
-                margin: 40px 100px 30px;
-                width: 200px;
-                height: 200px;
+                margin: 50px 100px 30px;
+                padding-top: 50px;
+                width: 150px;
+                height: 150px;
                 display: inline-block;
             }
 
@@ -202,40 +171,52 @@
             }
 
             .dyningimg {
-                width: 200px;
-                height: 200px;
+                width: 150px;
+                height: 150px;
+            }
+
+            .ullist {
+                padding-left: 150px;
+                padding-right: 150px;
             }
         </style>
 
-        <!-- <h3>cafe</h3> -->
-        <div class="wrap">
-            <ul class="dyning-list-ul">
-                <li id="list1" th:each="dto : ${result}" th:if="${dtoStat.count} <= ${dtoStat.size}/2 + 0.5">
-                    <div th:class="@{/dyning/details(dno=${dto.dno},id=${id}) }">
-                        <img class="dyningimg" th:src="${dto.roofthumbnail}" th:id="${dtoStat.count}">
-                    </div>
-                    <div class="dyningname">
-                        [[${dto.dyningname}]]
-                    </div>
-                </li>
+        <input type="hidden" th:value="${result.page}" id="listpage">
+        <input type="hidden" th:value="${result.totalPage}" id="totalpage">
+        <div class="wrap" id="wrap">
+            <ul class="ullist">
+                <th:block th:each="dto, index : ${result.dtoList}" th:if="${index.count}%2 !=0">
+                    <li id="list1">
+                        <div th:class="@{/dyning/details(dno=${dto.dno},id=${id}) }">
+                            <img class="dyningimg" th:src="${dto.getRoofthumbnail}" th:id="${index.count}">
+                        </div>
+                        <!-- [[${dto.getRoofthumbnail}]] -->
+                        <div class="dyningname">
+                            [[${dto.getDyningname}]]
+                        </div>
+                    </li>
+                </th:block>
             </ul>
             <div th:each="sdto : ${setDTO}" id="char">
-                <img type="hidden"  id ="charimg" class="look setlook" th:src="${sdto.setpath}" alt="">
+                <img type="hidden" id="charimg" class="look setlook" th:src="${sdto.setpath}" alt="">
                 <div th:text="${nickname}" class="nickname" th:if="${nickname}!=''">[[${nickname}]]</div>
-                <input type="text" name="chartop"  th:value="${chartop}" style="opacity: 0;">
-                <input type="text" name="charleft"  th:value="${charleft}" style="opacity: 0;">
+                <input type="text" name="chartop" th:value="${chartop}" style="opacity: 0;">
+                <input type="text" name="charleft" th:value="${charleft}" style="opacity: 0;">
             </div>
-            <ul class="dyning-list-ul">
-                <li id="list2" th:each="dto : ${result}" th:if="${dtoStat.count} > ${dtoStat.size}/2 + 0.5">
-                    <div th:class="@{/dyning/details(dno=${dto.dno},id=${id}) }">
-                        <img class="dyningimg" th:src="${dto.roofthumbnail}" th:id="${dtoStat.count}">
-                    </div>
-                    <div class="dyningname">
-                        [[${dto.dyningname}]]
-                    </div>
-                </li>
+            <ul class="ullist">
+                <th:block th:each="dto, index : ${result.dtoList}" th:if="${index.count}%2 == 0">
+                    <li id="list2">
+                        <div th:class="@{/dyning/details(dno=${dto.dno},id=${id}) }">
+                            <img class="dyningimg" th:src="${dto.getRoofthumbnail}" th:id="${index.count}">
+                        </div>
+                        <div class="dyningname">
+                            [[${dto.getDyningname}]]
+                        </div>
+                    </li>
+                </th:block>
             </ul>
         </div>
+
         <style>
             .setlook {
                 position: relative;
@@ -246,7 +227,7 @@
             #char{
                 position: relative;
                 width: 70px;
-                height: 126px;
+                height: 98px;
                 right: 0px;
             }
 
@@ -281,6 +262,13 @@
                 document.addEventListener("keydown", function (e) {
                     let char = document.getElementById("char");
                     let charimg = document.getElementById("char");
+                    var wrapheight = document.getElementById("wrap").clientHeight;
+                    var top = wrapheight / 2;
+
+                    var chartop = char.offsetTop;
+                    var charleft = char.offsetLeft;
+                    $("input[name='chartop']").val(chartop);
+                    $("input[name='charleft']").val(charleft);
 
                     let key = e.keyCode;
                     let y = parseInt(char.style.top || 0, 10);
@@ -297,6 +285,40 @@
                     if (key === 40 /* BOTTOM */) {
                         char.style.top = y + 20 + "px";
                     }
+
+                    // →방향키
+                    if (key === 39) {
+                        var imgLength = $(".dyningimg").length;
+                        var screenWidth = window.screen.width;
+                        var screenHeight = window.screen.availHeight;
+                        var listpage = Number(document.querySelector("#listpage").value) + 1;
+
+                        if (listpage - 1 == totalpage) {
+                            return;
+                        }
+                        if (charleft > screenWidth - 200) {
+                            location.replace(listlocation + listpage + "&top=" + top + "&left=" + 40);
+                        };
+
+                    }
+
+                    // ←방향키
+                    if (key === 37) {
+                        var imgLength = $(".dyningimg").length;
+                        var screenWidth = window.screen.width;
+                        var screenHeight = window.screen.availHeight;
+                        var left = screenWidth - 100;
+
+                        var listpage = Number(document.querySelector("#listpage").value) - 1;
+
+                        if (listpage >= 1) {
+                            if (charleft < 100) {
+                                location.replace(listlocation + listpage + "&top=" + top + "&left=" + left);
+                            } else {
+                                return;
+                            }
+                        }
+                    }
                 });
 
 
@@ -304,7 +326,6 @@
                     var chartop = char.offsetTop;
                     var charleft = char.offsetLeft;
                     let key = e.keyCode;
-                    console.log("캐릭터좌표" + chartop, charleft);
                     $("input[name='chartop']").val(chartop);
                     $("input[name='charleft']").val(charleft);
 
@@ -317,32 +338,14 @@
                             // 절대 좌표
                             var targetTop = document.getElementById(i).offsetTop;
                             var targetLeft = document.getElementById(i).offsetLeft;
-                            // var targetTop = $("#" + i).offset().top;
-                            // var targetLeft = $("#" + i).offset().left;
                             var targetHref = $("#" + i).parent().attr('class');
-                            // console.log("캐릭터좌표"+chartop,charleft);
                             console.log("타겟좌표: " + targetTop, targetLeft, targetHref);
 
-                            if (targetTop - 40 < chartop && chartop < targetTop + 160 && targetLeft - 30 < charleft && charleft < targetLeft + 160) {
+                            if (targetTop - 20 < chartop && chartop < targetTop + 100 && targetLeft - 30 < charleft && charleft < targetLeft + 100) {
                                 location.href = targetHref + "&chartop=" + chartop + "&charleft=" + charleft;
                             };
                         }
                     }
-                    if (key === 39) {
-                        var imgLength = $(".dyningimg").length;
-                        // console.log("캐릭터좌표" + chartop, charleft);
-
-                        for (i = 1; i <= imgLength; i++) {
-                            var targetTop = document.getElementById(i).offsetTop;
-                            var targetLeft = document.getElementById(i).offsetLeft;
-                            // console.log("타겟좌표" + targetTop, targetLeft, targetHref);
-
-                            if (targetTop - 40 < chartop && chartop < targetTop + 160 && targetLeft - 30 < charleft && charleft < targetLeft + 160) {
-
-                            };
-                        }
-                    }
-
                 });
             })();
         </script>
@@ -357,5 +360,4 @@
         </script>
 
     </th:block>
-</th:block>
 </th:block>
