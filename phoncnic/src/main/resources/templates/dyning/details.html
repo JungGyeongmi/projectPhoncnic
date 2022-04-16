@@ -49,33 +49,35 @@
         top: 156px;
         margin: 0;
         left: 390px;
-        
+
     }
+
     .carousel-control-prev {
         left: -55px !important;
     }
 
-    .carousel-inner > .carousel-item > img {
-      top: 0 !important;
-      left: 0 !important;
-      width: 350px !important;
-      min-height: 540px !important;
-      object-fit: contain;
-      background-position: center;
+    .carousel-inner>.carousel-item>img {
+        top: 0 !important;
+        left: 0 !important;
+        width: 350px !important;
+        min-height: 540px !important;
+        object-fit: contain;
+        background-position: center;
 
-    } 
+    }
 
-    .up{
+    .up {
         border: none;
         background-color: white;
-        padding:5px;
+        padding: 5px;
         margin-top: 20px;
         margin-right: 10px;
     }
 
-    .up> img {
+    .up>img {
         margin-right: 10px;
     }
+
     #map {
         width: 593px;
         height: 470px;
@@ -84,6 +86,20 @@
         max-width: -webkit-fill-available;
     }
 
+    .backbtn {
+        margin-top: 11rem;
+        margin-left: 8.5rem; 
+    }
+
+    #back {
+        border: none;
+        border-radius: 30px;
+        width: 200px;
+        font-size: 20px;
+        font-weight: bold;
+        background-color: #000000 ;
+        color: white;
+    }
 </style>
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
 <th:block th:replace="~{layout/basic:: setContent(~{::content})}">
@@ -108,12 +124,14 @@
                         <div class="carousel-inner">
                             <th:block th:each="idto : ${imageresult}">
                                 <div class="carousel-item">
-                                    <img th:src="|@{'/display'}?fileName=${idto.getMenuImageURL()}|" class="d-block thumbimage" 
-                                    th:data-file="|@{'/display'}?fileName=${idto.getMenuImageURL()}|" alt="사진이 엄따">
+                                    <img th:src="|@{'/display'}?fileName=${idto.getMenuImageURL()}|"
+                                        class="d-block thumbimage"
+                                        th:data-file="|@{'/display'}?fileName=${idto.getMenuImageURL()}|" alt="사진이 엄따">
                                 </div>
                             </th:block>
                         </div>
-                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade"
+                            data-bs-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                             <span class="visually-hidden">Previous</span>
                         </button>
@@ -124,14 +142,15 @@
                         </button>
                     </div>
                 </div>
-                <!-- 메뉴 카드 end -->
+                <!-- 메뉴 카드 end -->                
                 <!-- 가게정보 카드 -->
                 <div class="col">
                     <div class="card text-center info">
                         <div class="card-header">
                             <ul class="nav nav-tabs card-header-tabs">
                                 <li class="nav-item" id="dyningInfo">
-                                    <a  id="detail-tab" class="nav-link active" data-bs-toggle="tab" aria-current="true" href="#info">가게정보</a>
+                                    <a id="detail-tab" class="nav-link active" data-bs-toggle="tab" aria-current="true"
+                                        href="#info">가게정보</a>
                                 </li>
                                 <li class="nav-item" id="mapNav">
                                     <a id="map-tab" class="nav-link" data-bs-toggle="tab" href="#mapView">지도</a>
@@ -174,28 +193,33 @@
                                     </span>
 
                                     <button class="up" id="emojiBtn1" value="1" name="emojitype" type="button">
-                                        <img id="emojiimg1" th:src="${result.emojiinfo['1']}" alt="" style="width: 30px;">[[${emojitype1}]]
+                                        <img id="emojiimg1" th:src="${result.emojiinfo['1']}" alt=""
+                                            style="width: 30px;">[[${emojitype1}]]
                                     </button>
                                     <button class="up" id="emojiBtn2" value="2" name="emojitype" type="button">
-                                        <img id="emojiimg2" th:src="${result.emojiinfo['2']}" alt="" style="width: 30px;">[[${emojitype2}]]
+                                        <img id="emojiimg2" th:src="${result.emojiinfo['2']}" alt=""
+                                            style="width: 30px;">[[${emojitype2}]]
                                     </button>
                                     <button class="up" id="emojiBtn3" value="3" name="emojitype" type="button">
-                                        <img id="emojiimg3" th:src="${result.emojiinfo['3']}" alt="" style="width: 30px;">[[${emojitype3}]]
+                                        <img id="emojiimg3" th:src="${result.emojiinfo['3']}" alt=""
+                                            style="width: 30px;">[[${emojitype3}]]
                                     </button>
                                     <button class="up" id="emojiBtn4" value="4" name="emojitype" type="button">
-                                        <img id="emojiimg4" th:src="${result.emojiinfo['4']}" alt="" style="width: 30px;"> [[${emojitype4}]]
+                                        <img id="emojiimg4" th:src="${result.emojiinfo['4']}" alt=""
+                                            style="width: 30px;"> [[${emojitype4}]]
                                     </button>
                                     <button class="up" id="emojiBtn5" value="5" name="emojitype" type="button">
-                                        <img id="emojiimg5" th:src="${result.emojiinfo['5']}" alt="" style="width: 30px;">[[${emojitype5}]]
+                                        <img id="emojiimg5" th:src="${result.emojiinfo['5']}" alt=""
+                                            style="width: 30px;">[[${emojitype5}]]
                                     </button>
-
-
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="mapView">
-                                    <div id="map"></div>
+                                <div id="map"></div>
                             </div>
                         </div>
+                    </div>
+                    <div class="backbtn">
                         <button type="button" id="back" class="btn my">돌아가기</button>
                     </div>
                 </div>
@@ -273,10 +297,10 @@
                     });
 
                     // class = active show
-                    $('.mapViewBtn').click(function () {     
+                    $('.mapViewBtn').click(function () {
                         $('#info').removeClass("active");
                         $('#info').removeClass("show");
-                    
+
                         $('#mapView').addClass("active");
                         $('#mapView').addClass("show");
 
@@ -298,7 +322,7 @@
 
                 //메뉴카드 슬라이드 
                 $(".carousel-item").eq(1).addClass("active");
-                
+
                 for (i = 1; i < 6; i++) {
                     var imgsrc = $("#emoji" + i).val();
                     $("#emojiimg" + i).attr("src", imgsrc);
@@ -446,7 +470,7 @@
                 });
             });
 
-            $("#back").on("click", function(){
+            $("#back").on("click", function () {
                 window.history.back();
             });
 
