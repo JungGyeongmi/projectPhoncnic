@@ -14,9 +14,6 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import lombok.extern.log4j.Log4j2;
-
-@Log4j2
 public class HangulApi {
     public static List<String> hangul(String keyword, Long type) throws IOException, ParseException {
 
@@ -27,8 +24,10 @@ public class HangulApi {
         urlBuilder.append("?" + URLEncoder.encode("key", "UTF-8") + "=2F74BAB4FC5A41DDC2DF2A2BF680C565");
         urlBuilder.append("&" + URLEncoder.encode("q", "UTF-8") + "=" + URLEncoder.encode(keyword, "UTF-8"));
         urlBuilder.append("&" + URLEncoder.encode("req_type", "UTF-8") + "=" + URLEncoder.encode("JSON", "UTF-8"));
-        urlBuilder.append("&" + URLEncoder.encode("part", "UTF-8") + "=" + URLEncoder.encode("word", "UTF-8"));
-        urlBuilder.append("&" + URLEncoder.encode("pos", "UTF-8") + "=" + type); // 명사 17, 동사5, 형용사6
+        // urlBuilder.append("&" + URLEncoder.encode("part", "UTF-8") + "=" + URLEncoder.encode("word", "UTF-8"));
+        urlBuilder.append("&" + URLEncoder.encode("type4", "UTF-8") + "=" + URLEncoder.encode("technical", "UTF-8"));
+        urlBuilder.append("&" + URLEncoder.encode("cat", "UTF-8") + "=" + 57L);
+        urlBuilder.append("&" + URLEncoder.encode("pos", "UTF-8") + "=" + type); // 명사 17, 동사5, 형용사6 대명사26
 
 
         // 3. URL 객체 생성

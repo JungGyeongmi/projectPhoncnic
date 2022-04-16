@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import ds.com.phoncnic.service.FollowService;
 import ds.com.phoncnic.service.emoji.EmojiService;
+import ds.com.phoncnic.service.follow.FollowService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
