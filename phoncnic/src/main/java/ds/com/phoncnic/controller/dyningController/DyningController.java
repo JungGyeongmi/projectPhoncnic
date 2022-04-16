@@ -158,7 +158,17 @@ public class DyningController {
     }
 
     @GetMapping("/wstest")
-    public String wstest() {
+    public String wstest(Model model, @AuthenticationPrincipal AuthMemberDTO dto) {
+        if (dto != null) {
+            model.addAttribute("id", dto.getId());
+            model.addAttribute("nickname", memberService.getNickname(dto.getId()));
+            model.addAttribute("setDTO", characterLookService.getCharacterSet(dto.getId()));
+        } else {
+            model.addAttribute("id", "");
+            model.addAttribute("nickname", "");
+            model.addAttribute("setDTO", characterLookService.getCharacterSet("test1@gmail.com"));
+        }
+
         return "dyning/wstest";
     }
     
