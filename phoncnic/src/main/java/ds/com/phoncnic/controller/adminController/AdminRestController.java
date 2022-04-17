@@ -30,11 +30,14 @@ public class AdminRestController {
     private MemberService memberService;
 
     @Transactional
-    @PostMapping("/search/{keyword}/{type}")
-    public ResponseEntity<PageResultDTO<MemberDTO, Object[]>>getMember (@PathVariable("keyword")String keyword, @PathVariable("type")String type, SearchMemberPageRequestDTO pageRequestDTO) {
+    @PostMapping("/search/{keyword}/{type}/{sort}")
+    public ResponseEntity<PageResultDTO<MemberDTO, Object[]>>getMember (@PathVariable("keyword")String keyword, 
+        @PathVariable("type")String type, @PathVariable("sort")String sort, 
+        SearchMemberPageRequestDTO pageRequestDTO) {
  
         pageRequestDTO.setKeyword(keyword);
         pageRequestDTO.setType(type);
+        pageRequestDTO.setSort(sort);
 
         log.info(pageRequestDTO);
         PageResultDTO<MemberDTO, Object[]> searchResult = memberService.adminSearchPageByMemberId(pageRequestDTO);
@@ -43,7 +46,7 @@ public class AdminRestController {
     }
 
     @PostMapping("/modify/{roleSet}")
-    public void getMemberInfoModify (@PathVariable("roleSet") List<String> roleSet,  @RequestBody MemberDTO memberDTO) {
+    public void getMemberInfoModify (@PathVariable("roleSet") List<String> roleSet, MemberDTO memberDTO) {
         
         memberDTO.setRoleSet(roleSet);
         log.info("modify...");

@@ -2,17 +2,18 @@ package ds.com.phoncnic.repository;
 
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.EntityGraph.EntityGraphType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 
 import ds.com.phoncnic.entity.Member;
 import ds.com.phoncnic.repository.search.SearchMemberRepository;
 
 
-public interface MemberRepository extends JpaRepository<Member, String>, QuerydslPredicateExecutor<Member>, SearchMemberRepository {
+public interface MemberRepository extends JpaRepository<Member, String>, SearchMemberRepository {
     
     @Query("SELECT COUNT(m) > 0 FROM Member m WHERE m.id = :id")
     Boolean getMemberByMemberId(String id);
@@ -26,5 +27,8 @@ public interface MemberRepository extends JpaRepository<Member, String>, Queryds
 
     @Query("select nickname from Member where id = :id")
     String getNicknameById(String id);
+
+    @Query("select m from Member m")
+    Page<Member> getMemberPage(Pageable pageable);
    
 }

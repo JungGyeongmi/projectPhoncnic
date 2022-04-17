@@ -26,6 +26,7 @@
                 <th>관리자명</th>
                 <th>유저검색</th>
                 <th>검색기준</th>
+                <th>정렬기준</th>
             </tr>
             <tr>
                 <td> <b style="color:goldenrod">[[${userId}]]</b> </td>
@@ -39,6 +40,14 @@
                     <select class="form-select" name="type">
                         <option value="i">아이디</option>
                         <option value="n">닉네임</option>
+                    </select>
+                </td>
+                <td>
+                    <select class="form-select" name="type">
+                        <option value="">아이디</option>
+                        <option value="a">닉네임</option>
+                        <option value="b">등록일</option>
+                        <option value="c">수정일</option>
                     </select>
                 </td>
                 </form>
@@ -67,6 +76,7 @@
 
                     var id = $("input[name=keyword]").val();
                     var type = $("select[name=type] option:selected ").val();
+                    var sort = $("select[name=sort] option:selected ").val();
                     if (id == "" || id == null) {
                         searchResult.text("검색어 입력하슈");
                         return true;
@@ -76,10 +86,9 @@
                         return true;
                     }
 
-                    // console.log(type);
                     $.ajax({
                         type: "POST",
-                        url: searchUrl + "/" + id + "/" + type,
+                        url: searchUrl + "/" + id + "/" + type + "/" + sort,
                         contentType: "application/json",
                         success: function (response) {
                             var str = "";

@@ -60,8 +60,7 @@ public class SearchGalleryRepositoryImpl extends QuerydslRepositorySupport imple
     JPQLQuery<Gallery> jpqlQuery = from(gallery);
     jpqlQuery.leftJoin(member).on(gallery.artistid.eq(member));
 
-    JPQLQuery<Tuple> tuple = jpqlQuery.select(
-        gallery, member);
+    JPQLQuery<Tuple> tuple = jpqlQuery.select(gallery, member);
 
     BooleanBuilder builder = new BooleanBuilder();
     BooleanExpression expression = gallery.gno.gt(0L);
@@ -88,14 +87,13 @@ public class SearchGalleryRepositoryImpl extends QuerydslRepositorySupport imple
 
     tuple.where(builder);
     Sort sort = pageable.getSort();
+
     sort.stream().forEach(new Consumer<Sort.Order>() {
       @Override
       public void accept(Sort.Order order) {
         Order direction = order.isAscending() ? Order.ASC : Order.DESC;
-        String prop = order.getProperty();
-        log.info("prop>>" + prop);
-        PathBuilder orderByExpression = new PathBuilder<>(
-            Gallery.class, "gallery");
+        String prop = order.getProperty();        
+        PathBuilder orderByExpression = new PathBuilder<>(Gallery.class, "gallery");
         tuple.orderBy(new OrderSpecifier<>(direction, orderByExpression.get(prop)));
       }
     });

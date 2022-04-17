@@ -1,5 +1,12 @@
 package ds.com.phoncnic.service.member;
 
+import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import javax.transaction.Transactional;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -7,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import ds.com.phoncnic.dto.MemberDTO;
 import ds.com.phoncnic.dto.pageDTO.PageResultDTO;
 import ds.com.phoncnic.dto.pageDTO.SearchMemberPageRequestDTO;
+import ds.com.phoncnic.repository.MemberRepository;
 import lombok.extern.log4j.Log4j2;
 
 @SpringBootTest
@@ -16,20 +24,25 @@ public class MemberServiceImplTest {
   @Autowired
   MemberService memberService;
 
+  @Autowired
+  MemberRepository memberRepository;
+
+  @Transactional
   @Test
   void testAdminSearchPageByMemberId() {
 
     SearchMemberPageRequestDTO requestDTO = SearchMemberPageRequestDTO.builder()
-      .page(1)
+      .page(3)
       .size(5)
       .type("i")
-      .sort("a")
+      .sort("r")
       .keyword("test")
     .build();
-
     PageResultDTO<MemberDTO, Object[]> pageResult = memberService.adminSearchPageByMemberId(requestDTO);
 
-    System.out.println(pageResult);
-    System.out.println(pageResult.getPageList());
+    System.out.println("result "+pageResult.getTotalPage());
+    System.out.println("result "+pageResult.getPageList());
+    System.out.println("result "+pageResult.getPage());
+    System.out.println("result "+pageResult.getDtoList());
   }
 }

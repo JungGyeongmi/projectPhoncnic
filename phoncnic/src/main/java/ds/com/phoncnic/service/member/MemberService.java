@@ -57,12 +57,12 @@ public interface MemberService {
         .regdate(member.getRegDate())
         .moddate(member.getModDate())
         .build();
-    return memberDTO;
+  return memberDTO;
   }
   
   default Sort getSort(String sortkeyword) {
     Sort sort = Sort.by("id").descending();
-    if (sortkeyword != null) {
+    if (sortkeyword != null || sortkeyword != "") {
       switch (sortkeyword) {
         case "a":
           sort = Sort.by("nickname").descending();

@@ -1,11 +1,15 @@
 package ds.com.phoncnic.repository.search;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.Order;
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.JPQLQuery;
 
 import org.springframework.data.domain.Page;
@@ -28,54 +32,61 @@ public class SearchMemberRepositoryImpl extends QuerydslRepositorySupport implem
   @Override
   public Page<Object[]> searchPage(String type, String keyword, Pageable pageable) {
     log.info("searchPage.....");
-   
+
     QMember member = QMember.member;
-    JPQLQuery<Member> jpqlQuery = from(member);
-    JPQLQuery<Member> obj = jpqlQuery.select(member);
+
+    JPQLQuery<Member> obj = from(member).select(member);
 
     BooleanBuilder builder = new BooleanBuilder();
+    BooleanExpression expression = member.id.contains("@");
+    builder.and(expression);
 
     if (type != null) {
-      BooleanExpression expression = null;
+      BooleanBuilder conditionBuilder = new BooleanBuilder();
       switch (type) {
         case "i":
-          expression = member.id.contains(keyword);
+          conditionBuilder.or(member.id.contains(keyword));
           break;
         case "n":
-          expression = member.nickname.contains(keyword);
+          conditionBuilder.or(member.id.contains(keyword));
           break;
       }
-      builder.and(expression);
-      
-    } else {
-      BooleanExpression expression = member.id.contains(keyword);
-      builder.and(expression);
+      builder.and(conditionBuilder);
     }
+    obj.where(builder);
 
     Sort sort = pageable.getSort();
-    // OrderSpecifier<Long> orderId;
-    sort.stream().forEach(i->{
-      log.info("여기");  
-      log.info(i.getClass());
+    sort.stream().forEach(order-> {
+      OrderSpecifier orders = new OrderSpecifier(order.isAscending() ? Order.ASC : Order.DESC,
+          new PathBuilder(Member.class, order.getProperty())
+      );
+      obj.orderBy(orders);
     });
-
-    obj.orderBy(member.id.desc());
-    obj.where(builder);
-    obj.offset(pageable.getOffset());
-    obj.limit(pageable.getPageSize());
+    
+    obj.offset(pageable.getOffset())
+    .limit(pageable.getPageSize());
 
     List<Member> result = obj.fetch();
-    log.info(result);
+
     long count = obj.fetchCount();
 
     return new PageImpl<Object[]>(result.stream().map(new Function<Member, Object[]>() {
-
       @Override
       public Object[] apply(Member t) {
         return new Object[] { t };
       }
-
     }).collect(Collectors.toList()), pageable, count);
   }
 
+  private List<OrderSpecifier> getOrderSpecifier(Sort sort) {
+    List<OrderSpecifier> orders = new ArrayList<>();
+    // Sort
+    sort.stream().forEach(order -> {
+      Order direction = order.isAscending() ? Order.ASC : Order.DESC;
+      String prop = order.getProperty();
+      PathBuilder orderByExpression = new PathBuilder(Member.class, "member");
+      orders.add(new OrderSpecifier(direction, orderByExpression.get(prop)));
+    });
+    return orders;
+  }
 }
