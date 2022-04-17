@@ -57,7 +57,11 @@ public class SearchMemberRepositoryImpl extends QuerydslRepositorySupport implem
     }
 
     Sort sort = pageable.getSort();
-    
+    OrderSpecifier<Long> orderId;
+    sort.stream().forEach(i->{
+      log.info("여기");  
+      log.info(i.getClass());
+    });
 
     obj.orderBy(member.id.desc());
     obj.where(builder);

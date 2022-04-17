@@ -24,11 +24,14 @@ public class MemberServiceImplTest {
     SearchMemberPageRequestDTO requestDTO = SearchMemberPageRequestDTO.builder()
       .page(1)
       .size(5)
-      .keyword("user")
+      .type("i")
+      .sort("a")
+      .keyword("test")
     .build();
 
     PageResultDTO<MemberDTO, Object[]> pageResult = memberService.adminSearchPageByMemberId(requestDTO);
 
     System.out.println(pageResult);
+    System.out.println(pageResult.getPageList());
   }
 }

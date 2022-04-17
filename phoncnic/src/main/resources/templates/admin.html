@@ -46,6 +46,8 @@
         </table>
         <div id="searchResult">
         </div>
+        <div id="searchResultNav">
+        </div>
 
         <script th:inline="javascript">
             $(function () {
@@ -58,6 +60,7 @@
 
                 var userSearchFrm = $("#userSearchFrm");
                 var searchResult = $("#searchResult");
+                var searchResultNav = $("#searchResultNav");
                 
                 // 검색functino
                 var searchFunction = function () {
@@ -79,7 +82,8 @@
                         url: searchUrl + "/" + id + "/" + type,
                         contentType: "application/json",
                         success: function (response) {
-                            var str = ""
+                            var str = "";
+                            var str2 = "";
                             searchResult.html(str);
                             if (response.dtoList.length == 0) {
                                 str = `<div>검색결과를 찾을 수 없습니다.</div>`;
@@ -126,7 +130,9 @@
                                 var roleId = item.roleSet[0].toString().slice(5) + index;
                                 $(`label[for=${roleId}]`).css("color", "tomato");
                                 $(`#${roleId}`).attr("checked", true);
+                                
                             });
+                            console.log(response.page)
                             console.log("get user info success");
                         },
                         fail: function (response) {
