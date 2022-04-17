@@ -46,9 +46,6 @@
 
     .personal-info-character-content {
         text-align: center;
-        /* border-right: 1px solid black; */
-        /* border-right-height: 30px; */
-
     }
 
     .personal-info-character img {
@@ -236,6 +233,7 @@
         border-radius: 20px;
     }
     .mp-top-link-con{
+        margin-top: 3%;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -255,22 +253,19 @@
 </style>
 <th:block th:replace="~{layout/basic :: setContent(~{::content})}">
     <th:block th:fragment="content">
-        <div class="containerBox">
-            <h3 class="py-5" style="font-family: 'GmarketSansMedium';">
-                <img th:src="@{/icon/vertical-line.png}" style="width:30px;" alt="">마이페이지
-            </h3>
-            <div class="mp-top-link-con">
-                <th:block th:if="${memberDTO?.roleSet.toString()}=='[ROLE_ADMIN]'">
-                    <a class="mp-top-link" th:href="@{/admin}">관리자페이지</a>
-                </th:block>
-                <th:block th:if="${memberDTO?.roleSet.toString()}=='[ROLE_CEO]' OR ${memberDTO?.roleSet.toString()}=='[ROLE_ADMIN]'">
-                    <a class="mp-top-link" th:href="@{/manage/dyning/list}">가게관리</a>
-                </th:block>
-                <th:block th:if="${memberDTO?.roleSet.toString()}=='[ROLE_ARTIST]' OR ${memberDTO?.roleSet.toString()}=='[ROLE_ADMIN]'">
-                    <a class="mp-top-link" th:href="@{/manage/gallery/manage}">작품관리</a>
-                </th:block>
-            </div>
-            <!-- 개인정보 -->
+
+        <div class="mp-top-link-con">
+            <th:block th:if="${memberDTO?.roleSet.toString()}=='[ROLE_ADMIN]'">
+                <a class="mp-top-link" th:href="@{/admin}">관리자페이지</a>
+            </th:block>
+            <th:block th:if="${memberDTO?.roleSet.toString()}=='[ROLE_CEO]' OR ${memberDTO?.roleSet.toString()}=='[ROLE_ADMIN]'">
+                <a class="mp-top-link" th:href="@{/manage/dyning/list}">가게관리</a>
+            </th:block>
+            <th:block th:if="${memberDTO?.roleSet.toString()}=='[ROLE_ARTIST]' OR ${memberDTO?.roleSet.toString()}=='[ROLE_ADMIN]'">
+                <a class="mp-top-link" th:href="@{/manage/gallery/manage}">작품관리</a>
+            </th:block>
+        </div>
+        <!-- 개인정보 -->
             <p class="content-title">개인정보</p>
             <div class="personal-info-container">
                 <div class="personal-info-character-content">
@@ -286,7 +281,7 @@
                     <div class="info-div">
                     </div>
                 </div>
-                <hr><input type="text" th:value="${memberDTO.roleSet}">
+                <hr>
                 <form id="memberfrm" action="">
                     <div class="personal-info-content">
                         <th:block th:each="dto : ${memberDTO}">
@@ -318,6 +313,7 @@
                     </div>
                 </form>
             </div>
+
             <!-- 캐릭터 -->
             <p class="content-title">캐릭터</p>
             <form id="lookform" action="">
@@ -351,6 +347,7 @@
                     </div>
                 </div>
             </form>
+
             <!-- 팔로우 -->
             <p class="content-title">팔로우</p>
             <div class="follow-container">
@@ -438,6 +435,7 @@
                 background-color: red;
             }
         </style>
+
         <script th:inline="javascript">
             var gnoemoji = document.getElementById("gno-emoji");
             var dnoemoji = document.getElementById("dno-emoji");

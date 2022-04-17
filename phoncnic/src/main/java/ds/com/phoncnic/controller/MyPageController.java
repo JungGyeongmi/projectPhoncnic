@@ -40,9 +40,9 @@ public class MyPageController {
     @GetMapping({ "/", "" })
     public void mypage(Model model, @AuthenticationPrincipal AuthMemberDTO dto) {
 
-        log.info("id:" + dto.getId());
+        log.info("----------------");
         MemberDTO memberDTO = memberService.getMember(dto.getId());
-
+        log.info(memberDTO.getRoleSet());
         model.addAttribute("id",dto.getId());
         model.addAttribute("memberDTO", memberDTO);
 
@@ -58,7 +58,10 @@ public class MyPageController {
     public String membermodify(MemberDTO memberDTO, RedirectAttributes ra, @AuthenticationPrincipal AuthMemberDTO dto) {
 
         log.info("update....");
-        log.info("modify post.........id:" + memberDTO.getId());
+        // log.info("modify post.........id:" + memberDTO.getId());
+        // log.info("memberDTO : "+memberDTO);
+        log.info(dto.getAuthorities());
+        memberDTO.setRoleSet(dto.getAuthorities());
         log.info("memberDTO : "+memberDTO);
 
         memberService.updateMemberDTO(memberDTO);
