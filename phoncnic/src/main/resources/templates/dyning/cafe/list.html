@@ -271,6 +271,11 @@
 
             (function () {
 
+                var listlocation = "/phoncnic/dyning/cafe/list?page=";
+                var totalpage = document.querySelector("#totalpage").value;
+                var screenWidth = window.screen.width;
+                var screenHeight = window.screen.availHeight;
+
                 document.addEventListener("keydown", function (e) {
                     let char = document.getElementById("char");
                     let charimg = document.getElementById("char");
@@ -301,11 +306,12 @@
                     // →방향키
                     if (key === 39) {
                         var imgLength = $(".dyningimg").length;
-                        var screenWidth = window.screen.width;
-                        var screenHeight = window.screen.availHeight;
                         var listpage = Number(document.querySelector("#listpage").value) + 1;
 
                         if (listpage - 1 == totalpage) {
+                            if (charleft >= screenWidth - 100) {
+                                $("#char").offset({ left: screenWidth - 100 });
+                            }
                             return;
                         }
                         if (charleft > screenWidth - 200) {
@@ -321,8 +327,6 @@
                     // ←방향키
                     if (key === 37) {
                         var imgLength = $(".dyningimg").length;
-                        var screenWidth = window.screen.width;
-                        var screenHeight = window.screen.availHeight;
                         var left = screenWidth - 100;
                         var listpage = Number(document.querySelector("#listpage").value) - 1;
 
@@ -337,6 +341,26 @@
                             } else {
                                 return;
                             }
+                        } else {
+                            if (charleft <= 20) {
+                                $("#char").offset({ left: 20 });
+                            }
+                        }
+                    }
+
+                    // ↑ 방향키
+                    if (key === 38) {
+                        if (chartop <= 70) {
+                            $("#char").offset({ top: 70 });
+                            return;
+                        }
+                    }
+
+                    // ↓ 방향키
+                    if (key === 40) {
+                        if (chartop >= screenHeight - 240) {
+                            $("#char").offset({ top: screenHeight - 240 });
+                            return;
                         }
                     }
                 });
