@@ -1,6 +1,5 @@
 package ds.com.phoncnic.repository.search;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -78,15 +77,15 @@ public class SearchMemberRepositoryImpl extends QuerydslRepositorySupport implem
     }).collect(Collectors.toList()), pageable, count);
   }
 
-  private List<OrderSpecifier> getOrderSpecifier(Sort sort) {
-    List<OrderSpecifier> orders = new ArrayList<>();
-    // Sort
-    sort.stream().forEach(order -> {
-      Order direction = order.isAscending() ? Order.ASC : Order.DESC;
-      String prop = order.getProperty();
-      PathBuilder orderByExpression = new PathBuilder(Member.class, "member");
-      orders.add(new OrderSpecifier(direction, orderByExpression.get(prop)));
-    });
-    return orders;
-  }
+  // private List<OrderSpecifier> getOrderSpecifier(Sort sort) {
+  //   List<OrderSpecifier> orders = new ArrayList<>();
+  //   // Sort
+  //   sort.stream().forEach(order -> {
+  //     Order direction = order.isAscending() ? Order.ASC : Order.DESC;
+  //     String prop = order.getProperty();
+  //     PathBuilder orderByExpression = new PathBuilder(Member.class, "member");
+  //     orders.add(new OrderSpecifier(direction, orderByExpression.get(prop)));
+  //   });
+  //   return orders;
+  // }
 }
