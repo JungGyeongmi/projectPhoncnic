@@ -45,6 +45,7 @@ public class MyPageController {
 
         model.addAttribute("id",dto.getId());
         model.addAttribute("memberDTO", memberDTO);
+        model.addAttribute("memberDTO", memberDTO.getRoleSet());
 
         model.addAttribute("setDTO", characterLookService.getCharacterSet(dto.getId()));
         model.addAttribute("looklist", characterLookService.lookimageList());
@@ -59,9 +60,9 @@ public class MyPageController {
 
         log.info("update....");
         log.info("modify post.........id:" + memberDTO.getId());
-        log.info("memberDTO : "+memberDTO);
-
-        memberService.updateMemberDTO(memberDTO);
+        log.info("memberDTO : "+memberDTO.getRoleSet());
+        // memberDTO.setRoleSet(dto.getAttributes());
+        // memberService.updateMemberDTO(memberDTO);
         log.info("change....");
 
         // ra.addAttribute("id", memberDTO.getId());
