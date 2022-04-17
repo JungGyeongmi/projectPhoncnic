@@ -286,7 +286,7 @@
                     <div class="info-div">
                     </div>
                 </div>
-                <hr>
+                <hr><input type="text" th:value="${memberDTO.roleSet}">
                 <form id="memberfrm" action="">
                     <div class="personal-info-content">
                         <th:block th:each="dto : ${memberDTO}">
@@ -480,6 +480,7 @@
                     $("input[name=nickname]").val(memberDTONick);
                     return;
                 }
+                console.log($("#memberfrm").serialize());
                 swal({
                     title: "닉네임을 수정하시겠습니까?",
                     text: "확인을 누르면 닉네임이 수정됩니다",

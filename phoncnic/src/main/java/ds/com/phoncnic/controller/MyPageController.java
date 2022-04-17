@@ -52,7 +52,6 @@ public class MyPageController {
         model.addAttribute("afollowDTO", followService.getFollow(dto.getId()).getFollowartistlist());
         model.addAttribute("dfollowDTO", followService.getFollow(dto.getId()).getFollowdyninglist());
         model.addAttribute("applyChecker", applicationFormService.applicationExistsCheckerByUserId(dto.getId()));
-      
     }
 
     @PostMapping("/membermodify")
@@ -63,9 +62,9 @@ public class MyPageController {
         log.info("memberDTO : "+memberDTO);
 
         memberService.updateMemberDTO(memberDTO);
-        dto.setNickname(memberDTO.getNickname());
+        log.info("change....");
 
-        ra.addAttribute("id", memberDTO.getId());
+        // ra.addAttribute("id", memberDTO.getId());
 
         // session 값
         Authentication authentication = new UsernamePasswordAuthenticationToken(dto, null, dto.getAuthorities());
