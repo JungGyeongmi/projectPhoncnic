@@ -18,7 +18,7 @@
 
     .btn-items {
         text-align: center;
-        margin: 50px auto;
+        padding: 37px 0 65px 0;
     }
 
     .my.btn {
@@ -72,7 +72,7 @@
                 </div>
                 <div class="py-3">
                     <label for="" class="form-label">작품 설명</label>
-                    <input class="form-control" name="content" type="text" th:value="${galleryDTO.content}">
+                    <textarea class="form-control" name="content" rows="4">[[${galleryDTO.content}]]</textarea>
                 </div>
                 <div class="py-3">
                     <label for="" class="form-label">등록일</label>
