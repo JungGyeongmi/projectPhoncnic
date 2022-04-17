@@ -171,8 +171,8 @@ public class MemberServiceImpl implements MemberService {
 
         PageResultDTO<MemberDTO, Object[]> pageResult = new PageResultDTO<>(result, fn);
         
-        List<Integer> pagelist = Stream.iterate(1, n->n+1).limit(pageResult.getTotalPage()).collect(Collectors.toList());
-        pageResult.setPageList(pagelist);
+        // List<Integer> pagelist = Stream.iterate(1, n->n+1).limit(pageResult.getTotalPage()).collect(Collectors.toList());
+        // pageResult.setPageList(pagelist);
 
         return pageResult;
     }

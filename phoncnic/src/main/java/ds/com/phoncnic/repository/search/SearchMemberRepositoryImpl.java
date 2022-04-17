@@ -62,8 +62,8 @@ public class SearchMemberRepositoryImpl extends QuerydslRepositorySupport implem
       obj.orderBy(orders);
     });
     
-    obj.offset(pageable.getOffset())
-    .limit(pageable.getPageSize());
+    obj.offset(pageable.getOffset());
+    obj.limit(pageable.getPageSize());
 
     List<Member> result = obj.fetch();
 

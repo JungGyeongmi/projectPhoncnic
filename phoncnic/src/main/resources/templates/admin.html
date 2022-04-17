@@ -70,7 +70,7 @@
                 var userSearchFrm = $("#userSearchFrm");
                 var searchResult = $("#searchResult");
                 var searchResultNav = $("#searchResultNav");
-                
+                var frm = $("#userSearchFrm");
                 // 검색functino
                 var searchFunction = function () {
 
@@ -89,9 +89,9 @@
                     }
 
                     $.ajax({
-                        type: "POST",
-                        url: searchUrl ,
-                        data: JSON.stringify(data),
+                        type: "GET",
+                        url: searchUrl,
+                        data: frm.serialize(),
                         contentType: "application/json",
                         success: function (response) {
                             var str = "";
@@ -100,6 +100,7 @@
                             if (response.dtoList.length == 0) {
                                 str = `<div>검색결과를 찾을 수 없습니다.</div>`;
                                 searchResult.html(str);
+                                searchResultNav.html("");
                                 return true;
                             }
                             $.each(response.dtoList, function (index, item) {
@@ -144,12 +145,28 @@
                                 $(`#${roleId}`).attr("checked", true);
                                 
                             });
-                            console.log(response.page)
+                            str2 += `<ul>`;
+                                $.each(response.pageList, function(index, page){
+                                    str2 += `
+                                        <li >
+                                            <a href="${searchUrl}?page=${page}" class="page-link" >${page}</a>
+                                        </li>`;
+                                        // ?page=${response.page + 1}
+                            });
+                            str2 += `</ul>`;
+                            searchResultNav.html(str2);
+                            console.log("page"+response.page);
+                            console.log("start"+response.start);
+                            console.log("end"+response.end);
+                            console.log("size"+response.size);
+                            console.log("prev"+response.prev);
+                            console.log("next"+response.next);
+                            console.log(response.pageList);
                             console.log("get user info success");
                         },
-                        fail: function (response) {
-                            console.log(response);
-                        }, error: function (request, status, error) {
+                        fail(err) {
+                            console.log(err);
+                        }, error(request, status, error) {
                             console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                         }
                     });
