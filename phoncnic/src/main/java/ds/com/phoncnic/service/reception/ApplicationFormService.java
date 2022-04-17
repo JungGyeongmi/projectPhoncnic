@@ -15,6 +15,8 @@ public interface ApplicationFormService {
 
   Long register(ApplicationFormDTO dto);
 
+  Long applicationExistsCheckerByUserId(String id);
+
   default Map<String, Object> dtoToEntity(ApplicationFormDTO dto) {
     Map<String, Object> entityMap = new HashMap<>();
 
