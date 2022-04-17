@@ -1,21 +1,17 @@
 package ds.com.phoncnic.repository.search;
 
 import java.util.List;
-import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.JPQLQuery;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
 import ds.com.phoncnic.entity.Member;
@@ -57,7 +53,7 @@ public class SearchMemberRepositoryImpl extends QuerydslRepositorySupport implem
     }
 
     Sort sort = pageable.getSort();
-    OrderSpecifier<Long> orderId;
+    // OrderSpecifier<Long> orderId;
     sort.stream().forEach(i->{
       log.info("여기");  
       log.info(i.getClass());
