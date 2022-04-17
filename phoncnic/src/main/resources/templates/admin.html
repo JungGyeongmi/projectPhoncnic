@@ -43,7 +43,7 @@
                     </select>
                 </td>
                 <td>
-                    <select class="form-select" name="type">
+                    <select class="form-select" name="sort">
                         <option value="">아이디</option>
                         <option value="a">닉네임</option>
                         <option value="b">등록일</option>
@@ -74,21 +74,24 @@
                 // 검색functino
                 var searchFunction = function () {
 
-                    var id = $("input[name=keyword]").val();
+                    var keyword = $("input[name=keyword]").val();
                     var type = $("select[name=type] option:selected ").val();
                     var sort = $("select[name=sort] option:selected ").val();
-                    if (id == "" || id == null) {
+                    var data ={"keyword": keyword, "type": type, "sort": sort};
+                    
+                    if (keyword == "" || keyword == null) {
                         searchResult.text("검색어 입력하슈");
                         return true;
                     }
-                    if (id == "777") {
+                    if (keyword == "777") {
                         searchResult.text("🎉이것이 권력의 맛이다🎉");
                         return true;
                     }
 
                     $.ajax({
                         type: "POST",
-                        url: searchUrl + "/" + id + "/" + type + "/" + sort,
+                        url: searchUrl ,
+                        data: JSON.stringify(data),
                         contentType: "application/json",
                         success: function (response) {
                             var str = "";
@@ -171,7 +174,6 @@
                 
                 // 수정 function
                 var modiAjax = function (data, userRole, index) {
-                    console.log(JSON.stringify(data));
                     $.ajax({
                         type: "POST",
                         data: JSON.stringify(data),

@@ -30,14 +30,14 @@ public class AdminRestController {
     private MemberService memberService;
 
     @Transactional
-    @PostMapping("/search/{keyword}/{type}/{sort}")
-    public ResponseEntity<PageResultDTO<MemberDTO, Object[]>>getMember (@PathVariable("keyword")String keyword, 
-        @PathVariable("type")String type, @PathVariable("sort")String sort, 
+    @PostMapping("/search")
+    public ResponseEntity<PageResultDTO<MemberDTO, Object[]>>getMember(
+        @RequestBody Map<String, String> json, 
         SearchMemberPageRequestDTO pageRequestDTO) {
  
-        pageRequestDTO.setKeyword(keyword);
-        pageRequestDTO.setType(type);
-        pageRequestDTO.setSort(sort);
+        pageRequestDTO.setKeyword(json.get("keyword"));
+        pageRequestDTO.setType(json.get("type"));
+        pageRequestDTO.setSort(json.get("sort"));
 
         log.info(pageRequestDTO);
         PageResultDTO<MemberDTO, Object[]> searchResult = memberService.adminSearchPageByMemberId(pageRequestDTO);

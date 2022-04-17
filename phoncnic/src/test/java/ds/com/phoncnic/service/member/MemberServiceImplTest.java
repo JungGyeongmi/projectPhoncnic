@@ -29,9 +29,9 @@ public class MemberServiceImplTest {
     SearchMemberPageRequestDTO requestDTO = SearchMemberPageRequestDTO.builder()
       .page(3)
       .size(5)
-      .type("i")
+      .type("n")
       .sort("r")
-      .keyword("test")
+      .keyword("동")
     .build();
     PageResultDTO<MemberDTO, Object[]> pageResult = memberService.adminSearchPageByMemberId(requestDTO);
 

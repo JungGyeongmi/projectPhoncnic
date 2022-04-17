@@ -47,7 +47,7 @@ public class SearchMemberRepositoryImpl extends QuerydslRepositorySupport implem
           conditionBuilder.or(member.id.contains(keyword));
           break;
         case "n":
-          conditionBuilder.or(member.id.contains(keyword));
+          conditionBuilder.or(member.nickname.contains(keyword));
           break;
       }
       builder.and(conditionBuilder);
