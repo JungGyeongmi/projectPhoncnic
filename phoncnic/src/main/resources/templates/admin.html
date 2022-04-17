@@ -171,6 +171,7 @@
                 
                 // 수정 function
                 var modiAjax = function (data, userRole, index) {
+                    console.log(JSON.stringify(data));
                     $.ajax({
                         type: "POST",
                         data: JSON.stringify(data),
@@ -181,6 +182,10 @@
                             swal("수정완", { button: false, timer: 1000 });
                             console.log("get modi post success....");
                         },
+                        error(error ){
+                            console.log(error.responseJSON);
+                            console.log(error.responseMessage);
+                        }
                     });
                 }
 
@@ -194,7 +199,7 @@
                     var id = $(this).parent().siblings("input[name=id]").val();
                     var nickname = $(this).val();
                     var userRole = [$(".modirole").eq(index).val()];
-                    var data = { id: id, nickname: nickname };
+                    var data = { "id": id, "nickname": nickname };
                     swal({text:"수정하시겠습니까?", buttons:{button:{text:"네", value:true}, cancel:"아니오"},dangerMode:true}).then((check)=>{
                         if(check){
                             modiAjax(data, userRole, index);
@@ -209,7 +214,7 @@
                     var id = $(this).parent().siblings("input[name=id]").val();
                     var nickname = $(this).parent().siblings().eq(2).children("input").val();
                     var userRole = [$(".modirole").eq(index).val()];
-                    var data = { id: id, nickname: nickname };
+                    var data = { "id": id, "nickname": nickname };
                     modiAjax(data, userRole, index);
                 });
 

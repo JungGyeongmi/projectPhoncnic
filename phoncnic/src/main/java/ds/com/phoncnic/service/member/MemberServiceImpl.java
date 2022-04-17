@@ -64,10 +64,7 @@ public class MemberServiceImpl implements MemberService {
     public void updateMemberDTO(MemberDTO memberDTO) {
         Member member = dtoToEntity(memberDTO);
         log.info("update member DTO");
-        log.info(memberDTO);
-        log.info(member);
 
-        log.info("MemberComeOn ....." + member);
         memberRepository.save(member);
     }
 

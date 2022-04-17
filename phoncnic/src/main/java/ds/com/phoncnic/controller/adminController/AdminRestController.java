@@ -1,14 +1,17 @@
 package ds.com.phoncnic.controller.adminController;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -42,13 +45,19 @@ public class AdminRestController {
         return new ResponseEntity<>(searchResult, HttpStatus.OK);
     }
 
-    @PostMapping("/modify/{roleSet}")
-    public void getMemberInfoModify (@PathVariable("roleSet") List<String> roleSet, MemberDTO memberDTO) {
+    @PostMapping(value = "/modify/{roleSet}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public void getMemberInfoModify (@PathVariable("roleSet") List<String> roleSet,
+        @RequestBody Map<String, String> json,
+        MemberDTO memberDTO) {
         
+        memberDTO.setId(json.get("id"));
+        memberDTO.setNickname(json.get("nickname"));
         memberDTO.setRoleSet(roleSet);
+
         log.info("modify...");
 
         memberService.updateMemberDTO(memberDTO);
+
     }
 
     @PostMapping("/remove/{removeid}")
