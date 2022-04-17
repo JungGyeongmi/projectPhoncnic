@@ -1,6 +1,5 @@
 package ds.com.phoncnic.service.member;
 
-import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -14,29 +13,37 @@ import ds.com.phoncnic.entity.Member;
 import ds.com.phoncnic.security.dto.AuthMemberDTO;
 
 public interface MemberService {
-
+  
   Boolean checkMemberExist(String id);
-
   void updateMemberDTO(MemberDTO memberDTO);
-
   void modify2(AuthMemberDTO dto);
-
   void remove(String id);
-
   MemberDTO getMember(String id);
-
   String getNickname(String id);
-
   PageResultDTO<MemberDTO, Object[]> adminSearchPageByMemberId(SearchMemberPageRequestDTO pageRequestDTO);
 
   default Member dtoToEntity(MemberDTO memberDTO) {
-    System.out.println("DTO" + memberDTO.getRoleSet());
     Member member = Member.builder()
         .id(memberDTO.getId())
         .nickname(memberDTO.getNickname())
-        .roleSet(changeRoleSet(memberDTO))
+        .roleSet(memberDTO.getRoleSet().stream().map(
+            new Function<String, AuthorityRole>() {
+              @Override
+              public AuthorityRole apply(String t) {
+                if (t.equals("ROLE_USER"))
+                  return AuthorityRole.USER;
+                else if (t.equals("ROLE_CEO"))
+                  return AuthorityRole.CEO;
+                else if (t.equals("ROLE_ARTIST"))
+                  return AuthorityRole.ARTIST;
+                else if (t.equals("ROLE_ADMIN"))
+                  return AuthorityRole.ADMIN;
+                else
+                  return AuthorityRole.USER;
+              }
+            }).collect(Collectors.toSet()))
         .build();
-
+      
     return member;
   }
 
@@ -52,7 +59,7 @@ public interface MemberService {
         .build();
     return memberDTO;
   }
-
+  
   default Sort getSort(String sortkeyword) {
     Sort sort = Sort.by("id").descending();
     if (sortkeyword != null) {
@@ -68,26 +75,5 @@ public interface MemberService {
       }
     }
     return sort;
-  }
-
-  default Set<AuthorityRole> changeRoleSet(MemberDTO memberDTO) {
-
-      Set<AuthorityRole> result = memberDTO.getRoleSet().stream().map(
-          new Function<String, AuthorityRole>() {
-            @Override
-            public AuthorityRole apply(String t) {
-              if (t.equals("ROLE_USER") || t.equals("[ROLE_USER]"))
-                return AuthorityRole.USER;
-              else if (t.equals("ROLE_CEO") || t.equals("[ROLE_CEO]"))
-                return AuthorityRole.CEO;
-              else if (t.equals("ROLE_ARTIST") || t.equals("[ROLE_ARTIST]"))
-                return AuthorityRole.ARTIST;
-              else if (t.equals("ROLE_ADMIN") || t.equals("[ROLE_ADMIN]"))
-                return AuthorityRole.ADMIN;
-              else
-                return AuthorityRole.USER;
-            }
-          }).collect(Collectors.toSet());
-        return result;
   }
 }
