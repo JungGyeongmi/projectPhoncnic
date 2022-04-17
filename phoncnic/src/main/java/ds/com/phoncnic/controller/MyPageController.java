@@ -21,6 +21,7 @@ import ds.com.phoncnic.service.characterLook.CharacterLookService;
 import ds.com.phoncnic.service.emoji.EmojiService;
 import ds.com.phoncnic.service.follow.FollowService;
 import ds.com.phoncnic.service.member.MemberService;
+import ds.com.phoncnic.service.reception.ApplicationFormService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -34,6 +35,7 @@ public class MyPageController {
     private final CharacterLookService characterLookService;
     private final FollowService followService;
     private final EmojiService emojiService;
+    private final ApplicationFormService applicationFormService;
 
     @GetMapping({ "/", "" })
     public void mypage(Model model, @AuthenticationPrincipal AuthMemberDTO dto) {
@@ -49,6 +51,8 @@ public class MyPageController {
         model.addAttribute("emojiDTO", emojiService.getEmojiList(dto.getId()));
         model.addAttribute("afollowDTO", followService.getFollow(dto.getId()).getFollowartistlist());
         model.addAttribute("dfollowDTO", followService.getFollow(dto.getId()).getFollowdyninglist());
+        model.addAttribute("applyChecker", applicationFormService.applicationExistsCheckerByUserId(dto.getId()));
+      
     }
 
     @PostMapping("/membermodify")

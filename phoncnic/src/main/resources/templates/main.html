@@ -64,7 +64,7 @@
                         data: JSON.stringify(data),
                         contentType: "application/json",
                         success: function (response) {                    
-                            swal('success', "변경완료");
+                            swal('success', "변경완료",{button:false, timer:1000});
                             $("#userAvatar").attr("src", setpath);
                         },
                         fail: function (response) {

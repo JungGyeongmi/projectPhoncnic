@@ -49,4 +49,14 @@ public class ApplicationFormServiceImpl implements ApplicationFormService {
 
     return apply.getAfno();
   }
+
+  @Override
+  public Long applicationExistsCheckerByUserId(String id) {
+    List<ApplicationForm> checker = formRepository.findByMemberId(id);
+    log.info("무얏호"+checker);
+    if(checker.size()==0){
+      return 0L;
+    } 
+    return checker.get(0).getAfno();
+  }
 }

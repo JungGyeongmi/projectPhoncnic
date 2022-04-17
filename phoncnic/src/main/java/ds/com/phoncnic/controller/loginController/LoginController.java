@@ -18,9 +18,11 @@ public class LoginController {
     public String getLoginPage(HttpServletRequest request, Authentication auth) {
         log.info("request...");
         log.info(request.getServletPath());
+
         if(auth!=null && auth.getDetails() != null) {
             return "redirect:/";
         }
+
         log.info("login page......");
         return "/member/login";
     }

@@ -1,8 +1,9 @@
 package ds.com.phoncnic.controller.adminController;
 
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ds.com.phoncnic.dto.MemberDTO;
+import ds.com.phoncnic.dto.pageDTO.PageResultDTO;
+import ds.com.phoncnic.dto.pageDTO.SearchMemberPageRequestDTO;
 import ds.com.phoncnic.service.member.MemberService;
 import lombok.extern.log4j.Log4j2;
 
@@ -27,30 +30,30 @@ public class AdminRestController {
     private MemberService memberService;
 
     @Transactional
-    @PostMapping("/search/{id}")
-    public ResponseEntity<MemberDTO>getMember (@PathVariable("id")String id) {
-        MemberDTO memberDTO = MemberDTO.builder().build();
+    @PostMapping("/search/{keyword}/{type}")
+    public ResponseEntity<PageResultDTO<MemberDTO, Object[]>>getMember (@PathVariable("keyword")String keyword, @PathVariable("type")String type, SearchMemberPageRequestDTO pageRequestDTO) {
+ 
+        pageRequestDTO.setKeyword(keyword);
+        pageRequestDTO.setType(type);
 
-        if(memberService.checkMemberExist(id)) {
-            memberDTO =  memberService.getMember(id);
-            log.info("getMember....");
-        }
-        log.info(id);
+        log.info(pageRequestDTO);
+        PageResultDTO<MemberDTO, Object[]> searchResult = memberService.adminSearchPageByMemberId(pageRequestDTO);
         
-        return new ResponseEntity<>(memberDTO, HttpStatus.OK);
+        return new ResponseEntity<>(searchResult, HttpStatus.OK);
     }
 
-    @PostMapping("/modify/{role}")
-    public void getMemberInfoModify (@RequestBody MemberDTO memberDTO, @PathVariable("role") String role) {
+    @PostMapping("/modify/{roleSet}")
+    public void getMemberInfoModify (@PathVariable("roleSet") List<String> roleSet,  @RequestBody MemberDTO memberDTO) {
         
+        memberDTO.setRoleSet(roleSet);
         log.info("modify...");
-        
-        if(!role.equals("0")) {
-            List<String> roleSet = new ArrayList<>();
-            roleSet.add("["+role+"]");
-            memberDTO.setRoleSet(roleSet);
-        } 
 
         memberService.updateMemberDTO(memberDTO);
+    }
+
+    @PostMapping("/remove/{removeid}")
+    public void memberRemove(@PathVariable("removeid")String removeid) {
+        log.info("member removing....." + removeid);
+        memberService.remove(removeid);
     }
 }

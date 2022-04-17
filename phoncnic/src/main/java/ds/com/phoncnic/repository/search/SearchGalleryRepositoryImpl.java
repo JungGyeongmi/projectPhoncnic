@@ -39,8 +39,7 @@ public class SearchGalleryRepositoryImpl extends QuerydslRepositorySupport imple
     JPQLQuery<Gallery> jpqlQuery = from(gallery);
     jpqlQuery.leftJoin(member).on(gallery.artistid.eq(member));
 
-    JPQLQuery<Tuple> tuple = jpqlQuery.select(
-        gallery, member.id);
+    JPQLQuery<Tuple> tuple = jpqlQuery.select( gallery, member.id);
     tuple.groupBy(gallery);
 
     log.info("----------------------------");
@@ -86,6 +85,7 @@ public class SearchGalleryRepositoryImpl extends QuerydslRepositorySupport imple
       }
       builder.and(conditionBuilder);
     }
+
     tuple.where(builder);
     Sort sort = pageable.getSort();
     sort.stream().forEach(new Consumer<Sort.Order>() {
