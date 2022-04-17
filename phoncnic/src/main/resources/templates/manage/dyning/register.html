@@ -551,14 +551,14 @@ input[type=radio]:checked + label {
     </script>
 
     <div id="roofModal" class="modal roofModal" tabindex="-2">
-      <div class="modal-dialog roofmodal">
-        <div class="modal-content">
-          <div class="modal-header">
+      <div class="modal-dialog modal-lg roofmodal">
+        <div class="modal-content modal-lg">
+          <div class="modal-header modal-lg">
             <h5 class="modal-title">지붕 디자인 선택</h5>
             <button type="button" class="btn-close close" data-bs-dismiss="modal" aria-label="Close"
               name='btn-close'></button>
           </div>
-          <div class="modal-body">
+          <div class="modal-body modal-lg">
             <span th:each="roof : ${roofList}">
               <input type="radio" class="radio" name="oono" th:id="${roof.rooftype}" th:value="${roof.rooftype}" hidden>
               <label th:for="${roof.rooftype}">
@@ -567,8 +567,8 @@ input[type=radio]:checked + label {
             </span>
           </div>
 
-          <div class="modal-footer">
-            <button type="button" class="basic-button" data-bs-dismiss="modal">선택하기</button>
+          <div class="modal-footer modal-lg">
+            <button type="button" class="basic-button" data-bs-dismiss="modal">Ok</button>
             <button type="button" class="btn btn-secondary pictureClose close" name='btn-close'
               data-bs-dismiss="modal">닫기</button>
           </div>
