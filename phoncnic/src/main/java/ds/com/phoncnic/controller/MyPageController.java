@@ -40,9 +40,9 @@ public class MyPageController {
     @GetMapping({ "/", "" })
     public void mypage(Model model, @AuthenticationPrincipal AuthMemberDTO dto) {
 
-        log.info("id:" + dto.getId());
+        log.info("----------------");
         MemberDTO memberDTO = memberService.getMember(dto.getId());
-
+        log.info(memberDTO.getRoleSet());
         model.addAttribute("id",dto.getId());
         model.addAttribute("memberDTO", memberDTO);
 
@@ -52,20 +52,22 @@ public class MyPageController {
         model.addAttribute("afollowDTO", followService.getFollow(dto.getId()).getFollowartistlist());
         model.addAttribute("dfollowDTO", followService.getFollow(dto.getId()).getFollowdyninglist());
         model.addAttribute("applyChecker", applicationFormService.applicationExistsCheckerByUserId(dto.getId()));
-      
     }
 
     @PostMapping("/membermodify")
     public String membermodify(MemberDTO memberDTO, RedirectAttributes ra, @AuthenticationPrincipal AuthMemberDTO dto) {
 
         log.info("update....");
-        log.info("modify post.........id:" + memberDTO.getId());
+        // log.info("modify post.........id:" + memberDTO.getId());
+        // log.info("memberDTO : "+memberDTO);
+        log.info(dto.getAuthorities());
+        memberDTO.setRoleSet(dto.getAuthorities());
         log.info("memberDTO : "+memberDTO);
 
         memberService.updateMemberDTO(memberDTO);
-        dto.setNickname(memberDTO.getNickname());
+        log.info("change....");
 
-        ra.addAttribute("id", memberDTO.getId());
+        // ra.addAttribute("id", memberDTO.getId());
 
         // session 값
         Authentication authentication = new UsernamePasswordAuthenticationToken(dto, null, dto.getAuthorities());
