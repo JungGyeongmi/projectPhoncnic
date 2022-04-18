@@ -59,7 +59,11 @@ public class GallerySettingController {
     @PostMapping("/register") 
     public String getRegisetr(GalleryDTO galleryDTO) {
         log.info("register...."+galleryDTO);
+        
+
+        
         galleryService.register(galleryDTO);
+
         return "redirect:/manage/gallery/list?id="+galleryDTO.getId();
     }
 

@@ -122,6 +122,10 @@ public class GalleryServiceImpl implements GalleryService {
 
     @Override
     public void register(GalleryDTO galleryDTO) {
+        Object[] obj = galleryRepository.countingGalleryByUserId(galleryDTO.getId());
+        if ( > 10) {
+
+        }
         Gallery gallery = dtoToEntity(galleryDTO);
         galleryRepository.save(gallery);
     }
