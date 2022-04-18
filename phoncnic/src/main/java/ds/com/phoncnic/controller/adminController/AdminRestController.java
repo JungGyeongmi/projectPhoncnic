@@ -42,7 +42,7 @@ public class AdminRestController {
     }
 
     @PostMapping("/modify/{roleSet}")
-    public Boolean getMemberInfoModify (@PathVariable("roleSet") List<String> roleSet,
+    public String getMemberInfoModify (@PathVariable("roleSet") List<String> roleSet,
         @RequestBody Map<String, String> json,
         MemberDTO memberDTO,
         RedirectAttributes ra) {
@@ -55,19 +55,19 @@ public class AdminRestController {
 
         // 닉네임이 중복되고 롤도 바뀌지 않은 경우
         if(roleChecker && nickChecker) {
-            return false;
-        } else if(nickChecker) {
+            return "overlap";
+        } else if(!roleChecker && nickChecker) {
         // 닉네임은 중복되나 롤이 바뀐경우
             memberDTO.setNickname(json.get("originNick"));
             memberService.updateMemberDTO(memberDTO);
-            return false;
+            return "role";
         }
         // 닉네임도 롤도 바뀌는 경우
         memberDTO.setNickname(json.get("nickname"));
         memberService.updateMemberDTO(memberDTO);
         log.info("modify...");
 
-        return true;
+        return "change";
     }
 
     @PostMapping("/remove/{removeid}")

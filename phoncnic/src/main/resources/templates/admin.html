@@ -294,23 +294,30 @@
 
                 // 수정 function
                 var modiAjax = function (data, userRole, index) {
-
                     $.ajax({
                         type: "POST",
                         data: JSON.stringify(data),
                         url: modifyUrl + "/" + userRole,
                         contentType: "application/json",
-                        success: function (success) {
-                            console.log(success);
-                            if (success) {
+                        success: function (message) {
+                            console.log(message);
+                            if (message=="change") {
                                 $(".mod-date").eq(index).css({"color": "tomato","font-weight":"bold"});
                                 swal("수정완", { button: false, timer: 1000 });
                                 console.log("get modi post success....");
-                            } else {
+
+                            } else if ( $(".roleSetInfo").eq(index).data("roleSet")!=$(".modirole").eq(index).val()) {
                                 $("input[name=nickname]").eq(index).val(data["originNick"]);
-                                swal("닉네임 중복", { button: false, timer: 1000 });
+                                swal("롤 수정완",{button: false, timer: 1000 });
+
+                                $(".roleSetInfo").eq(index).data("roleSet", $(".modirole").eq(index).val());
+
+                            } else {
+                                swal("닉네임 중복",{button: false, timer: 1000 });
+                                $("input[name=nickname]").eq(index).val(data["originNick"]);
                                 $(".mod-date").eq(index).css({"color": "black","font-weight":"unset"});
                             }
+                            
                         },
                         error(error) {
                             console.log(error.responseJSON);
@@ -325,6 +332,7 @@
                         return;
                     }
                     e.preventDefault();
+
                     var originRole = $(this).parent().siblings().eq(3).data("roleSet");
                     var originNick =  $(this).data("oriNick");
                     var index = $(this).parents("form").index();
@@ -332,7 +340,9 @@
                     var nickname = $(this).val();
                     var userRole = [$(".modirole").eq(index).val()];
                     var data = { "id": id, "nickname": nickname, "originRole": originRole , "originNick": originNick };
+                    
                     console.log(data);
+                   
                     swal({ text: "수정하시겠습니까?", buttons: { button: { text: "네", value: true }, cancel: "아니오" }, dangerMode: true }).then((check) => {
                         if (check) {
                             modiAjax(data, userRole, index);
