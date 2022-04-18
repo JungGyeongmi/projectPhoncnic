@@ -27,18 +27,21 @@ public class MemberServiceImplTest {
   void testAdminSearchPageByMemberId() {
 
     SearchMemberPageRequestDTO requestDTO = SearchMemberPageRequestDTO.builder()
-      .page(3)
+      .page(1)
       .size(5)
-      .type("n")
-      .sort("r")
-      .keyword("동")
+      .type("i")
+      .sort("n")
+      .keyword("t")
     .build();
 
     PageResultDTO<MemberDTO, Object[]> pageResult = memberService.adminSearchPageByMemberId(requestDTO);
 
-    System.out.println("result "+pageResult.getTotalPage());
-    System.out.println("result "+pageResult.getPageList());
-    System.out.println("result "+pageResult.getPage());
-    System.out.println("result "+pageResult.getDtoList());
+    System.out.println(pageResult);
+    System.out.println("totalpage "+pageResult.getTotalPage());
+    System.out.println("prev "+pageResult.isPrev());
+    System.out.println("next "+pageResult.isNext());
+    System.out.println("page "+pageResult.getPage());
+    System.out.println("getPageList "+pageResult.getPageList());
+    System.out.println("dtoList "+pageResult.getDtoList());
   }
 }

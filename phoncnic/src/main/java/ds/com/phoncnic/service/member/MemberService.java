@@ -62,6 +62,14 @@ public interface MemberService {
   }
 
   default MemberDTO entityToDTOWithApply(Member member, ApplicationForm apply) {
+   
+    Long afno = 0L;
+    Boolean applicationtype = false;
+   
+    if(apply!=null) {
+      afno = apply.getAfno();
+      applicationtype = apply.getApplicationtype();
+    }
 
     MemberDTO memberDTO = MemberDTO.builder()
         .id(member.getId())
@@ -69,8 +77,8 @@ public interface MemberService {
         .roleSet(member.getRoleSet().stream().map(
             role -> new String("ROLE_" + role.name()))
             .collect(Collectors.toList()))
-        .afno(apply.getAfno())
-        .applicationtype(apply.getApplicationtype())
+        .afno(afno)
+        .applicationtype(applicationtype)
         .regdate(member.getRegDate())
         .moddate(member.getModDate())
         .build();

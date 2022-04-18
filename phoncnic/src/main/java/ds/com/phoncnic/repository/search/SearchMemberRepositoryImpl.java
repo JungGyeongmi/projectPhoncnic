@@ -1,7 +1,6 @@
 package ds.com.phoncnic.repository.search;
 
 import java.util.List;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import com.querydsl.core.BooleanBuilder;
@@ -37,11 +36,10 @@ public class SearchMemberRepositoryImpl extends QuerydslRepositorySupport implem
     QMember member = QMember.member;
     QApplicationForm apply = QApplicationForm.applicationForm;
 
-    JPQLQuery<Tuple> tuple = from(member)
-    .leftJoin(member)
-    .on(apply.member.eq(member))
-    .select(member, apply);
+    JPQLQuery<Member> jpqlQuery = from(member);
+    jpqlQuery.leftJoin(apply).on(apply.member.eq(member));
 
+    JPQLQuery<Tuple> tuple = jpqlQuery.select(member, apply);
     BooleanBuilder builder = new BooleanBuilder();
     BooleanExpression expression = member.id.contains("@");
     builder.and(expression);

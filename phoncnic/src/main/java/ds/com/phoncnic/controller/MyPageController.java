@@ -51,24 +51,19 @@ public class MyPageController {
         model.addAttribute("emojiDTO", emojiService.getEmojiList(dto.getId()));
         model.addAttribute("afollowDTO", followService.getFollow(dto.getId()).getFollowartistlist());
         model.addAttribute("dfollowDTO", followService.getFollow(dto.getId()).getFollowdyninglist());
-        model.addAttribute("applyChecker", applicationFormService.applicationExistsCheckerByUserId(dto.getId()));
+        model.addAttribute("applyDTO", applicationFormService.applicationExistsCheckerByUserId(dto.getId()));
     }
 
     @PostMapping("/membermodify")
     public String membermodify(MemberDTO memberDTO, RedirectAttributes ra, @AuthenticationPrincipal AuthMemberDTO dto) {
 
         log.info("update....");
-        // log.info("modify post.........id:" + memberDTO.getId());
-        // log.info("memberDTO : "+memberDTO);
         log.info(dto.getAuthorities());
         memberDTO.setRoleSet(dto.getAuthorities());
         log.info("memberDTO : "+memberDTO);
 
         memberService.updateMemberDTO(memberDTO);
         log.info("change....");
-
-        // ra.addAttribute("id", memberDTO.getId());
-
         // session 값
         Authentication authentication = new UsernamePasswordAuthenticationToken(dto, null, dto.getAuthorities());
         SecurityContext securityContext = SecurityContextHolder.getContext();

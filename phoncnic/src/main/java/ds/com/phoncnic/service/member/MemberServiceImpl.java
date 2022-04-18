@@ -3,6 +3,8 @@ package ds.com.phoncnic.service.member;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.transaction.Transactional;
 
@@ -170,6 +172,8 @@ public class MemberServiceImpl implements MemberService {
         Page<Object[]> result = memberRepository.searchPage(pageRequestDTO.getType(), pageRequestDTO.getKeyword(), pageRequestDTO.getPageable(sort));
 
         PageResultDTO<MemberDTO, Object[]> pageResult = new PageResultDTO<>(result, fn);
+        List<Integer> pageList = Stream.iterate(1, i->i+1).limit(pageResult.getTotalPage()).collect(Collectors.toList());        
+        pageResult.setPageList(pageList);
         
         return pageResult;
     }

@@ -110,8 +110,8 @@
                                         <tr>
                                             <th scope="col">아이디</th>
                                             <th scope="col">닉네임</th>
+                                            <th scope="col">신청</th>
                                             <th scope="col">권한</th>
-                                            
                                             <th scope="col">가입일</th>
                                             <th scope="col">수정일</th>
                                             <th scope="col">수정</th>
@@ -121,13 +121,13 @@
                                             <input type="hidden" value="${item.id}" name="id" readonly/>
                                             <td class="search-result-td" > <span >${item.id}</sapn></td>
                                             <td class="search-result-td" ><input type="text" value="${item.nickname}" name="nickname"></td>
+                                            <td class="search-result-td apply" data-apply-boolean="${item.afno}">${item.applicationtype}</td>
                                             <td class="search-result-td roleSetInfo" data-role-set="${item.roleSet[0]}">
                                                 <label for="ADMIN${index}">ADMIN</label>&nbsp;
                                                 <label for="USER${index}">USER</label>&nbsp;
                                                 <label for="CEO${index}">CEO</label>&nbsp;
                                                 <label for="ARTIST${index}">ARTIST</label>
                                             </td>
-                                            
                                             <td class="search-result-td">${item.regdate}</td>
                                             <td class="search-result-td mod-date">${item.moddate}</td>
                                             <td><button class="memberModifyBtn" type="button">수정</button></td>
@@ -143,7 +143,10 @@
                                     </div>
                                 </form>`
                                 searchResult.append(str);
-                              
+                                console.log(($(".apply").eq(index).html()));
+                                if($(".apply").eq(index).html()=="true"){$(".apply").eq(index).html("CEO")}
+                                else if ($(".apply").eq(index).html()=="false") {$(".apply").eq(index).html("ARTIST")}
+                                if($(".apply").eq(index).data("applyBoolean")==0){$(".apply").eq(index).html("신청내역없음")}
 
                                 var roleId = item.roleSet[0].toString().slice(5) + index;
                                 $(`label[for=${roleId}]`).css("color", "tomato");
