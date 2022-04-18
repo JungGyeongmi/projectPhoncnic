@@ -6,29 +6,34 @@
             label:hover {
                 cursor: pointer;
             }
-            
-            .btn-danger{
+
+            .btn-danger {
                 background-color: tomato;
-            }   
-            .btn-danger:not([disabled]):hover[class*='btn-danger']{
+            }
+
+            .btn-danger:not([disabled]):hover[class*='btn-danger'] {
                 background-color: red;
             }
+
             .page-list button,
             .page-item button {
                 color: black;
             }
 
-            .page-list button:hover{
+            .page-list button:hover {
                 background-color: lightgray;
                 font-weight: bold;
             }
+
             .page-list-active {
                 background-color: lightblue;
                 font-weight: bold;
             }
             .memberRemoveBtn,
             .memberModifyBtn,
-            #searchBtn{
+            #searchAllBtn,
+            #searchBtn {
+                box-shadow: lightblue 4px 5px;
                 border: unset;
                 font-weight: bold;
                 background: gold;
@@ -36,24 +41,36 @@
                 color: white;
                 padding: 0.5rem;
             }
+            #searchAllBtn,
             .memberRemoveBtn,
-            .memberModifyBtn{
+            .memberModifyBtn {
                 background: #c9c9c9;
+            }
+            #searchAllBtn:active,
+            #searchBtn:active,
+            button:active {
+                outline: unset;
+                box-shadow: inset 10px 9px 0px 3px lightblue;
             }
             input[type="text"]:focus,
             input[type="text"] {
                 background-color: transparent;
                 border: none;
-                border-bottom: 2px solid grey;
                 outline: none;
             }
             input[name="keyword"] {
                 border-bottom: 2px solid gold;
             }
+            .info-text{
+                text-align: center; 
+                font-weight: bold;
+                color: gold;
+                font-size: 20px; 
+            }
         </style>
         <div class="title">
-            <h2 style="font-family: 'GmarketSansmedium';"><img th:src="@{/icon/vertical-line.png}"
-                    style="width:30px;" alt="">관리자 페이지</h2>
+            <h2 style="font-family: 'GmarketSansmedium';"><img th:src="@{/icon/vertical-line.png}" style="width:30px;"
+                    alt="">관리자 페이지</h2>
         </div>
         <br>
         <table class="table">
@@ -66,25 +83,25 @@
             <tr>
                 <td> <b style="color:goldenrod">[[${userId}]]</b> </td>
                 <form id="userSearchFrm" action="" method="">
-                <td>
-                    <input type="text" value="" name="keyword" placeholder="nugu@gmail.com">
-                    <input type="button" value="검색" id="searchBtn">
-                   
-                </td>
-                <td>
-                    <select class="form-select" name="type">
-                        <option value="i">아이디</option>
-                        <option value="n">닉네임</option>
-                    </select>
-                </td>
-                <td>
-                    <select class="form-select" name="sort">
-                        <option value="">아이디</option>
-                        <option value="a">닉네임</option>
-                        <option value="b">등록일</option>
-                        <option value="c">수정일</option>
-                    </select>
-                </td>
+                    <td>
+                        <input type="text" value="" name="keyword" placeholder="nugu@gmail.com">
+                        <input type="button" value="검색" id="searchBtn">
+                        <input type="button" value="모두조회" id="searchAllBtn">
+                    </td>
+                    <td>
+                        <select class="form-select" name="type">
+                            <option value="i">아이디</option>
+                            <option value="n">닉네임</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select class="form-select" name="sort">
+                            <option value="">아이디</option>
+                            <option value="a">닉네임</option>
+                            <option value="b">등록일</option>
+                            <option value="c">수정일</option>
+                        </select>
+                    </td>
                 </form>
             </tr>
         </table>
@@ -97,9 +114,9 @@
             $(function () {
 
                 /*[+
-                    var searchUrl = [[ @{/admin/search} ]]
-                    var modifyUrl = [[ @{/admin/modify} ]]
-                    var removeUrl = [[ @{/admin/remove} ]]
+                    var searchUrl = [[ @{/admin/search} ]];
+                    var modifyUrl = [[ @{/admin/modify} ]];
+                    var removeUrl = [[ @{/admin/remove} ]];
                 +]*/
 
                 var userSearchFrm = $("#userSearchFrm");
@@ -108,24 +125,28 @@
                 var frm = $("#userSearchFrm");
 
                 var recentPage = 1;
-
+                var searchAll = true;
                 // 검색functtion
                 var searchFunction = function (searchurlParam) {
 
                     var keyword = $("input[name=keyword]").val();
                     var type = $("select[name=type] option:selected ").val();
                     var sort = $("select[name=sort] option:selected ").val();
-                    var data ={"keyword": keyword, "type": type, "sort": sort};
-                    
-                    if (keyword == "" || keyword == null) {
-                        searchResult.text("검색어 입력하슈");
-                        return true;
-                    }
+                    var data = { "keyword": keyword, "type": type, "sort": sort };
                     if (keyword == "777") {
-                        searchResult.text("🎉이것이 권력의 맛이다🎉");
-                        return true;
-                    }
+                        searchResult.text("🎉이것이 권력의 맛이다🎉").addClass("info-text");
+                        return;
+                    } 
                     
+                    if (keyword == "") {
+                        if(searchAll){
+                            searchResult.html("검색어 입력하슈, 전체 검색은 상위 버튼").addClass("info-text");
+                            swal({ title: "검색어", text: "구글 아이디 또는 닉네임", icon: "info", button: false, timer: 2000 });
+                            searchResultNav.html("");
+                            return;
+                        }
+                    }
+
                     $.ajax({
                         type: "GET",
                         url: searchurlParam,
@@ -134,13 +155,17 @@
                         success: function (response) {
                             var str = "";
                             var str2 = "";
-                            searchResult.html(str);
+
+                            searchResult.html("").removeClass("info-text");
+                            searchResultNav.html("");
+
                             if (response.dtoList.length == 0) {
                                 str = `<div>검색결과를 찾을 수 없습니다.</div>`;
-                                searchResult.html(str);
+                                searchResult.html(str).addClass("info-text");
                                 searchResultNav.html("");
-                                return true;
+                                return;
                             }
+
                             $.each(response.dtoList, function (index, item) {
                                 str = `<form action="" id="memberfrm${index}">
                                     <table class="table">
@@ -180,47 +205,45 @@
                                     </div>
                                 </form>`
                                 searchResult.append(str);
-                                console.log(($(".apply").eq(index).html()));
-                                if($(".apply").eq(index).html()=="true"){$(".apply").eq(index).html("CEO")}
-                                else if ($(".apply").eq(index).html()=="false") {$(".apply").eq(index).html("ARTIST")}
-                                if($(".apply").eq(index).data("applyBoolean")==0){$(".apply").eq(index).html("신청내역없음")}
+                                if ($(".apply").eq(index).html() == "true") { $(".apply").eq(index).html("CEO") }
+                                else if ($(".apply").eq(index).html() == "false") { $(".apply").eq(index).html("ARTIST") }
+                                if ($(".apply").eq(index).data("applyBoolean") == 0) { $(".apply").eq(index).html("신청내역없음") }
 
                                 var roleId = item.roleSet[0].toString().slice(5) + index;
-                                $(`label[for=${roleId}]`).css("color", "tomato");
+                                $(`label[for=${roleId}]`).css({"color": "tomato","font-weight":"bold"});
                                 $(`#${roleId}`).attr("checked", true);
-                                
+
                             });
+
                             str2 += `<ul class="pagination justify-content-center my">
                                 <li class="page-item" data-is-prev="${response.prev}">
-                                    <button data-page-href="${searchUrl}?page=${response.start-1}" data-page-index="${response.end-2}" class="page-link">◀</button>
+                                    <button data-page-href="${searchUrl}?page=${response.start - 1}" data-page-index="${response.end - 2}" class="page-link">◀</button>
                                 </li>`;
 
-                             $.each(response.pageList, function(index, page){
-                                    str2 += `
+                            $.each(response.pageList, function (index, page) {
+                                str2 += `
                                     <li class="page-list">
                                         <button data-page-href="${searchUrl}?page=${page}" data-page-index="${index}" class="page-link" >${page}</button>
                                     </li>`;
                             });
 
-                                str2 += `<li class="page-item" data-is-next="${response.next}">
-                                    <button data-page-href="${searchUrl}?page=${response.end+1}"  data-page-index="0" class="page-link" >▶</button>
+                            str2 += `<li class="page-item" data-is-next="${response.next}">
+                                    <button data-page-href="${searchUrl}?page=${response.end + 1}"  data-page-index="0" class="page-link" >▶</button>
                                 </li></ul>`;
                             
-                                searchResultNav.html(str2);
-                                
-                                if(!$(".page-item").eq(0).data("isPrev")){
-                                    $(".page-item").eq(0).css("display", "none");
-                                }
-                                
-                                if(!$(".page-item").eq(1).data("isNext")) {
-                                    $(".page-item").eq(1).css("display", "none");
-                                }
+                            searchResultNav.html(str2);
 
-                                console.log("ajax"+recentPage);
+                            if (!$(".page-item").eq(0).data("isPrev")) {
+                                $(".page-item").eq(0).css("display", "none");
+                            }
 
-                                $(".page-link").eq(recentPage).addClass("page-list-active");
+                            if (!$(".page-item").eq(1).data("isNext")) {
+                                $(".page-item").eq(1).css("display", "none");
+                            }
 
-                                console.log("get user info success");
+                            $(".page-link").eq(recentPage).addClass("page-list-active");
+
+                            console.log("get user info success");
                         },
                         fail(err) {
                             console.log(err);
@@ -228,25 +251,26 @@
                             console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                         }
                     });
+
                 }
 
                 // 검색 페이징
-                $(document).on("click",".page-link", function() {
-                    recentPage = $(this).data("pageIndex")+1;
-                    console.log("click"+recentPage);
+                $(document).on("click", ".page-link", function () {
+                    recentPage = $(this).data("pageIndex") + 1;
                     searchFunction($(this).data("pageHref"));
                 });
 
                 // ROLE 선택시 색, 값 변경
                 $(document).on("change", ".raidoContainer input", function () {
-                    $(".roleSetInfo").eq($(this).parent().data("index")).children().css("color", "black");
-                    $(`label[for=${$(this).attr("id")}]`).css("color", "tomato");
+                    $(".roleSetInfo").eq($(this).parent().data("index")).children().css({"color": "black","font-weight":"unset"});
+                    $(`label[for=${$(this).attr("id")}]`).css({"color": "tomato","font-weight":"bold"});
                     $(this).parent().siblings().eq(1).val($(this).val());
                 });
 
                 // 검색
-                $("#searchBtn").on("click", function(){
+                $("#searchBtn").on("click", function () {
                     recentPage = 1;
+                    searchAll = true;
                     searchFunction(searchUrl);
                 });
                 $("input[name=keyword]").on("keydown", function (e) {
@@ -254,10 +278,18 @@
                     if (keycode == "13") {
                         e.preventDefault();
                         recentPage = 1;
+                        searchAll = true;
                         searchFunction(searchUrl);
                     }
                 });
-                
+                $("#searchAllBtn").on("click", function () {
+                    $("input[name=keyword]").val("");
+                    recentPage = 1;
+                    searchAll = false;
+                    swal({ title: "전체검색", text: "검색중...", icon: "info", button: false, timer: 1000 });
+                    searchFunction(searchUrl);
+                });
+
                 // 수정 function
                 var modiAjax = function (data, userRole, index) {
                     $.ajax({
@@ -265,12 +297,18 @@
                         data: JSON.stringify(data),
                         url: modifyUrl + "/" + userRole,
                         contentType: "application/json",
-                        success: function (response) {
-                            $(".mod-date").eq(index).css("color", "tomato");
-                            swal("수정완", { button: false, timer: 1000 });
-                            console.log("get modi post success....");
+                        success: function (success) {
+                            console.log(success);
+                            if (success) {
+                                $(".mod-date").eq(index).css({"color": "tomato","font-weight":"bold"});
+                                swal("수정완", { button: false, timer: 1000 });
+                                console.log("get modi post success....");
+                            } else {
+                                $(".mod-date").eq(index).css({"color": "black","font-weight":"unset"});
+                                swal("중복", { button: false, timer: 1000 });
+                            }
                         },
-                        error(error ){
+                        error(error) {
                             console.log(error.responseJSON);
                             console.log(error.responseMessage);
                         }
@@ -288,8 +326,8 @@
                     var nickname = $(this).val();
                     var userRole = [$(".modirole").eq(index).val()];
                     var data = { "id": id, "nickname": nickname };
-                    swal({text:"수정하시겠습니까?", buttons:{button:{text:"네", value:true}, cancel:"아니오"},dangerMode:true}).then((check)=>{
-                        if(check){
+                    swal({ text: "수정하시겠습니까?", buttons: { button: { text: "네", value: true }, cancel: "아니오" }, dangerMode: true }).then((check) => {
+                        if (check) {
                             modiAjax(data, userRole, index);
                         } else {
                             return;
@@ -319,18 +357,18 @@
                         }
                     });
                 }
-                
+
                 // 퇴출
-                $(document).on("click", ".memberRemoveBtn", function(e){
+                $(document).on("click", ".memberRemoveBtn", function (e) {
                     var index = $(this).parents("form").index();
                     var removeId = $(this).parent().siblings("input[name=id]").val();
-                    swal({text:removeId+"님을 삭제하시겠습니까?", icon:"warning", buttons:{button:{text:"네",className:"btn-danger", value:"true"},cancel:"아니오"},dangerMode:true}).then((check)=>{
-                        if(check){
+                    swal({ text: removeId + "님을 삭제하시겠습니까?", icon: "warning", buttons: { button: { text: "네", className: "btn-danger", value: "true" }, cancel: "아니오" }, dangerMode: true }).then((check) => {
+                        if (check) {
                             removeAjax(removeId);
                             $(this).parents("form").css("display", "none");
-                        } else {return;}
+                        } else { return; }
                     });
-                });  
+                });
 
             });
 

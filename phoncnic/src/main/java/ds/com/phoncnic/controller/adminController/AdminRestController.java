@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ds.com.phoncnic.dto.MemberDTO;
 import ds.com.phoncnic.dto.pageDTO.PageResultDTO;
@@ -41,18 +42,22 @@ public class AdminRestController {
     }
 
     @PostMapping("/modify/{roleSet}")
-    public void getMemberInfoModify (@PathVariable("roleSet") List<String> roleSet,
+    public Boolean getMemberInfoModify (@PathVariable("roleSet") List<String> roleSet,
         @RequestBody Map<String, String> json,
-        MemberDTO memberDTO) {
-        
+        MemberDTO memberDTO,
+        RedirectAttributes ra) {
+
+        // 중복검사
+        if(memberService.nickNameChecker(json.get("nickname"))){
+            return false;
+        }
+
         memberDTO.setId(json.get("id"));
         memberDTO.setNickname(json.get("nickname"));
         memberDTO.setRoleSet(roleSet);
-
         log.info("modify...");
-
         memberService.updateMemberDTO(memberDTO);
-
+        return true;
     }
 
     @PostMapping("/remove/{removeid}")
