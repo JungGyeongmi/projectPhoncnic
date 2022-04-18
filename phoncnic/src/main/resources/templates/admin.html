@@ -3,12 +3,6 @@
 <th:block th:replace="~{layout/basic :: setContent(~{::content})}">
     <th:block th:fragment="content">
         <style>
-            .roleSetInfo {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-            }
-
             label:hover {
                 cursor: pointer;
             }
@@ -32,8 +26,36 @@
                 background-color: lightblue;
                 font-weight: bold;
             }
+            .memberRemoveBtn,
+            .memberModifyBtn,
+            #searchBtn{
+                border: unset;
+                font-weight: bold;
+                background: gold;
+                border-radius: 30px;
+                color: white;
+                padding: 0.5rem;
+            }
+            .memberRemoveBtn,
+            .memberModifyBtn{
+                background: #c9c9c9;
+            }
+            input[type="text"]:focus,
+            input[type="text"] {
+                background-color: transparent;
+                border: none;
+                border-bottom: 2px solid grey;
+                outline: none;
+            }
+            input[name="keyword"] {
+                border-bottom: 2px solid gold;
+            }
         </style>
-        <h1>관리자 페이지</h1>
+        <div class="title">
+            <h2 style="font-family: 'GmarketSansmedium';"><img th:src="@{/icon/vertical-line.png}"
+                    style="width:30px;" alt="">관리자 페이지</h2>
+        </div>
+        <br>
         <table class="table">
             <tr>
                 <th>관리자명</th>
@@ -121,7 +143,7 @@
                             }
                             $.each(response.dtoList, function (index, item) {
                                 str = `<form action="" id="memberfrm${index}">
-                                    <table class="table" border="1">
+                                    <table class="table">
                                         <tr>
                                             <th scope="col">아이디</th>
                                             <th scope="col">닉네임</th>
