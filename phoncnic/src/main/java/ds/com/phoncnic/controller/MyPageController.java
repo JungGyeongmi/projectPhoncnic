@@ -55,17 +55,16 @@ public class MyPageController {
     }
 
     @PostMapping("/membermodify")
-    public String membermodify(MemberDTO memberDTO, RedirectAttributes ra, @AuthenticationPrincipal AuthMemberDTO dto) {
+    public String membermodify(MemberDTO memberDTO, RedirectAttributes ra, @AuthenticationPrincipal AuthMemberDTO auth, HttpSession session) {
 
         log.info("update....");
-        log.info(dto.getAuthorities());
-        memberDTO.setRoleSet(dto.getAuthorities());
-        log.info("memberDTO : "+memberDTO);
-
+        log.info(auth.getAuthorities());
+        memberDTO.setRoleSet(auth.getAuthorities());
         memberService.updateMemberDTO(memberDTO);
         log.info("change....");
         // session 값
-        Authentication authentication = new UsernamePasswordAuthenticationToken(dto, null, dto.getAuthorities());
+        auth.setNickname(memberDTO.getNickname());
+        Authentication authentication = new UsernamePasswordAuthenticationToken(auth, null, auth.getAuthorities());
         SecurityContext securityContext = SecurityContextHolder.getContext();
         securityContext.setAuthentication(authentication);
 

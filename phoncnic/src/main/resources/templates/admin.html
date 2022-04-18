@@ -143,7 +143,6 @@
                                     </div>
                                 </form>`
                                 searchResult.append(str);
-                                console.log(($(".apply").eq(index).html()));
                                 if($(".apply").eq(index).html()=="true"){$(".apply").eq(index).html("CEO")}
                                 else if ($(".apply").eq(index).html()=="false") {$(".apply").eq(index).html("ARTIST")}
                                 if($(".apply").eq(index).data("applyBoolean")==0){$(".apply").eq(index).html("신청내역없음")}
@@ -202,7 +201,7 @@
                 });
 
                 // 검색
-                $("#searchBtn").on("click", searchFunction);
+                $("#searchBtn").on("click", function(){searchFunction(searchUrl)});
                 $("input[name=keyword]").on("keydown", function (e) {
                     var keycode = e.keyCode;
                     if (keycode == "13") {
