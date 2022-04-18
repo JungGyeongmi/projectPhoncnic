@@ -94,6 +94,7 @@
                 /*[+ 
                     var afno = [[${afno}]];
                     var id = [[${userId}]]; 
+                    var mypageUrl = [[@{/main/mypage}]]; 
                 +]*/
 
                 var contentText = document.createElement("div");
@@ -104,10 +105,19 @@
                 } else if (afno == null) {
                     swal({
                         title: "안내",
-                        timer: 3000,
                         content: contentText,
                         icon: "info",
-                        button: false,
+                        buttons :{
+                            cancel: "확인",
+                            button: {
+                                text: "마이페이지에서 확인하기",
+                                value: mypageUrl,
+                            }
+                        }
+                    }).then((val)=>{
+                        if(val){
+                            window.location = val;
+                        }
                     });
                 } else {
                     swal({
