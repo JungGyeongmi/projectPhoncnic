@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="ko" xmls:th="http://www.thymeleaf.org">
+  <th:block th:replace="~{layout/basic :: setContent(~{::content})}">
+    <th:block th:fragment="content">
+      <style>
+        #wrapper {
+          background-image: url([[@{/icon/main-park.png}]]);
+          background-repeat: no-repeat;
+          background-size: cover;
+          background-position: center;
+        }
+      </style>
+
+      <div class="containerBox"></div>
+    </th:block>
+  </th:block>
+</html>
