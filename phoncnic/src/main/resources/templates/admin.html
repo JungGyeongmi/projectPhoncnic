@@ -71,8 +71,9 @@
                 var searchResult = $("#searchResult");
                 var searchResultNav = $("#searchResultNav");
                 var frm = $("#userSearchFrm");
-                // 검색functino
-                var searchFunction = function () {
+
+                // 검색functtion
+                var searchFunction = function (searchurlParam) {
 
                     var keyword = $("input[name=keyword]").val();
                     var type = $("select[name=type] option:selected ").val();
@@ -90,7 +91,7 @@
 
                     $.ajax({
                         type: "GET",
-                        url: searchUrl,
+                        url: searchurlParam,
                         data: frm.serialize(),
                         contentType: "application/json",
                         success: function (response) {
@@ -104,7 +105,6 @@
                                 return true;
                             }
                             $.each(response.dtoList, function (index, item) {
-                                console.log(response);
                                 str = `<form action="" id="memberfrm${index}">
                                     <table class="table" border="1">
                                         <tr>
@@ -153,24 +153,33 @@
                                 $(`#${roleId}`).attr("checked", true);
                                 
                             });
-                            str2 += `<ul>`;
-                                $.each(response.pageList, function(index, page){
+                            str2 += `<ul class="pagination justify-content-center my">
+                                <li class="page-item" data-is-prev="${response.prev}">
+                                    <button data-page-href="${searchUrl}?page=${response.start-1}" class="page-link">◀</button>
+                                </li>`;
+
+                             $.each(response.pageList, function(index, page){
                                     str2 += `
-                                        <li >
-                                            <a href="${searchUrl}?page=${page}" class="page-link" >${page}</a>
-                                        </li>`;
-                                        // ?page=${response.page + 1}
+                                    <li >
+                                        <button data-page-href="${searchUrl}?page=${page}" class="page-link" >${page}</button>
+                                    </li>`;
                             });
-                            str2 += `</ul>`;
-                            searchResultNav.html(str2);
-                            console.log("page"+response.page);
-                            console.log("start"+response.start);
-                            console.log("end"+response.end);
-                            console.log("size"+response.size);
-                            console.log("prev"+response.prev);
-                            console.log("next"+response.next);
-                            console.log(response.pageList);
-                            console.log("get user info success");
+
+                                str2 += `<li class="page-item" data-is-next="${response.next}">
+                                    <button data-page-href="${searchUrl}?page=${response.end+1}" class="page-link" >▶</button>
+                                </li></ul>`;
+                            
+                                searchResultNav.html(str2);
+                                
+                                if(!$(".page-item").eq(0).data("isPrev")){
+                                    $(".page-item").eq(0).css("display", "none");
+                                }
+                                
+                                if(!$(".page-item").eq(1).data("isNext")) {
+                                    $(".page-item").eq(1).css("display", "none");
+                                }
+
+                                console.log("get user info success");
                         },
                         fail(err) {
                             console.log(err);
@@ -179,6 +188,11 @@
                         }
                     });
                 }
+
+                // 검색 페이징
+                $(document).on("click",".page-link", function() {
+                    searchFunction($(this).data("pageHref"));
+                });
 
                 // 선택시 색, 값 변경
                 $(document).on("change", ".raidoContainer input", function () {
@@ -193,7 +207,7 @@
                     var keycode = e.keyCode;
                     if (keycode == "13") {
                         e.preventDefault();
-                        searchFunction();
+                        searchFunction(searchUrl);
                     }
                 });
                 
