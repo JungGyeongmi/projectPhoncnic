@@ -308,9 +308,10 @@
                             <div class="personal-info">
                                 <span>권한 신청 진행사항</span> 
                                 <span>
-                                    <b th:if="${applyChecker}==0">신청 내역 없음</b>
-                                    <b th:unless="${applyChecker}==0">
-                                        접수번호 <b style="color:tomato;">[[${applyChecker}]]</b> 번 접수진행중!
+                                    <b th:if="${applyChecker.size()}==0">신청 내역 없음</b>
+                                    <b th:unless="${applyChecker.size()}==0" th:each="apply : ${applyChecker}">
+                                        접수번호 <b style="color:tomato;">[[${apply.getAfno}]]</b> 번 접수진행중!
+                                        <b style="display:none" data-application-type="${apply.getApplicationtype}"></b>
                                     </b>
                                 </span>
                             </div>

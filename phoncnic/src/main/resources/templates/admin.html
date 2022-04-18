@@ -104,12 +104,14 @@
                                 return true;
                             }
                             $.each(response.dtoList, function (index, item) {
+                                console.log(response);
                                 str = `<form action="" id="memberfrm${index}">
                                     <table class="table" border="1">
                                         <tr>
                                             <th scope="col">아이디</th>
                                             <th scope="col">닉네임</th>
                                             <th scope="col">권한</th>
+                                            
                                             <th scope="col">가입일</th>
                                             <th scope="col">수정일</th>
                                             <th scope="col">수정</th>
@@ -125,6 +127,7 @@
                                                 <label for="CEO${index}">CEO</label>&nbsp;
                                                 <label for="ARTIST${index}">ARTIST</label>
                                             </td>
+                                            
                                             <td class="search-result-td">${item.regdate}</td>
                                             <td class="search-result-td mod-date">${item.moddate}</td>
                                             <td><button class="memberModifyBtn" type="button">수정</button></td>
@@ -140,6 +143,8 @@
                                     </div>
                                 </form>`
                                 searchResult.append(str);
+                              
+
                                 var roleId = item.roleSet[0].toString().slice(5) + index;
                                 $(`label[for=${roleId}]`).css("color", "tomato");
                                 $(`#${roleId}`).attr("checked", true);

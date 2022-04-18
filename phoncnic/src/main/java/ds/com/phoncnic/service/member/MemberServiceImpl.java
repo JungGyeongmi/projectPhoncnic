@@ -1,10 +1,10 @@
 package ds.com.phoncnic.service.member;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import javax.transaction.Transactional;
 
@@ -32,6 +32,7 @@ import ds.com.phoncnic.repository.GalleryRepository;
 import ds.com.phoncnic.repository.HelpRepository;
 import ds.com.phoncnic.repository.MemberRepository;
 import ds.com.phoncnic.security.dto.AuthMemberDTO;
+import ds.com.phoncnic.service.reception.ApplicationFormService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -57,9 +58,11 @@ public class MemberServiceImpl implements MemberService {
     private final DyningImageRepository dyningImageRepository;
 
     private final ApplicationFormRepository applicationFormRepository;
-
+    
     private final ApplicationImageRepository applicationImageRepository;
-
+    
+    private final ApplicationFormService applicationFormService;
+    
     @Override
     public void updateMemberDTO(MemberDTO memberDTO) {
         Member member = dtoToEntity(memberDTO);
@@ -161,6 +164,7 @@ public class MemberServiceImpl implements MemberService {
     @Transactional
     @Override
     public PageResultDTO<MemberDTO, Object[]> adminSearchPageByMemberId(SearchMemberPageRequestDTO pageRequestDTO) {
+
         log.info("search page....");
         
         Function<Object[], MemberDTO> fn = (entity -> entityToDTO((Member) entity[0]));
@@ -171,9 +175,6 @@ public class MemberServiceImpl implements MemberService {
 
         PageResultDTO<MemberDTO, Object[]> pageResult = new PageResultDTO<>(result, fn);
         
-        // List<Integer> pagelist = Stream.iterate(1, n->n+1).limit(pageResult.getTotalPage()).collect(Collectors.toList());
-        // pageResult.setPageList(pagelist);
-
         return pageResult;
     }
 }

@@ -2,6 +2,7 @@ package ds.com.phoncnic.service.reception;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -51,12 +52,13 @@ public class ApplicationFormServiceImpl implements ApplicationFormService {
   }
 
   @Override
-  public Long applicationExistsCheckerByUserId(String id) {
+  public ApplicationFormDTO applicationExistsCheckerByUserId(String id) {
+
     List<ApplicationForm> checker = formRepository.findByMemberId(id);
-    log.info("무얏호"+checker);
-    if(checker.size()==0){
-      return 0L;
-    } 
-    return checker.get(0).getAfno();
+
+    if(checker.size()==0) {
+      return ApplicationFormDTO.builder().build();
+    }
+    return  entityToDTO(checker.get(0));
   }
 }

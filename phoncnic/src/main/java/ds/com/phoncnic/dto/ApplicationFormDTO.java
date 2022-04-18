@@ -1,5 +1,6 @@
 package ds.com.phoncnic.dto;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +23,8 @@ public class ApplicationFormDTO {
   private String dyningname;
 
   private String applicant;
+
+  LocalDateTime regdate, moddate;
 
   @Builder.Default
   private List<ApplicationImageDTO> applicationImageDTOList = new ArrayList<>();
