@@ -51,7 +51,7 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
         session.removeAttribute("prevPage");
       } else {
         log.info("boboobobobo");
-        response.sendRedirect(request.getContextPath()+"/");
+        response.sendRedirect("https://28c0-175-119-172-242.jp.ngrok.io/phoncnic/");
       }
     }
   }
