@@ -723,9 +723,8 @@
                         // alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                      }
                   });
-
                } else {
-                  swal("로그인", "로그인 이후 사용가능합니다.")
+                  swal("로그인", "로그인 이후 사용가능합니다.",{button:false,timer: 1000});
                }
             });
 
@@ -734,10 +733,7 @@
                if ($("input[name=loginUserId]").val() != null) {
 
                   var artistname = $("#inputArtist").text().trim();
-                  var data = { artistname: artistname, followerid: loginUserId }
-
-                  // console.log("artistaname : " + artistname);
-                  // console.log(data);
+                  var data = { artistname: artistname, followerid: loginUserId };
 
                   $.ajax({
                      type: "POST",
@@ -764,7 +760,7 @@
                      }
                   });
                } else {
-                  swal("로그인", "로그인 이후 사용가능합니다.")
+                  swal("로그인", "로그인 이후 사용가능합니다.",{button:false,timer: 1000});
                }
             });
 
