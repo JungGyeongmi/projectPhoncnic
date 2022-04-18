@@ -62,15 +62,17 @@ public class GalleryServiceImpl implements GalleryService {
     public PageResultDTO<GalleryDTO, Object[]> getGalleryPage(SearchPageRequestDTO pageRequestDTO) {
         log.info("search page....");
         List<EmojiInfo> emojiInfoList = emojiInfoService.getEmojiInfoList();
-        // 임시로 3L로 고정
-        Long[][] emojiArray = emojiService.getEmojiCountArrayByGno(3L);
+        // 임시
+        Long[][] emojiArray = new Long[5][2];
+      
         Function<Object[], GalleryDTO> fn = (entity -> entityToDTO((Gallery) entity[0], emojiArray, emojiInfoList));
+        
         Sort sort = getSort(pageRequestDTO.getSort());
+       
         Page<Object[]> result = galleryRepository.searchPage(
                 pageRequestDTO.getType(),
                 pageRequestDTO.getKeyword(),
                 pageRequestDTO.getPageable(sort));
-
 
         log.info(pageRequestDTO);
         return new PageResultDTO<>(result, fn);

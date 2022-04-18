@@ -395,6 +395,7 @@
             }, false);
         </script>
 
+        <!-- 모달 시작 -->
         <style>
             .user-info-char {
                 height: 4rem;
@@ -526,14 +527,12 @@
                     <div class="tab-content">
                         <div class="tab-setions" id="indexSection">
                             <div id="index" class="modal-body" sec:authorize="isAnonymous()">
-                                <a th:href="@{/member/login}">
-                                    <h3>GOGOOGLEGO</h3>
-                                </a>
-                                로그인 하면 오조오억배 !
                                 <a class="list-group-item list-group-item-action list-group-item-light p-3"
-                                    th:href="@{/help/list/}">고객센터</a>
+                                    th:href="@{/member/login}">로그인해서 더 재밌게 즐기기</a>
                                 <a class="list-group-item list-group-item-action list-group-item-light p-3"
-                                    th:href="@{/main/companyinfo}">회사소개</a>
+                                    th:href="@{/help/list}">이것저것 물어보기</a>
+                                <a class="list-group-item list-group-item-action list-group-item-light p-3"
+                                    th:href="@{/main/companyinfo}">궁금하다 폰크닉 제작자</a>
                             </div>
                             <div id="index" class="modal-body" sec:authorize="isAuthenticated()">
                                 <a class="list-group-item list-group-item-action list-group-item-light p-3"

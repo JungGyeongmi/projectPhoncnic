@@ -83,5 +83,29 @@
                 </div>
             </div>
         </div>
+
+        <script th:inline="javascript">
+            $(function(){
+
+            /*[+ 
+                var afno = [[${afno}]];
+                var id = [[${userId}]]; 
+            +]*/
+
+            console.log(afno+" "+id);
+
+            if(afno != null && id != null) {
+                swal({
+                    title : "접수번호"+afno+"번 신청 완료되었습니다",
+                    timer : 2500,
+                    text: "승인 과정은 마이페이지에서 열람 가능합니다",
+                    icon: "success",
+                    button: false,
+                })
+            }
+
+
+            });
+        </script>
     </th:block>
 </th:block>
