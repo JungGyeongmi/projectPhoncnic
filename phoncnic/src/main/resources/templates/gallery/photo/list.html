@@ -302,6 +302,10 @@
          div .row {
             margin-top: 1%;
          }
+
+         input[name="chalookInfo"]:checked+label{
+            box-shadow:lightpink 0px 5px;
+         }
       </style>
 
       <input type="hidden" th:if="${loginUserId}" name="loginUserId" th:value="${loginUserId}">
@@ -835,7 +839,13 @@
                   contentType: "application/json",
                   success: function (response) {
                      $("#userAvatar").attr("src", setbackpath);
-                     swal('success', "변경완료");
+                     swal({
+                        icon:"success",
+                        title: "변경완료",
+                        text: " ",
+                        button: false,
+                        timer: 1500,
+                     });
                      // console.log("update characterlook success");
                   },
                   fail: function (response) {
@@ -864,11 +874,16 @@
                });
 
                $(document).on("click", "#lookModifyBtn", function () {
-                  if (!confirm("캐릭터의 옷을 변경하시겠습니까?")) {
-                     return;
-                  } else {
-                     modifyLook();
-                  }
+                  
+                  modifyLook();
+
+                  swal({
+                     button: false,
+                     icon: "success",
+                     title: "변경완료!",
+                     text: "",
+                     timer: 2000,
+                  })
                });
 
                $(document).on("mouseover", ".character-info-label", function () {

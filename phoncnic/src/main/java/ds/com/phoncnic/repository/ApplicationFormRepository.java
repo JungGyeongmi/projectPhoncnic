@@ -23,4 +23,6 @@ public interface ApplicationFormRepository extends JpaRepository<ApplicationForm
 
   @Query("select count(af) > 0 from ApplicationForm af where af.member.id=:id")
   Boolean existCheckerByMemberId(String id);
+
+
 }

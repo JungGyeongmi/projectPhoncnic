@@ -60,4 +60,18 @@ public class ApplicationFormServiceImpl implements ApplicationFormService {
     }
     return  entityToDTO(checker.get(0));
   }
+
+  @Override
+  public Long isItMaxReception(String id) {
+   
+    Long afno = 0L;
+    Boolean checker = formRepository.existCheckerByMemberId(id);
+    
+    if(checker) {
+      List<ApplicationForm> applyList = formRepository.findByMemberId(id);
+      afno = applyList.get(0).getAfno();
+    }
+
+    return afno;
+  }
 }
