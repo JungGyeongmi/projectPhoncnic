@@ -8,6 +8,7 @@ import org.springframework.data.domain.Sort;
 import ds.com.phoncnic.dto.MemberDTO;
 import ds.com.phoncnic.dto.pageDTO.PageResultDTO;
 import ds.com.phoncnic.dto.pageDTO.SearchMemberPageRequestDTO;
+import ds.com.phoncnic.entity.ApplicationForm;
 import ds.com.phoncnic.entity.AuthorityRole;
 import ds.com.phoncnic.entity.Member;
 import ds.com.phoncnic.security.dto.AuthMemberDTO;
@@ -57,7 +58,23 @@ public interface MemberService {
         .regdate(member.getRegDate())
         .moddate(member.getModDate())
         .build();
-  return memberDTO;
+    return memberDTO;
+  }
+
+  default MemberDTO entityToDTOWithApply(Member member, ApplicationForm apply) {
+
+    MemberDTO memberDTO = MemberDTO.builder()
+        .id(member.getId())
+        .nickname(member.getNickname())
+        .roleSet(member.getRoleSet().stream().map(
+            role -> new String("ROLE_" + role.name()))
+            .collect(Collectors.toList()))
+        .afno(apply.getAfno())
+        .applicationtype(apply.getApplicationtype())
+        .regdate(member.getRegDate())
+        .moddate(member.getModDate())
+        .build();
+    return memberDTO;
   }
   
   default Sort getSort(String sortkeyword) {

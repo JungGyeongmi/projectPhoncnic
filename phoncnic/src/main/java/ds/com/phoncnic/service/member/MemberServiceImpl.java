@@ -1,8 +1,6 @@
 package ds.com.phoncnic.service.member;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -60,8 +58,6 @@ public class MemberServiceImpl implements MemberService {
     private final ApplicationFormRepository applicationFormRepository;
     
     private final ApplicationImageRepository applicationImageRepository;
-    
-    private final ApplicationFormService applicationFormService;
     
     @Override
     public void updateMemberDTO(MemberDTO memberDTO) {
@@ -167,7 +163,7 @@ public class MemberServiceImpl implements MemberService {
 
         log.info("search page....");
         
-        Function<Object[], MemberDTO> fn = (entity -> entityToDTO((Member) entity[0]));
+        Function<Object[], MemberDTO> fn = (entity -> entityToDTOWithApply((Member) entity[0], (ApplicationForm) entity[1]));
         
         Sort sort = getSort(pageRequestDTO.getSort());
        

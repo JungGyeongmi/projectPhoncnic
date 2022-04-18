@@ -21,6 +21,9 @@ public class MemberDTO {
     private String id;
     private String nickname;
     
+    private Boolean applicationtype;
+    private Long afno;
+    
     private LocalDateTime regdate, moddate;
     
     @Builder.Default

@@ -33,6 +33,7 @@ public class MemberServiceImplTest {
       .sort("r")
       .keyword("동")
     .build();
+
     PageResultDTO<MemberDTO, Object[]> pageResult = memberService.adminSearchPageByMemberId(requestDTO);
 
     System.out.println("result "+pageResult.getTotalPage());
