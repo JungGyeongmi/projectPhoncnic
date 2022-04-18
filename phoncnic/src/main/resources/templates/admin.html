@@ -192,7 +192,7 @@
                             });
                             str2 += `<ul class="pagination justify-content-center my">
                                 <li class="page-item" data-is-prev="${response.prev}">
-                                    <button data-page-href="${searchUrl}?page=${response.start-1}" class="page-link">◀</button>
+                                    <button data-page-href="${searchUrl}?page=${response.start-1}" data-page-index="${response.end-2}" class="page-link">◀</button>
                                 </li>`;
 
                              $.each(response.pageList, function(index, page){
@@ -203,7 +203,7 @@
                             });
 
                                 str2 += `<li class="page-item" data-is-next="${response.next}">
-                                    <button data-page-href="${searchUrl}?page=${response.end+1}" class="page-link" >▶</button>
+                                    <button data-page-href="${searchUrl}?page=${response.end+1}"  data-page-index="0" class="page-link" >▶</button>
                                 </li></ul>`;
                             
                                 searchResultNav.html(str2);
@@ -237,7 +237,7 @@
                     searchFunction($(this).data("pageHref"));
                 });
 
-                // 선택시 색, 값 변경
+                // ROLE 선택시 색, 값 변경
                 $(document).on("change", ".raidoContainer input", function () {
                     $(".roleSetInfo").eq($(this).parent().data("index")).children().css("color", "black");
                     $(`label[for=${$(this).attr("id")}]`).css("color", "tomato");
@@ -296,7 +296,6 @@
                         }
                     });
                 });
-                
                 $(document).on("click", ".memberModifyBtn", function (e) {
                     var index = $(this).parents("form").index();
                     var id = $(this).parent().siblings("input[name=id]").val();
@@ -306,6 +305,7 @@
                     modiAjax(data, userRole, index);
                 });
 
+                // 삭제 function
                 var removeAjax = function (removeId) {
                     $.ajax({
                         type: "POST",

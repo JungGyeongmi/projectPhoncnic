@@ -40,7 +40,7 @@ public class AdminRestController {
         return new ResponseEntity<>(searchResult, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/modify/{roleSet}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping("/modify/{roleSet}")
     public void getMemberInfoModify (@PathVariable("roleSet") List<String> roleSet,
         @RequestBody Map<String, String> json,
         MemberDTO memberDTO) {
