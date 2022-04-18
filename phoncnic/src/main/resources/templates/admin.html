@@ -6,28 +6,24 @@
             label:hover {
                 cursor: pointer;
             }
-
             .btn-danger {
                 background-color: tomato;
             }
-
             .btn-danger:not([disabled]):hover[class*='btn-danger'] {
-                background-color: red;
+                background-color: tomato;
             }
-
             .page-list button,
             .page-item button {
                 color: black;
             }
-
             .page-list button:hover {
                 background-color: lightgray;
                 font-weight: bold;
             }
-
             .page-list-active {
                 background-color: lightblue;
                 font-weight: bold;
+                font-size:large;
             }
             .memberRemoveBtn,
             .memberModifyBtn,
@@ -52,14 +48,20 @@
                 outline: unset;
                 box-shadow: inset 10px 9px 0px 3px lightblue;
             }
-            input[type="text"]:focus,
             input[type="text"] {
                 background-color: transparent;
                 border: none;
                 outline: none;
             }
+            input[type="text"]:focus{
+                border-bottom: 2px solid grey;
+            }
+            input[name="keyword"]:focus,
             input[name="keyword"] {
                 border-bottom: 2px solid gold;
+            }
+            input[name="nickname"]:hover{
+                cursor: pointer;
             }
             .info-text{
                 text-align: center; 
@@ -81,12 +83,12 @@
                 <th>정렬기준</th>
             </tr>
             <tr>
-                <td> <b style="color:goldenrod">[[${userId}]]</b> </td>
+                <td> <b style="color:goldenrod;font-size: x-large;">[[${userId}]]</b> </td>
                 <form id="userSearchFrm" action="" method="">
                     <td>
                         <input type="text" value="" name="keyword" placeholder="nugu@gmail.com">
                         <input type="button" value="검색" id="searchBtn">
-                        <input type="button" value="모두조회" id="searchAllBtn">
+                        <input type="button" value="모두" id="searchAllBtn">
                     </td>
                     <td>
                         <select class="form-select" name="type">
@@ -169,7 +171,7 @@
                             $.each(response.dtoList, function (index, item) {
                                 str = `<form action="" id="memberfrm${index}">
                                     <table class="table">
-                                        <tr>
+                                        <tr class="table-title">
                                             <th scope="col">아이디</th>
                                             <th scope="col">닉네임</th>
                                             <th scope="col">신청</th>
@@ -212,8 +214,8 @@
                                 var roleId = item.roleSet[0].toString().slice(5) + index;
                                 $(`label[for=${roleId}]`).css({"color": "tomato","font-weight":"bold"});
                                 $(`#${roleId}`).attr("checked", true);
-
                             });
+                            $(".table-title :gt(7)").css("display", "none");
 
                             str2 += `<ul class="pagination justify-content-center my">
                                 <li class="page-item" data-is-prev="${response.prev}">
