@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ds.com.phoncnic.dto.GalleryDTO;
 import ds.com.phoncnic.security.dto.AuthMemberDTO;
@@ -57,13 +58,16 @@ public class GallerySettingController {
     }
 
     @PostMapping("/register") 
-    public String getRegisetr(GalleryDTO galleryDTO) {
+    public String getRegisetr(GalleryDTO galleryDTO, RedirectAttributes ra) {
         log.info("register...."+galleryDTO);
-        
-
-        
-        galleryService.register(galleryDTO);
-
+        log.info(galleryService.isItmaxLength(galleryDTO.getId()));
+        if(galleryService.isItmaxLength(galleryDTO.getId())){
+            Long gno = galleryService.register(galleryDTO);
+            ra.addFlashAttribute("gno", gno);
+        } else {
+            ra.addFlashAttribute("gno", "초과");
+        }
+      
         return "redirect:/manage/gallery/list?id="+galleryDTO.getId();
     }
 

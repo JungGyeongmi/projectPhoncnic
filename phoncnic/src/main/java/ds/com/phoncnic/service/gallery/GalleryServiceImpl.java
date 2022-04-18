@@ -120,14 +120,12 @@ public class GalleryServiceImpl implements GalleryService {
         galleryRepository.save(gallery);
     }
 
+    @Transactional
     @Override
-    public void register(GalleryDTO galleryDTO) {
-        Object[] obj = galleryRepository.countingGalleryByUserId(galleryDTO.getId());
-        if ( > 10) {
-
-        }
+    public Long register(GalleryDTO galleryDTO) {
         Gallery gallery = dtoToEntity(galleryDTO);
         galleryRepository.save(gallery);
+        return gallery.getGno();
     }
 
     @Override
@@ -137,5 +135,23 @@ public class GalleryServiceImpl implements GalleryService {
                 .map(entity -> entityToDTO(entity, emojiService.getEmojiCountArrayByGno(entity.getGno()), emojiInfoList))
                 .collect(Collectors.toList());
         return galleryDTOList;
+    }
+
+    // max
+    @Override
+    public Boolean isItmaxLength(String id) {
+        Long maxLength = 10L;
+        Object[] obj = galleryRepository.countingGalleryByMemberId("gm950715@gmail.com");
+        Long uploadGalleryCount = (Long)obj[0];
+        Boolean resultChecker = false;
+
+        log.info("max length : "+maxLength);
+        log.info("upload gallery count :"+uploadGalleryCount);
+
+        if (uploadGalleryCount< maxLength) {
+            resultChecker = true;
+        }
+
+        return resultChecker;
     }
 }

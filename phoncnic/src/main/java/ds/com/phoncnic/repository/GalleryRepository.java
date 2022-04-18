@@ -43,5 +43,5 @@ public interface GalleryRepository extends JpaRepository<Gallery, Long>, SearchG
     List<Gallery> findByMemberId(String id);
 
     @Query("select count(g) from Gallery g where g.artistid.id= :id")
-    Object[] countingGalleryByUserId(String id);
+    Object[] countingGalleryByMemberId(String id);
 }

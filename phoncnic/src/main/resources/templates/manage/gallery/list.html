@@ -3,6 +3,10 @@
 <th:block th:replace="~{layout/basic :: setContent(~{::content})}">
   <th:block th:fragment="content">
     <style>
+      .moda-width{
+        min-width: max-content;
+      }
+
       .container {
         display: grid;
         grid-template-rows: 0.3fr 1fr 0.05fr;
@@ -137,6 +141,36 @@
     <script th:inline="javascript">
 
       $(function () {
+        /*[+
+          var gnoMessage =  [[${gno}]];
+        +]*/ 
+        if(gnoMessage!=""){
+          if( gnoMessage =="초과") {
+            swal({
+              title: "올릴 수 있는 파일 갯수를 초과했습니다!",
+              text: "사진은 최대 10장 가능하며 자세한 사항은 안내문을 참고하세요",
+              icon: "warning",
+              button: false,
+              timer: 2000,
+              className: "moda-width",
+              dangerMod: true,
+            }).then(()=>{
+                gnoMessage="";
+              });
+          } else if( gnoMessage > 0){
+            swal({
+                title: "등록 완료",
+                text: "등록번호 "+gnoMessage+"번 게시물 등록 완료되었습니다.",
+                icon: "success",
+                button: false,
+                className: "moda-width",
+                timer: 2500,
+              }).then(()=>{
+                gnoMessage="";
+              });
+          }
+        }
+
       });
 
     </script>
