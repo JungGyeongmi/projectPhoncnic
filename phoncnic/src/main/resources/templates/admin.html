@@ -202,7 +202,9 @@
                 });
 
                 // 검색
-                $("#searchBtn").on("click", searchFunction);
+                $("#searchBtn").on("click", function(){
+                    searchFunction(searchUrl);
+                });
                 $("input[name=keyword]").on("keydown", function (e) {
                     var keycode = e.keyCode;
                     if (keycode == "13") {
