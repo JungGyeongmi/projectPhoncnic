@@ -298,6 +298,7 @@
                             <div class="personal-info">
                                 <span>닉네임</span>
                                 <input type="text" th:value=${dto.nickname} name=nickname class="form-control" maxlength="10">
+                                <input class="origin-nickname" type="hidden" th:value="${dto.nickname}">
                                 <button id="memberModifyBtn" type="button">수정</button>
                             </div>
                             <div class="personal-info">
@@ -308,8 +309,8 @@
                             <div class="personal-info">
                                 <span>권한 신청 진행사항</span> 
                                 <span>
-                                    <b th:if="${applyDTO.getAfno}==0">신청 내역 없음</b>
-                                    <b th:unless="${applyDTO.getAfno}==0" th:each="apply : ${applyDTO}">
+                                    <b th:if="${applyDTO.getAfno}==null">신청 내역 없음</b>
+                                    <b  th:unless="${applyDTO.getAfno}==null" th:each="apply : ${applyDTO}">
                                         접수번호 <b style="color:tomato;">[[${apply.getAfno}]]</b> 번 접수진행중!
                                         <b style="display:none" data-application-type="${apply.getApplicationtype}"></b>
                                     </b>
@@ -476,41 +477,68 @@
             /*[+var memberDTONick = [[${memberDTO.nickname}]];+]*/
 
             function memberModify() {
-                if($("input[name=nickname]").val()=="") {
+                if($(".origin-nickname").val()==$("input[name=nickname]").val()){
+                    swal({
+                        Title: "확인해주세요",
+                        text: "기존 닉네임과 동일합니다. 변경 후 다시 시도해주세요",
+                        icon: "warning",
+                        button: false,
+                        timer: 2000,
+                    });
+                    return;
+                } else if($("input[name=nickname]").val()=="") {
                     swal("공백은 닉네임으로 설정할 수 없습니다", {button: false, timer: 2000});
                     $("input[name=nickname]").val(memberDTONick);
                     return;
-                }
-                swal({
-                    title: "닉네임을 수정하시겠습니까?",
-                    text: "확인을 누르면 닉네임이 수정됩니다",
-                    icon: "warning",
-                    buttons: {
-                        button: {
-                            text: "확인",
+                } else {
+                    swal({
+                        title: "닉네임을 수정하시겠습니까?",
+                        text: "확인을 누르면 닉네임이 수정됩니다",
+                        icon: "warning",
+                        buttons: {
+                            button: {
+                                text: "확인",
+                            },
+                            cancel: "취소",
                         },
-                        cancel: "취소",
-                    },
-                    dangerMode: true,
-                })
-                .then((willDelete) => {
-                    if (willDelete) {
-                        swal("닉네임이 변경되었습니다", {
-                            icon: "success",
-                            button: false,
-                            timer: 2000,
-                        }).then(()=>{
+                        dangerMode: true,
+                    })
+                    .then((willDelete) => {
+                        if (willDelete) {
                             memberform.setAttribute("action", urlmembermodify);
                             memberform.setAttribute("method", "post");
                             memberform.submit();
-                        });
-                    } else {
-                        swal("닉네임 수정이 취소되었습니다.",{button:false,timer:2000});
-                    }
-                });
+                        } else {
+                            swal("닉네임 수정이 취소되었습니다.",{button:false,timer:2000});
+                        }
+                    });
                     
-
+                }
             }
+
+             /*[+
+                    var nicknameMessage = [[ ${msg} ]]
+                +]*/
+
+                if(nicknameMessage=="false") {
+                    swal({
+                        Title: "중복",
+                        text: "이미 있는 닉네임 입니다. 다시 시도해주세요",
+                        icon: "warning",
+                        button: false,
+                        timer: 2000,
+                    }).then(()=>{
+                        nicknameMessage="";
+                    });
+                } else if (nicknameMessage=="true") {
+                    swal("닉네임이 변경되었습니다", {
+                        icon: "success",
+                        button: false,
+                        timer: 2000,
+                    }).then(()=>{
+                        nicknameMessage="";
+                    });
+                }
             
             $("#memberModifyBtn").on("click", memberModify);
             $("input[name=nickname]").on("keydown", function (e) {
@@ -534,23 +562,24 @@
                     },
                     dangerMode: true,
                 })
-                    .then((willDelete) => {
-                        if (willDelete) {
-                            swal("캐릭터 옷이 변경되었습니다", {
-                                icon: "success",
-                                button: false,
-                                timer:2000,
-                            }).then(()=>{
-                                lookform.setAttribute("action", urllookmodify);
-                                lookform.setAttribute("method", "post");
-                                lookform.submit();
-                            });
-                        } else {
-                            swal("캐릭터 옷 변경이 취소되었습니다.", {button: false, timer: 2000});
-                        }
-                    });
-
+                .then((willDelete) => {
+                    if (willDelete) {
+                        swal("캐릭터 옷이 변경되었습니다", {
+                            icon: "success",
+                            button: false,
+                            timer:2000,
+                        }).then(()=>{
+                            lookform.setAttribute("action", urllookmodify);
+                            lookform.setAttribute("method", "post");
+                            lookform.submit();
+                        });
+                    } else {
+                        swal("캐릭터 옷 변경이 취소되었습니다.", {button: false, timer: 2000});
+                    }
+                });
             }
+               
+
             document.querySelector("#memberOutBtn").onclick = function () {
                 swal({
                     title: "폰크닉 회원을 탈퇴하시겠습니까?",

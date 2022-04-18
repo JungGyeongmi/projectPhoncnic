@@ -55,20 +55,31 @@ public class MyPageController {
     }
 
     @PostMapping("/membermodify")
-    public String membermodify(MemberDTO memberDTO, RedirectAttributes ra, @AuthenticationPrincipal AuthMemberDTO dto) {
-
+    public String membermodify(MemberDTO memberDTO, 
+        RedirectAttributes ra, 
+        @AuthenticationPrincipal AuthMemberDTO auth,
+        HttpSession session) {
+        
+        String nickname = memberDTO.getNickname();
         log.info("update....");
-        log.info(dto.getAuthorities());
-        memberDTO.setRoleSet(dto.getAuthorities());
+        
+        if(memberService.nickNameChecker(nickname)){
+            ra.addFlashAttribute("msg", "false");
+            return  "redirect:/main/mypage";
+        }
+
+        memberDTO.setRoleSet(auth.getAuthorities());
         log.info("memberDTO : "+memberDTO);
 
         memberService.updateMemberDTO(memberDTO);
         log.info("change....");
+
         // session 값
-        Authentication authentication = new UsernamePasswordAuthenticationToken(dto, null, dto.getAuthorities());
+        auth.setNickname(nickname);
+        Authentication authentication = new UsernamePasswordAuthenticationToken(auth, null, auth.getAuthorities());
         SecurityContext securityContext = SecurityContextHolder.getContext();
         securityContext.setAuthentication(authentication);
-
+        ra.addFlashAttribute("msg", "true");
         return "redirect:/main/mypage";
     }
 

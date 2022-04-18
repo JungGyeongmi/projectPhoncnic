@@ -16,11 +16,19 @@ import ds.com.phoncnic.security.dto.AuthMemberDTO;
 public interface MemberService {
   
   Boolean checkMemberExist(String id);
+
+  Boolean nickNameChecker(String nickname);
+  
   void updateMemberDTO(MemberDTO memberDTO);
+  
   void modify2(AuthMemberDTO dto);
+  
   void remove(String id);
+  
   MemberDTO getMember(String id);
+  
   String getNickname(String id);
+  
   PageResultDTO<MemberDTO, Object[]> adminSearchPageByMemberId(SearchMemberPageRequestDTO pageRequestDTO);
 
   default Member dtoToEntity(MemberDTO memberDTO) {

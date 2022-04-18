@@ -60,7 +60,10 @@ public class SearchMemberRepositoryImpl extends QuerydslRepositorySupport implem
 
     Sort sort = pageable.getSort();
     sort.stream().forEach(order-> {
-      OrderSpecifier orders = new OrderSpecifier(order.isAscending() ? Order.ASC : Order.DESC, new PathBuilder(Member.class, order.getProperty()));
+      OrderSpecifier orders = new OrderSpecifier(
+        order.isAscending() ? Order.ASC : Order.DESC,
+        new PathBuilder(Member.class, order.getProperty())
+       );
       tuple.orderBy(orders);
     });
     
@@ -70,8 +73,10 @@ public class SearchMemberRepositoryImpl extends QuerydslRepositorySupport implem
 
     List<Tuple> result = tuple.fetch();
     log.info("TUPLE: " + result);
-    long count = tuple.fetchCount();
-    log.info("COUNT: " + count);
-    return new PageImpl<Object[]>(result.stream().map(t -> t.toArray()).collect(Collectors.toList()), pageable, count);
+    long totalCount = tuple.fetchCount();
+    log.info("COUNT: " + totalCount);
+
+    return new PageImpl<Object[]>(result.stream().map(t -> t.toArray()).collect(Collectors.toList()), pageable, totalCount);
+    // return new PageImpl<Object[]>(result.stream.map());
   }
 }
