@@ -27,9 +27,9 @@ public class MemberServiceImplTest {
   void testAdminSearchPageByMemberId() {
 
     SearchMemberPageRequestDTO requestDTO = SearchMemberPageRequestDTO.builder()
-      .page(1)
-      .size(5)
-      .type("i")
+    .page(1)
+  .size(3)  
+    .type("i")
       .sort("n")
       .keyword("t")
     .build();

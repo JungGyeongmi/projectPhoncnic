@@ -3,8 +3,6 @@ package ds.com.phoncnic.service.member;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import javax.transaction.Transactional;
 
@@ -32,7 +30,6 @@ import ds.com.phoncnic.repository.GalleryRepository;
 import ds.com.phoncnic.repository.HelpRepository;
 import ds.com.phoncnic.repository.MemberRepository;
 import ds.com.phoncnic.security.dto.AuthMemberDTO;
-import ds.com.phoncnic.service.reception.ApplicationFormService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -172,9 +169,13 @@ public class MemberServiceImpl implements MemberService {
         Page<Object[]> result = memberRepository.searchPage(pageRequestDTO.getType(), pageRequestDTO.getKeyword(), pageRequestDTO.getPageable(sort));
 
         PageResultDTO<MemberDTO, Object[]> pageResult = new PageResultDTO<>(result, fn);
-        List<Integer> pageList = Stream.iterate(1, i->i+1).limit(pageResult.getTotalPage()).collect(Collectors.toList());        
-        pageResult.setPageList(pageList);
-        
+
         return pageResult;
     }
+
+    @Override
+    public Boolean nickNameChecker(String nickname) {
+        return memberRepository.findByMemberNickName(nickname);
+    }
+    
 }
