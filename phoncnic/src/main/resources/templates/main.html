@@ -1,23 +1,180 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<style>
+    html,body{
+        max-height: 100%;
+    }
+        #nav {
+      background-color: transparent !important;
+    }
+
+    .phoncnic {
+      font-family: "NeoDunggeunmo";
+      font-size: 120px;
+      text-align: center;
+      padding: 30px;
+      color: black;
+      text-shadow: 9px 0 #fff, 0 1px #fff, 1px 0 #fff, 0 -1px #fff;
+      letter-spacing: 5px;
+    }
+    .containerBox button {
+      font-family: "NeoDunggeunmo";
+      font-size: 40px;
+      padding: 20px;
+    }
+
+    .buttonItems {
+      margin: 0 auto;
+    }
+
+    #wrapper {
+      background-image: url([[@{/icon/pixel-main.jpg}]]);
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .button-background {
+      background-image: url([[@{/icon/main-button.png}]]);
+      background-size: 270px 90px;
+      background-position: center;
+      background-repeat: no-repeat;
+      /* width: 315px;
+      height: 114px; */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 15px 0;
+    }
+
+    .buttonItems button {
+      border: none;
+      background-color: transparent;
+      padding: 15px 50px;
+    }
+
+    .avartar img{
+        filter: drop-shadow(4px 2px 1px black); 
+    }
+
+    .show-avartar{
+        margin-left: 85px;
+        display: flex;
+        align-items: center;
+        font-family: GmarketsansLight;
+    }
+
+    .avartar-hover {
+    display: none;
+	position: relative;
+	background: #fff;
+	border-radius: .4em;
+    width: 130px;
+    font-size: 16px;
+    text-align: center;
+    bottom: 230px;
+    left: 10px;
+
+}
+
+    .avartar-hover:after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border: 24px solid transparent;
+        border-top-color: #fff;
+        border-bottom: 0;
+        margin-left: -24px;
+        margin-bottom: -24px;
+
+    }
+
+    .avartar:hover ~.avartar-hover{
+        display: block;
+    }
+    .avartar-speech-bubble-background{
+        display: none;
+        background-image: url(/phoncnic/icon/avartar-bubble2.png);
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        width: 600px;
+        justify-content: center;
+        align-items: center;
+        height: 186px;
+        margin-bottom: 40px;
+    }
+
+    .avartar-speech-bubble-con{
+        display: none;
+    }
+
+    .show {
+        display: block;
+    }
+
+    .remove{
+        display: none;
+    }
+</style>
 <th:block th:replace="~{layout/basic :: setContent(~{::content})}">
     <th:block th:fragment="content">
         <input type="text" name="loginUserId" th:value="${loginuserId}" hidden>
-        
-        <a th:href="@{/crossroad}">피크닉갈림길</a>
+        <div class="containerBox">
+        <div class="phoncnic">phoncnic</div>
+        <div class="buttonItems">
+          <div class="button-background">
+            <div class="button-text">
+                <!-- 피크닉갈림길 -->
+              <a th:href="@{/crossroad}"><button type="button">Start</button></a>
+            </div>
+          </div>
+          <div class="button-background">
+            <div class="button-text">
+              <a th:href="@{/member/login}"><button type="button">Login</button></a>
+            </div>
+          </div>
+          <div class="button-background">
+            <div class="button-text">
+              <a><button type="button" id="how-button">How to play</button></a>
+            </div>
+          </div>
+        </div>
         <a th:href="@{/manage/rolechoice}">등록갈림길</a>
         <a th:href="@{/reception}">직업변경</a>
-        <a th:href="@{/member/login}">로그인</a>
-        <a th:href="@{/main2}">메인테스트</a>
 
-        <button type="button" class="btn " id="btncharacterlook" data-bs-toggle="modal" data-bs-target="#modalcharacterlook">
-            <img id="userAvatar" th:src="${avatar?.setpath}" alt="🙄" width="100px">
-        </button>
-        </button>
+        <div class="show-avartar">
+            <div class="avartar">
+                <div class="avartar">
+                <button type="button" class="btn " id="btncharacterlook" data-bs-toggle="modal" data-bs-target="#modalcharacterlook">
+                    <img id="userAvatar" th:src="${avatar?.setpath}" alt="🙄" width="100px">
+                </button>
+                </div>
+                <div class="avartar-hover">
+                     클릭해서 캐릭터를 변경해보세요!
+                </div>
+           </div>
+           <div class="avartar-speech-bubble-con ">
+                <div class="avartar-speech-bubble-background">
+                        <div>어쩌고 저쩌고</div>
+                </div>
+           </div>
+        </div>
+    </div>
+        
         
         <script th:inline="javascript">
         
             $(function (e) {
+
+                var howBtn = $("#how-button");
+                howBtn.on("click", function(){
+                    $(".avartar-speech-bubble-con").addClass("show");
+                });
         
                 /*[+
                     var lookModalUrl =  [[@{/character/lookmodal}]];

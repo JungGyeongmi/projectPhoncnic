@@ -100,6 +100,11 @@
         background-color: #000000 ;
         color: white;
     }
+
+    .basic-button{
+        width: 100px;
+        margin: 0 auto;
+    }
 </style>
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
 <th:block th:replace="~{layout/basic:: setContent(~{::content})}">
@@ -485,15 +490,15 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Menu</h5>
+                        <h5 class="modal-title">메뉴사진</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
                             name="btn-close"></button>
                     </div>
                     <div class="modal-body">
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary pictureClose" name="btn-close"
-                            data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="basic-button" name="btn-close"
+                        data-bs-dismiss="modal">닫기</button>
                     </div>
                 </div>
             </div>

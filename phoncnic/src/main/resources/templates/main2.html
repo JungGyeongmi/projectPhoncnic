@@ -1,17 +1,79 @@
 <!DOCTYPE html>
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
+  <style>
+    #nav {
+      background-color: transparent !important;
+    }
+
+    .phoncnic {
+      font-family: "NeoDunggeunmo";
+      font-size: 120px;
+      text-align: center;
+      padding: 30px;
+      color: black;
+      text-shadow: 9px 0 #fff, 0 1px #fff, 1px 0 #fff, 0 -1px #fff;
+      letter-spacing: 5px;
+    }
+    .containerBox button {
+      font-family: "NeoDunggeunmo";
+      font-size: 40px;
+      padding: 20px;
+    }
+
+    .buttonItems {
+      margin: 0 auto;
+    }
+    .containerBox img {
+      width: 315px;
+      height: 114px;
+    }
+    #wrapper {
+      background-image: url([[@{/icon/pixel-main.jpg}]]);
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .button-background {
+      background-image: url([[@{/icon/main-button.png}]]);
+      background-size: 270px 90px;
+      background-position: center;
+      background-repeat: no-repeat;
+      /* width: 315px;
+      height: 114px; */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 15px 0;
+    }
+
+    .buttonItems button {
+      border: none;
+      background-color: transparent;
+    }
+  </style>
   <th:block th:replace="~{layout/basic :: setContent(~{::content})}">
     <th:block th:fragment="content">
-      <style>
-        #wrapper {
-          background-image: url([[@{/icon/main-park.png}]]);
-          background-repeat: no-repeat;
-          background-size: cover;
-          background-position: center;
-        }
-      </style>
-
-      <div class="containerBox"></div>
+      <div class="containerBox">
+        <div class="phoncnic">phoncnic</div>
+        <div class="buttonItems">
+          <div class="button-background">
+            <div class="button-text">
+              <a href=""><button>Start</button></a>
+            </div>
+          </div>
+          <div class="button-background">
+            <div class="button-text">
+              <a href=""><button>Login</button></a>
+            </div>
+          </div>
+          <div class="button-background">
+            <div class="button-text">
+              <a href=""><button>How to play</button></a>
+            </div>
+          </div>
+        </div>
+      </div>
     </th:block>
   </th:block>
 </html>
