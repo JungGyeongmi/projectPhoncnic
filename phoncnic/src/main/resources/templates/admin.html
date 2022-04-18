@@ -15,9 +15,22 @@
             
             .btn-danger{
                 background-color: tomato;
-            }
+            }   
             .btn-danger:not([disabled]):hover[class*='btn-danger']{
                 background-color: red;
+            }
+            .page-list button,
+            .page-item button {
+                color: black;
+            }
+
+            .page-list button:hover{
+                background-color: lightgray;
+                font-weight: bold;
+            }
+            .page-list-active {
+                background-color: lightblue;
+                font-weight: bold;
             }
         </style>
         <h1>관리자 페이지</h1>
@@ -72,6 +85,8 @@
                 var searchResultNav = $("#searchResultNav");
                 var frm = $("#userSearchFrm");
 
+                var recentPage = 1;
+
                 // 검색functtion
                 var searchFunction = function (searchurlParam) {
 
@@ -88,7 +103,7 @@
                         searchResult.text("🎉이것이 권력의 맛이다🎉");
                         return true;
                     }
-
+                    
                     $.ajax({
                         type: "GET",
                         url: searchurlParam,
@@ -160,8 +175,8 @@
 
                              $.each(response.pageList, function(index, page){
                                     str2 += `
-                                    <li >
-                                        <button data-page-href="${searchUrl}?page=${page}" class="page-link" >${page}</button>
+                                    <li class="page-list">
+                                        <button data-page-href="${searchUrl}?page=${page}" data-page-index="${index}" class="page-link" >${page}</button>
                                     </li>`;
                             });
 
@@ -179,6 +194,10 @@
                                     $(".page-item").eq(1).css("display", "none");
                                 }
 
+                                console.log("ajax"+recentPage);
+
+                                $(".page-link").eq(recentPage).addClass("page-list-active");
+
                                 console.log("get user info success");
                         },
                         fail(err) {
@@ -191,6 +210,8 @@
 
                 // 검색 페이징
                 $(document).on("click",".page-link", function() {
+                    recentPage = $(this).data("pageIndex")+1;
+                    console.log("click"+recentPage);
                     searchFunction($(this).data("pageHref"));
                 });
 
@@ -203,12 +224,14 @@
 
                 // 검색
                 $("#searchBtn").on("click", function(){
+                    recentPage = 1;
                     searchFunction(searchUrl);
                 });
                 $("input[name=keyword]").on("keydown", function (e) {
                     var keycode = e.keyCode;
                     if (keycode == "13") {
                         e.preventDefault();
+                        recentPage = 1;
                         searchFunction(searchUrl);
                     }
                 });
