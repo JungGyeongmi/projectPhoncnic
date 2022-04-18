@@ -56,6 +56,8 @@
 
     input[name=content]{
         height: 150px;
+        width: 100%;
+        white-space: normal;
     }
    
 </style>
@@ -85,7 +87,7 @@
                     <input type="text" name="title" class="form-control"><br>
 
                     <label for="content" class="form-label">작품설명</label><br>
-                    <input type="text" name="content" class="form-control"><br>
+                    <textarea type="text" name="content" class="form-control" rows="4"></textarea><br>
                     <div class="box">
                     </div>
                 </form>
@@ -112,6 +114,7 @@
                     justify-content: center;
                     align-items: center;
                     overflow: auto;
+
                 }
 
                 .uploadResult ul li {

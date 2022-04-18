@@ -15,4 +15,8 @@ public class TestController {
         return "test";
     }
 
+    @GetMapping("/main2") 
+    public void main2(){
+
+    }
 }
