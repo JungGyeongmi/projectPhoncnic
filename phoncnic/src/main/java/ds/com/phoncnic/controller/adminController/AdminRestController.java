@@ -46,17 +46,27 @@ public class AdminRestController {
         @RequestBody Map<String, String> json,
         MemberDTO memberDTO,
         RedirectAttributes ra) {
+        
+        Boolean roleChecker = json.get("originRole")==roleSet.get(0);
+        Boolean nickChecker = memberService.nickNameChecker(json.get("nickname"));
+        
+        memberDTO.setId(json.get("id"));
+        memberDTO.setRoleSet(roleSet);
 
-        // 중복검사
-        if(memberService.nickNameChecker(json.get("nickname"))){
+        // 닉네임이 중복되고 롤도 바뀌지 않은 경우
+        if(roleChecker && nickChecker) {
+            return false;
+        } else if(nickChecker) {
+        // 닉네임은 중복되나 롤이 바뀐경우
+            memberDTO.setNickname(json.get("originNick"));
+            memberService.updateMemberDTO(memberDTO);
             return false;
         }
-
-        memberDTO.setId(json.get("id"));
+        // 닉네임도 롤도 바뀌는 경우
         memberDTO.setNickname(json.get("nickname"));
-        memberDTO.setRoleSet(roleSet);
-        log.info("modify...");
         memberService.updateMemberDTO(memberDTO);
+        log.info("modify...");
+
         return true;
     }
 

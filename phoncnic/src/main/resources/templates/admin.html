@@ -184,7 +184,7 @@
                                         <tr>
                                             <input type="hidden" value="${item.id}" name="id" readonly/>
                                             <td class="search-result-td" > <span >${item.id}</sapn></td>
-                                            <td class="search-result-td" ><input type="text" value="${item.nickname}" name="nickname"></td>
+                                            <td class="search-result-td" ><input type="text" value="${item.nickname}" name="nickname" data-ori-nick="${item.nickname}"></td>
                                             <td class="search-result-td apply" data-apply-boolean="${item.afno}">${item.applicationtype}</td>
                                             <td class="search-result-td roleSetInfo" data-role-set="${item.roleSet[0]}">
                                                 <label for="ADMIN${index}">ADMIN</label>&nbsp;
@@ -294,6 +294,7 @@
 
                 // 수정 function
                 var modiAjax = function (data, userRole, index) {
+
                     $.ajax({
                         type: "POST",
                         data: JSON.stringify(data),
@@ -306,8 +307,9 @@
                                 swal("수정완", { button: false, timer: 1000 });
                                 console.log("get modi post success....");
                             } else {
+                                $("input[name=nickname]").eq(index).val(data["originNick"]);
+                                swal("닉네임 중복", { button: false, timer: 1000 });
                                 $(".mod-date").eq(index).css({"color": "black","font-weight":"unset"});
-                                swal("중복", { button: false, timer: 1000 });
                             }
                         },
                         error(error) {
@@ -323,11 +325,14 @@
                         return;
                     }
                     e.preventDefault();
+                    var originRole = $(this).parent().siblings().eq(3).data("roleSet");
+                    var originNick =  $(this).data("oriNick");
                     var index = $(this).parents("form").index();
                     var id = $(this).parent().siblings("input[name=id]").val();
                     var nickname = $(this).val();
                     var userRole = [$(".modirole").eq(index).val()];
-                    var data = { "id": id, "nickname": nickname };
+                    var data = { "id": id, "nickname": nickname, "originRole": originRole , "originNick": originNick };
+                    console.log(data);
                     swal({ text: "수정하시겠습니까?", buttons: { button: { text: "네", value: true }, cancel: "아니오" }, dangerMode: true }).then((check) => {
                         if (check) {
                             modiAjax(data, userRole, index);
@@ -337,11 +342,13 @@
                     });
                 });
                 $(document).on("click", ".memberModifyBtn", function (e) {
+                    var originRole = $(this).parent().siblings().eq(4).data("roleSet");
+                    var originNick =  $(this).parent().siblings().eq(2).children("input").data("oriNick");
                     var index = $(this).parents("form").index();
                     var id = $(this).parent().siblings("input[name=id]").val();
                     var nickname = $(this).parent().siblings().eq(2).children("input").val();
                     var userRole = [$(".modirole").eq(index).val()];
-                    var data = { "id": id, "nickname": nickname };
+                    var data = { "id": id, "nickname": nickname, "originRole": originRole , "originNick": originNick };
                     modiAjax(data, userRole, index);
                 });
 
