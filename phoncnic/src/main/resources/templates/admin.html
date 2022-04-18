@@ -305,9 +305,10 @@
                                 $(".mod-date").eq(index).css({"color": "tomato","font-weight":"bold"});
                                 swal("수정완", { button: false, timer: 1000 });
                                 console.log("get modi post success....");
-
+                                
                             } else if ( $(".roleSetInfo").eq(index).data("roleSet")!=$(".modirole").eq(index).val()) {
                                 $("input[name=nickname]").eq(index).val(data["originNick"]);
+                                $(".mod-date").eq(index).css({"color": "tomato","font-weight":"bold"});
                                 swal("롤 수정완",{button: false, timer: 1000 });
 
                                 $(".roleSetInfo").eq(index).data("roleSet", $(".modirole").eq(index).val());
