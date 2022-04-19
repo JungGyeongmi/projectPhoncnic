@@ -25,13 +25,16 @@
         text-align: center;
         border-radius: 8px;
     }
-    .content-body{
+
+    .content-body {
         padding: 44px;
     }
-    .content-body > img {
+
+    .content-body>img {
         margin: 0 auto;
         width: 130px;
     }
+
     .content-container .content:first-child button {
         height: 44px;
         border: none;
@@ -39,7 +42,7 @@
         border-radius: 30px;
         background-color: darkslateblue;
         font-size: 19px;
-        color: white;        
+        color: white;
         padding: 10px;
     }
 
@@ -50,11 +53,11 @@
         border-radius: 30px;
         background-color: orange;
         font-size: 19px;
-        color: white;        
+        color: white;
         padding: 10px;
     }
 
-    .content-container p{
+    .content-container p {
         font-size: 22px;
         margin: 0px auto 32px auto;
     }
@@ -64,7 +67,8 @@
     <th:block th:fragment="content">
         <div class="containerBox">
             <div class="title">
-                <h2 style="font-family: 'GmarketSansmedium';"><img th:src="@{/icon/vertical-line.png}"style="width:30px;" alt="">권한 신청</h2>
+                <h2 style="font-family: 'GmarketSansmedium';"><img th:src="@{/icon/vertical-line.png}"
+                        style="width:30px;" alt="">권한 신청</h2>
             </div>
             <div class="content-container">
                 <div class="content">
@@ -83,5 +87,49 @@
                 </div>
             </div>
         </div>
+
+        <script th:inline="javascript">
+            $(function () {
+
+                /*[+ 
+                    var afno = [[${afno}]];
+                    var id = [[${userId}]]; 
+                    var mypageUrl = [[@{/main/mypage}]]; 
+                +]*/
+
+                var contentText = document.createElement("div");
+                contentText.innerHTML =  `<p><b>${id}</b>님! </br> 승인을 기다리는 신청이 있습니다! </br> 승인 과정은 마이페이지에서 열람 가능합니다</p>`;
+
+                if(id == null){
+                    return;
+                } else if (afno == null) {
+                    swal({
+                        title: "안내",
+                        content: contentText,
+                        icon: "info",
+                        buttons :{
+                            cancel: "확인",
+                            button: {
+                                text: "마이페이지에서 확인하기",
+                                value: mypageUrl,
+                            }
+                        }
+                    }).then((val)=>{
+                        if(val){
+                            window.location = val;
+                        }
+                    });
+                } else {
+                    swal({
+                        title: "접수번호" + afno + "번 신청 완료되었습니다",
+                        timer: 3000,
+                        text: "승인 과정은 마이페이지에서 열람 가능합니다",
+                        icon: "success",
+                        button: false,
+                    });
+                }
+
+            });
+        </script>
     </th:block>
 </th:block>

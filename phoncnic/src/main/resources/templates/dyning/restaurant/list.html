@@ -266,6 +266,8 @@
 
                 var listlocation = "/phoncnic/dyning/restaurant/list?page=";
                 var totalpage = document.querySelector("#totalpage").value;
+                var screenWidth = window.screen.width;
+                var screenHeight = window.screen.availHeight;
 
                 document.addEventListener("keydown", function (e) {
                     let char = document.getElementById("char");
@@ -297,11 +299,12 @@
                     // →방향키
                     if (key === 39) {
                         var imgLength = $(".dyningimg").length;
-                        var screenWidth = window.screen.width;
-                        var screenHeight = window.screen.availHeight;
                         var listpage = Number(document.querySelector("#listpage").value) + 1;
 
                         if (listpage - 1 == totalpage) {
+                            if (charleft >= screenWidth - 100) {
+                                $("#char").offset({ left: screenWidth - 100 });
+                            }
                             return;
                         }
                         if (charleft > screenWidth - 200) {
@@ -317,8 +320,6 @@
                     // ←방향키
                     if (key === 37) {
                         var imgLength = $(".dyningimg").length;
-                        var screenWidth = window.screen.width;
-                        var screenHeight = window.screen.availHeight;
                         var left = screenWidth - 100;
                         var listpage = Number(document.querySelector("#listpage").value) - 1;
 
@@ -333,6 +334,26 @@
                             } else {
                                 return;
                             }
+                        } else {
+                            if (charleft <= 20) {
+                                $("#char").offset({ left: 20 });
+                            }
+                        }
+                    }
+
+                    // ↑ 방향키
+                    if (key === 38) {
+                        if (chartop <= 70) {
+                            $("#char").offset({ top: 70 });
+                            return;
+                        }
+                    }
+
+                    // ↓ 방향키
+                    if (key === 40) {
+                        if (chartop >= screenHeight - 240) {
+                            $("#char").offset({ top: screenHeight - 240 });
+                            return;
                         }
                     }
                 });
@@ -374,6 +395,7 @@
             }, false);
         </script>
 
+        <!-- 모달 시작 -->
         <style>
             .user-info-char {
                 height: 4rem;
@@ -505,14 +527,12 @@
                     <div class="tab-content">
                         <div class="tab-setions" id="indexSection">
                             <div id="index" class="modal-body" sec:authorize="isAnonymous()">
-                                <a th:href="@{/member/login}">
-                                    <h3>GOGOOGLEGO</h3>
-                                </a>
-                                로그인 하면 오조오억배 !
                                 <a class="list-group-item list-group-item-action list-group-item-light p-3"
-                                    th:href="@{/help/list/}">고객센터</a>
+                                    th:href="@{/member/login}">로그인해서 더 재밌게 즐기기</a>
                                 <a class="list-group-item list-group-item-action list-group-item-light p-3"
-                                    th:href="@{/main/companyinfo}">회사소개</a>
+                                    th:href="@{/help/list}">이것저것 물어보기</a>
+                                <a class="list-group-item list-group-item-action list-group-item-light p-3"
+                                    th:href="@{/main/companyinfo}">궁금하다 폰크닉 제작자</a>
                             </div>
                             <div id="index" class="modal-body" sec:authorize="isAuthenticated()">
                                 <a class="list-group-item list-group-item-action list-group-item-light p-3"

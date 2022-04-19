@@ -24,6 +24,9 @@
             text-align: center;
             margin: 9px auto 95px auto;
         }
+        .swal-modal{
+            min-width: max-content !important;
+        }
     </style>
 <th:block th:replace="~{layout/basic :: setContent(~{::content})}">
     <th:block th:fragment="content">
@@ -68,7 +71,7 @@
                     <div class="py-3">
                         <label class="form-label">비밀번호</label> <br>
                         <input class="form-control" type="text" name="password" id="pwInput" maxlength="4">
-                        <span style="font-size:16px; padding: 20px;">* 4자리의 숫자를 입력해주세요(추후 변경불가)</span>
+                        <span style="font-size:16px; padding: 20px; color:tomato;">* 4자리의 숫자를 입력해주세요(추후 변경불가)</span>
                     </div> <br>
                     <div class="BtnItems">
                         <button class="btn my" id="submitBtn" type="button">등록</button>
@@ -101,7 +104,9 @@
                         checkerSwal("내용을 입력해주세요", $("textarea[name=content]"));
                     } else if($("input[name=password]").val()=="") {
                         checkerSwal("비밀번호를 입력해주세요", $("input[name=password]"));
-                    } else {
+                    } else if($("input[name=password]").val().length<4){
+                        checkerSwal("네자리의 비밀번호를 입력해주세요", $("input[name=password]"));
+                    }else {
                        confirmSwal();
                     }
                 });
@@ -112,6 +117,7 @@
                         text: msg,
                         icon: "warning",
                         button: false,
+                        timer: 1500,
                         showClass: {
                             popup: 'animate__animated animate__fadeInDown'
                         },

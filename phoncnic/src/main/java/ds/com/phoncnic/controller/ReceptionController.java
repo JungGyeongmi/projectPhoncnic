@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ds.com.phoncnic.dto.ApplicationFormDTO;
 import ds.com.phoncnic.security.dto.AuthMemberDTO;
@@ -36,12 +37,17 @@ public class ReceptionController {
   }
   
   @PostMapping("/register")
-  public String registerForm(ApplicationFormDTO applyDTO) {
+  public String registerForm(ApplicationFormDTO applyDTO, RedirectAttributes ra) {
     
     log.info("apply register....");
-    log.info("applyDTO..."+applyDTO);
+    
+    Long afno = applicationFormService.isItMaxReception(applyDTO.getApplicant());
 
-    applicationFormService.register(applyDTO);
+    if( afno == 0L ) {
+      afno = applicationFormService.register(applyDTO);
+      ra.addFlashAttribute("afno", afno);
+    }
+    ra.addFlashAttribute("userId", applyDTO.getApplicant());
 
     return "redirect:/reception";
   }
