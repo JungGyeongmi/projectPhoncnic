@@ -161,7 +161,7 @@
                 var listlocation = "/phoncnic/dyning/cafe/list?page=";
                 var totalpage = document.querySelector("#totalpage").value;
                 var screenWidth = window.screen.width;
-                var screenHeight = window.screen.availHeight;
+                var screenHeight = window.screen.height;
 
                 document.addEventListener("keydown", function (e) {
                     let char = document.getElementById("char");
@@ -251,6 +251,8 @@
 
                     // ↓ 방향키
                     if (key === 40) {
+                        console.log(screenHeight);
+                        console.log(chartop);
                         if (chartop >= screenHeight - 240) {
                             $("#char").offset({ top: screenHeight - 240 });
                             return;
