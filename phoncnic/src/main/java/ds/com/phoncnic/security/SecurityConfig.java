@@ -1,5 +1,10 @@
 package ds.com.phoncnic.security;
 
+import java.util.Enumeration;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -8,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.session.HttpSessionEventPublisher;
 
 import ds.com.phoncnic.security.filter.ApiLoginFilter;
 import ds.com.phoncnic.security.handler.ApiLoginFailHandler;
@@ -56,15 +62,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     return new SessionRegistryImpl();
   }
   
+  @Bean public ServletListenerRegistrationBean<HttpSessionEventPublisher> httpSessionEventPublisher() { 
+    return new ServletListenerRegistrationBean<HttpSessionEventPublisher>( new HttpSessionEventPublisher()); 
+  } 
+
+
   //시큐리티를 적용하기 위한 url에 대한 설정과 로그인과 access 거부일때
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     log.info(">>>"+http.headers().getClass().getName());
-   
     // session 당 로그인 인원 제한
-    http.sessionManagement().maximumSessions(1).maxSessionsPreventsLogin(false)
+    http.sessionManagement()
+    .maximumSessions(1)
+    .maxSessionsPreventsLogin(false)
     .sessionRegistry(sessionResistry())
-    .expiredUrl("/member/login");;
+    .expiredUrl("/member/login");
    
     // access 거부 handler
     http.exceptionHandling().accessDeniedHandler(accessDeniedHandler());
@@ -78,13 +90,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     // OAuth2UserDetailsService 로그인 handler :: social의 login
     http.oauth2Login().loginPage("/member/login").successHandler(loginSuccessHandler());
-    // logout
-    http.logout().logoutUrl("/member/logout").invalidateHttpSession(true).deleteCookies("JSESSIONID")
-    // .logoutSuccessHandler(logoutSuccessHandler())
-    .logoutSuccessUrl("/");
     
-    // remember 
-    // http.rememberMe().tokenValiditySeconds(60*60*24*7).userDetailsService((UserDetailsService) memberDetailsService);
+    // logout
+    http.logout()
+    .logoutUrl("/member/logout")
+    .invalidateHttpSession(true)
+    .deleteCookies("JSESSIONID")
+    .clearAuthentication(true)
+    .logoutSuccessUrl("/");
    
     // csrf 
     http.csrf().disable();
@@ -92,6 +105,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     // login filter
     http.addFilterBefore(apiLoginFilter(), UsernamePasswordAuthenticationFilter.class);
   }
-
 
 }

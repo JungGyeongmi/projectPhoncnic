@@ -122,7 +122,7 @@
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <!-- 로고 -->
                             <a th:href="@{/}" style="display: block; margin: auto;">
-                                <img th:src="@{/button/Logo.png}" style="width:60px;">
+                                <img th:src="@{/button/로고1_틀있음_로고만.png}" style="width:60px;">
                             </a>
                         </div>
                         <button class="btn" id="sidebarToggle">
@@ -151,7 +151,7 @@
                         <span hidden id="loginUserRole" sec:authentication='principal.authorities'></span>
                         <div style="display:inline;">
                             <i style="color: gold; position: absolute;  padding-left: 1%; top: 0; font-size: 2rem;"
-                                sec:authorize="hasRole('ROLE_ADMIN')" class="fa-solid fa-crown"></i>
+                                sec:aut.horize="hasRole('ROLE_ADMIN')" class="fa-solid fa-crown"></i>
                             <img id="loginUserPicture" src="" alt="" width="20%">
                         </div>
                         <span sec:authentication="principal.nickname"></span>
@@ -165,15 +165,15 @@
                     <a class="list-group-item list-group-item-action list-group-item-light p-3"
                         th:href="@{/main/companyinfo}">회사소개</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3"
-                        th:href="@{/gallery/}">Gallery</a>
-                        <a class="list-group-item list-group-item-action list-group-item-light p-3"
-                        th:href="@{/dyning/restaurant/list?page=1&top=440&left=40}">Restaurant</a>
-                        <a class="list-group-item list-group-item-action list-group-item-light p-3"
-                            th:href="@{/dyning/cafe/list?page=1&top=440&left=40}">Cafe</a>
+                        th:href="@{/gallery/}">전시장입구</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3"
+                        th:href="@{/dyning/cafe/list?page=1&top=440&left=40}">카페거리</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3"
+                        th:href="@{/dyning/restaurant/list?page=1&top=440&left=40}">식당거리</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3"
                         sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/index}">인덱스</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3"
-                        sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/admin}">관리자</a>
+                        sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/admin}">권력!</a>
                 </div>
             </div>
         </div>
