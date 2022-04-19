@@ -1,0 +1,32 @@
+/* 기본 정렬 */
+.swal-footer {
+    text-align: center;
+}
+
+.swal-button {
+    font-size: large;
+}
+
+.swal-button:focus{
+    outline: none;
+    box-shadow: unset !important;
+}
+
+/* 기본 버튼 색 */
+.swal-btn-color {
+    background-color: #fdd327;
+    color: black;
+}
+
+.swal-button:not([disabled]):hover[class*='swal-btn-color'] {
+    background-color: #fdd327;
+}
+
+/* 취소 버튼 색 */
+.swal-btn-danger{
+    background-color: tomato;
+}
+
+.swal-button:not([disabled]):hover[class*='swal-btn-danger'] {
+    background-color: red;
+}

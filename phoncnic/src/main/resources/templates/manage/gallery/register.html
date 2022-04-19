@@ -154,12 +154,12 @@
                 function checkExtension(fileName, fileSize) {
                     // 사이즈 유효성 검사
                     if (fileSize >= maxSize) {
-                        swal("파일사이즈 초과");
+                        swal("파일사이즈 초과",{button:false, timer:1000});
                         return false;
                     }
                     // 파일 이름으로 유효성 검사
                     if (regex.test(fileName.substring(fileName.lastIndexOf(".")))) {
-                        swal("jpg 형태의 파일을 추가해주세요");
+                        swal("jpg 형태의 파일을 추가해주세요",{button:false, timer:1000});
                         return false;
                     }
                     return true;
@@ -253,16 +253,16 @@
                     var uploadimageFile = $(".box").children().length;
 
                     if (typeSelect == '') {
-                        swal("게시판 타입을 선택해주세요");
+                        swal("게시판 타입을 선택해주세요",{button:false, timer:1000});
                         return;
                     } else if (titleInput == '') {
-                        swal("타이틀을 입력해주세요");
+                        swal("타이틀을 입력해주세요",{button:false, timer:1000});
                         return;
                     } else if (contentInput == '') {
-                        swal("내용을 입력해주세요");
+                        swal("내용을 입력해주세요",{button:false, timer:1000});
                         return;
                     } else if (uploadimageFile != 3) {
-                        swal("파일을 첨부해주세요")
+                        swal("파일을 첨부해주세요",{button:false, timer:1000})
                         return;
                     }
 
@@ -288,7 +288,7 @@
                         dataType: 'text',
                         type: 'POST',
                         success: function (result) {
-                            swal(result ? "Deleted!" : "Error");
+                            swal(result ? "Deleted!" : "Error",{button:false, timer:1500});
                             targetLi.remove();
                         }
                     });

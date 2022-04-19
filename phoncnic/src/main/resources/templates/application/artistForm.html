@@ -87,15 +87,11 @@
       $(function (e) {
         // submit 버튼
         $("#submitBtn").on("click", function (e) {
-          var typeSelect = $("select[name=imagetype] option:selected").val();
           var contentInput = $("input[name=content]").val();
-
-          if (typeSelect == '') {
-            swal("선호 장르를 선택해주세요");
-            return;
+          if(contentInput.trim()==""){
+            swal({text:"한마디에 입력된 글이 없습니다. 이대로 제출하시겠습니까?", button:{text:"제출하기", className:"swal-btn-color"}})
+            .then((val)=>{  $("#frm").submit(); });
           }
-          $("#frm").submit();
-          // console.log($("#frm").serialize());
         });
       });
     </script>

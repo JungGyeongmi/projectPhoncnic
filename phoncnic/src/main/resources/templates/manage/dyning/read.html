@@ -337,18 +337,21 @@
                         text: "OK를 누르시면 데이터는 되돌릴 수 없습니다!!!!!",
                         icon: "warning",
                         buttons: true,
+                        className : "swal-btn-color",
                         dangerMode: true,
                     })
                         .then((willDelete) => {
                             if (willDelete) {
                                 swal("삭제 되었습니다!", {
                                     icon: "success",
+                                    button: "false",
+                                    timer: 1000,
                                 });
                                 $("#frm").attr("action", urlRemove);
                                 $("#frm").attr("method", "post");
                                 $("#frm").submit();
                             } else {
-                                swal("삭제가 취소되었습니다!");
+                                swal("삭제가 취소되었습니다!",{button:false, timer:1000});
                             }
                         });
 
