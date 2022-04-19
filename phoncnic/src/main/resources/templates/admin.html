@@ -211,7 +211,7 @@
                                 else if ($(".apply").eq(index).html() == "false") { $(".apply").eq(index).html("ARTIST") }
                                 if ($(".apply").eq(index).data("applyBoolean") == 0) { $(".apply").eq(index).html("신청내역없음") }
 
-                                var roleId = item.roleSet[0].toString().slice(5) + index;
+                            var roleId = item.roleSet[0].toString().slice(5) + index;
                                 $(`label[for=${roleId}]`).css({"color": "tomato","font-weight":"bold"});
                                 $(`#${roleId}`).attr("checked", true);
                             });

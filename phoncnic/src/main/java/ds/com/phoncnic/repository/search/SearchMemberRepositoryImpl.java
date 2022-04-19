@@ -59,12 +59,13 @@ public class SearchMemberRepositoryImpl extends QuerydslRepositorySupport implem
     tuple.where(builder);
 
     Sort sort = pageable.getSort();
+
     sort.stream().forEach(order-> {
       OrderSpecifier<?> orders = new OrderSpecifier(order.isAscending() ? Order.ASC : Order.DESC, new PathBuilder(Member.class, order.getProperty()));
       tuple.orderBy(orders);
     });
     
-    tuple.groupBy(member);
+    // tuple.groupBy(member);
     tuple.offset(pageable.getOffset());
     tuple.limit(pageable.getPageSize());
 
