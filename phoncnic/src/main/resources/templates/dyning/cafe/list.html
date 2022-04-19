@@ -60,8 +60,8 @@
                                     str += `<li class="search-result-Item " data-search-dno="${dto.dno} " value="${dto.dno}">
                                     <input class="input" type="hidden" value="${dto.dno}">
                                     <div id="search-result-div">
-                                            <p>${dto.dyningname}</p>
-                                            ${dto.hashtag}
+                                            <p>가게명: ${dto.dyningname}</p>
+                                            <p>해시태그: ${dto.hashtag}</p>
                                         </div>
                                     </li><hr>`;
                                 })
@@ -80,10 +80,10 @@
                 $(document).on("click", ".search-result-Item", function (e) {
                     var chartop = char.offsetTop;
                     var charleft = char.offsetLeft;
+                    var val = $(this).attr("value");
 
                     console.log("click");
-                    var val = $(this).attr("value");
-                    location.href = "/phoncnic/dyning/details?dno=" + val + "&chartop=" + chartop + "&charleft=" + charleft;
+                    location.href = "/phoncnic/dyning/details?dno=" + val + "&id=" + `[[${id}]]` + "&chartop=" + chartop + "&charleft=" + charleft;
                 });
             })
         </script>
@@ -137,8 +137,7 @@
                     var left = $("input[name='charleft']").val();
                     $("#char").offset({ top: top });
                     $("#char").offset({ left: left });
-
-                }
+                }            
             });
 
             $(".dyningimg").on("click", function (e) {

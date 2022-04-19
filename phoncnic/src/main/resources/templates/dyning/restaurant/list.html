@@ -61,8 +61,8 @@
                                     str += `<li class="search-result-Item " data-search-dno="${dto.dno}" value="${dto.dno}">
                                     <input class="input" type="hidden" value="${dto.dno}">
                                     <div id="search-result-div">
-                                         <p>${dto.dyningname}</p>
-                                         ${dto.hashtag}
+                                         <p>가게명: ${dto.dyningname}</p>
+                                         <p>해시태그: ${dto.hashtag}</p>
                                     </div>
                                     </li><hr>`;
                                 });
@@ -79,9 +79,12 @@
 
                 // 토글 창 내 search result 클릭 시 이동 제어
                 $(document).on("click", ".search-result-Item", function (e) {
-                    console.log("click");
+                    var chartop = char.offsetTop;
+                    var charleft = char.offsetLeft;
                     var val = $(this).attr("value");
-                    location.href = "/phoncnic/dyning/details?dno=" + val;
+
+                    console.log("click");                    
+                    location.href = "/phoncnic/dyning/details?dno=" + val + "&id=" + `[[${id}]]` + "&chartop=" + chartop + "&charleft=" + charleft;
                 });
             });
         </script>
@@ -136,8 +139,8 @@
                     $("#char").offset({ top: top });
                     $("#char").offset({ left: left });                    
                 }
-
             });
+            
             $(".dyningimg").on("click", function (e) {
                 var src = $(this).parent().attr("class");
                 var top = e.target.offsetTop;
