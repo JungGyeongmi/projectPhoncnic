@@ -18,6 +18,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
 import ds.com.phoncnic.entity.Member;
+import ds.com.phoncnic.entity.QApplicationForm;
+import ds.com.phoncnic.entity.QMember;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
