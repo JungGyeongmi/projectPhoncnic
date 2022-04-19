@@ -40,11 +40,14 @@ public class ReceptionController {
   public String registerForm(ApplicationFormDTO applyDTO, RedirectAttributes ra) {
     
     log.info("apply register....");
+    
+    Long afno = applicationFormService.isItMaxReception(applyDTO.getApplicant());
 
-    Long afno = applicationFormService.register(applyDTO);
-
+    if( afno == 0L ) {
+      afno = applicationFormService.register(applyDTO);
+      ra.addFlashAttribute("afno", afno);
+    }
     ra.addFlashAttribute("userId", applyDTO.getApplicant());
-    ra.addFlashAttribute("afno", afno);
 
     return "redirect:/reception";
   }

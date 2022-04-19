@@ -150,7 +150,7 @@ input[type=radio]:checked + label {
             <label for="labelLocation" class="form-label">가게 위치</label>
             <div class="input-group mb-3">
               <input type="text" name="location" th:value="${result.location}" class="form-control"
-                id="labelLocation"><br>
+                id="labelLocation" readonly><br>
               <input type="button" value="우편찾기" id="address" class="btn btn-outline-secondary"> <br>
             </div>
             <input type="text" name="locationdetails" th:value="${result.locationdetails}"

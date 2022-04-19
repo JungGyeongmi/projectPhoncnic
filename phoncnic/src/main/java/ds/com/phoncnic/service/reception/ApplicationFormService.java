@@ -15,6 +15,8 @@ public interface ApplicationFormService {
 
   Long register(ApplicationFormDTO dto);
 
+  Long isItMaxReception(String id);
+
   ApplicationFormDTO applicationExistsCheckerByUserId(String id);
 
   default Map<String, Object> dtoToEntity(ApplicationFormDTO dto) {

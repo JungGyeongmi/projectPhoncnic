@@ -20,4 +20,9 @@ public interface ApplicationFormRepository extends JpaRepository<ApplicationForm
   @Modifying
   @Query("delete from ApplicationForm af where af.member.id=:id")
   void deleteByApplicantId(String id);
+
+  @Query("select count(af) > 0 from ApplicationForm af where af.member.id=:id")
+  Boolean existCheckerByMemberId(String id);
+
+
 }

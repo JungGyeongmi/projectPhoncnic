@@ -28,7 +28,7 @@ public interface MemberService {
   MemberDTO getMember(String id);
   
   String getNickname(String id);
-  
+
   PageResultDTO<MemberDTO, Object[]> adminSearchPageByMemberId(SearchMemberPageRequestDTO pageRequestDTO);
 
   default Member dtoToEntity(MemberDTO memberDTO) {
@@ -66,7 +66,7 @@ public interface MemberService {
         .regdate(member.getRegDate())
         .moddate(member.getModDate())
         .build();
-    return memberDTO;
+  return memberDTO;
   }
 
   default MemberDTO entityToDTOWithApply(Member member, ApplicationForm apply) {
