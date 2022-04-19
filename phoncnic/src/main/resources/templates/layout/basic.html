@@ -131,7 +131,7 @@
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <!-- 로고 -->
                             <a th:href="@{/}" style="display: block; margin: auto;">
-                                <img th:src="@{/button/로고1_틀있음_로고만.png}" style="width:60px;">
+                                <img class="basic-main-logo" th:src="@{/button/로고1_틀있음_로고만.png}" style="width:60px;">
                             </a>
                         </div>
                         <button class="btn" id="sidebarToggle">
@@ -192,7 +192,6 @@
         <script th:src="@{/js/scripts.js}"></script>
         <script th:inline="javascript">
             $(function () {
-
                 var loginUserProfileSrc = $("#loginUserPictureSrc").text();
                 var loginUserPicture = $("#loginUserPicture")
                 var userInfoToggle = $("#userInfoToggle")
@@ -205,7 +204,6 @@
                 if (loginUserRole == "[ROLE_ADMIN]") {
                     userInfoToggle.css("border", "solid 5px gold");
                 }
-
             });
         </script>
     </body>

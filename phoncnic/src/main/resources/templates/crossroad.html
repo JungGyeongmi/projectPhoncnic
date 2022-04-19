@@ -1,12 +1,123 @@
 <!DOCTYPE html>
+<style>
+  #nav {
+    background-color: transparent !important;
+  }
+
+  h1{
+      text-align: center;
+      padding: 40px;
+  }
+
+  #wrapper {
+    background-image: url([[@{/icon/pixel-main.jpg}]]);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .containerBox {
+    font-family: "NeoDunggeunmo" !important;
+
+  }
+
+  .content-container {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 70%;
+    margin: 0 auto;
+    padding: 90px 0;
+    }
+
+  .content {
+    width: 290px;
+    height: 382px;
+    background-color: rgb(254, 254, 254);
+    text-align: center;
+    border-radius: 3px;
+    /* border: 5px solid black; */
+    }
+    .content-body{
+        padding: 45px;
+    }
+    .content-body > a> img {
+        margin: 0 auto;
+        width: 185px;
+        filter: drop-shadow(2px 3px 4px rgb(99, 99, 99)); 
+    }
+
+    .content-container p{
+        font-size: 22px;
+        margin: 0px auto 32px auto;
+    }
+    .content button{
+        font-family: "NeoDunggeunmo" !important;
+        width:100%;
+        height:88px;
+        max-width: -webkit-fill-available;
+        font-size: 27px;
+        border: none;
+        background-color: #fdd327;
+        margin-top: 18px;
+         /* background-image: url([[@{/icon/button.png}]]);
+        background-position: center;
+        background-size: cover;         */
+        }
+    
+    .content-container .content:first-child .content-body{
+        padding: 48px;
+    }
+
+    .content-container .content:first-child button{
+        margin-top: 0;
+    }
+
+
+
+    .content-container .content:first-child .content-body img{
+        width: 108px;
+    }
+
+    .content-container .content:last-child .content-body img{
+        width: 180px;
+    }
+
+    .basic-main-logo {
+        display: none;
+    }
+
+</style>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<th:block th:replace="~{layout/basic :: setContent(~{::content})}">
+  <th:block th:replace="~{layout/basic :: setContent(~{::content})}">
     <th:block th:fragment="content">
+      <div class="containerBox">
+
         <h1>갈림길</h1>
-        <ul>
-            <li><a th:href="@{/crossroad/gallery}">Gallery</a></li>
-            <li><a th:href="@{/dyning/cafe/list?page=1&top=440&left=40}">cafe</a></li>
-            <li><a th:href="@{/dyning/restaurant/list?page=1&top=440&left=40}">restaurant</a></li>
-        </ul>
+
+
+        <div class="content-container">
+            <div class="content">
+                <div class="content-body">
+                  <a th:href="@{/crossroad/gallery}"><img th:src="@{/icon/gallery.png}" alt=""></a>
+                </div>
+                <a th:href="@{/crossroad/gallery}"><button>Gallery</button></a>
+            </div>
+            <div class="content">
+                <div class="content-body">
+                  <a th:href="@{/dyning/cafe/list?page=1&top=440&left=40}"><img th:src="@{/icon/cafe-food.png}"  alt=""></a>
+                </div>
+                <a th:href="@{/dyning/cafe/list?page=1&top=440&left=40}"><button>Cafe</button></a>
+            </div>
+            <div class="content">
+                <div class="content-body">
+                  <a th:href="@{/dyning/restaurant/list?page=1&top=440&left=40}"><img th:src="@{/icon/restaurant-food2.png}" alt=""></a>
+                </div>
+                <a th:href="@{/dyning/restaurant/list?page=1&top=440&left=40}"><button>Restaurant</button></a>
+            </div>
+        </div>
+
+      </div>
     </th:block>
-</th:block>
+  </th:block>
+</html>
