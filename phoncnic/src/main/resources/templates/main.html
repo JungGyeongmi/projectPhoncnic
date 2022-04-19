@@ -133,9 +133,19 @@
               <a th:href="@{/crossroad}"><button type="button">Start</button></a>
             </div>
           </div>
-          <div class="button-background">
+          <div class="button-background" sec:authorize="isAnonymous()">
             <div class="button-text">
               <a th:href="@{/member/login}"><button type="button">Login</button></a>
+            </div>
+        </div>
+        <div class="button-background" sec:authorize="hasAnyRole('ROLE_ARTIST','ROLE_CEO','ROLE_ADMIN')" >
+            <div class="button-text">
+                <a th:href="@{/manage/rolechoice}"><button type="button">등록</button></a>
+            </div>
+          </div>
+          <div class="button-background" sec:authorize="isAuthenticated()">
+            <div class="button-text">
+                <a th:href="@{/reception}"><button type="button">직업변경</button></a>
             </div>
           </div>
           <div class="button-background">
@@ -144,8 +154,7 @@
             </div>
           </div>
         </div>
-        <a th:href="@{/manage/rolechoice}">등록갈림길</a>
-        <a th:href="@{/reception}">직업변경</a>
+        
 
         <div class="show-avartar">
             <div class="avartar">
@@ -302,7 +311,7 @@
       </style>
         <!-- 모달창 -->
         <div class="character modal" tabindex="-1" id="modalcharacterlook">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">캐릭터 룩</h5>
