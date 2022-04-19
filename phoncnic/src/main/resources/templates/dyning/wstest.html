@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,70 +7,115 @@
 </head>
 <body>
     <h1> WSTEST</h1>
+    <style>
+         .setlook {
+                position: relative;
+                width: 70px;
+                height: 98px;
+                right: 0px;
+            }
+            #charimg{
+                position: relative;
+                width: 70px;
+                height: 98px;
+                right: 0px;
+            }
+    </style>
     <body>
-        <input type="text" id="top">
+        <!-- <input type="text" id="top">
         <input type="text" id="left">
-        <input type="text" id="testInput">
+        <input type="text" id="testInput"> -->
         <div id="testdiv"></div>
-        <input type="text" id="nickname" class="form-inline" placeholder="닉네임을 입력해주세요" required autofocus>
-        <button class = "btn btn-primary" id = "name">확인</button>
+        <input type="hidden" id="nickname" class="form-inline" placeholder="닉네임을 입력해주세요" th:value="${id}" required autofocus>
+        <!-- <button class = "btn btn-primary" id = "name">확인</button> -->
         <!-- <div id = "chatroom" style = "width:1000px; height: 1000px; border:1px solid; background-color : white; overflow: auto;" ></div> -->
         <input type = "text" id = "message" style = "height : 30px; width : 340px" placeholder="내용을 입력하세요" autofocus>
         <button class = "btn btn-primary" id = "send">전송</button>
+        <button onclick="disconnect()">나가기</button>
+        <div th:each="sdto : ${setDTO}" id="char" >
+            <img id ="charimg" th:src="${sdto.setpath}">
+            <!-- <div id="nickname" th:value="${nickname}" class="nickname" th:if="${nickname}!=''">[[${nickname}]]</div> -->
+        </div>
         <script>
      
         </script>
     </body>
+    <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+
     <script>
         var webSocket;
         var nickname;
-        document.getElementById("name").addEventListener("click", function(){
-            nickname = document.getElementById("nickname").value;
-            document.getElementById("nickname").style.display="none";
-            document.getElementById("name").style.display="none";
-            connect();
-        })
-        document.getElementById("send").addEventListener("click",function(){
-            send();
-        })
+        nickname = document.getElementById("nickname").value;
+        console.log(nickname+"nickname");
+        setpath = document.getElementById("charimg").getAttribute('src');
+        var charTop =  document.getElementById("charimg").offsetTop;
+        var charLeft =  document.getElementById("charimg").offsetLeft;
+        str =nickname +','+charTop +','+charLeft;
+        connect();
+
+      
         function connect(){
-            webSocket = new WebSocket("wss://1786-175-119-172-242.jp.ngrok.io/phoncnic/street");
+            webSocket = new WebSocket("wss://28c0-175-119-172-242.jp.ngrok.io/phoncnic/street");
             webSocket.onopen = onOpen;
             webSocket.onclose = onClose;
             webSocket.onmessage = onMessage;
         }
         function disconnect(){
-            webSocket.send(nickname + "님이 퇴장하셨습니다");
-            webSocket.close();
+            webSocket.send("out,",nickname);
+            // webSocket.send(nickname + "님이 퇴장하셨습니다");
         }
+        document.addEventListener("keyup", function(){
+            send();
+        });
+
         function send(){
-            msg = document.getElementById("message").value;
-            webSocket.send(nickname + " : " + msg);
-            document.getElementById("message").value = "";
+            console.log("str:"+str)
+            webSocket.send(str);
         }
         function onOpen(){
-            webSocket.send('<div id ="heocat" style="display: inline-block; left: 300px; position: absolute;"><img id="userAvatar" src="/phoncnic/display?fileName=2022%2F04%2F12%2Fd6e8cbd9-83f8-47fd-a230-4ee1f4fbd294_05471144-94c6-4f3f-a076-3fe99ba44b0c_set1.png" alt="🙄" width="100px"></div>');
+            // webSocket.send("<div style='display:inline-block;' data-top="+charTop+" data-left="+charLeft+"><img id="+nickname+" src="+setpath+" width='70px'>"+"<br>"+nickname+"</div>");
+            webSocket.send("<div><img id="+nickname+" src="+setpath+" style='width: 70px;'><br>"+nickname+"</div>");
+
         }
         function onMessage(e){
             data = e.data;
-            testInput = document.getElementById("testInput").value;
+            // testInput = document.getElementById("testInput").value;
             testdiv = document.getElementById("testdiv");
-            catdiv = document.getElementById("heocat");
-            // chatroom = document.getElementById("chatroom");
-            if(catdiv!=null){
-                catdiv.remove();
-                testdiv.innerHTML = testdiv.innerHTML + "<br>" + data + testInput;
+            var dataSplit = data.split(',');
+
+            console.log(dataSplit[1]+"dataSplit[1]");
+
+            if(data.substring(0,1)==="<"){
+                testdiv.innerHTML = testdiv.innerHTML + "<br>" + data;
+                console.log(data);
+            }else if(dataSplit[0]==="out"){
+                var removed = document.getElementById(dataSplit[1]);
             }else{
-                testdiv.innerHTML = testdiv.innerHTML + "<br>" + data + testInput;
+                console.log("data:"+data);
             }
-            // document.innerHTML = document + "<br>" + data + testInput;
+
+            
+            // if (user == "") {
+            //     testdiv.innerHTML = testdiv.innerHTML + "<br>" + data;
+            // }else {
+            //     var dataSplit = data.split(',');
+            //     document.getElementById(dataSplit[0]).offset({top : 300, left: 300});
+            //    $("#"+dataSplit[0]).offset({ top:dataSplit[1] });
+            //    $("#"+dataSplit[0]).offset({ left:dataSplit[2] });
+
+            // }
+           
         }
         function onClose(){
- 
+            webSocket.send("out,",nickname);
         }
+
+        webSocket.on('close', function onClose() {
+        clearInterval(interval);
+        });
+                
     </script>
-    <script>
-        
-    </script>
+      
 </body>
+
 </html>
