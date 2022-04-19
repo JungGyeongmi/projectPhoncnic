@@ -5,7 +5,7 @@
     <th:block th:fragment="search">
         <div class="border-end bg-white" id="sidebar-wrapper">
             <div class="sidebar-heading border-bottom bg-light">
-                <form class="d-flex search-form" th:action="@{/restaurant/toggle}" method="get">
+                <form class="d-flex search-form" th:action="@{/cafe/toggle}" method="get">
                     <select class="form-select-sm" name="type">
                         <option value="n">가게명</option>
                         <option value="h">해쉬태그</option>
@@ -23,7 +23,7 @@
         <script th:inline="javascript">
             $(document).ready(function () {
                 /*[+
-                    var searchUrl = [[@{/dyning/restaurant/toggle}]];
+                    var searchUrl = [[@{/dyning/cafe/toggle}]];
                 +]*/
 
                 var btnsearch = $('#btnsearch');
@@ -35,7 +35,7 @@
                 btnsearch.on("click", function (e) {
                     console.log(searchForm.serialize());
                     getSearchList();
-                });
+                })
 
                 // 엔터 입력시 search
                 keyword.on("keydown", function (e) {
@@ -57,14 +57,14 @@
 
                             if (response.totalPage != 0) {
                                 $.each(response.dtoList, function (idx, dto) {
-                                    str += `<li class="search-result-Item " data-search-dno="${dto.dno} " value="${dto.dno}">
+                                    str += `<li class="search-result-Item " data-search-dno="${dto.dno}" value="${dto.dno}">
                                     <input class="input" type="hidden" value="${dto.dno}">
                                     <div id="search-result-div">
                                             <p>가게명: ${dto.dyningname}</p>
                                             <p>해시태그: ${dto.hashtag}</p>
                                         </div>
                                     </li><hr>`;
-                                })
+                                });
                                 searchResult.html(str);
                             } else {
                                 searchResult.html('<div> 검색 결과가 없습니다. </div>');
@@ -83,9 +83,10 @@
                     var val = $(this).attr("value");
 
                     console.log("click");
+                    disconnect();
                     location.href = "/phoncnic/dyning/details?dno=" + val + "&id=" + `[[${id}]]` + "&chartop=" + chartop + "&charleft=" + charleft;
                 });
-            })
+            });
         </script>
     </th:block>
 
@@ -107,12 +108,15 @@
                     </li>
                 </th:block>
             </ul>
+            <div id="testStreet">
+            <div th:each="sdto : ${setDTO}" id="userchar" style="display: none; position:absolute;"><img id="userid" class="look setlook" th:src="${sdto.setpath}" th:alt="${id}"></div>
             <div th:each="sdto : ${setDTO}" id="char">
-                <img type="hidden" id="charimg" class="look setlook" th:src="${sdto.setpath}" alt="">
-                <div th:text="${nickname}" class="nickname" th:if="${nickname}!=''">[[${nickname}]]</div>
+                <img type="hidden" id="charimg" class="look setlook" th:src="${sdto.setpath}"  alt="">
+                <div th:text="${nickname}" class="nickname"id="nickname" th:if="${nickname}!=''">[[${nickname}]]</div>
                 <input type="text" name="chartop" th:value="${chartop}" style="opacity: 0;">
                 <input type="text" name="charleft" th:value="${charleft}" style="opacity: 0;">
             </div>
+        </div>
             <ul class="ullist">
                 <th:block th:each="dto, index : ${result.dtoList}" th:if="${index.count}%2 == 0">
                     <li id="list2">
@@ -139,7 +143,6 @@
                     $("#char").offset({ left: left });
                 }            
             });
-
             $(".dyningimg").on("click", function (e) {
                 var src = $(this).parent().attr("class");
                 var top = e.target.offsetTop;
@@ -165,7 +168,7 @@
 
                 document.addEventListener("keydown", function (e) {
                     let char = document.getElementById("char");
-                    let charimg = document.getElementById("char");
+                    let charimg = document.getElementById("charimg");
                     var wrapheight = document.getElementById("wrap").clientHeight;
                     var top = Math.round(wrapheight / 2);
 
@@ -179,16 +182,21 @@
                     let x = parseInt(char.style.left || 0, 10);
                     if (key === 37 /* LEFT */) {
                         char.style.left = x - 20 + "px";
+                        send();
                     }
                     if (key === 38 /* TOP */) {
                         char.style.top = y - 20 + "px";
+                        send();
                     }
                     if (key === 39 /* RIGHT */) {
                         char.style.left = x + 20 + "px";
+                        send();
                     }
                     if (key === 40 /* BOTTOM */) {
                         char.style.top = y + 20 + "px";
+                        send();
                     }
+                    
 
                     if ($("#hint").css("display") == "block") {
                         if (key === 37 || key === 38 || key === 39 || key === 40) {
@@ -212,6 +220,7 @@
                                 "opacity": "0",
                                 "top": "100px"
                             }, 100, function () {
+                                disconnect();
                                 location.replace(listlocation + listpage + "&top=" + top + "&left=" + 40);
                             });
                         };
@@ -229,6 +238,7 @@
                                     "opacity": "0",
                                     "top": "100px"
                                 }, 100, function () {
+                                    disconnect();
                                     location.replace(listlocation + listpage + "&top=" + top + "&left=" + left);
                                 });
                             } else {
@@ -267,18 +277,20 @@
                     $("input[name='chartop']").val(chartop);
                     $("input[name='charleft']").val(charleft);
 
-                    if (key === 13 /* BOTTOM */) {
+                    if (key === 13 /* enter */) {
                         var imgLength = $(".dyningimg").length;
                         console.log("캐릭터좌표" + chartop, charleft);
 
                         for (i = 1; i <= imgLength; i++) {
+                            console.log(document.getElementById(i));
                             // 절대 좌표
                             var targetTop = document.getElementById(i).offsetTop;
                             var targetLeft = document.getElementById(i).offsetLeft;
                             var targetHref = $("#" + i).parent().attr('class');
                             console.log("타겟좌표: " + targetTop, targetLeft, targetHref);
-
-                            if (targetTop - 20 < chartop && chartop < targetTop + 100 && targetLeft - 30 < charleft && charleft < targetLeft + 100) {
+                            
+                            if (targetTop - 40 < chartop && chartop < targetTop + 160 && targetLeft - 30 < charleft && charleft < targetLeft + 160) {
+                                disconnect();
                                 location.href = targetHref + "&chartop=" + chartop + "&charleft=" + charleft;
                             };
                         }
@@ -610,5 +622,73 @@
             }
 
         </script>
+       <script>
+        var webSocket;
+        var nickname = document.getElementById("nickname").innerText;
+        var testStreet = document.getElementById("testStreet");
+        var userchar = document.getElementById("userchar");
+        var testId = document.getElementById("userid").getAttribute('alt')
+        var userid= testId.substring(0,testId.indexOf("@"));
+        var userimg = document.getElementById("charimg").getAttribute('src');
+        var str;
+        
+        
+        function connect(){
+            webSocket = new WebSocket("ws://localhost:8080/phoncnic/street");
+            webSocket.onopen = onOpen;
+            webSocket.onmessage = onMessage;
+            webSocket.onclose = onClose();
+        }
+        connect();
+       
+
+        function send(){
+            str =userid + "," +nickname+","+ document.getElementById("char").offsetTop + "," + document.getElementById("char").offsetLeft + "," + userimg;
+            webSocket.send(str);
+        }
+        function disconnect() {
+            str = userid +",outofpage";
+            webSocket.send(str);
+        }
+        function onOpen(){
+            str =userid + "," + nickname + "," + document.getElementById("char").offsetTop + "," + document.getElementById("char").offsetLeft + "," + userimg;
+            webSocket.send(str);
+        }
+        function onMessage(e){
+            var data = e.data;
+            var dataSplit = data.split(",");
+            console.log(data);
+            if (dataSplit[0]==userid) {
+                return;
+            }
+            if(dataSplit[1]=="outofpage"){
+                $("#"+dataSplit[0]).empty();
+                $("#"+dataSplit[0]).remove();
+                return;
+            }
+            console.log(data);
+            
+            console.log(data);
+            if (document.querySelector("#"+dataSplit[0])==null) {
+                console.log("접속 유저가 없습니다");
+                testStreet.innerHTML = testStreet.innerHTML+' </br> <div id="'+dataSplit[0]+'" style="position: absolute; top : '+dataSplit[2]+'px; left:'+ dataSplit[3]+'px;"><div><img class="users" src = "'+ dataSplit[4]+'" style="width: 70px;ft:'+ dataSplit[3]+'px;"></div><span class="nickname">'+dataSplit[1]+'</span></div>';
+                return;
+            }else {
+                $("#"+dataSplit[0]).offset({top:dataSplit[2]});
+                $("#"+dataSplit[0]).offset({left:dataSplit[3]});
+            }
+            }
+        function onClose(){
+            disconnect();
+        }
+       
+        </script>
+           
+                    
+   </script>
+</body>
+<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+
+
     </th:block>
 </th:block>
