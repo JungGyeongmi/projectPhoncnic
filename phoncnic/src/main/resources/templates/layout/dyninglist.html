@@ -30,17 +30,87 @@
                 overflow: hidden;
                 height: 100%;
             }
+
+            #helpbtn {
+                position: absolute;
+                bottom: 10px;
+                right: 10px;
+            }
+
+            #helpbtn:hover {
+                position: absolute;
+                bottom: 40px;
+                right: 10px;
+            }
+
+            #explain > p {
+                font-family: 'GmarketSansMedium';
+                margin-bottom: 0.5rem;
+            }
         </style>
+
+        <style>
+            #hint {
+                display: none;
+            }
+            .arrow_box {
+                position: absolute;
+                background: white;
+                border: 2px solid #f5f5f5;
+                width: 250px;
+                height: 100px;
+                padding: 14px;
+                text-align: center;
+                bottom: 100px;
+                right: 25px;
+                border-radius: 10px;
+                font-size: 24px;
+                color: black;
+                font-family: 'NeoDunggeunmo';
+            }
+
+            .arrow_box:after,
+            .arrow_box:before {
+                top: 100%;
+                left: 90%;
+                content: "";
+                height: 0;
+                width: 0;
+                position: absolute;
+                pointer-events: none;
+            }
+
+            .arrow_box:after {
+
+                border-top: 20px solid #ffffff;
+                border-right: 10px solid transparent;
+                border-left: 10px solid transparent;
+
+            }
+
+            .arrow_box:before {
+                border-top: 20px solid #9a9a9a;
+                border-right: 10px solid transparent;
+                border-left: 10px solid transparent;
+            }
+        </style>
+
         <!-- awsome icon cdn -->
         <script src="https://kit.fontawesome.com/f145f2fd92.js" crossorigin="anonymous"></script>
         <!-- Favicon-->
-        <link rel="icon" type="image/x-icon" th:href="@{/assets/favicon.ico}" />
+        <link rel="icon" type="image/x-icon" th:href="@{/assets/picnic-basket.png}" />
+        <!-- Google NotoSans -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300&display=swap" rel="stylesheet">
         <!-- Core theme CSS (includes Bootstrap)-->
         <link th:href="@{/css/dyningliststyles.css}" rel="stylesheet" />
         <!-- jQuery cdn -->
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"
             integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        <!-- CSS -->
         <link rel="stylesheet" th:href="@{/css/basic.css}">
+        <link th:href="@{/css/dyninglist.css}" rel="stylesheet" />
     </head>
 
     <body>
@@ -76,7 +146,7 @@
                     <li class="nav-item dropdown" style="list-style: none;">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
-                            Phoncnic
+                            Phon:cnic
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" th:href="@{/}">Phoncnic</a></li>
@@ -96,26 +166,57 @@
                             <li><a class="dropdown-item" th:href="@{/help/list/}">고객센터</a></li>
                             <li><a class="dropdown-item" th:href="@{/main/companyinfo}">회사소개</a></li>
                             <li><a class="dropdown-item" th:href="@{/gallery/}">Gallery</a></li>
-                            <li><a class="dropdown-item" th:href="@{/dyning/cafe/list?page=1&top=440&left=40}">Cafe</a>
-                            </li>
                             <li><a class="dropdown-item"
                                     th:href="@{/dyning/restaurant/list?page=1&top=440&left=40}">Restaurant</a></li>
-
+                            <li><a class="dropdown-item" th:href="@{/dyning/cafe/list?page=1&top=440&left=40}">Cafe</a>
+                            </li>
                         </ul>
                     </li>
-
                 </nav>
                 <!-- Page content-->
                 <div class="container-fluid">
+                    <div id="box">
+                        <div class="arrow_box" id="hint">클릭하면 도움말을 볼 수 있어요!</div>
+                        <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#basiceModal" id="helpbtn">
+                            <img th:src="@{/icon/question-60.png}" alt="">
+                        </button>
+                    </div>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="basiceModal" tabindex="-1" aria-labelledby="basicModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog modal-lg modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="basicModalLabel" style="margin-top: 0;">Dyning 사용 설명서
+                                    </h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body" id="explain">
+                                    <p>Restaurant과 Cafe 페이지는 방향키로 페이지 이동과 가게 상세페이지로 이동이 가능합니다.</p>
+                                    <p>화면의 좌우 끝으로 이동 시 이전 페이지, 다음 페이지로 이동할 수 있습니다.</p>
+                                    <p>원하는 가게로 캐릭터를 이동시킨 후 Enter를 누르면 가게 상세페이지로 이동합니다.</p>
+                                    <p>왼쪽 상단의 검색 버튼으로 가게명, 해쉬태그로 가게를 검색할 수 있습니다.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <th:block th:replace="${content}"></th:block>
                 </div>
             </div>
-            <!-- Sidebar-->
         </div>
+
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->
         <script th:src="@{/js/scripts.js}"></script>
+        <script>
+            $("#helpbtn").hover(function(e) {                
+                $("#hint").css("display", "none");
+            });
+        </script>
     </body>
 </th:block>
 

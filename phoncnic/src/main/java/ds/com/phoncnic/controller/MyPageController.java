@@ -21,6 +21,7 @@ import ds.com.phoncnic.service.characterLook.CharacterLookService;
 import ds.com.phoncnic.service.emoji.EmojiService;
 import ds.com.phoncnic.service.follow.FollowService;
 import ds.com.phoncnic.service.member.MemberService;
+import ds.com.phoncnic.service.reception.ApplicationFormService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -34,13 +35,14 @@ public class MyPageController {
     private final CharacterLookService characterLookService;
     private final FollowService followService;
     private final EmojiService emojiService;
+    private final ApplicationFormService applicationFormService;
 
     @GetMapping({ "/", "" })
     public void mypage(Model model, @AuthenticationPrincipal AuthMemberDTO dto) {
 
-        log.info("id:" + dto.getId());
+        log.info("----------------");
         MemberDTO memberDTO = memberService.getMember(dto.getId());
-
+        log.info(memberDTO.getRoleSet());
         model.addAttribute("id",dto.getId());
         model.addAttribute("memberDTO", memberDTO);
 
@@ -49,25 +51,35 @@ public class MyPageController {
         model.addAttribute("emojiDTO", emojiService.getEmojiList(dto.getId()));
         model.addAttribute("afollowDTO", followService.getFollow(dto.getId()).getFollowartistlist());
         model.addAttribute("dfollowDTO", followService.getFollow(dto.getId()).getFollowdyninglist());
+        model.addAttribute("applyDTO", applicationFormService.applicationExistsCheckerByUserId(dto.getId()));
     }
 
     @PostMapping("/membermodify")
-    public String membermodify(MemberDTO memberDTO, RedirectAttributes ra, @AuthenticationPrincipal AuthMemberDTO dto) {
-
+    public String membermodify(MemberDTO memberDTO, 
+        RedirectAttributes ra, 
+        @AuthenticationPrincipal AuthMemberDTO auth,
+        HttpSession session) {
+        
+        String nickname = memberDTO.getNickname();
         log.info("update....");
-        log.info("modify post.........id:" + memberDTO.getId());
+        
+        if(memberService.nickNameChecker(nickname)){
+            ra.addFlashAttribute("msg", "false");
+            return  "redirect:/main/mypage";
+        }
+
+        memberDTO.setRoleSet(auth.getAuthorities());
         log.info("memberDTO : "+memberDTO);
 
         memberService.updateMemberDTO(memberDTO);
-        dto.setNickname(memberDTO.getNickname());
-
-        ra.addAttribute("id", memberDTO.getId());
+        log.info("change....");
 
         // session 값
-        Authentication authentication = new UsernamePasswordAuthenticationToken(dto, null, dto.getAuthorities());
+        auth.setNickname(nickname);
+        Authentication authentication = new UsernamePasswordAuthenticationToken(auth, null, auth.getAuthorities());
         SecurityContext securityContext = SecurityContextHolder.getContext();
         securityContext.setAuthentication(authentication);
-
+        ra.addFlashAttribute("msg", "true");
         return "redirect:/main/mypage";
     }
 
@@ -78,7 +90,6 @@ public class MyPageController {
         characterLookService.modify(characterLookDTO, dto.getId());
         ra.addAttribute("id", dto.getId());
         return "redirect:/main/mypage";
-
     }
 
     @PostMapping("/memberremove")

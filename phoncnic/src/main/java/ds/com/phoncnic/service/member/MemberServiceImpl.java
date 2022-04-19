@@ -2,9 +2,12 @@ package ds.com.phoncnic.service.member;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 
 import javax.transaction.Transactional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
@@ -52,18 +55,15 @@ public class MemberServiceImpl implements MemberService {
     private final DyningImageRepository dyningImageRepository;
 
     private final ApplicationFormRepository applicationFormRepository;
-
+    
     private final ApplicationImageRepository applicationImageRepository;
-
+    
     @Override
     public void updateMemberDTO(MemberDTO memberDTO) {
         Member member = dtoToEntity(memberDTO);
         log.info("update member DTO");
-        log.info(member);
 
-        log.info("MemberComeOn ....." + member);
         memberRepository.save(member);
-        
     }
 
     @Override
@@ -76,7 +76,6 @@ public class MemberServiceImpl implements MemberService {
     }
 
     public void modify2(AuthMemberDTO dto) {
-        // findById는 바로 로딩을 해주고, getOne은 필요한 순간까지 로딩을 지연함
         Optional<Member> result = memberRepository.findById(dto.getId());
 
         if (result.isPresent()) {
@@ -119,7 +118,6 @@ public class MemberServiceImpl implements MemberService {
             log.info("dyninglist" + dyninglist);
             log.info("gallerylist" + gallerylist);
             log.info("emojilist" + emojilist);
-            // log.info("applylist" + applyilist);
             
             Optional<Dyning> haveDyning = dyningRepository.findDyningByMemberId(id);
            
@@ -158,11 +156,26 @@ public class MemberServiceImpl implements MemberService {
 
     }
 
+    @Transactional
     @Override
     public PageResultDTO<MemberDTO, Object[]> adminSearchPageByMemberId(SearchMemberPageRequestDTO pageRequestDTO) {
-        // TODO Auto-generated method stub
-        return null;
+
+        log.info("search page....");
+        
+        Function<Object[], MemberDTO> fn = (entity -> entityToDTOWithApply((Member) entity[0], (ApplicationForm) entity[1]));
+        
+        Sort sort = getSort(pageRequestDTO.getSort());
+       
+        Page<Object[]> result = memberRepository.searchPage(pageRequestDTO.getType(), pageRequestDTO.getKeyword(), pageRequestDTO.getPageable(sort));
+
+        PageResultDTO<MemberDTO, Object[]> pageResult = new PageResultDTO<>(result, fn);
+
+        return pageResult;
     }
 
+    @Override
+    public Boolean nickNameChecker(String nickname) {
+        return memberRepository.findByMemberNickName(nickname);
+    }
     
 }

@@ -7,7 +7,7 @@
 
     .table-hover tbody tr:hover td {
         background-color: #DBE9B7;
-    }
+    }str2
 
     tr,
     th,
@@ -63,6 +63,9 @@
     .my.col-3 {
         padding: 0;
     }
+    .dto:hover {
+        cursor: pointer;
+    }
 </style>
 <th:block th:replace="~{layout/basic :: setContent(~{::content})}">
     <th:block th:fragment="content">
@@ -105,8 +108,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="dto : ${result.dtoList}" class="dto"
-                        th:onclick="|javascript:pwcheck([[${dto.qno}]],[[${result.page}]])|">
+                    <tr th:each="dto : ${result.dtoList}" class="dto" th:onclick="|javascript:pwcheck([[${dto.qno}]],[[${result.page}]])|">
                         <td>[[${dto.qtype}]]</td>
                         <td>[[${ dto.title }]]</td>
                         <td>[[${dto.writeremail}]]</td>
@@ -157,9 +159,6 @@
                 var readUrl = [[@{/help/read}]];
             +]*/
 
-            // console.log(msg);
-
-
             if (msg != null && writeremail != null) {
                 swal("성공!", "답변은 " + writeremail + " 로 발송해드립니다.", "success");
             } 
@@ -171,8 +170,7 @@
             }
 
             //비밀번호 유효성검사
-            const dto = document.querySelector(".dto");
-            dto.addEventListener("click", pwcheck,{ once : true});
+            dto.addEventListener("click", pwcheck);
 
             function pwcheck(qno, page) {
                 const inputPw = document.querySelector("#inputPw").value;

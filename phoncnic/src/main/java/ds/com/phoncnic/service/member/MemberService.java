@@ -8,6 +8,7 @@ import org.springframework.data.domain.Sort;
 import ds.com.phoncnic.dto.MemberDTO;
 import ds.com.phoncnic.dto.pageDTO.PageResultDTO;
 import ds.com.phoncnic.dto.pageDTO.SearchMemberPageRequestDTO;
+import ds.com.phoncnic.entity.ApplicationForm;
 import ds.com.phoncnic.entity.AuthorityRole;
 import ds.com.phoncnic.entity.Member;
 import ds.com.phoncnic.security.dto.AuthMemberDTO;
@@ -15,11 +16,19 @@ import ds.com.phoncnic.security.dto.AuthMemberDTO;
 public interface MemberService {
   
   Boolean checkMemberExist(String id);
+
+  Boolean nickNameChecker(String nickname);
+  
   void updateMemberDTO(MemberDTO memberDTO);
+  
   void modify2(AuthMemberDTO dto);
+  
   void remove(String id);
+  
   MemberDTO getMember(String id);
+  
   String getNickname(String id);
+
   PageResultDTO<MemberDTO, Object[]> adminSearchPageByMemberId(SearchMemberPageRequestDTO pageRequestDTO);
 
   default Member dtoToEntity(MemberDTO memberDTO) {
@@ -58,6 +67,30 @@ public interface MemberService {
         .moddate(member.getModDate())
         .build();
   return memberDTO;
+  }
+
+  default MemberDTO entityToDTOWithApply(Member member, ApplicationForm apply) {
+   
+    Long afno = 0L;
+    Boolean applicationtype = false;
+   
+    if(apply!=null) {
+      afno = apply.getAfno();
+      applicationtype = apply.getApplicationtype();
+    }
+
+    MemberDTO memberDTO = MemberDTO.builder()
+        .id(member.getId())
+        .nickname(member.getNickname())
+        .roleSet(member.getRoleSet().stream().map(
+            role -> new String("ROLE_" + role.name()))
+            .collect(Collectors.toList()))
+        .afno(afno)
+        .applicationtype(applicationtype)
+        .regdate(member.getRegDate())
+        .moddate(member.getModDate())
+        .build();
+    return memberDTO;
   }
   
   default Sort getSort(String sortkeyword) {

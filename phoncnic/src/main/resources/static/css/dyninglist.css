@@ -1,0 +1,127 @@
+#wrapper {
+    background-image: url(../icon/dyning-street.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.md-serach-result {
+    padding: 0 !important;
+}
+
+.search-result-Item {
+    cursor: pointer;
+    list-style: none;
+    padding-left: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.search-result-Item:hover {
+    background-color: #DBE9B7;
+}
+
+#search-result-div {
+    padding: 0 !important;
+    margin-bottom: -20px;
+}
+
+hr {
+    margin: 0;
+}
+
+body {
+    -ms-overflow-style: none;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+.wrap {
+    -ms-overflow-style: auto;
+    overflow-x: auto;
+    /* 단이 나뉘지않고 스크롤이 생김  */
+    white-space: nowrap;
+    margin: 0 auto;
+    scroll-behavior: smooth;
+    height: 100%;
+    padding-top: 20px;
+    padding-bottom: 100px;
+}
+
+.dyning-list-ul {
+    max-width: 10000px;
+}
+
+#list1 {
+    margin: 50px 50px 70px;
+    width: 200px;
+    height: 200px;
+    display: inline-block;
+}
+
+#list2 {
+    margin: 40px 50px 30px;
+    width: 200px;
+    height: 200px;
+    display: inline-block;
+}
+
+.dyningname {
+    margin-top: 5px;
+    background-color: lightgoldenrodyellow;
+    text-align: center;
+    font-size: 18px;
+    font-family: GmarketSansMedium;
+    padding-top: 4px;
+}
+
+.nickname {
+    border: 2px solid #DBE9B7;
+    border-radius: 5px;
+    background-color: white;
+    text-align: center;
+    font-weight: 600;
+    font-family: GmarketSansLight;
+    overflow: hidden;
+}
+
+.dyningimg {
+    width: 200px;
+    height: 200px;
+}
+
+.ullist {
+    padding-left: 150px;
+    padding-right: 150px;
+}
+
+#charimg,
+.nickname {
+    cursor: pointer;
+}
+
+.setlook {
+    position: relative;
+    width: 70px;
+    height: 98px;
+    right: 0px;
+}
+
+#char {
+    position: relative;
+    width: 70px;
+    height: 126px;
+    right: 0px;
+}
+
+#navbarDropdown{
+    font-family: 'NeoDunggeunmo';
+    font-size: larger;
+}
+
+#sidebarToggle {
+    font-family: GmarketSansMedium;
+    padding-top: 9px;
+}

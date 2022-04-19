@@ -1,42 +1,8 @@
 <!DOCTYPE html>
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
 <th:block th:replace="~{layout/dyninglist :: setContent(~{::content}, ~{::search})}">
-
     <!-- search toggle -->
     <th:block th:fragment="search">
-        <style>
-            #wrapper {
-                background-image: url([[@{/icon/dyning-street.png}]]);
-                background-repeat: no-repeat;
-                background-size: cover;
-                background-position: center;
-            }
-
-            .md-serach-result {
-                padding: 0 !important;
-            }
-
-            .search-result-Item {
-                cursor: pointer;
-                list-style: none;
-                padding-left: 20px;
-                padding-top: 20px;
-                padding-bottom: 20px;
-            }
-
-            .search-result-Item:hover {
-                background-color: #DBE9B7;
-            }
-
-            #search-result-div {
-                padding: 0 !important;
-            }
-
-            hr {
-                margin: 0;
-            }
-        </style>
-
         <div class="border-end bg-white" id="sidebar-wrapper">
             <div class="sidebar-heading border-bottom bg-light">
                 <form class="d-flex search-form" th:action="@{/cafe/toggle}" method="get">
@@ -94,9 +60,9 @@
                                     str += `<li class="search-result-Item " data-search-dno="${dto.dno}" value="${dto.dno}">
                                     <input class="input" type="hidden" value="${dto.dno}">
                                     <div id="search-result-div">
-                                         <p>${dto.dyningname}</p>
-                                         ${dto.hashtag}
-                                    </div>
+                                            <p>가게명: ${dto.dyningname}</p>
+                                            <p>해시태그: ${dto.hashtag}</p>
+                                        </div>
                                     </li><hr>`;
                                 });
                                 searchResult.html(str);
@@ -112,9 +78,12 @@
 
                 // 토글 창 내 search result 클릭 시 이동 제어
                 $(document).on("click", ".search-result-Item", function (e) {
-                    console.log("click");
+                    var chartop = char.offsetTop;
+                    var charleft = char.offsetLeft;
                     var val = $(this).attr("value");
-                    location.href = "/phoncnic/dyning/details?dno=" + val;
+
+                    console.log("click");
+                    location.href = "/phoncnic/dyning/details?dno=" + val + "&id=" + `[[${id}]]` + "&chartop=" + chartop + "&charleft=" + charleft;
                 });
             });
         </script>
@@ -122,79 +91,6 @@
 
     <!-- 내용부분(cafe 거리) -->
     <th:block th:fragment="content">
-        <style>
-            body {
-                -ms-overflow-style: none;
-            }
-
-            ::-webkit-scrollbar {
-                display: none;
-            }
-
-            .wrap {
-                -ms-overflow-style: auto;
-                overflow-x: auto;
-                /* 단이 나뉘지않고 스크롤이 생김  */
-                white-space: nowrap;
-                margin: 0 auto;
-                scroll-behavior: smooth;
-                height: 100%;
-                padding-top: 20px;
-                padding-bottom: 100px;
-            }
-
-            .dyning-list-ul {
-                max-width: 10000px;
-            }
-
-            #list1 {
-                margin: 50px 50px 70px;
-                width: 200px;
-                height: 200px;
-                display: inline-block;
-            }
-
-            #list2 {
-                margin: 40px 50px 30px;
-                width: 200px;
-                height: 200px;
-                display: inline-block;
-            }
-
-            .dyningname {
-                margin-top: 5px;
-                background-color: lightgoldenrodyellow;
-                text-align: center;
-                font-size: 18px;
-                font-family: GmarketSansMedium;
-            }
-
-            .nickname {
-                border: 2px solid #DBE9B7;
-                border-radius: 5px;
-                background-color: white;
-                text-align: center;
-                font-weight: 600;
-                font-family: GmarketSansLight;
-                overflow: hidden; 
-                padding:0 5px;
-            }
-
-            .dyningimg {
-                width: 200px;
-                height: 200px;
-            }
-
-            .ullist {
-                padding-left: 150px;
-                padding-right: 150px;
-            }
-        </style>
-        <input type="hidden" value="연결" onclick="connect()">
-        <input type="hidden" value="전송" onclick="send()">
-        <input type="hidden" value="끊기" id="dis" onclick="disconnect()">
-        <div id="street" style="width: 300px; height: auto; background-color: aqua;"></div>
-
         <input type="hidden" th:value="${result.page}" id="listpage">
         <input type="hidden" th:value="${result.totalPage}" id="totalpage">
         <div class="wrap" id="wrap">
@@ -234,24 +130,9 @@
             </ul>
         </div>
 
-        <!-- 가게 건물 좌표를 얻는 js -->
-        <style>
-            .setlook {
-                position: relative;
-                width: 70px;
-                height: 98px;
-                right: 0px;
-            }
-
-            #char {
-                position: relative;
-                width: 70px;
-                height: 126px;
-                right: 0px;
-            }
-        </style>
-
         <script>
+            var page = Number(document.querySelector("#listpage").value);            
+
             $(document).ready(function (e) {
                 if ($("input[name='chartop']").val() != "") {
 
@@ -259,8 +140,7 @@
                     var left = $("input[name='charleft']").val();
                     $("#char").offset({ top: top });
                     $("#char").offset({ left: left });
-
-                }
+                }            
             });
             $(".dyningimg").on("click", function (e) {
                 var src = $(this).parent().attr("class");
@@ -270,10 +150,20 @@
                 console.log(top, left);
             });
 
+            $(document).ready(function (e) {
+                let key = e.keyCode;
+
+                if (page == 1) {
+                    $("#hint").css("display", "block");
+                }
+            });
+                        
             (function () {
 
                 var listlocation = "/phoncnic/dyning/cafe/list?page=";
                 var totalpage = document.querySelector("#totalpage").value;
+                var screenWidth = window.screen.width;
+                var screenHeight = window.screen.availHeight;
 
                 document.addEventListener("keydown", function (e) {
                     let char = document.getElementById("char");
@@ -307,14 +197,21 @@
                     }
                     
 
+                    if ($("#hint").css("display") == "block") {
+                        if (key === 37 || key === 38 || key === 39 || key === 40) {
+                            $("#hint").css("display", "none");
+                        }
+                    }
+
                     // →방향키
                     if (key === 39) {
                         var imgLength = $(".dyningimg").length;
-                        var screenWidth = window.screen.width;
-                        var screenHeight = window.screen.availHeight;
                         var listpage = Number(document.querySelector("#listpage").value) + 1;
 
                         if (listpage - 1 == totalpage) {
+                            if (charleft >= screenWidth - 100) {
+                                $("#char").offset({ left: screenWidth - 100 });
+                            }
                             return;
                         }
                         if (charleft > screenWidth - 200) {
@@ -331,8 +228,6 @@
                     // ←방향키
                     if (key === 37) {
                         var imgLength = $(".dyningimg").length;
-                        var screenWidth = window.screen.width;
-                        var screenHeight = window.screen.availHeight;
                         var left = screenWidth - 100;
                         var listpage = Number(document.querySelector("#listpage").value) - 1;
 
@@ -348,6 +243,26 @@
                             } else {
                                 return;
                             }
+                        } else {
+                            if (charleft <= 20) {
+                                $("#char").offset({ left: 20 });
+                            }
+                        }
+                    }
+
+                    // ↑ 방향키
+                    if (key === 38) {
+                        if (chartop <= 70) {
+                            $("#char").offset({ top: 70 });
+                            return;
+                        }
+                    }
+
+                    // ↓ 방향키
+                    if (key === 40) {
+                        if (chartop >= screenHeight - 240) {
+                            $("#char").offset({ top: screenHeight - 240 });
+                            return;
                         }
                     }
                 });
@@ -390,6 +305,7 @@
             }, false);
         </script>
 
+        <!-- 모달 시작 -->
         <style>
             .user-info-char {
                 height: 4rem;
@@ -521,14 +437,12 @@
                     <div class="tab-content">
                         <div class="tab-setions" id="indexSection">
                             <div id="index" class="modal-body" sec:authorize="isAnonymous()">
-                                <a th:href="@{/member/login}">
-                                    <h3>GOGOOGLEGO</h3>
-                                </a>
-                                로그인 하면 오조오억배 !
                                 <a class="list-group-item list-group-item-action list-group-item-light p-3"
-                                    th:href="@{/help/list/}">고객센터</a>
+                                    th:href="@{/member/login}">로그인해서 더 재밌게 즐기기</a>
                                 <a class="list-group-item list-group-item-action list-group-item-light p-3"
-                                    th:href="@{/main/companyinfo}">회사소개</a>
+                                    th:href="@{/help/list}">이것저것 물어보기</a>
+                                <a class="list-group-item list-group-item-action list-group-item-light p-3"
+                                    th:href="@{/main/companyinfo}">궁금하다 폰크닉 제작자</a>
                             </div>
                             <div id="index" class="modal-body" sec:authorize="isAuthenticated()">
                                 <a class="list-group-item list-group-item-action list-group-item-light p-3"

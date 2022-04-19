@@ -489,9 +489,10 @@
                }
                getCuratorList(lefturl);
             });
-
+            
             $(".right").on("click", function () {
                var righturl = $(".right").attr('data-right-url');
+               alert(righturl);
                if (righturl == '') {
                   return;
                }
@@ -499,16 +500,14 @@
             });
 
             function getCuratorList(curatorUrl) {
-               $.get(curatorUrl, function (result) {
-
                   $.get(curatorUrl, function (result) {
                      var str = "";
                      $.each(result.dtoList, function (idx, dto) {
                         str += `<div class="search-result-Item item" data-search-file="${dto.imageURL}" data-search-gno="${dto.gno}">
-                        <img  class="md-container-img" src="${displayUrl}?fileName=${dto.imageURL}">                              
-                        <br/>
-                        <p>${dto.title}</p>
-                     </div>`;
+                           <img  class="md-container-img" src="${displayUrl}?fileName=${dto.imageURL}">                              
+                           <br/>
+                           <p>${dto.title}</p>
+                        </div>`;
                      });
                      searchResult.html(str);
 
@@ -529,7 +528,6 @@
                      console.log("get curator fial...");
                      console.log(response);
                   });
-               });
             }
 
             function getSearchList() {
@@ -588,8 +586,6 @@
                   }
                });
             }
-
-
 
             //이모지 등록/수정/삭제
             $(document).on("click", ".emoji", function () {

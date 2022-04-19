@@ -1,5 +1,6 @@
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
 <style>
+    
     .look {
         display: inline-block;
     }
@@ -234,6 +235,23 @@
         border: none;
         border-radius: 20px;
     }
+    .mp-top-link-con{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 1rem;
+    }
+    .mp-top-link {
+        font-size: large;
+        text-decoration: none;
+        color:unset;
+        margin: auto;
+    }
+    .mp-top-link:hover {
+        color : #DBE9B7;
+        font-weight: bold;
+        font-size: x-large;
+    }
 </style>
 <th:block th:replace="~{layout/basic :: setContent(~{::content})}">
     <th:block th:fragment="content">
@@ -241,6 +259,17 @@
             <h3 class="py-5" style="font-family: 'GmarketSansMedium';">
                 <img th:src="@{/icon/vertical-line.png}" style="width:30px;" alt="">마이페이지
             </h3>
+            <div class="mp-top-link-con">
+                <th:block th:if="${memberDTO?.roleSet.toString()}=='[ROLE_ADMIN]'">
+                    <a class="mp-top-link" th:href="@{/admin}">관리자페이지</a>
+                </th:block>
+                <th:block th:if="${memberDTO?.roleSet.toString()}=='[ROLE_CEO]' OR ${memberDTO?.roleSet.toString()}=='[ROLE_ADMIN]'">
+                    <a class="mp-top-link" th:href="@{/manage/dyning/list}">가게관리</a>
+                </th:block>
+                <th:block th:if="${memberDTO?.roleSet.toString()}=='[ROLE_ARTIST]' OR ${memberDTO?.roleSet.toString()}=='[ROLE_ADMIN]'">
+                    <a class="mp-top-link" th:href="@{/manage/gallery/manage}">작품관리</a>
+                </th:block>
+            </div>
             <!-- 개인정보 -->
             <p class="content-title">개인정보</p>
             <div class="personal-info-container">
@@ -269,12 +298,25 @@
                             <div class="personal-info">
                                 <span>닉네임</span>
                                 <input type="text" th:value=${dto.nickname} name=nickname class="form-control" maxlength="10">
+                                <input class="origin-nickname" type="hidden" th:value="${dto.nickname}">
                                 <button id="memberModifyBtn" type="button">수정</button>
                             </div>
                             <div class="personal-info">
                                 <span>가입일</span>
                                 <span><b>[[${#temporals.format(dto.regdate, 'yyyy-MM-dd HH:mm:ss')}]]</b></span>
                                 <input type="hidden" th:value=${dto.regdate}>
+                            </div>
+                            <div class="personal-info">
+                                <span>권한 신청 진행사항</span> 
+                                <span>
+                                    <b th:if="${applyDTO.getAfno}==null">신청 내역 없음</b>
+                                    <b  th:unless="${applyDTO.getAfno}==null" th:each="apply : ${applyDTO}">
+                                        <th:block th:if="${apply.dyningname}==null">작가님!</th:block>
+                                        <th:block th:unless="${apply.dyningname}==null">점주님!</th:block>
+                                        신청번호 <b style="color:tomato;">[[${apply.getAfno}]]</b> 번 접수진행중!
+                                        <b style="display:none" data-application-type="${apply.getApplicationtype}"></b>
+                                    </b>
+                                </span>
                             </div>
                         </th:block>
                     </div>
@@ -390,6 +432,16 @@
                 <button id="memberOutBtn" type="button">회원탈퇴</button>
             </div>
         </div>
+
+        <style>
+            .swal-btn-danger{
+                background-color: tomato;
+            }
+
+            .swal-button:not([disabled]):hover[class*='swal-btn-danger'] {
+                background-color: red;
+            }
+        </style>
         <script th:inline="javascript">
             var gnoemoji = document.getElementById("gno-emoji");
             var dnoemoji = document.getElementById("dno-emoji");
@@ -424,31 +476,71 @@
             /*[+var urldyningremove = [[@{/main/mypage/dyningremove}]];+]*/
             /*[+var urlemojiremove = [[@{/main/mypage/emojiremove}]];+]*/
             /*[+var urlmemberout = [[@{/main/mypage/memberremove}]];+]*/
+            /*[+var memberDTONick = [[${memberDTO.nickname}]];+]*/
 
             function memberModify() {
-                swal({
-                    title: "닉네임을 수정하시겠습니까?",
-                    text: "OK를 누르면 닉네임이 수정됩니다",
-                    icon: "warning",
-                    buttons: true,
-                    dangerMode: false,
-                })
+                if($(".origin-nickname").val()==$("input[name=nickname]").val()){
+                    swal({
+                        Title: "확인해주세요",
+                        text: "기존 닉네임과 동일합니다. 변경 후 다시 시도해주세요",
+                        icon: "warning",
+                        button: false,
+                        timer: 2000,
+                    });
+                    return;
+                } else if($("input[name=nickname]").val()=="") {
+                    swal("공백은 닉네임으로 설정할 수 없습니다", {button: false, timer: 2000});
+                    $("input[name=nickname]").val(memberDTONick);
+                    return;
+                } else {
+                    swal({
+                        title: "닉네임을 수정하시겠습니까?",
+                        text: "확인을 누르면 닉네임이 수정됩니다",
+                        icon: "warning",
+                        buttons: {
+                            button: {
+                                text: "확인",
+                            },
+                            cancel: "취소",
+                        },
+                        dangerMode: true,
+                    })
                     .then((willDelete) => {
                         if (willDelete) {
-                            swal("닉네임이 변경되었습니다", {
-                                icon: "success",
-                            }).then(()=>{
-                                memberform.setAttribute("action", urlmembermodify);
-                                memberform.setAttribute("method", "post");
-                                memberform.submit();
-                            });
+                            memberform.setAttribute("action", urlmembermodify);
+                            memberform.setAttribute("method", "post");
+                            memberform.submit();
                         } else {
-                            swal("닉네임 수정이 취소되었습니다.");
+                            swal("닉네임 수정이 취소되었습니다.",{button:false,timer:2000});
                         }
                     });
                     
-
+                }
             }
+
+             /*[+
+                    var nicknameMessage = [[ ${msg} ]]
+                +]*/
+
+                if(nicknameMessage=="false") {
+                    swal({
+                        Title: "중복",
+                        text: "이미 있는 닉네임 입니다. 다시 시도해주세요",
+                        icon: "warning",
+                        button: false,
+                        timer: 2000,
+                    }).then(()=>{
+                        nicknameMessage="";
+                    });
+                } else if (nicknameMessage=="true") {
+                    swal("닉네임이 변경되었습니다", {
+                        icon: "success",
+                        button: false,
+                        timer: 2000,
+                    }).then(()=>{
+                        nicknameMessage="";
+                    });
+                }
             
             $("#memberModifyBtn").on("click", memberModify);
             $("input[name=nickname]").on("keydown", function (e) {
@@ -462,46 +554,65 @@
             document.querySelector("#lookModifyBtn").onclick = function () {
                 swal({
                     title: "캐릭터 옷을 변경하시겠습니까?",
-                    text: "OK를 누르면 캐릭터 옷이 변경됩니다",
+                    text: "확인을 누르면 캐릭터 옷이 변경됩니다",
                     icon: "warning",
-                    buttons: true,
+                    buttons: {
+                        button: {
+                            text: "확인",
+                        },
+                        cancel: "취소",
+                    },
                     dangerMode: true,
                 })
-                    .then((willDelete) => {
-                        if (willDelete) {
-                            swal("캐릭터 옷이 변경되었습니다", {
-                                icon: "success",
-                            });
+                .then((willDelete) => {
+                    if (willDelete) {
+                        swal("캐릭터 옷이 변경되었습니다", {
+                            icon: "success",
+                            button: false,
+                            timer:2000,
+                        }).then(()=>{
                             lookform.setAttribute("action", urllookmodify);
                             lookform.setAttribute("method", "post");
                             lookform.submit();
-                        } else {
-                            swal("캐릭터 옷 변경이 취소되었습니다.");
-                        }
-                    });
-
+                        });
+                    } else {
+                        swal("캐릭터 옷 변경이 취소되었습니다.", {button: false, timer: 2000});
+                    }
+                });
             }
+               
+
             document.querySelector("#memberOutBtn").onclick = function () {
                 swal({
                     title: "폰크닉 회원을 탈퇴하시겠습니까?",
-                    text: "OK를 누르면 회원님의 모든 데이터가 삭제되며, 이 동작은 되돌릴 수 없습니다.",
+                    text: "탈퇴를 누르면 회원님의 모든 데이터가 삭제되며, 이 동작은 되돌릴 수 없습니다.",
                     icon: "warning",
-                    buttons: true,
+                    buttons: {
+                        button:{
+                            text: "탈퇴",
+                            className:"swal-btn-danger",
+                        },
+                        cancel:"취소",
+                    },
                     dangerMode: true,
                 })
-                    .then((willDelete) => {
-                        if (willDelete) {
-                            swal("다음에 또 만나요", {
-                                icon: "success",
-                            });
+                .then((willDelete) => {
+                    if (willDelete) {
+                        swal("안녕! 다음에 또 만나요!", {
+                            icon: "success",
+                            button: false,
+                            timer:2000,
+                        }).then(()=>{
                             memberform.setAttribute("action", urlmemberout);
                             memberform.setAttribute("method", "post");
                             memberform.submit();
-                        } else {
-                            swal("회원탈퇴가 취소되었습니다.");
-                        }
-                    });
-
+                        });
+                    } else if (!willDelete) {
+                        swal("회원탈퇴가 취소되었습니다.",{button:false, timer:2000});
+                    } else {
+                        retrun;
+                    }
+                });
             }
 
             $("#hairchoice").on("change", function () {

@@ -1,10 +1,10 @@
 package ds.com.phoncnic.repository.search;
 
 import java.util.List;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -18,6 +18,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
 import ds.com.phoncnic.entity.Member;
+import ds.com.phoncnic.entity.QApplicationForm;
 import ds.com.phoncnic.entity.QMember;
 import lombok.extern.log4j.Log4j2;
 
@@ -33,9 +34,12 @@ public class SearchMemberRepositoryImpl extends QuerydslRepositorySupport implem
     log.info("searchPage.....");
 
     QMember member = QMember.member;
+    QApplicationForm apply = QApplicationForm.applicationForm;
 
-    JPQLQuery<Member> obj = from(member).select(member);
+    JPQLQuery<Member> jpqlQuery = from(member);
+    jpqlQuery.leftJoin(apply).on(apply.member.eq(member));
 
+    JPQLQuery<Tuple> tuple = jpqlQuery.select(member, apply);
     BooleanBuilder builder = new BooleanBuilder();
     BooleanExpression expression = member.id.contains("@");
     builder.and(expression);
@@ -52,40 +56,25 @@ public class SearchMemberRepositoryImpl extends QuerydslRepositorySupport implem
       }
       builder.and(conditionBuilder);
     }
-    obj.where(builder);
+    tuple.where(builder);
 
     Sort sort = pageable.getSort();
+
     sort.stream().forEach(order-> {
-      OrderSpecifier orders = new OrderSpecifier(order.isAscending() ? Order.ASC : Order.DESC,
-          new PathBuilder(Member.class, order.getProperty())
-      );
-      obj.orderBy(orders);
+      OrderSpecifier<?> orders = new OrderSpecifier(order.isAscending() ? Order.ASC : Order.DESC, new PathBuilder(Member.class, order.getProperty()));
+      tuple.orderBy(orders);
     });
     
-    obj.offset(pageable.getOffset())
-    .limit(pageable.getPageSize());
+    // tuple.groupBy(member);
+    tuple.offset(pageable.getOffset());
+    tuple.limit(pageable.getPageSize());
 
-    List<Member> result = obj.fetch();
+    List<Tuple> result = tuple.fetch();
+    log.info("TUPLE: " + result);
+    long totalCount = tuple.fetchCount();
+    log.info("COUNT: " + totalCount);
 
-    long count = obj.fetchCount();
-
-    return new PageImpl<Object[]>(result.stream().map(new Function<Member, Object[]>() {
-      @Override
-      public Object[] apply(Member t) {
-        return new Object[] { t };
-      }
-    }).collect(Collectors.toList()), pageable, count);
+    return new PageImpl<Object[]>(result.stream().map(t -> t.toArray()).collect(Collectors.toList()), pageable, totalCount);
+  
   }
-
-  // private List<OrderSpecifier> getOrderSpecifier(Sort sort) {
-  //   List<OrderSpecifier> orders = new ArrayList<>();
-  //   // Sort
-  //   sort.stream().forEach(order -> {
-  //     Order direction = order.isAscending() ? Order.ASC : Order.DESC;
-  //     String prop = order.getProperty();
-  //     PathBuilder orderByExpression = new PathBuilder(Member.class, "member");
-  //     orders.add(new OrderSpecifier(direction, orderByExpression.get(prop)));
-  //   });
-  //   return orders;
-  // }
 }
