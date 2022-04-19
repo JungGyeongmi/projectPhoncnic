@@ -176,7 +176,8 @@
                 text-align: center;
                 font-weight: 600;
                 font-family: GmarketSansLight;
-                overflow: hidden;
+                overflow: hidden; 
+                padding:0 5px;
             }
 
             .dyningimg {
@@ -207,15 +208,14 @@
                         <div class="dyningname">
                             [[${dto.getDyningname}]]
                         </div>
-                        <div style="position: absolute; width: 70px; margin-top: ;"></div>
                     </li>
                 </th:block>
             </ul>
             <div id="testStreet">
             <div th:each="sdto : ${setDTO}" id="userchar" style="display: none; position:absolute;"><img id="userid" class="look setlook" th:src="${sdto.setpath}" th:alt="${id}"></div>
             <div th:each="sdto : ${setDTO}" id="char">
-                <img type="hidden" id="charimg" class="look setlook" th:src="${sdto.setpath}" alt="">
-                <div th:value="${nickname}" class="nickname" th:if="${nickname}!=''">[[${nickname}]]</div>
+                <img type="hidden" id="charimg" class="look setlook" th:src="${sdto.setpath}"  alt="">
+                <div th:text="${nickname}" class="nickname"id="nickname" th:if="${nickname}!=''">[[${nickname}]]</div>
                 <input type="text" name="chartop" th:value="${chartop}" style="opacity: 0;">
                 <input type="text" name="charleft" th:value="${charleft}" style="opacity: 0;">
             </div>
@@ -291,16 +291,21 @@
                     let x = parseInt(char.style.left || 0, 10);
                     if (key === 37 /* LEFT */) {
                         char.style.left = x - 20 + "px";
+                        send();
                     }
                     if (key === 38 /* TOP */) {
                         char.style.top = y - 20 + "px";
+                        send();
                     }
                     if (key === 39 /* RIGHT */) {
                         char.style.left = x + 20 + "px";
+                        send();
                     }
                     if (key === 40 /* BOTTOM */) {
                         char.style.top = y + 20 + "px";
+                        send();
                     }
+                    
 
                     // →방향키
                     if (key === 39) {
@@ -363,7 +368,7 @@
                             var targetLeft = document.getElementById(i).offsetLeft;
                             var targetHref = $("#" + i).parent().attr('class');
                             console.log("타겟좌표: " + targetTop, targetLeft, targetHref);
-
+                            
                             if (targetTop - 40 < chartop && chartop < targetTop + 160 && targetLeft - 30 < charleft && charleft < targetLeft + 160) {
                                 location.href = targetHref + "&chartop=" + chartop + "&charleft=" + charleft;
                             };
@@ -699,6 +704,7 @@
         </script>
        <script>
         var webSocket;
+        var nickname = document.getElementById("nickname").innerText;
         var testStreet = document.getElementById("testStreet");
         var userchar = document.getElementById("userchar");
         var testId = document.getElementById("userid").getAttribute('alt')
@@ -717,25 +723,28 @@
        
 
         function send(){
-            str =userid + "," + document.getElementById("char").offsetTop + "," + document.getElementById("char").offsetLeft + "," + userimg;
+            str =userid + "," +nickname+","+ document.getElementById("char").offsetTop + "," + document.getElementById("char").offsetLeft + "," + userimg;
             webSocket.send(str);
         }
         function onOpen(){
-            str =userid + "," + document.getElementById("char").offsetTop + "," + document.getElementById("char").offsetLeft + "," + userimg;
+            str =userid + "," + nickname + "," + document.getElementById("char").offsetTop + "," + document.getElementById("char").offsetLeft + "," + userimg;
             webSocket.send(str);
         }
         function onMessage(e){
             var data = e.data;
             var dataSplit = data.split(",");
+            if (dataSplit[0]==userid) {
+                return;
+            }
             console.log(data);
             if (document.querySelector("#"+dataSplit[0])==null) {
                 console.log("접속 유저가 없습니다");
-                testStreet.innerHTML = testStreet.innerHTML+' </br> <img class="users" src = "'+ dataSplit[3]+' " id="'+dataSplit[0] +'" style="position: absolute; width: 70px; top : '+dataSplit[1]+'px; left:'+ dataSplit[2]+'px;">';
+                testStreet.innerHTML = testStreet.innerHTML+' </br> <div id="' + dataSplit[0]+ '"style="position: absolute; top : '+dataSplit[2]+'px; left:'+ dataSplit[3]+'px;"><div><img class="users" src = "'+ dataSplit[4]+'" style="width: 70px;ft:'+ dataSplit[3]+'px;"></div><span class="nickname">'+dataSplit[1]+'</span></div>';
                 return;
             }else {
                 console.log("else 탔다!!!!ㅣ");
-                $("#"+dataSplit[0]).offset({top:dataSplit[1]});
-                $("#"+dataSplit[0]).offset({left:dataSplit[2]});
+                $("#"+dataSplit[0]).offset({top:dataSplit[2]});
+                $("#"+dataSplit[0]).offset({left:dataSplit[3]});
             }
             
             
