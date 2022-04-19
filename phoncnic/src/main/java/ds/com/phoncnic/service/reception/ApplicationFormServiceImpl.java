@@ -49,4 +49,29 @@ public class ApplicationFormServiceImpl implements ApplicationFormService {
 
     return apply.getAfno();
   }
+
+  @Override
+  public ApplicationFormDTO applicationExistsCheckerByUserId(String id) {
+
+    List<ApplicationForm> checker = formRepository.findByMemberId(id);
+
+    if(checker.size()==0) {
+      return ApplicationFormDTO.builder().build();
+    }
+    return  entityToDTO(checker.get(0));
+  }
+
+  @Override
+  public Long isItMaxReception(String id) {
+   
+    Long afno = 0L;
+    Boolean checker = formRepository.existCheckerByMemberId(id);
+    
+    if(checker) {
+      List<ApplicationForm> applyList = formRepository.findByMemberId(id);
+      afno = applyList.get(0).getAfno();
+    }
+
+    return afno;
+  }
 }

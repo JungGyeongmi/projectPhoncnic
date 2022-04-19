@@ -2,168 +2,392 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <th:block th:replace="~{layout/basic :: setContent(~{::content})}">
     <th:block th:fragment="content">
-        <h1>관리자 페이지</h1>
+        <style>
+            label:hover {
+                cursor: pointer;
+            }
+            .btn-danger {
+                background-color: tomato;
+            }
+            .btn-danger:not([disabled]):hover[class*='btn-danger'] {
+                background-color: tomato;
+            }
+            .page-list button,
+            .page-item button {
+                color: black;
+            }
+            .page-list button:hover {
+                background-color: lightgray;
+                font-weight: bold;
+            }
+            .page-list-active {
+                background-color: lightblue;
+                font-weight: bold;
+                font-size:large;
+            }
+            .memberRemoveBtn,
+            .memberModifyBtn,
+            #searchAllBtn,
+            #searchBtn {
+                box-shadow: lightblue 4px 5px;
+                border: unset;
+                font-weight: bold;
+                background: gold;
+                border-radius: 30px;
+                color: white;
+                padding: 0.5rem;
+            }
+            #searchAllBtn,
+            .memberRemoveBtn,
+            .memberModifyBtn {
+                background: #c9c9c9;
+            }
+            #searchAllBtn:active,
+            #searchBtn:active,
+            button:active {
+                outline: unset;
+                box-shadow: inset 10px 9px 0px 3px lightblue;
+            }
+            input[type="text"] {
+                background-color: transparent;
+                border: none;
+                outline: none;
+            }
+            input[type="text"]:focus{
+                border-bottom: 2px solid grey;
+            }
+            input[name="keyword"]:focus,
+            input[name="keyword"] {
+                border-bottom: 2px solid gold;
+            }
+            input[name="nickname"]:hover{
+                cursor: pointer;
+            }
+            .info-text{
+                text-align: center; 
+                font-weight: bold;
+                color: gold;
+                font-size: 20px; 
+            }
+        </style>
+        <div class="title">
+            <h2 style="font-family: 'GmarketSansmedium';"><img th:src="@{/icon/vertical-line.png}" style="width:30px;"
+                    alt="">관리자 페이지</h2>
+        </div>
+        <br>
         <table class="table">
             <tr>
                 <th>관리자명</th>
                 <th>유저검색</th>
+                <th>검색기준</th>
+                <th>정렬기준</th>
             </tr>
             <tr>
-                <td> [[${userId}]] </td>
-                <td>
-                    <form id="userSearchFrm" action="" method="">
-                        <input type="text" value="" name="id" placeholder="냐냐냐@gmail.com">
-                        <input type="button" value="겟-챠" id="searchBtn">
-                    </form>
-                </td>
+                <td> <b style="color:goldenrod;font-size: x-large;">[[${userId}]]</b> </td>
+                <form id="userSearchFrm" action="" method="">
+                    <td>
+                        <input type="text" value="" name="keyword" placeholder="nugu@gmail.com">
+                        <input type="button" value="검색" id="searchBtn">
+                        <input type="button" value="모두" id="searchAllBtn">
+                    </td>
+                    <td>
+                        <select class="form-select" name="type">
+                            <option value="i">아이디</option>
+                            <option value="n">닉네임</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select class="form-select" name="sort">
+                            <option value="">아이디</option>
+                            <option value="a">닉네임</option>
+                            <option value="b">등록일</option>
+                            <option value="c">수정일</option>
+                        </select>
+                    </td>
+                </form>
             </tr>
         </table>
         <div id="searchResult">
         </div>
-        <div id="raidoContainer" style="display:none">
-            <input id="ROLE_ADMIN" type="radio" name="roleSet" value="[ROLE_ADMIN]">
-            <input id="ROLE_USER" type="radio" name="roleSet" value="[ROLE_USER]">
-            <input id="ROLE_CEO" type="radio" name="roleSet" value="[ROLE_CEO]">
-            <input id="ROLE_ARTIST" type="radio" name="roleSet" value="[ROLE_ARTIST]">
+        <div id="searchResultNav">
         </div>
 
         <script th:inline="javascript">
             $(function () {
 
                 /*[+
-                    var searchUrl = [[ @{/admin/search} ]]
-                    var modifyUrl = [[ @{/admin/modify} ]]
+                    var searchUrl = [[ @{/admin/search} ]];
+                    var modifyUrl = [[ @{/admin/modify} ]];
+                    var removeUrl = [[ @{/admin/remove} ]];
                 +]*/
 
                 var userSearchFrm = $("#userSearchFrm");
                 var searchResult = $("#searchResult");
+                var searchResultNav = $("#searchResultNav");
+                var frm = $("#userSearchFrm");
 
-                var searchFunction = function () {
+                var recentPage = 1;
+                var searchAll = true;
+                // 검색functtion
+                var searchFunction = function (searchurlParam) {
 
-                    var id = $("input[name=id]").val();
-                    if(id==""|| id==null){
-                        searchResult.text("검색어 입력하슈");
-                        return true;
-                    }
-                    if(id=="777") {
-                        searchResult.text("🎉이것이 권력의 맛이다🎉");
-                        return true;
+                    var keyword = $("input[name=keyword]").val();
+                    var type = $("select[name=type] option:selected ").val();
+                    var sort = $("select[name=sort] option:selected ").val();
+                    var data = { "keyword": keyword, "type": type, "sort": sort };
+                    if (keyword == "777") {
+                        searchResult.text("🎉이것이 권력의 맛이다🎉").addClass("info-text");
+                        return;
+                    } 
+                    
+                    if (keyword == "") {
+                        if(searchAll){
+                            searchResult.html("검색어 입력하슈, 전체 검색은 상위 버튼").addClass("info-text");
+                            swal({ title: "검색어", text: "구글 아이디 또는 닉네임", icon: "info", button: false, timer: 2000 });
+                            searchResultNav.html("");
+                            return;
+                        }
                     }
 
                     $.ajax({
-                        type: "POST",
-                        url: searchUrl + "/" + id,
+                        type: "GET",
+                        url: searchurlParam,
+                        data: frm.serialize(),
                         contentType: "application/json",
                         success: function (response) {
-                            var str = ""
-                            if(response.id==null) {
+                            var str = "";
+                            var str2 = "";
+
+                            searchResult.html("").removeClass("info-text");
+                            searchResultNav.html("");
+
+                            if (response.dtoList.length == 0) {
                                 str = `<div>검색결과를 찾을 수 없습니다.</div>`;
-                                searchResult.html(str);
-                                return true;
-                            } 
-                            str = `<form id="memberfrm" action="">
-                                            <table class="table" border="1">
-                                                <tr>
-                                                    <th scope="col">아이디</th>
-                                                    <th scope="col">닉네임</th>
-                                                    <th scope="col">권한</th>
-                                                    <th scope="col">가입일</th>
-                                                    <th scope="col">수정</th>
-                                                </tr>
-                                                <tr>
-                                                    <input type="hidden" value="${response.id}" name="id" readonly/>
-                                                    <td> <span >${response.id}</sapn></td>
-                                                    <td><input type="text" value="${response.nickname}" name="nickname"></td>
-                                                    <td id="roleSetInfo" data-role-set="${response.roleSet}">
-                                                        <label for="ROLE_ADMIN">ROLE_ADMIN</label>&nbsp;
-                                                        <label for="ROLE_USER">ROLE_USER</label>&nbsp;
-                                                        <label for="ROLE_CEO">ROLE_CEO</label>&nbsp;
-                                                        <label for="ROLE_ARTIST">ROLE_ARTIST</label>
-                                                    </td>
-                                                    <td>${response.regdate}</td>
-                                                    <td><button id="memberModifyBtn" type="button">수정</button></td>
-                                                </tr>
-                                            </table>
-                                            <input type="hidden" id="modirole" name="roleSet" vlaue="${response.roleSet}" />
-                                        </form>`
+                                searchResult.html(str).addClass("info-text");
+                                searchResultNav.html("");
+                                return;
+                            }
 
-                            searchResult.html(str);
+                            $.each(response.dtoList, function (index, item) {
+                                str = `<form action="" id="memberfrm${index}">
+                                    <table class="table">
+                                        <tr class="table-title">
+                                            <th scope="col">아이디</th>
+                                            <th scope="col">닉네임</th>
+                                            <th scope="col">신청</th>
+                                            <th scope="col">권한</th>
+                                            <th scope="col">가입일</th>
+                                            <th scope="col">수정일</th>
+                                            <th scope="col">수정</th>
+                                            <th scope="col">출구</th>
+                                        </tr>
+                                        <tr>
+                                            <input type="hidden" value="${item.id}" name="id" readonly/>
+                                            <td class="search-result-td" > <span >${item.id}</sapn></td>
+                                            <td class="search-result-td" ><input type="text" value="${item.nickname}" name="nickname" data-ori-nick="${item.nickname}"></td>
+                                            <td class="search-result-td apply" data-apply-boolean="${item.afno}">${item.applicationtype}</td>
+                                            <td class="search-result-td roleSetInfo" data-role-set="${item.roleSet[0]}">
+                                                <label for="ADMIN${index}">ADMIN</label>&nbsp;
+                                                <label for="USER${index}">USER</label>&nbsp;
+                                                <label for="CEO${index}">CEO</label>&nbsp;
+                                                <label for="ARTIST${index}">ARTIST</label>
+                                            </td>
+                                            <td class="search-result-td">${item.regdate}</td>
+                                            <td class="search-result-td mod-date">${item.moddate}</td>
+                                            <td><button class="memberModifyBtn" type="button">수정</button></td>
+                                            <td><button class="memberRemoveBtn" type="button">👻</button></td>
+                                        </tr>
+                                    </table>
+                                    <input type="hidden" class="modirole" name="roleSet" value="${item.roleSet[0]}" />
+                                    <div class="raidoContainer" data-index="${index}" style="display:none">
+                                        <input id="ADMIN${index}" type="radio" name="roleSet" value="ROLE_ADMIN">
+                                        <input id="USER${index}" type="radio" name="roleSet" value="ROLE_USER">
+                                        <input id="CEO${index}" type="radio" name="roleSet" value="ROLE_CEO">
+                                        <input id="ARTIST${index}" type="radio" name="roleSet" value="ROLE_ARTIST">
+                                    </div>
+                                </form>`
+                                searchResult.append(str);
+                                if ($(".apply").eq(index).html() == "true") { $(".apply").eq(index).html("CEO") }
+                                else if ($(".apply").eq(index).html() == "false") { $(".apply").eq(index).html("ARTIST") }
+                                if ($(".apply").eq(index).data("applyBoolean") == 0) { $(".apply").eq(index).html("신청내역없음") }
 
-                            var roleSetData = response.roleSet;
+                            var roleId = item.roleSet[0].toString().slice(5) + index;
+                                $(`label[for=${roleId}]`).css({"color": "tomato","font-weight":"bold"});
+                                $(`#${roleId}`).attr("checked", true);
+                            });
+                            $(".table-title :gt(7)").css("display", "none");
 
-                            roleSetSelector();
+                            str2 += `<ul class="pagination justify-content-center my">
+                                <li class="page-item" data-is-prev="${response.prev}">
+                                    <button data-page-href="${searchUrl}?page=${response.start - 1}" data-page-index="${response.end - 2}" class="page-link">◀</button>
+                                </li>`;
+
+                            $.each(response.pageList, function (index, page) {
+                                str2 += `
+                                    <li class="page-list">
+                                        <button data-page-href="${searchUrl}?page=${page}" data-page-index="${index}" class="page-link" >${page}</button>
+                                    </li>`;
+                            });
+
+                            str2 += `<li class="page-item" data-is-next="${response.next}">
+                                    <button data-page-href="${searchUrl}?page=${response.end + 1}"  data-page-index="0" class="page-link" >▶</button>
+                                </li></ul>`;
+                            
+                            searchResultNav.html(str2);
+
+                            if (!$(".page-item").eq(0).data("isPrev")) {
+                                $(".page-item").eq(0).css("display", "none");
+                            }
+
+                            if (!$(".page-item").eq(1).data("isNext")) {
+                                $(".page-item").eq(1).css("display", "none");
+                            }
+
+                            $(".page-link").eq(recentPage).addClass("page-list-active");
 
                             console.log("get user info success");
                         },
-                        fail: function (response) {
-                            console.log(response);
-
-                        }, error: function (request, status, error) {
+                        fail(err) {
+                            console.log(err);
+                        }, error(request, status, error) {
                             console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
-
                         }
                     });
-                }
-            
-                var roleSetSelector = function () {
-                    $("input[name=roleSet]").each(function (index, item) {
-                        var role = $(item).attr("id");
-                        var roleSetData = $("#roleSetInfo").data("roleSet");
-                        
-                        if (role == roleSetData) {
-                            $(item).prop("checked", true);
-                                $(`#roleSetInfo :nth-child(${index})`).css("color", "red");
-                                $("#modirole").val(roleSetData);
-                                return true;
-                        }
-                    });
-                }
-                
-                $("#searchBtn").on("click", searchFunction);
-                
-                $("#raidoContainer input").on("change", function () {
-                    console.log($(this).attr("id"));
-                    var id = $(this).attr("id");
-                    $("#roleSetInfo").children().each(function (idx) {
-                        $(`#roleSetInfo :nth-child(${idx + 1})`).css("color", "black");
-                    });
-                    selectedRole = $(`label[for=${id}]`).css("color", "red");
-                    $("#modirole").val(id);
-                })
 
-                $("input[name=id]").on("keydown", function (e) {
+                }
+
+                // 검색 페이징
+                $(document).on("click", ".page-link", function () {
+                    recentPage = $(this).data("pageIndex") + 1;
+                    searchFunction($(this).data("pageHref"));
+                });
+
+                // ROLE 선택시 색, 값 변경
+                $(document).on("change", ".raidoContainer input", function () {
+                    $(".roleSetInfo").eq($(this).parent().data("index")).children().css({"color": "black","font-weight":"unset"});
+                    $(`label[for=${$(this).attr("id")}]`).css({"color": "tomato","font-weight":"bold"});
+                    $(this).parent().siblings().eq(1).val($(this).val());
+                });
+
+                // 검색
+                $("#searchBtn").on("click", function () {
+                    recentPage = 1;
+                    searchAll = true;
+                    searchFunction(searchUrl);
+                });
+                $("input[name=keyword]").on("keydown", function (e) {
                     var keycode = e.keyCode;
                     if (keycode == "13") {
                         e.preventDefault();
-                        searchFunction();
+                        recentPage = 1;
+                        searchAll = true;
+                        searchFunction(searchUrl);
                     }
+                });
+                $("#searchAllBtn").on("click", function () {
+                    $("input[name=keyword]").val("");
+                    recentPage = 1;
+                    searchAll = false;
+                    swal({ title: "전체검색", text: "검색중...", icon: "info", button: false, timer: 1000 });
+                    searchFunction(searchUrl);
                 });
 
-                $(document).on("click", "#memberModifyBtn", function () {
-                // var frm = $("#memberfrm").serialize();
-                var id = $("input[name=id]").val();
-                var nickname = $("input[name=nickname]").val();
-                var roleSet = $("#modirole").val();
-                var data = { id: id, nickname: nickname };
-                // console.log(frm);
-                roleSet = roleSet != null ? roleSet : "0";
-                $.ajax({
-                    type: "POST",
-                    data: JSON.stringify(data),
-                    url: modifyUrl + "/" + roleSet,
-                    contentType: "application/json",
-                    success: function (response) {
-                        swal("수정완");
-                        console.log("get modi post success....");
-                    },
-                    fail: function (response) {
-                        console.log(response);
-                    }, error: function (reponse, error) {
-                        // console.log("code:" + reponse.status + "\n" + "message:" + reponse.responseText + "\n" + "error:" + error);
-                        console.log(response.responseText.trace);
+                // 수정 function
+                var modiAjax = function (data, userRole, index) {
+                    $.ajax({
+                        type: "POST",
+                        data: JSON.stringify(data),
+                        url: modifyUrl + "/" + userRole,
+                        contentType: "application/json",
+                        success: function (message) {
+                            if (message=="change") {
+                                $(".mod-date").eq(index).css({"color": "tomato","font-weight":"bold"});
+                                swal("수정완", { button: false, timer: 1000 });
+                                console.log("get modi post success....");
+                                
+                            } else if ( $(".roleSetInfo").eq(index).data("roleSet")!=$(".modirole").eq(index).val()) {
+                                $("input[name=nickname]").eq(index).val(data["originNick"]);
+                                $(".mod-date").eq(index).css({"color": "tomato","font-weight":"bold"});
+                                swal("롤 수정완",{button: false, timer: 1000 });
+
+                                $(".roleSetInfo").eq(index).data("roleSet", $(".modirole").eq(index).val());
+
+                            } else {
+                                swal("닉네임 중복",{button: false, timer: 1000 });
+                                $("input[name=nickname]").eq(index).val(data["originNick"]);
+                                $(".mod-date").eq(index).css({"color": "black","font-weight":"unset"});
+                            }
+                            
+                        },
+                        error(error) {
+                            console.log(error.responseJSON);
+                            console.log(error.responseMessage);
+                        }
+                    });
+                }
+
+                // 수정
+                $(document).on("keydown", "input[name=nickname]", function (e) {
+                    if (e.keyCode != "13") {
+                        return;
                     }
+                    e.preventDefault();
+
+                    var originRole = $(this).parent().siblings().eq(3).data("roleSet");
+                    var originNick =  $(this).data("oriNick");
+                    var index = $(this).parents("form").index();
+                    var id = $(this).parent().siblings("input[name=id]").val();
+                    var nickname = $(this).val();
+                    var userRole = [$(".modirole").eq(index).val()];
+                    var data = { "id": id, "nickname": nickname, "originRole": originRole , "originNick": originNick };
+                    
+                    console.log(data);
+                   
+                    swal({ text: "수정하시겠습니까?", buttons: { button: { text: "네", value: true }, cancel: "아니오" }, dangerMode: true }).then((check) => {
+                        if (check) {
+                            modiAjax(data, userRole, index);
+                        } else {
+                            return;
+                        }
+                    });
                 });
-            });
+                $(document).on("click", ".memberModifyBtn", function (e) {
+                    var originRole = $(this).parent().siblings().eq(4).data("roleSet");
+                    var originNick =  $(this).parent().siblings().eq(2).children("input").data("oriNick");
+                    var index = $(this).parents("form").index();
+                    var id = $(this).parent().siblings("input[name=id]").val();
+                    var nickname = $(this).parent().siblings().eq(2).children("input").val();
+                    var userRole = [$(".modirole").eq(index).val()];
+                    var data = { "id": id, "nickname": nickname, "originRole": originRole , "originNick": originNick };
+                    modiAjax(data, userRole, index);
+                });
+
+                // 삭제 function
+                var removeAjax = function (removeId) {
+                    $.ajax({
+                        type: "POST",
+                        url: removeUrl + "/" + removeId,
+                        contentType: "application/json",
+                        success: function () {
+                            swal("삭제완", { button: false, timer: 1000 });
+                            console.log("get remove post success....");
+                        }, error: function (reponse, error) {
+                            console.log(response.responseText.trace);
+                        }
+                    });
+                }
+
+                // 퇴출
+                $(document).on("click", ".memberRemoveBtn", function (e) {
+                    var index = $(this).parents("form").index();
+                    var removeId = $(this).parent().siblings("input[name=id]").val();
+                    swal({ text: removeId + "님을 삭제하시겠습니까?", icon: "warning", buttons: { button: { text: "네", className: "btn-danger", value: "true" }, cancel: "아니오" }, dangerMode: true }).then((check) => {
+                        if (check) {
+                            removeAjax(removeId);
+                            $(this).parents("form").css("display", "none");
+                        } else { return; }
+                    });
+                });
 
             });
 

@@ -231,10 +231,10 @@
                     console.log($(".box").children());
 
                     if(dyningnameInput == "") {
-                      swal("상호명을 입력해주세요")
+                      swal("상호명을 입력해주세요",{button:false, timer:1000});
                       return;
                     } else if (uploadimageFile == 0) {
-                      swal("사업자 등록 증명서를 첨부해주세요")
+                      swal("사업자 등록 증명서를 첨부해주세요",{button:false, timer:1000});
                       return;
                     }
                     $("form").submit();

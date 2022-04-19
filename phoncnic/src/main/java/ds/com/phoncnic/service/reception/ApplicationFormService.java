@@ -15,6 +15,10 @@ public interface ApplicationFormService {
 
   Long register(ApplicationFormDTO dto);
 
+  Long isItMaxReception(String id);
+
+  ApplicationFormDTO applicationExistsCheckerByUserId(String id);
+
   default Map<String, Object> dtoToEntity(ApplicationFormDTO dto) {
     Map<String, Object> entityMap = new HashMap<>();
 
@@ -56,18 +60,31 @@ public interface ApplicationFormService {
 
     List<ApplicationImageDTO> applicationImageDTOList = dto.getApplicationImageDTOList();
 
-   List<ApplicationImage> appliImagelist = applicationImageDTOList.stream().map(ApplicationImageDTO -> {
-        ApplicationImage image = ApplicationImage.builder()
-            .imagename(ApplicationImageDTO.getImagename())
-            .imagepath(ApplicationImageDTO.getImagepath())
-            .uuid(ApplicationImageDTO.getUuid())
-            .applicationform(ApplicationForm.builder().afno(dto.getAfno()).build())
-            .build();
+    List<ApplicationImage> appliImagelist = applicationImageDTOList.stream().map(ApplicationImageDTO -> {
+      ApplicationImage image = ApplicationImage.builder()
+          .imagename(ApplicationImageDTO.getImagename())
+          .imagepath(ApplicationImageDTO.getImagepath())
+          .uuid(ApplicationImageDTO.getUuid())
+          .applicationform(ApplicationForm.builder().afno(dto.getAfno()).build())
+          .build();
 
-        return image;
+      return image;
 
-      }).collect(Collectors.toList());
+    }).collect(Collectors.toList());
 
     return appliImagelist;
+  }
+
+  default ApplicationFormDTO entityToDTO(ApplicationForm applicationForm) {
+
+    ApplicationFormDTO applyDTO = ApplicationFormDTO.builder()
+      .afno(applicationForm.getAfno())
+      .applicant(applicationForm.getMember().getId())
+      .applicationtype(applicationForm.getApplicationtype())
+      .regdate(applicationForm.getRegDate())
+      .moddate(applicationForm.getModDate())
+    .build();
+
+    return applyDTO;
   }
 }

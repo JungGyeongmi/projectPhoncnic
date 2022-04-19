@@ -17,7 +17,9 @@ import ds.com.phoncnic.entity.Member;
 
 public interface GalleryService {
 
-  void register(GalleryDTO galleryDTO);
+  Long register(GalleryDTO galleryDTO);
+
+  Boolean isItmaxLength(String id);
 
   void removeWithEmojis(long gno);
 

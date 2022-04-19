@@ -58,6 +58,74 @@ input[type=radio]:checked + label {
   border-radius: 5px;
 }
 
+.roofmodal{
+  max-width: 757px !important;
+}
+
+.modal-body{
+  text-align: center !important;
+}
+
+.menuuploadResult {
+    width: 100%;
+    background: #e9ecef;
+    margin-top: 10px 0;
+    border-radius: 5px;
+}
+
+.menuuploadResult ul {
+    display: flex;
+    flex-flow: row;
+    justify-content: center;
+    align-items: center;
+    overflow: auto;
+}
+
+.menuuploadResult ul li {
+    list-style: none;
+    padding: 10px;
+}
+
+.menuuploadResult ul li img {
+    width: 100px;
+}
+.menuuploadResult button{
+    border: none;
+    background: none;
+}
+
+.backgroundshowResult {
+    width: 100%;
+    background: #e9ecef;
+    margin-top: 10px 0;
+    border-radius: 5px;
+}
+
+.backgroundshowResult ul {
+    display: flex;
+    flex-flow: row;
+    justify-content: center;
+    align-items: center;
+    overflow: auto;
+}
+
+.backgroundshowResult ul li {
+    list-style: none;
+    padding: 10px;
+}
+
+.backgroundshowResult ul li img {
+    width: 100px;
+}
+.backgroundshowResult button{
+    border: none;
+    background: none;
+}
+
+#labelLocation{
+  background-color: white;
+}
+
 </style>
 <th:block th:replace="~{layout/basic :: setContent(~{::content})}">
   <th:block th:fragment="content">
@@ -86,7 +154,7 @@ input[type=radio]:checked + label {
             <label for="labelLocation" class="form-label">가게 위치</label>
             <div class="input-group mb-3">
               <input type="text" name="location" th:value="${result.location}" class="form-control"
-                id="labelLocation"><br>
+                id="labelLocation" readonly><br>
               <input type="button" value="우편찾기" id="address" class="btn btn-outline-secondary"> <br>
             </div>
             <input type="text" name="locationdetails" th:value="${result.locationdetails}"
@@ -136,8 +204,7 @@ input[type=radio]:checked + label {
                   th:data-path="${idto.menuimagepath}">
                   <div>
                     <button th:if="${idto.menuimagename}" type='button'
-                      th:data-file="|@{'/display'}?fileName=${idto.getMenuImageURL()}|"
-                      class='btn-warning btn-sm'>X</button><br>
+                      th:data-file="|@{'/display'}?fileName=${idto.getMenuImageURL()}|"> <i class="fa-solid fa-x"></i></button><br>
                     <img th:src="|@{'/display'}?fileName=${idto.getMenuThumbnailImageURL()}|" alt="">
                   </div>
                 </li>
@@ -162,8 +229,7 @@ input[type=radio]:checked + label {
                   th:data-name="${idto.backgroundname}" th:data-uuid="${idto.backgrounduuid}"
                   th:data-path="${idto.backgroundpath}">
                   <div>
-                    <button type='button' th:data-file="|@{'/display'}?fileName=${idto.getBackgoundImageURL()}|"
-                      class='btn-warning btn-sm'>X</button><br>
+                    <button type='button' th:data-file="|@{'/display'}?fileName=${idto.getBackgoundImageURL()}|" > <i class="fa-solid fa-x"></i></button><br>
                     <img th:src="|@{'/display'}?fileName=${idto.getBackgoundThumbnailImageURL()}|" alt="">
                   </div>
                 </li>
@@ -371,9 +437,9 @@ input[type=radio]:checked + label {
             // test출력
             // console.log("uploadResultArr obj >> ");
             // console.log(obj);
-            str += `<li data-name='${obj.fileName}' data-path='${obj.folderPath}' data-uuid='${obj.uuid}'><div>`;
-            str += `<button type='button' data-file='${obj.imageURL}\' class='btn-warning btn-sm'>X</button><br>`;
-            str += `<img src='${urlDisplay}?fileName=${obj.thumbnailURL}'></div></li>`;
+            str += `<li data-name='${obj.fileName}' data-path='${obj.folderPath}' data-uuid='${obj.uuid}'><div>
+             <button type='button' data-file='${obj.imageURL}'> <i class="fa-solid fa-x"></i></button><br>
+             <img src='${urlDisplay}?fileName=${obj.thumbnailURL}'></div></li>`;
           });
           uploadUL.append(str); // ul에 전달쓰
         }
@@ -392,9 +458,9 @@ input[type=radio]:checked + label {
             // test출력
             // console.log("uploadResultArr obj >> ");
             // console.log(obj);
-            str += `<li data-name='${obj.fileName}' data-path='${obj.folderPath}' data-uuid='${obj.uuid}'><div>`;
-            str += `<button type='button' data-file='${obj.imageURL}\' class='btn-warning btn-sm'>X</button><br>`;
-            str += `<img src='${urlDisplay}?fileName=${obj.thumbnailURL}'></div></li>`;
+            str +=  `<li data-name='${obj.fileName}' data-path='${obj.folderPath}' data-uuid='${obj.uuid}'><div>
+            <button type='button' data-file='${obj.imageURL}'><i class="fa-solid fa-x"></i></button><br>
+            <img src='${urlDisplay}?fileName=${obj.thumbnailURL}'></div></li>`;
           });
           uploadUL.append(str); // ul에 전달쓰
         }
@@ -538,7 +604,7 @@ input[type=radio]:checked + label {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <div id="roofModal" class="modal roofModal" tabindex="-2">
-      <div class="modal-dialog modal-lg">
+      <div class="modal-dialog modal-lg roofmodal">
         <div class="modal-content modal-lg">
           <div class="modal-header modal-lg">
             <h5 class="modal-title">지붕 디자인 선택</h5>
@@ -555,9 +621,9 @@ input[type=radio]:checked + label {
           </div>
 
           <div class="modal-footer modal-lg">
-            <button type="button" class="btn btn-info okBtn" data-bs-dismiss="modal">Ok</button>
+            <button type="button" class="basic-button" data-bs-dismiss="modal">Ok</button>
             <button type="button" class="btn btn-secondary pictureClose close" name='btn-close'
-              data-bs-dismiss="modal">Close</button>
+              data-bs-dismiss="modal">닫기</button>
           </div>
         </div>
       </div>

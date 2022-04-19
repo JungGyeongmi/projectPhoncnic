@@ -18,7 +18,7 @@
 
     .btn-items {
         text-align: center;
-        margin: 50px auto;
+        padding: 37px 0 65px 0;
     }
 
     .my.btn {
@@ -72,7 +72,7 @@
                 </div>
                 <div class="py-3">
                     <label for="" class="form-label">작품 설명</label>
-                    <input class="form-control" name="content" type="text" th:value="${galleryDTO.content}">
+                    <textarea class="form-control" name="content" rows="4">[[${galleryDTO.content}]]</textarea>
                 </div>
                 <div class="py-3">
                     <label for="" class="form-label">등록일</label>
@@ -102,14 +102,39 @@
             +]*/
 
             removeBtn.onclick = function () {
-                actionForm.setAttribute("action", urlremove);
-                actionForm.setAttribute("method", "post");
-                swal("삭제되었습니다").then((confirm)=>{
-                    if(confirm) {
-                        actionForm.submit();
+                swal({
+                    title: "해당 게시물을 삭제하시겠습니까?",
+                    text: "삭제를 누르면 해당 데이터가 삭제되며, 이 동작은 되돌릴 수 없습니다.",
+                    icon: "warning",
+                    buttons: {
+                        button:{
+                            text: "삭제",
+                            className:"swal-btn-danger",
+                        },
+                        cancel:"취소",
+                    },
+                    dangerMode: true,
+                })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        swal("안녕! 다음에 또 등록해주세요!", {
+                            icon: "success",
+                            button: false,
+                            timer:2000,
+                        }).then(()=>{
+                            actionForm.setAttribute("action", urlremove);
+                            actionForm.setAttribute("method", "post");
+                            actionForm.submit();
+                        });
+                    } else if (!willDelete) {
+                        swal("취소되었습니다.",{button:false, timer:2000});
+                    } else {
+                        retrun;
                     }
                 });
             }
+
+            
 
             /*[+ 
                 var modifyUrl = [[@{/manage/gallery/modify}]];

@@ -62,15 +62,17 @@ public class GalleryServiceImpl implements GalleryService {
     public PageResultDTO<GalleryDTO, Object[]> getGalleryPage(SearchPageRequestDTO pageRequestDTO) {
         log.info("search page....");
         List<EmojiInfo> emojiInfoList = emojiInfoService.getEmojiInfoList();
-        // 임시로 3L로 고정
-        Long[][] emojiArray = emojiService.getEmojiCountArrayByGno(3L);
+        // 임시
+        Long[][] emojiArray = new Long[5][2];
+      
         Function<Object[], GalleryDTO> fn = (entity -> entityToDTO((Gallery) entity[0], emojiArray, emojiInfoList));
+        
         Sort sort = getSort(pageRequestDTO.getSort());
+       
         Page<Object[]> result = galleryRepository.searchPage(
                 pageRequestDTO.getType(),
                 pageRequestDTO.getKeyword(),
                 pageRequestDTO.getPageable(sort));
-
 
         log.info(pageRequestDTO);
         return new PageResultDTO<>(result, fn);
@@ -118,10 +120,12 @@ public class GalleryServiceImpl implements GalleryService {
         galleryRepository.save(gallery);
     }
 
+    @Transactional
     @Override
-    public void register(GalleryDTO galleryDTO) {
+    public Long register(GalleryDTO galleryDTO) {
         Gallery gallery = dtoToEntity(galleryDTO);
         galleryRepository.save(gallery);
+        return gallery.getGno();
     }
 
     @Override
@@ -131,5 +135,23 @@ public class GalleryServiceImpl implements GalleryService {
                 .map(entity -> entityToDTO(entity, emojiService.getEmojiCountArrayByGno(entity.getGno()), emojiInfoList))
                 .collect(Collectors.toList());
         return galleryDTOList;
+    }
+
+    // max
+    @Override
+    public Boolean isItmaxLength(String id) {
+        Long maxLength = 10L;
+        Object[] obj = galleryRepository.countingGalleryByMemberId("gm950715@gmail.com");
+        Long uploadGalleryCount = (Long)obj[0];
+        Boolean resultChecker = false;
+
+        log.info("max length : "+maxLength);
+        log.info("upload gallery count :"+uploadGalleryCount);
+
+        if (uploadGalleryCount< maxLength) {
+            resultChecker = true;
+        }
+
+        return resultChecker;
     }
 }
