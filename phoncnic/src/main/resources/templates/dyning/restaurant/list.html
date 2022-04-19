@@ -192,7 +192,7 @@
         </style>
         <input type="button" value="연결" onclick="connect()">
         <input type="button" value="전송" onclick="send()">
-        <input type="button" value="끊기" id="dis" onclick="onClose()">
+        <input type="button" value="끊기" id="dis" onclick="disconnect()">
         <div id="street" style="width: 300px; height: auto; background-color: aqua;"></div>
 
         <input type="hidden" th:value="${result.page}" id="listpage">
@@ -322,6 +322,7 @@
                                 "opacity": "0",
                                 "top": "100px"
                             }, 100, function () {
+                                disconnect();
                                 location.replace(listlocation + listpage + "&top=" + top + "&left=" + 40);
                             });
                         };
@@ -341,6 +342,7 @@
                                     "opacity": "0",
                                     "top": "100px"
                                 }, 100, function () {
+                                    disconnect();
                                     location.replace(listlocation + listpage + "&top=" + top + "&left=" + left);
                                 });
                             } else {
@@ -370,6 +372,7 @@
                             console.log("타겟좌표: " + targetTop, targetLeft, targetHref);
                             
                             if (targetTop - 40 < chartop && chartop < targetTop + 160 && targetLeft - 30 < charleft && charleft < targetLeft + 160) {
+                                disconnect();
                                 location.href = targetHref + "&chartop=" + chartop + "&charleft=" + charleft;
                             };
                         }
@@ -726,6 +729,10 @@
             str =userid + "," +nickname+","+ document.getElementById("char").offsetTop + "," + document.getElementById("char").offsetLeft + "," + userimg;
             webSocket.send(str);
         }
+        function disconnect() {
+            str = userid +",outofpage";
+            webSocket.send(str);
+        }
         function onOpen(){
             str =userid + "," + nickname + "," + document.getElementById("char").offsetTop + "," + document.getElementById("char").offsetLeft + "," + userimg;
             webSocket.send(str);
@@ -733,16 +740,23 @@
         function onMessage(e){
             var data = e.data;
             var dataSplit = data.split(",");
+            console.log(data);
             if (dataSplit[0]==userid) {
                 return;
             }
+            if(dataSplit[1]=="outofpage"){
+                $("#"+dataSplit[0]).empty();
+                $("#"+dataSplit[0]).remove();
+                return;
+            }
+            console.log(data);
+            
             console.log(data);
             if (document.querySelector("#"+dataSplit[0])==null) {
                 console.log("접속 유저가 없습니다");
-                testStreet.innerHTML = testStreet.innerHTML+' </br> <div id="' + dataSplit[0]+ '"style="position: absolute; top : '+dataSplit[2]+'px; left:'+ dataSplit[3]+'px;"><div><img class="users" src = "'+ dataSplit[4]+'" style="width: 70px;ft:'+ dataSplit[3]+'px;"></div><span class="nickname">'+dataSplit[1]+'</span></div>';
+                testStreet.innerHTML = testStreet.innerHTML+' </br> <div id="'+dataSplit[0]+'" style="position: absolute; top : '+dataSplit[2]+'px; left:'+ dataSplit[3]+'px;"><div><img class="users" src = "'+ dataSplit[4]+'" style="width: 70px;ft:'+ dataSplit[3]+'px;"></div><span class="nickname">'+dataSplit[1]+'</span></div>';
                 return;
             }else {
-                console.log("else 탔다!!!!ㅣ");
                 $("#"+dataSplit[0]).offset({top:dataSplit[2]});
                 $("#"+dataSplit[0]).offset({left:dataSplit[3]});
             }
@@ -751,7 +765,7 @@
             }
         
         function onClose(){
-
+            disconnect();
         }
        
         </script>
