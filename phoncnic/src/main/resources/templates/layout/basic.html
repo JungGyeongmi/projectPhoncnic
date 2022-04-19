@@ -151,7 +151,7 @@
                         <span hidden id="loginUserRole" sec:authentication='principal.authorities'></span>
                         <div style="display:inline;">
                             <i style="color: gold; position: absolute;  padding-left: 1%; top: 0; font-size: 2rem;"
-                                sec:authorize="hasRole('ROLE_ADMIN')" class="fa-solid fa-crown"></i>
+                                sec:aut.horize="hasRole('ROLE_ADMIN')" class="fa-solid fa-crown"></i>
                             <img id="loginUserPicture" src="" alt="" width="20%">
                         </div>
                         <span sec:authentication="principal.nickname"></span>
