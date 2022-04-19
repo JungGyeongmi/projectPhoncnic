@@ -433,15 +433,6 @@
             </div>
         </div>
 
-        <style>
-            .swal-btn-danger{
-                background-color: tomato;
-            }
-
-            .swal-button:not([disabled]):hover[class*='swal-btn-danger'] {
-                background-color: red;
-            }
-        </style>
         <script th:inline="javascript">
             var gnoemoji = document.getElementById("gno-emoji");
             var dnoemoji = document.getElementById("dno-emoji");
@@ -500,6 +491,7 @@
                         buttons: {
                             button: {
                                 text: "확인",
+                                className: "swal-btn-color",
                             },
                             cancel: "취소",
                         },
@@ -559,6 +551,7 @@
                     buttons: {
                         button: {
                             text: "확인",
+                            className: "swal-btn-color",
                         },
                         cancel: "취소",
                     },

@@ -344,7 +344,10 @@ input[type=radio]:checked + label {
           var files = inputFile[0].files; // 해당 파일 객체
           var appended = false; // 추가가 정상적으로 이루어졌는지 확인하기 위한 boolean 변수
           
-          if (files.length > 1 || $(".backgroundshowResult ul li").length != 0) {  $("#fileInput2").val(""); swal("알림", "배경 사진은 1장만 추가 가능합니다");  return }
+          // if (files.length > 1 || $(".backgroundshowResult ul li").length != 0) {  
+          //   $("#fileInput2").val(""); 
+          //   swal({title:"알림", text:"배경 사진은 1장만 추가 가능합니다", button:false, timer:1500,}) return;  
+          // }
          
           for (let i = 0; i < files.length; i++) {
             if (!checkExtension(files[i].name, files[i].size)) {
@@ -413,54 +416,63 @@ input[type=radio]:checked + label {
         // submit 버튼
         $("#btn-submit").on("click", function (e) {
           e.preventDefault(); // 기본 이벤트 submit을 막음
-
-          if ($("input[name=id]").val() == "") {
-            swal("알림", "id를 입력해주세요");
-            $("input[name=id]").val().focus();
-            return;
-          } else if ($("input[name=dyningname]").val() == "") {
-            swal("알림", "가게명을 입력해주세요");
+          if ($("input[name=dyningname]").val() == "") {
+            swalModalInfo("가게명을 입력해주세요");
             $("input[name=dyningname]").focus();
             return;
           } else if ($("input[name=comment]").val() == "") {
-            swal("알림", "사장님 한마디를 입력해주세요");
+            swalModalInfo("사장님 한마디를 입력해주세요");
             $("input[name=comment]").focus();
             return;
           } else if ($("input[name=location]").val() == "") {
-            swal("알림", "가게 위치를 입력해주세요");
+            swalModalInfo("가게 위치를 입력해주세요");
             $("input[name=location]").focus();
             return;
           } else if ($("input[name=locationdetails]").val() == "") {
-            swal("알림", "가게 위치 상세를 입력해주세요");
+            swalModalInfo("가게 위치 상세를 입력해주세요");
             $("input[name=locationdetails]").focus();
             return;
           } else if ($("input[name=tel]").val() == "") {
-            swal("알림", "가게 연락처를 입력해주세요");
+            swalModalInfo("가게 연락처를 입력해주세요");
             $("input[name=tel]").focus();
             return;
           } else if ($("input[name=foodtype]").val() == "") {
-            swal("알림", "음식 종류를 선택해주세요");
+            swalModalInfo("음식 종류를 입력해주세요");
             $("input[name=foodtype]").focus();
             return;
           } else if ($("input[name=businesshours]").val() == "") {
-            alert("알림", "영업 시간을 입력해주세요");
+            swalModalInfo("영업 시간을 입력해주세요");
             $("input[name=businesshours]").focus();
             return;
           } else if ($("input[name=hashtag]").val() == "") {
-            swal("알림", "해시태그를 입력해주세요");
+            swalModalInfo("해시태그를 입력해주세요");
             $("input[name=hashtag]").focus();
             return;
           } else if ($(".menuuploadResult ul").children('li').length == 0) {
-            swal("알림", "메뉴 사진을 선택해주세요");
+            swalModalInfo("메뉴 사진을 입력해주세요");
+            $("input[name=foodtype]").focus();
             return;
           } else if ($(".backgroundshowResult ul").children('li').length == 0) {
+            swalModalInfo("배경 사진을 입력해주세요");
+            return;
             swal("알림", "배경 사진을 선택해주세요 입력해주세요");
             return;
           } else if ($("input[name=oono]").val() == "") {
-            swal("알림", "지붕 디자인을 선택해주세요");
+            swalModalInfo("지붕 디자인을 입력해주세요");
             $("input[name=oono]").focus();
             return;
           }
+
+          function swalModalInfo(Text){
+            swal({
+              title: "알림",
+              text: Text,
+              icon: "info",
+              button:false,
+              timer: 1500});
+             
+          }
+
           // 빈 문자열
           var str = "";
           var str2 = "";
@@ -568,7 +580,7 @@ input[type=radio]:checked + label {
           </div>
 
           <div class="modal-footer modal-lg">
-            <button type="button" class="basic-button okBtn" data-bs-dismiss="modal">Ok</button>
+            <button type="button" class="basic-button okBtn" data-bs-dismiss="modal">변경</button>
             <button type="button" class="btn btn-secondary pictureClose close" name='btn-close'
               data-bs-dismiss="modal">닫기</button>
           </div>

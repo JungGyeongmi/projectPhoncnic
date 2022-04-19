@@ -649,10 +649,10 @@
                var typeSelect = $("select[name=type]").val();
                var searchKeywordInput = $("#md-search-keyword").val();
                if (typeSelect == null) {
-                  swal("검색조건을 설정해주세요");
+                  swal("검색조건을 설정해주세요",{button:false, timer:1000});
                   return;
                } else if (searchKeywordInput == '') {
-                  swal("검색어를 입력해주세요");
+                  swal("검색어를 입력해주세요",{button:false, timer:1000});
                   return;
                }
 
