@@ -65,6 +65,71 @@
             .d-flex::-webkit-scrollbar {
                 display: none;
             }
+
+            #helpbtn {
+                position: absolute;
+                bottom: 10px;
+                right: 10px;
+            }
+
+            #helpbtn:hover {
+                position: absolute;
+                bottom: 40px;
+                right: 10px;
+            }
+            
+            #explain > p {
+                font-family: 'GmarketSansMedium';
+                margin-bottom: 0.5rem;
+            }
+        </style>
+        <style>
+            #hint {
+                display: block;
+            }
+
+            .arrow_box {
+                position: absolute;
+                background: white;
+                border: 2px solid #f5f5f5;
+                width: 250px;
+                height: 100px;
+                padding: 14px;
+                text-align: center;
+                bottom: 100px;
+                right: 25px;
+                border-radius: 10px;
+                font-size: 24px;
+                color: black;
+                font-family: 'NeoDunggeunmo';
+            }
+
+            .arrow_box:after,
+            .arrow_box:before {
+                top: 100%;
+                left: 90%;
+                content: "";
+                height: 0;
+                width: 0;
+                position: absolute;
+                pointer-events: none;
+            }
+
+            .arrow_box:after {
+
+                border-top: 20px solid #ffffff;
+                border-right: 10px solid transparent;
+                border-left: 10px solid transparent;
+
+            }
+
+            .arrow_box:before {
+                border-top: 20px solid #9a9a9a;
+                border-right: 10px solid transparent;
+                border-left: 10px solid transparent;
+
+            }
+        </style>
         </style>
         <!-- awsome icon cdn -->
         <script src="https://kit.fontawesome.com/f145f2fd92.js" crossorigin="anonymous"></script>
@@ -83,7 +148,7 @@
         <!-- boot strap icon -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
         <!-- boot strap css -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"> -->
         <link rel="stylesheet" th:href="@{/css/basic.css}">
     </head>
 
@@ -107,6 +172,33 @@
                 </nav>
                 <!-- Page content-->
                 <div class="container-fluid my">
+
+                    <div class="arrow_box" id="hint">클릭하면 도움말을 볼 수 있어요!</div>
+                    <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#basiceModal" id="helpbtn">
+                        <img th:src="@{/icon/question-60.png}" alt="">
+                    </button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="basiceModal" tabindex="-1" aria-labelledby="basicModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog modal-lg modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="basicModalLabel" style="margin-top: 0;">Gallery 사용 설명서
+                                    </h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Gallery 페이지는 스크롤 또는 좌, 우 버튼으로 작품을 감상할 수 있습니다.</p>
+                                    <p>좌측 하단 큐레이터를 클릭하면 작품 제목, 작품 설명, 작가명으로 검색할 수 있습니다.</p>
+                                    <p>작품과 검색결과를 클릭하면 작품 상세페이지로 이동합니다.</p>
+                                    <p>나의 캐릭터를 클릭하면 Character Look을 변경할 수 있습니다.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <th:block th:replace="${content}"></th:block>
                 </div>
             </div>
@@ -141,10 +233,10 @@
                         th:href="@{/main/companyinfo}">회사소개</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3"
                         th:href="@{/gallery/}">Gallery</a>
-                        <a class="list-group-item list-group-item-action list-group-item-light p-3"
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3"
                         th:href="@{/dyning/restaurant/list?page=1&top=440&left=40}">Restaurant</a>
-                        <a class="list-group-item list-group-item-action list-group-item-light p-3"
-                            th:href="@{/dyning/cafe/list?page=1&top=440&left=40}">Cafe</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3"
+                        th:href="@{/dyning/cafe/list?page=1&top=440&left=40}">Cafe</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3"
                         sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/index}">인덱스</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3"
@@ -172,6 +264,11 @@
                     userInfoToggle.css("border", "solid 5px gold");
                 }
 
+            });
+        </script>
+        <script>
+            $("#helpbtn").hover(function (e) {
+                $("#hint").css("display", "none");
             });
         </script>
     </body>

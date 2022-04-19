@@ -4,39 +4,6 @@
 
     <!-- search toggle -->
     <th:block th:fragment="search">
-        <style>
-            #wrapper {
-                background-image: url([[@{/icon/dyning-street.png}]]);
-                background-repeat: no-repeat;
-                background-size: cover;
-                background-position: center;
-            }
-
-            .md-serach-result {
-                padding: 0 !important;
-            }
-
-            .search-result-Item {
-                cursor: pointer;
-                list-style: none;
-                padding-left: 20px;
-                padding-top: 20px;
-                padding-bottom: 20px;
-            }
-
-            .search-result-Item:hover {
-                background-color: #DBE9B7;
-            }
-
-            #search-result-div {
-                padding: 0 !important;
-            }
-
-            hr {
-                margin: 0;
-            }
-        </style>
-
         <div class="border-end bg-white" id="sidebar-wrapper">
             <div class="sidebar-heading border-bottom bg-light">
                 <form class="d-flex search-form" th:action="@{/restaurant/toggle}" method="get">
@@ -122,74 +89,6 @@
 
     <!-- 내용부분(restaurant 거리) -->
     <th:block th:fragment="content">
-        <style>
-            body {
-                -ms-overflow-style: none;
-            }
-
-            ::-webkit-scrollbar {
-                display: none;
-            }
-
-            .wrap {
-                -ms-overflow-style: auto;
-                overflow-x: auto;
-                /* 단이 나뉘지않고 스크롤이 생김  */
-                white-space: nowrap;
-                margin: 0 auto;
-                scroll-behavior: smooth;
-                height: 100%;
-                padding-top: 20px;
-                padding-bottom: 100px;
-            }
-
-            .dyning-list-ul {
-                max-width: 10000px;
-            }
-
-            #list1 {
-                margin: 50px 50px 70px;
-                width: 200px;
-                height: 200px;
-                display: inline-block;
-            }
-
-            #list2 {
-                margin: 40px 50px 30px;
-                width: 200px;
-                height: 200px;
-                display: inline-block;
-            }
-
-            .dyningname {
-                margin-top: 5px;
-                background-color: lightgoldenrodyellow;
-                text-align: center;
-                font-size: 18px;
-                font-family: GmarketSansMedium;
-            }
-
-            .nickname {
-                border: 2px solid #DBE9B7;
-                border-radius: 5px;
-                background-color: white;
-                text-align: center;
-                font-weight: 600;
-                font-family: GmarketSansLight;
-                overflow: hidden;
-            }
-
-            .dyningimg {
-                width: 200px;
-                height: 200px;
-            }
-
-            .ullist {
-                padding-left: 150px;
-                padding-right: 150px;
-            }
-        </style>
-
         <input type="hidden" th:value="${result.page}" id="listpage">
         <input type="hidden" th:value="${result.totalPage}" id="totalpage">
         <div class="wrap" id="wrap">
@@ -226,33 +125,18 @@
             </ul>
         </div>
 
-        <!-- 가게 건물 좌표를 얻는 js -->
-        <style>
-            .setlook {
-                position: relative;
-                width: 70px;
-                height: 98px;
-                right: 0px;
-            }
-
-            #char {
-                position: relative;
-                width: 70px;
-                height: 126px;
-                right: 0px;
-            }
-        </style>
-
         <script>
+            var page = Number(document.querySelector("#listpage").value);            
+
             $(document).ready(function (e) {
                 if ($("input[name='chartop']").val() != "") {
 
                     var top = $("input[name='chartop']").val();
                     var left = $("input[name='charleft']").val();
                     $("#char").offset({ top: top });
-                    $("#char").offset({ left: left });
-
+                    $("#char").offset({ left: left });                    
                 }
+
             });
             $(".dyningimg").on("click", function (e) {
                 var src = $(this).parent().attr("class");
@@ -260,6 +144,14 @@
                 var left = e.target.offsetLeft;
                 console.log(src);
                 console.log(top, left);
+            });
+
+            $(document).ready(function (e) {
+                let key = e.keyCode;
+
+                if (page == 1) {
+                    $("#hint").css("display", "block");
+                }
             });
 
             (function () {
@@ -294,6 +186,12 @@
                     }
                     if (key === 40 /* BOTTOM */) {
                         char.style.top = y + 20 + "px";
+                    }
+
+                    if ($("#hint").css("display") == "block") {
+                        if (key === 37 || key === 38 || key === 39 || key === 40) {
+                            $("#hint").css("display", "none");
+                        }
                     }
 
                     // →방향키
@@ -370,7 +268,6 @@
                         console.log("캐릭터좌표" + chartop, charleft);
 
                         for (i = 1; i <= imgLength; i++) {
-                            console.log(document.getElementById(i));
                             // 절대 좌표
                             var targetTop = document.getElementById(i).offsetTop;
                             var targetLeft = document.getElementById(i).offsetLeft;
@@ -600,7 +497,9 @@
         <script th:inline="javascript">
             var rnadNickArr = [
                 "내꿈은소드마스터", "요리왕비룡", "벽돌집벽돌빼서젠가", "펩시가핏속에흐르는", "개미핥기조련사", "산채비빔밥먹는스님앞에서관짝춤머신", "삼성프라자계란장수계란스틸러",
-                "폰크닉에왔더니내가무협최강", "피크닉사세요", "눈을떴더니공작영애", "눈으로욕하는루피짤", "자본주의미소를잘하는", "오히려좋아", "급식실푸드파이터"
+                "폰크닉에왔더니내가무협최강", "피크닉사세요", "눈을떴더니공작영애", "눈으로욕하는루피짤", "자본주의미소를잘하는", "오히려좋아", "급식실푸드파이터", "닮은살걀", "노인코래방",
+                "쨉쨉", "조선왕조씰룩쌜룩"
+
             ]
 
             if ($(".md-user-nickname").val() == undefined) {

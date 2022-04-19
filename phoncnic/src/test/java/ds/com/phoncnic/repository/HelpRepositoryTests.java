@@ -33,13 +33,15 @@ public class HelpRepositoryTests {
     public void insertDummies() {
         IntStream.rangeClosed(1, 30).forEach(i->{
             int randomMember = (int)(Math.random()*10)+1;  
-            int type = (int)(Math.random()*4)+1;
+            String[] qtype = {"계정정보", "사장/작가 등록", "이용 문의", "에러 신고"};
+
+            int type = (int)(Math.random()*4);
             boolean rand =((int)(Math.random()*2)) !=0;
             Help help = Help.builder()
                 .title("질문"+i)
                 .content("질문내용"+i)
                 .password("1234")
-                .qtype("type"+type)
+                .qtype(qtype[type])
                 .answerstatus(rand)
                 .writeremail("test"+randomMember+"@gmail.com")
             .build();
