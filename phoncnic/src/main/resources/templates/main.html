@@ -4,15 +4,17 @@
     html,body{
         max-height: 100%;
     }
-        #nav {
-      background-color: transparent !important;
+    #nav {
+        background-color: transparent !important;
     }
-
+    
+    .containerBox{
+        font-family: "NeoDunggeunmo";
+    }
     .phoncnic {
-      font-family: "NeoDunggeunmo";
       font-size: 120px;
       text-align: center;
-      padding: 30px;
+      padding: 10px;
       color: black;
       text-shadow: 9px 0 #fff, 0 1px #fff, 1px 0 #fff, 0 -1px #fff;
       letter-spacing: 5px;
@@ -36,7 +38,7 @@
 
     .button-background {
       background-image: url([[@{/icon/main-button.png}]]);
-      background-size: 270px 90px;
+      background-size: 276px 81px;
       background-position: center;
       background-repeat: no-repeat;
       /* width: 315px;
@@ -57,11 +59,12 @@
         filter: drop-shadow(4px 2px 1px black); 
     }
 
-    .show-avartar{
+    .show-avartar-con{
         margin-left: 85px;
+        height: 140px;
         display: flex;
         align-items: center;
-        font-family: GmarketsansLight;
+        /* font-family: GmarketsansLight; */
     }
 
     .avartar-hover {
@@ -96,17 +99,16 @@
         display: block;
     }
     .avartar-speech-bubble-background{
-        display: none;
-        background-image: url(/phoncnic/icon/avartar-bubble2.png);
+        background-image: url(/phoncnic/icon/avartar-bubble.png);
         background-repeat: no-repeat;
         background-size: cover;
         background-position: center;
         display: flex;
-        width: 600px;
-        justify-content: center;
+        width: 946px;
+        flex-flow: column;
+        justify-content: space-evenly;
         align-items: center;
-        height: 186px;
-        margin-bottom: 40px;
+        height: 213px;
     }
 
     .avartar-speech-bubble-con{
@@ -120,6 +122,28 @@
     .remove{
         display: none;
     }
+
+    .avartar-speech-bubble-background button{
+        width: 78px;
+        height: 40px;
+        font-size: 18px;
+        padding: 5px;
+        margin-bottom: 15px;
+        border: 1px solid black; 
+    }
+
+    .avartar-speech-bubble-text{
+        width: 83%;
+        word-break: keep-all;
+        padding-top: 25px;
+    }
+
+    .speech-bubble-btn-con{
+        display: flex;
+        align-items: center;
+        justify-content: end;
+        width: 80%;    
+        }
 </style>
 <th:block th:replace="~{layout/basic :: setContent(~{::content})}">
     <th:block th:fragment="content">
@@ -133,19 +157,9 @@
               <a th:href="@{/crossroad}"><button type="button">Start</button></a>
             </div>
           </div>
-          <div class="button-background" sec:authorize="isAnonymous()">
+          <div class="button-background">
             <div class="button-text">
               <a th:href="@{/member/login}"><button type="button">Login</button></a>
-            </div>
-        </div>
-        <div class="button-background" sec:authorize="hasAnyRole('ROLE_ARTIST','ROLE_CEO','ROLE_ADMIN')" >
-            <div class="button-text">
-                <a th:href="@{/manage/rolechoice}"><button type="button">등록</button></a>
-            </div>
-          </div>
-          <div class="button-background" sec:authorize="isAuthenticated()">
-            <div class="button-text">
-                <a th:href="@{/reception}"><button type="button">직업변경</button></a>
             </div>
           </div>
           <div class="button-background">
@@ -154,10 +168,11 @@
             </div>
           </div>
         </div>
-        
+        <a th:href="@{/manage/rolechoice}">등록갈림길</a>
+        <a th:href="@{/reception}">직업변경</a>
 
-        <div class="show-avartar">
-            <div class="avartar">
+        <div class="show-avartar-con">
+            <div class="show-avartar">
                 <div class="avartar">
                 <button type="button" class="btn " id="btncharacterlook" data-bs-toggle="modal" data-bs-target="#modalcharacterlook">
                     <img id="userAvatar" th:src="${avatar?.setpath}" alt="🙄" width="100px">
@@ -167,22 +182,65 @@
                      클릭해서 캐릭터를 변경해보세요!
                 </div>
            </div>
-           <div class="avartar-speech-bubble-con ">
+           <div class="avartar-speech-bubble-con remove" id="bubble-con">
                 <div class="avartar-speech-bubble-background">
-                        <div>어쩌고 저쩌고</div>
+                        <div class="avartar-speech-bubble-text">
+                           <!-- 내용들어갈 곳  -->
+                        </div>
+                        <div class="speech-bubble-btn-con">
+                            <button type="button" id="speech-prebtn">이전</button>
+                            <button type="button" id="speech-okbtn">확인</button>
+                        </div>
                 </div>
            </div>
         </div>
     </div>
-        
-        
+
         <script th:inline="javascript">
         
             $(function (e) {
 
+                //아바타 말풍선 확인버튼 클릭 시 설명서 띄움
+                var avartarBubble = {
+                    0:"Phoncnic에 오신 것을 환영합니다 ^-^",
+                    1 : "Phoncnic은 비대면으로 문화 생활을 즐길 수 있는 사이트입니다. 이용자는 온라인 전시회를 톨해 작품을 볼 수있고," +
+                         " 밥집, 카페거리를 다니며 가게를 탐방할 수 있습니다.",
+                    2: "갤러리에서 작품에 좋아요를 남기고 작가를 팔로우 할 수 있으며, 가게 거리에서는 방향키로 캐릭터를 움직여 밥집, 카페 거리를 탐방을 할 수 있답니다",
+                    3: "작가, 사업자 신청도 언제든지 받고있어요! 작가가 되어서 자신의 작품을 사람들과 공유해보고, 사업자라면 자신의 가게를 등록해 가게 홍보 기회를 마련해보세요!",
+                    4: "그럼 Phoncnic 즐기러 가보실까요? o(〃＾▽＾〃)o",
+                }
+
+
+                    $("#speech-okbtn").on("click", speechBubbleNext);
+                    $("#speech-prebtn").on("click", speechBubblePre);
+                    
+                    /*[+ var crossroad =  [[@{/crossroad}]]  +]*/                     
+                    
+                    var i = 0;
+                     function speechBubbleNext(){
+                        $(".avartar-speech-bubble-text").html(avartarBubble[i+1]);
+                        i++;
+                        console.log("next:"+i);
+                    };
+                    
+                    function speechBubblePre(){
+                        $(".avartar-speech-bubble-text").html(avartarBubble[i-1]);
+                        i--;
+                        console.log("pre:"+i);
+                    }
+
+
                 var howBtn = $("#how-button");
                 howBtn.on("click", function(){
-                    $(".avartar-speech-bubble-con").addClass("show");
+                    if($("#bubble-con").attr("class") == "avartar-speech-bubble-con remove" ){
+                        $("#bubble-con").removeClass("remove");
+                        $("#bubble-con").addClass("show");
+                        $(".avartar-speech-bubble-text").html(avartarBubble[0]);
+                    } else {
+                        $("#bubble-con").removeClass("show");
+                        $("#bubble-con").addClass("remove");
+
+                    }
                 });
         
                 /*[+
@@ -311,7 +369,7 @@
       </style>
         <!-- 모달창 -->
         <div class="character modal" tabindex="-1" id="modalcharacterlook">
-            <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">캐릭터 룩</h5>
