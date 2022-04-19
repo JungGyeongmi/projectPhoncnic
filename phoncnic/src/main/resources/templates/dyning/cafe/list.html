@@ -83,6 +83,7 @@
                     var val = $(this).attr("value");
 
                     console.log("click");
+                    disconnect();
                     location.href = "/phoncnic/dyning/details?dno=" + val + "&id=" + `[[${id}]]` + "&chartop=" + chartop + "&charleft=" + charleft;
                 });
             });
@@ -260,6 +261,8 @@
 
                     // ↓ 방향키
                     if (key === 40) {
+                        console.log(screenHeight);
+                        console.log(chartop);
                         if (chartop >= screenHeight - 240) {
                             $("#char").offset({ top: screenHeight - 240 });
                             return;
