@@ -190,9 +190,9 @@
                 padding-right: 150px;
             }
         </style>
-        <input type="button" value="연결" onclick="connect()">
-        <input type="button" value="전송" onclick="send()">
-        <input type="button" value="끊기" id="dis" onclick="disconnect()">
+        <input type="hidden" value="연결" onclick="connect()">
+        <input type="hidden" value="전송" onclick="send()">
+        <input type="hidden" value="끊기" id="dis" onclick="disconnect()">
         <div id="street" style="width: 300px; height: auto; background-color: aqua;"></div>
 
         <input type="hidden" th:value="${result.page}" id="listpage">
