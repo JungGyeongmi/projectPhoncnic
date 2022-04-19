@@ -39,7 +39,7 @@
 
         <div class="border-end bg-white" id="sidebar-wrapper">
             <div class="sidebar-heading border-bottom bg-light">
-                <form class="d-flex search-form" th:action="@{/restaurant/toggle}" method="get">
+                <form class="d-flex search-form" th:action="@{/cafe/toggle}" method="get">
                     <select class="form-select-sm" name="type">
                         <option value="n">가게명</option>
                         <option value="h">해쉬태그</option>
@@ -57,7 +57,7 @@
         <script th:inline="javascript">
             $(document).ready(function () {
                 /*[+
-                    var searchUrl = [[@{/dyning/restaurant/toggle}]];
+                    var searchUrl = [[@{/dyning/cafe/toggle}]];
                 +]*/
 
                 var btnsearch = $('#btnsearch');
@@ -120,7 +120,7 @@
         </script>
     </th:block>
 
-    <!-- 내용부분(restaurant 거리) -->
+    <!-- 내용부분(cafe 거리) -->
     <th:block th:fragment="content">
         <style>
             body {
@@ -272,7 +272,7 @@
 
             (function () {
 
-                var listlocation = "/phoncnic/dyning/restaurant/list?page=";
+                var listlocation = "/phoncnic/dyning/cafe/list?page=";
                 var totalpage = document.querySelector("#totalpage").value;
 
                 document.addEventListener("keydown", function (e) {
