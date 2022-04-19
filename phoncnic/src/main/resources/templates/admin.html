@@ -300,7 +300,6 @@
                         url: modifyUrl + "/" + userRole,
                         contentType: "application/json",
                         success: function (message) {
-                            console.log(message);
                             if (message=="change") {
                                 $(".mod-date").eq(index).css({"color": "tomato","font-weight":"bold"});
                                 swal("수정완", { button: false, timer: 1000 });
