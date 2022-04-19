@@ -60,10 +60,7 @@ public class SearchMemberRepositoryImpl extends QuerydslRepositorySupport implem
 
     Sort sort = pageable.getSort();
     sort.stream().forEach(order-> {
-      OrderSpecifier orders = new OrderSpecifier(
-        order.isAscending() ? Order.ASC : Order.DESC,
-        new PathBuilder(Member.class, order.getProperty())
-       );
+      OrderSpecifier<?> orders = new OrderSpecifier(order.isAscending() ? Order.ASC : Order.DESC, new PathBuilder(Member.class, order.getProperty()));
       tuple.orderBy(orders);
     });
     

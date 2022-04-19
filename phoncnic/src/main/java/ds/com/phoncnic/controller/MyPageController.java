@@ -90,7 +90,6 @@ public class MyPageController {
         characterLookService.modify(characterLookDTO, dto.getId());
         ra.addAttribute("id", dto.getId());
         return "redirect:/main/mypage";
-
     }
 
     @PostMapping("/memberremove")
