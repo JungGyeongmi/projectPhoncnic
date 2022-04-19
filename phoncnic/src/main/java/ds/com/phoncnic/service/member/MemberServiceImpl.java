@@ -9,6 +9,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
 import ds.com.phoncnic.dto.MemberDTO;
+import ds.com.phoncnic.dto.pageDTO.PageResultDTO;
+import ds.com.phoncnic.dto.pageDTO.SearchMemberPageRequestDTO;
 import ds.com.phoncnic.entity.ApplicationForm;
 import ds.com.phoncnic.entity.Dyning;
 import ds.com.phoncnic.entity.Emoji;
@@ -154,6 +156,12 @@ public class MemberServiceImpl implements MemberService {
 
         return memberRepository.getNicknameById(id);
 
+    }
+
+    @Override
+    public PageResultDTO<MemberDTO, Object[]> adminSearchPageByMemberId(SearchMemberPageRequestDTO pageRequestDTO) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
     

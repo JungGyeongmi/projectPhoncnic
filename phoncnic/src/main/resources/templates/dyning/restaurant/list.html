@@ -189,6 +189,10 @@
                 padding-right: 150px;
             }
         </style>
+        <input type="button" value="연결" onclick="connect()">
+        <input type="button" value="전송" onclick="send()">
+        <input type="button" value="끊기" id="dis" onclick="onClose()">
+        <div id="street" style="width: 300px; height: auto; background-color: aqua;"></div>
 
         <input type="hidden" th:value="${result.page}" id="listpage">
         <input type="hidden" th:value="${result.totalPage}" id="totalpage">
@@ -203,15 +207,19 @@
                         <div class="dyningname">
                             [[${dto.getDyningname}]]
                         </div>
+                        <div style="position: absolute; width: 70px; margin-top: ;"></div>
                     </li>
                 </th:block>
             </ul>
+            <div id="testStreet">
+            <div th:each="sdto : ${setDTO}" id="userchar" style="display: none; position:absolute;"><img id="userid" class="look setlook" th:src="${sdto.setpath}" th:alt="${id}"></div>
             <div th:each="sdto : ${setDTO}" id="char">
                 <img type="hidden" id="charimg" class="look setlook" th:src="${sdto.setpath}" alt="">
-                <div th:text="${nickname}" class="nickname" th:if="${nickname}!=''">[[${nickname}]]</div>
+                <div th:value="${nickname}" class="nickname" th:if="${nickname}!=''">[[${nickname}]]</div>
                 <input type="text" name="chartop" th:value="${chartop}" style="opacity: 0;">
                 <input type="text" name="charleft" th:value="${charleft}" style="opacity: 0;">
             </div>
+        </div>
             <ul class="ullist">
                 <th:block th:each="dto, index : ${result.dtoList}" th:if="${index.count}%2 == 0">
                     <li id="list2">
@@ -689,6 +697,61 @@
             }
 
         </script>
+       <script>
+        var webSocket;
+        var testStreet = document.getElementById("testStreet");
+        var userchar = document.getElementById("userchar");
+        var testId = document.getElementById("userid").getAttribute('alt')
+        var userid= testId.substring(0,testId.indexOf("@"));
+        var userimg = document.getElementById("charimg").getAttribute('src');
+        var str;
+        
+        
+        function connect(){
+            webSocket = new WebSocket("ws://localhost:8080/phoncnic/street");
+            webSocket.onopen = onOpen;
+            webSocket.onmessage = onMessage;
+            webSocket.onclose = onClose();
+        }
+        connect();
+       
+
+        function send(){
+            str =userid + "," + document.getElementById("char").offsetTop + "," + document.getElementById("char").offsetLeft + "," + userimg;
+            webSocket.send(str);
+        }
+        function onOpen(){
+            str =userid + "," + document.getElementById("char").offsetTop + "," + document.getElementById("char").offsetLeft + "," + userimg;
+            webSocket.send(str);
+        }
+        function onMessage(e){
+            var data = e.data;
+            var dataSplit = data.split(",");
+            console.log(data);
+            if (document.querySelector("#"+dataSplit[0])==null) {
+                console.log("접속 유저가 없습니다");
+                testStreet.innerHTML = testStreet.innerHTML+' </br> <img class="users" src = "'+ dataSplit[3]+' " id="'+dataSplit[0] +'" style="position: absolute; width: 70px; top : '+dataSplit[1]+'px; left:'+ dataSplit[2]+'px;">';
+                return;
+            }else {
+                console.log("else 탔다!!!!ㅣ");
+                $("#"+dataSplit[0]).offset({top:dataSplit[1]});
+                $("#"+dataSplit[0]).offset({left:dataSplit[2]});
+            }
+            
+            
+            }
+        
+        function onClose(){
+
+        }
+       
+        </script>
+           
+                    
+   </script>
+</body>
+<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+
 
     </th:block>
 </th:block>
