@@ -23,6 +23,7 @@
 
 #search-result-div {
     padding: 0 !important;
+    margin-bottom: -20px;
 }
 
 hr {
@@ -73,6 +74,7 @@ body {
     text-align: center;
     font-size: 18px;
     font-family: GmarketSansMedium;
+    padding-top: 4px;
 }
 
 .nickname {
@@ -112,4 +114,14 @@ body {
     width: 70px;
     height: 126px;
     right: 0px;
+}
+
+#navbarDropdown{
+    font-family: 'NeoDunggeunmo';
+    font-size: larger;
+}
+
+#sidebarToggle {
+    font-family: GmarketSansMedium;
+    padding-top: 9px;
 }
