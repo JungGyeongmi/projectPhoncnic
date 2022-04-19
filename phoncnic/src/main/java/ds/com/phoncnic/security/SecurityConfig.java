@@ -1,5 +1,7 @@
 package ds.com.phoncnic.security;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -59,6 +61,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   //시큐리티를 적용하기 위한 url에 대한 설정과 로그인과 access 거부일때
   @Override
   protected void configure(HttpSecurity http) throws Exception {
+    
     log.info(">>>"+http.headers().getClass().getName());
    
     // session 당 로그인 인원 제한
@@ -80,8 +83,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     http.oauth2Login().loginPage("/member/login").successHandler(loginSuccessHandler());
     // logout
     http.logout().logoutUrl("/member/logout").invalidateHttpSession(true).deleteCookies("JSESSIONID")
-    // .logoutSuccessHandler(logoutSuccessHandler())
-    .logoutSuccessUrl("/");
+    .logoutSuccessHandler(logoutSuccessHandler());
+    // .logoutSuccessUrl("/");
     
     // remember 
     // http.rememberMe().tokenValiditySeconds(60*60*24*7).userDetailsService((UserDetailsService) memberDetailsService);
@@ -92,6 +95,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     // login filter
     http.addFilterBefore(apiLoginFilter(), UsernamePasswordAuthenticationFilter.class);
   }
-
 
 }

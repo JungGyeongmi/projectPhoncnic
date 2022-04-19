@@ -15,7 +15,10 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
   @Override
-  public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication auth)
+  public void onLogoutSuccess(
+    HttpServletRequest request, 
+    HttpServletResponse response, 
+    Authentication auth)
     throws IOException, ServletException {
 
     log.warn("logoutsuccess...");

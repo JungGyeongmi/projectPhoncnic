@@ -19,36 +19,37 @@ import lombok.extern.log4j.Log4j2;
 public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
   
   @Override
-  public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication auth)
+  public void onAuthenticationSuccess(
+    HttpServletRequest request, 
+    HttpServletResponse response, 
+    Authentication auth)
   throws IOException, ServletException {
+    HttpSession session = request.getSession(false);
+    log.info("Success......");
 
     AuthMemberDTO authMemberDTO = (AuthMemberDTO) auth.getPrincipal();
-
     log.warn("Login Success");
 
     List<String> roleNames = new ArrayList<>();
 
     authMemberDTO.getAuthorities().forEach(authority -> { roleNames.add(authority.getAuthority()); });
-    log.warn("request page"+request.getResultURI());
-    HttpSession session = request.getSession(false);
-    int interval = session.getMaxInactiveInterval();
 
+    log.warn("get  session referUrl" + session.getAttribute("referUrl"));
+
+    int interval = session.getMaxInactiveInterval();
     log.info("session interval...."+interval);
     session.setMaxInactiveInterval(3600);
-
     interval = session.getMaxInactiveInterval();
     log.info("changed session interval "+ interval);
 
+   String redirectUrl = session.getAttribute("referUrl").toString();
+
     if (session != null) {
-
-      String redirectUrl = (String) session.getAttribute("");
-      log.info("redirect url "+redirectUrl);
-
       if (redirectUrl != null) {
         response.sendRedirect(redirectUrl);
-        session.removeAttribute("prevPage");
+        session.removeAttribute("referUrl");
       } else {
-        log.info("boboobobobo");
+        log.info("--session null -- redirect null ---");
         response.sendRedirect(request.getContextPath()+"/");
       }
     }
