@@ -9,7 +9,7 @@
         font-family: 'GmarketSansLight';
     }
     .containerBox h3 {
-        padding: 60px 0 40px 0;
+        padding: 60px 0 20px 0;
     }
 
     .btn-items{
@@ -24,7 +24,7 @@
         background-color: #e9ecef;
         border-radius: 13px; 
         margin-bottom: 15px;
-  }
+    }
 
     .my2.btn{
         font-weight: bold;
@@ -35,18 +35,30 @@
         width: 49%;
     }
 
-  .btn-items > .my:nth-child(1){
-      width: 100%;
-  }
+    .btn-items > .my:nth-child(1){
+        width: 100%;
+    }
 
-  .my.btn:nth-child(2){
-       width: 50%;
-  }
+    .my.btn:nth-child(2){
+        width: 50%;
+    }
 
-  .my.btn:hover,
-  .my2.btn:hover {
-    background-color: #DBE9B7;
-  }
+    .my.btn:hover,
+    .my2.btn:hover {
+        background-color: #DBE9B7;
+    }
+
+    .img-warn{
+        font-family:'Noto Sans KR', sans-serif !important; 
+        font-size: 16px;
+        color: red;
+    }
+
+    input[name=content]{
+        height: 150px;
+        width: 100%;
+        white-space: normal;
+    }
    
 </style>
 
@@ -59,9 +71,9 @@
                 </h3>
 
                 <form th:action="@{/manage/gallery/register}" th:method="POST" id="frm">
-                    <input type="hidden" name="id" th:value="${authDTO.id}"><br>
+                    <input type="hidden" name="id" th:value="${authDTO?.id}"><br>
                     <label class="form-label">작가명</label>
-                    <input type="text" name="artistname" th:value="${authDTO.nickname}" class="form-control"
+                    <input type="text" name="artistname" th:value="${authDTO?.nickname}" class="form-control"
                         readonly><br>
 
                     <label class="form-label">출품 유형</label>
@@ -75,24 +87,25 @@
                     <input type="text" name="title" class="form-control"><br>
 
                     <label for="content" class="form-label">작품설명</label><br>
-                    <input type="text" name="content" class="form-control"><br>
+                    <textarea type="text" name="content" class="form-control" rows="4"><br></textarea><br>
                     <div class="box">
                     </div>
                 </form>
                 <!-- 여기서 input 으로 전달해주는 값을 img 아래로 내리니까 전달자체가 되지 않았음 -->
-                <label class="form-label">작품 업로드</label>
+                <label class="form-label">작품 업로드 ( 1장만 가능 )</label>
                 <div class="custom-file">
-                    <input type="file" class="custom-file-input files form-control" id="fileInput" multiple>
-                    <label data-browse="Browse"></label>
+                    <input type="file" class="custom-file-input files form-control" id="fileInput" accept="image/jpeg,png" required>
                 </div>
+                <div class="img-warn">* 작품 등록 후 작품 이미지는 수정 할 수 없습니다. 수정을 원할 시 삭제 후 재업로드 해야하오니 &nbsp&nbsp 신중히 올려주시길 바랍니다.</div>
             </div>
 
             <!-- upload된 이미지 파일을 보여주기 위한 list style 설정 -->
             <style>
                 .uploadResult {
                     width: 100%;
-                    background: gray;
-                    margin-top: 10px;
+                    /* background: #e9ecef; */
+                    margin-top: 30px;
+                    border-radius: 5px;
                 }
 
                 .uploadResult ul {
@@ -100,18 +113,21 @@
                     flex-flow: row;
                     justify-content: center;
                     align-items: center;
-                    vertical-align: top;
                     overflow: auto;
+
                 }
 
                 .uploadResult ul li {
                     list-style: none;
                     padding: 10px;
-                    margin-left: 2em;
                 }
 
                 .uploadResult ul li img {
                     width: 100px;
+                }
+                .uploadResult button{
+                    border: none;
+                    background: none;
                 }
             </style>
 
@@ -205,21 +221,24 @@
                     var uploadUL = $(".uploadResult ul");
                     var showImageStr = "";
                     var fileDataStr = "";
+
                     /*[+
                     var urlDisplay=[[@{/display}]];
                     +]*/
+
                     $(uploadResultArr).each(function (i, obj) {
                         showImageStr += `<li data-name='${obj.fileName}' data-path='${obj.folderPath}' data-uuid='${obj.uuid}'><div>
-                            <button type='button' data-file='${obj.imageURL}' class='btn-warning btn-sm'>X</button><br>
+                            <button type='button' data-file='${obj.imageURL}'><i class="fa-solid fa-x"></i></button><br>
                             <img src='${urlDisplay}?fileName=${obj.thumbnailURL}'></div></li>`;
                     });
+
                     uploadUL.append(showImageStr);
 
                     $(".uploadResult li").each(function (i, obj) {
                         var target = $(obj);
                         fileDataStr += `<input type='hidden' name='imagename' value='${target.data('name')}'>
-                                    <input type='hidden' name='imagepath' value='${target.data('path')}'>
-                                    <input type='hidden' name='uuid' value='${target.data('uuid')}'>`;
+                            <input type='hidden' name='imagepath' value='${target.data('path')}'>
+                            <input type='hidden' name='uuid' value='${target.data('uuid')}'>`;
                     });
 
                     $(".box").html(fileDataStr);
@@ -262,7 +281,7 @@
                     /*[+
                       var urlRemove = [[@{/removeFile}]];
                     +]*/
-
+                    
                     $.ajax({
                         url: urlRemove,
                         data: { fileName: targetFile },
@@ -273,6 +292,8 @@
                             targetLi.remove();
                         }
                     });
+
+                    $("#fileInput").val("");
                 });
             });
         </script>

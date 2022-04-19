@@ -20,8 +20,8 @@ import ds.com.phoncnic.dto.GalleryDTO;
 import ds.com.phoncnic.dto.pageDTO.PageResultDTO;
 import ds.com.phoncnic.dto.pageDTO.SearchPageRequestDTO;
 import ds.com.phoncnic.security.dto.AuthMemberDTO;
-import ds.com.phoncnic.service.FollowService;
 import ds.com.phoncnic.service.emoji.EmojiService;
+import ds.com.phoncnic.service.follow.FollowService;
 import ds.com.phoncnic.service.gallery.GalleryService;
 import lombok.extern.log4j.Log4j2;
 

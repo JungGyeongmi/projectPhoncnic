@@ -6,12 +6,13 @@
         
         <a th:href="@{/crossroad}">피크닉갈림길</a>
         <a th:href="@{/manage/rolechoice}">등록갈림길</a>
+        <a th:href="@{/reception}">직업변경</a>
+        <a th:href="@{/member/login}">로그인</a>
 
         <button type="button" class="btn " id="btncharacterlook" data-bs-toggle="modal" data-bs-target="#modalcharacterlook">
             <img id="userAvatar" th:src="${avatar?.setpath}" alt="🙄" width="100px">
         </button>
         </button>
-        
         
         <script th:inline="javascript">
         
@@ -63,14 +64,13 @@
                         data: JSON.stringify(data),
                         contentType: "application/json",
                         success: function (response) {                    
-                            swal('success', "변경완료");
+                            swal('success', "변경완료",{button:false, timer:1000});
                             $("#userAvatar").attr("src", setpath);
-                            console.log("update characterlook success");
                         },
                         fail: function (response) {
-                            console.log(response);
+                            // console.log(response);
                         }, error: function (request, status, error) {
-                            console.log(request);
+                            // console.log(request);
                         }
                     });
                 }
@@ -92,13 +92,24 @@
                     });
             
                     $(document).on("click", "#lookModifyBtn", function () {
-                        if (!confirm("캐릭터의 옷을 변경하시겠습니까?")) {
-                            return;
-                        } else {
-                            modifyLook();
-                        }
+                        swal({
+                            text: "캐릭터옷을 변경하시겠습니까?",
+                            icon: "warning",
+                            buttons: {
+                                confirm: {
+                                    text: "확인",
+                                    value: true,
+                                },
+                                cancel: "취소",
+                            },
+                        }).then((check)=>{
+                            if(check) {
+                                modifyLook();
+                            } else {
+                                return;
+                            }
+                        });
                     });
-                
                 }
             });
         </script>
@@ -131,7 +142,6 @@
                 justify-content: center;
             }
       </style>
-        </style>
         <!-- 모달창 -->
         <div class="character modal" tabindex="-1" id="modalcharacterlook">
             <div class="modal-dialog">

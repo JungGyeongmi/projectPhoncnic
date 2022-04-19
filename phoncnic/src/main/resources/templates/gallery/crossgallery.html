@@ -23,7 +23,6 @@
     .content {
         width: 400px;
         height: 400px;
-        /* background-color: #DBE9B7; */
         text-align: center;
         border-radius: 8px;
     }
@@ -64,28 +63,27 @@
     }
     .content-body img.open {
     display: none;
-    cursor: url("../../static/icon/right-cursor.png"), auto;    
+    cursor: url("[[@{/icon/right-cursor.png}]]"), auto;    
 
     }
     .content-body img.close {
         display: block;
         width: 300px;
-        cursor: url("../../static/icon/right-cursor.png"), auto;    
+        cursor: url("[[@{/icon/right-cursor.png}]]"), auto;    
     }
     .content-body:hover img.open {
         display: block;
         width: 300px;
-        cursor: url("../../static/icon/right-cursor.png"), auto;    
+        cursor: url("[[@{/icon/right-cursor.png}]]"), auto;    
     }
     .content-body:hover img.close {
         display: none;
-        cursor: url("../../static/icon/right-cursor.png"), auto;    
+        cursor: url("[[@{/icon/right-cursor.png}]]"), auto;    
 
     }
     .content-body{
-        cursor: url("../../static/icon/right-cursor.png"), auto;    
-    }
-    
+        cursor: url("[[@{/icon/right-cursor.png}]]"), auto;    
+        }
 </style>
 <th:block th:replace="~{layout/basic :: setContent(~{::content})}">
     <th:block th:fragment="content">

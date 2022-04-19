@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
-xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
-https://maven.apache.org/xsd/maven-4.0.0.xsd"
->
-
+https://maven.apache.org/xsd/maven-4.0.0.xsd">
 
    <modelVersion>4.0.0</modelVersion>
    <parent>
@@ -110,7 +107,7 @@ https://maven.apache.org/xsd/maven-4.0.0.xsd"
          <artifactId>tomcat-servlet-api</artifactId>
          <version>10.1.0-M11</version>
       </dependency>
-      
+
       <!-- https://mvnrepository.com/artifact/net.coobird/thumbnailator -->
       <dependency>
          <groupId>net.coobird</groupId>
@@ -124,68 +121,54 @@ https://maven.apache.org/xsd/maven-4.0.0.xsd"
          <version>1.1.1</version>
       </dependency>
       <dependency>
-			<groupId>org.apache.tomcat.embed</groupId>
-			<artifactId>tomcat-embed-jasper</artifactId>
-		</dependency>
+         <groupId>org.apache.tomcat.embed</groupId>
+         <artifactId>tomcat-embed-jasper</artifactId>
+      </dependency>
 
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>jstl</artifactId>
-		</dependency>
+      <dependency>
+         <groupId>javax.servlet</groupId>
+         <artifactId>jstl</artifactId>
+      </dependency>
       <!-- <!– websocket –> -->
       <dependency>
          <groupId>org.springframework.boot</groupId>
          <artifactId>spring-boot-starter-websocket</artifactId>
       </dependency>
-
       <dependency>
          <groupId>com.fasterxml.jackson.core</groupId>
          <artifactId>jackson-databind</artifactId>
-         <version>2.11.3</version>
+         
       </dependency>
       <!-- https://mvnrepository.com/artifact/org.webjars/webjars-locator-core -->
-<dependency>
-    <groupId>org.webjars</groupId>
-    <artifactId>webjars-locator-core</artifactId>
-    <version>0.50</version>
-</dependency>
-<!-- https://mvnrepository.com/artifact/org.webjars.bower/jquery -->
-<dependency>
-    <groupId>org.webjars.bower</groupId>
-    <artifactId>jquery</artifactId>
-    <version>3.2.1-1</version>
-</dependency>
-<!-- https://mvnrepository.com/artifact/org.webjars/sockjs-client -->
-<dependency>
-    <groupId>org.webjars</groupId>
-    <artifactId>sockjs-client</artifactId>
-    <version>1.1.2</version>
-</dependency>
-<dependency>
-    <groupId>org.webjars</groupId>
-    <artifactId>vue</artifactId>
-    <version>2.5.16</version>
-</dependency>
-<dependency>
-    <groupId>org.webjars</groupId>
-    <artifactId>stomp-websocket</artifactId>
-    <version>2.3.3-1</version>
-</dependency>
-
-<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-reactor-netty</artifactId>
-		</dependency>
-	
-
-
-
-      
-
+      <dependency>
+         <groupId>org.webjars</groupId>
+         <artifactId>webjars-locator-core</artifactId>
+         <version>0.50</version>
+      </dependency>
+      <!-- https://mvnrepository.com/artifact/org.webjars.bower/jquery -->
+      <dependency>
+         <groupId>org.webjars.bower</groupId>
+         <artifactId>jquery</artifactId>
+         <version>3.2.1-1</version>
+      </dependency>
+      <!-- https://mvnrepository.com/artifact/org.webjars/sockjs-client -->
+      <dependency>
+         <groupId>org.webjars</groupId>
+         <artifactId>sockjs-client</artifactId>
+         <version>1.1.2</version>
+      </dependency>
+      <dependency>
+         <groupId>org.webjars</groupId>
+         <artifactId>vue</artifactId>
+         <version>2.6.12</version>
+      </dependency>
+      <dependency>
+         <groupId>org.webjars</groupId>
+         <artifactId>stomp-websocket</artifactId>
+         <version>2.3.3-1</version>
+      </dependency>
    </dependencies>
-
    <build>
-   
       <finalName>phoncnic</finalName>
       <plugins>
          <plugin>
@@ -218,7 +201,22 @@ https://maven.apache.org/xsd/maven-4.0.0.xsd"
             </executions>
          </plugin>
       </plugins>
-      
    </build>
 
+
+   <dependencyManagement>
+   
+
+      <dependencies>
+      
+
+         <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.13.2.2</version>
+         </dependency>
+
+      </dependencies>
+
+   </dependencyManagement>
 </project>

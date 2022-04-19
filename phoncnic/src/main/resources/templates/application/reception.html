@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<style>
+    .containerBox {
+        width: 1200px;
+        margin: 0 auto;
+        font-family: 'GmarketSansLight';
+    }
+
+    .title {
+        text-align: center;
+        padding: 70px 0 90px 0;
+
+    }
+
+    .content-container {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+    }
+
+    .content {
+        width: 320px;
+        height: 385px;
+        background-color: #DBE9B7;
+        text-align: center;
+        border-radius: 8px;
+    }
+    .content-body{
+        padding: 44px;
+    }
+    .content-body > img {
+        margin: 0 auto;
+        width: 130px;
+    }
+    .content-container .content:first-child button {
+        height: 44px;
+        border: none;
+        width: 216px;
+        border-radius: 30px;
+        background-color: darkslateblue;
+        font-size: 19px;
+        color: white;        
+        padding: 10px;
+    }
+
+    .content-container .content:last-child button {
+        height: 44px;
+        border: none;
+        width: 216px;
+        border-radius: 30px;
+        background-color: orange;
+        font-size: 19px;
+        color: white;        
+        padding: 10px;
+    }
+
+    .content-container p{
+        font-size: 22px;
+        margin: 0px auto 32px auto;
+    }
+</style>
+<html lang="ko" xmls:th="http://www.thymeleaf.org">
+<th:block th:replace="~{layout/basic :: setContent(~{::content})}">
+    <th:block th:fragment="content">
+        <div class="containerBox">
+            <div class="title">
+                <h2 style="font-family: 'GmarketSansmedium';"><img th:src="@{/icon/vertical-line.png}"style="width:30px;" alt="">권한 신청</h2>
+            </div>
+            <div class="content-container">
+                <div class="content">
+                    <div class="content-body">
+                        <img th:src="@{/icon/store.png}" alt="">
+                    </div>
+                    <p><b>사업자</b></p>
+                    <a th:href="@{/reception/ceo}"><button>신청하러가기</button></a>
+                </div>
+                <div class="content">
+                    <div class="content-body">
+                        <img th:src="@{/icon/art.png}" alt="">
+                    </div>
+                    <p><b>작가</b></p>
+                    <a th:href="@{/reception/artist}"><button>신청하러가기</button></a>
+                </div>
+            </div>
+        </div>
+
+        <script th:inline="javascript">
+            $(function(){
+
+            /*[+ 
+                var afno = [[${afno}]];
+                var id = [[${userId}]]; 
+            +]*/
+
+            console.log(afno+" "+id);
+
+            if(afno != null && id != null) {
+                swal({
+                    title : "접수번호"+afno+"번 신청 완료되었습니다",
+                    timer : 2500,
+                    text: "승인 과정은 마이페이지에서 열람 가능합니다",
+                    icon: "success",
+                    button: false,
+                })
+            }
+
+
+            });
+        </script>
+    </th:block>
+</th:block>

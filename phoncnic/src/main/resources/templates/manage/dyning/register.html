@@ -52,6 +52,71 @@ input[type=radio]:checked + label {
   border-radius: 5px;
 }
 
+.roofmodal{
+  max-width: 757px !important;
+}
+
+.menuuploadResult {
+    width: 100%;
+    background: #e9ecef;
+    margin-top: 10px 0;
+    border-radius: 5px;
+}
+
+.menuuploadResult ul {
+    display: flex;
+    flex-flow: row;
+    justify-content: center;
+    align-items: center;
+    overflow: auto;
+}
+
+.menuuploadResult ul li {
+    list-style: none;
+    padding: 10px;
+}
+
+.menuuploadResult ul li img {
+    width: 100px;
+}
+.menuuploadResult button{
+    border: none;
+    background: none;
+}
+
+.backgroundshowResult {
+    width: 100%;
+    background: #e9ecef;
+    margin-top: 10px 0;
+    border-radius: 5px;
+}
+
+.backgroundshowResult ul {
+    display: flex;
+    flex-flow: row;
+    justify-content: center;
+    align-items: center;
+    overflow: auto;
+}
+
+.backgroundshowResult ul li {
+    list-style: none;
+    padding: 10px;
+}
+
+.backgroundshowResult ul li img {
+    width: 100px;
+}
+.backgroundshowResult button{
+    border: none;
+    background: none;
+}
+
+.modal-body{
+  text-align: center !important;
+}
+
+
 </style>
 <th:block th:replace="~{layout/basic :: setContent(~{::content})}">
   <th:block th:fragment="content">
@@ -77,7 +142,7 @@ input[type=radio]:checked + label {
         <div class="col-12 py-3">
           <label for="" class="form-label">가게 위치</label>
           <div class="input-group mb-3">
-            <input type="text" name="location" id="" class="form-control">
+            <input type="text" name="location" id="" class="form-control" readonly style="background-color: white;">
             <input type="button" value="우편찾기" id="address" class="btn btn-outline-secondary">
           </div>
             <input type="text" name="locationdetails" id="detail" placeholder="상세주소" class="form-control col-12">
@@ -109,7 +174,7 @@ input[type=radio]:checked + label {
           <label for="" class="form-label">메뉴 이미지 (중복 선택 가능)</label>
             <div class="form-group menuimage">
               <div class="custom-file">
-                <input type="file" class="custom-file-input1 files form-control" id="fileInput1" multiple>
+                <input type="file" class="custom-file-input1 files form-control" id="fileInput1" multiple >
                 <label data-browse="Browse"></label>
               </div>
             </div>
@@ -117,27 +182,21 @@ input[type=radio]:checked + label {
             <div class="menubox">
             </div>
             <div class="menuuploadResult">
-
-              <ul>
-
-              </ul>
+              <ul></ul>
             </div>
       <div class="col-12">
           <label for="" class="form-label">가게 배경 이미지 (1장 선택 가능)</label>
             <div class="form-group background">
               <div class="custom-file">
-                <input type="file" class="custom-file-input2 files form-control" id="fileInput2" multiple>
+                <input type="file" class="custom-file-input2 files form-control" id="fileInput2" >
                 <label data-browse="Browse"></label>
               </div>
             </div>
             <div class="backgroundbox">
             </div>
             <div class="backgroundshowResult">
-              <ul>
-
-              </ul>
+              <ul></ul>
             </div>
-
           </div>  
           <p class="p-line pt-2">지붕</p><hr>
           <div class="col-12">
@@ -273,9 +332,9 @@ input[type=radio]:checked + label {
           var fileName = $(this).val().split("/").pop();
 
           // 테스트용 콘솔
-          console.log("fileName >> " + fileName);
-          console.log("확장자 인덱스 >> " + fileName.lastIndexOf("."));
-          console.log("확장자 >> " + fileName.substring(fileName.lastIndexOf(".") + 1));
+          // console.log("fileName >> " + fileName);
+          // console.log("확장자 인덱스 >> " + fileName.lastIndexOf("."));
+          // console.log("확장자 >> " + fileName.substring(fileName.lastIndexOf(".") + 1));
 
           // 해당 클래스에 selected라는 클래스를 추가함
           $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
@@ -284,7 +343,9 @@ input[type=radio]:checked + label {
           var inputFile = $(this); // 이벤트 대상
           var files = inputFile[0].files; // 해당 파일 객체
           var appended = false; // 추가가 정상적으로 이루어졌는지 확인하기 위한 boolean 변수
-          if (files.length > 1 || $(".backgroundshowResult ul li").length != 0) { swal("알림", "배경 사진은 1장만 추가 가능합니다"); return }
+          
+          if (files.length > 1 || $(".backgroundshowResult ul li").length != 0) {  $("#fileInput2").val(""); swal("알림", "배경 사진은 1장만 추가 가능합니다");  return }
+         
           for (let i = 0; i < files.length; i++) {
             if (!checkExtension(files[i].name, files[i].size)) {
               // 여기서 유효성 검사 통과하지 못하면 파일선택에 들어가있는 값 털어버리는 것 추가 필요 서치 더 해보기
@@ -294,7 +355,6 @@ input[type=radio]:checked + label {
             formData.append("uploadFiles", files[i]); // if문을 통과하는경우에 Form태그에 데이터를 append시킴
             appended = true; // 제대로 추가돼었다는것을 알리기위해서 true값 재할당
           }
-
 
           if (!appended) { return; } // 어펜드가 제대로 되지 않은 경우에 리턴하는데 위에서 return false로 함수 나가게 했으니까 필요없지 않나?
 
@@ -329,14 +389,11 @@ input[type=radio]:checked + label {
           +]*/
 
           $(uploadResultArr).each(function (i, obj) {
-            // test출력
-            // console.log("uploadResultArr obj >> ");
-            // console.log(obj);
-            str += `<li data-name='${obj.fileName}' data-file='${obj.imageURL}\' data-path='${obj.folderPath}' data-uuid='${obj.uuid}'><div>`;
-            str += `<button type='button' data-file='${obj.imageURL}\' class='btn-warning btn-sm'>X</button><br>`;
-            str += `<img src='${urlDisplay}?fileName=${obj.thumbnailURL}'></div></li>`;
+            str += `<li data-name='${obj.fileName}' data-file='${obj.imageURL}\' data-path='${obj.folderPath}' data-uuid='${obj.uuid}'><div>
+             <button type='button' data-file='${obj.imageURL}'><i class="fa-solid fa-x"></i></button><br>
+             <img src='${urlDisplay}?fileName=${obj.thumbnailURL}'></div></li>`;
           });
-          uploadUL.append(str); // ul에 전달쓰
+          uploadUL.append(str);
         }
 
         function backgroundshowResult(uploadResultArr) {
@@ -345,20 +402,13 @@ input[type=radio]:checked + label {
           /*[+
           var urlDisplay=[[@{/display}]];
           +]*/
-          $(uploadResultArr).each(function (i, obj) {
-            // test출력
-            // console.log("uploadResultArr obj >> ");
-            // console.log(obj);
-            str += `<li data-name='${obj.fileName}' data-file='${obj.imageURL}\' data-path='${obj.folderPath}' data-uuid='${obj.uuid}'><div>`;
-            str += `<button type='button' data-file='${obj.imageURL}\' class='btn-warning btn-sm'>X</button><br>`;
-            str += `<img src='${urlDisplay}?fileName=${obj.thumbnailURL}'></div></li>`;
+          $(uploadResultArr).each(function (index, obj) {
+            str += `<li data-name='${obj.fileName}' data-file='${obj.imageURL}\' data-path='${obj.folderPath}' data-uuid='${obj.uuid}'><div>
+            <button type='button' data-file='${obj.imageURL}'><i class="fa-solid fa-x"></i></button><br>
+            <img src='${urlDisplay}?fileName=${obj.thumbnailURL}'></div></li>`;
           });
           uploadUL.append(str); // ul에 전달쓰
         }
-
-
-
-
 
         // submit 버튼
         $("#btn-submit").on("click", function (e) {
@@ -439,7 +489,9 @@ input[type=radio]:checked + label {
 
         // 사진 삭제
         $(".menuuploadResult ").on("click", "li button", function (e) {
+          
           console.log("delete file...");
+          
           var targetFile = $(this).data("file");
           var targetLi = $(this).closest("li");
 
@@ -456,7 +508,19 @@ input[type=radio]:checked + label {
               targetLi.remove();
             }
           });
+          deleteFileValue(targetLi.index());
         });
+
+        const deleteFileValue = (fileNum) => {
+          const dataTransfer = new DataTransfer();
+          let files = $("#fileInput1")[0].files;
+          let fileArray = Array.from(files);
+          fileArray.splice(fileNum, 1);
+          fileArray.forEach(file => {
+            dataTransfer.items.add(file);
+          });
+          $("#fileInput1")[0].files = dataTransfer.files;
+        }
 
         $(".backgroundshowResult").on("click", "li button", function (e) {
           console.log("delete file...");
@@ -476,23 +540,25 @@ input[type=radio]:checked + label {
             success: function (result) {
               targetLi.remove();
             }
+
           });
+
+          $("#fileInput2").val("");
 
         });
       });
 
-
     </script>
 
     <div id="roofModal" class="modal roofModal" tabindex="-2">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
+      <div class="modal-dialog modal-lg roofmodal">
+        <div class="modal-content modal-lg">
+          <div class="modal-header modal-lg">
             <h5 class="modal-title">지붕 디자인 선택</h5>
             <button type="button" class="btn-close close" data-bs-dismiss="modal" aria-label="Close"
               name='btn-close'></button>
           </div>
-          <div class="modal-body">
+          <div class="modal-body modal-lg">
             <span th:each="roof : ${roofList}">
               <input type="radio" class="radio" name="oono" th:id="${roof.rooftype}" th:value="${roof.rooftype}" hidden>
               <label th:for="${roof.rooftype}">
@@ -501,10 +567,10 @@ input[type=radio]:checked + label {
             </span>
           </div>
 
-          <div class="modal-footer">
-            <button type="button" class="btn btn-info okBtn" data-bs-dismiss="modal">Ok</button>
+          <div class="modal-footer modal-lg">
+            <button type="button" class="basic-button" data-bs-dismiss="modal">Ok</button>
             <button type="button" class="btn btn-secondary pictureClose close" name='btn-close'
-              data-bs-dismiss="modal">Close</button>
+              data-bs-dismiss="modal">닫기</button>
           </div>
         </div>
       </div>

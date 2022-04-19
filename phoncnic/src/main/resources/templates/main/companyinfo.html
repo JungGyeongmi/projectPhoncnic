@@ -1,7 +1,83 @@
 <!DOCTYPE html>
+<style>
+    .containerBox {
+        width: 80vw;
+        margin: 0 auto;
+		font-family: 'GmarketSansLight';
+    }
+
+    .containerBox h3 {
+        padding: 60px 0 20px 0;
+        font-family: 'GmarketSansMedium';
+    }
+
+    .git {
+        color: #8d27a2;
+    }
+
+    .card-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 35px auto;
+    }
+
+    .card-title{
+        font-weight: bold;
+    }
+
+    .card-container img{
+        /* width: 285px; */
+    }
+</style>
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
 <th:block th:replace="~{layout/basic :: setContent(~{::content})}">
     <th:block th:fragment="content">
-        <h1>company info</h1>
+        <div class="containerBox">
+            <h3><img th:src="@{/icon/vertical-line.png}" style="width: 30px;" alt="">만든 이</h3>
+            <div class="card-container">
+                <!-- 😀경미쓰 -->
+                <div class="card" style="width: 17rem;">
+                    <img th:src="@{/team/gyeongmi.png}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">코드에 굶주린 맹수 팀장</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of
+                            the card's content.</p>
+                        <a href="#"><i class="fa-brands fa-github fa-lg git">아이디</i></a>
+                    </div>
+                </div>
+
+                <!-- 😀지원쓰 -->
+                <div class="card" style="width: 17rem;">
+                    <img th:src="@{/team/jiwon.png}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">오류를 잡으면 콧노래가 덤으로</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk
+                            of the card's content.</p>
+                        <a href="#"><i class="fa-brands fa-github fa-lg git">아이디</i></a>
+                    </div>
+                </div>
+                <!-- 😀나경쓰 -->
+                <div class="card" style="width: 17rem;">
+                    <img th:src="@{/team/narong.png}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">수줍은 CSS 왕찐천재</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the
+                            bulk of the card's content.</p>
+                        <a href="#"><i class="fa-brands fa-github fa-lg git">아이디</i></a>
+                    </div>
+                </div>
+                <!-- 😀민지쓰 -->
+                <div class="card" style="width: 17rem;">
+                    <img th:src="@{/team/minji.png}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">작지만, 논리에 강하다!</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up
+                            the bulk of the card's content.</p>
+                        <a href="#"><i class="fa-brands fa-github fa-lg git">아이디</i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </th:block>
 </th:block>

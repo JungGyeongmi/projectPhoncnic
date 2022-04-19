@@ -6,7 +6,7 @@
       .container {
         display: grid;
         grid-template-rows: 0.3fr 1fr 0.05fr;
-
+        font-family:'GmarketSansLight';
         row-gap: 3%;
       }
 
@@ -15,9 +15,10 @@
         grid-template-rows: repeat(auto-fit, minmax(100px, auto));
         grid-template-columns: repeat(auto-fit, minmax(300px, auto));
         column-gap: 3%;
-
+        place-items: center;
         list-style: none;
         padding-left: 0;
+        row-gap: 7%;
         /* column-count: 3; */
       }
 
@@ -32,26 +33,99 @@
       }
 
       .gallery-list-ul li img {
-        border-radius: 50%;
-        height: 100px;
-        width: 100px;
+        width: 228px;
+        height: 141px;
+        object-fit: fill;
+        object-position: center;
+        filter: drop-shadow(4px 2px 3px gray);
+      }
+
+      .gallery-list-ul li div {
+        padding: 15px 0;
+        width: 228px;
+        height: 85px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+
+      .back-manage-btn-con button {
+        padding: 10px;
+        border: none;
+        border-radius: 20px;
+        height: 43px;
+        width: 420px;
+        background-color: #e9ecef;
+        margin-bottom: 70px;
+      }
+
+      .back-manage-btn-con button:hover {
+        background-color: #DBE9B7;
+      }
+
+      .back-manage-btn-con {
+        text-align: center;
+      }
+
+      h3{
+        padding: 60px;
+        font-family:'GmarketSansMedium';
+      }
+
+      .back-manage-btn-con button {
+        padding: 10px;
+        border: none;
+        border-radius: 20px;
+        height: 43px;
+        width: 420px;
+        background-color: #e9ecef;
+      }
+
+      .back-manage-btn-con button:hover {
+        background-color: #DBE9B7;
+      }
+
+      .back-manage-btn-con {
+        text-align: center;
+      }
+
+      .back-manage-btn-con button {
+        padding: 10px;
+        border: none;
+        border-radius: 20px;
+        height: 43px;
+        width: 420px;
+        background-color: #e9ecef;
+      }
+
+      .back-manage-btn-con button:hover {
+        background-color: #DBE9B7;
+      }
+
+      .back-manage-btn-con {
+        text-align: center;
       }
     </style>
 
     <div class="container">
-      <h1>유저 갤러리 리스트</h1>
+      <h3><img th:src="@{/icon/vertical-line.png}" style="width: 30px;" alt="">작품 목록</h3>
       <ul th:if="${galleryDTOList.size()}!=0" class="gallery-list-ul">
         <li th:each="dto : ${galleryDTOList}">
           <a th:href="@{/manage/gallery/read(gno=${dto.gno}) }">
             <img th:src="|@{'/display'}?fileName=${dto.getImageURL()}|" alt="">
-            <div style="display:inline-block;">
-              [[${dto.title}]]
+            <div>
+              <b>[[${dto.title}]]</b>
               <br>
               [[${dto.content}]]
             </div>
           </a>
         </li>
       </ul>
+
+      <div class="back-manage-btn-con">
+        <a th:href="@{/manage/gallery/manage}"><button>등록 및 관리 페이지로 돌아가기</button></a>
+      </div>
+
       <div th:if="${galleryDTOList.size()}==0">
         등록된 작품이 없습니다.
         작품을 등록하시겠습니까?

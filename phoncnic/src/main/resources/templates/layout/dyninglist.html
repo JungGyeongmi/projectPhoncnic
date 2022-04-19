@@ -9,14 +9,15 @@
         <meta name="author" content="" />
         <title>dyning</title>
         <style>
-            html, body{
+            html,
+            body {
                 height: 100%;
             }
 
             .container-fluid {
                 height: 100%;
             }
-            
+
             .list-group-flush .list-group-item-action:hover {
                 background-color: #DBE9B7 !important;
             }
@@ -27,9 +28,11 @@
 
             .d-flex {
                 overflow: hidden;
+                height: 100%;
             }
-
         </style>
+        <!-- awsome icon cdn -->
+        <script src="https://kit.fontawesome.com/f145f2fd92.js" crossorigin="anonymous"></script>
         <!-- Favicon-->
         <link rel="icon" type="image/x-icon" th:href="@{/assets/favicon.ico}" />
         <!-- Core theme CSS (includes Bootstrap)-->
@@ -38,7 +41,6 @@
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"
             integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
         <link rel="stylesheet" th:href="@{/css/basic.css}">
-
     </head>
 
     <body>
@@ -93,6 +95,11 @@
                                     th:href="@{/main/mypage}">마이페이지</a></li>
                             <li><a class="dropdown-item" th:href="@{/help/list/}">고객센터</a></li>
                             <li><a class="dropdown-item" th:href="@{/main/companyinfo}">회사소개</a></li>
+                            <li><a class="dropdown-item" th:href="@{/gallery/}">Gallery</a></li>
+                            <li><a class="dropdown-item" th:href="@{/dyning/cafe/list?page=1&top=440&left=40}">Cafe</a>
+                            </li>
+                            <li><a class="dropdown-item"
+                                    th:href="@{/dyning/restaurant/list?page=1&top=440&left=40}">Restaurant</a></li>
 
                         </ul>
                     </li>
