@@ -1,32 +1,29 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <style>
-    html,
-    body {
+    html,body{
         max-height: 100%;
     }
-
     #nav {
         background-color: transparent !important;
     }
-
-    .containerBox {
+    
+    .containerBox{
         font-family: "NeoDunggeunmo";
     }
-
     .phoncnic {
-        font-size: 120px;
-        text-align: center;
-        padding: 10px;
-        color: black;
-        text-shadow: 9px 0 #fff, 0 1px #fff, 1px 0 #fff, 0 -1px #fff;
-        letter-spacing: 5px;
+      font-size: 120px;
+      text-align: center;
+      padding: 10px;
+      color: black;
+      text-shadow: 9px 0 #fff, 0 1px #fff, 1px 0 #fff, 0 -1px #fff;
+      letter-spacing: 5px;
     }
 
     .containerBox button {
-        font-family: "NeoDunggeunmo";
-        font-size: 40px;
-        padding: 20px;
+      font-family: "NeoDunggeunmo";
+      font-size: 40px;
+      padding: 20px;
     }
 
     .buttonItems {
@@ -34,36 +31,36 @@
     }
 
     #wrapper {
-        background-image: url([[@{/icon/pixel-main.jpg}]]);
-        background-repeat: no-repeat;
-        background-size: cover;
-        background-position: center;
+      background-image: url([[@{/icon/pixel-main.jpg}]]);
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
     }
 
     .button-background {
-        background-image: url([[@{/icon/main-button.png}]]);
-        background-size: 276px 81px;
-        background-position: center;
-        background-repeat: no-repeat;
-        /* width: 315px;
+      background-image: url([[@{/icon/main-button.png}]]);
+      background-size: 276px 81px;
+      background-position: center;
+      background-repeat: no-repeat;
+      /* width: 315px;
       height: 114px; */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 15px 0;
-    }
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 8px 0;
+        }
 
     .buttonItems button {
-        border: none;
-        background-color: transparent;
-        padding: 15px 50px;
+      border: none;
+      background-color: transparent;
+      padding: 15px 50px;
     }
 
-    .avartar img {
-        filter: drop-shadow(4px 2px 1px black);
+    .avartar img{
+        filter: drop-shadow(4px 2px 1px black); 
     }
 
-    .show-avartar-con {
+    .show-avartar-con{
         margin-left: 85px;
         height: 140px;
         display: flex;
@@ -72,16 +69,17 @@
     }
 
     .avartar-hover {
-        display: none;
-        position: relative;
-        background: #fff;
-        border-radius: .4em;
-        width: 130px;
-        font-size: 16px;
-        text-align: center;
-        bottom: 230px;
-        left: 10px;
-    }
+    display: none;
+	position: relative;
+	background: #fff;
+	border-radius: .4em;
+    width: 130px;
+    font-size: 16px;
+    text-align: center;
+    bottom: 230px;
+    left: 10px;
+
+}
 
     .avartar-hover:after {
         content: '';
@@ -98,12 +96,11 @@
 
     }
 
-    .avartar:hover~.avartar-hover {
+    .avartar:hover ~.avartar-hover{
         display: block;
     }
-
-    .avartar-speech-bubble-background {
-        background-image: url(/phoncnic/icon/avartar-bubble.png);
+    .avartar-speech-bubble-background{
+        background-image: url([[@{/icon/avartar-bubble.png}]]);
         background-repeat: no-repeat;
         background-size: cover;
         background-position: center;
@@ -115,7 +112,7 @@
         height: 213px;
     }
 
-    .avartar-speech-bubble-con {
+    .avartar-speech-bubble-con{
         display: none;
     }
 
@@ -123,143 +120,170 @@
         display: block;
     }
 
-    .remove {
+    .remove{
         display: none;
     }
 
-    .avartar-speech-bubble-background button {
+    .avartar-speech-bubble-background button{
         width: 78px;
         height: 40px;
         font-size: 18px;
         padding: 5px;
         margin-bottom: 15px;
-        border: 1px solid black;
+        border: 1px solid black; 
     }
 
-    .avartar-speech-bubble-text {
+    .avartar-speech-bubble-text{
         width: 83%;
         word-break: keep-all;
         padding-top: 25px;
     }
 
-    .speech-bubble-btn-con {
+    .speech-bubble-btn-con{
         display: flex;
         align-items: center;
         justify-content: end;
-        width: 80%;
-    }
-
-    .basic-main-logo {
-        display: none;
-    }
+        width: 80%;    
+        }
 </style>
 <th:block th:replace="~{layout/basic :: setContent(~{::content})}">
     <th:block th:fragment="content">
         <input type="text" name="loginUserId" th:value="${loginuserId}" hidden>
         <div class="containerBox">
-            <div class="phoncnic">phoncnic</div>
-            <div class="buttonItems">
-                <div class="button-background">
-                    <div class="button-text">
-                        <!-- 피크닉갈림길 -->
-                        <a th:href="@{/crossroad}"><button type="button">Start</button></a>
-                    </div>
-                </div>
-                <div class="button-background" sec:authorize="isAnonymous()">
-                    <div class="button-text">
-                        <a th:href="@{/member/login}"><button type="button">Login</button></a>
-                    </div>
-                </div>
-                <div class="button-background" sec:authorize="isAuthenticated()">
-                    <div class="button-text">
-                        <a th:href="@{/reception}"><button type="button">Chnage Role</button></a>
-                    </div>
-                </div>
-                <div class="button-background" sec:authorize="hasAnyRole('ROLE_CEO', 'ROLE_ADMIN', 'ROLE_ARTIST')">
-                    <div class="button-text">
-                        <a th:href="@{/manage/rolechoice}"><button type="button">Submit Path</button></a>
-                    </div>
-                </div>
-                <div class="button-background">
-                    <div class="button-text">
-                        <a><button type="button" id="how-button">How to play</button></a>
-                    </div>
-                </div>
+        <div class="phoncnic">phoncnic</div>
+        <div class="buttonItems">
+          <div class="button-background">
+            <div class="button-text">
+                <!-- 피크닉갈림길 -->
+              <a th:href="@{/crossroad}"><button type="button">Start</button></a>
             </div>
+          </div>
+          <div class="button-background" sec:authorize="isAnonymous()">
+            <div class="button-text">
+              <a th:href="@{/member/login}"><button type="button">Login</button></a>
+            </div>
+          </div>
+          <div class="button-background" sec:authorize="isAuthenticated()">
+            <div class="button-text">
+                <a th:href="@{/reception}"><button type="button">Chnage Role</button></a>
+            </div>
+          </div>
+          <div class="button-background" sec:authorize="hasAnyRole('ROLE_CEO', 'ROLE_ADMIN', 'ROLE_ARTIST')">
+            <div class="button-text">
+              <a th:href="@{/manage/rolechoice}"><button type="button">Submit Path</button></a>
+            </div>
+          </div>
+          <div class="button-background">
+            <div class="button-text">
+              <a><button type="button" id="how-button">How to play</button></a>
+            </div>
+          </div>
+        </div>
 
-            <div class="show-avartar-con">
-                <div class="show-avartar">
-                    <div class="avartar">
-                        <button type="button" class="btn " id="btncharacterlook" data-bs-toggle="modal"
-                            data-bs-target="#modalcharacterlook">
-                            <img id="userAvatar" th:src="${avatar?.setpath}" alt="🙄" width="100px">
-                        </button>
-                    </div>
-                    <div class="avartar-hover">
-                        클릭해서 캐릭터를 변경해보세요!
-                    </div>
+        <div class="show-avartar-con">
+            <div class="show-avartar">
+                <div class="avartar">
+                <button type="button" class="btn " id="btncharacterlook" data-bs-toggle="modal" data-bs-target="#modalcharacterlook">
+                    <img id="userAvatar" th:src="${avatar?.setpath}" alt="🙄" width="100px">
+                </button>
                 </div>
-                <div class="avartar-speech-bubble-con remove" id="bubble-con">
-                    <div class="avartar-speech-bubble-background">
+                <div class="avartar-hover">
+                     클릭해서 캐릭터를 변경해보세요!
+                </div>
+           </div>
+           <div class="avartar-speech-bubble-con remove" id="bubble-con">
+                <div class="avartar-speech-bubble-background">
                         <div class="avartar-speech-bubble-text">
-                            <!-- 내용들어갈 곳  -->
+                           <!-- 내용들어갈 곳  -->
                         </div>
                         <div class="speech-bubble-btn-con">
                             <button type="button" id="speech-prebtn">이전</button>
                             <button type="button" id="speech-okbtn">확인</button>
                         </div>
-                    </div>
                 </div>
-            </div>
+           </div>
+           <div style="font-size: 40px; margin-bottom: 235px; color: white;" id="speech-bubble-x"><i class="fa-solid fa-square-xmark"></i></div>
         </div>
+    </div>
 
         <script th:inline="javascript">
-
+        
             $(function (e) {
+                
+                /*[+ var crossroad =  [[@{/crossroad}]]  +]*/   
 
                 //아바타 말풍선 확인버튼 클릭 시 설명서 띄움
                 var avartarBubble = {
-                    0: "Phoncnic에 오신 것을 환영합니다 ^-^",
-                    1: "Phoncnic은 비대면으로 문화 생활을 즐길 수 있는 사이트입니다. 이용자는 온라인 전시회를 톨해 작품을 볼 수있고," +
-                        " 밥집, 카페거리를 다니며 가게를 탐방할 수 있습니다.",
+                    0:"Phoncnic에 오신 것을 환영합니다 ^-^",
+                    1 : "Phoncnic은 비대면으로 문화 생활을 즐길 수 있는 사이트입니다. 이용자는 온라인 전시회를 톨해 작품을 감상할 수 있고," +
+                         " 밥집, 카페거리에서 가게 정보를 얻을 수 있어요 :)",
                     2: "갤러리에서 작품에 좋아요를 남기고 작가를 팔로우 할 수 있으며, 가게 거리에서는 방향키로 캐릭터를 움직여 밥집, 카페 거리를 탐방을 할 수 있답니다",
                     3: "작가, 사업자 신청도 언제든지 받고있어요! 작가가 되어서 자신의 작품을 사람들과 공유해보고, 사업자라면 자신의 가게를 등록해 가게 홍보 기회를 마련해보세요!",
                     4: "그럼 Phoncnic 즐기러 가보실까요? o(〃＾▽＾〃)o",
+                    5: "<a href='/phoncnic/crossroad' style='color:black;'>Phoncnic 산책가기</a>",
                 }
 
 
-                $("#speech-okbtn").on("click", speechBubbleNext);
-                $("#speech-prebtn").on("click", speechBubblePre);
+                    $("#speech-okbtn").on("click", speechBubbleNext);
+                    $("#speech-prebtn").on("click", speechBubblePre);
+                    
+                    var i = 0;
+                    $("#speech-prebtn").css("display","none");
+                    $("#speech-okbtn").css("display","block");
+                    
+                    function buttonChecker(pageNumber){
+                        if(pageNumber==0){
+                            $("#speech-okbtn").css("display","block");
+                            $("#speech-prebtn").css("display","none");
+                        } else if(pageNumber==5){
+                            $("#speech-okbtn").css("display","none");
+                        } else {
+                            $("#speech-okbtn").css("display","block");
+                            $("#speech-prebtn").css("display","block");
+                        }
+                    } 
 
-                /*[+ var crossroad =  [[@{/crossroad}]]  +]*/
+                     function speechBubbleNext(){
+                        $(".avartar-speech-bubble-text").html(avartarBubble[i+1]);
+                        i++;
+                        buttonChecker(i);
+                        console.log("next:"+i);
+                    };
+                    
+                    function speechBubblePre(){
+                        $(".avartar-speech-bubble-text").html(avartarBubble[i-1]);
+                        i--;
+                        buttonChecker(i);
+                        console.log("pre:"+i);
+                    }
 
-                var i = 0;
-                function speechBubbleNext() {
-                    $(".avartar-speech-bubble-text").html(avartarBubble[i + 1]);
-                    i++;
-                    console.log("next:" + i);
-                };
-
-                function speechBubblePre() {
-                    $(".avartar-speech-bubble-text").html(avartarBubble[i - 1]);
-                    i--;
-                    console.log("pre:" + i);
-                }
-
-
+                //설명서 띄움
                 var howBtn = $("#how-button");
-                howBtn.on("click", function () {
-                    if ($("#bubble-con").attr("class") == "avartar-speech-bubble-con remove") {
+                $("#speech-bubble-x").addClass("remove");
+                howBtn.on("click", function(){
+                    if($("#bubble-con").attr("class") == "avartar-speech-bubble-con remove" ){
                         $("#bubble-con").removeClass("remove");
                         $("#bubble-con").addClass("show");
                         $(".avartar-speech-bubble-text").html(avartarBubble[0]);
+                        $("#speech-bubble-x").removeClass("remove");
+                        $("#speech-bubble-x").addClass("show");
                     } else {
                         $("#bubble-con").removeClass("show");
                         $("#bubble-con").addClass("remove");
+                        $("#speech-bubble-x").removeClass("show");
+                        $("#speech-bubble-x").addClass("remove");
 
                     }
                 });
 
+                $("#speech-bubble-x").on("click", function(){
+                    $("#bubble-con").removeClass("show");
+                    $("#bubble-con").addClass("remove");
+                    $("#speech-bubble-x").removeClass("show");
+                    $("#speech-bubble-x").addClass("remove");
+
+                });
+        
                 /*[+
                     var lookModalUrl =  [[@{/character/lookmodal}]];
                     var lookModifyUrl = [[@{/character/lookmodify}]];
@@ -267,18 +291,18 @@
 
                 var modalBody = $(".character-modal-body");
                 var showLookModal = function (e) {
-                    var str = '';
-                    $.get(lookModalUrl, function (result) {
+                    var str ='';
+                    $.get(lookModalUrl, function(result){
                         console.log(result);
-                        $.each(result[0], function (index, item) {
-                            str += `<span>
+                        $.each(result[0], function(index, item){
+                            str +=  `<span>
                                         <input id="${index}${item.setname}" name="chalookInfo" type="radio" value="${item.setname}" hidden>
                                         <label for="${index}${item.setname}">
                                             <img src="${item.setpath}" id="setimg" alt="">
                                         </lable>
                                     </span>`
                         });
-
+                                    
                         str += `<form id="lookfrm" action="" hidden>
                             <input type="hidden" name="id" value="${result[1]}">
                             <input type="hidden" name="setname" value="${result[2].setname}">
@@ -295,18 +319,18 @@
                     console.log("get look modal success...");
                 }
 
-                var modifyLook = function () {
+                var modifyLook = function(){
                     var setname = $("input[name=setname]").val();
                     var setpath = $("input[name=setpath]").val();
-                    var data = { setname: setname, setpath: setpath };
+                    var data = {setname : setname, setpath: setpath};
                     // console.log(data);
                     $.ajax({
                         type: "post",
                         url: lookModifyUrl,
                         data: JSON.stringify(data),
                         contentType: "application/json",
-                        success: function (response) {
-                            swal('success', "변경완료", { button: false, timer: 1000 });
+                        success: function (response) {                    
+                            swal('success', "변경완료",{button:false, timer:1000});
                             $("#userAvatar").attr("src", setpath);
                         },
                         fail: function (response) {
@@ -319,8 +343,8 @@
 
 
                 // 모달제어
-                if ($("input[name=loginUserId]").val() != "") {
-
+                if($("input[name=loginUserId]").val() != "") {
+                    
                     modalBody.html("잠시 기다려주세요 ... ");
 
                     $("#btncharacterlook").on("click", showLookModal);
@@ -332,7 +356,7 @@
                         $("input[name=setname]").val(checkRaido);
                         $("input[name=setpath]").val(checkedset);
                     });
-
+            
                     $(document).on("click", "#lookModifyBtn", function () {
                         swal({
                             text: "캐릭터옷을 변경하시겠습니까?",
@@ -344,8 +368,8 @@
                                 },
                                 cancel: "취소",
                             },
-                        }).then((check) => {
-                            if (check) {
+                        }).then((check)=>{
+                            if(check) {
                                 modifyLook();
                             } else {
                                 return;
@@ -361,21 +385,20 @@
                 width: 100px;
                 height: 140px;
             }
-
+        
             #setimg {
                 width: 100px;
                 height: 140px;
             }
 
             span>label {
-                padding: 15px;
+                padding: 15px; 
             }
-
             span>label:hover {
                 cursor: pointer;
             }
 
-            input[type=radio]:checked+label {
+            input[type=radio]:checked + label {
                 background-color: #DBE9B7;
                 border-radius: 5px;
             }
@@ -384,10 +407,10 @@
                 display: flex;
                 justify-content: center;
             }
-        </style>
+      </style>
         <!-- 모달창 -->
         <div class="character modal" tabindex="-1" id="modalcharacterlook">
-            <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">캐릭터 룩</h5>
@@ -398,10 +421,8 @@
                         <div>로그인 후 이용해주세요 </div>
                     </div>
                     <div class="modal-footer">
-                        <button th:if="${loginuserId}" id="lookModifyBtn" type="button"
-                            class="btn btn-primary">변경하기</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                            name="btn-close">취소</button>
+                        <button th:if="${loginuserId}" id="lookModifyBtn" type="button" class="btn btn-primary">변경하기</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" name="btn-close">취소</button>
                     </div>
                 </div>
             </div>
