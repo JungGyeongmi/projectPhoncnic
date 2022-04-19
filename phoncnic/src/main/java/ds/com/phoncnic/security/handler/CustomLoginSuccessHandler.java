@@ -29,9 +29,7 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
     List<String> roleNames = new ArrayList<>();
 
     authMemberDTO.getAuthorities().forEach(authority -> { roleNames.add(authority.getAuthority()); });
-
-    log.warn("ROLE NAMES : " + roleNames);
-
+    log.warn("request page"+request.getResultURI());
     HttpSession session = request.getSession(false);
     int interval = session.getMaxInactiveInterval();
 
