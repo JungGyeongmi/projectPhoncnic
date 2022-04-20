@@ -299,7 +299,6 @@
         </div>
 
         <script th:inline="javascript">
-
             $(function (e) {
                 // 언어변환
                 var HangullagnuArr = ["시작하기","로그인", "신원변경", "관리하기","즐기는법"];
@@ -307,7 +306,8 @@
 
                 var check = $("#slide-langu");
                 var triger = false;
-                check.click(function () {
+                check.click(changeLangu());
+                function changeLangu() {
                     $("p").toggle();
                     if(!triger){
                         $(".text-langu").each((index, item)=>{
@@ -317,6 +317,7 @@
                             $(".phoncnic").text("폰-크닉.v1");
                         });
                         triger = true;
+                        checkValue =true;
                     } else {
                         $(".text-langu").each((index, item)=>{
                             var textIndex = item.dataset.textIndex;
@@ -325,9 +326,10 @@
                             $(".phoncnic").text("phoncnic");
                         });
                         triger = false;
+                        checkValue = false;
                     }
-                });
-
+                }
+                
                 /*[+ var crossroad =  [[@{/crossroad}]]  +]*/
 
                 //아바타 말풍선 확인버튼 클릭 시 설명서 띄움
