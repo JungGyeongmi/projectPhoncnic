@@ -490,7 +490,7 @@
                 $(".thumbimage").on("click", function (e) {
                     var filename = $(this).data('file');
                     console.log(filename);
-                    var OriginMenu = `<img style="width:100%" src="${filename}">`;
+                    var OriginMenu = `<img src="${filename}">`;
                     $(".modal-body").html(OriginMenu);
                     $("#imageModal").show();
                 });
