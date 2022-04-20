@@ -47,11 +47,11 @@
         background-repeat: no-repeat;
         /* width: 315px;
       height: 114px; */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 8px 0;
-    }
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 8px 0;
+        }
 
     .buttonItems button {
         border: none;
@@ -100,8 +100,7 @@
     .avartar:hover~.avartar-hover {
         display: block;
     }
-
-    .avartar-speech-bubble-background {
+    .avartar-speech-bubble-background{
         background-image: url([[@{/icon/avartar-bubble.png}]]);
         background-repeat: no-repeat;
         background-size: cover;
@@ -180,7 +179,7 @@
                 </div>
                 <div class="button-background" sec:authorize="hasAnyRole('ROLE_CEO', 'ROLE_ADMIN', 'ROLE_ARTIST')">
                     <div class="button-text">
-                        <a th:href="@{/manage/rolechoice}"><button type="button">Submit Path</button></a>
+                        <a th:href="@{/manage/rolechoice}"><button type="button">Management</button></a>
                     </div>
                 </div>
                 <div class="button-background">
@@ -213,22 +212,21 @@
                         </div>
                     </div>
                 </div>
-                <div style="font-size: 40px; margin-bottom: 235px; color: white;" id="speech-bubble-x"><i
-                        class="fa-solid fa-square-xmark"></i></div>
-            </div>
+                <div style="font-size: 40px; margin-bottom: 235px; color: white;" id="speech-bubble-x"><i class="fa-solid fa-square-xmark"></i></div>
+           </div>
         </div>
 
         <script th:inline="javascript">
 
             $(function (e) {
-
-                /*[+ var crossroad =  [[@{/crossroad}]]  +]*/
+                
+                /*[+ var crossroad =  [[@{/crossroad}]]  +]*/   
 
                 //아바타 말풍선 확인버튼 클릭 시 설명서 띄움
                 var avartarBubble = {
-                    0: "Phoncnic에 오신 것을 환영합니다 ^-^",
-                    1: "Phoncnic은 비대면으로 문화 생활을 즐길 수 있는 사이트입니다. 이용자는 온라인 전시회를 톨해 작품을 감상할 수 있고," +
-                        " 밥집, 카페거리에서 가게 정보를 얻을 수 있어요 :)",
+                    0:"Phoncnic에 오신 것을 환영합니다 ^-^",
+                    1 : "Phoncnic은 비대면으로 문화 생활을 즐길 수 있는 사이트입니다. 이용자는 온라인 전시회를 통해 작품을 감상할 수 있고," +
+                         " 밥집, 카페거리에서 가게 정보를 얻을 수 있어요 :)",
                     2: "갤러리에서 작품에 좋아요를 남기고 작가를 팔로우 할 수 있으며, 가게 거리에서는 방향키로 캐릭터를 움직여 밥집, 카페 거리를 탐방을 할 수 있답니다",
                     3: "작가, 사업자 신청도 언제든지 받고있어요! 작가가 되어서 자신의 작품을 사람들과 공유해보고, 사업자라면 자신의 가게를 등록해 가게 홍보 기회를 마련해보세요!",
                     4: "그럼 Phoncnic 즐기러 가보실까요? o(〃＾▽＾〃)o",
@@ -236,49 +234,50 @@
                 }
 
 
-                $("#speech-okbtn").on("click", speechBubbleNext);
-                $("#speech-prebtn").on("click", speechBubblePre);
+                    $("#speech-okbtn").on("click", speechBubbleNext);
+                    $("#speech-prebtn").on("click", speechBubblePre);
+                    
+                    var i = 0;
+                    $("#speech-prebtn").css("display","none");
+                    $("#speech-okbtn").css("display","block");
+                    
+                    function buttonChecker(pageNumber){
+                        if(pageNumber==0){
+                            $("#speech-okbtn").css("display","block");
+                            $("#speech-prebtn").css("display","none");
+                        } else if(pageNumber==5){
+                            $("#speech-okbtn").css("display","none");
+                        } else {
+                            $("#speech-okbtn").css("display","block");
+                            $("#speech-prebtn").css("display","block");
+                        }
+                    } 
 
-                var i = 0;
-                $("#speech-prebtn").css("display", "none");
-                $("#speech-okbtn").css("display", "block");
-
-                function buttonChecker(pageNumber) {
-                    if (pageNumber == 0) {
-                        $("#speech-okbtn").css("display", "block");
-                        $("#speech-prebtn").css("display", "none");
-                    } else if (pageNumber == 5) {
-                        $("#speech-okbtn").css("display", "none");
-                    } else {
-                        $("#speech-okbtn").css("display", "block");
-                        $("#speech-prebtn").css("display", "block");
+                     function speechBubbleNext(){
+                        $(".avartar-speech-bubble-text").html(avartarBubble[i+1]);
+                        i++;
+                        buttonChecker(i);
+                        console.log("next:"+i);
+                    };
+                    
+                    function speechBubblePre(){
+                        $(".avartar-speech-bubble-text").html(avartarBubble[i-1]);
+                        i--;
+                        buttonChecker(i);
+                        console.log("pre:"+i);
                     }
-                }
-
-                function speechBubbleNext() {
-                    $(".avartar-speech-bubble-text").html(avartarBubble[i + 1]);
-                    i++;
-                    buttonChecker(i);
-                    console.log("next:" + i);
-                };
-
-                function speechBubblePre() {
-                    $(".avartar-speech-bubble-text").html(avartarBubble[i - 1]);
-                    i--;
-                    buttonChecker(i);
-                    console.log("pre:" + i);
-                }
 
                 //설명서 띄움
                 var howBtn = $("#how-button");
                 $("#speech-bubble-x").addClass("remove");
-                howBtn.on("click", function () {
-                    if ($("#bubble-con").attr("class") == "avartar-speech-bubble-con remove") {
+                howBtn.on("click", function(){
+                    if($("#bubble-con").attr("class") == "avartar-speech-bubble-con remove" ){
                         $("#bubble-con").removeClass("remove");
                         $("#bubble-con").addClass("show");
                         $(".avartar-speech-bubble-text").html(avartarBubble[0]);
                         $("#speech-bubble-x").removeClass("remove");
                         $("#speech-bubble-x").addClass("show");
+                        buttonChecker(0);
                     } else {
                         $("#bubble-con").removeClass("show");
                         $("#bubble-con").addClass("remove");
@@ -288,14 +287,14 @@
                     }
                 });
 
-                $("#speech-bubble-x").on("click", function () {
+                $("#speech-bubble-x").on("click", function(){
                     $("#bubble-con").removeClass("show");
                     $("#bubble-con").addClass("remove");
                     $("#speech-bubble-x").removeClass("show");
                     $("#speech-bubble-x").addClass("remove");
 
                 });
-
+        
                 /*[+
                     var lookModalUrl =  [[@{/character/lookmodal}]];
                     var lookModifyUrl = [[@{/character/lookmodify}]];
@@ -423,7 +422,7 @@
         </style>
         <!-- 모달창 -->
         <div class="character modal" tabindex="-1" id="modalcharacterlook">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">캐릭터 룩</h5>
@@ -435,7 +434,7 @@
                     </div>
                     <div class="modal-footer">
                         <button th:if="${loginuserId}" id="lookModifyBtn" type="button"
-                            class="btn btn-primary">변경하기</button>
+                            class="basic-button">변경하기</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
                             name="btn-close">취소</button>
                     </div>
