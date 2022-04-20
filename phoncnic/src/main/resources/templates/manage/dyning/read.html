@@ -1,16 +1,23 @@
 <!DOCTYPE html>
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
 <style>
-     /* @media (min-width: 546px){
-    .modal-dialog {
-        max-width: 960px !important;
-        margin: 7.75rem auto !important;
-     }
-     .modal-dialog > .modal-body img {
-         width: 100% !important;
-     }
-    } */
+@media (min-width: 576px) {
+.modal-dialog {
+    max-width: 815px !important;
+    margin: 4.75rem auto !important;
+    }
+}
 
+/* @media (min-height: 350px) {
+.modal-dialog {
+    max-width: 419px !important;
+    margin: 4.75rem auto !important;
+    }
+} */
+
+.modal-body img{
+    width: 100% !important;
+}
 
      .d-flex{
         background-size: cover;
@@ -392,6 +399,7 @@
                 $("button[name='btn-close']").on("click", function (e) {
                     $("#imageModal").hide();
                 });
+
             });
         </script>
 
