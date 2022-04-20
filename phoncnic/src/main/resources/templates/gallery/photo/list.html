@@ -306,6 +306,23 @@
             background-color: #DBE9B7;
             border-radius: 5px;  
          }
+
+         .basic-button {
+                background-color: #dbdde0;
+                color: black;
+                height: auto;
+                border-radius: 5px;
+                padding: 10px;
+                border: none;
+                margin: 0 10px;
+                font-size: 1rem;
+            }
+
+            .basic-button:hover {
+                background-color: #ccd1d8;
+            }
+
+
       </style>
 
       <input type="hidden" th:if="${loginUserId}" name="loginUserId" th:value="${loginUserId}">
@@ -940,7 +957,7 @@
                   <div>로그인 후 이용해주세요 </div>
                </div>
                <div class="modal-footer">
-                  <button th:if="${loginuserId}" id="lookModifyBtn" type="button" class="btn btn-primary">변경하기</button>
+                  <button th:if="${loginuserId}" id="lookModifyBtn" type="button" class="basic-button">변경하기</button>
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" name="btn-close">취소</button>
                </div>
             </div>
