@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
 <style>
-     @media (min-width: 576px){
+     /* @media (min-width: 546px){
     .modal-dialog {
         max-width: 960px !important;
-        /* height: 531px; */
-        /* max-height: 460px; */
         margin: 7.75rem auto !important;
      }
-    }
+     .modal-dialog > .modal-body img {
+         width: 100% !important;
+     }
+    } */
 
 
      .d-flex{
@@ -355,7 +356,6 @@
                         text: "OK를 누르시면 데이터는 되돌릴 수 없습니다!!!!!",
                         icon: "warning",
                         buttons: true,
-                        className : "swal-btn-color",
                         dangerMode: true,
                     })
                         .then((willDelete) => {
@@ -384,7 +384,7 @@
                 $(".thumbimage").on("click", function (e) {
                     var filename = $(this).data('file');
                     console.log(filename);
-                    var OriginMenu = `<img  src="${filename}">`;
+                    var OriginMenu = `<img style="max-width: -webkit-fill-available;" src="${filename}">`;
                     $(".modal-body").html(OriginMenu);
                     $("#imageModal").show();
                 });
@@ -404,10 +404,6 @@
                             name="btn-close"></button>
                     </div>
                     <div class="modal-body">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="basic-button" name="btn-close"
-                            data-bs-dismiss="modal">닫기</button>
                     </div>
                 </div>
             </div>
