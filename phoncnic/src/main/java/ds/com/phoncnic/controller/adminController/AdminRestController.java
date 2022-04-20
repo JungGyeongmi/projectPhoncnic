@@ -51,7 +51,7 @@ public class AdminRestController {
         String oriNick = json.get("originNick");
         Boolean roleChecker = json.get("originRole")==roleSet.get(0);
         Boolean nickChecker = memberService.nickNameChecker(json.get("nickname"));
-        Boolean confirmChecker = json.get("confirmCheck").equals("true")?true:false;
+        Boolean confirmChecker = json.get("confirmCheck").equals("0")?false:true;
         String id = json.get("id");
 
         memberDTO.setId(id);

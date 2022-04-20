@@ -6,25 +6,31 @@
             label:hover {
                 cursor: pointer;
             }
+
             .btn-danger {
                 background-color: tomato;
             }
+
             .btn-danger:not([disabled]):hover[class*='btn-danger'] {
                 background-color: tomato;
             }
+
             .page-list button,
             .page-item button {
                 color: black;
             }
+
             .page-list button:hover {
                 background-color: lightgray;
                 font-weight: bold;
             }
+
             .page-list-active {
                 background-color: lightblue;
                 font-weight: bold;
-                font-size:large;
+                font-size: large;
             }
+
             .memberRemoveBtn,
             .memberModifyBtn,
             #searchAllBtn,
@@ -37,37 +43,44 @@
                 color: white;
                 padding: 0.5rem;
             }
+
             #searchAllBtn,
             .memberRemoveBtn,
             .memberModifyBtn {
                 background: #c9c9c9;
             }
+
             #searchAllBtn:active,
             #searchBtn:active,
             button:active {
                 outline: unset;
                 box-shadow: inset 10px 9px 0px 3px lightblue;
             }
+
             input[type="text"] {
                 background-color: transparent;
                 border: none;
                 outline: none;
             }
-            input[type="text"]:focus{
+
+            input[type="text"]:focus {
                 border-bottom: 2px solid grey;
             }
+
             input[name="keyword"]:focus,
             input[name="keyword"] {
                 border-bottom: 2px solid gold;
             }
-            input[name="nickname"]:hover{
+
+            input[name="nickname"]:hover {
                 cursor: pointer;
             }
-            .info-text{
-                text-align: center; 
+
+            .info-text {
+                text-align: center;
                 font-weight: bold;
                 color: gold;
-                font-size: 20px; 
+                font-size: 20px;
             }
         </style>
         <div class="title">
@@ -139,10 +152,10 @@
                     if (keyword == "777") {
                         searchResult.text("🎉이것이 권력의 맛이다🎉").addClass("info-text");
                         return;
-                    } 
-                    
+                    }
+
                     if (keyword == "") {
-                        if(searchAll){
+                        if (searchAll) {
                             searchResult.html("검색어 입력하슈, 전체 검색은 상위 버튼").addClass("info-text");
                             swal({ title: "검색어", text: "구글 아이디 또는 닉네임", icon: "info", button: false, timer: 2000 });
                             searchResultNav.html("");
@@ -188,7 +201,7 @@
                                             <td class="search-result-td" > <span >${item.id}</sapn></td>
                                             <td class="search-result-td" ><input type="text" value="${item.nickname}" name="nickname" data-ori-nick="${item.nickname}"></td>
                                             <td class="search-result-td" data-apply-boolean="${item.confirm}">
-                                                <input type="checkbox" value="confirm" id="applyCheck"/> 
+                                                <input type="checkbox" value="true" id="applyCheck"/> 
                                             </td>
                                             <td class="search-result-td apply" data-apply-boolean="${item.afno}">${item.applicationtype}</td>
                                             <td class="search-result-td roleSetInfo" data-role-set="${item.roleSet[0]}">
@@ -210,19 +223,23 @@
                                         <input id="CEO${index}" type="radio" name="roleSet" value="ROLE_CEO">
                                         <input id="ARTIST${index}" type="radio" name="roleSet" value="ROLE_ARTIST">
                                     </div>
-                                </form>`
+                                </form>`;
                                 searchResult.append(str);
+
                                 if ($(".apply").eq(index).html() == "true") {
-                                     $(".apply").eq(index).html("CEO") 
-                                    }
-                                else if ($(".apply").eq(index).html() == "false") { 
+                                    $(".apply").eq(index).html("CEO")
+                                }
+                                else if ($(".apply").eq(index).html() == "false") {
                                     $(".apply").eq(index).html("ARTIST")
-                                 }
-                                 $("#applyCheck").attr("checked", item.confirm);
+                                }
+                                
+                                $("#applyCheck").attr("checked", item.confirm);
+                                if(item.confirm){$("#applyCheck").val("true")}else{$("#applyCheck").val("false")}
+
                                 if ($(".apply").eq(index).data("applyBoolean") == 0) { $(".apply").eq(index).html("신청내역없음") }
 
-                            var roleId = item.roleSet[0].toString().slice(5) + index;
-                                $(`label[for=${roleId}]`).css({"color": "tomato","font-weight":"bold"});
+                                var roleId = item.roleSet[0].toString().slice(5) + index;
+                                $(`label[for=${roleId}]`).css({ "color": "tomato", "font-weight": "bold" });
                                 $(`#${roleId}`).attr("checked", true);
                             });
                             $(".table-title :gt(7)").css("display", "none");
@@ -242,7 +259,7 @@
                             str2 += `<li class="page-item" data-is-next="${response.next}">
                                     <button data-page-href="${searchUrl}?page=${response.end + 1}"  data-page-index="0" class="page-link" >▶</button>
                                 </li></ul>`;
-                            
+
                             searchResultNav.html(str2);
 
                             if (!$(".page-item").eq(0).data("isPrev")) {
@@ -265,6 +282,16 @@
                     });
 
                 }
+                // 라디오 버튼값 변경
+                $(document).on("click", "#applyCheck", function () {
+                    if ($(this).val() == "true") {
+                        $(this).val("false");
+                        console.log($(this).val());
+                    } else {
+                        $(this).val("true");
+                        console.log($(this).val());
+                    }
+                })
 
                 // 검색 페이징
                 $(document).on("click", ".page-link", function () {
@@ -274,8 +301,8 @@
 
                 // ROLE 선택시 색, 값 변경
                 $(document).on("change", ".raidoContainer input", function () {
-                    $(".roleSetInfo").eq($(this).parent().data("index")).children().css({"color": "black","font-weight":"unset"});
-                    $(`label[for=${$(this).attr("id")}]`).css({"color": "tomato","font-weight":"bold"});
+                    $(".roleSetInfo").eq($(this).parent().data("index")).children().css({ "color": "black", "font-weight": "unset" });
+                    $(`label[for=${$(this).attr("id")}]`).css({ "color": "tomato", "font-weight": "bold" });
                     $(this).parent().siblings().eq(1).val($(this).val());
                 });
 
@@ -310,24 +337,24 @@
                         url: modifyUrl + "/" + userRole,
                         contentType: "application/json",
                         success: function (message) {
-                            if (message=="change") {
-                                $(".mod-date").eq(index).css({"color": "tomato","font-weight":"bold"});
+                            if (message == "change") {
+                                $(".mod-date").eq(index).css({ "color": "tomato", "font-weight": "bold" });
                                 swal("수정완", { button: false, timer: 1000 });
                                 console.log("get modi post success....");
-                                
-                            } else if ( $(".roleSetInfo").eq(index).data("roleSet")!=$(".modirole").eq(index).val()) {
+
+                            } else if ($(".roleSetInfo").eq(index).data("roleSet") != $(".modirole").eq(index).val()) {
                                 $("input[name=nickname]").eq(index).val(data["originNick"]);
-                                $(".mod-date").eq(index).css({"color": "tomato","font-weight":"bold"});
-                                swal("롤 수정완",{button: false, timer: 1000 });
+                                $(".mod-date").eq(index).css({ "color": "tomato", "font-weight": "bold" });
+                                swal("롤 수정완", { button: false, timer: 1000 });
 
                                 $(".roleSetInfo").eq(index).data("roleSet", $(".modirole").eq(index).val());
 
                             } else {
-                                swal("닉네임 중복",{button: false, timer: 1000 });
+                                swal("닉네임 중복", { button: false, timer: 1000 });
                                 $("input[name=nickname]").eq(index).val(data["originNick"]);
-                                $(".mod-date").eq(index).css({"color": "black","font-weight":"unset"});
+                                $(".mod-date").eq(index).css({ "color": "black", "font-weight": "unset" });
                             }
-                            
+
                         },
                         error(error) {
                             console.log(error.responseJSON);
@@ -341,19 +368,18 @@
                     if (e.keyCode != "13") {
                         return;
                     }
-                    e.preventDefault();
-
-                    var originRole = $(this).parent().siblings().eq(3).data("roleSet");
-                    var originNick =  $(this).data("oriNick");
+                    var originRole = $(this).parent().siblings().eq(4).data("roleSet");
+                    console.log($(this).parent().siblings());
+                    var originNick = $(this).data("oriNick");
                     var index = $(this).parents("form").index();
                     var id = $(this).parent().siblings("input[name=id]").val();
                     var nickname = $(this).val();
                     var userRole = [$(".modirole").eq(index).val()];
-                    var confirmCheck =$("#applyCheck").attr("checked");
-                    var data = { "id": id, "nickname": nickname, "originRole": originRole , "originNick": originNick, "confirmCheck": confirmCheck };
-                    
+                    var confirmCheck = $("#applyCheck").val() == "true" ? 1 : 0;
+                    var data = { "id": id, "nickname": nickname, "originRole": originRole, "originNick": originNick, "confirmCheck": confirmCheck };
+
                     console.log(data);
-                   
+
                     swal({ text: "수정하시겠습니까?", buttons: { button: { text: "네", value: true }, cancel: "아니오" }, dangerMode: true }).then((check) => {
                         if (check) {
                             modiAjax(data, userRole, index);
@@ -363,15 +389,15 @@
                     });
                 });
                 $(document).on("click", ".memberModifyBtn", function (e) {
-                    var originRole = $(this).parent().siblings().eq(4).data("roleSet");
-                    var originNick =  $(this).parent().siblings().eq(2).children("input").data("oriNick");
+                    var originRole = $(this).parent().siblings().eq(5).data("roleSet");
+                    var originNick = $(this).parent().siblings().eq(2).children("input").data("oriNick");
                     var index = $(this).parents("form").index();
                     var id = $(this).parent().siblings("input[name=id]").val();
                     var nickname = $(this).parent().siblings().eq(2).children("input").val();
                     var userRole = [$(".modirole").eq(index).val()];
-                    var confirmCheck =$("#applyCheck").attr("checked")=="checked"?true:false;
-                    var data = { "id": id, "nickname": nickname, "originRole": originRole , "originNick": originNick, "confirmCheck": confirmCheck };
-
+                    var confirmCheck = $("#applyCheck").val() == "true" ? 1 : 0;
+                    var data = { "id": id, "nickname": nickname, "originRole": originRole, "originNick": originNick, "confirmCheck": confirmCheck };
+                    console.log(data);
                     modiAjax(data, userRole, index);
                 });
 
@@ -401,7 +427,6 @@
                         } else { return; }
                     });
                 });
-
             });
 
         </script>
