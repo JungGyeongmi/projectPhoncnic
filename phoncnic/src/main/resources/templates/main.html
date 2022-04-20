@@ -303,33 +303,49 @@
                 // 언어변환
                 var HangullagnuArr = ["시작하기","로그인", "신원변경", "관리하기","즐기는법"];
                 var EnglishlagnuArr = ["Start","Login","Change Role","Mangement","How to play"];
-
+                
                 var check = $("#slide-langu");
-                var triger = false;
-                check.click(function(){changeLangu()});
+                check.change(function(){
+                    changeLangu();
+                });
+
+                // local에 저장
+                function saveLocalHangul (){
+                    // 한글이 true
+                    var gangulCheck = check.is(":checked");
+                    localStorage['gangulCheck'] = gangulCheck;
+                    console.log(gangulCheck);
+                    console.log("save");
+                    return gangulCheck;
+                };
+
+                // local에서 가져오기
+                var storetriger = localStorage['gangulCheck'] || false;
+                if(storetriger=="true") {
+                    check.click();
+                }
+
                 function changeLangu() {
+                    var triger = saveLocalHangul();
+
                     $("p").toggle();
-                    if(!triger){
+                    if(triger){
                         $(".text-langu").each((index, item)=>{
                             var textIndex = item.dataset.textIndex;
-                            // console.log(HangullagnuArr[textIndex]);
-                            item.innerHTML=HangullagnuArr[textIndex];
+                            item.innerHTML= HangullagnuArr[textIndex];
                             $(".phoncnic").text("폰-크닉.v1");
                         });
-                        triger = true;
-                        checkValue =true;
                     } else {
                         $(".text-langu").each((index, item)=>{
                             var textIndex = item.dataset.textIndex;
-                            // console.log(EnglishlagnuArr[textIndex]);
-                            item.innerHTML=EnglishlagnuArr[textIndex];
+                            item.innerHTML= EnglishlagnuArr[textIndex];
                             $(".phoncnic").text("phoncnic");
                         });
-                        triger = false;
-                        checkValue = false;
                     }
                 }
                 
+               
+
                 /*[+ var crossroad =  [[@{/crossroad}]]  +]*/
 
                 //아바타 말풍선 확인버튼 클릭 시 설명서 띄움
