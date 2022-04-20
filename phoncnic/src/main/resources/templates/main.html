@@ -179,7 +179,7 @@
                 </div>
                 <div class="button-background" sec:authorize="hasAnyRole('ROLE_CEO', 'ROLE_ADMIN', 'ROLE_ARTIST')">
                     <div class="button-text">
-                        <a th:href="@{/manage/rolechoice}"><button type="button">Submit Path</button></a>
+                        <a th:href="@{/manage/rolechoice}"><button type="button">Management</button></a>
                     </div>
                 </div>
                 <div class="button-background">
@@ -212,8 +212,8 @@
                         </div>
                     </div>
                 </div>
+                <div style="font-size: 40px; margin-bottom: 235px; color: white;" id="speech-bubble-x"><i class="fa-solid fa-square-xmark"></i></div>
            </div>
-           <div style="font-size: 40px; margin-bottom: 235px; color: white;" id="speech-bubble-x"><i class="fa-solid fa-square-xmark"></i></div>
         </div>
 
         <script th:inline="javascript">
@@ -277,6 +277,7 @@
                         $(".avartar-speech-bubble-text").html(avartarBubble[0]);
                         $("#speech-bubble-x").removeClass("remove");
                         $("#speech-bubble-x").addClass("show");
+                        buttonChecker(0);
                     } else {
                         $("#bubble-con").removeClass("show");
                         $("#bubble-con").addClass("remove");
@@ -433,7 +434,7 @@
                     </div>
                     <div class="modal-footer">
                         <button th:if="${loginuserId}" id="lookModifyBtn" type="button"
-                            class="btn btn-primary">변경하기</button>
+                            class="basic-button">변경하기</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
                             name="btn-close">취소</button>
                     </div>
