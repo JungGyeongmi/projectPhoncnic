@@ -101,7 +101,7 @@ public interface MemberService {
           sort = Sort.by("nickname").descending();
           break;
         case "b":
-          sort = Sort.by("regdate").descending();
+          sort = Sort.by(Sort.Direction.DESC, "regdate");
           break;
         case "c":
           sort = Sort.by("moddate").descending();

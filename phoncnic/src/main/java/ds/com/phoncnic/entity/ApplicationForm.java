@@ -23,7 +23,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @Getter
 @ToString (exclude = {"member"})
-public class ApplicationForm extends BaseEntity {
+public class ApplicationForm extends BaseRegiDate {
   
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
