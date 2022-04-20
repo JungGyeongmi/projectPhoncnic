@@ -1,5 +1,9 @@
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
 <style>
+    a {
+        text-decoration: none !important;
+        color:black !important;
+    }
     .containerBox {
         font-family: 'GmarketSansLight';
         width: 940px;
@@ -27,17 +31,22 @@
     }
 
     .register-content {
-        width: 430px;
-        height: 200px;
+        
+        /* width: 430px; */
+        /* height: 200px; */
         border-radius: 4px;
-        display: inline-block;
-        text-align: center;
+        /* display: inline-block; */
+        /* text-align: center; */
         margin: 0 auto;
     }
+    .register-content .img-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
-    .store-img {
-        padding: 11px;
-        text-align: center;
+    .store-img:not(:last-child) {
+        margin-right: 10%;
     }
 
     .store-img img {
@@ -81,11 +90,33 @@
 
     .store-content img{
         width: 170px;
-        filter: drop-shadow(4px 2px 6px lightgray); 
+        filter: drop-shadow(4px 2px 6px lightgray);
     }
+    
+    .store-img img {
+        width: 150px;
+    }
+
     #dyningname{
         margin-top: 10px;
     }
+    
+
+    .align-text-con{
+        position: relative;
+        bottom: -95px;
+        z-index: 3;
+        left: -1px;
+    }
+
+    .align-text-con span {
+        font-size: 20px;
+		font-weight: bold;
+		color: white;
+		text-shadow: 0 0 7px #fff, 0 0 15px #fff, 0 0 0px #fff, 0 0 12px #0fa;
+    }
+    
+    
 </style>
 <th:block th:replace="~{layout/basic :: setContent(~{::content})}">
     <th:block th:fragment="content">
@@ -95,13 +126,38 @@
             <hr>
             <div class="register-container">
                 <div class="register-content">
-                    <div class="store-img">
-                        <img th:src="@{/icon/store.png}" alt="">
+                    <div class="img-container">
+                        <div class="store-img">
+                            <div class="img-align-con">
+                                <div class="align-text-con">
+                                    <a th:href="@{/dyning/cafe/list?page=1&amp;top=440&amp;left=40}">
+                                        <span>카페거리로</span>
+                                    </a>
+                                </div>
+                                <a th:href="@{/dyning/cafe/list?page=1&amp;top=440&amp;left=40}">
+                                    <img th:src="@{/icon/store.png}" alt="">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="store-img">
+                            
+                            <div class="img-align-con">
+                                <div class="align-text-con">
+                                    <a th:href="@{/dyning/restaurant/list?page=1&amp;top=440&amp;left=40}">
+                                        <span>음식점거리로</span>
+                                    </a>
+                                </div>
+                                <a th:href="@{/dyning/restaurant/list?page=1&amp;top=440&amp;left=40}">
+                                    <img th:src="@{/icon/store.png}" alt="">
+                                </a>
+                            </div>
+                        </div>
                     </div>
+                    
                     <div class="register-btn">
-                        <a th:href="@{/manage/dyning/register(id=${id})}"><button type="button"><b>[[${id}]]</b> 님의 가게
-                                등록하러
-                                가기</button></a>
+                        <a th:href="@{/manage/dyning/register(id=${id})}">
+                            <button type="button"><b>[[${id}]]</b> 님의 가게 등록하러가기</button>
+                        </a>
                     </div>
                 </div>
             </div>
