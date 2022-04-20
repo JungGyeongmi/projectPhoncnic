@@ -306,7 +306,7 @@
 
                 var check = $("#slide-langu");
                 var triger = false;
-                check.click(changeLangu());
+                check.click(function(){changeLangu()});
                 function changeLangu() {
                     $("p").toggle();
                     if(!triger){

@@ -98,8 +98,11 @@
                 display: none;
             }
 
-            #sidebar-wrapper {
-                z-index: 3;
+            .list-phon-toggle{
+                display: none !important;
+            }
+            #listTogglePhon{
+                cursor: pointer;
             }
         </style>
         <!-- awsome icon cdn -->
@@ -167,26 +170,37 @@
                         </div>
                         <span sec:authentication="principal.nickname"></span>
                     </div>
+
                     <a class="list-group-item list-group-item-action list-group-item-light p-3"
                         sec:authorize="isAuthenticated()" th:href="@{/member/logout}">로그아웃</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3"
                         sec:authorize="isAuthenticated()" th:href="@{/main/mypage}">마이페이지</a>
+
+
                     <a class="list-group-item list-group-item-action list-group-item-light p-3"
                         th:href="@{/help/list/}">고객센터</a>
+
+                    
                     <a class="list-group-item list-group-item-action list-group-item-light p-3"
+                        id="listTogglePhon">폰크닉 시작</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3 list-phon-toggle"
                         th:href="@{/crossroad}">산책하기</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3"
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3 list-phon-toggle"
                         th:href="@{/gallery/}">전시장입구</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3"
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3 list-phon-toggle"
                         th:href="@{/dyning/cafe/list?page=1&top=440&left=40}">카페거리</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3"
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3  list-phon-toggle"
                         th:href="@{/dyning/restaurant/list?page=1&top=440&left=40}">식당거리</a>
+
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3"
+                        th:href="@{/main/companyinfo}">회사소개</a>
+
+
                     <a class="list-group-item list-group-item-action list-group-item-light p-3"
                         sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/index}">인덱스</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3"
                         sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/admin}">권력!</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3"
-                        th:href="@{/main/companyinfo}">회사소개</a>
+
                 </div>
             </div>
         </div>
@@ -196,6 +210,15 @@
         <script th:src="@{/js/scripts.js}"></script>
         <script th:inline="javascript">
             $(function () {
+                $(document).on("click", "#listTogglePhon",function() {
+                    if($(".list-phon-toggle").hasClass("list-phon-toggle")){
+                        $(".list-phon-toggle").removeClass("list-phon-toggle");
+                    } else {
+                        $(".list-phon-toggle").addClass("list-phon-toggle");
+                        console.log("did")
+                    }
+                });
+
                 var loginUserProfileSrc = $("#loginUserPictureSrc").text();
                 var loginUserPicture = $("#loginUserPicture")
                 var userInfoToggle = $("#userInfoToggle")
