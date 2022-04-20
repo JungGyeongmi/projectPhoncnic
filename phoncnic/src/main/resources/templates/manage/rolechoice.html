@@ -75,6 +75,11 @@
     .basic-main-logo {
         display: none;
     }
+
+    .content-container .content:last-child .content-body {
+        padding: 41px;
+  }
+
     
 </style>
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
@@ -87,13 +92,13 @@
             <div class="content-container">
               <div class="content">
                 <div class="content-body">
-                  <a th:href="@{/manage/dyning/list}"><img th:src="@{/icon/store.png}" alt=""></a>
+                  <a th:href="@{/manage/dyning/list}"><img th:src="@{/icon/Pepper Pete.ico}" alt=""></a>
                 </div>
                 <a th:href="@{/manage/dyning/list}"><button>사업자 관리</button></a>
               </div>
               <div class="content">
                 <div class="content-body">
-                  <a th:href="@{/manage/gallery/manage}"><img th:src="@{/icon/art.png}" alt=""></a>
+                  <a th:href="@{/manage/gallery/manage}"><img th:src="@{/icon/artist.png}" alt=""></a>
                 </div>
                 <a th:href="@{/manage/gallery/manage}"><button>작가 관리</button></a>
               </div>
