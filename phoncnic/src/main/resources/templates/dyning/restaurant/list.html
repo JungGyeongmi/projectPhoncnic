@@ -112,7 +112,7 @@
             <div th:each="sdto : ${setDTO}" id="userchar" style="display: none; position:absolute;"><img id="userid" class="look setlook" th:src="${sdto.setpath}" th:alt="${id}"></div>
             <div th:each="sdto : ${setDTO}" id="char">
                 <img type="hidden" id="charimg" class="look setlook" th:src="${sdto.setpath}"  alt="">
-                <div th:text="${nickname}" class="nickname"id="nickname" th:if="${nickname}!=''">[[${nickname}]]</div>
+                <span th:text="${nickname}" class="nickname" id="nickname" >[[${nickname}]]</span>
                 <input type="text" name="chartop" th:value="${chartop}" style="opacity: 0;">
                 <input type="text" name="charleft" th:value="${charleft}" style="opacity: 0;">
             </div>
@@ -626,6 +626,8 @@
        <script>
         var webSocket;
         var nickname = document.getElementById("nickname").innerText;
+            
+        
         var testStreet = document.getElementById("testStreet");
         var userchar = document.getElementById("userchar");
         var testId = document.getElementById("userid").getAttribute('alt')
