@@ -10,7 +10,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import ds.com.phoncnic.entity.Follow;
 import ds.com.phoncnic.entity.Member;
+import lombok.extern.log4j.Log4j2;
 
+@Log4j2
 @SpringBootTest
 public class FollowRepositoryTests {
 
