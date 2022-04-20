@@ -108,7 +108,7 @@
                     </li>
                 </th:block>
             </ul>
-            <div id="testStreet">
+        <div id="testStreet">
             <div th:each="sdto : ${setDTO}" id="userchar" style="display: none; position:absolute;"><img id="userid" class="look setlook" th:src="${sdto.setpath}" th:alt="${id}"></div>
             <div th:each="sdto : ${setDTO}" id="char" class="char"  style="width: 70px;"> 
                 <div>
@@ -118,7 +118,6 @@
                 <input type="text" name="chartop" th:value="${chartop}" style="opacity: 0;">
                 <input type="text" name="charleft" th:value="${charleft}" style="opacity: 0;">
             </div>
-
         </div>
             <ul class="ullist">
                 <th:block th:each="dto, index : ${result.dtoList}" th:if="${index.count}%2 == 0">

@@ -127,3 +127,11 @@ body {
     font-family: GmarketSansMedium;
     padding-top: 9px;
 }
+
+#index {
+    font-family: 'GmarketSansLight';
+}
+
+.user-info-str {
+    font-family: 'GmarketSansLight';
+}
