@@ -109,15 +109,17 @@
                 </th:block>
             </ul>
             <div id="testStreet">
-            <div th:each="sdto : ${setDTO}" id="userchar" style="display: none; position:absolute;"><img id="userid" class="look setlook" th:src="${sdto.setpath}" th:alt="${id}"></div>
-            <div th:each="sdto : ${setDTO}" id="char">
-                <img type="hidden" id="charimg" class="look setlook" th:src="${sdto.setpath}"  alt="">
-                <div th:text="${nickname}" class="nickname"id="nickname" th:if="${nickname}!=''">[[${nickname}]]</div>
-                <input type="text" name="chartop" th:value="${chartop}" style="opacity: 0;">
-                <input type="text" name="charleft" th:value="${charleft}" style="opacity: 0;">
+                <div th:each="sdto : ${setDTO}" id="userchar" style="display: none; position:absolute;"><img id="userid" class="look setlook" th:src="${sdto.setpath}" th:alt="${id}"></div>
+                <div th:each="sdto : ${setDTO}" id="char" class="char"  style="width: 70px;"> 
+                    <div>
+                    <img type="hidden" id="charimg" class="look setlook" th:src="${sdto.setpath}"  alt="">
+                    </div>
+                    <div th:text="${nickname}" class="nickname" id="nickname">[[${nickname}]]</div>
+                    <input type="text" name="chartop" th:value="${chartop}" style="opacity: 0;">
+                    <input type="text" name="charleft" th:value="${charleft}" style="opacity: 0;">
+                </div>
             </div>
-        </div>
-            <ul class="ullist">
+                <ul class="ullist">
                 <th:block th:each="dto, index : ${result.dtoList}" th:if="${index.count}%2 == 0">
                     <li id="list2">
                         <div th:class="@{/dyning/details(dno=${dto.dno},id=${id}) }">
@@ -672,7 +674,7 @@
             console.log(data);
             if (document.querySelector("#"+dataSplit[0])==null) {
                 console.log("접속 유저가 없습니다");
-                testStreet.innerHTML = testStreet.innerHTML+' </br> <div id="'+dataSplit[0]+'" style="position: absolute; top : '+dataSplit[2]+'px; left:'+ dataSplit[3]+'px;"><div><img class="users" src = "'+ dataSplit[4]+'" style="width: 70px;ft:'+ dataSplit[3]+'px;"></div><span class="nickname">'+dataSplit[1]+'</span></div>';
+                testStreet.innerHTML = testStreet.innerHTML+' </br> <div class ="char" id="'+dataSplit[0]+'" style="position: absolute; top : '+dataSplit[2]+'px; left:'+ dataSplit[3]+'px;"><div><img class="users" src = "'+ dataSplit[4]+'" style="width: 70px;ft:'+ dataSplit[3]+'px;"></div><div class="nickname">'+dataSplit[1]+'</div></div>';
                 return;
             }else {
                 $("#"+dataSplit[0]).offset({top:dataSplit[2]});

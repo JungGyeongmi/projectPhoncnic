@@ -85,6 +85,8 @@ body {
     font-weight: 600;
     font-family: GmarketSansLight;
     overflow: hidden;
+    width: 70px;
+   
 }
 
 .dyningimg {
@@ -109,7 +111,7 @@ body {
     right: 0px;
 }
 
-#char {
+.char {
     position: relative;
     width: 70px;
     height: 126px;
