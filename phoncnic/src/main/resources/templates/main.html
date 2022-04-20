@@ -314,6 +314,7 @@
                             var textIndex = item.dataset.textIndex;
                             // console.log(HangullagnuArr[textIndex]);
                             item.innerHTML=HangullagnuArr[textIndex];
+                            $(".phoncnic").text("폰-크닉.v1");
                         });
                         triger = true;
                     } else {
@@ -321,6 +322,7 @@
                             var textIndex = item.dataset.textIndex;
                             // console.log(EnglishlagnuArr[textIndex]);
                             item.innerHTML=EnglishlagnuArr[textIndex];
+                            $(".phoncnic").text("phoncnic");
                         });
                         triger = false;
                     }
