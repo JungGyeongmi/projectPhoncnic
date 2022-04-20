@@ -108,6 +108,37 @@
     width: 100px;
     position: fixed;
   }
+
+  .arrow-text {
+    position: relative;
+    padding: 10px;
+    background: rgb(255, 255, 255);
+    border-radius: 0.4em;
+    width: fit-content;
+    font-size: 16px;
+    text-align: center;
+    bottom: 10px;
+    left: 10px;
+    display: none;
+  }
+
+  .arrow-text:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 33%;
+    width: 0;
+    height: 0;
+    border: 19px solid transparent;
+    border-top-color: #fff;
+    border-bottom: 0;
+    margin-left: -19px;
+    margin-bottom: -14px;
+  }
+
+  /* .arrow-text {
+    display: none;
+  } */
 </style>
 
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
@@ -138,6 +169,7 @@
         </div>
       </div>
       <div class="arrow-container">
+        <span class="arrow-text">클릭해서 홈으로 가기!</span>
         <img th:src="@{/button/화살표.png}" alt="" class="dot-arrow" />
       </div>
     </div>
@@ -154,6 +186,11 @@
       location.href = HOMEUrl;
       return;
     });
+
+    $(".arrow-container").hover(function () {
+      $(".arrow-text").toggle();
+    });
+
   });
 
   $("#gallery").on("click", function () {
