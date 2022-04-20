@@ -525,110 +525,94 @@
 
         </script>
        <script>
-           var webSocket;
-           var nickname = document.getElementById("nickname").innerText;
-           
-           
-           var testStreet = document.getElementById("testStreet");
-           var userchar = document.getElementById("userchar");
-           var testId = document.getElementById("userid").getAttribute('alt')
-           var userid= testId.substring(0,testId.indexOf("@"));
-           var userimg = document.getElementById("charimg").getAttribute('src');
-           var str;
-           
-           $(window).on("beforeunload", callback);
-           
-           function callback(){
-                console.log(userid+"님이 페이지를 떠났습니다.")
-               disconnect();
-               return ;
-           }
+        var webSocket;
+        var nickname = document.getElementById("nickname").innerText;
+        var str="";
         
-        function connect(){
-            webSocket = new WebSocket("wss://cac6-175-119-172-242.jp.ngrok.io/phoncnic/street");
-            webSocket.onopen = onOpen;
-            webSocket.onmessage = onMessage;
-            webSocket.onclose = onClose();
-        }
-        connect();
-       
+        var testStreet = document.getElementById("testStreet");
+        var userchar = document.getElementById("userchar");
+        var testId = document.getElementById("userid").getAttribute('alt')
+        var userid= testId.substring(0,testId.indexOf("@"));
+        var userimg = document.getElementById("charimg").getAttribute('src');
 
-        function send(){
-            str =userid + "," +nickname+","+ document.getElementById("char").offsetTop + "," + document.getElementById("char").offsetLeft + "," + userimg;
-            webSocket.send(str);
-        }
-        function disconnect() {
-            str = userid +",outofpage";
-            webSocket.send(str);
-        }
-        function onOpen(){
-            str =userid + "," + nickname + "," + document.getElementById("char").offsetTop + "," + document.getElementById("char").offsetLeft + "," + userimg;
-            webSocket.send(str);
-        }
-        function onMessage(e){
-            var data = e.data;
-            var dataSplit = data.split(",");
-            if (dataSplit[0]==userid) {
-                return;
-            }
+        
+        
+        $(window).on("beforeunload", callback);
+        function callback(){
+         disconnected();
+            return ;
+         }
+         
+         
+         connect();
+         function connect(){
+             webSocket = new WebSocket("wss://cac6-175-119-172-242.jp.ngrok.io/phoncnic/street");
+             webSocket.onopen = onOpen;
+             webSocket.onmessage = onMessage;
+         }
 
-            function connect() {
-                webSocket = new WebSocket("ws://localhost:8080/phoncnic/street");
-                webSocket.onopen = onOpen;
-                webSocket.onmessage = onMessage;
-                webSocket.onclose = onClose();
-            }
-            connect();
+         function onOpen() {
+             str = userid + "," + nickname + "," + document.getElementById("char").offsetTop + "," + document.getElementById("char").offsetLeft + "," + userimg;
+             webSocket.send(str);
+         }
 
+     window.onkeyup = function(){
+        if(webSocket.readyState == 1){
+             str=userid + "," + nickname + "," + document.getElementById("char").offsetTop + "," + document.getElementById("char").offsetLeft + "," + userimg;
+             webSocket.send(str);
+            }else if(webSocket.readyState != 1){
+                console.log("재접");
+             connect();
+             str=userid + "," + nickname + "," + document.getElementById("char").offsetTop + "," + document.getElementById("char").offsetLeft + "," + userimg;
+             webSocket.send(str);
+         }
+         }
+     // function send(){
+     //     if (webSocket.readyState == 1) {
+     //         str=userid + "," + nickname + "," + document.getElementById("char").offsetTop + "," + document.getElementById("char").offsetLeft + "," + userimg;
+     //         webSocket.send(str);
+     //     }else{
+     //         connect();
+     //         str=userid + "," + nickname + "," + document.getElementById("char").offsetTop + "," + document.getElementById("char").offsetLeft + "," + userimg;
+     //         webSocket.send(str);
 
-            function send() {
-                str = userid + "," + nickname + "," + document.getElementById("char").offsetTop + "," + document.getElementById("char").offsetLeft + "," + userimg;
-                webSocket.send(str);
-            }
-            function disconnect() {
-                str = userid + ",outofpage";
-                webSocket.send(str);
-            }
-            function onOpen() {
-                str = userid + "," + nickname + "," + document.getElementById("char").offsetTop + "," + document.getElementById("char").offsetLeft + "," + userimg;
-                webSocket.send(str);
-            }
-            function onMessage(e) {
-                var data = e.data;
-                var dataSplit = data.split(",");
-                if (dataSplit[0] == userid) {
-                    return;
-                }
-                if (dataSplit[1] == "outofpage") {
-                    $("#" + dataSplit[0]).empty();
-                    $("#" + dataSplit[0]).remove();
-                    console.log(dataSplit[0] + "님이 페이지를 떠납니다.")
-                    return;
-                }
+     //     }
+     // }
+     function disconnected() {
+         str = userid +",outofpage";
+         webSocket.send(str);
+         onClose;
 
-                if (document.querySelector("#" + dataSplit[0]) == null) {
-                    testStreet.innerHTML = testStreet.innerHTML + ' </br> <div class ="char" id="' + dataSplit[0] + '" style="position: absolute; top : ' + dataSplit[2] + 'px; left:' + dataSplit[3] + 'px;"><div><img class="users" src = "' + dataSplit[4] + '" style="width: 70px;ft:' + dataSplit[3] + 'px;"></div><div class="nickname">' + dataSplit[1] + '</div></div>';
-                    return;
-                } else {
-                    $("#" + dataSplit[0]).offset({ top: dataSplit[2] });
-                    $("#" + dataSplit[0]).offset({ left: dataSplit[3] });
-                }
-            }
-            function onClose() {
-                disconnect();
-            }
-        function onClose(){
-            disconnect();
-        }
-    }
-       
-        </script>
-           
-                    
-   </script>
-</body>
+     }
+         
+         function onMessage(e) {
+             var data = e.data;
+             var dataSplit = data.split(",");
+             console.log(data);
+             if (dataSplit[0] == userid) {
+                 return;
+             }
+             if (dataSplit[1] == "outofpage") {
+                 $("#" + dataSplit[0]).empty();
+                 $("#" + dataSplit[0]).remove();
+                 console.log(dataSplit[0] + "님이 페이지를 떠납니다.")
+                 return;
+             }
 
-        </script>
+             if (document.querySelector("#" + dataSplit[0]) == null) {
+                 testStreet.innerHTML = testStreet.innerHTML + ' </br> <div class ="char" id="' + dataSplit[0] + '" style="position: absolute; top : ' + dataSplit[2] + 'px; left:' + dataSplit[3] + 'px;"><div><img class="users" src = "' + dataSplit[4] + '" style="width: 70px;ft:' + dataSplit[3] + 'px;"></div><div class="nickname">' + dataSplit[1] + '</div></div>';
+                 return;
+             } else {
+                 $("#" + dataSplit[0]).offset({ top: dataSplit[2] });
+                 $("#" + dataSplit[0]).offset({ left: dataSplit[3] });
+             }
+         }
+         webSocket.onClose= function onClose() {
+             console.log("연결끊어짐");
+         }
+     
+     
+     </script>
         </body>
         <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 
