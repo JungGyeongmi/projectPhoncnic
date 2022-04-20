@@ -126,6 +126,12 @@ input[type=radio]:checked + label {
   background-color: white;
 }
 
+@media (min-width: 576px){
+.modal-dialog {
+    margin: 5.75rem auto !important;
+  }
+}
+
 </style>
 <th:block th:replace="~{layout/basic :: setContent(~{::content})}">
   <th:block th:fragment="content">
@@ -621,9 +627,9 @@ input[type=radio]:checked + label {
           </div>
 
           <div class="modal-footer modal-lg">
-            <button type="button" class="basic-button okBtn" data-bs-dismiss="modal">선택하기</button>
+            <button type="button" class="basic-button okBtn" data-bs-dismiss="modal" style=" font-family: 'GmarketSansLight';">선택하기</button>
             <button type="button" class="btn btn-secondary pictureClose close" name='btn-close'
-              data-bs-dismiss="modal">닫기</button>
+              data-bs-dismiss="modal" style=" font-family: 'GmarketSansLight';">닫기</button>
           </div>
         </div>
       </div>
