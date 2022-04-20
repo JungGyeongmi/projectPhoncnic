@@ -277,6 +277,8 @@
             overflow-x: hidden;
          }
 
+         #adminManageBtn,
+         #mangePageBtn,
          #followBtn {
             border: none;
             background: lightgrey;
@@ -286,6 +288,11 @@
             cursor: pointer;
             margin-top: 5%;
          }
+
+         #followBtn{
+            margin-right: 2%;
+         }
+
 
          .md-content {
             display: flex;
@@ -458,7 +465,13 @@
                   });
                }
 
+               
                var artistname = "";
+               var adminAuth = "";
+               /*[+
+                  var loginUserNick= [[${loginUserNick}]];
+               +]*/
+
                $.getJSON(readUrl + "/" + targetGno, function (dto) {
                   $("#detailsModal .modal-title").html(`${dto.title}`);
                   artistname = dto.artistname;
@@ -485,6 +498,11 @@
                      ${dto.content}   
                   </div>`
                   detailsModalbody.html(str);
+                  if(loginUserNick == artistname) {
+                     console.log("야호")
+                     $("#mangePageBtn").css("display", "inline-block");
+                     $("#adminManageBtn").css("display", "none");
+                  }
 
                   str = `<div id="emojiBox">
                   <input type="radio" id="1" value="${dto.emojicount[0][0]}" name="emojitype" class="emoji">
