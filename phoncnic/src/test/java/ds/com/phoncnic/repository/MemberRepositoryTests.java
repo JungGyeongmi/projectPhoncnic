@@ -50,18 +50,6 @@ public class MemberRepositoryTests {
         );
     }
 
-    @Test
-    public void findByUserNickName() {
-        Boolean test = memberRepository.findByMemberNickName("간지짱");
-        log.info(test);
-    }
-
-    @Transactional
-    @Test
-    public void findMemberById() {
-        String id = "gm950715@gmail.com";
-        MemberDTO memberDTO = memberService.getMember(id);
-        System.out.println(memberDTO);
-    }
+   
 
 }

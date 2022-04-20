@@ -44,31 +44,5 @@ public class FollowRepositoryTests {
         });
 
     }
-    
-    @Test
-    public void insertDyningFollowDummies() {
-        IntStream.rangeClosed(1, 30).forEach(i -> {
 
-            List<Integer> randmember = new ArrayList<>();
-
-            while (randmember.size() != 30) {
-                int inputrandomNumber = (int) (Math.random() * 30) + 1;
-                for (int k = 0; k < 30; k++) {
-                    if (!randmember.contains(inputrandomNumber)) {
-                        randmember.add(inputrandomNumber);
-                        break;
-                    }
-                }
-            }
-
-            for (int j = 0; j < (int) (Math.random() * 5) + 1; j++) {
-                Follow follow = Follow.builder()
-                        .follower(Member.builder().id("test" + randmember.get(j) + "@gmail.com").build())
-                        .dyningname("가게이름" + i)
-                        .build();
-
-                followRepository.save(follow);
-            }
-        });
-    }
 }

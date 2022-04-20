@@ -49,45 +49,4 @@ public class HelpRepositoryTests {
         });
     }
 
-    @Test
-    void testGetListPage() {
-
-        Pageable pageable = PageRequest.of(1, 10);
-        
-        Page<Help> result = helpRepository.getListPage(pageable);
-
-        System.out.println(result.getSize());
-        System.out.println(result.getTotalPages());
-        System.out.println(result.hasNext());
-        System.out.println(result.getContent());
-    }
-
-    @Test
-    void registerTest(){
-        HelpDTO helpDTO = HelpDTO.builder()
-            .title("title!")
-            .content("content")
-            .password("1234")
-            .qtype("type1")
-            .answerstatus(false)
-            .writeremail("test3@gmail.com")
-        .build();
-
-        System.out.println(helpService.register(helpDTO));
-    }
-
-    @Test
-    void getPageListTest() {
-
-        PageRequestDTO pageRequestDTO = PageRequestDTO.builder().page(1).size(10).build();
-        PageResultDTO<HelpDTO, Object[]> page = helpService.getQnaList(pageRequestDTO);
-        System.out.println(page);
-        System.out.println(page.getPage());
-        System.out.println(page.getTotalPage());
-    }
-
-   @Test
-    void removeByQno() {
-        helpService.remove(2L);
-    }
 }

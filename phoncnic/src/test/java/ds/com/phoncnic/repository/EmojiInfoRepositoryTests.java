@@ -48,11 +48,4 @@ public class EmojiInfoRepositoryTests {
         });
     }
 
-    @Test
-    public void getEmojiInfoListTest() {
-
-        List<EmojiInfo> emojiInfoList = emojiInfoService.getEmojiInfoList();
-        emojiInfoList.stream().forEach(System.out::println);
-
-    }
 }

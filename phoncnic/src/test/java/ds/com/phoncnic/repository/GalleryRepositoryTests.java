@@ -91,10 +91,4 @@ public class GalleryRepositoryTests {
         });
     }
 
-    @Test
-    public void getGalleryCountingByMemberId(){
-        Object[] obj = galleryRepository.countingGalleryByMemberId("gm950715@gmail.com");
-        System.out.println(obj[0]);
-        System.out.println(obj.getClass());
-    }
 }
