@@ -78,6 +78,10 @@
             grid-template-columns: 0.02fr 10fr 0.02fr;
          }
 
+         #md-search-btn{
+            background-color: #DBE9B7;
+         }
+
          .result-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, auto));
@@ -954,8 +958,8 @@
                <div class="modal-body">
                   <form class="serach-form-container" id="modal-frm" th:action="@{/gallery/curator}" method="get">
                      <select name="type">
-                        <option value="t" disabled selected  class="form-select form-select-sm">검색조건</option>
-                        <option value="t">작품명</option>
+                        <option value="t" disabled  class="form-select form-select-sm">검색조건</option>
+                        <option value="t" selected>작품명</option>
                         <option value="c">내용</option>
                         <option value="w">작가</option>
                      </select>

@@ -75,7 +75,7 @@ public class SearchGalleryRepositoryImpl extends QuerydslRepositorySupport imple
             conditionBuilder.or(gallery.title.contains(keyword));
             break;
           case "w":
-            conditionBuilder.or(member.id.contains(keyword));
+            conditionBuilder.or(member.nickname.contains(keyword));
             break;
           case "c":
             conditionBuilder.or(gallery.content.contains(keyword));
