@@ -240,17 +240,11 @@
                 });
 
                 $(document).on("click", "#userInfoToggle",function() {
-                    $("#userInfoToggle").addClass("color");
-                    if($("#listTogglePhon").on("click",function(){
-                        $("#userInfoToggle").removeClass("color");
-                    }));
+                    $("#userInfoToggle").toggleClass("color");
                 });
-
+                
                 $(document).on("click", "#listTogglePhon",function() {
-                    $("#listTogglePhon").addClass("color");
-                    if($("#userInfoToggle").on("click",function(){
-                        $("#listTogglePhon").removeClass("color");
-                    }));
+                    $("#listTogglePhon").toggleClass("color");
                 });
 
 
