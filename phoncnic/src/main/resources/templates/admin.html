@@ -135,6 +135,7 @@
                     var type = $("select[name=type] option:selected ").val();
                     var sort = $("select[name=sort] option:selected ").val();
                     var data = { "keyword": keyword, "type": type, "sort": sort };
+
                     if (keyword == "777") {
                         searchResult.text("🎉이것이 권력의 맛이다🎉").addClass("info-text");
                         return;
