@@ -243,27 +243,27 @@
                 <div class="button-background">
                     <div class="button-text">
                         <!-- 피크닉갈림길 -->
-                        <a th:href="@{/crossroad}"><button type="button" class="text-langu">Start</button></a>
+                        <a th:href="@{/crossroad}"><button type="button" class="text-langu" data-text-index="0">Start</button></a>
                     </div>
                 </div>
                 <div class="button-background" sec:authorize="isAnonymous()">
                     <div class="button-text">
-                        <a th:href="@{/member/login}"><button type="button" class="text-langu">Login</button></a>
+                        <a th:href="@{/member/login}"><button type="button" class="text-langu" data-text-index="1">Login</button></a>
                     </div>
                 </div>
                 <div class="button-background" sec:authorize="isAuthenticated()">
                     <div class="button-text">
-                        <a th:href="@{/reception}"><button type="button" class="text-langu">Change Role</button></a>
+                        <a th:href="@{/reception}"><button type="button" class="text-langu" data-text-index="2">Change Role</button></a>
                     </div>
                 </div>
                 <div class="button-background" sec:authorize="hasAnyRole('ROLE_CEO', 'ROLE_ADMIN', 'ROLE_ARTIST')">
                     <div class="button-text">
-                        <a th:href="@{/manage/rolechoice}"><button type="button" class="text-langu">Management</button></a>
+                        <a th:href="@{/manage/rolechoice}"><button type="button" class="text-langu" data-text-index="3">Management</button></a>
                     </div>
                 </div>
                 <div class="button-background">
                     <div class="button-text">
-                        <a><button type="button" id="how-button" class="text-langu">How to play</button></a>
+                        <a><button type="button" id="how-button" class="text-langu" data-text-index="4">How to play</button></a>
                     </div>
                 </div>
             </div>
@@ -300,8 +300,8 @@
 
             $(function (e) {
                 // 언어변환
-                var HangullagnuArr = ["시작하기","신원바꾸기","관리하기","즐기는방법"];
-                var EnglishlagnuArr = ["Start","Login","How to play","Mangement","Change Role"];
+                var HangullagnuArr = ["시작하기","로그인", "신원변경", "관리하기","즐기는법"];
+                var EnglishlagnuArr = ["Start","Login","Change Role","Mangement","How to play"];
 
                 var check = $("#slide-langu");
                 var triger = false;
@@ -309,16 +309,16 @@
                     $("p").toggle();
                     if(!triger){
                         $(".text-langu").each((index, item)=>{
-                            console.log(item);
-                            console.log(HangullagnuArr[index]);
-                            item.innerHTML=HangullagnuArr[index];
+                            var textIndex = item.dataset.textIndex;
+                            // console.log(HangullagnuArr[textIndex]);
+                            item.innerHTML=HangullagnuArr[textIndex];
                         });
                         triger = true;
                     } else {
                         $(".text-langu").each((index, item)=>{
-                            console.log(item);
-                            console.log(EnglishlagnuArr[index]);
-                            item.innerHTML=EnglishlagnuArr[index];
+                            var textIndex = item.dataset.textIndex;
+                            // console.log(EnglishlagnuArr[textIndex]);
+                            item.innerHTML=EnglishlagnuArr[textIndex];
                         });
                         triger = false;
                     }
