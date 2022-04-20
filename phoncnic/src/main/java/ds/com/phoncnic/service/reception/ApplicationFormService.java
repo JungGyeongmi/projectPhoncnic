@@ -81,8 +81,8 @@ public interface ApplicationFormService {
       .afno(applicationForm.getAfno())
       .applicant(applicationForm.getMember().getId())
       .applicationtype(applicationForm.getApplicationtype())
-      .regdate(applicationForm.getRegDate())
-      .moddate(applicationForm.getModDate())
+      .applydate(applicationForm.getApplyDate())
+      .confirmdate(applicationForm.getConfirmDate())
     .build();
 
     return applyDTO;
