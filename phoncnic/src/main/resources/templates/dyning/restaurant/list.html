@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 <th:block th:replace="~{layout/dyninglist :: setContent(~{::content}, ~{::search})}">
     <!-- search toggle -->
     <th:block th:fragment="search">
@@ -184,21 +185,17 @@
                     let x = parseInt(char.style.left || 0, 10);
                     if (key === 37 /* LEFT */) {
                         char.style.left = x - 20 + "px";
-                        send();
                     }
                     if (key === 38 /* TOP */) {
                         char.style.top = y - 20 + "px";
-                        send();
                     }
                     if (key === 39 /* RIGHT */) {
                         char.style.left = x + 20 + "px";
-                        send();
                     }
                     if (key === 40 /* BOTTOM */) {
                         char.style.top = y + 20 + "px";
-                        send();
                     }
-
+                    send();
 
                     if ($("#hint").css("display") == "block") {
                         if (key === 37 || key === 38 || key === 39 || key === 40) {
@@ -524,38 +521,67 @@
             }
 
         </script>
-        <script>
-            var webSocket;
-            var nickname = document.getElementById("nickname").innerText;
+       <script>
+           var webSocket;
+           var nickname = document.getElementById("nickname").innerText;
+           var str="";
+           
+           var testStreet = document.getElementById("testStreet");
+           var userchar = document.getElementById("userchar");
+           var testId = document.getElementById("userid").getAttribute('alt')
+           var userid= testId.substring(0,testId.indexOf("@"));
+           var userimg = document.getElementById("charimg").getAttribute('src');
+           
+           $(window).on("beforeunload", callback);
+           
+           function callback(){
+               disconnect();
+               return ;
+           }
+        
+        function connect(){
+            webSocket = new WebSocket("wss://cac6-175-119-172-242.jp.ngrok.io/phoncnic/street");
+            webSocket.onopen = onOpen;
+            webSocket.onmessage = onMessage;
+            // webSocket.onclose = onClose();
+        }
+        connect();
+       
 
+        function send(){
+            str=userid + "," + nickname + "," + document.getElementById("char").offsetTop + "," + document.getElementById("char").offsetLeft + "," + userimg;
+            webSocket.send(str);
+        }
+        function disconnect() {
+            str = userid +",outofpage";
+            webSocket.send(str);
+        }
+        function onOpen(){
+            webSocket.send(str);
+            str = "";
 
-            var testStreet = document.getElementById("testStreet");
-            var userchar = document.getElementById("userchar");
-            var testId = document.getElementById("userid").getAttribute('alt')
-            var userid = testId.substring(0, testId.indexOf("@"));
-            var userimg = document.getElementById("charimg").getAttribute('src');
-            var str;
-
-            $(window).on("beforeunload", callback);
-
-            function callback() {
-                console.log(userid + "님이 페이지를 떠났습니다.")
-                disconnect();
+        }
+        function onMessage(e){
+            var data = e.data;
+            var dataSplit = data.split(",");
+            
+            if (dataSplit[0]==userid) {
                 return;
             }
-
-            function connect() {
-                webSocket = new WebSocket("ws://localhost:8080/phoncnic/street");
-                webSocket.onopen = onOpen;
-                webSocket.onmessage = onMessage;
-                webSocket.onclose = onClose();
+            if(dataSplit[1]=="outofpage"){
+                $("#"+dataSplit[0]).empty();
+                $("#"+dataSplit[0]).remove();
+                console.log(dataSplit[0]+"님이 페이지를 떠납니다.")
+                onClose();
+                return;
             }
-            connect();
-
-
-            function send() {
-                str = userid + "," + nickname + "," + document.getElementById("char").offsetTop + "," + document.getElementById("char").offsetLeft + "," + userimg;
-                webSocket.send(str);
+            
+            if (document.getElementById(dataSplit[0])==null&&dataSplit[4]!=undefined) {
+                testStreet.innerHTML = testStreet.innerHTML+' </br> <div class ="char" id="'+dataSplit[0]+'" style="position: absolute; top : '+dataSplit[2]+'px; left:'+ dataSplit[3]+'px;"><div><img class="users" src = "'+ dataSplit[4]+'" style="width: 70px;ft:'+ dataSplit[3]+'px;"></div><div class="nickname">'+dataSplit[1]+'</div></div>';
+                return;
+            }else if(document.getElementById(dataSplit[0])!=null){
+                $("#"+dataSplit[0]).offset({top:dataSplit[2]});
+                $("#"+dataSplit[0]).offset({left:dataSplit[3]});
             }
             function disconnect() {
                 str = userid + ",outofpage";
@@ -589,10 +615,9 @@
             function onClose() {
                 disconnect();
             }
-
+        
+       
         </script>
         </body>
-        <script src="http://code.jquery.com/jquery-latest.min.js"></script>
-
     </th:block>
 </th:block>
