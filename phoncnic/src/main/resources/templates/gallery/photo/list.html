@@ -306,23 +306,6 @@
             background-color: #DBE9B7;
             border-radius: 5px;  
          }
-
-         .basic-button {
-                background-color: #dbdde0;
-                color: black;
-                height: auto;
-                border-radius: 5px;
-                padding: 10px;
-                border: none;
-                margin: 0 10px;
-                font-size: 1rem;
-            }
-
-            .basic-button:hover {
-                background-color: #ccd1d8;
-            }
-
-
       </style>
 
       <input type="hidden" th:if="${loginUserId}" name="loginUserId" th:value="${loginUserId}">
@@ -488,7 +471,14 @@
                            <h4 id="inputArtist">${dto.artistname}</h4>
                         </div>
                         <div class="col-md-5 md-follow">
-                           <span id="followBtn"><i class="bi bi-plus-circle-fill"></i> 팔로우</span>
+                           <span id="followBtn"><i class="bi bi-plus-circle-fill"></i>팔로우</span>
+                           
+                           <span id="mangePageBtn" data-my-gno="${targetGno}" style="display:none">
+                              <i class="bi bi-plus-circle-fill"></i>관리
+                           </span>
+                           <span id="adminManageBtn" sec:authorize="hasRole('ROLE_ADMIN')">
+                              <i class="bi bi-plus-circle-fill"></i>관리
+                           </span>
                         </div>
                   </div>
                   <div>
@@ -790,7 +780,32 @@
                $("#detailsModal").modal("show");
                showdetailsModal(targetGno, targetFile);
             });
+            // 모달 창 내 search result 클릭 시 이동 제어
+            $(document).on("click", ".search-result-Item", function (e) {
+               var targetGno = $(this).closest("div").data("searchGno");
+               var targetFile = $(this).closest("div").data("searchFile");
+               // alert(targetGno);
+               // alert(targetFile);
+               $("#curatorModal").modal("hide");
+               $("#detailsModal").modal("show");
+               showdetailsModal(targetGno, targetFile);
+            });
 
+            // 관리 페이지로 이동
+            function directMangePage () {
+               var gno = $("#mangePageBtn").data("myGno");
+               location.href=managePageURL+gno;
+            }
+            /*[+
+               var managePageURL = [[@{/manage/gallery/read?gno=}]]
+            +]*/
+            $(document).on("click", "#mangePageBtn", function() {
+               directMangePage();
+            });
+            $(document).on("click", "#adminManageBtn", function() {
+               directMangePage();
+            });
+            
          });
       </script>
 
@@ -957,7 +972,7 @@
                   <div>로그인 후 이용해주세요 </div>
                </div>
                <div class="modal-footer">
-                  <button th:if="${loginuserId}" id="lookModifyBtn" type="button" class="basic-button">변경하기</button>
+                  <button th:if="${loginuserId}" id="lookModifyBtn" type="button" class="btn btn-primary">변경하기</button>
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" name="btn-close">취소</button>
                </div>
             </div>
