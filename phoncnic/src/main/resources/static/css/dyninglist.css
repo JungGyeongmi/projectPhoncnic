@@ -109,7 +109,7 @@ body {
     right: 0px;
 }
 
-#char {
+.char {
     position: relative;
     width: 70px;
     height: 126px;
@@ -124,4 +124,12 @@ body {
 #sidebarToggle {
     font-family: GmarketSansMedium;
     padding-top: 9px;
+}
+
+#index {
+    font-family: 'GmarketSansLight';
+}
+
+.user-info-str {
+    font-family: 'GmarketSansLight';
 }

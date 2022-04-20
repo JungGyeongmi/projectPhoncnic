@@ -3583,6 +3583,7 @@ textarea.form-control-lg {
   background-clip: padding-box;
   border: 1px solid rgba(0, 0, 0, 0.15);
   border-radius: 0.25rem;
+  font-family: 'GmarketSansMedium';
 }
 .dropdown-menu[data-bs-popper] {
   top: 100%;
@@ -3959,6 +3960,7 @@ textarea.form-control-lg {
   padding: 0.5rem 1rem;
   color: #000000;
   text-decoration: none;
+  font-family: "GmarketSansMedium";
   font-size: large;
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
 }
@@ -3998,7 +4000,7 @@ textarea.form-control-lg {
 .nav-tabs .nav-link.active,
 .nav-tabs .nav-item.show .nav-link {
   color: #495057;
-  background-color: rgb(0, 0, 0);
+  background-color: rgb(255, 255, 255);
   border-color: #dee2e6 #dee2e6 #fff;
 }
 .nav-tabs .dropdown-menu {
@@ -5575,6 +5577,7 @@ textarea.form-control-lg {
   border-bottom: 1px solid #dee2e6;
   border-top-left-radius: calc(0.3rem - 1px);
   border-top-right-radius: calc(0.3rem - 1px);
+  font-family: 'GmarketSansMedium';
 }
 .modal-header .btn-close {
   padding: 0.5rem 0.5rem;
@@ -5584,6 +5587,7 @@ textarea.form-control-lg {
 .modal-title {
   margin-bottom: 0;
   line-height: 1.5;
+  font-family: "GmarketSansMedium";
 }
 
 .modal-body {
