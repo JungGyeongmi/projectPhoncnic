@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 <th:block th:fragment="setContent(content)">
 
     <head>
@@ -98,7 +98,7 @@
                 display: none;
             }
 
-            #sidebar-wrapper{
+            #sidebar-wrapper {
                 z-index: 3;
             }
         </style>
@@ -160,10 +160,10 @@
                         sec:authorize="isAuthenticated()">
                         <span hidden id="loginUserPictureSrc" sec:authentication='principal.attr["picture"]'></span>
                         <span hidden id="loginUserRole" sec:authentication='principal.authorities'></span>
-                        <div style="display:inline;">   
+                        <div style="display:inline;">
                             <i style="color: gold; position: absolute;  padding-left: 1%; top: 0; font-size: 2rem;"
                                 class="fa-solid fa-crown" sec:authorize="hasRole('ROLE_ADMIN')"></i>
-                            <img id="loginUserPicture" src="" alt="" width="20%" >
+                            <img id="loginUserPicture" src="" alt="" width="20%">
                         </div>
                         <span sec:authentication="principal.nickname"></span>
                     </div>
@@ -172,11 +172,9 @@
                     <a class="list-group-item list-group-item-action list-group-item-light p-3"
                         sec:authorize="isAuthenticated()" th:href="@{/main/mypage}">마이페이지</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3"
-                       th:href="@{/crossroad}">산책하기</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3"
                         th:href="@{/help/list/}">고객센터</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3"
-                        th:href="@{/main/companyinfo}">회사소개</a>
+                        th:href="@{/crossroad}">산책하기</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3"
                         th:href="@{/gallery/}">전시장입구</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3"
@@ -187,6 +185,8 @@
                         sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/index}">인덱스</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3"
                         sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/admin}">권력!</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3"
+                        th:href="@{/main/companyinfo}">회사소개</a>
                 </div>
             </div>
         </div>
@@ -210,7 +210,7 @@
                 }
             });
 
-             
+
         </script>
     </body>
 </th:block>
