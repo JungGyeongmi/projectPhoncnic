@@ -110,7 +110,25 @@
             .color{
                 background-color: #DBE9B7 !important;
             }
+            .acd-img{
+                display: inline-block;
+                width: 20px;
+        
+                position: absolute;
+                top: 15px;
+                right: 5px;
+            }
 
+            .acd-controller{
+                transform: rotate(180deg);
+            }
+
+            .acd-img-con{
+                display: flex;
+                justify-content: flex-end;
+                height: 0;
+            }
+            
         </style>
         <!-- awsome icon cdn -->
         <script src="https://kit.fontawesome.com/f145f2fd92.js" crossorigin="anonymous"></script>
@@ -165,17 +183,22 @@
                 <div class="list-group list-group-flush">
                     <a class="list-group-item list-group-item-action list-group-item-light p-3"
                         sec:authorize="isAnonymous()" th:href="@{/member/login}">
-                        <img src="https://img.icons8.com/fluency/48/000000/google-logo.png" width="10%"> 로그인 </a>
+                        <img src="https://img.icons8.com/fluency/48/000000/google-logo.png" width="10%"> 로그인 
+                    </a>
+                    
                     <div id="userInfoToggle" class="list-group-item list-group-item-light p-3"
                         sec:authorize="isAuthenticated()">
                         <span hidden id="loginUserPictureSrc" sec:authentication='principal.attr["picture"]'></span>
                         <span hidden id="loginUserRole" sec:authentication='principal.authorities'></span>
                         <div style="display:inline;">
                             <i style="color: gold; position: absolute;  padding-left: 1%; top: 0; font-size: 2rem;"
-                                class="fa-solid fa-crown" sec:authorize="hasRole('ROLE_ADMIN')"></i>
+                            class="fa-solid fa-crown" sec:authorize="hasRole('ROLE_ADMIN')"></i>
                             <img id="loginUserPicture" src="" alt="" width="20%">
                         </div>
                         <span sec:authentication="principal.nickname"></span>
+                        <div class="acd-img-con ">
+                            <img class="acd-img acd-controller" src="https://img.icons8.com/fluency-systems-regular/48/000000/chevron-up.png"/>
+                        </div>
                     </div>
 
                     <a class="list-group-item list-group-item-action list-group-item-light p-3 list-mem-toggle"
@@ -186,7 +209,14 @@
                         sec:authorize="isAuthenticated()" th:href="@{/main/mypage}" id="mypage">마이페이지</a>
                     
                     <a class="list-group-item list-group-item-action list-group-item-light p-3"
-                        id="listTogglePhon">폰크닉 시작</a>
+                        id="listTogglePhon">
+                        <span>
+                            폰크닉 시작
+                        </span>
+                        <div class="acd-img-con">
+                            <img class="acd-img acd-controller" src="https://img.icons8.com/fluency-systems-regular/48/000000/chevron-up.png"/>
+                        </div>
+                    </a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3 list-phon-toggle"
                         style="display: none;"
                         th:href="@{/crossroad}">산책하기</a>
@@ -232,10 +262,12 @@
                 }
 
                 $(document).on("click", "#listTogglePhon",function() {
+                    $(".acd-img").eq(1).toggleClass("acd-controller");
                     toggleClass($(".list-phon-toggle"));
                 });
-
+                
                 $(document).on("click", "#userInfoToggle",function() {
+                    $(".acd-img").eq(0).toggleClass("acd-controller");
                     toggleClass($(".list-mem-toggle"));
                 });
 
@@ -256,9 +288,9 @@
                     loginUserPicture.attr("src", loginUserProfileSrc)
                 }
 
-                if (loginUserRole == "[ROLE_ADMIN]") {
-                    userInfoToggle.css("border", "solid 5px gold");
-                }
+                // if (loginUserRole == "[ROLE_ADMIN]") {
+                //     userInfoToggle.css("border", "solid 5px gold");
+                // }
             });
 
 
