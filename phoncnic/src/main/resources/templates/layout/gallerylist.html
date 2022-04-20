@@ -77,8 +77,8 @@
                 bottom: 40px;
                 right: 10px;
             }
-            
-            #explain > p {
+
+            #explain>p {
                 font-family: 'GmarketSansMedium';
                 margin-bottom: 0.5rem;
             }
@@ -126,10 +126,15 @@
                 border-right: 10px solid transparent;
                 border-left: 10px solid transparent;
             }
-            
+
             .arrow_box,
-            #helpbtn{
-                z-index:3;
+            #helpbtn {
+                z-index: 3;
+            }
+            
+            #userInfoToggle,
+            #listTogglePhon{
+                cursor: pointer;
             }
         </style>
         </style>
@@ -208,7 +213,6 @@
                 <a class="list-group-item list-group-item-light p-3" th:href="@{/}">
                     <h2>Phoncnic</h2>
                 </a>
-                <!-- <a th:href="@{/}"><div class="sidebar-heading border-bottom bg-light">Start Bootstrap</div></a> -->
                 <div class="list-group list-group-flush">
                     <a class="list-group-item list-group-item-action list-group-item-light p-3"
                         sec:authorize="isAnonymous()" th:href="@{/member/login}">
@@ -219,29 +223,41 @@
                         <span hidden id="loginUserRole" sec:authentication='principal.authorities'></span>
                         <div style="display:inline;">
                             <i style="color: gold; position: absolute;  padding-left: 1%; top: 0; font-size: 2rem;"
-                                sec:authorize="hasRole('ROLE_ADMIN')" class="fa-solid fa-crown"></i>
+                                class="fa-solid fa-crown" sec:authorize="hasRole('ROLE_ADMIN')"></i>
                             <img id="loginUserPicture" src="" alt="" width="20%">
                         </div>
                         <span sec:authentication="principal.nickname"></span>
                     </div>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3"
-                        sec:authorize="isAuthenticated()" th:href="@{/member/logout}">로그아웃</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3"
-                        sec:authorize="isAuthenticated()" th:href="@{/main/mypage}">마이페이지</a>
+
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3 list-mem-toggle"
+                        style="display: none;" sec:authorize="isAuthenticated()" th:href="@{/member/logout}">로그아웃</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3 list-mem-toggle"
+                        style="display: none;" sec:authorize="isAuthenticated()" th:href="@{/main/mypage}">마이페이지</a>
+
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" id="listTogglePhon">폰크닉
+                        시작</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3 list-phon-toggle"
+                        style="display: none;" th:href="@{/crossroad}">산책하기</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3 list-phon-toggle"
+                        style="display: none;" th:href="@{/gallery/}">전시장입구</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3 list-phon-toggle"
+                        style="display: none;" th:href="@{/dyning/cafe/list?page=1&top=440&left=40}">카페거리</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3  list-phon-toggle"
+                        style="display: none;" th:href="@{/dyning/restaurant/list?page=1&top=440&left=40}">식당거리</a>
+
+
                     <a class="list-group-item list-group-item-action list-group-item-light p-3"
                         th:href="@{/help/list/}">고객센터</a>
+
                     <a class="list-group-item list-group-item-action list-group-item-light p-3"
                         th:href="@{/main/companyinfo}">회사소개</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3"
-                        th:href="@{/gallery/}">Gallery</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3"
-                        th:href="@{/dyning/restaurant/list?page=1&top=440&left=40}">Restaurant</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3"
-                        th:href="@{/dyning/cafe/list?page=1&top=440&left=40}">Cafe</a>
+
+
                     <a class="list-group-item list-group-item-action list-group-item-light p-3"
                         sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/index}">인덱스</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3"
-                        sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/admin}">관리자</a>
+                        sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/admin}">권력!</a>
+
                 </div>
             </div>
         </div>
@@ -251,6 +267,21 @@
         <script th:src="@{/js/scripts.js}"></script>
         <script th:inline="javascript">
             $(function () {
+                function toggleClass(target){
+                    if(target.css("display")!="block"){
+                        target.css("display", "block");
+                    } else {
+                        target.css("display", "none");
+                    }
+                }
+
+                $(document).on("click", "#listTogglePhon",function() {
+                    toggleClass($(".list-phon-toggle"));
+                });
+
+                $(document).on("click", "#userInfoToggle",function() {
+                    toggleClass($(".list-mem-toggle"));
+                });
 
                 var loginUserProfileSrc = $("#loginUserPictureSrc").text();
                 var loginUserPicture = $("#loginUserPicture")
@@ -264,10 +295,8 @@
                 if (loginUserRole == "[ROLE_ADMIN]") {
                     userInfoToggle.css("border", "solid 5px gold");
                 }
-
             });
-        </script>
-        <script>
+
             $("#helpbtn").hover(function (e) {
                 $("#hint").css("display", "none");
             });
