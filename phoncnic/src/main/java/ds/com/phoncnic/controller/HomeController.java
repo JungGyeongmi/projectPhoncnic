@@ -53,8 +53,9 @@ public class HomeController {
         HttpServletRequest request,
         HttpServletResponse response,
         Model model) {
-        
+        log.info("000000000000000");
         String referUrl =  request.getHeader("Referer");
+        log.info(referUrl);
         model.addAttribute("referURL", referUrl);
         return "crossroad";
     }

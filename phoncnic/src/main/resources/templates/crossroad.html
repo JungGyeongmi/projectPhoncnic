@@ -90,6 +90,7 @@
       position: absolute;
       cursor: pointer;
     }
+
     .dot-arrow{
       display: inline-block;
       bottom: 3px;
@@ -97,6 +98,7 @@
       width: 100px;
       position: fixed;
     }
+
 
 </style>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
@@ -128,6 +130,9 @@
             </div>
           </div>
           <div class="arrow-container">
+            <div class="arrow-text arrow-hover">
+              클릭해서 캐릭터를 이전페이지로가기
+            </div>
             <img th:src="@{/button/화살표.png}" alt="" class="dot-arrow" />
           </div>
       </div>
@@ -137,13 +142,20 @@
   <script th:inline="javascript">
     /*[+
       var referUrl = [[${referURL}]];
+      var nullUrl = [[@{/}]];
     +]*/
 
     $(function(){
-      $(".arrow-container").click(function(){
+      $(".arrow-container").click(function() {
+        if(referUrl=="null" || referUrl==null) {
+          location.href = nullUrl;
+          return;
+        }
         location.href = referUrl;
       });
     });
+
+
 
 
 
