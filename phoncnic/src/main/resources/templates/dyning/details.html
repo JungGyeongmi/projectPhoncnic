@@ -1,5 +1,15 @@
 <!DOCTYPE html>
 <style>
+
+    @media (min-width: 576px){
+    .modal-dialog {
+        max-width: 960px !important;
+        /* height: 531px; */
+        /* max-height: 460px; */
+        margin: 7.75rem auto !important;
+     }
+    }
+
     .d-flex{
         background-size: cover;
         background-repeat: no-repeat;
@@ -490,7 +500,7 @@
                 $(".thumbimage").on("click", function (e) {
                     var filename = $(this).data('file');
                     console.log(filename);
-                    var OriginMenu = `<img style="width:100%" src="${filename}">`;
+                    var OriginMenu = `<img style="max-width: -webkit-fill-available;" src="${filename}">`;
                     $(".modal-body").html(OriginMenu);
                     $("#imageModal").show();
                 });

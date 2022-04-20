@@ -6,7 +6,7 @@
         background-repeat: no-repeat;
         background-position: center;
     }
-    
+
     .containerBox {
         width: 100%;
 
@@ -330,7 +330,7 @@
                 $(".d-flex").css("background-image", "url(" + backgroundImg + ")");
 
                 //메뉴카드 슬라이드 
-                $(".carousel-item").eq(1).addClass("active");
+                $(".carousel-item").eq(0).addClass("active");
                 
 
                 /*[+
@@ -374,7 +374,7 @@
                 $(".thumbimage").on("click", function (e) {
                     var filename = $(this).data('file');
                     console.log(filename);
-                    var OriginMenu = `<img style="width:100%" src="${filename}">`;
+                    var OriginMenu = `<img  src="${filename}">`;
                     $(".modal-body").html(OriginMenu);
                     $("#imageModal").show();
                 });
