@@ -86,6 +86,17 @@
     .basic-main-logo {
         display: none;
     }
+    .arrow-container{
+      position: absolute;
+      cursor: pointer;
+    }
+    .dot-arrow{
+      display: inline-block;
+      bottom: 3px;
+      left: 3px;
+      width: 100px;
+      position: fixed;
+    }
 
 </style>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
@@ -115,9 +126,26 @@
                 </div>
                 <a th:href="@{/dyning/restaurant/list?page=1&top=440&left=40}"><button>Restaurant</button></a>
             </div>
-        </div>
-
+          </div>
+          <div class="arrow-container">
+            <img th:src="@{/button/화살표.png}" alt="" class="dot-arrow" />
+          </div>
       </div>
     </th:block>
   </th:block>
+
+  <script th:inline="javascript">
+    /*[+
+      var referUrl = [[${referURL}]];
+    +]*/
+
+    $(function(){
+      $(".arrow-container").click(function(){
+        location.href = referUrl;
+      });
+    });
+
+
+
+  </script>
 </html>
