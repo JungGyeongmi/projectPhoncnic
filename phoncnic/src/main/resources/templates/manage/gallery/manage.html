@@ -136,12 +136,32 @@
 	button{
 		font-size: 19px !important;
 	}
+
+	.follower-info{
+		margin-bottom: 3%;
+	}
 </style>
 <th:block th:replace="~{layout/basic :: setContent(~{::content})}">
 	<th:block th:fragment="content">
 		<div class="containerBox">
 			
 			<h3><img th:src="@{/icon/vertical-line.png}" style="width: 30px;" alt="">등록 및 관리</h3>
+			<div class="title">팔로워</div>
+			<hr>
+			<div class="follower-info">
+				<th:block th:if="${galleryDTOList.size()}==0">
+					작가님! 작품을 등록하고 팔로워를 만들어보세요!
+				</th:block>
+				<th:block th:unless="${galleryDTOList.size()}==0">
+					<th:block th:if="${follower}==0">
+						팔로워가 없습니다.
+					</th:block>	
+					<th:block th:unless="${follower}==0">
+						당신의 추종자 [[${follower}]] 명! 
+					</th:block>	
+				</th:block>
+
+			</div>
 			<div class="title">등록</div>
 			<hr>
 			<div class="register-container">

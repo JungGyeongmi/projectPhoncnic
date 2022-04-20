@@ -40,4 +40,7 @@ public interface FollowRepository extends JpaRepository<Follow, Long> {
     @Modifying
     @Query("delete from Follow where fno=:fno")
     void deleteByFno(Long fno);
+
+    @Query("SELECT COUNT(f) FROM Follow f LEFT OUTER JOIN Member m ON f.artistname = m.nickname WHERE nickname= :nickname AND f.dyningname IS NULL")
+    Object[] countFollowerByUserNickNameInGallery(String nickname);
 }
