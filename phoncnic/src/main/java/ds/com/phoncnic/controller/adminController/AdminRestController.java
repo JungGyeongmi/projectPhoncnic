@@ -57,8 +57,9 @@ public class AdminRestController {
         memberDTO.setId(id);
         memberDTO.setRoleSet(roleSet);
         log.info(confirmChecker);
-        // 닉네임이 중복되고 롤도 바뀌지 않은 경우
         formService.updateConfirmState(id, confirmChecker);
+        
+        // 닉네임이 중복되고 롤도 바뀌지 않은 경우
         if(roleChecker && nickChecker) {
             return "overlap";
         } else if(!roleChecker && nickChecker) {
