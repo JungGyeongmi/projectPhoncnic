@@ -106,4 +106,11 @@ public class FollowServiceImpl implements FollowService {
         }
         return follow;
     }
+
+    @Override
+    public Long getGalleryFollower(String nickname) {
+        Object[] countobj = followRepository.countFollowerByUserNickNameInGallery(nickname);
+        Long countFollower = (Long)countobj[0];
+        return countFollower;
+    }
 }
