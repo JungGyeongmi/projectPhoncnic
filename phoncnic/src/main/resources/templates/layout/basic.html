@@ -102,6 +102,15 @@
             #listTogglePhon{
                 cursor: pointer;
             }
+
+            #mypage, #dyning-street{
+                border-bottom: 2px solid black !important;
+            }
+
+            .color{
+                background-color: #DBE9B7 !important;
+            }
+
         </style>
         <!-- awsome icon cdn -->
         <script src="https://kit.fontawesome.com/f145f2fd92.js" crossorigin="anonymous"></script>
@@ -174,7 +183,7 @@
                         sec:authorize="isAuthenticated()" th:href="@{/member/logout}">로그아웃</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3 list-mem-toggle"
                         style="display: none;"
-                        sec:authorize="isAuthenticated()" th:href="@{/main/mypage}">마이페이지</a>
+                        sec:authorize="isAuthenticated()" th:href="@{/main/mypage}" id="mypage">마이페이지</a>
                     
                     <a class="list-group-item list-group-item-action list-group-item-light p-3"
                         id="listTogglePhon">폰크닉 시작</a>
@@ -189,7 +198,7 @@
                         th:href="@{/dyning/cafe/list?page=1&top=440&left=40}">카페거리</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3  list-phon-toggle"
                         style="display: none;"    
-                    th:href="@{/dyning/restaurant/list?page=1&top=440&left=40}">식당거리</a>
+                    th:href="@{/dyning/restaurant/list?page=1&top=440&left=40}" id="dyning-street">식당거리</a>
 
 
                     <a class="list-group-item list-group-item-action list-group-item-light p-3"
@@ -229,6 +238,21 @@
                 $(document).on("click", "#userInfoToggle",function() {
                     toggleClass($(".list-mem-toggle"));
                 });
+
+                $(document).on("click", "#userInfoToggle",function() {
+                    $("#userInfoToggle").addClass("color");
+                    if($("#listTogglePhon").on("click",function(){
+                        $("#userInfoToggle").removeClass("color");
+                    }));
+                });
+
+                $(document).on("click", "#listTogglePhon",function() {
+                    $("#listTogglePhon").addClass("color");
+                    if($("#userInfoToggle").on("click",function(){
+                        $("#listTogglePhon").removeClass("color");
+                    }));
+                });
+
 
                 var loginUserProfileSrc = $("#loginUserPictureSrc").text();
                 var loginUserPicture = $("#loginUserPicture")
