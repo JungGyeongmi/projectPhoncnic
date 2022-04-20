@@ -96,6 +96,10 @@
             .d-flex::-webkit-scrollbar {
                 display: none;
             }
+
+            #sidebar-wrapper{
+                z-index: 3;
+            }
         </style>
         <!-- awsome icon cdn -->
         <script src="https://kit.fontawesome.com/f145f2fd92.js" crossorigin="anonymous"></script>
@@ -130,7 +134,7 @@
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <!-- 로고 -->
                             <a th:href="@{/}" style="display: block; margin: auto;">
-                                <img class="basic-main-logo" th:src="@{/button/로고1_틀있음_로고만.png}" style="width:60px;">
+                                <img class="basic-main-logo" th:src="@{/button/phonLogo.png}" style="width:60px;">
                             </a>
                         </div>
                         <img th:src="@{/icon/Carrot_Bonus.ico}" alt="표시할 수 없음" width="50px" id="sidebarToggle"
@@ -147,7 +151,6 @@
                 <a class="list-group-item list-group-item-light p-3" th:href="@{/}">
                     <h2>Phoncnic</h2>
                 </a>
-                <!-- <a th:href="@{/}"><div class="sidebar-heading border-bottom bg-light">Start Bootstrap</div></a> -->
                 <div class="list-group list-group-flush">
                     <a class="list-group-item list-group-item-action list-group-item-light p-3"
                         sec:authorize="isAnonymous()" th:href="@{/member/login}">
@@ -167,6 +170,8 @@
                         sec:authorize="isAuthenticated()" th:href="@{/member/logout}">로그아웃</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3"
                         sec:authorize="isAuthenticated()" th:href="@{/main/mypage}">마이페이지</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3"
+                       th:href="@{/crossroad}">산책하기</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3"
                         th:href="@{/help/list/}">고객센터</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3"
@@ -203,6 +208,8 @@
                     userInfoToggle.css("border", "solid 5px gold");
                 }
             });
+
+             
         </script>
     </body>
 </th:block>

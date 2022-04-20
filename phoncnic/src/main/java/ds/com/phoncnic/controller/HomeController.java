@@ -2,6 +2,9 @@ package ds.com.phoncnic.controller;
 
 import java.util.Locale;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -46,7 +49,14 @@ public class HomeController {
     }
 
     @GetMapping("/crossroad")
-    public String crossRoad() {
+    public String crossRoad( 
+        HttpServletRequest request,
+        HttpServletResponse response,
+        Model model) {
+        log.info("000000000000000");
+        String referUrl =  request.getHeader("Referer");
+        log.info(referUrl);
+        model.addAttribute("referURL", referUrl);
         return "crossroad";
     }
 
