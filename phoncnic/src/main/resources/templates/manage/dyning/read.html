@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
 <style>
+     .d-flex{
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+
     .containerBox {
         width: 100%;
 
@@ -368,7 +374,7 @@
                 $(".thumbimage").on("click", function (e) {
                     var filename = $(this).data('file');
                     console.log(filename);
-                    var OriginMenu = `<img style="width:100%" src="${filename}">`;
+                    var OriginMenu = `<img  src="${filename}">`;
                     $(".modal-body").html(OriginMenu);
                     $("#imageModal").show();
                 });
