@@ -83,14 +83,13 @@
                     var val = $(this).attr("value");
 
                     console.log("click");
-                    disconnect();
                     location.href = "/phoncnic/dyning/details?dno=" + val + "&id=" + `[[${id}]]` + "&chartop=" + chartop + "&charleft=" + charleft;
                 });
             });
         </script>
     </th:block>
 
-    <!-- 내용부분(cafe 거리) -->
+    <!-- 내용부분(restaurant 거리) -->
     <th:block th:fragment="content">
         <input type="hidden" th:value="${result.page}" id="listpage">
         <input type="hidden" th:value="${result.totalPage}" id="totalpage">
@@ -108,18 +107,18 @@
                     </li>
                 </th:block>
             </ul>
-            <div id="testStreet">
-                <div th:each="sdto : ${setDTO}" id="userchar" style="display: none; position:absolute;"><img id="userid" class="look setlook" th:src="${sdto.setpath}" th:alt="${id}"></div>
-                <div th:each="sdto : ${setDTO}" id="char" class="char"  style="width: 70px;"> 
-                    <div>
-                    <img type="hidden" id="charimg" class="look setlook" th:src="${sdto.setpath}"  alt="">
-                    </div>
-                    <div th:text="${nickname}" class="nickname" id="nickname">[[${nickname}]]</div>
-                    <input type="text" name="chartop" th:value="${chartop}" style="opacity: 0;">
-                    <input type="text" name="charleft" th:value="${charleft}" style="opacity: 0;">
+        <div id="testStreet">
+            <div th:each="sdto : ${setDTO}" id="userchar" style="display: none; position:absolute;"><img id="userid" class="look setlook" th:src="${sdto.setpath}" th:alt="${id}"></div>
+            <div th:each="sdto : ${setDTO}" id="char" class="char"  style="width: 70px;"> 
+                <div>
+                <img type="hidden" id="charimg" class="look setlook" th:src="${sdto.setpath}"  alt="">
                 </div>
+                <div th:text="${nickname}" class="nickname" id="nickname">[[${nickname}]]</div>
+                <input type="text" name="chartop" th:value="${chartop}" style="opacity: 0;">
+                <input type="text" name="charleft" th:value="${charleft}" style="opacity: 0;">
             </div>
-                <ul class="ullist">
+        </div>
+            <ul class="ullist">
                 <th:block th:each="dto, index : ${result.dtoList}" th:if="${index.count}%2 == 0">
                     <li id="list2">
                         <div th:class="@{/dyning/details(dno=${dto.dno},id=${id}) }">
@@ -163,7 +162,7 @@
                         
             (function () {
 
-                var listlocation = "/phoncnic/dyning/cafe/list?page=";
+                var listlocation = "/phoncnic/dyning/restaurant/list?page=";
                 var totalpage = document.querySelector("#totalpage").value;
                 var screenWidth = window.screen.width;
                 var screenHeight = window.screen.height;
@@ -222,7 +221,6 @@
                                 "opacity": "0",
                                 "top": "100px"
                             }, 100, function () {
-                                disconnect();
                                 location.replace(listlocation + listpage + "&top=" + top + "&left=" + 40);
                             });
                         };
@@ -240,7 +238,6 @@
                                     "opacity": "0",
                                     "top": "100px"
                                 }, 100, function () {
-                                    disconnect();
                                     location.replace(listlocation + listpage + "&top=" + top + "&left=" + left);
                                 });
                             } else {
@@ -290,7 +287,6 @@
                             console.log("타겟좌표: " + targetTop, targetLeft, targetHref);
                             
                             if (targetTop - 40 < chartop && chartop < targetTop + 160 && targetLeft - 30 < charleft && charleft < targetLeft + 160) {
-                                disconnect();
                                 location.href = targetHref + "&chartop=" + chartop + "&charleft=" + charleft;
                             };
                         }
@@ -626,15 +622,24 @@
 
         </script>
        <script>
-        var webSocket;
-        var nickname = document.getElementById("nickname").innerText;
-        var testStreet = document.getElementById("testStreet");
-        var userchar = document.getElementById("userchar");
-        var testId = document.getElementById("userid").getAttribute('alt')
-        var userid= testId.substring(0,testId.indexOf("@"));
-        var userimg = document.getElementById("charimg").getAttribute('src');
-        var str;
-        
+           var webSocket;
+           var nickname = document.getElementById("nickname").innerText;
+           
+           
+           var testStreet = document.getElementById("testStreet");
+           var userchar = document.getElementById("userchar");
+           var testId = document.getElementById("userid").getAttribute('alt')
+           var userid= testId.substring(0,testId.indexOf("@"));
+           var userimg = document.getElementById("charimg").getAttribute('src');
+           var str;
+           
+           $(window).on("beforeunload", callback);
+           
+           function callback(){
+                console.log(userid+"님이 페이지를 떠났습니다.")
+               disconnect();
+               return ;
+           }
         
         function connect(){
             webSocket = new WebSocket("ws://localhost:8080/phoncnic/street");
@@ -660,20 +665,17 @@
         function onMessage(e){
             var data = e.data;
             var dataSplit = data.split(",");
-            console.log(data);
             if (dataSplit[0]==userid) {
                 return;
             }
             if(dataSplit[1]=="outofpage"){
                 $("#"+dataSplit[0]).empty();
                 $("#"+dataSplit[0]).remove();
+                console.log(dataSplit[0]+"님이 페이지를 떠납니다.")
                 return;
             }
-            console.log(data);
             
-            console.log(data);
             if (document.querySelector("#"+dataSplit[0])==null) {
-                console.log("접속 유저가 없습니다");
                 testStreet.innerHTML = testStreet.innerHTML+' </br> <div class ="char" id="'+dataSplit[0]+'" style="position: absolute; top : '+dataSplit[2]+'px; left:'+ dataSplit[3]+'px;"><div><img class="users" src = "'+ dataSplit[4]+'" style="width: 70px;ft:'+ dataSplit[3]+'px;"></div><div class="nickname">'+dataSplit[1]+'</div></div>';
                 return;
             }else {

@@ -83,7 +83,6 @@
                     var val = $(this).attr("value");
 
                     console.log("click");
-                    disconnect();
                     location.href = "/phoncnic/dyning/details?dno=" + val + "&id=" + `[[${id}]]` + "&chartop=" + chartop + "&charleft=" + charleft;
                 });
             });
@@ -222,7 +221,6 @@
                                 "opacity": "0",
                                 "top": "100px"
                             }, 100, function () {
-                                disconnect();
                                 location.replace(listlocation + listpage + "&top=" + top + "&left=" + 40);
                             });
                         };
@@ -240,7 +238,6 @@
                                     "opacity": "0",
                                     "top": "100px"
                                 }, 100, function () {
-                                    disconnect();
                                     location.replace(listlocation + listpage + "&top=" + top + "&left=" + left);
                                 });
                             } else {
@@ -290,7 +287,6 @@
                             console.log("타겟좌표: " + targetTop, targetLeft, targetHref);
                             
                             if (targetTop - 40 < chartop && chartop < targetTop + 160 && targetLeft - 30 < charleft && charleft < targetLeft + 160) {
-                                disconnect();
                                 location.href = targetHref + "&chartop=" + chartop + "&charleft=" + charleft;
                             };
                         }
@@ -626,17 +622,24 @@
 
         </script>
        <script>
-        var webSocket;
-        var nickname = document.getElementById("nickname").innerText;
-            
-        
-        var testStreet = document.getElementById("testStreet");
-        var userchar = document.getElementById("userchar");
-        var testId = document.getElementById("userid").getAttribute('alt')
-        var userid= testId.substring(0,testId.indexOf("@"));
-        var userimg = document.getElementById("charimg").getAttribute('src');
-        var str;
-        
+           var webSocket;
+           var nickname = document.getElementById("nickname").innerText;
+           
+           
+           var testStreet = document.getElementById("testStreet");
+           var userchar = document.getElementById("userchar");
+           var testId = document.getElementById("userid").getAttribute('alt')
+           var userid= testId.substring(0,testId.indexOf("@"));
+           var userimg = document.getElementById("charimg").getAttribute('src');
+           var str;
+           
+           $(window).on("beforeunload", callback);
+           
+           function callback(){
+                console.log(userid+"님이 페이지를 떠났습니다.")
+               disconnect();
+               return ;
+           }
         
         function connect(){
             webSocket = new WebSocket("ws://localhost:8080/phoncnic/street");
@@ -662,20 +665,17 @@
         function onMessage(e){
             var data = e.data;
             var dataSplit = data.split(",");
-            console.log(data);
             if (dataSplit[0]==userid) {
                 return;
             }
             if(dataSplit[1]=="outofpage"){
                 $("#"+dataSplit[0]).empty();
                 $("#"+dataSplit[0]).remove();
+                console.log(dataSplit[0]+"님이 페이지를 떠납니다.")
                 return;
             }
-            console.log(data);
             
-            console.log(data);
             if (document.querySelector("#"+dataSplit[0])==null) {
-                console.log("접속 유저가 없습니다");
                 testStreet.innerHTML = testStreet.innerHTML+' </br> <div class ="char" id="'+dataSplit[0]+'" style="position: absolute; top : '+dataSplit[2]+'px; left:'+ dataSplit[3]+'px;"><div><img class="users" src = "'+ dataSplit[4]+'" style="width: 70px;ft:'+ dataSplit[3]+'px;"></div><div class="nickname">'+dataSplit[1]+'</div></div>';
                 return;
             }else {
