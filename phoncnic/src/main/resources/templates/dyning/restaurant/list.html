@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 <th:block th:replace="~{layout/dyninglist :: setContent(~{::content}, ~{::search})}">
     <!-- search toggle -->
     <th:block th:fragment="search">
@@ -520,36 +520,47 @@
             }
 
         </script>
-       <script>
-           var webSocket;
-           var nickname = document.getElementById("nickname").innerText;
-           var str="";
-           
-           var testStreet = document.getElementById("testStreet");
-           var userchar = document.getElementById("userchar");
-           var testId = document.getElementById("userid").getAttribute('alt')
-           var userid= testId.substring(0,testId.indexOf("@"));
-           var userimg = document.getElementById("charimg").getAttribute('src');
 
-           
-           
-           $(window).on("beforeunload", callback);
-           function callback(){
-            disconnected();
-               return ;
+        <script>
+            var webSocket;
+            var nickname = document.getElementById("nickname").innerText;
+            var str = "";
+
+            var testStreet = document.getElementById("testStreet");
+            var userchar = document.getElementById("userchar");
+            var testId = document.getElementById("userid").getAttribute('alt')
+            var userid = testId.substring(0, testId.indexOf("@"));
+            var userimg = document.getElementById("charimg").getAttribute('src');
+
+            $(window).on("beforeunload", callback);
+
+            function callback() {
+                disconnect();
+                return;
             }
-            
-            
-            connect();
-            function connect(){
+
+            function connect() {
                 webSocket = new WebSocket("wss://cac6-175-119-172-242.jp.ngrok.io/phoncnic/street");
                 webSocket.onopen = onOpen;
                 webSocket.onmessage = onMessage;
+                // webSocket.onclose = onClose();
+            }
+            connect();
+
+
+            function send() {
+                str = userid + "," + nickname + "," + document.getElementById("char").offsetTop + "," + document.getElementById("char").offsetLeft + "," + userimg;
+                webSocket.send(str);
+            }
+            function disconnect() {
+                str = userid + ",outofpage";
+                webSocket.send(str);
             }
 
             function onOpen() {
-                str = userid + "," + nickname + "," + document.getElementById("char").offsetTop + "," + document.getElementById("char").offsetLeft + "," + userimg;
                 webSocket.send(str);
+                str = "";
+
             }
 
         window.onkeyup = function(){
@@ -563,17 +574,7 @@
                 webSocket.send(str);
             }
             }
-        // function send(){
-        //     if (webSocket.readyState == 1) {
-        //         str=userid + "," + nickname + "," + document.getElementById("char").offsetTop + "," + document.getElementById("char").offsetLeft + "," + userimg;
-        //         webSocket.send(str);
-        //     }else{
-        //         connect();
-        //         str=userid + "," + nickname + "," + document.getElementById("char").offsetTop + "," + document.getElementById("char").offsetLeft + "," + userimg;
-        //         webSocket.send(str);
-
-        //     }
-        // }
+       
         function disconnected() {
             str = userid +",outofpage";
             webSocket.send(str);
@@ -584,7 +585,6 @@
             function onMessage(e) {
                 var data = e.data;
                 var dataSplit = data.split(",");
-                console.log(data);
                 if (dataSplit[0] == userid) {
                     return;
                 }
@@ -592,16 +592,48 @@
                     $("#" + dataSplit[0]).empty();
                     $("#" + dataSplit[0]).remove();
                     console.log(dataSplit[0] + "님이 페이지를 떠납니다.")
+                    onClose();
                     return;
                 }
 
-                if (document.querySelector("#" + dataSplit[0]) == null) {
+                if (document.getElementById(dataSplit[0]) == null && dataSplit[4] != undefined) {
                     testStreet.innerHTML = testStreet.innerHTML + ' </br> <div class ="char" id="' + dataSplit[0] + '" style="position: absolute; top : ' + dataSplit[2] + 'px; left:' + dataSplit[3] + 'px;"><div><img class="users" src = "' + dataSplit[4] + '" style="width: 70px;ft:' + dataSplit[3] + 'px;"></div><div class="nickname">' + dataSplit[1] + '</div></div>';
                     return;
-                } else {
+                } else if (document.getElementById(dataSplit[0]) != null) {
                     $("#" + dataSplit[0]).offset({ top: dataSplit[2] });
                     $("#" + dataSplit[0]).offset({ left: dataSplit[3] });
                 }
+                function disconnect() {
+                    str = userid + ",outofpage";
+                    webSocket.send(str);
+                }
+                function onOpen() {
+                    str = userid + "," + nickname + "," + document.getElementById("char").offsetTop + "," + document.getElementById("char").offsetLeft + "," + userimg;
+                    webSocket.send(str);
+                }
+                function onMessage(e) {
+                    var data = e.data;
+                    var dataSplit = data.split(",");
+                    if (dataSplit[0] == userid) {
+                        return;
+                    }
+                    if (dataSplit[1] == "outofpage") {
+                        $("#" + dataSplit[0]).empty();
+                        $("#" + dataSplit[0]).remove();
+                        console.log(dataSplit[0] + "님이 페이지를 떠납니다.")
+                        return;
+                    }
+
+                    if (document.querySelector("#" + dataSplit[0]) == null) {
+                        testStreet.innerHTML = testStreet.innerHTML + ' </br> <div class ="char" id="' + dataSplit[0] + '" style="position: absolute; top : ' + dataSplit[2] + 'px; left:' + dataSplit[3] + 'px;"><div><img class="users" src = "' + dataSplit[4] + '" style="width: 70px;ft:' + dataSplit[3] + 'px;"></div><div class="nickname">' + dataSplit[1] + '</div></div>';
+                        return;
+                    } else {
+                        $("#" + dataSplit[0]).offset({ top: dataSplit[2] });
+                        $("#" + dataSplit[0]).offset({ left: dataSplit[3] });
+                    }
+                }
+             
+
             }
             webSocket.onClose= function onClose() {
                 console.log("연결끊어짐");
@@ -610,5 +642,6 @@
         
         </script>
         </body>
-        </th:block>
-        </th:block>
+    </th:block>
+    
+</th:block>
