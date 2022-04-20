@@ -121,6 +121,7 @@
         <script th:inline="javascript">
             $(document).ready(function () {
                 var keyword = $("button[name=keyword]");
+                var helpbtn = $("button[id=helpbtn]");
 
                 // list에서 검색토글버튼 클릭되어있을 때 엔터키 눌러도 토글 반응 안되게
                 keyword.on("keydown", function (e) {
@@ -129,6 +130,15 @@
                         e.preventDefault();
                     };
                 });
+
+                // 모달 버튼 클릭되어 있을 때 엔터키 눌러도 모달 안뜨게
+                helpbtn.on("keydown", function (e) {
+                    var keycode = e.keyCode;
+                    if (keycode == "13") {
+                        e.preventDefault();
+                    };
+                });
+                
             });
         </script>
         <div class="d-flex" id="wrapper">
