@@ -75,20 +75,33 @@
             +]*/
 
             modifyBtn.on("click", function () {
-                if (confirm("수정하시겠습니까?")) {
                     actionform.attr("action", urlmodify);
                     actionform.attr("method", "post");
                     actionform.submit();
-                    alert("수정되었습니다");
-                }
             });
 
             removeBtn.on("click", function () {
-                if (confirm("삭제하시겠습니까?")) {
-                    actionform.attr("action", urlremove);
-                    actionform.attr("method", "post");
-                    actionform.submit();
-                }
+                swal({
+                        title: "삭제하시겠습니까?",
+                        text: "OK를 누르시면 데이터는 되돌릴 수 없습니다!!!!!",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                    })
+                        .then((willDelete) => {
+                            if (willDelete) {
+                                swal("삭제 되었습니다!", {
+                                    icon: "success",
+                                    button: "false",
+                                    timer: 1000,
+                                });
+                                actionform.attr("action", urlremove);
+                                actionform.attr("method", "post");
+                                actionform.submit();
+                            } else {
+                                swal("삭제가 취소되었습니다!",{button:false, timer:1000});
+                            }
+                        });
             });
         </script>
     </th:block>
