@@ -96,6 +96,10 @@
             .d-flex::-webkit-scrollbar {
                 display: none;
             }
+
+            #sidebar-wrapper{
+                z-index: 3;
+            }
         </style>
         <!-- awsome icon cdn -->
         <script src="https://kit.fontawesome.com/f145f2fd92.js" crossorigin="anonymous"></script>
@@ -147,7 +151,6 @@
                 <a class="list-group-item list-group-item-light p-3" th:href="@{/}">
                     <h2>Phoncnic</h2>
                 </a>
-                <!-- <a th:href="@{/}"><div class="sidebar-heading border-bottom bg-light">Start Bootstrap</div></a> -->
                 <div class="list-group list-group-flush">
                     <a class="list-group-item list-group-item-action list-group-item-light p-3"
                         sec:authorize="isAnonymous()" th:href="@{/member/login}">
@@ -203,6 +206,8 @@
                     userInfoToggle.css("border", "solid 5px gold");
                 }
             });
+
+             
         </script>
     </body>
 </th:block>
