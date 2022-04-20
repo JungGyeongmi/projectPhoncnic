@@ -95,7 +95,6 @@
         border-bottom: 0;
         margin-left: -24px;
         margin-bottom: -24px;
-
     }
 
     .avartar:hover~.avartar-hover {
@@ -151,6 +150,10 @@
     .basic-main-logo {
         display: none;
     }
+
+    .fa-solid:hover {
+        cursor: pointer;
+    }
 </style>
 <th:block th:replace="~{layout/basic :: setContent(~{::content})}">
     <th:block th:fragment="content">
@@ -176,7 +179,7 @@
                 </div>
                 <div class="button-background" sec:authorize="hasAnyRole('ROLE_CEO', 'ROLE_ADMIN', 'ROLE_ARTIST')">
                     <div class="button-text">
-                        <a th:href="@{/manage/rolechoice}"><button type="button">Submit Path</button></a>
+                        <a th:href="@{/manage/rolechoice}"><button type="button">Management</button></a>
                     </div>
                 </div>
                 <div class="button-background">
@@ -274,6 +277,7 @@
                         $(".avartar-speech-bubble-text").html(avartarBubble[0]);
                         $("#speech-bubble-x").removeClass("remove");
                         $("#speech-bubble-x").addClass("show");
+                        buttonChecker(0);
                     } else {
                         $("#bubble-con").removeClass("show");
                         $("#bubble-con").addClass("remove");
@@ -430,7 +434,7 @@
                     </div>
                     <div class="modal-footer">
                         <button th:if="${loginuserId}" id="lookModifyBtn" type="button"
-                            class="btn btn-primary">변경하기</button>
+                            class="basic-button">변경하기</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
                             name="btn-close">취소</button>
                     </div>

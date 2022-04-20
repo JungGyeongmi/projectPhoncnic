@@ -17,13 +17,13 @@ import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
-  
+
   @Override
   public void onAuthenticationSuccess(
-    HttpServletRequest request, 
-    HttpServletResponse response, 
-    Authentication auth)
-  throws IOException, ServletException {
+      HttpServletRequest request,
+      HttpServletResponse response,
+      Authentication auth)
+      throws IOException, ServletException {
     HttpSession session = request.getSession(false);
     log.info("Success......");
 
@@ -32,17 +32,27 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
 
     List<String> roleNames = new ArrayList<>();
 
-    authMemberDTO.getAuthorities().forEach(authority -> { roleNames.add(authority.getAuthority()); });
+    authMemberDTO.getAuthorities().forEach(authority -> {
+      roleNames.add(authority.getAuthority());
+    });
 
     log.warn("get  session referUrl" + session.getAttribute("referUrl"));
 
     int interval = session.getMaxInactiveInterval();
-    log.info("session interval...."+interval);
+    log.info("session interval...." + interval);
     session.setMaxInactiveInterval(3600);
     interval = session.getMaxInactiveInterval();
-    log.info("changed session interval "+ interval);
+    log.info("changed session interval " + interval);
 
-   String redirectUrl = session.getAttribute("referUrl").toString();
+    log.info("header cookie");
+    log.warn(request.getHeaders("Host"));
+
+    log.info("context path");
+    log.warn(request.getContextPath());
+
+    String redirectUrl = session.getAttribute("referUrl").toString();
+
+    log.info(redirectUrl);
 
     if (session != null) {
       if (redirectUrl != null) {
@@ -50,7 +60,7 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
         session.removeAttribute("referUrl");
       } else {
         log.info("--session null -- redirect null ---");
-        response.sendRedirect(request.getContextPath()+"/");
+        response.sendRedirect(request.getContextPath() + "/");
       }
     }
   }

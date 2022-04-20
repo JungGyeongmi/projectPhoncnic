@@ -55,8 +55,9 @@ public class DyningController {
             model.addAttribute("nickname", memberService.getNickname(dto.getId()));
             model.addAttribute("setDTO", characterLookService.getCharacterSet(dto.getId()));
         } catch (NullPointerException e) {
-            model.addAttribute("id", "");
-            model.addAttribute("nickname", "");
+            int num = (int)(Math.random()*100)+1;
+            model.addAttribute("id", "guest"+num+"@gmail.com");
+            model.addAttribute("nickname", "guest"+num);
             model.addAttribute("setDTO", characterLookService.getCharacterSet("test1@gmail.com"));
         }
 
@@ -81,8 +82,10 @@ public class DyningController {
             model.addAttribute("nickname", memberService.getNickname(dto.getId()));
             model.addAttribute("setDTO", characterLookService.getCharacterSet(dto.getId()));
         } else {
-            model.addAttribute("id", "");
-            model.addAttribute("nickname", "");
+            int num = (int)(Math.random()*100)+1;
+
+            model.addAttribute("id", "guest"+num+"@gmail.com");
+            model.addAttribute("nickname", "guest"+num);
             model.addAttribute("setDTO", characterLookService.getCharacterSet("test1@gmail.com"));
         }
 
