@@ -1,90 +1,105 @@
 <!DOCTYPE html>
 <style>
+    #nav {
+        background-color: transparent !important;
+    }
+
+    #wrapper {
+    background-image: url([[@{/icon/pixel-main.jpg}]]);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    font-family: "NeoDunggeunmo" !important;
+    
+}
+
     .containerBox {
-        width: 1200px;
+        font-family: "NeoDunggeunmo" !important;
+        width: 1000px;
         margin: 0 auto;
-        font-family: 'GmarketSansLight';
+        /* overflow-y: scroll; */
     }
 
     .title {
         text-align: center;
-        padding: 70px 0 90px 0;
+        padding: 40px;
 
     }
 
     .content-container {
         display: flex;
-        justify-content: space-evenly;
+        justify-content: space-between;
         align-items: center;
+        width: 88%;
+        margin: 0 auto;
+        padding: 90px 0;
+
     }
 
     .content {
-        width: 320px;
-        height: 385px;
-        background-color: #DBE9B7;
+        width: 290px;
+        height: 382px;
         text-align: center;
-        border-radius: 8px;
+        border-radius: 3px;
+        filter: drop-shadow(2px 3px 4px rgb(99, 99, 99));
+        background-color: rgb(254, 254, 254);
+
     }
 
-    .content-body {
-        padding: 44px;
+    .content-body{
+        padding: 49px;
     }
 
-    .content-body>img {
+    .content-body > a> img {
         margin: 0 auto;
-        width: 130px;
+        width: 179px;
+        filter: drop-shadow(2px 3px 4px rgb(99, 99, 99)); 
     }
 
-    .content-container .content:first-child button {
-        height: 44px;
+    .content-container .content button {
+        font-family: "NeoDunggeunmo" !important;
+        width:100%;
+        height:88px;
+        max-width: -webkit-fill-available;
+        font-size: 27px;
         border: none;
-        width: 216px;
-        border-radius: 30px;
-        background-color: darkslateblue;
-        font-size: 19px;
-        color: white;
-        padding: 10px;
-    }
-
-    .content-container .content:last-child button {
-        height: 44px;
-        border: none;
-        width: 216px;
-        border-radius: 30px;
-        background-color: orange;
-        font-size: 19px;
-        color: white;
-        padding: 10px;
+        background-color: #fdd327;
+        margin-top: 18px;
     }
 
     .content-container p {
         font-size: 22px;
         margin: 0px auto 32px auto;
     }
-    
+
+    .basic-main-logo {
+        display: none;
+    }
+
+    .content-container .content:last-child .content-body {
+        padding: 41px;
+  }
+
 </style>
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
 <th:block th:replace="~{layout/basic :: setContent(~{::content})}">
     <th:block th:fragment="content">
         <div class="containerBox">
             <div class="title">
-                <h2 style="font-family: 'GmarketSansmedium';"><img th:src="@{/icon/vertical-line.png}"
-                        style="width:30px;" alt="">권한 신청</h2>
+                <h1>권한 신청</h2>
             </div>
             <div class="content-container">
                 <div class="content">
                     <div class="content-body">
-                        <img th:src="@{/icon/store.png}" alt="">
+                      <a th:href="@{/reception/ceo}"><img th:src="@{/icon/Pepper Pete.ico}" alt=""></a>
                     </div>
-                    <p><b>사업자</b></p>
-                    <a th:href="@{/reception/ceo}"><button>신청하러가기</button></a>
+                    <a th:href="@{/reception/ceo}"><button>사업자 신청</button></a>
                 </div>
                 <div class="content">
                     <div class="content-body">
-                        <img th:src="@{/icon/art.png}" alt="">
+                      <a th:href="@{/reception/artist}"><img th:src="@{/icon/artist.png}"  alt=""></a>
                     </div>
-                    <p><b>작가</b></p>
-                    <a th:href="@{/reception/artist}"><button>신청하러가기</button></a>
+                    <a th:href="@{/reception/artist}"><button>작가 신청</button></a>
                 </div>
             </div>
         </div>
