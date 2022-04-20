@@ -24,6 +24,8 @@ public class ApplicationFormDTO {
 
   private String applicant;
 
+  private Boolean confirm;
+
   LocalDateTime applydate, confirmdate;
 
   @Builder.Default

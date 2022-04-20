@@ -73,10 +73,12 @@ public interface MemberService {
    
     Long afno = 0L;
     Boolean applicationtype = false;
+    Boolean applyconfirm = false;
    
     if(apply!=null) {
       afno = apply.getAfno();
       applicationtype = apply.getApplicationtype();
+      applyconfirm = apply.getConfirm();
     }
 
     MemberDTO memberDTO = MemberDTO.builder()
@@ -87,6 +89,7 @@ public interface MemberService {
             .collect(Collectors.toList()))
         .afno(afno)
         .applicationtype(applicationtype)
+        .confirm(applyconfirm)
         .regdate(member.getRegDate())
         .moddate(member.getModDate())
         .build();

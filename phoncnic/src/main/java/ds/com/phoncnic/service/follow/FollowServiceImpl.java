@@ -25,7 +25,7 @@ public class FollowServiceImpl implements FollowService {
     public FollowDTO getFollow(String id){
         List<Object> artistList = followRepository.getfollowArtistList(id);
         List<Object> dyningList = followRepository.getfollowDyningList(id);
-        return entityToDTO(artistList,dyningList);
+        return entityToDTO(artistList, dyningList);
     }
 
     @Override

@@ -19,6 +19,7 @@ import ds.com.phoncnic.dto.MemberDTO;
 import ds.com.phoncnic.dto.pageDTO.PageResultDTO;
 import ds.com.phoncnic.dto.pageDTO.SearchMemberPageRequestDTO;
 import ds.com.phoncnic.service.member.MemberService;
+import ds.com.phoncnic.service.reception.ApplicationFormService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -29,6 +30,7 @@ import lombok.extern.log4j.Log4j2;
 public class AdminRestController {
     
     private final MemberService memberService;
+    private final ApplicationFormService formService;
 
     @Transactional
     @GetMapping("/search")
@@ -46,18 +48,22 @@ public class AdminRestController {
         MemberDTO memberDTO,
         RedirectAttributes ra) {
         
+        String oriNick = json.get("originNick");
         Boolean roleChecker = json.get("originRole")==roleSet.get(0);
         Boolean nickChecker = memberService.nickNameChecker(json.get("nickname"));
-        
-        memberDTO.setId(json.get("id"));
-        memberDTO.setRoleSet(roleSet);
+        Boolean confirmChecker = json.get("confirmCheck").equals("true")?true:false;
+        String id = json.get("id");
 
+        memberDTO.setId(id);
+        memberDTO.setRoleSet(roleSet);
+        log.info(confirmChecker);
         // 닉네임이 중복되고 롤도 바뀌지 않은 경우
+        formService.updateConfirmState(id, confirmChecker);
         if(roleChecker && nickChecker) {
             return "overlap";
         } else if(!roleChecker && nickChecker) {
         // 닉네임은 중복되나 롤이 바뀐경우
-            memberDTO.setNickname(json.get("originNick"));
+            memberDTO.setNickname(oriNick);
             memberService.updateMemberDTO(memberDTO);
             return "role";
         }

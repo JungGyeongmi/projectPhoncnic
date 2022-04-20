@@ -175,6 +175,7 @@
                                         <tr class="table-title">
                                             <th scope="col">아이디</th>
                                             <th scope="col">닉네임</th>
+                                            <th scope="col">승인</th>
                                             <th scope="col">신청</th>
                                             <th scope="col">권한</th>
                                             <th scope="col">가입일</th>
@@ -186,6 +187,9 @@
                                             <input type="hidden" value="${item.id}" name="id" readonly/>
                                             <td class="search-result-td" > <span >${item.id}</sapn></td>
                                             <td class="search-result-td" ><input type="text" value="${item.nickname}" name="nickname" data-ori-nick="${item.nickname}"></td>
+                                            <td class="search-result-td" data-apply-boolean="${item.confirm}">
+                                                <input type="checkbox" value="confirm" id="applyCheck"/> 
+                                            </td>
                                             <td class="search-result-td apply" data-apply-boolean="${item.afno}">${item.applicationtype}</td>
                                             <td class="search-result-td roleSetInfo" data-role-set="${item.roleSet[0]}">
                                                 <label for="ADMIN${index}">ADMIN</label>&nbsp;
@@ -208,8 +212,13 @@
                                     </div>
                                 </form>`
                                 searchResult.append(str);
-                                if ($(".apply").eq(index).html() == "true") { $(".apply").eq(index).html("CEO") }
-                                else if ($(".apply").eq(index).html() == "false") { $(".apply").eq(index).html("ARTIST") }
+                                if ($(".apply").eq(index).html() == "true") {
+                                     $(".apply").eq(index).html("CEO") 
+                                    }
+                                else if ($(".apply").eq(index).html() == "false") { 
+                                    $(".apply").eq(index).html("ARTIST")
+                                 }
+                                 $("#applyCheck").attr("checked", item.confirm);
                                 if ($(".apply").eq(index).data("applyBoolean") == 0) { $(".apply").eq(index).html("신청내역없음") }
 
                             var roleId = item.roleSet[0].toString().slice(5) + index;
@@ -340,7 +349,8 @@
                     var id = $(this).parent().siblings("input[name=id]").val();
                     var nickname = $(this).val();
                     var userRole = [$(".modirole").eq(index).val()];
-                    var data = { "id": id, "nickname": nickname, "originRole": originRole , "originNick": originNick };
+                    var confirmCheck =$("#applyCheck").attr("checked");
+                    var data = { "id": id, "nickname": nickname, "originRole": originRole , "originNick": originNick, "confirmCheck": confirmCheck };
                     
                     console.log(data);
                    
@@ -359,7 +369,9 @@
                     var id = $(this).parent().siblings("input[name=id]").val();
                     var nickname = $(this).parent().siblings().eq(2).children("input").val();
                     var userRole = [$(".modirole").eq(index).val()];
-                    var data = { "id": id, "nickname": nickname, "originRole": originRole , "originNick": originNick };
+                    var confirmCheck =$("#applyCheck").attr("checked")=="checked"?true:false;
+                    var data = { "id": id, "nickname": nickname, "originRole": originRole , "originNick": originNick, "confirmCheck": confirmCheck };
+
                     modiAjax(data, userRole, index);
                 });
 
