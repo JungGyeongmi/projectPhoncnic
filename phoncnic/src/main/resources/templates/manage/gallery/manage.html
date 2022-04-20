@@ -43,7 +43,7 @@
 	}
 
 	.gallery-img img {
-		width: 112px;
+		width: 150px;
 		margin: 0 auto;
 		filter: drop-shadow(4px 2px 3px lightgray);
 	}
@@ -91,9 +91,10 @@
 	.curtain-open-str {
 		position: absolute;
 		top: 50%;
-		left: 44.5%;
+		left: 42.5%;
 		display: inline;
-
+		
+		font-size: 20px;
 		font-weight: bold;
 		color: white;
 		text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff, 0 0 42px #0fa, 0 0 82px #0fa, 0 0 92px #0fa, 0 0 102px #0fa, 0 0 151px #0fa;
@@ -171,15 +172,15 @@
 					</div>
 				</th:block>
 				<th:block th:unless="${galleryDTOList.size()}==0">
-					<div class="recent-upload">
+					<div class="recent-upload" th:with="size=${galleryDTOList.size()}, index=${galleryDTOList.size()-1}, dto=${galleryDTOList[index]}">
 						<div>
-						<b>- 최근 업로드 작품</b> : [[ ${#temporals.format(galleryDTOList[0].regdate, 'yyyy-MM-dd')} ]]
+						<b>- 최근 업로드 작품</b> : [[ ${#temporals.format(dto.regdate, 'yyyy-MM-dd')} ]]
 						<br>
-						<b>- 전시회 업로드</b> : [[${galleryDTOList.size()}]] / 10 
+						<b>- 전시회 업로드</b> : [[${size}]] / 10
 					</div>
 					<hr>
-						<th:block th:each="dto, index : ${galleryDTOList}" th:with="max='2'">
-							<div class="recent-upload-con" th:if="${max}>${index.count}">
+						<th:block >
+							<div class="recent-upload-con" >
 								<a th:href="@{/manage/gallery/read(gno=${dto.getGno}) }">
 									<img th:src="|@{'/display'}?fileName=${dto.getImageURL()}|" alt="" width="200px">
 								</a>
