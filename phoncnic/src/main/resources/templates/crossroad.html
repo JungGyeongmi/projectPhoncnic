@@ -18,7 +18,10 @@
 
   .containerBox {
     font-family: "NeoDunggeunmo" !important;
+  }
 
+  .content:hover {
+    cursor: pointer;
   }
 
   .content-container {
@@ -77,10 +80,9 @@
     margin-top: 0;
   }
 
-
-    .content-container .content:first-child .content-body img{
-        width: 112px;
-    }
+  .content-container .content:first-child .content-body img {
+    width: 112px;
+  }
 
   .content-container .content:first-child .content-body img {
     width: 108px;
@@ -107,6 +109,7 @@
     position: fixed;
   }
 </style>
+
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <th:block th:replace="~{layout/basic :: setContent(~{::content})}">
   <th:block th:fragment="content">
@@ -114,26 +117,24 @@
 
       <h1>갈림길</h1>
 
-
       <div class="content-container">
-        <div class="content">
+        <div class="content" id="gallery">
           <div class="content-body">
-            <a th:href="@{/crossroad/gallery}"><img th:src="@{/icon/gallery.png}" alt=""></a>
+            <img th:src="@{/icon/gallery.png}" alt="">
           </div>
-          <a th:href="@{/crossroad/gallery}"><button>Gallery</button></a>
+          <button>Gallery</button>
         </div>
-        <div class="content">
+        <div class="content" id="cafe">
           <div class="content-body">
-            <a th:href="@{/dyning/cafe/list?page=1&top=440&left=40}"><img th:src="@{/icon/cafe-food.png}" alt=""></a>
+            <img th:src="@{/icon/cafe-food.png}" alt="">
           </div>
-          <a th:href="@{/dyning/cafe/list?page=1&top=440&left=40}"><button>Cafe</button></a>
+          <button style="margin-top: 20px;">Cafe</button>
         </div>
-        <div class="content">
+        <div class="content" id="restaurant">
           <div class="content-body">
-            <a th:href="@{/dyning/restaurant/list?page=1&top=440&left=40}"><img th:src="@{/icon/restaurant-food2.png}"
-                alt=""></a>
+            <img th:src="@{/icon/restaurant-food2.png}" alt="">
           </div>
-          <a th:href="@{/dyning/restaurant/list?page=1&top=440&left=40}"><button>Restaurant</button></a>
+          <button>Restaurant</button>
         </div>
       </div>
       <div class="arrow-container">
@@ -153,6 +154,18 @@
       location.href = HOMEUrl;
       return;
     });
+  });
+
+  $("#gallery").on("click", function () {
+    location.href = "/phoncnic/crossroad/gallery";
+  });
+
+  $("#cafe").on("click", function () {
+    location.href = "/phoncnic/dyning/cafe/list?page=1&top=440&left=40";
+  });
+
+  $("#restaurant").on("click", function () {
+    location.href = "/phoncnic/dyning/restaurant/list?page=1&top=440&left=40";
   });
 </script>
 
