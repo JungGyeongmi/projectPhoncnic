@@ -12,7 +12,7 @@
                     </select>
                     <input class="form-control me-2" name="keyword" type="search" placeholder="Search"
                         aria-label="Search">
-                    <button class="btn btn-outline-success" id="btnsearch" type="button">Search</button>
+                    <button class="btn btn-outline-success" id="btnsearch" type="button">검색</button>
                 </form>
             </div>
             <div class="list-group list-group-flush">
@@ -107,6 +107,7 @@
                     </li>
                 </th:block>
             </ul>
+            <img class="bubble" th:src="@{/icon/pixel-speech-bubble.png}" alt="">
             <div id="testStreet">
                 <div th:each="sdto : ${setDTO}" id="userchar" style="display: none; position:absolute;"><img id="userid"
                         class="look setlook" th:src="${sdto.setpath}" th:alt="${id}"></div>
@@ -158,7 +159,12 @@
 
                 if (page == 1) {
                     $("#hint").css("display", "block");
+                    $(".bubble").css("display", "block");
                 }
+
+                $("#char").one("click", function () {
+                    $(".bubble").css("display", "none");
+                })
             });
 
             (function () {
@@ -203,6 +209,12 @@
                     if ($("#hint").css("display") == "block") {
                         if (key === 37 || key === 38 || key === 39 || key === 40) {
                             $("#hint").css("display", "none");
+                        }
+                    }
+
+                    if ($(".bubble").css("display") == "block") {
+                        if (key === 37 || key === 38 || key === 39 || key === 40) {
+                            $(".bubble").css("display", "none");
                         }
                     }
 
