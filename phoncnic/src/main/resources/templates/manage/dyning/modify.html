@@ -182,8 +182,10 @@ input[type=radio]:checked + label {
           </div>
           <div class="col-12 py-3">
             <label for="labelBusinesshours" class="form-label">영업시간</label>
-            <input type="text" name="businesshours" th:value="${result.businesshours}" class="form-control"
-              id="labelBusinesshours">
+            <textarea name="businesshours" id="labelBusinesshours" cols="62" rows="5" style="resize: none;" class="form-control" th:value="${result.businesshours}" ></textarea>
+
+            <!-- <input type="text" name="businesshours" th:value="${result.businesshours}" class="form-control"
+              id="labelBusinesshours"> -->
           </div>
           <div class="col-12 py-3">
             <label for="labelHashtag" class="form-label">해시태그</label>
@@ -276,6 +278,8 @@ input[type=radio]:checked + label {
         });
       }
       $(document).ready(function (e) {
+        $("#labelBusinesshours").val().replaceAll("<br>", "\r\n");
+
         $("#roofChoice").on("click", function (e) {
           $("#roofModal").show();
         });
