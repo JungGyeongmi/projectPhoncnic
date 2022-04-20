@@ -642,7 +642,7 @@
            }
         
         function connect(){
-            webSocket = new WebSocket("ws://localhost:8080/phoncnic/street");
+            webSocket = new WebSocket("wss://cac6-175-119-172-242.jp.ngrok.io/phoncnic/street");
             webSocket.onopen = onOpen;
             webSocket.onmessage = onMessage;
             webSocket.onclose = onClose();
@@ -692,7 +692,6 @@
                     
    </script>
 </body>
-<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 
 
     </th:block>
