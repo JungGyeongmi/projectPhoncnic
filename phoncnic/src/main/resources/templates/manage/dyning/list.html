@@ -2,8 +2,9 @@
 <style>
     a {
         text-decoration: none !important;
-        color:black !important;
+        color: black !important;
     }
+
     .containerBox {
         font-family: 'GmarketSansLight';
         width: 940px;
@@ -31,7 +32,7 @@
     }
 
     .register-content {
-        
+
         /* width: 430px; */
         /* height: 200px; */
         border-radius: 4px;
@@ -39,6 +40,7 @@
         /* text-align: center; */
         margin: 0 auto;
     }
+
     .register-content .img-container {
         display: flex;
         justify-content: center;
@@ -52,7 +54,7 @@
     .store-img img {
         width: 112px;
         margin: 0 auto;
-        filter: drop-shadow(4px 2px 3px lightgray); 
+        filter: drop-shadow(4px 2px 3px lightgray);
     }
 
     .register-btn button {
@@ -82,27 +84,28 @@
         width: 100%;
         flex-wrap: wrap;
     }
+
     .store-content {
         flex: 1 1 40%;
         cursor: pointer;
         margin-bottom: 20px;
     }
 
-    .store-content img{
+    .store-content img {
         width: 170px;
         filter: drop-shadow(4px 2px 6px lightgray);
     }
-    
+
     .store-img img {
         width: 150px;
     }
 
-    #dyningname{
+    #dyningname {
         margin-top: 10px;
     }
-    
 
-    .align-text-con{
+
+    .align-text-con {
         position: relative;
         bottom: -95px;
         z-index: 3;
@@ -111,12 +114,10 @@
 
     .align-text-con span {
         font-size: 20px;
-		font-weight: bold;
-		color: white;
-		text-shadow: 0 0 7px #fff, 0 0 15px #fff, 0 0 0px #fff, 0 0 12px #0fa;
+        font-weight: bold;
+        color: white;
+        text-shadow: 0 0 7px #fff, 0 0 15px #fff, 0 0 0px #fff, 0 0 12px #0fa;
     }
-    
-    
 </style>
 <th:block th:replace="~{layout/basic :: setContent(~{::content})}">
     <th:block th:fragment="content">
@@ -140,7 +141,6 @@
                             </div>
                         </div>
                         <div class="store-img">
-                            
                             <div class="img-align-con">
                                 <div class="align-text-con">
                                     <a th:href="@{/dyning/restaurant/list?page=1&amp;top=440&amp;left=40}">
@@ -153,7 +153,6 @@
                             </div>
                         </div>
                     </div>
-                    
                     <div class="register-btn">
                         <a th:href="@{/manage/dyning/register(id=${id})}">
                             <button type="button"><b>[[${id}]]</b> 님의 가게 등록하러가기</button>
@@ -165,7 +164,7 @@
             <div>등록된 가게 관리</div>
             <hr>
             <div class="store-container">
-                <th:block th:each="dto : ${result}" >
+                <th:block th:each="dto : ${result}">
                     <div class="store-content">
                         <div id="roofpath">
                             <img th:src="${dto.roofpath}" th:onclick="'location.href=
