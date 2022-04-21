@@ -45,7 +45,7 @@ public class GalleryController {
             Model model, Long gno,
             @AuthenticationPrincipal AuthMemberDTO authMemberDTO) {
 
-        model.addAttribute("galleryDTOList", galleryService.getGalleryList(true));
+        model.addAttribute("galleryDTOList", galleryService.getGalleryList(false));
         model.addAttribute("list", galleryService.getPaintingList(pageRequestDTO));
 
         log.warn("---------------" + authMemberDTO);
@@ -75,7 +75,7 @@ public class GalleryController {
             Long gno,
             @AuthenticationPrincipal AuthMemberDTO authMemberDTO) {
 
-        model.addAttribute("galleryDTOList", galleryService.getGalleryList(false));
+        model.addAttribute("galleryDTOList", galleryService.getGalleryList(true));
         model.addAttribute("list", galleryService.getPaintingList(pageRequestDTO));
 
         log.warn("---------------" + authMemberDTO);
