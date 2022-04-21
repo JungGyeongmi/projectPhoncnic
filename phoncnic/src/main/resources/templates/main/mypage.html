@@ -410,25 +410,27 @@
                     </div>
                     <hr>
                     <div class="emoji-list"  id="gno-emoji">       
-                        <div th:each="edto : ${emojiDTO}" th:if="${edto.gno}!=0" class="emoji-info">
-                            <div>- <b>[[${edto.artistname}]]</b></div>
+                        <div th:each="edto : ${emojiDTO}" th:if="${edto.gno}!=0" >
+                            <div th:onclick="'location.href=\''+ @{/gallery/read/${gno}} + '\''" class="emoji-info">
+                            <span><b>[[${edto.artistname}]]</b></span>
                             <input type="hidden" th:value="${edto.emojitype}">
                             <div><img th:src="${edto.emojipath}" alt="" width="40px"></div>
                             <span class="follow-btn">
                                 <button class="emojiRemoveBtn" th:value="${edto.eno}" type="button">삭제</button>
                             </span>
                         </div>
+                        </div>
                     </div>
                 </div>
+
         <div class="emoji-content">
             <div class="emoji-title">
                 <span>가게</span>
             </div>
             <hr>
             <div class="emoji-list" id="dno-emoji">
-                <div th:each="edto : ${emojiDTO}" th:if="${edto.dno}!=0" class="emoji-info">
-                    <div th:onclick="'location.href=\''+ @{/dyning/details(dno=${edto.dno},id=${id},chartop=0,charleft=0)} + '\''"
-                        style="display: inline-block;">
+                <div th:each="edto : ${emojiDTO}" th:if="${edto.dno}!=0" >
+                    <div th:onclick="'location.href=\''+ @{/dyning/details(dno=${edto.dno},id=${id},chartop=0,charleft=0)} + '\''" class="emoji-info">
                         <span><b>[[${edto.dyningname}]]</b></span>
                         <!-- <div th:onclick="|location.href='@{${dyning/details(dno=${edto.dno},id=${id})}}'|"><b>[[${edto.dyningname}]]</b></div> -->
                         <input type="hidden" th:value="${edto.emojitype}">
