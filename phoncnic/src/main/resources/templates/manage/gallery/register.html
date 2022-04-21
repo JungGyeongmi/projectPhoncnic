@@ -91,7 +91,7 @@
                     <div class="box">
                     </div>
                 </form>
-                <!-- 여기서 input 으로 전달해주는 값을 img 아래로 내리니까 전달자체가 되지 않았음 -->
+                
                 <label class="form-label">작품 업로드 ( 1장만 가능 )</label>
                 <div class="custom-file">
                     <input type="file" class="custom-file-input files form-control" id="fileInput" accept="image/jpeg,png" required>
@@ -180,6 +180,10 @@
                     var inputFile = $(this);
                     var files = inputFile[0].files;
                     var appended = false;
+
+                    if(files.length > 2) {
+                        return false;
+                    }
 
                     for (let i = 0; i < files.length; i++) {
                         if (!checkExtension(files[i].name, files[i].size)) {
