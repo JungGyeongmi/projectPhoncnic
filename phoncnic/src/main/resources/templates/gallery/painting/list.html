@@ -318,7 +318,7 @@
 
       </style>
 
-      <input type="hidden" th:if="${loginUserId}" name="loginUserId" th:value="${loginUserId}">
+      <input type="hidden" th:if="${userIdLogin}" name="userIdLogin" th:value="${userIdLogin}">
 
       <div class="swiper mySwiper">
          <div class="swiper-wrapper">
@@ -348,8 +348,7 @@
       </div>
       <!-- 임시 정렬 -->
       <div class="character-look-wrapper">
-         <button type="button" class="btn btn-character-look" id="btncharacterlook" data-bs-toggle="modal"
-            data-bs-target="#modalcharacterlook">
+         <button type="button" class="btn btn-character-look" id="btncharacterlook" data-bs-toggle="modal" data-bs-target="#modalcharacterlook">
             <img id="userAvatar" th:src="${avatar?.setbackpath}" alt="🙄">
       </button>
       </div>
@@ -452,7 +451,7 @@
                var urlDisplay = [[@{/display}]];
             +]*/
 
-            var loginUserId = $("input[name=loginUserId]").val();
+            var userIdLogin = $("input[name=userIdLogin]").val();
 
             var EmojiStringArray = "";
 
@@ -462,7 +461,7 @@
 
             var showdetailsModal = function (targetGno, targetFile) {
                var selectedtype = "0";
-               if (loginUserId != "") {
+               if (userIdLogin != "") {
                   $.post(emojiCheckUrl + "/" + targetGno, function (result) {
                      selectedtype = result;
                   });
@@ -718,10 +717,11 @@
                });
             }
 
+            // alert($("input[name=userIdLogin]").val());
 
             //이모지 등록/수정/삭제
             $(document).on("click", ".emoji", function () {
-               if ($("input[name=loginUserId]").val() != null) {
+               if ($("input[name=userIdLogin]").val() != null) {
                   var gno = $("input[name=gno]").val();
                   var emojitype = $(".emoji:checked").val();
                   var data = { emojitype: emojitype };
@@ -757,10 +757,10 @@
 
             //팔로우 등록/ 삭제
             $(document).on("click", "#followBtn", function () {
-               if ($("input[name=loginUserId]").val() != null) {
+               if ($("input[name=userIdLogin]").val() != null) {
 
                   var artistname = $("#inputArtist").text().trim();
-                  var data = { artistname: artistname, followerid: loginUserId };
+                  var data = { artistname: artistname, followerid: userIdLogin };
 
                   $.ajax({
                      type: "POST",
@@ -891,11 +891,14 @@
             }
 
             // 모달제어
-            if ($("input[name=loginUserId]").val() != null) {
+            if ($("input[name=userIdLogin]").val() != null) {
 
                modalBody.html("잠시 기다려주세요 ... ");
 
-               $("#btncharacterlook").on("click", showLookModal);
+               $("#btncharacterlook").on("click", function() {
+                  showLookModal();
+                  console.log("ㅇㅇㅇ  ");
+               });
 
                $(document).on("change", "input[name=chalookInfo]", function () {
                   var checkRaido = $(this).val();
@@ -975,14 +978,13 @@
             <div class="modal-content">
                <div class="modal-header">
                   <h5 class="modal-title">캐릭터 룩</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                     name="btn-close"></button>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" name="btn-close"></button>
                </div>
                <div class="modal-body character-modal-body">
                   <div>로그인 후 이용해주세요 </div>
                </div>
-               <div class="modal-footer">
-                  <button th:if="${loginuserId}" id="lookModifyBtn" type="button" class="basic-button">변경하기</button>
+               <div class="modal-footer" sec:authorize="isAuthenticated()">
+                  <button th:if="${userIdLogin}" id="lookModifyBtn" type="button" class="basic-button">변경하기</button>
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" name="btn-close">취소</button>
                </div>
             </div>

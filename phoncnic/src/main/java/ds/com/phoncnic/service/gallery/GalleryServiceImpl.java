@@ -94,6 +94,7 @@ public class GalleryServiceImpl implements GalleryService {
     // gallery List
     @Override
     public List<GalleryDTO> getGalleryList(Boolean type) {
+
         List<Gallery> galleryList = galleryRepository.getGalleryList(type);
 
         List<EmojiInfo> emojiInfoList = emojiInfoService.getEmojiInfoList();
@@ -101,6 +102,7 @@ public class GalleryServiceImpl implements GalleryService {
         List<GalleryDTO> galleryDTOList = galleryList.stream()
                 .map(entity -> entityToDTO(entity, emojiService.getEmojiCountArrayByGno(entity.getGno()), emojiInfoList))
                 .collect(Collectors.toList());
+                
         return galleryDTOList;
     }
 

@@ -50,18 +50,18 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
     log.info("context path");
     log.warn(request.getContextPath());
 
-    // String redirectUrl = session.getAttribute("referUrl").toString();
+    String redirectUrl = session.getAttribute("referUrl").toString();
 
-    // log.info(redirectUrl);
+    log.info(redirectUrl);
 
     if (session != null) {
-      // if (redirectUrl != null) {
-      // response.sendRedirect(redirectUrl);
-      // session.removeAttribute("referUrl");
-      // } else {
-      log.info("--session null -- redirect null ---");
-      response.sendRedirect(request.getContextPath() + "/");
-      // }
+      if (redirectUrl != null) {
+        response.sendRedirect(redirectUrl);
+        session.removeAttribute("referUrl");
+      } else {
+        log.info("--session null -- redirect null ---");
+        response.sendRedirect(request.getContextPath() + "/");
+      }
     }
   }
 }
