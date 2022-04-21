@@ -56,7 +56,7 @@
     }
 
     hr {
-        height: 260px !important;
+        /* height: 260px !important; */
         width: 0.5px !important;
         border-width: 0;
         color: #000;
@@ -312,9 +312,9 @@
                                     <b th:if="${applyDTO.getAfno}==null">신청 내역 없음</b>
                                     <b  th:unless="${applyDTO.getAfno}==null" th:each="apply : ${applyDTO}">
                                         <th:block th:unless="${applyDTO.getConfirm}">
-                                            <th:block th:if="${apply.dyningname}==null">작가님!</th:block>
-                                            <th:block th:unless="${apply.dyningname}==null">점주님!</th:block>
-                                            신청번호 <b style="color:tomato;">[[${apply.getAfno}]]</b> 번 접수진행중!
+                                            <th:block th:if="${apply.dyningname}==null">[[${apply }]]</th:block>
+                                            <th:block th:if="${apply.dyningname}!=null">점주님!</th:block>
+                                            신청번호 <b style="color:tomato;"> [[${apply.getAfno()}]] </b> 번 접수진행중!
                                             <b style="display:none" data-application-type="${apply.getApplicationtype}"></b>
                                         </th:block>
                                         <th:block th:if="${applyDTO.getConfirm}">
@@ -412,8 +412,8 @@
                     </div>
                     <hr>
                     <div class="emoji-list"  id="gno-emoji">       
-                        <div th:each="edto : ${emojiDTO}" th:if="${edto.gno}!=0" >
-                            <div th:onclick="'location.href=\''+ @{/gallery/read/${gno}} + '\''" class="emoji-info">
+                        <div th:each="edto : ${emojiDTO}" th:if="${edto.gno} != 0" >
+                            <div class="emoji-info" th:data-target-gno="${edto.gno}">
                             <span><b>[[${edto.artistname}]]</b></span>
                             <input type="hidden" th:value="${edto.emojitype}">
                             <div><img th:src="${edto.emojipath}" alt="" width="40px"></div>
@@ -449,10 +449,187 @@
         <div class="info-btns">
             <button id="memberOutBtn" type="button">회원탈퇴</button>
         </div>
-   </div>
-      
 
+        <!-- Details 모달창 -->
+        <div class="modal" tabindex="-1" id="detailsModal">
+            <div class="container">
+            <div class="modal-dialog modal-md">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">작품 상세페이지</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="details-modal-body">
+                        </div>
+                        <hr>
+                        <div class="detail-modal-body2">
+                        </div>
+                        <div class="detail-modal-body3">
+                        <input type="hidden" id="fno" value="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .detail-modal-body2 {
+            display: flex;
+            justify-content: center;
+        }
+
+        input[type="radio"]{
+            display: none;
+        }
+        .emojiBox~label {
+            margin-left:30px;
+        }
+
+    </style>
         <script th:inline="javascript">
+            
+
+            $(".btn-close").on("click", function() {
+                $("#detailsModal").hide();
+            });
+            /*[+    
+                var loginUserNick= [[${loginUserNick}]];
+                var emojiCheckUrl = [[@{/main/mypage/emoji/}]];
+                var readUrl = [[@{/main/mypage/gallery/}]];
+                var urlDisplay = [[@{/display}]];
+                var emojiUrl = [[@{/main/mypage/emoji/register}]];
+                var userIdLogin = [[${id}]];
+            +]*/
+            $(".emoji-info").on("click", function() {
+                var targetGno = $(this).data("targetGno");
+                console.log(targetGno);
+                $("#detailsModal").show();
+                showdetailsModal(targetGno);         
+            });
+
+            var showdetailsModal = function (targetGno) {
+               var selectedtype = "0";
+               if (userIdLogin != "") {
+                  $.post(emojiCheckUrl + targetGno, function (result) {
+                     selectedtype = result;
+                  });
+               }
+
+               var artistname = "";
+               var adminAuth = "";
+
+              
+
+                // gallery 정보
+               $.getJSON(readUrl + targetGno, function (dto) {
+                  $("#detailsModal .modal-title").html(`${dto.title}`);
+                  artistname = dto.artistname;
+                  var str = "";
+                  str = `
+                  <input type="hidden" name = "gno" value="${targetGno}" class="inputGno" data-gno="${targetGno}">
+                  <img style='width:100%' src="${urlDisplay}?fileName=${dto.imageURL}">
+                  <div class="row">
+                        <div class="col-md-7 md-content">
+                           <h4 id="inputArtist">${dto.artistname}</h4>
+                        </div>
+                        <div class="col-md-5 md-follow">
+                        </div>
+                     </div>
+                  <div>
+                     ${dto.content}   
+                  </div>`
+                  $(".details-modal-body").html(str);
+
+                  str = `<div id="emojiBox">
+                  <input type="radio" id="1" value="${dto.emojicount[0][0]}" name="emojitype" class="emoji">
+                  <label for="1" class="emojibtn">
+                     <img src='${dto.emojiinfo["1"]}' alt="이미지를 불러올 수 없습니다" style="width: 30px;">   
+                  </label>
+                  <span class="emoji-cnt">${dto.emojicount[0][1]}</span>
+                  
+                  <input type="radio" id="2" value="${dto.emojicount[1][0]}" name="emojitype" class="emoji">      
+                  <label for="2" class="emojibtn">
+                     <img src='${dto.emojiinfo["2"]}' alt="이미지를 불러올 수 없습니다" style="width: 30px;">
+                  </label>
+                  <span class="emoji-cnt">${dto.emojicount[1][1]}</span>
+               
+                  <input type="radio" id="3" value="${dto.emojicount[2][0]}" name="emojitype" class="emoji">       
+                  <label for="3" class="emojibtn">
+                     <img src='${dto.emojiinfo["3"]}' alt="이미지를 불러올 수 없습니다" style="width: 30px;">   
+                  </label>
+                  <span class="emoji-cnt">${dto.emojicount[2][1]}</span>
+         
+                  <input type="radio" id="4"  value="${dto.emojicount[3][0]}" name="emojitype" class="emoji">      
+                  <label for="4" class="emojibtn">
+                     <img src='${dto.emojiinfo["4"]}' alt="이미지를 불러올 수 없습니다" style="width: 30px;">   
+                  </label>
+                  <span class="emoji-cnt">${dto.emojicount[3][1]}</span>
+                  
+                  <input type="radio" id="5"  value="${dto.emojicount[4][0]}" name="emojitype" class="emoji">      
+                  <label for="5" class="emojibtn">
+                     <img src='${dto.emojiinfo["5"]}' alt="이미지를 불러올 수 없습니다" style="width: 30px;">   
+                  </label>
+                  <span class="emoji-cnt">${dto.emojicount[4][1]}</span>
+                  </div>`;
+
+                  $(".detail-modal-body2").html(str);
+
+                  $("input[name=emojitype]").each(function () {
+                     $(".emoji-cnt").css("color", "black");
+                  });
+
+                  if (selectedtype != 0) {
+                     $(".emoji-cnt").eq(selectedtype - 1).css("color", "red");
+                  }
+               });
+
+            }
+
+             //이모지 등록/수정/삭제
+             $(document).on("click", ".emoji", function () {
+                 /*[+
+                    var emojiUrl = [[@{/main/mypage/emoji/register/}]]
+                 +]*/
+               if (userIdLogin != null) {
+                  var gno = $(".emoji-info").data("targetGno");
+                  var emojitype = $(".emoji:checked").val();
+                  var data = { emojitype: emojitype };
+
+                  console.log(data);
+
+                  $.ajax({
+                     type: "post",
+                     url: emojiUrl + gno,
+                     data: JSON.stringify(data),
+                     contentType: "application/json",
+                     dataType: "json",
+                     success: function (response) {
+                        for (idx in response[1]) {
+                           $(".emoji-cnt").eq(idx).css("color", "black");
+                           $(".emoji-cnt").eq(idx).text(`${response[1][idx][1]}`);
+                        }
+
+                        if (response[0]) {
+                           $(".emoji-cnt").eq(emojitype - 1).css("color", "red");
+                        }
+                     },
+                     fail: function (response) {
+
+                     }, error: function (request, status, error) {
+                        $(".emoji-cnt").css("color", "black");
+                        console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                     }
+                  });
+               } else {
+                  swal("로그인", "로그인 이후 사용가능합니다.",{button:false,timer: 1000});
+               }
+            });
+
+
+
             var gnoemoji = document.getElementById("gno-emoji");
             var dnoemoji = document.getElementById("dno-emoji");
 
