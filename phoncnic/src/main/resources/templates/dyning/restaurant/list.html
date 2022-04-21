@@ -157,9 +157,15 @@
 
             $(document).ready(function (e) {
                 let key = e.keyCode;
+                let char = document.getElementById("char");
+                var charleft = char.offsetLeft;
 
                 if (page == 1) {
                     $("#hint").css("display", "block");
+                }
+
+                if (page == 1 && charleft <= 40) {
+                    console.log(charleft);
                     $(".bubble").css("display", "block");
                 }
 
@@ -552,7 +558,7 @@
             }
 
             function connect() {
-                webSocket = new WebSocket("wss://cac6-175-119-172-242.jp.ngrok.io/phoncnic/street");
+                webSocket = new WebSocket("wss://0d6a-175-119-172-242.jp.ngrok.io/phoncnic/street");
                 webSocket.onopen = onOpen;
                 webSocket.onmessage = onMessage;
                 // webSocket.onclose = onClose();
