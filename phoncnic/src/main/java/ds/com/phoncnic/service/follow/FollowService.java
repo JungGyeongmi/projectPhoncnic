@@ -3,6 +3,7 @@ package ds.com.phoncnic.service.follow;
 import java.util.List;
 
 import ds.com.phoncnic.dto.FollowDTO;
+import ds.com.phoncnic.entity.Dyning;
 import ds.com.phoncnic.entity.Follow;
 import ds.com.phoncnic.entity.Member;
 
@@ -26,28 +27,23 @@ public interface FollowService {
 
     Long getGalleryFollower(String nickname);
     
-    default FollowDTO entityToDTO(List<Object> artistList, List<Object> dyningList) {
+    default FollowDTO entityToDTO(List<Object> artistList, List<Follow> followList) {
         FollowDTO followDTO = FollowDTO.builder()
                 .followartistlist(artistList)
-                .followdyninglist(dyningList)
+                .followdyninglist(followList)
                 .build();
         return followDTO;
     }
 
     default Follow dtoToEntity(FollowDTO followDTO){
-        if(followDTO.getArtistname()==null){
+        if(followDTO.getArtistname()!=null){
 
-            Follow follow = Follow.builder()
-            .follower(Member.builder().id(followDTO.getFollowerid()).build())
-            .dyningname(followDTO.getDyningname())
-            .build();
-            return follow;
-        }else{
             Follow follow = Follow.builder()
             .follower(Member.builder().id(followDTO.getFollowerid()).build())
             .artistname(followDTO.getArtistname())
             .build(); 
             return follow;
         }
+        return null;
     }
 }

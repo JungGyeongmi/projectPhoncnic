@@ -50,6 +50,9 @@ public class MyPageController {
         model.addAttribute("looklist", characterLookService.lookimageList());
         model.addAttribute("emojiDTO", emojiService.getEmojiList(dto.getId()));
         model.addAttribute("afollowDTO", followService.getFollow(dto.getId()).getFollowartistlist());
+        model.addAttribute("dfollowDTO", followService.getFollow(dto.getId()).getDyningname());
+        Long ddno = followService.getFollow(dto.getId()).getDno();
+        model.addAttribute("ddno", ddno);
         model.addAttribute("dfollowDTO", followService.getFollow(dto.getId()).getFollowdyninglist());
         model.addAttribute("applyDTO", applicationFormService.applicationExistsCheckerByUserId(dto.getId()));
     }

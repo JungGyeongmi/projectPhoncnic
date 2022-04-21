@@ -389,10 +389,12 @@
                     </div>
                     <hr>
                     <div class="follow-list">
+                        
                         <div th:if="${dfollowDTO.size()}==0">- 팔로우한 가게가 없습니다</div>
-                        <div th:each="ddto : ${dfollowDTO}" class="follow-info">
-                            <input type="hidden" name="name" th:value="${ddto}">
-                            <div>- <b>[[${ddto}]]</b></div>
+                        <div th:each="ddto : ${dfollowDTO}" >
+                            <div th:onclick="'location.href=\''+ @{/dyning/details(dno=${ddto.dyning.dno},id=${id},chartop=0,charleft=0)} + '\''" class="emoji-info">
+                            <input type="hidden" name="name" th:value="${ddto.dyning.dyningname}">
+                            <div>- <b>[[${ddto.dyning.dyningname}]]</b></div>
                             <span class="follow-btn">
                                 <button class="dyningRemoveBtn" th:value="${memberDTO.id}" type="button">팔로우취소</button>
                             </span>

@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import ds.com.phoncnic.entity.Dyning;
 import ds.com.phoncnic.entity.Follow;
 import ds.com.phoncnic.entity.Member;
 
@@ -64,7 +65,7 @@ public class FollowRepositoryTests {
             for (int j = 0; j < (int) (Math.random() * 5) + 1; j++) {
                 Follow follow = Follow.builder()
                         .follower(Member.builder().id("test" + randmember.get(j) + "@gmail.com").build())
-                        .dyningname("가게이름" + i)
+                        .dyning(Dyning.builder().dno(31L).build())
                         .build();
 
                 followRepository.save(follow);

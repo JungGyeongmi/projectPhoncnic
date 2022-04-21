@@ -27,7 +27,10 @@ public class Follow {
     @ManyToOne
     private Member follower;
 
-    private String dyningname;
+    @ManyToOne
+    private Dyning dyning;
+
     private String artistname;
+    private String dyningname;
 
 }
