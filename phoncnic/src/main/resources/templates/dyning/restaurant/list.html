@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
+<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 <th:block th:replace="~{layout/dyninglist :: setContent(~{::content}, ~{::search})}">
     <!-- search toggle -->
     <th:block th:fragment="search">
@@ -12,7 +13,7 @@
                     </select>
                     <input class="form-control me-2" name="keyword" type="search" placeholder="Search"
                         aria-label="Search">
-                    <button class="btn btn-outline-success" id="btnsearch" type="button">Search</button>
+                    <button class="btn btn-outline-success" id="btnsearch" type="button">검색</button>
                 </form>
             </div>
             <div class="list-group list-group-flush">
@@ -83,7 +84,6 @@
                     var val = $(this).attr("value");
 
                     console.log("click");
-                    disconnect();
                     location.href = "/phoncnic/dyning/details?dno=" + val + "&id=" + `[[${id}]]` + "&chartop=" + chartop + "&charleft=" + charleft;
                 });
             });
@@ -108,15 +108,19 @@
                     </li>
                 </th:block>
             </ul>
+            <img class="bubble" th:src="@{/icon/pixel-speech-bubble.png}" alt="">
             <div id="testStreet">
-            <div th:each="sdto : ${setDTO}" id="userchar" style="display: none; position:absolute;"><img id="userid" class="look setlook" th:src="${sdto.setpath}" th:alt="${id}"></div>
-            <div th:each="sdto : ${setDTO}" id="char">
-                <img type="hidden" id="charimg" class="look setlook" th:src="${sdto.setpath}"  alt="">
-                <div th:text="${nickname}" class="nickname"id="nickname" th:if="${nickname}!=''">[[${nickname}]]</div>
-                <input type="text" name="chartop" th:value="${chartop}" style="opacity: 0;">
-                <input type="text" name="charleft" th:value="${charleft}" style="opacity: 0;">
+                <div th:each="sdto : ${setDTO}" id="userchar" style="display: none; position:absolute;"><img id="userid"
+                        class="look setlook" th:src="${sdto.setpath}" th:alt="${id}"></div>
+                <div th:each="sdto : ${setDTO}" id="char" class="char" style="width: 70px;">
+                    <div>
+                        <img type="hidden" id="charimg" class="look setlook" th:src="${sdto.setpath}" alt="">
+                    </div>
+                    <div th:text="${nickname}" class="nickname" id="nickname">[[${nickname}]]</div>
+                    <input type="text" name="chartop" th:value="${chartop}" style="opacity: 0;">
+                    <input type="text" name="charleft" th:value="${charleft}" style="opacity: 0;">
+                </div>
             </div>
-        </div>
             <ul class="ullist">
                 <th:block th:each="dto, index : ${result.dtoList}" th:if="${index.count}%2 == 0">
                     <li id="list2">
@@ -132,7 +136,7 @@
         </div>
 
         <script>
-            var page = Number(document.querySelector("#listpage").value);            
+            var page = Number(document.querySelector("#listpage").value);
 
             $(document).ready(function (e) {
                 if ($("input[name='chartop']").val() != "") {
@@ -141,7 +145,7 @@
                     var left = $("input[name='charleft']").val();
                     $("#char").offset({ top: top });
                     $("#char").offset({ left: left });
-                }            
+                }
             });
             $(".dyningimg").on("click", function (e) {
                 var src = $(this).parent().attr("class");
@@ -153,12 +157,24 @@
 
             $(document).ready(function (e) {
                 let key = e.keyCode;
+                let char = document.getElementById("char");
+                var charleft = char.offsetLeft;
 
                 if (page == 1) {
                     $("#hint").css("display", "block");
                 }
+
+                if (page == 1 && charleft <= 40) {
+                    console.log(charleft);
+                    $(".bubble").css("display", "block");
+                }
+
+                $("#char").one("click", function() {
+                    $(".bubble").css("display", "none");
+                })
+
             });
-                        
+
             (function () {
 
                 var listlocation = "/phoncnic/dyning/restaurant/list?page=";
@@ -182,25 +198,26 @@
                     let x = parseInt(char.style.left || 0, 10);
                     if (key === 37 /* LEFT */) {
                         char.style.left = x - 20 + "px";
-                        send();
                     }
                     if (key === 38 /* TOP */) {
                         char.style.top = y - 20 + "px";
-                        send();
                     }
                     if (key === 39 /* RIGHT */) {
                         char.style.left = x + 20 + "px";
-                        send();
                     }
                     if (key === 40 /* BOTTOM */) {
                         char.style.top = y + 20 + "px";
-                        send();
                     }
-                    
 
                     if ($("#hint").css("display") == "block") {
                         if (key === 37 || key === 38 || key === 39 || key === 40) {
                             $("#hint").css("display", "none");
+                        }
+                    }
+
+                    if ($(".bubble").css("display") == "block") {
+                        if (key === 37 || key === 38 || key === 39 || key === 40) {
+                            $(".bubble").css("display", "none");
                         }
                     }
 
@@ -220,7 +237,6 @@
                                 "opacity": "0",
                                 "top": "100px"
                             }, 100, function () {
-                                disconnect();
                                 location.replace(listlocation + listpage + "&top=" + top + "&left=" + 40);
                             });
                         };
@@ -238,7 +254,6 @@
                                     "opacity": "0",
                                     "top": "100px"
                                 }, 100, function () {
-                                    disconnect();
                                     location.replace(listlocation + listpage + "&top=" + top + "&left=" + left);
                                 });
                             } else {
@@ -286,9 +301,8 @@
                             var targetLeft = document.getElementById(i).offsetLeft;
                             var targetHref = $("#" + i).parent().attr('class');
                             console.log("타겟좌표: " + targetTop, targetLeft, targetHref);
-                            
+
                             if (targetTop - 40 < chartop && chartop < targetTop + 160 && targetLeft - 30 < charleft && charleft < targetLeft + 160) {
-                                disconnect();
                                 location.href = targetHref + "&chartop=" + chartop + "&charleft=" + charleft;
                             };
                         }
@@ -306,111 +320,7 @@
             }, false);
         </script>
 
-        <!-- 모달 시작 -->
-        <style>
-            .user-info-char {
-                height: 4rem;
-                border-radius: 69%;
-                border: 3px solid goldenrod;
-            }
-
-            .user-info-container {
-                padding: 3%;
-                display: grid;
-                grid-template-columns: 1fr 3fr 1fr;
-                column-gap: 2%;
-            }
-
-            .user-info-item1 {
-                justify-content: center;
-                text-align: center;
-                padding: 3%;
-            }
-
-            .user-info-str {
-                padding: 3%;
-            }
-
-            .md-head {
-                text-align: center;
-            }
-
-            .phon-stamp {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-            }
-
-            .font-effect {
-                color: goldenrod;
-            }
-
-            .dragon-con {
-                width: 3rem;
-            }
-
-            .help-ul {
-                position: relative;
-                display: flex;
-            }
-
-            .help-ul li {
-                list-style: none;
-            }
-
-            label {
-                position: relative;
-            }
-
-            input[type="checkbox"] {
-                visibility: hidden;
-            }
-
-            .arrow-div {
-                margin: 0 3%;
-
-                overflow: hidden;
-                text-overflow: clip;
-
-                background: #DBE9B7;
-                color: whitesmoke;
-
-                display: flex;
-                justify-content: center;
-                align-items: center;
-
-                font-size: 3rem;
-
-                cursor: pointer;
-
-                border-radius: 20px;
-                box-shadow: -1px -1px 4px rgba(53, 255, 70, 0.05),
-                    4px 4px 6px rgba(0, 0, 0, 0.2),
-                    inset -1px -1px 4px rgba(156, 17, 17, 0.05),
-                    inset 1px 1px 1px rgba(0, 0, 0, 0.1);
-            }
-
-            input[type="checkbox"]:checked~.arrow-div {
-                color: whitesmoke;
-                text-shadow: 0 0 15px rgb(56, 187, 89), 0 0 25px rgb(78, 180, 100);
-                animation: glow 1.5s linear infinite;
-            }
-
-            @keyframes glow {
-                0% {
-                    filter: hue-rotate(0deg);
-                }
-
-                100% {
-                    filter: hue-rotate(360deg);
-                }
-            }
-
-            #modalUserInfo {
-                background-color: #8e8e8e6b;
-            }
-        </style>
-        <!-- 모달창 -->
+        <!-- 캐릭터 클릭 모달창 -->
         <th:block sec:authorize="isAuthenticated()">
             <span class="roleSpan" sec:authentication='principal.authorities' hidden></span>
             <input type="hidden" th:value="${nickname}" class="md-user-nickname">
@@ -465,7 +375,8 @@
                                     <label for="">닉네임</label> : <span id="md-rand-nickname"></span>
                                     <br>
                                     <label for="">아이디</label> : <th:block
-                                        th:text="${id}!=''?${id}:'nwigiya@phoncnic.com'"></th:block>
+                                        th:text="${id}!=''?${id}:'nwigiya@phoncnic.com'">
+                                    </th:block>
                                     <br>
                                     <label for="">직 업</label> : <b id="userRoleSet"></b>
                                 </div>
@@ -478,31 +389,39 @@
                         </div>
                         <div class="tab-setions" id="helpSection" hidden>
                             <h5 style="text-align:center;">
-                                <img src="https://img.icons8.com/external-others-nixx-design/67/000000/external-game-game-lineal-others-nixx-design-3.png"/>
+                                <img
+                                    src="https://img.icons8.com/external-others-nixx-design/67/000000/external-game-game-lineal-others-nixx-design-3.png" />
                                 조작방법
                             </h5>
-                            <ul class="help-ul">
+                            <ul class="help-ul" id="smallTitle">
                                 <li>움직이기</li>
+                                <li style="margin-left: 200px;">들어가기</li>
+                            </ul>
+                            <ul class="help-ul" style="margin-left: 45px; margin-bottom: -20px;">
                                 <li>
                                     <input name="arrow-box" type="checkbox" />
-                                    <div class="arrow-div">←</div>
+                                    <div class="arrow-div"><img th:src="@{/icon/arrow-up.png}" class="arrow-img"></div>
+                                </li>
+                            </ul>
+                            <ul class="help-ul">
+                                <li>
+                                    <input name="arrow-box" type="checkbox" />
+                                    <div class="arrow-div"><img th:src="@{/icon/arrow-left.png}" class="arrow-img">
+                                    </div>
                                 </li>
                                 <li>
                                     <input name="arrow-box" type="checkbox" />
-                                    <div class="arrow-div">↑</div>
+                                    <div class="arrow-div"><img th:src="@{/icon/arrow-down.png}" class="arrow-img">
+                                    </div>
                                 </li>
                                 <li>
                                     <input name="arrow-box" type="checkbox" />
-                                    <div class="arrow-div">→</div>
+                                    <div class="arrow-div"><img th:src="@{/icon/arrow-right.png}" class="arrow-img">
+                                    </div>
                                 </li>
-                                <li>
+                                <li style="margin-left: 100px;">
                                     <input name="arrow-box" type="checkbox" />
-                                    <div class="arrow-div">↓</div>
-                                </li>
-                                <li>들어가기</li>
-                                <li>
-                                    <input name="arrow-box" type="checkbox" />
-                                    <div class="arrow-div"> ENTER </div>
+                                    <div class="arrow-div" id="enter"> ENTER </div>
                                 </li>
                             </ul>
                         </div>
@@ -557,7 +476,6 @@
                     }
                 });
 
-
                 switch ($(".roleSpan").text()) {
                     case "[ROLE_USER]":
                         $("#userRoleSet").html("모험가");
@@ -576,8 +494,6 @@
                         $("#userRoleSet").html("타지에서온방랑자");
                         break;
                 }
-
-
             })
 
             $(document).on("keyup", function (e) {
@@ -594,16 +510,16 @@
                 });
                 switch (e.which) {
                     case 39: // 오
-                        $("input[name=arrow-box]").eq(2)[0].checked = true;
+                        $("input[name=arrow-box]").eq(3)[0].checked = true;
                         break;
                     case 37: // 왼
-                        $("input[name=arrow-box]").eq(0)[0].checked = true;
-                        break;
-                    case 38: // 업
                         $("input[name=arrow-box]").eq(1)[0].checked = true;
                         break;
+                    case 38: // 업
+                        $("input[name=arrow-box]").eq(0)[0].checked = true;
+                        break;
                     case 40: // 다
-                        $("input[name=arrow-box]").eq(3)[0].checked = true;
+                        $("input[name=arrow-box]").eq(2)[0].checked = true;
                         break;
                     case 13: // 엔터
                         $("input[name=arrow-box]").eq(4)[0].checked = true;
@@ -623,73 +539,106 @@
             }
 
         </script>
-       <script>
-        var webSocket;
-        var nickname = document.getElementById("nickname").innerText;
-        var testStreet = document.getElementById("testStreet");
-        var userchar = document.getElementById("userchar");
-        var testId = document.getElementById("userid").getAttribute('alt')
-        var userid= testId.substring(0,testId.indexOf("@"));
-        var userimg = document.getElementById("charimg").getAttribute('src');
-        var str;
-        
-        
-        function connect(){
-            webSocket = new WebSocket("ws://localhost:8080/phoncnic/street");
-            webSocket.onopen = onOpen;
-            webSocket.onmessage = onMessage;
-            webSocket.onclose = onClose();
-        }
-        connect();
-       
 
-        function send(){
-            str =userid + "," +nickname+","+ document.getElementById("char").offsetTop + "," + document.getElementById("char").offsetLeft + "," + userimg;
-            webSocket.send(str);
-        }
-        function disconnect() {
+        <script>
+            var webSocket;
+            var nickname = document.getElementById("nickname").innerText;
+            var str = "";
+
+            var testStreet = document.getElementById("testStreet");
+            var userchar = document.getElementById("userchar");
+            var testId = document.getElementById("userid").getAttribute('alt')
+            var userid = testId.substring(0, testId.indexOf("@"));
+            var userimg = document.getElementById("charimg").getAttribute('src');
+
+            $(window).on("beforeunload", callback);
+            function callback() {
+                disconnect();
+                return;
+            }
+
+            function connect() {
+                webSocket = new WebSocket("wss://cac6-175-119-172-242.jp.ngrok.io/phoncnic/street");
+                webSocket.onopen = onOpen;
+                webSocket.onmessage = onMessage;
+                // webSocket.onclose = onClose();
+            }
+            connect();
+
+
+            function send() {
+                str = userid + "," + nickname + "," + document.getElementById("char").offsetTop + "," + document.getElementById("char").offsetLeft + "," + userimg;
+                webSocket.send(str);
+            }
+            function disconnect() {
+                str = userid + ",outofpage";
+                webSocket.send(str);
+            }
+
+            function onOpen() {
+                webSocket.send(str);
+                str = "";
+
+            }
+
+        window.onkeyup = function(){
+           if(webSocket.readyState == 1){
+                str=userid + "," + nickname + "," + document.getElementById("char").offsetTop + "," + document.getElementById("char").offsetLeft + "," + userimg;
+                webSocket.send(str);
+               }else if(webSocket.readyState != 1){
+                   console.log("재접");
+                connect();
+                str=userid + "," + nickname + "," + document.getElementById("char").offsetTop + "," + document.getElementById("char").offsetLeft + "," + userimg;
+                webSocket.send(str);
+            }
+            }
+       
+        function disconnected() {
             str = userid +",outofpage";
             webSocket.send(str);
         }
-        function onOpen(){
-            str =userid + "," + nickname + "," + document.getElementById("char").offsetTop + "," + document.getElementById("char").offsetLeft + "," + userimg;
-            webSocket.send(str);
-        }
-        function onMessage(e){
-            var data = e.data;
-            var dataSplit = data.split(",");
-            console.log(data);
-            if (dataSplit[0]==userid) {
-                return;
-            }
-            if(dataSplit[1]=="outofpage"){
-                $("#"+dataSplit[0]).empty();
-                $("#"+dataSplit[0]).remove();
-                return;
-            }
-            console.log(data);
             
-            console.log(data);
-            if (document.querySelector("#"+dataSplit[0])==null) {
-                console.log("접속 유저가 없습니다");
-                testStreet.innerHTML = testStreet.innerHTML+' </br> <div id="'+dataSplit[0]+'" style="position: absolute; top : '+dataSplit[2]+'px; left:'+ dataSplit[3]+'px;"><div><img class="users" src = "'+ dataSplit[4]+'" style="width: 70px;ft:'+ dataSplit[3]+'px;"></div><span class="nickname">'+dataSplit[1]+'</span></div>';
-                return;
-            }else {
-                $("#"+dataSplit[0]).offset({top:dataSplit[2]});
-                $("#"+dataSplit[0]).offset({left:dataSplit[3]});
+            function onMessage(e) {
+                var data = e.data;
+                var dataSplit = data.split(",");
+                if (dataSplit[0] == userid) {
+                    return;
+                }
+                if (dataSplit[1] == "outofpage") {
+                    var targetParent = document.querySelector("#"+dataSplit[0]);
+                    targetParent.remove();
+                    console.log(dataSplit[0] + "님이 페이지를 떠납니다.")
+                    onClose();
+                    return;
+                }
+
+                if (document.getElementById(dataSplit[0]) == null && dataSplit[4] != undefined) {
+                    testStreet.innerHTML = testStreet.innerHTML + ' </br> <div class ="char" id="' + dataSplit[0] + '" style="position: absolute; top : ' + dataSplit[2] + 'px; left:' + dataSplit[3] + 'px;"><div><img class="users" src = "' + dataSplit[4] + '" style="width: 70px;ft:' + dataSplit[3] + 'px;"></div><div class="nickname">' + dataSplit[1] + '</div></div>';
+                    console.log(dataSplit[1]+"님이 접속하였습니다");
+                    return;
+                } else if (document.getElementById(dataSplit[0]) != null) {
+                    $("#" + dataSplit[0]).offset({ top: dataSplit[2] });
+                    $("#" + dataSplit[0]).offset({ left: dataSplit[3] });
+                }
+                function disconnect() {
+                    str = userid + ",outofpage";
+                    webSocket.send(str);
+                }
+                function onOpen() {
+                    str = userid + "," + nickname + "," + document.getElementById("char").offsetTop + "," + document.getElementById("char").offsetLeft + "," + userimg;
+                    webSocket.send(str);
+                }
+               
+             
+
             }
+            webSocket.onclose= function onClose() {
+                console.log("연결끊어짐");
             }
-        function onClose(){
-            disconnect();
-        }
-       
+        
+        
         </script>
-           
-                    
-   </script>
-</body>
-<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
-
-
+        </body>
     </th:block>
+    
 </th:block>

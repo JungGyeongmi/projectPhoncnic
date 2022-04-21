@@ -50,6 +50,10 @@ body {
     padding-bottom: 100px;
 }
 
+#btnsearch {
+    width: 100px;
+}
+
 .dyning-list-ul {
     max-width: 10000px;
 }
@@ -85,6 +89,8 @@ body {
     font-weight: 600;
     font-family: GmarketSansLight;
     overflow: hidden;
+    width: 70px;
+
 }
 
 .dyningimg {
@@ -109,14 +115,14 @@ body {
     right: 0px;
 }
 
-#char {
+.char {
     position: relative;
     width: 70px;
     height: 126px;
     right: 0px;
 }
 
-#navbarDropdown{
+#navbarDropdown {
     font-family: 'NeoDunggeunmo';
     font-size: larger;
 }
@@ -125,3 +131,142 @@ body {
     font-family: GmarketSansMedium;
     padding-top: 9px;
 }
+
+#index {
+    font-family: 'GmarketSansLight';
+}
+
+.user-info-str {
+    font-family: 'GmarketSansLight';
+}
+
+.user-info-char {
+    height: 4rem;
+    border-radius: 69%;
+    border: 3px solid goldenrod;
+}
+
+.user-info-container {
+    padding: 3%;
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
+    column-gap: 2%;
+}
+
+.user-info-item1 {
+    justify-content: center;
+    text-align: center;
+    padding: 3%;
+}
+
+.user-info-str {
+    padding: 3%;
+}
+
+.md-head {
+    text-align: center;
+}
+
+.phon-stamp {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.font-effect {
+    color: goldenrod;
+}
+
+.dragon-con {
+    width: 3rem;
+}
+
+#smallTitle {
+    margin-bottom: -10px;
+    font-family: 'GmarketSansMedium';
+    font-size: large;
+}
+
+.help-ul {
+    position: relative;
+    display: flex;
+}
+
+.help-ul li {
+    list-style: none;
+}
+
+label {
+    position: relative;
+}
+
+input[type="checkbox"] {
+    visibility: hidden;
+}
+
+.arrow-div {
+    margin: 0 3%;
+
+    overflow: hidden;
+    text-overflow: clip;
+
+    background: #DBE9B7;
+    color: whitesmoke;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 3rem;
+
+    cursor: pointer;
+
+    border-radius: 20px;
+    box-shadow: -1px -1px 4px rgba(53, 255, 70, 0.05),
+        4px 4px 6px rgba(0, 0, 0, 0.2),
+        inset -1px -1px 4px rgba(156, 17, 17, 0.05),
+        inset 1px 1px 1px rgba(0, 0, 0, 0.1);
+    width: 45px;
+    height: 72px;
+}
+
+#enter {
+    width: 150px;
+    height: 72px;
+    padding-top: 5px;
+    padding-left: 4px;
+    font-style: bold;
+    font-family: 'NeoDunggeunmo';
+}
+
+.arrow-img {
+    filter: invert(100%);
+}
+
+input[type="checkbox"]:checked~.arrow-div {
+    color: whitesmoke;
+    text-shadow: 0 0 15px rgb(56, 187, 89), 0 0 25px rgb(78, 180, 100);
+    animation: glow 1.5s linear infinite;
+}
+
+@keyframes glow {
+    0% {
+        filter: hue-rotate(0deg);
+    }
+
+    100% {
+        filter: hue-rotate(360deg);
+    }
+}
+
+#modalUserInfo {
+    background-color: #8e8e8e6b;
+}
+
+.bubble {
+    position: absolute;
+    top: 350px;
+    left: 55px;
+    width: 200px;
+    display: none;
+}   

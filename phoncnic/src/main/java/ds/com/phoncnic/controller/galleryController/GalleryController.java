@@ -45,10 +45,11 @@ public class GalleryController {
 
         if(authMemberDTO != null) {
             String loginUserId = authMemberDTO.getId();
+            String loginUserNick = authMemberDTO.getNickname();
             log.info(authMemberDTO);
             model.addAttribute("loginuserId", loginUserId);
             model.addAttribute("avatar", characterLookService.getCharacterSet(loginUserId));
-            model.addAttribute("loginUserId", loginUserId);
+            model.addAttribute("loginUserNick", loginUserNick);
         } else {
             model.addAttribute("avatar", characterLookService.getDefaultAvatar(1L));
         }
@@ -63,14 +64,16 @@ public class GalleryController {
         model.addAttribute("list", galleryService.getPaintingList(pageRequestDTO));
         
         if(authMemberDTO != null) {
-            log.info(authMemberDTO);
             String loginUserId = authMemberDTO.getId();
+            String loginUserNick = authMemberDTO.getNickname();
+            log.info(authMemberDTO);
             model.addAttribute("loginuserId", loginUserId);
             model.addAttribute("avatar", characterLookService.getCharacterSet(loginUserId));
-            model.addAttribute("loginUserId", loginUserId);
+            model.addAttribute("loginUserNick", loginUserNick);
         } else {
             model.addAttribute("avatar", characterLookService.getDefaultAvatar(1L));
         }
+
         return "gallery/painting/list";
     }
 }

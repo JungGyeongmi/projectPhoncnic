@@ -29,7 +29,7 @@
 
 	.register-content {
 		width: 430px;
-		height: 200px;
+		height: 250px;
 		border-radius: 4px;
 		display: inline-block;
 		text-align: center;
@@ -43,9 +43,13 @@
 	}
 
 	.gallery-img img {
-		width: 112px;
+		width: 150px;
 		margin: 0 auto;
 		filter: drop-shadow(4px 2px 3px lightgray);
+	}
+
+	.register-btn{
+		padding: 30px 0 70px 0;
 	}
 
 	.register-btn button {
@@ -91,9 +95,10 @@
 	.curtain-open-str {
 		position: absolute;
 		top: 50%;
-		left: 44.5%;
+		left: 42.5%;
 		display: inline;
-
+		
+		font-size: 20px;
 		font-weight: bold;
 		color: white;
 		text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff, 0 0 42px #0fa, 0 0 82px #0fa, 0 0 92px #0fa, 0 0 102px #0fa, 0 0 151px #0fa;
@@ -135,11 +140,32 @@
 	button{
 		font-size: 19px !important;
 	}
+
+	.follower-info{
+		margin-bottom: 5%;
+	}
 </style>
 <th:block th:replace="~{layout/basic :: setContent(~{::content})}">
 	<th:block th:fragment="content">
 		<div class="containerBox">
+			
 			<h3><img th:src="@{/icon/vertical-line.png}" style="width: 30px;" alt="">등록 및 관리</h3>
+			<div class="title">팔로워</div>
+			<hr>
+			<div class="follower-info">
+				<th:block th:if="${galleryDTOList.size()}==0">
+					작가님! 작품을 등록하고 팔로워를 만들어보세요!
+				</th:block>
+				<th:block th:unless="${galleryDTOList.size()}==0">
+					<th:block th:if="${follower}==0">
+						팔로워가 없습니다.
+					</th:block>	
+					<th:block th:unless="${follower}==0">
+						당신의 추종자 [[${follower}]] 명! 
+					</th:block>	
+				</th:block>
+
+			</div>
 			<div class="title">등록</div>
 			<hr>
 			<div class="register-container">
@@ -171,15 +197,15 @@
 					</div>
 				</th:block>
 				<th:block th:unless="${galleryDTOList.size()}==0">
-					<div class="recent-upload">
+					<div class="recent-upload" th:with="size=${galleryDTOList.size()}, index=${galleryDTOList.size()-1}, dto=${galleryDTOList[index]}">
 						<div>
-						<b>- 최근 업로드 작품</b> : [[ ${#temporals.format(galleryDTOList[0].regdate, 'yyyy-MM-dd')} ]]
+						<b>- 최근 업로드 작품</b> : [[ ${#temporals.format(dto.regdate, 'yyyy-MM-dd')} ]]
 						<br>
-						<b>- 전시회 업로드</b> : [[${galleryDTOList.size()}]] / 10 
+						<b>- 전시회 업로드</b> : [[${size}]] / 10
 					</div>
 					<hr>
-						<th:block th:each="dto, index : ${galleryDTOList}" th:with="max='2'">
-							<div class="recent-upload-con" th:if="${max}>${index.count}">
+						<th:block >
+							<div class="recent-upload-con" >
 								<a th:href="@{/manage/gallery/read(gno=${dto.getGno}) }">
 									<img th:src="|@{'/display'}?fileName=${dto.getImageURL()}|" alt="" width="200px">
 								</a>

@@ -22,6 +22,7 @@ public class MemberDTO {
     private String nickname;
     
     private Boolean applicationtype;
+    private Boolean confirm;
     private Long afno;
     
     private LocalDateTime regdate, moddate;

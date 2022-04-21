@@ -267,7 +267,7 @@
                     <a class="mp-top-link" th:href="@{/manage/dyning/list}">가게관리</a>
                 </th:block>
                 <th:block th:if="${memberDTO?.roleSet.toString()}=='[ROLE_ARTIST]' OR ${memberDTO?.roleSet.toString()}=='[ROLE_ADMIN]'">
-                    <a class="mp-top-link" th:href="@{/manage/gallery/manage}">작품관리</a>
+                    <a class="mp-top-link" th:href="@{/manage/gallery}">작품관리</a>
                 </th:block>
             </div>
             <!-- 개인정보 -->
@@ -311,10 +311,19 @@
                                 <span>
                                     <b th:if="${applyDTO.getAfno}==null">신청 내역 없음</b>
                                     <b  th:unless="${applyDTO.getAfno}==null" th:each="apply : ${applyDTO}">
-                                        <th:block th:if="${apply.dyningname}==null">작가님!</th:block>
-                                        <th:block th:unless="${apply.dyningname}==null">점주님!</th:block>
-                                        신청번호 <b style="color:tomato;">[[${apply.getAfno}]]</b> 번 접수진행중!
-                                        <b style="display:none" data-application-type="${apply.getApplicationtype}"></b>
+                                        <th:block th:unless="${applyDTO.getConfirm}">
+                                            <th:block th:if="${apply.dyningname}==null">작가님!</th:block>
+                                            <th:block th:unless="${apply.dyningname}==null">점주님!</th:block>
+                                            신청번호 <b style="color:tomato;">[[${apply.getAfno}]]</b> 번 접수진행중!
+                                            <b style="display:none" data-application-type="${apply.getApplicationtype}"></b>
+                                        </th:block>
+                                        <th:block th:if="${applyDTO.getConfirm}">
+                                            <th:block th:if="${apply.dyningname}==null">작가님!</th:block>
+                                            <th:block th:unless="${apply.dyningname}==null">점주님!</th:block>
+                                            <b style="color:tomato;">승인 완료</b>
+                                            <b style="display:none" data-application-type="${apply.getApplicationtype}"></b>
+                                        </th:block>
+                                        
                                     </b>
                                 </span>
                             </div>

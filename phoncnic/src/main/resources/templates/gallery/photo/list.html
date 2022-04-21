@@ -43,24 +43,16 @@
          }
 
          .swiper {
-            width: 100%;
-            margin-top: 5%;
-            /* margin-bottom: 120px; */
-         }
-
-         .swiper-wrapper :not(:nth-last-child()) {
-            padding: 0 30rem;
+            width: 95%;
+            padding: 100px;
          }
 
          .swiper-slide {
             background-position: center;
             background-size: cover;
-            max-width: 500px;
-            max-height: 500px;
-            min-width: 400px;
-            min-height: 400px;
-            /* width: 300px;
-            height: 470px; */
+            width: 800px;
+            height: auto;
+            
          }
 
          .swiper-slide img {
@@ -71,9 +63,8 @@
             object-position: center;
          }
 
-         .swiper-slide-title {
-            color: grey;
-            font-size: 1.2rem;
+         .swiper-wrapper :not(:nth-last-child()) {
+            padding: 0 30rem;
          }
 
          .serach-form-container {
@@ -112,6 +103,10 @@
             height: 100%;
          }
 
+         #md-search-btn{
+            background-color: #DBE9B7;
+         }
+
          .md-item-btn {
             width: 0;
             z-index: 3;
@@ -143,18 +138,41 @@
          .show-gurator-script {
             visibility: hidden;
          }
-
-         ul,
-         li {
-            margin: 0;
-            padding: 0;
-            list-style: none;
+         
+         .bubble {
+            padding: 20px;
+            width: 430px;            
+            position: relative;
+            background: #ffffff;
+            border-radius: .4em;
+            border: 1px solid lightgray;
+            z-index: 2;
          }
+
+         /* .bubble:after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            width: 0;
+            height: 0;
+            border: 10px solid white;
+            background: white;
+            border-right-color: white;
+            border-left: 0;
+            margin-top: -17px;
+            margin-left: -17px;
+         } */
 
          .speech-bubble {
             position: absolute;
             bottom: 62px;
-            left: 233px;
+            left: 260px;
+         }
+
+         .showup-text{
+            padding: 30px;
+            /* width: auto; */
          }
 
          .drop_left {
@@ -163,33 +181,12 @@
             border-radius: 10px;
             margin-left: 20px;
             position: absolute;
-            z-index: 1;
             max-width: 250px;
             background: -moz-linear-gradient(bottom, #58abff 20%, #2484e7);
             background: -webkit-gradient(linear, 0 0, 0 20%, from(#58abff), to(#2484e7));
-         }
-
-         .drop_left li {
-            text-overflow: ellipsis;
-            overflow: hidden;
-            font-size: 12px;
-            color: #FFF;
-            display: block;
-            padding: 5px;
-            margin: 10px;
-            z-index: 2;
-         }
-
-         .tangel_left {
-            width: 10px;
-            height: 10px;
-            left: -3px;
-            top: 13px;
-            position: absolute;
-            -webkit-transform: rotate(45deg);
-            background-color: #2484e7;
             z-index: 1;
          }
+
 
          .detail-modal-body3 {
             display: inline-block;
@@ -201,11 +198,12 @@
 
          .lastslideBtns {
             display: flex;
+            font-family: GmarketsansLight;
             /* justify-content: space-evenly; */
             align-items: center;
             width: 100%;
             height: 100%;
-            margin-left: 60px;
+            margin-left: 130px;
          }
 
          .lastSlide {
@@ -241,7 +239,7 @@
          }
 
          .slideBtn {
-            font-size: 10rem;
+            font-size: 8rem;
             color: #DBE9B7;
          }
 
@@ -253,16 +251,17 @@
          /* last slide */
 
          .lastslideBtns .slide-font {
+            margin-top: 15px;
             text-align: center;
             font-size: 1.5rem;
          }
 
          .galleryEndBtn {
-            margin-right: 1.5rem;
+            padding: 2rem;
          }
 
          .galleryFirstBtn {
-            margin-left: 1.5rem;
+            padding: 2rem;
          }
 
          /* detail */
@@ -278,6 +277,8 @@
             overflow-x: hidden;
          }
 
+         #adminManageBtn,
+         #mangePageBtn,
          #followBtn {
             border: none;
             background: lightgrey;
@@ -287,6 +288,11 @@
             cursor: pointer;
             margin-top: 5%;
          }
+
+         #followBtn{
+            margin-right: 2%;
+         }
+
 
          .md-content {
             display: flex;
@@ -304,7 +310,8 @@
          }
 
          input[name="chalookInfo"]:checked+label{
-            box-shadow:lightpink 0px 5px;
+            background-color: #DBE9B7;
+            border-radius: 5px;  
          }
       </style>
 
@@ -315,9 +322,6 @@
             <div class="swiper-slide dtoData" th:each="dto : ${galleryDTOList}" th:data-gno="${dto.gno}"
                th:data-id="${id}" th:data-file="${dto.getImageURL}" th:data-user-name="${dto.getArtistname}"
                data-bs-toggle="modal" data-bs-target="#detailsModal">
-               <div class="swiper-slide-title">
-                  [[${dto.title}]]
-               </div>
                <img style="cursor:pointer;" th:src="|@{'/display'}?fileName=${dto.getImageURL()}|" alt="🎨" />
             </div>
             <div class="swiper-slide lastSlide">
@@ -348,15 +352,13 @@
       </div>
       <div class="showup-curator">
          <div class="drop_left speech-bubble show-gurator-script">
-            <ul>
-               <li>
-                  <div id="showup-text"></div>
+            <div class="bubble">
+               <div id="showup-text"></div>
                   <div>
                      <hr>
                      규레이터 클릭시 Gallery 내 모든 작품을 검색해볼 수 있습니다.
                   </div>
-               </li>
-            </ul>
+               </div>
             <div class="tangel_left"></div>
          </div>
          <img id="curatorBtn" data-bs-toggle="modal" data-bs-target="#curatorModal" th:src="@{/icon/gurator2.svg}">
@@ -463,7 +465,13 @@
                   });
                }
 
+               
                var artistname = "";
+               var adminAuth = "";
+               /*[+
+                  var loginUserNick= [[${loginUserNick}]];
+               +]*/
+
                $.getJSON(readUrl + "/" + targetGno, function (dto) {
                   $("#detailsModal .modal-title").html(`${dto.title}`);
                   artistname = dto.artistname;
@@ -476,13 +484,25 @@
                            <h4 id="inputArtist">${dto.artistname}</h4>
                         </div>
                         <div class="col-md-5 md-follow">
-                           <span id="followBtn"><i class="bi bi-plus-circle-fill"></i> 팔로우</span>
+                           <span id="followBtn"><i class="bi bi-plus-circle-fill"></i>팔로우</span>
+                           
+                           <span id="mangePageBtn" data-my-gno="${targetGno}" style="display:none">
+                              <i class="bi bi-plus-circle-fill"></i>관리
+                           </span>
+                           <span id="adminManageBtn" sec:authorize="hasRole('ROLE_ADMIN')">
+                              <i class="bi bi-plus-circle-fill"></i>관리
+                           </span>
                         </div>
                   </div>
                   <div>
                      ${dto.content}   
                   </div>`
                   detailsModalbody.html(str);
+                  if(loginUserNick == artistname) {
+                     console.log("야호")
+                     $("#mangePageBtn").css("display", "inline-block");
+                     $("#adminManageBtn").css("display", "none");
+                  }
 
                   str = `<div id="emojiBox">
                   <input type="radio" id="1" value="${dto.emojicount[0][0]}" name="emojitype" class="emoji">
@@ -778,7 +798,32 @@
                $("#detailsModal").modal("show");
                showdetailsModal(targetGno, targetFile);
             });
+            // 모달 창 내 search result 클릭 시 이동 제어
+            $(document).on("click", ".search-result-Item", function (e) {
+               var targetGno = $(this).closest("div").data("searchGno");
+               var targetFile = $(this).closest("div").data("searchFile");
+               // alert(targetGno);
+               // alert(targetFile);
+               $("#curatorModal").modal("hide");
+               $("#detailsModal").modal("show");
+               showdetailsModal(targetGno, targetFile);
+            });
 
+            // 관리 페이지로 이동
+            function directMangePage () {
+               var gno = $("#mangePageBtn").data("myGno");
+               location.href=managePageURL+gno;
+            }
+            /*[+
+               var managePageURL = [[@{/manage/gallery/read?gno=}]]
+            +]*/
+            $(document).on("click", "#mangePageBtn", function() {
+               directMangePage();
+            });
+            $(document).on("click", "#adminManageBtn", function() {
+               directMangePage();
+            });
+            
          });
       </script>
 
@@ -963,8 +1008,8 @@
                <div class="modal-body">
                   <form class="serach-form-container" id="modal-frm" th:action="@{/gallery/curator}" method="get">
                      <select name="type">
-                        <option value="t" disabled selected  class="form-select form-select-sm">검색조건</option>
-                        <option value="t">작품명</option>
+                        <option value="t" disabled class="form-select form-select-sm">검색조건</option>
+                        <option value="t" selected>작품명</option>
                         <option value="c">내용</option>
                         <option value="w">작가</option>
                      </select>

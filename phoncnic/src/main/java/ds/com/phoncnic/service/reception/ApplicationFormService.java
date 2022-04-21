@@ -17,6 +17,8 @@ public interface ApplicationFormService {
 
   Long isItMaxReception(String id);
 
+  Boolean updateConfirmState(String id, Boolean checker);
+
   ApplicationFormDTO applicationExistsCheckerByUserId(String id);
 
   default Map<String, Object> dtoToEntity(ApplicationFormDTO dto) {
@@ -29,6 +31,7 @@ public interface ApplicationFormService {
         .content(dto.getContent())
         .dyningname(dto.getDyningname())
         .member(member)
+        .confirm(false)
         .build();
 
     entityMap.put("applicationform", apply);
@@ -81,8 +84,9 @@ public interface ApplicationFormService {
       .afno(applicationForm.getAfno())
       .applicant(applicationForm.getMember().getId())
       .applicationtype(applicationForm.getApplicationtype())
-      .regdate(applicationForm.getRegDate())
-      .moddate(applicationForm.getModDate())
+      .applydate(applicationForm.getApplyDate())
+      .confirm(applicationForm.getConfirm())
+      .confirmdate(applicationForm.getConfirmDate())
     .build();
 
     return applyDTO;

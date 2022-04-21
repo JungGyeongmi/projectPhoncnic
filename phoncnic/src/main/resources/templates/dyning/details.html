@@ -1,15 +1,26 @@
 <!DOCTYPE html>
 <style>
+
+@media (min-width: 576px) {
+.modal-dialog {
+    max-width: 815px !important;
+    margin: 4.75rem auto !important;
+    }
+}
+
+
+    .d-flex{
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
     .containerBox {
+        width: 100%;
         height: 100%;
         margin: 0;
         padding: 0;
         background-repeat: no-repeat;
         background-size: cover;
-    }
-
-    .carousel-item>img {
-        margin: 0;
     }
 
     .mapViewBtn {
@@ -36,31 +47,12 @@
         margin-top: 10px;
     }
 
-    .info.card {
-        width: 63%;
-        height: 537px;
-        top: 156px;
-        left: 23px;
-    }
-
-    .carousel-fade {
-        height: 537px;
-        width: 400px;
-        top: 156px;
-        margin: 0;
-        left: 390px;
-
-    }
-
-    .carousel-control-prev {
-        left: -55px !important;
-    }
 
     .carousel-inner>.carousel-item>img {
         top: 0 !important;
         left: 0 !important;
         width: 350px !important;
-        min-height: 540px !important;
+        /* min-height: 540px !important; */
         object-fit: contain;
         background-position: center;
 
@@ -70,16 +62,17 @@
         border: none;
         background-color: white;
         padding: 5px;
-        margin-top: 20px;
+        margin-top: 10px;
         margin-right: 10px;
     }
 
     .up>img {
         margin-right: 10px;
+        width: 24px;
     }
 
     #map {
-        width: 593px;
+        width: 668px;
         height: 470px;
         background-color: grey;
         overflow: hidden;
@@ -87,13 +80,13 @@
     }
 
     .backbtn {
-        margin-top: 14rem;
+        padding: 1.5rem;
         display: flex;
         justify-content: center;
     }
 
     #back {
-        border: none;
+        border: 1px solid black;
         border-radius: 30px;
         width: 200px;
         font-size: 20px;
@@ -102,10 +95,49 @@
         color: white;
     }
 
+    #back:hover {
+        border: 1px solid black;
+        background-color: white;
+        color: black;
+    }
+
     .basic-button{
         width: 100px;
         margin: 0 auto;
     }
+
+    .all-card{
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        padding: 93px 10px 30px 10px;
+    }
+
+    .menu-card{
+        width: 350px;
+    }
+
+    .menu-card > button{
+        color: black !important ;
+    }
+
+    .card-text{
+        word-break: keep-all;
+    }
+
+    .info.card{
+        width: 670px;
+        height: auto;
+    }
+
+    .store-info-card  .card-title {
+        padding: 15px !important;
+    }
+
+    .store-info-card .card-text{
+        padding: 30px 0;
+    }
+
 </style>
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
 <th:block th:replace="~{layout/basic:: setContent(~{::content})}">
@@ -122,22 +154,20 @@
                         th:data-file="|@{'/display'}?fileName=${idto.getBackgoundImageURL()}|" id="backImg" alt="">
                 </th:block>
             </div>
-            <div class="row">
+            <div class="all-card">
                 <!-- 메뉴 카드 -->
-                <div class="col">
-                    <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel"
-                        data-bs-interval="false">
+                <div class="menu-card">
+                    <div id="carouselExampleFade" class="carousel slide carousel-fade carousel-dark" data-bs-ride="carousel" data-bs-interval="false">
                         <div class="carousel-inner">
                             <th:block th:each="idto : ${imageresult}">
                                 <div class="carousel-item">
                                     <img th:src="|@{'/display'}?fileName=${idto.getMenuImageURL()}|"
-                                        class="d-block thumbimage"
+                                        class="d-block w-100 thumbimage"
                                         th:data-file="|@{'/display'}?fileName=${idto.getMenuImageURL()}|" alt="사진이 엄따">
                                 </div>
                             </th:block>
                         </div>
-                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade"
-                            data-bs-slide="prev">
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                             <span class="visually-hidden">Previous</span>
                         </button>
@@ -150,7 +180,7 @@
                 </div>
                 <!-- 메뉴 카드 end -->
                 <!-- 가게정보 카드 -->
-                <div class="col">
+                <div class="store-info-card">
                     <div class="card text-center info">
                         <div class="card-header">
                             <ul class="nav nav-tabs card-header-tabs">
@@ -179,11 +209,13 @@
 
                                         <hr>
                                         <span class="card-text"><i class="fa-regular fa-clock"></i>
-                                            [[${dto.businesshours}]]</span> &nbsp &nbsp &nbsp &nbsp
+                                            [[${dto.businesshours}]]
+                                        </span>
+                                        <hr>
                                         <span class="card-text"><i class="fa-solid fa-phone"></i> [[${dto.tel}]]</span>
                                         <hr>
-                                        <p class="card-text"><i class="bi bi-bookmark-heart-fill"></i>
-                                            [[${dto.comment}]]</p>
+                                        <span class="card-text" style="margin: 0;"><i class="bi bi-bookmark-heart-fill"></i>
+                                            [[${dto.comment}]]</span>
                                         <hr>
 
                                     </th:block>
@@ -327,7 +359,7 @@
                 $(".d-flex").css("background-image", "url(" + backgroundImg + ")");
 
                 //메뉴카드 슬라이드 
-                $(".carousel-item").eq(1).addClass("active");
+                $(".carousel-item").eq(0).addClass("active");
 
                 for (i = 1; i < 6; i++) {
                     var imgsrc = $("#emoji" + i).val();
@@ -467,7 +499,7 @@
                 $(".thumbimage").on("click", function (e) {
                     var filename = $(this).data('file');
                     console.log(filename);
-                    var OriginMenu = `<img style="width:100%" src="${filename}">`;
+                    var OriginMenu = `<img style="width: -webkit-fill-available;" src="${filename}">`;
                     $(".modal-body").html(OriginMenu);
                     $("#imageModal").show();
                 });
@@ -488,7 +520,7 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
         <div id="imageModal" class="modal imageModal" tabindex="-2">
-            <div class="modal-dialog">
+            <div class="modal-dialog menu-modal">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">메뉴사진</h5>

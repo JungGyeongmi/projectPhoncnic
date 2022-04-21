@@ -74,4 +74,25 @@ public class ApplicationFormServiceImpl implements ApplicationFormService {
 
     return afno;
   }
+
+  @Override
+  public Boolean updateConfirmState(String id, Boolean checker) {
+    log.info("check ..." +checker);
+    Boolean exist = formRepository.existCheckerByMemberId(id);
+    
+    log.info(exist);
+    if(!exist) {
+      return false;
+    }
+    List<ApplicationForm> applyList = formRepository.findByMemberId(id);
+    ApplicationForm apply = applyList.get(0);
+    log.info(apply);
+    apply.setConfirm(checker);
+    
+    formRepository.save(apply);
+    log.info(apply);
+    
+    log.info("update apply confirm..");
+    return true;
+  }
 }

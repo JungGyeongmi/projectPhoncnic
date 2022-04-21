@@ -108,7 +108,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="dto : ${result.dtoList}" class="dto" th:onclick="|javascript:pwcheck([[${dto.qno}]],[[${result.page}]])|">
+                    <tr th:each="dto : ${result.dtoList}" class="dto" 
+                        th:data-qno="${dto.qno}" th:data-result-page="${result.page}" >
                         <td>[[${dto.qtype}]]</td>
                         <td>[[${ dto.title }]]</td>
                         <td>[[${dto.writeremail}]]</td>
@@ -169,8 +170,11 @@
                 swal("글이 삭제되었습니다");
             }
 
-            //비밀번호 유효성검사
-            dto.addEventListener("click", pwcheck);
+            $(".dto").on("click", function(){
+                var qno = $(this).data("qno");
+                var page = $(this).data("resultPage");
+                pwcheck(qno, page);
+            });
 
             function pwcheck(qno, page) {
                 const inputPw = document.querySelector("#inputPw").value;

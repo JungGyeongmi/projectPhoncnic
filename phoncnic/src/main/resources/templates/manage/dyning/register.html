@@ -116,6 +116,11 @@ input[type=radio]:checked + label {
   text-align: center !important;
 }
 
+@media (min-width: 576px){
+.modal-dialog {
+    margin: 5.75rem auto !important;
+  }
+}
 
 </style>
 <th:block th:replace="~{layout/basic :: setContent(~{::content})}">
@@ -133,8 +138,8 @@ input[type=radio]:checked + label {
          </div>
          <div class="col-12 py-3">
            <label for="" class="form-label">가게명</label>
-           <input type="text" name="dyningname" id="" class="form-control">
-         </div>
+           <input type="text" name="dyningname" id="" class="form-control">         
+          </div>
          <div class="col-12 py-3">
           <label for="" class="form-label">사장님 한마디</label>
           <input type="text" name="comment" id="" class="form-control">
@@ -163,10 +168,11 @@ input[type=radio]:checked + label {
         </div>
         <div class="col py-3">
           <label for="" class="form-label">영업 시간</label>
-          <input type="text" name="businesshours" id="" class="form-control">
+          <input name="businesshours" id="hourstext" cols="62" rows="5" style="resize: none;" class="form-control" wrap="hard"></input>
+          <!-- <input type="text" name="businesshours" id="" class="form-control"> -->
         </div>
         <div class="col-12 py-3">
-          <label for="" class="form-label">해시태그
+          <label for="" class="form-label">해시태그</label>
           <input type="text" name="hashtag" id="" class="form-control">
         </div>
         <p class="p-line pt-2">이미지 업로드</p><hr>
@@ -245,6 +251,8 @@ input[type=radio]:checked + label {
         $("button[name='btn-close']").on("click", function (e) {
           $("#roofModal").hide();
         });
+
+        $("#hourstext").val().replace(/\n/g, "<br>")
 
         //  upload url 선언 및 초기화
         /*[+

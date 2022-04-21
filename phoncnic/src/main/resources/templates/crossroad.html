@@ -4,9 +4,9 @@
     background-color: transparent !important;
   }
 
-  h1{
-      text-align: center;
-      padding: 40px;
+  h1 {
+    text-align: center;
+    padding: 40px;
   }
 
   #wrapper {
@@ -18,17 +18,20 @@
 
   .containerBox {
     font-family: "NeoDunggeunmo" !important;
+  }
 
+  .content:hover {
+    cursor: pointer;
   }
 
   .content-container {
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    width: 70%;
+    width: 88%;
     margin: 0 auto;
     padding: 90px 0;
-    }
+  }
 
   .content {
     width: 290px;
@@ -36,88 +39,167 @@
     background-color: rgb(254, 254, 254);
     text-align: center;
     border-radius: 3px;
+    filter: drop-shadow(2px 3px 4px rgb(99, 99, 99));
     /* border: 5px solid black; */
-    }
-    .content-body{
-        padding: 45px;
-    }
-    .content-body > a> img {
-        margin: 0 auto;
-        width: 185px;
-        filter: drop-shadow(2px 3px 4px rgb(99, 99, 99)); 
-    }
+  }
 
-    .content-container p{
-        font-size: 22px;
-        margin: 0px auto 32px auto;
-    }
-    .content button{
-        font-family: "NeoDunggeunmo" !important;
-        width:100%;
-        height:88px;
-        max-width: -webkit-fill-available;
-        font-size: 27px;
-        border: none;
-        background-color: #fdd327;
-        margin-top: 18px;
-         /* background-image: url([[@{/icon/button.png}]]);
+  .content-body {
+    padding: 45px;
+  }
+
+  .content-body>a>img {
+    margin: 0 auto;
+    width: 185px;
+    filter: drop-shadow(2px 3px 4px rgb(99, 99, 99));
+  }
+
+  .content-container p {
+    font-size: 22px;
+    margin: 0px auto 32px auto;
+  }
+
+  .content button {
+    font-family: "NeoDunggeunmo" !important;
+    width: 100%;
+    height: 88px;
+    max-width: -webkit-fill-available;
+    font-size: 27px;
+    border: none;
+    background-color: #fdd327;
+    margin-top: 18px;
+    /* background-image: url([[@{/icon/button.png}]]);
         background-position: center;
         background-size: cover;         */
-        }
-    
-    .content-container .content:first-child .content-body{
-        padding: 48px;
-    }
+  }
 
-    .content-container .content:first-child button{
-        margin-top: 0;
-    }
+  .content-container .content:first-child .content-body {
+    padding: 48px;
+  }
 
+  .content-container .content:first-child button {
+    margin-top: 0;
+  }
 
+  .content-container .content:first-child .content-body img {
+    width: 112px;
+  }
 
-    .content-container .content:first-child .content-body img{
-        width: 108px;
-    }
+  .content-container .content:first-child .content-body img {
+    width: 108px;
+  }
 
-    .content-container .content:last-child .content-body img{
-        width: 180px;
-    }
+  .content-container .content:last-child .content-body img {
+    width: 180px;
+  }
 
-    .basic-main-logo {
-        display: none;
-    }
+  .basic-main-logo {
+    display: none;
+  }
 
+  .arrow-container {
+    position: absolute;
+    cursor: pointer;
+  }
+
+  .dot-arrow {
+    display: inline-block;
+    bottom: 3px;
+    left: 3px;
+    width: 100px;
+    position: fixed;
+  }
+
+  .arrow-text {
+    position: relative;
+    padding: 13px;
+    background: rgb(255, 255, 255);
+    border-radius: 0.4em;
+    width: fit-content;
+    font-size: 20px;
+    text-align: center;
+    bottom: -33px;
+    left: 10px;
+    display: none;
+  }
+
+  .arrow-text:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 33%;
+    width: 0;
+    height: 0;
+    border: 19px solid transparent;
+    border-top-color: #fff;
+    border-bottom: 0;
+    margin-left: -19px;
+    margin-bottom: -14px;
+  }
 </style>
+
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-  <th:block th:replace="~{layout/basic :: setContent(~{::content})}">
-    <th:block th:fragment="content">
-      <div class="containerBox">
+<th:block th:replace="~{layout/basic :: setContent(~{::content})}">
+  <th:block th:fragment="content">
+    <div class="containerBox">
 
-        <h1>갈림길</h1>
+      <h1>갈림길</h1>
 
-
-        <div class="content-container">
-            <div class="content">
-                <div class="content-body">
-                  <a th:href="@{/crossroad/gallery}"><img th:src="@{/icon/gallery.png}" alt=""></a>
-                </div>
-                <a th:href="@{/crossroad/gallery}"><button>Gallery</button></a>
-            </div>
-            <div class="content">
-                <div class="content-body">
-                  <a th:href="@{/dyning/cafe/list?page=1&top=440&left=40}"><img th:src="@{/icon/cafe-food.png}"  alt=""></a>
-                </div>
-                <a th:href="@{/dyning/cafe/list?page=1&top=440&left=40}"><button>Cafe</button></a>
-            </div>
-            <div class="content">
-                <div class="content-body">
-                  <a th:href="@{/dyning/restaurant/list?page=1&top=440&left=40}"><img th:src="@{/icon/restaurant-food2.png}" alt=""></a>
-                </div>
-                <a th:href="@{/dyning/restaurant/list?page=1&top=440&left=40}"><button>Restaurant</button></a>
-            </div>
+      <div class="content-container">
+        <div class="content" id="gallery">
+          <div class="content-body">
+            <img th:src="@{/icon/gallery.png}" alt="">
+          </div>
+          <button>Gallery</button>
         </div>
-
+        <div class="content" id="cafe">
+          <div class="content-body">
+            <img th:src="@{/icon/cafe-food.png}" alt="">
+          </div>
+          <button style="margin-top: 20px;">Cafe</button>
+        </div>
+        <div class="content" id="restaurant">
+          <div class="content-body">
+            <img th:src="@{/icon/restaurant-food2.png}" alt="">
+          </div>
+          <button>Restaurant</button>
+        </div>
       </div>
-    </th:block>
+      <div class="arrow-container">
+        <span class="arrow-text">클릭해서 홈으로 가기!</span>
+        <img th:src="@{/button/화살표.png}" alt="" class="dot-arrow" />
+      </div>
+    </div>
   </th:block>
+</th:block>
+
+<script th:inline="javascript">
+  /*[+
+    var HOMEUrl = [[@{/}]];
+  +]*/
+
+  $(function () {
+    $(".arrow-container").click(function () {
+      location.href = HOMEUrl;
+      return;
+    });
+
+    $(".arrow-container").hover(function () {
+      $(".arrow-text").toggle();
+    });
+
+  });
+
+  $("#gallery").on("click", function () {
+    location.href = "/phoncnic/crossroad/gallery";
+  });
+
+  $("#cafe").on("click", function () {
+    location.href = "/phoncnic/dyning/cafe/list?page=1&top=440&left=40";
+  });
+
+  $("#restaurant").on("click", function () {
+    location.href = "/phoncnic/dyning/restaurant/list?page=1&top=440&left=40";
+  });
+</script>
+
 </html>

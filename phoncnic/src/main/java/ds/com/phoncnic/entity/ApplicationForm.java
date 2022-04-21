@@ -14,6 +14,7 @@ import javax.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
@@ -22,8 +23,9 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Setter
 @ToString (exclude = {"member"})
-public class ApplicationForm extends BaseEntity {
+public class ApplicationForm extends BaseRegiDate {
   
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,10 +36,16 @@ public class ApplicationForm extends BaseEntity {
 
   private String dyningname;
 
+  private Boolean confirm;
+
   @ManyToOne(fetch = FetchType.LAZY)
   private Member member;
 
   @OneToMany(mappedBy = "applicationform", fetch = FetchType.LAZY)
   List<ApplicationImage> businessregistration = new ArrayList<ApplicationImage>();
+
+  public void setConfirm(Boolean confirm) {
+    this.confirm = confirm;
+  }
 
 }

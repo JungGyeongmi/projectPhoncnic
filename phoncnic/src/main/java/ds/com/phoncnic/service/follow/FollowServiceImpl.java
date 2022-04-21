@@ -25,7 +25,7 @@ public class FollowServiceImpl implements FollowService {
     public FollowDTO getFollow(String id){
         List<Object> artistList = followRepository.getfollowArtistList(id);
         List<Object> dyningList = followRepository.getfollowDyningList(id);
-        return entityToDTO(artistList,dyningList);
+        return entityToDTO(artistList, dyningList);
     }
 
     @Override
@@ -105,5 +105,12 @@ public class FollowServiceImpl implements FollowService {
             followRepository.deleteByFno((Long) follow[0]);
         }
         return follow;
+    }
+
+    @Override
+    public Long getGalleryFollower(String nickname) {
+        Object[] countobj = followRepository.countFollowerByUserNickNameInGallery(nickname);
+        Long countFollower = (Long)countobj[0];
+        return countFollower;
     }
 }

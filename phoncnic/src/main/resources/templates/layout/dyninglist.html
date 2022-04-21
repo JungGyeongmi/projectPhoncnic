@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 <th:block th:fragment="setContent(content, search)">
 
     <head>
@@ -47,6 +48,8 @@
                 font-family: 'GmarketSansMedium';
                 margin-bottom: 0.5rem;
             }
+
+            
         </style>
 
         <style>
@@ -119,6 +122,7 @@
         <script th:inline="javascript">
             $(document).ready(function () {
                 var keyword = $("button[name=keyword]");
+                var helpbtn = $("button[id=helpbtn]");
 
                 // list에서 검색토글버튼 클릭되어있을 때 엔터키 눌러도 토글 반응 안되게
                 keyword.on("keydown", function (e) {
@@ -127,6 +131,15 @@
                         e.preventDefault();
                     };
                 });
+
+                // 모달 버튼 클릭되어 있을 때 엔터키 눌러도 모달 안뜨게
+                helpbtn.on("keydown", function (e) {
+                    var keycode = e.keyCode;
+                    if (keycode == "13") {
+                        e.preventDefault();
+                    };
+                });
+                
             });
         </script>
         <div class="d-flex" id="wrapper">
@@ -141,7 +154,7 @@
                             <button class="btn btn-primary" id="sidebarToggle" name="keyword">검색</button>
                             <!-- 로고 -->
                             <a th:href="@{/}" style="display: block; margin: auto;">
-                                <img th:src="@{/button/로고1_틀있음_로고만.png}" style="width:60px;">
+                                <img th:src="@{/button/logo_bold.png}" style="width:60px;">
                             </a>
                         </div>
                     </div>
@@ -168,9 +181,9 @@
                             <li><a class="dropdown-item" th:href="@{/help/list/}">고객센터</a></li>
                             <li><a class="dropdown-item" th:href="@{/main/companyinfo}">회사소개</a></li>
                             <li><a class="dropdown-item" th:href="@{/gallery/}">Gallery</a></li>
+                            <li><a class="dropdown-item" th:href="@{/dyning/cafe/list?page=1&top=440&left=40}">Cafe</a>
                             <li><a class="dropdown-item"
                                     th:href="@{/dyning/restaurant/list?page=1&top=440&left=40}">Restaurant</a></li>
-                            <li><a class="dropdown-item" th:href="@{/dyning/cafe/list?page=1&top=440&left=40}">Cafe</a>
                             </li>
                         </ul>
                     </li>

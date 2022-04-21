@@ -1,6 +1,30 @@
 <!DOCTYPE html>
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
 <style>
+@media (min-width: 576px) {
+.modal-dialog {
+    max-width: 815px !important;
+    margin: 4.75rem auto !important;
+    }
+}
+
+/* @media (min-height: 350px) {
+.modal-dialog {
+    max-width: 419px !important;
+    margin: 4.75rem auto !important;
+    }
+} */
+
+.modal-body img{
+    width: 100% !important;
+}
+
+     .d-flex{
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+
     .containerBox {
         width: 100%;
 
@@ -18,7 +42,6 @@
 
     .menu-card{
         width: 350px;
-        
     }
 
     #followBtn{
@@ -76,7 +99,7 @@
         display: flex;
         justify-content: space-evenly;
         align-items: center;
-        padding: 93px 0;
+        padding: 93px 10px 30px 20px;
     }
 
     .menu-card > button{
@@ -89,9 +112,7 @@
 
     .info.card{
         width: 670px;
-        height: 540px;
-        
-
+        height: auto;
     }
     .store-info-card  .card-title {
         padding: 15px !important;
@@ -125,7 +146,7 @@
             <div class="all-card">
                 <!-- 메뉴 카드 -->
                 <div class="menu-card">
-                <div id="carouselExampleFade" class="carousel slide carousel-fade carousel-dark">
+                <div id="carouselExampleFade" class="carousel slide carousel-fade carousel-dark" data-bs-ride="carousel" data-bs-interval="false">
                     <div class="carousel-inner">
                         <th:block th:each="idto : ${imageresult}">
                             <div class="carousel-item">
@@ -193,11 +214,16 @@
 
                                         <hr>
                                         <span class="card-text"><i class="fa-regular fa-clock"></i>
-                                            [[${dto.businesshours}]]</span> &nbsp &nbsp &nbsp &nbsp
-                                        <span class="card-text"><i class="fa-solid fa-phone"></i> [[${dto.tel}]]</span>
+                                            [[${dto.businesshours}]]
+                                        </span> 
+                                        <hr>
+                                        <span class="card-text"><i class="fa-solid fa-phone">
+                                          </i> [[${dto.tel}]]
+                                        </span>
                                         <hr>
                                         <span class="card-text"><i class="bi bi-bookmark-heart-fill"></i>
-                                            [[${dto.comment}]]</span>
+                                            [[${dto.comment}]]
+                                        </span>
                                         <hr>
                                         <span class="card-text">[[${dto.hashtag}]] </span>
                                         <!-- <span>이모지갯수 : [[${result.emojicwt}]] </span> -->
@@ -322,7 +348,7 @@
                 $(".d-flex").css("background-image", "url(" + backgroundImg + ")");
 
                 //메뉴카드 슬라이드 
-                $(".carousel-item").eq(1).addClass("active");
+                $(".carousel-item").eq(0).addClass("active");
                 
 
                 /*[+
@@ -337,7 +363,6 @@
                         text: "OK를 누르시면 데이터는 되돌릴 수 없습니다!!!!!",
                         icon: "warning",
                         buttons: true,
-                        className : "swal-btn-color",
                         dangerMode: true,
                     })
                         .then((willDelete) => {
@@ -366,7 +391,7 @@
                 $(".thumbimage").on("click", function (e) {
                     var filename = $(this).data('file');
                     console.log(filename);
-                    var OriginMenu = `<img style="width:100%" src="${filename}">`;
+                    var OriginMenu = `<img style="max-width: -webkit-fill-available;" src="${filename}">`;
                     $(".modal-body").html(OriginMenu);
                     $("#imageModal").show();
                 });
@@ -374,6 +399,7 @@
                 $("button[name='btn-close']").on("click", function (e) {
                     $("#imageModal").hide();
                 });
+
             });
         </script>
 
@@ -386,10 +412,6 @@
                             name="btn-close"></button>
                     </div>
                     <div class="modal-body">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="basic-button" name="btn-close"
-                            data-bs-dismiss="modal">닫기</button>
                     </div>
                 </div>
             </div>

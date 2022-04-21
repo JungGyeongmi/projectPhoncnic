@@ -24,7 +24,9 @@ public class ApplicationFormDTO {
 
   private String applicant;
 
-  LocalDateTime regdate, moddate;
+  private Boolean confirm;
+
+  LocalDateTime applydate, confirmdate;
 
   @Builder.Default
   private List<ApplicationImageDTO> applicationImageDTOList = new ArrayList<>();
