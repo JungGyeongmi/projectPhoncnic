@@ -17,7 +17,7 @@ public interface ApplicationFormService {
 
   Long isItMaxReception(String id);
 
-  void updateConfirmState(String id, Boolean checker);
+  Boolean updateConfirmState(String id, Boolean checker);
 
   ApplicationFormDTO applicationExistsCheckerByUserId(String id);
 

@@ -76,13 +76,13 @@ public class ApplicationFormServiceImpl implements ApplicationFormService {
   }
 
   @Override
-  public void updateConfirmState(String id, Boolean checker) {
+  public Boolean updateConfirmState(String id, Boolean checker) {
     log.info("check ..." +checker);
     Boolean exist = formRepository.existCheckerByMemberId(id);
     
     log.info(exist);
     if(!exist) {
-      return;
+      return false;
     }
     List<ApplicationForm> applyList = formRepository.findByMemberId(id);
     ApplicationForm apply = applyList.get(0);
@@ -93,5 +93,6 @@ public class ApplicationFormServiceImpl implements ApplicationFormService {
     log.info(apply);
     
     log.info("update apply confirm..");
+    return true;
   }
 }

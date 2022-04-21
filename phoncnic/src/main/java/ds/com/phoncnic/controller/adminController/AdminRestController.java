@@ -49,7 +49,7 @@ public class AdminRestController {
         RedirectAttributes ra) {
         
         String oriNick = json.get("originNick");
-        Boolean roleChecker = json.get("originRole")==roleSet.get(0);
+        Boolean roleChecker = json.get("originRole").equals(roleSet.get(0));
         Boolean nickChecker = memberService.nickNameChecker(json.get("nickname"));
         Boolean confirmChecker = json.get("confirmCheck").equals("0")?false:true;
         String id = json.get("id");
@@ -57,23 +57,26 @@ public class AdminRestController {
         memberDTO.setId(id);
         memberDTO.setRoleSet(roleSet);
         log.info(confirmChecker);
-        formService.updateConfirmState(id, confirmChecker);
+        Boolean updateConfirm = formService.updateConfirmState(id, confirmChecker);
+        
+        
+        String message = updateConfirm?"a":"";
         
         // 닉네임이 중복되고 롤도 바뀌지 않은 경우
         if(roleChecker && nickChecker) {
-            return "overlap";
+            return "b"+message;
         } else if(!roleChecker && nickChecker) {
         // 닉네임은 중복되나 롤이 바뀐경우
             memberDTO.setNickname(oriNick);
             memberService.updateMemberDTO(memberDTO);
-            return "role";
+            return "c"+message;
         }
         // 닉네임도 롤도 바뀌는 경우
         memberDTO.setNickname(json.get("nickname"));
         memberService.updateMemberDTO(memberDTO);
         log.info("modify...");
 
-        return "change";
+        return "d"+message;
     }
 
     @PostMapping("/remove/{removeid}")
