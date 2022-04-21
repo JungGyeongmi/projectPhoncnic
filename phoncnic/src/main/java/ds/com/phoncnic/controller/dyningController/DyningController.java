@@ -54,11 +54,13 @@ public class DyningController {
             model.addAttribute("id", dto.getId());
             model.addAttribute("nickname", memberService.getNickname(dto.getId()));
             model.addAttribute("setDTO", characterLookService.getCharacterSet(dto.getId()));
+
         } catch (NullPointerException e) {
             int num = (int)(Math.random()*100)+1;
             model.addAttribute("id", "guest"+num+"@gmail.com");
             model.addAttribute("nickname", "guest"+num);
             model.addAttribute("setDTO", characterLookService.getCharacterSet("test1@gmail.com"));
+            
         }
 
     }
@@ -102,12 +104,14 @@ public class DyningController {
             model.addAttribute("result", dyningService.getDyningDetails(dno));
             model.addAttribute("imageresult", dyningService.getDyningDetails(dno).getDyningImageDTOList());
             if (dto != null) {
+
                 model.addAttribute("id", dto.getId());
                 try {
                     model.addAttribute("fno", followService.getFno(dto.getId(), dyningDTO.getDyningname()));
                 } catch (NullPointerException e) {
                     model.addAttribute("fno", "");
                 }
+
                 try {
                     model.addAttribute("eno", emojiService.HaveEmoji(dto.getId(), dno).getEno());
                     model.addAttribute("emojitype",
