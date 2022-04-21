@@ -473,9 +473,26 @@
         </div>
     </div>
 
+    <style>
+        .detail-modal-body2 {
+            display: flex;
+            justify-content: center;
+        }
 
+        input[type="radio"]{
+            display: none;
+        }
+        .emojiBox~label {
+            margin-left:30px;
+        }
+
+    </style>
         <script th:inline="javascript">
+            
 
+            $(".btn-close").on("click", function() {
+                $("#detailsModal").hide();
+            });
             /*[+    
                 var loginUserNick= [[${loginUserNick}]];
                 var emojiCheckUrl = [[@{/main/mypage/emoji/}]];
@@ -494,7 +511,7 @@
             var showdetailsModal = function (targetGno) {
                var selectedtype = "0";
                if (userIdLogin != "") {
-                  $.post(emojiCheckUrl + "/" + targetGno, function (result) {
+                  $.post(emojiCheckUrl + targetGno, function (result) {
                      selectedtype = result;
                   });
                }
