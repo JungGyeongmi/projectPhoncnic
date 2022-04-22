@@ -414,8 +414,8 @@
                     </div>
                     <hr>
                     <div class="emoji-list"  id="gno-emoji">       
-                        <div th:each="edto : ${emojiDTO}" th:if="${edto.gno}!=0" >
-                            <div th:onclick="'location.href=\''+ @{/gallery/read/${gno}} + '\''" class="emoji-info">
+                        <div th:each="edto : ${emojiDTO}" th:if="${edto.gno}!=0"  th:with="targetgno=${gno}">
+                            <div th:onclick="'location.href=\''+ @{/gallery/read/${targetgno}} + '\''" class="emoji-info">
                             <span><b>[[${edto.artistname}]]</b></span>
                             <input type="hidden" th:value="${edto.emojitype}">
                             <div><img th:src="${edto.emojipath}" alt="" width="40px"></div>

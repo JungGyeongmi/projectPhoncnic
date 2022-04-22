@@ -560,7 +560,7 @@
         }
 
         function connect() {
-            webSocket = new WebSocket("wss://0d6a-175-119-172-242.jp.ngrok.io/phoncnic/street");
+            webSocket = new WebSocket("ws://localhost:8080/phoncnic/street");
             webSocket.onopen = onOpen;
             webSocket.onmessage = onMessage;
             // webSocket.onclose = onClose();
