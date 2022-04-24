@@ -375,8 +375,10 @@
                     if (e.keyCode != "13") {
                         return;
                     }
+
+                    e.preventDefault();
+
                     var originRole = $(this).parent().siblings().eq(4).data("roleSet");
-                    console.log($(this).parent().siblings());
                     var originNick = $(this).data("oriNick");
                     var index = $(this).parents("form").index();
                     var id = $(this).parent().siblings("input[name=id]").val();
@@ -385,17 +387,16 @@
                     var confirmCheck = $("#applyCheck").val() == "true" ? 1 : 0;
                     var data = { "id": id, "nickname": nickname, "originRole": originRole, "originNick": originNick, "confirmCheck": confirmCheck };
 
-                    console.log(data);
 
-                    swal({ text: "수정하시겠습니까?", buttons: { button: { text: "네", value: true }, cancel: "아니오" } })
-                        .then((check) => {
-                        if (check) {
+                    swal({ text: "수정하시겠습니까?", buttons: { button: { text: "네", value: true}, cancel: "아니오" },dangerMode: true }).then((val) => {
+                        if (val) {
                             modiAjax(data, userRole, index);
                         } else {
                             return;
                         }
                     });
                 });
+
                 $(document).on("click", ".memberModifyBtn", function (e) {
                     var originRole = $(this).parent().siblings().eq(5).data("roleSet");
                     var originNick = $(this).parent().siblings().eq(2).children("input").data("oriNick");
