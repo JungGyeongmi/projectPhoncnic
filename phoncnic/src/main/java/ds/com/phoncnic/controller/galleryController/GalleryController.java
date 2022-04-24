@@ -76,7 +76,7 @@ public class GalleryController {
             Long gno,
             @AuthenticationPrincipal AuthMemberDTO authMemberDTO) {
 
-        model.addAttribute("galleryDTOList", galleryService.getGalleryList(false));
+        model.addAttribute("galleryDTOList", galleryService.getGalleryList(true));
         model.addAttribute("list", galleryService.getPaintingList(pageRequestDTO));
 
         log.warn("---------------" + authMemberDTO);
