@@ -17,6 +17,8 @@ public class EmojiDTO {
     private String id;
     private Long dno;
     private Long gno;
+    private String dyningname;
+    private String artistname;
 
     private String emojitype;
     private String emojipath;

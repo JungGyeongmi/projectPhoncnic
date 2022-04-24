@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import ds.com.phoncnic.entity.Dyning;
 import ds.com.phoncnic.entity.Follow;
 
 public interface FollowRepository extends JpaRepository<Follow, Long> {
@@ -14,8 +15,8 @@ public interface FollowRepository extends JpaRepository<Follow, Long> {
     List<Object> getfollowArtistList(String id);
 
     // 팔로우 리스트
-    @Query("select dyningname from Follow f where f.follower.id =:id and dyningname IS NOT NULL")
-    List<Object> getfollowDyningList(String id);
+    @Query("select f from Follow f where f.follower.id =:id and f.dyning.dno IS NOT NULL")
+    List<Follow> getfollowDyningList(String id);
 
     @Query("select f from Follow f where f.follower.id=:id and artistname = :name")
     Follow getFollownameArtist(String id, String name);

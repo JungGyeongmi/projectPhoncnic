@@ -1,0 +1,8 @@
+DROP TABLE qna;
+DROP TABLE emoji;
+DROP TABLE follow;
+DROP TABLE dyning_image;
+DROP TABLE dyning;
+DROP TABLE gallery;
+DROP TABLE character_look;
+DROP TABLE member;

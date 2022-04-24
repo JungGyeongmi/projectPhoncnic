@@ -91,7 +91,7 @@
                     <div class="box">
                     </div>
                 </form>
-                <!-- 여기서 input 으로 전달해주는 값을 img 아래로 내리니까 전달자체가 되지 않았음 -->
+                
                 <label class="form-label">작품 업로드 ( 1장만 가능 )</label>
                 <div class="custom-file">
                     <input type="file" class="custom-file-input files form-control" id="fileInput" accept="image/jpeg,png" required>
@@ -165,6 +165,7 @@
                     return true;
                 }
 
+                var appended = false;
                 // 해당 클래스에 변화가 있을 때 동작하는 이벤트
                 $(".custom-file-input").on("change", function () {
                     var fileName = $(this).val().split("/").pop();
@@ -179,7 +180,11 @@
                     var formData = new FormData();
                     var inputFile = $(this);
                     var files = inputFile[0].files;
-                    var appended = false;
+                    
+
+                    if(files.length >= 2) {
+                        return false;
+                    }
 
                     for (let i = 0; i < files.length; i++) {
                         if (!checkExtension(files[i].name, files[i].size)) {
@@ -290,6 +295,7 @@
                         success: function (result) {
                             swal(result ? "Deleted!" : "Error",{button:false, timer:1500});
                             targetLi.remove();
+                            appended = false;
                         }
                     });
 

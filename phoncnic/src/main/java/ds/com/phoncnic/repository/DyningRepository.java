@@ -51,4 +51,7 @@ public interface DyningRepository extends JpaRepository<Dyning, Long>, QuerydslP
     // dyning 팔로워 count
     @Query("select count(f.dyningname) from Dyning d left join Follow f on f.dyningname = d.dyningname where d.dno =:dno group by dno")
     Long getDyningFollowerCount(Long dno);
+
+    @Query("select d.dno from Dyning d where d.dyningname=:dyningname")
+    Long getDnobydyningname(String dyningname);
 }

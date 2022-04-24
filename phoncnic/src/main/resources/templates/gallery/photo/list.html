@@ -78,6 +78,10 @@
             grid-template-columns: 0.02fr 10fr 0.02fr;
          }
 
+         #md-search-btn{
+            background-color: #DBE9B7;
+         }
+
          .result-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, auto));
@@ -101,10 +105,6 @@
          .md-btn-container {
             width: 20px;
             height: 100%;
-         }
-
-         #md-search-btn{
-            background-color: #DBE9B7;
          }
 
          .md-item-btn {
@@ -225,7 +225,7 @@
             position: fixed;
             bottom: -7%;
             z-index: 3;
-            left: 50%;
+            left: 45%;
          }
 
          .btn-character-look img {
@@ -293,7 +293,6 @@
             margin-right: 2%;
          }
 
-
          .md-content {
             display: flex;
             align-items: self-end;
@@ -313,9 +312,30 @@
             background-color: #DBE9B7;
             border-radius: 5px;  
          }
+
+                  
+         .basic-button {
+                background-color: #dbdde0;
+                color: black;
+                height: auto;
+                border-radius: 5px;
+                padding: 10px;
+                border: none;
+                margin: 0 10px;
+                font-size: 1rem;
+            }
+
+            .basic-button:hover {
+                background-color: #ccd1d8;
+            }
+
+            .search-result-Item:hover {
+               cursor: pointer;
+            }
+
       </style>
 
-      <input type="hidden" th:if="${loginUserId}" name="loginUserId" th:value="${loginUserId}">
+      <input type="hidden" th:if="${userIdLogin}" name="userIdLogin" th:value="${userIdLogin}">
 
       <div class="swiper mySwiper">
          <div class="swiper-wrapper">
@@ -345,8 +365,7 @@
       </div>
       <!-- 임시 정렬 -->
       <div class="character-look-wrapper">
-         <button type="button" class="btn btn-character-look" id="btncharacterlook" data-bs-toggle="modal"
-            data-bs-target="#modalcharacterlook">
+         <button type="button" class="btn btn-character-look" id="btncharacterlook" data-bs-toggle="modal" data-bs-target="#modalcharacterlook">
             <img id="userAvatar" th:src="${avatar?.setbackpath}" alt="🙄">
       </button>
       </div>
@@ -442,14 +461,14 @@
             /*[+
                var readUrl = [[@{/gallery/read}]];
                var emojiUrl = [[@{/gallery/emoji}]];
-               var emojiCheckUrl = [[@{/gallery/emoji/check}]]
+               var emojiCheckUrl = [[@{/gallery/emoji/check}]];
                var emojiaddUrl = [[@{/gallery/emoji/register}]];
                var follow = [[@{/gallery/follow}]]
                var followRegister = [[@{/gallery/followRegister}]]               
                var urlDisplay = [[@{/display}]];
             +]*/
 
-            var loginUserId = $("input[name=loginUserId]").val();
+            var userIdLogin = $("input[name=userIdLogin]").val();
 
             var EmojiStringArray = "";
 
@@ -459,13 +478,12 @@
 
             var showdetailsModal = function (targetGno, targetFile) {
                var selectedtype = "0";
-               if (loginUserId != "") {
+               if (userIdLogin != "") {
                   $.post(emojiCheckUrl + "/" + targetGno, function (result) {
                      selectedtype = result;
                   });
                }
 
-               
                var artistname = "";
                var adminAuth = "";
                /*[+
@@ -493,7 +511,8 @@
                               <i class="bi bi-plus-circle-fill"></i>관리
                            </span>
                         </div>
-                  </div>
+
+                     </div>
                   <div>
                      ${dto.content}   
                   </div>`
@@ -715,10 +734,11 @@
                });
             }
 
+            // alert($("input[name=userIdLogin]").val());
 
             //이모지 등록/수정/삭제
             $(document).on("click", ".emoji", function () {
-               if ($("input[name=loginUserId]").val() != null) {
+               if ($("input[name=userIdLogin]").val() != null) {
                   var gno = $("input[name=gno]").val();
                   var emojitype = $(".emoji:checked").val();
                   var data = { emojitype: emojitype };
@@ -754,10 +774,10 @@
 
             //팔로우 등록/ 삭제
             $(document).on("click", "#followBtn", function () {
-               if ($("input[name=loginUserId]").val() != null) {
+               if ($("input[name=userIdLogin]").val() != null) {
 
                   var artistname = $("#inputArtist").text().trim();
-                  var data = { artistname: artistname, followerid: loginUserId };
+                  var data = { artistname: artistname, followerid: userIdLogin };
 
                   $.ajax({
                      type: "POST",
@@ -780,7 +800,7 @@
                         // console.log("fail");
                         // console.log(response);
                      }, error: function (request, status, error) {
-                        // console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                        console.log("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                      }
                   });
                } else {
@@ -788,16 +808,6 @@
                }
             });
 
-            // 모달 창 내 search result 클릭 시 이동 제어
-            $(document).on("click", ".search-result-Item", function (e) {
-               var targetGno = $(this).closest("div").data("searchGno");
-               var targetFile = $(this).closest("div").data("searchFile");
-               // alert(targetGno);
-               // alert(targetFile);
-               $("#curatorModal").modal("hide");
-               $("#detailsModal").modal("show");
-               showdetailsModal(targetGno, targetFile);
-            });
             // 모달 창 내 search result 클릭 시 이동 제어
             $(document).on("click", ".search-result-Item", function (e) {
                var targetGno = $(this).closest("div").data("searchGno");
@@ -898,11 +908,13 @@
             }
 
             // 모달제어
-            if ($("input[name=loginUserId]").val() != null) {
+            if ($("input[name=userIdLogin]").val() != null) {
 
                modalBody.html("잠시 기다려주세요 ... ");
 
-               $("#btncharacterlook").on("click", showLookModal);
+               $("#btncharacterlook").on("click", function() {
+                  showLookModal();
+               });
 
                $(document).on("change", "input[name=chalookInfo]", function () {
                   var checkRaido = $(this).val();
@@ -974,7 +986,6 @@
             display: flex;
             justify-content: center;
          }
-
       </style>
 
       <!-- 캐릭터 모달창 -->
@@ -983,14 +994,13 @@
             <div class="modal-content">
                <div class="modal-header">
                   <h5 class="modal-title">캐릭터 룩</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                     name="btn-close"></button>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" name="btn-close"></button>
                </div>
                <div class="modal-body character-modal-body">
                   <div>로그인 후 이용해주세요 </div>
                </div>
-               <div class="modal-footer">
-                  <button th:if="${loginuserId}" id="lookModifyBtn" type="button" class="btn btn-primary">변경하기</button>
+               <div class="modal-footer" sec:authorize="isAuthenticated()">
+                  <button th:if="${userIdLogin}" id="lookModifyBtn" type="button" class="basic-button">변경하기</button>
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" name="btn-close">취소</button>
                </div>
             </div>
@@ -1008,7 +1018,7 @@
                <div class="modal-body">
                   <form class="serach-form-container" id="modal-frm" th:action="@{/gallery/curator}" method="get">
                      <select name="type">
-                        <option value="t" disabled class="form-select form-select-sm">검색조건</option>
+                        <option value="t" disabled  class="form-select form-select-sm">검색조건</option>
                         <option value="t" selected>작품명</option>
                         <option value="c">내용</option>
                         <option value="w">작가</option>

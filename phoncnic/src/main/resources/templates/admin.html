@@ -387,7 +387,8 @@
 
                     console.log(data);
 
-                    swal({ text: "수정하시겠습니까?", buttons: { button: { text: "네", value: true }, cancel: "아니오" }, dangerMode: true }).then((check) => {
+                    swal({ text: "수정하시겠습니까?", buttons: { button: { text: "네", value: true }, cancel: "아니오" } })
+                        .then((check) => {
                         if (check) {
                             modiAjax(data, userRole, index);
                         } else {

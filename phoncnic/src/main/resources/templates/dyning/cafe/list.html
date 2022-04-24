@@ -3,7 +3,7 @@
 <th:block th:replace="~{layout/dyninglist :: setContent(~{::content}, ~{::search})}">
     <!-- search toggle -->
     <th:block th:fragment="search">
-        <div class="border-end bg-white" id="sidebar-wrapper">
+        <div class="border-end bg-white" id="sidebar-wrapper" style="z-index: 100;">
             <div class="sidebar-heading border-bottom bg-light">
                 <form class="d-flex search-form" th:action="@{/restaurant/toggle}" method="get">
                     <select class="form-select-sm" name="type">
@@ -107,7 +107,7 @@
                     </li>
                 </th:block>
             </ul>
-            <img class="bubble" th:src="@{/icon/pixel-speech-bubble.png}" alt="">
+            <img class="bubble" th:src="@{/icon/pixel-speech-bubble.png}" style="z-index: 1;">
             <div id="testStreet">
                 <div th:each="sdto : ${setDTO}" id="userchar" style="display: none; position:absolute;"><img id="userid"
                         class="look setlook" th:src="${sdto.setpath}" th:alt="${id}"></div>
@@ -560,7 +560,7 @@
         }
 
         function connect() {
-            webSocket = new WebSocket("wss://cac6-175-119-172-242.jp.ngrok.io/phoncnic/street");
+            webSocket = new WebSocket("ws://localhost:8080/phoncnic/street");
             webSocket.onopen = onOpen;
             webSocket.onmessage = onMessage;
             // webSocket.onclose = onClose();

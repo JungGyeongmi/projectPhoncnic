@@ -53,12 +53,12 @@ public class ApplicationFormServiceImpl implements ApplicationFormService {
   @Override
   public ApplicationFormDTO applicationExistsCheckerByUserId(String id) {
 
-    List<ApplicationForm> checker = formRepository.findByMemberId(id);
+   ApplicationForm checker = formRepository.findByMemberId(id);
 
-    if(checker.size()==0) {
+    if(checker==null) {
       return ApplicationFormDTO.builder().build();
     }
-    return  entityToDTO(checker.get(0));
+    return  entityToDTO(checker);
   }
 
   @Override
@@ -68,8 +68,8 @@ public class ApplicationFormServiceImpl implements ApplicationFormService {
     Boolean checker = formRepository.existCheckerByMemberId(id);
     
     if(checker) {
-      List<ApplicationForm> applyList = formRepository.findByMemberId(id);
-      afno = applyList.get(0).getAfno();
+      ApplicationForm apply = formRepository.findByMemberId(id);
+      afno = apply.getAfno();
     }
 
     return afno;
@@ -84,8 +84,9 @@ public class ApplicationFormServiceImpl implements ApplicationFormService {
     if(!exist) {
       return false;
     }
-    List<ApplicationForm> applyList = formRepository.findByMemberId(id);
-    ApplicationForm apply = applyList.get(0);
+
+    ApplicationForm apply = formRepository.findByMemberId(id);
+
     log.info(apply);
     apply.setConfirm(checker);
     

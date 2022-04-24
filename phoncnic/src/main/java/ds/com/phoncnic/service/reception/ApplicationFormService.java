@@ -82,6 +82,7 @@ public interface ApplicationFormService {
 
     ApplicationFormDTO applyDTO = ApplicationFormDTO.builder()
       .afno(applicationForm.getAfno())
+      .dyningname(applicationForm.getDyningname())
       .applicant(applicationForm.getMember().getId())
       .applicationtype(applicationForm.getApplicationtype())
       .applydate(applicationForm.getApplyDate())

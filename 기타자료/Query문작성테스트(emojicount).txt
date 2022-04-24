@@ -1,0 +1,41 @@
+SELECT * FROM gallery g WHERE g.title LIKE '%t%';
+
+SELECT * FROM gallery g WHERE g.content LIKE '%5%';
+
+
+
+// 서브쿼리는 1행 이상을 뱉으면 안된다 하단은 오류 쿼리
+SELECT * FROM gallery g WHERE g.title = (SELECT title FROM gallery g2 WHERE title LIKE '%t%');
+
+// CASE WHEN 조건 적용 하기
+/*
+CASE 
+	WHEN [조건] THEN [TRUE VALUE]
+	ELSE [FALSE VALUE]
+END AS [컬럼명(생략가능)]
+*/
+// 이런식으로 테이블 하나를 분리해서 하나의 새로운 테이블을 만들 수 있음
+SELECT gno, case when g.title LIKE '%t%' then 'true' ELSE 'false' END AS 테스트 FROM gallery g;
+
+
+// 다중검색 처리 쿼리문 (OR)
+SELECT * FROM (
+	SELECT gno, title FROM gallery WHERE 
+	title LIKE '%3%' or
+	content LIKE '%5'
+	ORDER BY gno) AS search_result
+	LIMIT 2;
+	
+	
+// 하나라도 선택되지 않은 경우에 value 전달할때부터 기본값을 전달해주면 같은 함수를 사용해도 될거같음
+
+// 타입별 검색 maria
+SELECT e.gallery_gno, e.emoji_info_emojitype, COUNT(*) FROM emoji e 
+WHERE e.gallery_gno IS NOT null
+GROUP BY e.gallery_gno, e.emoji_info_emojitype ORDER BY 1, 2;
+
+// 타입별 검색 jpa
+@Query("SELECT e.emojiInfo.emojitype, COUNT(e) FROM Emoji e "+
+	   "WHERE e.gallery.gno IS NOT NULL AND e.gallery.gno = :gno " +
+	   "GROUP BY e.gallery.gno, e.emojiInfo.emojitype ORDER BY 1, 2 ")
+List<Object[]> getEmojiCountByGno(Long gno);

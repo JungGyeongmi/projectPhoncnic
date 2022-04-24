@@ -33,24 +33,34 @@ public class GalleryController {
     // 그림전 및 사진전 선택
     @GetMapping("/crossgallery/{choice}")
     public String crossgalleryPhoto(@PathVariable("choice") String choice) {
+        log.info("dididididididi");
         log.info("get" + choice + ".......");
         return "redirect:/gallery/" + choice;
     }
 
     // 사진전 상세페이지
     @GetMapping("/photo")
-    public String photo(PageRequestDTO pageRequestDTO, Model model, Long gno, @AuthenticationPrincipal AuthMemberDTO authMemberDTO) {
-        model.addAttribute("galleryDTOList", galleryService.getGalleryList(false));
-        model.addAttribute("list", galleryService.getPhotoList(pageRequestDTO));
+    public String photo(
+            PageRequestDTO pageRequestDTO,
+            Model model, Long gno,
+            @AuthenticationPrincipal AuthMemberDTO authMemberDTO) {
 
-        if(authMemberDTO != null) {
+        model.addAttribute("galleryDTOList", galleryService.getGalleryList(false));
+        model.addAttribute("list", galleryService.getPaintingList(pageRequestDTO));
+
+        log.warn("---------------" + authMemberDTO);
+        log.warn(authMemberDTO);
+
+        if (authMemberDTO != null) {
             String loginUserId = authMemberDTO.getId();
             String loginUserNick = authMemberDTO.getNickname();
-            log.info(authMemberDTO);
-            model.addAttribute("loginuserId", loginUserId);
+            log.warn("id" + authMemberDTO.getId());
+            model.addAttribute("userIdLogin", loginUserId);
             model.addAttribute("avatar", characterLookService.getCharacterSet(loginUserId));
             model.addAttribute("loginUserNick", loginUserNick);
         } else {
+            String loginUserId = "";
+            model.addAttribute("loginuserId", loginUserId);
             model.addAttribute("avatar", characterLookService.getDefaultAvatar(1L));
         }
 
@@ -59,18 +69,28 @@ public class GalleryController {
 
     // 그림전 상세페이지
     @GetMapping("/painting")
-    public String painting(PageRequestDTO pageRequestDTO, Model model, Long gno, @AuthenticationPrincipal AuthMemberDTO authMemberDTO) {
+    public String painting(
+            PageRequestDTO pageRequestDTO,
+            Model model,
+            Long gno,
+            @AuthenticationPrincipal AuthMemberDTO authMemberDTO) {
+
         model.addAttribute("galleryDTOList", galleryService.getGalleryList(true));
         model.addAttribute("list", galleryService.getPaintingList(pageRequestDTO));
-        
-        if(authMemberDTO != null) {
+
+        log.warn("---------------" + authMemberDTO);
+        log.warn(authMemberDTO);
+
+        if (authMemberDTO != null) {
             String loginUserId = authMemberDTO.getId();
             String loginUserNick = authMemberDTO.getNickname();
-            log.info(authMemberDTO);
-            model.addAttribute("loginuserId", loginUserId);
+            log.warn("id" + authMemberDTO.getId());
+            model.addAttribute("userIdLogin", loginUserId);
             model.addAttribute("avatar", characterLookService.getCharacterSet(loginUserId));
             model.addAttribute("loginUserNick", loginUserNick);
         } else {
+            String loginUserId = "";
+            model.addAttribute("loginuserId", loginUserId);
             model.addAttribute("avatar", characterLookService.getDefaultAvatar(1L));
         }
 

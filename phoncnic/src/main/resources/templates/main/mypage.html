@@ -1,6 +1,5 @@
 <html lang="ko" xmls:th="http://www.thymeleaf.org">
 <style>
-    
     .look {
         display: inline-block;
     }
@@ -26,6 +25,7 @@
         margin: 0 auto;
         font-family: 'GmarketSansLight';
     }
+
     .personal-info-container {
         background-color: #f4f4f4;
         border-radius: 5px;
@@ -235,20 +235,23 @@
         border: none;
         border-radius: 20px;
     }
-    .mp-top-link-con{
+
+    .mp-top-link-con {
         display: flex;
         justify-content: center;
         align-items: center;
         height: 1rem;
     }
+
     .mp-top-link {
         font-size: large;
         text-decoration: none;
-        color:unset;
+        color: unset;
         margin: auto;
     }
+
     .mp-top-link:hover {
-        color : #DBE9B7;
+        color: #DBE9B7;
         font-weight: bold;
         font-size: x-large;
     }
@@ -263,10 +266,12 @@
                 <th:block th:if="${memberDTO?.roleSet.toString()}=='[ROLE_ADMIN]'">
                     <a class="mp-top-link" th:href="@{/admin}">관리자페이지</a>
                 </th:block>
-                <th:block th:if="${memberDTO?.roleSet.toString()}=='[ROLE_CEO]' OR ${memberDTO?.roleSet.toString()}=='[ROLE_ADMIN]'">
+                <th:block
+                    th:if="${memberDTO?.roleSet.toString()}=='[ROLE_CEO]' OR ${memberDTO?.roleSet.toString()}=='[ROLE_ADMIN]'">
                     <a class="mp-top-link" th:href="@{/manage/dyning/list}">가게관리</a>
                 </th:block>
-                <th:block th:if="${memberDTO?.roleSet.toString()}=='[ROLE_ARTIST]' OR ${memberDTO?.roleSet.toString()}=='[ROLE_ADMIN]'">
+                <th:block
+                    th:if="${memberDTO?.roleSet.toString()}=='[ROLE_ARTIST]' OR ${memberDTO?.roleSet.toString()}=='[ROLE_ADMIN]'">
                     <a class="mp-top-link" th:href="@{/manage/gallery}">작품관리</a>
                 </th:block>
             </div>
@@ -297,7 +302,8 @@
                             </div>
                             <div class="personal-info">
                                 <span>닉네임</span>
-                                <input type="text" th:value=${dto.nickname} name=nickname class="form-control" maxlength="10">
+                                <input type="text" th:value=${dto.nickname} name=nickname class="form-control"
+                                    maxlength="10">
                                 <input class="origin-nickname" type="hidden" th:value="${dto.nickname}">
                                 <button id="memberModifyBtn" type="button">수정</button>
                             </div>
@@ -307,23 +313,25 @@
                                 <input type="hidden" th:value=${dto.regdate}>
                             </div>
                             <div class="personal-info">
-                                <span>권한 신청 진행사항</span> 
+                                <span>권한 신청 진행사항</span>
                                 <span>
                                     <b th:if="${applyDTO.getAfno}==null">신청 내역 없음</b>
-                                    <b  th:unless="${applyDTO.getAfno}==null" th:each="apply : ${applyDTO}">
+                                    <b th:unless="${applyDTO.getAfno}==null" th:each="apply : ${applyDTO}">
                                         <th:block th:unless="${applyDTO.getConfirm}">
                                             <th:block th:if="${apply.dyningname}==null">작가님!</th:block>
                                             <th:block th:unless="${apply.dyningname}==null">점주님!</th:block>
                                             신청번호 <b style="color:tomato;">[[${apply.getAfno}]]</b> 번 접수진행중!
-                                            <b style="display:none" data-application-type="${apply.getApplicationtype}"></b>
+                                            <b style="display:none"
+                                                data-application-type="${apply.getApplicationtype}"></b>
                                         </th:block>
                                         <th:block th:if="${applyDTO.getConfirm}">
                                             <th:block th:if="${apply.dyningname}==null">작가님!</th:block>
                                             <th:block th:unless="${apply.dyningname}==null">점주님!</th:block>
                                             <b style="color:tomato;">승인 완료</b>
-                                            <b style="display:none" data-application-type="${apply.getApplicationtype}"></b>
+                                            <b style="display:none"
+                                                data-application-type="${apply.getApplicationtype}"></b>
                                         </th:block>
-                                        
+
                                     </b>
                                 </span>
                             </div>
@@ -390,12 +398,17 @@
                     <hr>
                     <div class="follow-list">
                         <div th:if="${dfollowDTO.size()}==0">- 팔로우한 가게가 없습니다</div>
-                        <div th:each="ddto : ${dfollowDTO}" class="follow-info">
-                            <input type="hidden" name="name" th:value="${ddto}">
-                            <div>- <b>[[${ddto}]]</b></div>
-                            <span class="follow-btn">
-                                <button class="dyningRemoveBtn" th:value="${memberDTO.id}" type="button">팔로우취소</button>
-                            </span>
+                        <div th:each="ddto : ${dfollowDTO}">
+                            <div th:onclick="'location.href=\''+ @{/dyning/details(dno=${ddto.dyning.dno},id=${id},chartop=0,charleft=0)} + '\''"
+                                class="emoji-info">
+
+                                <input type="hidden" name="name" th:value="${ddto.dyning.dyningname}">
+                                <div>- <b>[[${ddto.dyning.dyningname}]]</b></div>
+                                <span class="follow-btn">
+                                    <!-- <button class="dyningRemoveBtn" th:value="${memberDTO.id}" type="button">팔로우취소</button> -->
+                                </span>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -409,48 +422,192 @@
                         <span>작품</span>
                     </div>
                     <hr>
-                    <div class="emoji-list"  id="gno-emoji">       
-                        <div th:each="edto : ${emojiDTO}" th:if="${edto.gno}!=0" class="emoji-info">
-                            <div>- <b>[[${edto.gno}]]번 게시물</b></div>
-                            <input type="hidden" th:value="${edto.emojitype}">
-                            <div><img th:src="${edto.emojipath}" alt="" width="40px"></div>
-                            <span class="follow-btn">
-                                <button class="emojiRemoveBtn" th:value="${edto.eno}" type="button">삭제</button>
-                            </span>
+                    <div class="emoji-list" id="gno-emoji">
+                        <div th:each="edto : ${emojiDTO}" th:if="${edto.gno}!=0">
+                            <div class="emoji-info" th:data-target-gno="${edto.gno}">
+                                <span ><b>[[${edto.artistname}]]</b></span>
+                                <input type="hidden" th:value="${edto.emojitype}">
+                                <div><img th:src="${edto.emojipath}" alt="" width="40px"></div>
+                                <span class="follow-btn">
+                                    <button class="emojiRemoveBtn" th:value="${edto.eno}" type="button">삭제</button>
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
+
                 <div class="emoji-content">
                     <div class="emoji-title">
                         <span>가게</span>
                     </div>
                     <hr>
                     <div class="emoji-list" id="dno-emoji">
-                        <div th:each="edto : ${emojiDTO}" th:if="${edto.dno}!=0" class="emoji-info" >
-                            <div>- <b>[[${edto.dno}]]번 게시물</b></div>
-                            <input type="hidden" th:value="${edto.emojitype}">
-                            <div><img th:src="${edto.emojipath}" alt="" width="40px"></div>
-                            <span class="follow-btn">
-                                <button class="emojiRemoveBtn" th:value="${edto.eno}" type="button">삭제</button> 
-                            </span>
+                        <div th:each="edto : ${emojiDTO}" th:if="${edto.dno}!=0">
+                            <div th:onclick="'location.href=\''+ @{/dyning/details(dno=${edto.dno},id=${id},chartop=0,charleft=0)} + '\''"
+                                class="emoji-info">
+                                <span><b>[[${edto.dyningname}]]</b></span>
+                                <!-- <div th:onclick="|location.href='@{${dyning/details(dno=${edto.dno},id=${id})}}'|"><b>[[${edto.dyningname}]]</b></div> -->
+                                <input type="hidden" th:value="${edto.emojitype}">
+                                <span><img th:src="${edto.emojipath}" alt="" width="40px"></span>
+                                <span class="follow-btn">
+                                    <button class="emojiRemoveBtn" th:value="${edto.eno}" type="button">삭제</button>
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+
             <div class="info-btns">
                 <button id="memberOutBtn" type="button">회원탈퇴</button>
             </div>
         </div>
 
+
         <script th:inline="javascript">
+            /*[+
+               var readUrl = [[@{/main/mypage/gallery/}]];
+               var emojiCheckUrl = [[@{/main/mypage/gallery/emoji/}]];
+               var emojiaddUrl = [[@{/main/mypage/gallery/emoji/register}]];           
+               var urlDisplay = [[@{/display}]];
+            +]*/
+            
+           
+
+            
+            
+        var showdetailsModal = function (targetGno) {
+            var EmojiStringArray = "";
+            var uploadResult = $(".uploadResult");
+            var detailsModalbody = $(".details-modal-body");
+            var detailsModalbodyEmoji = $(".detail-modal-body2");
+               var selectedtype = "0";
+
+                $.post(emojiCheckUrl + targetGno, function (result) {
+                    selectedtype = result;
+                });
+
+               var artistname = "";
+               var adminAuth = "";
+
+               $.getJSON(readUrl + targetGno, function (dto) {
+                  $("#detailsModal .modal-title").html(`${dto.title}`);
+                  artistname = dto.artistname;
+                  console.log(dto);
+                  var str = "";
+                  str = `
+                  <input type="hidden" name = "gno" value="${targetGno}" class="inputGno" data-gno="${targetGno}">
+                  <img style='width:100%' src="${urlDisplay}?fileName=${dto.imageURL}">
+                  <div class="row">
+                        <div class="col-md-7 md-content">
+                            <h4 id="inputArtist">${dto.artistname}</h4>
+                        </div>
+                        <div class="col-md-8 md-content"> 
+                            ${dto.content}
+                        </div>
+                  </div>`
+
+                  detailsModalbody.html(str);
+
+                  str = `<div id="emojiBox">
+                  <input type="radio" id="1" value="${dto.emojicount[0][0]}" name="emojitype" class="emoji">
+                  <label for="1" class="emojibtn">
+                     <img src='${dto.emojiinfo["1"]}' alt="이미지를 불러올 수 없습니다" style="width: 30px;">   
+                  </label>
+                  <span class="emoji-cnt">${dto.emojicount[0][1]}</span>
+                  
+                  <input type="radio" id="2" value="${dto.emojicount[1][0]}" name="emojitype" class="emoji">      
+                  <label for="2" class="emojibtn">
+                     <img src='${dto.emojiinfo["2"]}' alt="이미지를 불러올 수 없습니다" style="width: 30px;">
+                  </label>
+                  <span class="emoji-cnt">${dto.emojicount[1][1]}</span>
+               
+                  <input type="radio" id="3" value="${dto.emojicount[2][0]}" name="emojitype" class="emoji">       
+                  <label for="3" class="emojibtn">
+                     <img src='${dto.emojiinfo["3"]}' alt="이미지를 불러올 수 없습니다" style="width: 30px;">   
+                  </label>
+                  <span class="emoji-cnt">${dto.emojicount[2][1]}</span>
+         
+                  <input type="radio" id="4"  value="${dto.emojicount[3][0]}" name="emojitype" class="emoji">      
+                  <label for="4" class="emojibtn">
+                     <img src='${dto.emojiinfo["4"]}' alt="이미지를 불러올 수 없습니다" style="width: 30px;">   
+                  </label>
+                  <span class="emoji-cnt">${dto.emojicount[3][1]}</span>
+                  
+                  <input type="radio" id="5"  value="${dto.emojicount[4][0]}" name="emojitype" class="emoji">      
+                  <label for="5" class="emojibtn">
+                     <img src='${dto.emojiinfo["5"]}' alt="이미지를 불러올 수 없습니다" style="width: 30px;">   
+                  </label>
+                  <span class="emoji-cnt">${dto.emojicount[4][1]}</span>
+                  </div>`;
+
+                  detailsModalbodyEmoji.html(str);
+
+                  $("input[name=emojitype]").each(function () {
+                     $(".emoji-cnt").css("color", "black");
+                  });
+
+                  if (selectedtype != 0) {
+                     $(".emoji-cnt").eq(selectedtype - 1).css("color", "red");
+                  }
+               });
+
+            }
+
+            //이모지 등록/수정/삭제
+            $(document).on("click", ".emoji", function () {
+                var gno = $("input[name=gno]").val();
+                var emojitype = $(".emoji:checked").val();
+                var data = { emojitype: emojitype };
+                $.ajax({
+                    type: "post",
+                    url: emojiaddUrl + "/" + gno,
+                    data: JSON.stringify(data),
+                    contentType: "application/json",
+                    dataType: "json",
+                    success: function (response) {
+                    for (idx in response[1]) {
+                        $(".emoji-cnt").eq(idx).css("color", "black");
+                        $(".emoji-cnt").eq(idx).text(`${response[1][idx][1]}`);
+                    }
+
+                    if (response[0]) {
+                        $(".emoji-cnt").eq(emojitype - 1).css("color", "red");
+                    }
+
+                    // console.log("update emoji success");
+                    },
+                    fail: function (response) {
+                    // console.log(response);
+                    }, error: function (request, status, error) {
+                    $(".emoji-cnt").css("color", "black");
+                    // alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                    }
+                });
+            });
+
+
+            $(".emoji-info").on("click", function() {
+               console.log($(this).data("targetGno"));
+               var targetGno = $(this).data("targetGno");
+
+               showdetailsModal(targetGno);
+               $("#detailsModal").modal('show');
+
+            });
+
+
+
+
+
             var gnoemoji = document.getElementById("gno-emoji");
             var dnoemoji = document.getElementById("dno-emoji");
 
-            if(gnoemoji.innerText == ""){
-                gnoemoji.innerHTML="<div>- 작품에 남긴 좋아요가 없습니다</div>";
-            } 
-            if(dnoemoji.innerText == ""){
-                dnoemoji.innerHTML="<div>- 가게에 남긴 좋아요가 없습니다</div>";
+            if (gnoemoji.innerText == "") {
+                gnoemoji.innerHTML = "<div>- 작품에 남긴 좋아요가 없습니다</div>";
+            }
+            if (dnoemoji.innerText == "") {
+                dnoemoji.innerHTML = "<div>- 가게에 남긴 좋아요가 없습니다</div>";
             }
 
 
@@ -479,7 +636,7 @@
             /*[+var memberDTONick = [[${memberDTO.nickname}]];+]*/
 
             function memberModify() {
-                if($(".origin-nickname").val()==$("input[name=nickname]").val()){
+                if ($(".origin-nickname").val() == $("input[name=nickname]").val()) {
                     swal({
                         Title: "확인해주세요",
                         text: "기존 닉네임과 동일합니다. 변경 후 다시 시도해주세요",
@@ -488,8 +645,8 @@
                         timer: 2000,
                     });
                     return;
-                } else if($("input[name=nickname]").val()=="") {
-                    swal("공백은 닉네임으로 설정할 수 없습니다", {button: false, timer: 2000});
+                } else if ($("input[name=nickname]").val() == "") {
+                    swal("공백은 닉네임으로 설정할 수 없습니다", { button: false, timer: 2000 });
                     $("input[name=nickname]").val(memberDTONick);
                     return;
                 } else {
@@ -506,51 +663,51 @@
                         },
                         dangerMode: true,
                     })
-                    .then((willDelete) => {
-                        if (willDelete) {
-                            memberform.setAttribute("action", urlmembermodify);
-                            memberform.setAttribute("method", "post");
-                            memberform.submit();
-                        } else {
-                            swal("닉네임 수정이 취소되었습니다.",{button:false,timer:2000});
-                        }
-                    });
-                    
+                        .then((willDelete) => {
+                            if (willDelete) {
+                                memberform.setAttribute("action", urlmembermodify);
+                                memberform.setAttribute("method", "post");
+                                memberform.submit();
+                            } else {
+                                swal("닉네임 수정이 취소되었습니다.", { button: false, timer: 2000 });
+                            }
+                        });
+
                 }
             }
 
-             /*[+
-                    var nicknameMessage = [[ ${msg} ]]
-                +]*/
+            /*[+
+                   var nicknameMessage = [[ ${msg} ]]
+               +]*/
 
-                if(nicknameMessage=="false") {
-                    swal({
-                        Title: "중복",
-                        text: "이미 있는 닉네임 입니다. 다시 시도해주세요",
-                        icon: "warning",
-                        button: false,
-                        timer: 2000,
-                    }).then(()=>{
-                        nicknameMessage="";
-                    });
-                } else if (nicknameMessage=="true") {
-                    swal("닉네임이 변경되었습니다", {
-                        icon: "success",
-                        button: false,
-                        timer: 2000,
-                    }).then(()=>{
-                        nicknameMessage="";
-                    });
-                }
-            
+            if (nicknameMessage == "false") {
+                swal({
+                    Title: "중복",
+                    text: "이미 있는 닉네임 입니다. 다시 시도해주세요",
+                    icon: "warning",
+                    button: false,
+                    timer: 2000,
+                }).then(() => {
+                    nicknameMessage = "";
+                });
+            } else if (nicknameMessage == "true") {
+                swal("닉네임이 변경되었습니다", {
+                    icon: "success",
+                    button: false,
+                    timer: 2000,
+                }).then(() => {
+                    nicknameMessage = "";
+                });
+            }
+
             $("#memberModifyBtn").on("click", memberModify);
             $("input[name=nickname]").on("keydown", function (e) {
-                    var keycode = e.keyCode;
-                    if (keycode == "13") {
-                        e.preventDefault();
-                        memberModify();
-                    }
-                });
+                var keycode = e.keyCode;
+                if (keycode == "13") {
+                    e.preventDefault();
+                    memberModify();
+                }
+            });
 
             document.querySelector("#lookModifyBtn").onclick = function () {
                 swal({
@@ -566,23 +723,23 @@
                     },
                     dangerMode: true,
                 })
-                .then((willDelete) => {
-                    if (willDelete) {
-                        swal("캐릭터 옷이 변경되었습니다", {
-                            icon: "success",
-                            button: false,
-                            timer:2000,
-                        }).then(()=>{
-                            lookform.setAttribute("action", urllookmodify);
-                            lookform.setAttribute("method", "post");
-                            lookform.submit();
-                        });
-                    } else {
-                        swal("캐릭터 옷 변경이 취소되었습니다.", {button: false, timer: 2000});
-                    }
-                });
+                    .then((willDelete) => {
+                        if (willDelete) {
+                            swal("캐릭터 옷이 변경되었습니다", {
+                                icon: "success",
+                                button: false,
+                                timer: 2000,
+                            }).then(() => {
+                                lookform.setAttribute("action", urllookmodify);
+                                lookform.setAttribute("method", "post");
+                                lookform.submit();
+                            });
+                        } else {
+                            swal("캐릭터 옷 변경이 취소되었습니다.", { button: false, timer: 2000 });
+                        }
+                    });
             }
-               
+
 
             document.querySelector("#memberOutBtn").onclick = function () {
                 swal({
@@ -590,31 +747,31 @@
                     text: "탈퇴를 누르면 회원님의 모든 데이터가 삭제되며, 이 동작은 되돌릴 수 없습니다.",
                     icon: "warning",
                     buttons: {
-                        button:{
+                        button: {
                             text: "탈퇴",
-                            className:"swal-btn-danger",
+                            className: "swal-btn-danger",
                         },
-                        cancel:"취소",
+                        cancel: "취소",
                     },
                     dangerMode: true,
                 })
-                .then((willDelete) => {
-                    if (willDelete) {
-                        swal("안녕! 다음에 또 만나요!", {
-                            icon: "success",
-                            button: false,
-                            timer:2000,
-                        }).then(()=>{
-                            memberform.setAttribute("action", urlmemberout);
-                            memberform.setAttribute("method", "post");
-                            memberform.submit();
-                        });
-                    } else if (!willDelete) {
-                        swal("회원탈퇴가 취소되었습니다.",{button:false, timer:2000});
-                    } else {
-                        retrun;
-                    }
-                });
+                    .then((willDelete) => {
+                        if (willDelete) {
+                            swal("안녕! 다음에 또 만나요!", {
+                                icon: "success",
+                                button: false,
+                                timer: 2000,
+                            }).then(() => {
+                                memberform.setAttribute("action", urlmemberout);
+                                memberform.setAttribute("method", "post");
+                                memberform.submit();
+                            });
+                        } else if (!willDelete) {
+                            swal("회원탈퇴가 취소되었습니다.", { button: false, timer: 2000 });
+                        } else {
+                            retrun;
+                        }
+                    });
             }
 
             $("#hairchoice").on("change", function () {
@@ -683,7 +840,43 @@
                     }
                 })
             });
-
+            
         </script>
+        <style>
+            #emojibox{
+                display: flex;
+                justify-content: center;
+            }
+
+            #emojibox input[type=radio] {
+                display: none;
+            }
+
+            .emojibtn:not(:last-child) {
+                margin-left: 30px;
+            }
+        </style>
+        <!-- Details 모달창 -->
+        <div class="modal" tabindex="-1" id="detailsModal">
+            <div class="container">
+                <div class="modal-dialog modal-md">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">작품 상세페이지</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="details-modal-body">
+                            </div>
+                            <br>
+                            <div class="detail-modal-body2">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
     </th:block>
 </th:block>

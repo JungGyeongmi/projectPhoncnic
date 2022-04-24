@@ -8,7 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ds.com.phoncnic.dto.FollowDTO;
+import ds.com.phoncnic.entity.Dyning;
 import ds.com.phoncnic.entity.Follow;
+import ds.com.phoncnic.entity.Member;
+import ds.com.phoncnic.repository.DyningRepository;
 import ds.com.phoncnic.repository.FollowRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -21,10 +24,13 @@ public class FollowServiceImpl implements FollowService {
     @Autowired
     private FollowRepository followRepository;
 
+    @Autowired
+    private DyningRepository dyningRepository;
+
     @Override
     public FollowDTO getFollow(String id){
         List<Object> artistList = followRepository.getfollowArtistList(id);
-        List<Object> dyningList = followRepository.getfollowDyningList(id);
+        List<Follow> dyningList = followRepository.getfollowDyningList(id);
         return entityToDTO(artistList, dyningList);
     }
 
@@ -52,7 +58,14 @@ public class FollowServiceImpl implements FollowService {
 
     @Override
     public Long addDyningFollow(FollowDTO followDTO) {
-        Follow follow = dtoToEntity(followDTO);
+        Long ddno = dyningRepository.getDnobydyningname(followDTO.getDyningname());
+        log.info("ddnoddno:"+ddno);
+        Follow follow = Follow.builder()
+        .follower(Member.builder().id(followDTO.getFollowerid()).build())
+        .dyning(Dyning.builder().dno(ddno).build())
+        .dyningname(followDTO.getDyningname())
+        .build();
+        
         followRepository.save(follow);
         return follow.getFno();
     }
