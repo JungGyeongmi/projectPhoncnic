@@ -33,7 +33,7 @@ public class GalleryController {
     // 그림전 및 사진전 선택
     @GetMapping("/crossgallery/{choice}")
     public String crossgalleryPhoto(@PathVariable("choice") String choice) {
-        
+
         log.info("get" + choice + ".......");
         return "redirect:/gallery/" + choice;
     }
@@ -76,7 +76,7 @@ public class GalleryController {
             Long gno,
             @AuthenticationPrincipal AuthMemberDTO authMemberDTO) {
 
-        model.addAttribute("galleryDTOList", galleryService.getGalleryList(true));
+        model.addAttribute("galleryDTOList", galleryService.getGalleryList(false));
         model.addAttribute("list", galleryService.getPaintingList(pageRequestDTO));
 
         log.warn("---------------" + authMemberDTO);
@@ -84,11 +84,12 @@ public class GalleryController {
 
         if (authMemberDTO != null) {
             String loginUserId = authMemberDTO.getId();
-            String loginUserNick = authMemberDTO.getNickname();
+            String loginUserAuth = authMemberDTO.getAuthorities().toString();
+
             log.warn("id" + authMemberDTO.getId());
             model.addAttribute("userIdLogin", loginUserId);
             model.addAttribute("avatar", characterLookService.getCharacterSet(loginUserId));
-            model.addAttribute("loginUserNick", loginUserNick);
+            model.addAttribute("loginUserAuth", loginUserAuth);
         } else {
             String loginUserId = "";
             model.addAttribute("loginuserId", loginUserId);
