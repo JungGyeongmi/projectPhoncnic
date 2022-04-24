@@ -476,7 +476,7 @@
                /*[+
                   var loginUserAuth= [[${loginUserAuth}]];
                +]*/
-
+               
                $.getJSON(readUrl + "/" + targetGno, function (dto) {
                   $("#detailsModal .modal-title").html(`${dto.title}`);
                   artistname = dto.artistname;
@@ -512,7 +512,7 @@
                      console.log("야호")
                      $("#mangePageBtn").css("display", "inline-block");
                      $("#adminManageBtn").css("display", "none");
-                  } else if (loginUserAuth=="ADMIN") {
+                  } else if (loginUserAuth=="[ROLE_ADMIN]") {
                      $("#mangePageBtn").css("display", "none");
                      $("#adminManageBtn").css("display", "inline-block");
                   } else {
