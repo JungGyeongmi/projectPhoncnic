@@ -149,21 +149,6 @@
             z-index: 2;
          }
 
-         /* .bubble:after {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 50%;
-            width: 0;
-            height: 0;
-            border: 10px solid white;
-            background: white;
-            border-right-color: white;
-            border-left: 0;
-            margin-top: -17px;
-            margin-left: -17px;
-         } */
-
          .speech-bubble {
             position: absolute;
             bottom: 62px;
@@ -363,12 +348,13 @@
          <div class="swiper-button-prev"></div>
          <div class="swiper-button-next"></div>
       </div>
-      <!-- 임시 정렬 -->
+
       <div class="character-look-wrapper">
          <button type="button" class="btn btn-character-look" id="btncharacterlook" data-bs-toggle="modal" data-bs-target="#modalcharacterlook">
             <img id="userAvatar" th:src="${avatar?.setbackpath}" alt="🙄">
       </button>
       </div>
+
       <div class="showup-curator">
          <div class="drop_left speech-bubble show-gurator-script">
             <div class="bubble">
@@ -486,8 +472,9 @@
 
                var artistname = "";
                var adminAuth = "";
+
                /*[+
-                  var loginUserNick= [[${loginUserNick}]];
+                  var loginUserAuth= [[${loginUserAuth}]];
                +]*/
 
                $.getJSON(readUrl + "/" + targetGno, function (dto) {
@@ -503,24 +490,34 @@
                         </div>
                         <div class="col-md-5 md-follow">
                            <span id="followBtn"><i class="bi bi-plus-circle-fill"></i>팔로우</span>
-                           
-                           <span id="mangePageBtn" data-my-gno="${targetGno}" style="display:none">
-                              <i class="bi bi-plus-circle-fill"></i>관리
+                           <span
+                              id="mangePageBtn" data-my-gno="${targetGno}" style="display:none">
+                              <i class="bi bi-plus-circle-fill"></i>
+                              관리
                            </span>
-                           <span id="adminManageBtn" sec:authorize="hasRole('ROLE_ADMIN')">
-                              <i class="bi bi-plus-circle-fill"></i>관리
+                           <span
+                              id="adminManageBtn">
+                              <i class="bi bi-plus-circle-fill"></i>
+                              관리
                            </span>
                         </div>
-
                      </div>
                   <div>
                      ${dto.content}   
                   </div>`
+
                   detailsModalbody.html(str);
-                  if(loginUserNick == artistname) {
+                  
+                  if(userIdLogin == artistname) {
                      console.log("야호")
                      $("#mangePageBtn").css("display", "inline-block");
                      $("#adminManageBtn").css("display", "none");
+                  } else if (loginUserAuth=="ADMIN") {
+                     $("#mangePageBtn").css("display", "none");
+                     $("#adminManageBtn").css("display", "inline-block");
+                  } else {
+                     $("#adminManageBtn").css("display", "none");
+                     $("#mangePageBtn").css("display", "none");
                   }
 
                   str = `<div id="emojiBox">
