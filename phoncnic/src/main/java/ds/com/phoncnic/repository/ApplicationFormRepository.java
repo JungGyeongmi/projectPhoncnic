@@ -12,7 +12,7 @@ import ds.com.phoncnic.entity.ApplicationForm;
 public interface ApplicationFormRepository extends JpaRepository<ApplicationForm, Long>{
  
   @Query("select af from ApplicationForm af where af.member.id=:id")  
-  List<ApplicationForm> findByMemberId(String id);
+  ApplicationForm findByMemberId(String id);
  
   @Query("select af from ApplicationForm af where af.member.id=:id")  
   Optional<ApplicationForm> findApplicationFormByMemberId(String id);
