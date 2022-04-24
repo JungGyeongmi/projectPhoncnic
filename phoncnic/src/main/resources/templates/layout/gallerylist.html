@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 <th:block th:fragment="setContent(content)">
 
     <head>
@@ -58,6 +59,25 @@
                 outline: none;
             }
 
+            .modal-footer {
+                justify-content: center;
+
+            }
+
+            .basic-button {
+                background-color: #dbdde0;
+                color: black;
+                height: auto;
+                border-radius: 5px;
+                padding: 10px;
+                border: none;
+                margin: 0 10px;
+            }
+
+            .basic-button:hover {
+                background-color: #ccd1d8;
+            }
+
             .d-flex {
                 -ms-overflow-style: none;
             }
@@ -66,100 +86,50 @@
                 display: none;
             }
 
-            #helpbtn {
-                position: absolute;
-                bottom: 10px;
-                right: 10px;
+            .d-flex {
+                -ms-overflow-style: none;
             }
 
-            #helpbtn:hover {
-                position: absolute;
-                bottom: 40px;
-                right: 10px;
+            .d-flex {
+                -ms-overflow-style: none;
             }
 
-            #explain>p {
-                font-family: 'GmarketSansMedium';
-                margin-bottom: 0.5rem;
+            .d-flex::-webkit-scrollbar {
+                display: none;
             }
 
-            .basic-button {
-                background-color: #dbdde0;
-                color: black;
-                height: auto;
-                border-radius: 5px;
-                padding: 8px;
-                border: none;
-                margin: 0 10px;
-                font-size: 1rem;
-            }
-
-            .basic-button:hover {
-                background-color: #ccd1d8;
-            }
-
-            @media (min-width: 576px){
-                .modal-dialog {
-                max-width: 500px;
-                margin: 3.75rem auto !important; 
-            }
-        }
-
-        </style>
-        <style>
-            #hint {
-                display: block;
-            }
-
-            .arrow_box {
-                position: absolute;
-                background: white;
-                border: 2px solid #f5f5f5;
-                width: 250px;
-                height: 100px;
-                padding: 14px;
-                text-align: center;
-                bottom: 100px;
-                right: 25px;
-                border-radius: 10px;
-                font-size: 24px;
-                color: black;
-                font-family: 'NeoDunggeunmo';
-            }
-
-            .arrow_box:after,
-            .arrow_box:before {
-                top: 100%;
-                left: 90%;
-                content: "";
-                height: 0;
-                width: 0;
-                position: absolute;
-                pointer-events: none;
-            }
-
-            .arrow_box:after {
-                border-top: 20px solid #ffffff;
-                border-right: 10px solid transparent;
-                border-left: 10px solid transparent;
-            }
-
-            .arrow_box:before {
-                border-top: 20px solid #9a9a9a;
-                border-right: 10px solid transparent;
-                border-left: 10px solid transparent;
-            }
-
-            .arrow_box,
-            #helpbtn {
-                z-index: 3;
-            }
-            
             #userInfoToggle,
-            #listTogglePhon{
+            #listTogglePhon {
                 cursor: pointer;
             }
-        </style>
+
+            #mypage,
+            #dyning-street {
+                border-bottom: 2px solid black !important;
+            }
+
+            .color {
+                background-color: #DBE9B7 !important;
+            }
+
+            .acd-img {
+                display: inline-block;
+                width: 20px;
+
+                position: absolute;
+                top: 15px;
+                right: 5px;
+            }
+
+            .acd-controller {
+                transform: rotate(180deg);
+            }
+
+            .acd-img-con {
+                display: flex;
+                justify-content: flex-end;
+                height: 0;
+            }
         </style>
         <!-- awsome icon cdn -->
         <script src="https://kit.fontawesome.com/f145f2fd92.js" crossorigin="anonymous"></script>
@@ -177,7 +147,9 @@
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
         <!-- boot strap icon -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
-        <link th:href="@{/css/basic.css}" rel="stylesheet" />
+        <!-- boot strap css -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" th:href="@{/css/basic.css}">
         <!-- swal modal custom css -->
         <link th:href="@{/css/swalModal.css}" rel="stylesheet" />
     </head>
@@ -192,7 +164,7 @@
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <!-- 로고 -->
                             <a th:href="@{/}" style="display: block; margin: auto;">
-                                <img th:src="@{/button/logo_bold.png}" style="width:60px;">
+                                <img class="basic-main-logo" th:src="@{/button/logo_bold.png}" style="width:60px;">
                             </a>
                         </div>
                         <img th:src="@{/icon/Carrot_Bonus.ico}" alt="😎" width="50px" id="sidebarToggle"
@@ -201,33 +173,6 @@
                 </nav>
                 <!-- Page content-->
                 <div class="container-fluid my">
-
-                    <div class="arrow_box" id="hint">클릭하면 도움말을 볼 수 있어요!</div>
-                    <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#basiceModal" id="helpbtn">
-                        <img th:src="@{/icon/question-60.png}" alt="">
-                    </button>
-
-                    <!-- Modal -->
-                    <div class="modal fade" id="basiceModal" tabindex="-1" aria-labelledby="basicModalLabel"
-                        aria-hidden="true">
-                        <div class="modal-dialog modal-lg modal-dialog-centered">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="basicModalLabel" style="margin-top: 0;">Gallery 사용 설명서
-                                    </h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <p>Gallery 페이지는 스크롤 또는 좌, 우 버튼으로 작품을 감상할 수 있습니다.</p>
-                                    <p>좌측 하단 큐레이터를 클릭하면 작품 제목, 작품 설명, 작가명으로 검색할 수 있습니다.</p>
-                                    <p>작품과 검색결과를 클릭하면 작품 상세페이지로 이동합니다.</p>
-                                    <p>나의 캐릭터를 클릭하면 Character Look을 변경할 수 있습니다.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                     <th:block th:replace="${content}"></th:block>
                 </div>
             </div>
@@ -239,7 +184,9 @@
                 <div class="list-group list-group-flush">
                     <a class="list-group-item list-group-item-action list-group-item-light p-3"
                         sec:authorize="isAnonymous()" th:href="@{/member/login}">
-                        <img src="https://img.icons8.com/fluency/48/000000/google-logo.png" width="10%"> 로그인 </a>
+                        <img src="https://img.icons8.com/fluency/48/000000/google-logo.png" width="10%"> 로그인
+                    </a>
+
                     <div id="userInfoToggle" class="list-group-item list-group-item-light p-3"
                         sec:authorize="isAuthenticated()">
                         <span hidden id="loginUserPictureSrc" sec:authentication='principal.attr["picture"]'></span>
@@ -250,15 +197,27 @@
                             <img id="loginUserPicture" src="" alt="" width="20%">
                         </div>
                         <span sec:authentication="principal.nickname"></span>
+                        <div class="acd-img-con ">
+                            <img class="acd-img acd-controller"
+                                src="https://img.icons8.com/fluency-systems-regular/48/000000/chevron-up.png" />
+                        </div>
                     </div>
 
                     <a class="list-group-item list-group-item-action list-group-item-light p-3 list-mem-toggle"
                         style="display: none;" sec:authorize="isAuthenticated()" th:href="@{/member/logout}">로그아웃</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3 list-mem-toggle"
-                        style="display: none;" sec:authorize="isAuthenticated()" th:href="@{/main/mypage}">마이페이지</a>
+                        style="display: none;" sec:authorize="isAuthenticated()" th:href="@{/main/mypage}"
+                        id="mypage">마이페이지</a>
 
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" id="listTogglePhon">폰크닉
-                        시작</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" id="listTogglePhon">
+                        <span>
+                            폰크닉 시작
+                        </span>
+                        <div class="acd-img-con">
+                            <img class="acd-img acd-controller"
+                                src="https://img.icons8.com/fluency-systems-regular/48/000000/chevron-up.png" />
+                        </div>
+                    </a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3 list-phon-toggle"
                         style="display: none;" th:href="@{/crossroad}">산책하기</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3 list-phon-toggle"
@@ -266,7 +225,8 @@
                     <a class="list-group-item list-group-item-action list-group-item-light p-3 list-phon-toggle"
                         style="display: none;" th:href="@{/dyning/cafe/list?page=1&top=440&left=40}">카페거리</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3  list-phon-toggle"
-                        style="display: none;" th:href="@{/dyning/restaurant/list?page=1&top=440&left=40}">식당거리</a>
+                        style="display: none;" th:href="@{/dyning/restaurant/list?page=1&top=440&left=40}"
+                        id="dyning-street">식당거리</a>
 
 
                     <a class="list-group-item list-group-item-action list-group-item-light p-3"
@@ -290,20 +250,31 @@
         <script th:src="@{/js/scripts.js}"></script>
         <script th:inline="javascript">
             $(function () {
-                function toggleClass(target){
-                    if(target.css("display")!="block"){
+
+                function toggleClass(target) {
+                    if (target.css("display") != "block") {
                         target.css("display", "block");
                     } else {
                         target.css("display", "none");
                     }
                 }
 
-                $(document).on("click", "#listTogglePhon",function() {
+                $(document).on("click", "#listTogglePhon", function () {
+                    $(".acd-img").eq(1).toggleClass("acd-controller");
                     toggleClass($(".list-phon-toggle"));
                 });
 
-                $(document).on("click", "#userInfoToggle",function() {
+                $(document).on("click", "#userInfoToggle", function () {
+                    $(".acd-img").eq(0).toggleClass("acd-controller");
                     toggleClass($(".list-mem-toggle"));
+                });
+
+                $(document).on("click", "#userInfoToggle", function () {
+                    $("#userInfoToggle").toggleClass("color");
+                });
+
+                $(document).on("click", "#listTogglePhon", function () {
+                    $("#listTogglePhon").toggleClass("color");
                 });
 
                 var loginUserProfileSrc = $("#loginUserPictureSrc").text();
@@ -315,14 +286,12 @@
                     loginUserPicture.attr("src", loginUserProfileSrc)
                 }
 
-                if (loginUserRole == "[ROLE_ADMIN]") {
-                    userInfoToggle.css("border", "solid 5px gold");
-                }
+                // if (loginUserRole == "[ROLE_ADMIN]") {
+                //     userInfoToggle.css("border", "solid 5px gold");
+                // }
             });
 
-            $("#helpbtn").hover(function (e) {
-                $("#hint").css("display", "none");
-            });
+
         </script>
     </body>
 </th:block>
