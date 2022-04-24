@@ -423,15 +423,15 @@
                     </div>
                     <hr>
                     <div class="emoji-list" id="gno-emoji">
-                        <div th:each="edto : ${emojiDTO}" th:if="${edto.gno}!=0">
-                            <div class="emoji-info" th:data-target-gno="${edto.gno}">
-                                <span ><b>[[${edto.artistname}]]</b></span>
+                        <div th:each="edto : ${emojiDTO}" th:if="${edto.gno}!=0" class="emoji-info">
+                            <div class="emoji-item" th:data-target-gno="${edto.gno}">
+                                <span><b>[[${edto.artistname}]]</b></span>
                                 <input type="hidden" th:value="${edto.emojitype}">
                                 <div><img th:src="${edto.emojipath}" alt="" width="40px"></div>
-                                <span class="follow-btn">
-                                    <button class="emojiRemoveBtn" th:value="${edto.eno}" type="button">삭제</button>
-                                </span>
                             </div>
+                            <span class="follow-btn">
+                                <button class="emojiRemoveBtn" th:value="${edto.eno}" type="button">삭제</button>
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -471,31 +471,27 @@
                var emojiaddUrl = [[@{/main/mypage/gallery/emoji/register}]];           
                var urlDisplay = [[@{/display}]];
             +]*/
-            
-           
 
-            
-            
-        var showdetailsModal = function (targetGno) {
-            var EmojiStringArray = "";
-            var uploadResult = $(".uploadResult");
-            var detailsModalbody = $(".details-modal-body");
-            var detailsModalbodyEmoji = $(".detail-modal-body2");
-               var selectedtype = "0";
+            var showdetailsModal = function (targetGno) {
+                var EmojiStringArray = "";
+                var uploadResult = $(".uploadResult");
+                var detailsModalbody = $(".details-modal-body");
+                var detailsModalbodyEmoji = $(".detail-modal-body2");
+                var selectedtype = "0";
 
                 $.post(emojiCheckUrl + targetGno, function (result) {
                     selectedtype = result;
                 });
 
-               var artistname = "";
-               var adminAuth = "";
+                var artistname = "";
+                var adminAuth = "";
 
-               $.getJSON(readUrl + targetGno, function (dto) {
-                  $("#detailsModal .modal-title").html(`${dto.title}`);
-                  artistname = dto.artistname;
-                  console.log(dto);
-                  var str = "";
-                  str = `
+                $.getJSON(readUrl + targetGno, function (dto) {
+                    $("#detailsModal .modal-title").html(`${dto.title}`);
+                    artistname = dto.artistname;
+                    console.log(dto);
+                    var str = "";
+                    str = `
                   <input type="hidden" name = "gno" value="${targetGno}" class="inputGno" data-gno="${targetGno}">
                   <img style='width:100%' src="${urlDisplay}?fileName=${dto.imageURL}">
                   <div class="row">
@@ -507,9 +503,9 @@
                         </div>
                   </div>`
 
-                  detailsModalbody.html(str);
+                    detailsModalbody.html(str);
 
-                  str = `<div id="emojiBox">
+                    str = `<div id="emojiBox">
                   <input type="radio" id="1" value="${dto.emojicount[0][0]}" name="emojitype" class="emoji">
                   <label for="1" class="emojibtn">
                      <img src='${dto.emojiinfo["1"]}' alt="이미지를 불러올 수 없습니다" style="width: 30px;">   
@@ -541,16 +537,16 @@
                   <span class="emoji-cnt">${dto.emojicount[4][1]}</span>
                   </div>`;
 
-                  detailsModalbodyEmoji.html(str);
+                    detailsModalbodyEmoji.html(str);
 
-                  $("input[name=emojitype]").each(function () {
-                     $(".emoji-cnt").css("color", "black");
-                  });
+                    $("input[name=emojitype]").each(function () {
+                        $(".emoji-cnt").css("color", "black");
+                    });
 
-                  if (selectedtype != 0) {
-                     $(".emoji-cnt").eq(selectedtype - 1).css("color", "red");
-                  }
-               });
+                    if (selectedtype != 0) {
+                        $(".emoji-cnt").eq(selectedtype - 1).css("color", "red");
+                    }
+                });
 
             }
 
@@ -566,39 +562,34 @@
                     contentType: "application/json",
                     dataType: "json",
                     success: function (response) {
-                    for (idx in response[1]) {
-                        $(".emoji-cnt").eq(idx).css("color", "black");
-                        $(".emoji-cnt").eq(idx).text(`${response[1][idx][1]}`);
-                    }
+                        for (idx in response[1]) {
+                            $(".emoji-cnt").eq(idx).css("color", "black");
+                            $(".emoji-cnt").eq(idx).text(`${response[1][idx][1]}`);
+                        }
 
-                    if (response[0]) {
-                        $(".emoji-cnt").eq(emojitype - 1).css("color", "red");
-                    }
-
-                    // console.log("update emoji success");
+                        if (response[0]) {
+                            $(".emoji-cnt").eq(emojitype - 1).css("color", "red");
+                        }
+                        console.log("update emoji success");
                     },
                     fail: function (response) {
-                    // console.log(response);
+                        console.log(response);
                     }, error: function (request, status, error) {
-                    $(".emoji-cnt").css("color", "black");
-                    // alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+                        $(".emoji-cnt").css("color", "black");
+                        alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
                     }
                 });
             });
 
+            $(".emoji-item").on("click", function () {
+                
+                console.log($(this))
+                var targetGno = $(this).data("targetGno");
 
-            $(".emoji-info").on("click", function() {
-               console.log($(this).data("targetGno"));
-               var targetGno = $(this).data("targetGno");
-
-               showdetailsModal(targetGno);
-               $("#detailsModal").modal('show');
+                showdetailsModal(targetGno);
+                $("#detailsModal").modal('show');
 
             });
-
-
-
-
 
             var gnoemoji = document.getElementById("gno-emoji");
             var dnoemoji = document.getElementById("dno-emoji");
@@ -826,7 +817,7 @@
                 var eno = $(this).val();
                 var data = { eno: eno };
 
-                console.log(data);
+                // console.log(data);
 
                 $.ajax({
                     url: urlemojiremove + "/" + eno,
@@ -836,14 +827,13 @@
                     dataType: "text",
                     success: function (result) {
                         console.log("result: " + result);
-                        self.location.reload();
                     }
                 })
             });
-            
+
         </script>
         <style>
-            #emojibox{
+            #emojibox {
                 display: flex;
                 justify-content: center;
             }
@@ -854,6 +844,14 @@
 
             .emojibtn:not(:last-child) {
                 margin-left: 30px;
+            }
+
+            .emoji-item{
+                display: flex;
+                width: 100%;
+            }
+            .emoji-item span{
+                margin-right:30px;
             }
         </style>
         <!-- Details 모달창 -->
@@ -876,7 +874,5 @@
                 </div>
             </div>
         </div>
-
-
     </th:block>
 </th:block>
