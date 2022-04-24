@@ -10,7 +10,7 @@
             outline: none;
             border: none;
          }
-         
+
          button:focus {
             border: none;
             outline: none;
@@ -52,7 +52,7 @@
             background-size: cover;
             width: 800px;
             height: auto;
-            
+
          }
 
          .swiper-slide img {
@@ -78,7 +78,7 @@
             grid-template-columns: 0.02fr 10fr 0.02fr;
          }
 
-         #md-search-btn{
+         #md-search-btn {
             background-color: #DBE9B7;
          }
 
@@ -138,10 +138,10 @@
          .show-gurator-script {
             visibility: hidden;
          }
-         
+
          .bubble {
             padding: 20px;
-            width: 430px;            
+            width: 430px;
             position: relative;
             background: #ffffff;
             border-radius: .4em;
@@ -170,7 +170,7 @@
             left: 260px;
          }
 
-         .showup-text{
+         .showup-text {
             padding: 30px;
             /* width: auto; */
          }
@@ -287,16 +287,10 @@
             padding: 3%;
             cursor: pointer;
             margin-top: 5%;
-            width: 100% ;
-            text-align: center ;
-
          }
 
-         #followBtn{
+         #followBtn {
             margin-right: 2%;
-            width: 100% !important;
-            text-align: center !important;
-
          }
 
          .md-content {
@@ -314,16 +308,30 @@
             margin-top: 1%;
          }
 
-         input[name="chalookInfo"]:checked+label{
+         input[name="chalookInfo"]:checked+label {
             background-color: #DBE9B7;
-            border-radius: 5px;  
+            border-radius: 5px;
+         }
+
+
+         .basic-button {
+            background-color: #dbdde0;
+            color: black;
+            height: auto;
+            border-radius: 5px;
+            padding: 10px;
+            border: none;
+            margin: 0 10px;
+            font-size: 1rem;
+         }
+
+         .basic-button:hover {
+            background-color: #ccd1d8;
          }
 
          .search-result-Item:hover {
-               cursor: pointer;
-         }           
-
-
+            cursor: pointer;
+         }
       </style>
 
       <input type="hidden" th:if="${userIdLogin}" name="userIdLogin" th:value="${userIdLogin}">
@@ -356,19 +364,20 @@
       </div>
       <!-- 임시 정렬 -->
       <div class="character-look-wrapper">
-         <button type="button" class="btn btn-character-look" id="btncharacterlook" data-bs-toggle="modal" data-bs-target="#modalcharacterlook">
+         <button type="button" class="btn btn-character-look" id="btncharacterlook" data-bs-toggle="modal"
+            data-bs-target="#modalcharacterlook">
             <img id="userAvatar" th:src="${avatar?.setbackpath}" alt="🙄">
-      </button>
+         </button>
       </div>
       <div class="showup-curator">
          <div class="drop_left speech-bubble show-gurator-script">
             <div class="bubble">
                <div id="showup-text"></div>
-                  <div>
-                     <hr>
-                     규레이터 클릭시 Gallery 내 모든 작품을 검색해볼 수 있습니다.
-                  </div>
+               <div>
+                  <hr>
+                  규레이터 클릭시 Gallery 내 모든 작품을 검색해볼 수 있습니다.
                </div>
+            </div>
             <div class="tangel_left"></div>
          </div>
          <img id="curatorBtn" data-bs-toggle="modal" data-bs-target="#curatorModal" th:src="@{/icon/gurator2.svg}">
@@ -452,7 +461,7 @@
             /*[+
                var readUrl = [[@{/gallery/read}]];
                var emojiUrl = [[@{/gallery/emoji}]];
-               var emojiCheckUrl = [[@{/gallery/emoji/check}]]
+               var emojiCheckUrl = [[@{/gallery/emoji/check}]];
                var emojiaddUrl = [[@{/gallery/emoji/register}]];
                var follow = [[@{/gallery/follow}]]
                var followRegister = [[@{/gallery/followRegister}]]               
@@ -489,10 +498,10 @@
                   <input type="hidden" name = "gno" value="${targetGno}" class="inputGno" data-gno="${targetGno}">
                   <img style='width:100%' src="${urlDisplay}?fileName=${targetFile}">
                   <div class="row">
-                        <div class="col-md-7 md-content">
+                        <div class="col md-content">
                            <h4 id="inputArtist">${dto.artistname}</h4>
                         </div>
-                        <div class="col-md-5 md-follow">
+                        <div class="col md-follow">
                            <span id="followBtn"><i class="bi bi-plus-circle-fill"></i>팔로우</span>
                            
                            <span id="mangePageBtn" data-my-gno="${targetGno}" style="display:none">
@@ -508,7 +517,7 @@
                      ${dto.content}   
                   </div>`
                   detailsModalbody.html(str);
-                  if(loginUserNick == artistname) {
+                  if (loginUserNick == artistname) {
                      console.log("야호")
                      $("#mangePageBtn").css("display", "inline-block");
                      $("#adminManageBtn").css("display", "none");
@@ -679,10 +688,10 @@
                var typeSelect = $("select[name=type]").val();
                var searchKeywordInput = $("#md-search-keyword").val();
                if (typeSelect == null) {
-                  swal("검색조건을 설정해주세요",{button:false, timer:1000});
+                  swal("검색조건을 설정해주세요", { button: false, timer: 1000 });
                   return;
                } else if (searchKeywordInput == '') {
-                  swal("검색어를 입력해주세요",{button:false, timer:1000});
+                  swal("검색어를 입력해주세요", { button: false, timer: 1000 });
                   return;
                }
 
@@ -759,7 +768,7 @@
                      }
                   });
                } else {
-                  swal("로그인", "로그인 이후 사용가능합니다.",{button:false,timer: 1000});
+                  swal("로그인", "로그인 이후 사용가능합니다.", { button: false, timer: 1000 });
                }
             });
 
@@ -795,7 +804,7 @@
                      }
                   });
                } else {
-                  swal("로그인", "로그인 이후 사용가능합니다.",{button:false,timer: 1000});
+                  swal("로그인", "로그인 이후 사용가능합니다.", { button: false, timer: 1000 });
                }
             });
 
@@ -811,20 +820,20 @@
             });
 
             // 관리 페이지로 이동
-            function directMangePage () {
+            function directMangePage() {
                var gno = $("#mangePageBtn").data("myGno");
-               location.href=managePageURL+gno;
+               location.href = managePageURL + gno;
             }
             /*[+
                var managePageURL = [[@{/manage/gallery/read?gno=}]]
             +]*/
-            $(document).on("click", "#mangePageBtn", function() {
+            $(document).on("click", "#mangePageBtn", function () {
                directMangePage();
             });
-            $(document).on("click", "#adminManageBtn", function() {
+            $(document).on("click", "#adminManageBtn", function () {
                directMangePage();
             });
-            
+
          });
       </script>
 
@@ -873,7 +882,7 @@
                var setname = $("input[name=setname]").val();
                var setpath = $("input[name=setpath]").val();
                var setbackpath = $("input[name=setbackpath]").val();
-               var data = { setname: setname, setpath: setpath, setbackpath : setbackpath };
+               var data = { setname: setname, setpath: setpath, setbackpath: setbackpath };
                $.ajax({
                   type: "post",
                   url: lookModifyUrl,
@@ -882,7 +891,7 @@
                   success: function (response) {
                      $("#userAvatar").attr("src", setbackpath);
                      swal({
-                        icon:"success",
+                        icon: "success",
                         title: "변경완료",
                         text: " ",
                         button: false,
@@ -903,9 +912,8 @@
 
                modalBody.html("잠시 기다려주세요 ... ");
 
-               $("#btncharacterlook").on("click", function() {
+               $("#btncharacterlook").on("click", function () {
                   showLookModal();
-                  console.log("ㅇㅇㅇ  ");
                });
 
                $(document).on("change", "input[name=chalookInfo]", function () {
@@ -919,7 +927,7 @@
                });
 
                $(document).on("click", "#lookModifyBtn", function () {
-                  
+
                   modifyLook();
 
                   swal({
@@ -986,7 +994,8 @@
             <div class="modal-content">
                <div class="modal-header">
                   <h5 class="modal-title">캐릭터 룩</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" name="btn-close"></button>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                     name="btn-close"></button>
                </div>
                <div class="modal-body character-modal-body">
                   <div>로그인 후 이용해주세요 </div>
@@ -1010,12 +1019,13 @@
                <div class="modal-body">
                   <form class="serach-form-container" id="modal-frm" th:action="@{/gallery/curator}" method="get">
                      <select name="type">
-                        <option value="t" disabled  class="form-select form-select-sm">검색조건</option>
+                        <option value="t" disabled class="form-select form-select-sm">검색조건</option>
                         <option value="t" selected>작품명</option>
                         <option value="c">내용</option>
                         <option value="w">작가</option>
                      </select>
-                     <input id="md-search-keyword" type="text" name="keyword" value=""  class="form-control form-control-sm">
+                     <input id="md-search-keyword" type="text" name="keyword" value=""
+                        class="form-control form-control-sm">
                      <input id="md-search-btn" type="button" value="검색" class="form-control form-control-sm">
                      <select name="sort">
                         <option value="d" disabled selected class="form-select form-select-sm">정렬조건</option>
