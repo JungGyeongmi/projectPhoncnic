@@ -88,7 +88,7 @@
                 color: black;
                 height: auto;
                 border-radius: 5px;
-                padding: 8px;
+                padding: 10px;
                 border: none;
                 margin: 0 10px;
                 font-size: 1rem;
@@ -98,13 +98,12 @@
                 background-color: #ccd1d8;
             }
 
-            @media (min-width: 576px){
+            @media (min-width: 576px) {
                 .modal-dialog {
-                max-width: 500px;
-                margin: 3.75rem auto !important; 
+                    max-width: 500px;
+                    margin: 3.75rem auto !important;
+                }
             }
-        }
-
         </style>
         <style>
             #hint {
@@ -154,11 +153,38 @@
             #helpbtn {
                 z-index: 3;
             }
-            
+
             #userInfoToggle,
-            #listTogglePhon{
+            #listTogglePhon {
                 cursor: pointer;
             }
+            #mypage, #dyning-street{
+                border-bottom: 2px solid black !important;
+            }
+
+            .color{
+                background-color: #DBE9B7 !important;
+            }
+            
+            .acd-img{
+                display: inline-block;
+                width: 20px;
+        
+                position: absolute;
+                top: 15px;
+                right: 5px;
+            }
+
+            .acd-controller{
+                transform: rotate(180deg);
+            }
+
+            .acd-img-con{
+                display: flex;
+                justify-content: flex-end;
+                height: 0;
+            }
+            
         </style>
         </style>
         <!-- awsome icon cdn -->
@@ -239,7 +265,9 @@
                 <div class="list-group list-group-flush">
                     <a class="list-group-item list-group-item-action list-group-item-light p-3"
                         sec:authorize="isAnonymous()" th:href="@{/member/login}">
-                        <img src="https://img.icons8.com/fluency/48/000000/google-logo.png" width="10%"> 로그인 </a>
+                        <img src="https://img.icons8.com/fluency/48/000000/google-logo.png" width="10%"> 로그인
+                    </a>
+
                     <div id="userInfoToggle" class="list-group-item list-group-item-light p-3"
                         sec:authorize="isAuthenticated()">
                         <span hidden id="loginUserPictureSrc" sec:authentication='principal.attr["picture"]'></span>
@@ -250,15 +278,27 @@
                             <img id="loginUserPicture" src="" alt="" width="20%">
                         </div>
                         <span sec:authentication="principal.nickname"></span>
+                        <div class="acd-img-con ">
+                            <img class="acd-img acd-controller"
+                                src="https://img.icons8.com/fluency-systems-regular/48/000000/chevron-up.png" />
+                        </div>
                     </div>
 
                     <a class="list-group-item list-group-item-action list-group-item-light p-3 list-mem-toggle"
                         style="display: none;" sec:authorize="isAuthenticated()" th:href="@{/member/logout}">로그아웃</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3 list-mem-toggle"
-                        style="display: none;" sec:authorize="isAuthenticated()" th:href="@{/main/mypage}">마이페이지</a>
+                        style="display: none;" sec:authorize="isAuthenticated()" th:href="@{/main/mypage}"
+                        id="mypage">마이페이지</a>
 
-                    <a class="list-group-item list-group-item-action list-group-item-light p-3" id="listTogglePhon">폰크닉
-                        시작</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" id="listTogglePhon">
+                        <span>
+                            폰크닉 시작
+                        </span>
+                        <div class="acd-img-con">
+                            <img class="acd-img acd-controller"
+                                src="https://img.icons8.com/fluency-systems-regular/48/000000/chevron-up.png" />
+                        </div>
+                    </a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3 list-phon-toggle"
                         style="display: none;" th:href="@{/crossroad}">산책하기</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3 list-phon-toggle"
@@ -266,7 +306,8 @@
                     <a class="list-group-item list-group-item-action list-group-item-light p-3 list-phon-toggle"
                         style="display: none;" th:href="@{/dyning/cafe/list?page=1&top=440&left=40}">카페거리</a>
                     <a class="list-group-item list-group-item-action list-group-item-light p-3  list-phon-toggle"
-                        style="display: none;" th:href="@{/dyning/restaurant/list?page=1&top=440&left=40}">식당거리</a>
+                        style="display: none;" th:href="@{/dyning/restaurant/list?page=1&top=440&left=40}"
+                        id="dyning-street">식당거리</a>
 
 
                     <a class="list-group-item list-group-item-action list-group-item-light p-3"
@@ -299,11 +340,21 @@
                 }
 
                 $(document).on("click", "#listTogglePhon",function() {
+                    $(".acd-img").eq(1).toggleClass("acd-controller");
                     toggleClass($(".list-phon-toggle"));
+                });
+                
+                $(document).on("click", "#userInfoToggle",function() {
+                    $(".acd-img").eq(0).toggleClass("acd-controller");
+                    toggleClass($(".list-mem-toggle"));
                 });
 
                 $(document).on("click", "#userInfoToggle",function() {
-                    toggleClass($(".list-mem-toggle"));
+                    $("#userInfoToggle").toggleClass("color");
+                });
+                
+                $(document).on("click", "#listTogglePhon",function() {
+                    $("#listTogglePhon").toggleClass("color");
                 });
 
                 var loginUserProfileSrc = $("#loginUserPictureSrc").text();
